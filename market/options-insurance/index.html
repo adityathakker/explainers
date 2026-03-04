@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options Are Insurance, Not Gambling — Market Explainers</title>
+  <meta name="description" content="How puts protect your portfolio and covered calls generate income">
+  <meta name="author" content="Market Explainers">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Options Are Insurance, Not Gambling">
+  <meta property="og:description" content="How puts protect your portfolio and covered calls generate income">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="../explainer.css">
+
+  <!-- Per-page accent color override -->
+  <style>
+    :root {
+      --accent: #742a2a;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Market Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Options Are Insurance, Not Gambling</h1>
+      <p class="hero__subtitle">How puts protect your portfolio and covered calls generate income</p>
+      <p class="hero__meta">Synthesized from 0 posts &middot; 20 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+                <li><a href="#i-the-casino-myth">I. The Casino Myth</a></li>
+        <li><a href="#ii-what-is-a-put-option-really">II. What Is a Put Option, Really?</a></li>
+        <li><a href="#iii-the-anatomy-of-a-covered-call">III. The Anatomy of a Covered Call</a></li>
+        <li><a href="#iv-capital-rotation-supercharged-options-on-stocks-you-already-trade">IV. Capital Rotation Supercharged: Options on Stocks You Already Trade</a></li>
+        <li><a href="#v-cash-secured-puts-getting-paid-to-buy-the-dip">V. Cash-Secured Puts: Getting Paid to Buy the Dip</a></li>
+        <li><a href="#vi-why-the-indian-options-market-is-a-trap-and-the-us-market-is-not">VI. Why the Indian Options Market Is a Trap (And the US Market Is Not)</a></li>
+        <li><a href="#vii-the-risk-management-framework-rules-that-protect-you">VII. The Risk Management Framework: Rules That Protect You</a></li>
+        <li><a href="#viii-the-retirement-machine-turning-your-portfolio-into-a-paycheck">VIII. The Retirement Machine: Turning Your Portfolio Into a Paycheck</a></li>
+        <li><a href="#ix-your-next-move">IX. Your Next Move</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article Body -->
+  <article class="article">
+        <section class="reveal" id="i-the-casino-myth">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>I. The Casino Myth</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me address the elephant in the room. The moment someone mentions &ldquo;options,&rdquo; most retail investors have one of two reactions: either their eyes glaze over because it sounds too complicated, or they picture degenerate gamblers blowing up their accounts on weekly expiries. Both reactions are wrong. Both reactions are costing you money.</p>
+<p>Here is the reality that nobody in India&rsquo;s financial media will tell you, because it is either too complex for their audience or it threatens the simplistic SIP narrative they sell: <strong>options are insurance contracts</strong>. That is it. That is the entire concept. When you buy a put option, you are buying insurance on your portfolio. When you sell a covered call, you are generating rental income from stocks you already own. There is nothing exotic about this. There is nothing reckless about this. Every sophisticated investor in the world &ndash; from Warren Buffett to Mark Cuban to Sam Altman &ndash; uses options as part of their portfolio management.</p>
+<p>The reason options get a bad reputation is the same reason cars get blamed for accidents. It is not the instrument that is dangerous &ndash; it is how people use it. When someone buys naked, out-of-the-money weekly calls on a meme stock with their entire account, that is gambling. When someone buys a twelve-month put option on their $1 million portfolio to cap their maximum loss at 14.5%, that is prudent risk management. These are two entirely different activities that happen to use the same financial instrument.</p>
+<p>I have personally used options to protect a portfolio that returned 35% in USD terms. I spent serious money buying put options on QQQ &ndash; the Nasdaq Composite ETF &ndash; to ensure that even if the market crashed by 50%, my worst-case scenario was still 20% net profit. This is not speculation. This is the exact opposite of speculation. This is what it looks like when an investor refuses to leave their gains exposed to a market shock.</p>
+<blockquote>
+<p>Options are not about making wild bets. They are about controlling outcomes. The question is not whether you should learn about options &ndash; it is whether you can afford not to.</p>
+</blockquote>
+<p>Most people who lose money on options are doing it in the Indian market, where the deck is structurally stacked against you: very high taxes, limited instruments, and margin requirements from brokers that are designed to bleed you dry. In the US options market, the dynamics are completely different. The play is primarily tech stocks &ndash; high-beta names that move a lot. Multi-millionaires investing 20% of their net worth in NVIDIA need to protect that position. So they pay premiums as options buyers. And that premium creates an opportunity for options sellers to generate consistent income.</p>
+<p>This is the ecosystem you need to understand. This is the game the top 10% of investors are playing. And once you understand it, you will never look at your portfolio the same way again.</p>
+<p>The people who dismiss options as gambling are the same people who buy lottery tickets in the form of IPO listing gains. If you invest in equities trying to take listing gains, you either are too dumb or too lazy or just do not understand investing. If you can make 10 units of return by taking 100 units of risk, guess what: you might win the trade but you will lose in life. Almost guaranteed. Why? Because you will keep repeating a bad system until the point you lose big. Options, used correctly, are the opposite of this. They are the better system.</p>
+<p>Build better systems. Improve your thinking quality. That is what this article is about.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="ii-what-is-a-put-option-really">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>II. What Is a Put Option, Really?</h2>
+      </div>
+      <div class="section-content">
+        <p>Strip away the jargon and a put option is the simplest concept in finance: it is the right to sell something at a guaranteed price, regardless of what happens in the market.</p>
+<p>Think of it like home insurance. You pay a premium every year to your insurance company. If your house burns down, the insurance company pays you the insured value. If your house does not burn down, you lose the premium &ndash; but you slept well at night knowing you were covered. Nobody calls home insurance &ldquo;gambling.&rdquo; Nobody says you &ldquo;lost money&rdquo; on the premium if your house survived the year. You paid for protection, and protection is what you received.</p>
+<p><strong>A put option works identically for your stock portfolio.</strong></p>
+<p>Let me walk you through a real example from my own trading. I built a $1 million portfolio in US stocks &ndash; primarily tech names &ndash; and it was up 35% in USD terms, roughly 38-39% in INR terms. These are significant profits. And it would be stupid of me not to protect these gains.</p>
+<p>So here is exactly what I did:</p>
+<ol>
+<li>I bought <strong>17 lots of QQQ puts</strong> &ndash; QQQ is the ETF that tracks the Nasdaq Composite, which serves as the benchmark for my portfolio.</li>
+<li>I chose an <strong>exercise price of 545</strong>, which was approximately 10% below the current market price at the time.</li>
+<li>I paid approximately <strong>$45,000 in premium</strong> for this insurance.</li>
+<li>The <strong>expiry was September 2026</strong> &ndash; giving me a full year of coverage.</li>
+</ol>
+<p>Now let us do the math on what this insurance bought me:</p>
+<ul>
+<li><strong>If QQQ stays flat or goes up</strong>: I lose the $45,000 premium. That is 4.5% of my portfolio value. My cost of sleeping peacefully for an entire year.</li>
+<li><strong>If QQQ drops 10% to 545</strong>: I take a 10% loss on the portfolio, plus the 4.5% premium cost. Total maximum damage: 14.5%.</li>
+<li><strong>If QQQ drops 30%</strong>: Without puts, I lose $300,000. With the put, my loss is still capped at about 14.5% because the put gains value dollar-for-dollar below 545.</li>
+<li><strong>If QQQ drops 50% (a catastrophic crash)</strong>: My put option kicks in at 545. Everything below that is the insurance company&rsquo;s problem, not mine. My maximum loss is still capped at 14.5%.</li>
+</ul>
+<div class="demo reveal" id="chart-1"></div>
+
+<p>Think about what this means. At the time I bought this insurance, I was sitting on 35% profits. Even in the absolute worst-case scenario &ndash; a 50% market crash &ndash; my portfolio would still be at roughly 20% net profits. I paid 4.5% of my portfolio to guarantee that no market crash, no black swan, no geopolitical disaster could take me below 20% gains.</p>
+<p>This is what sophisticated investors do. This is not gambling. This is the exact opposite of gambling. <strong>Gambling is having a $1 million portfolio with no downside protection and hoping nothing bad happens.</strong></p>
+<p>When you understand this, you realize that the person without put options is taking more risk than the person with them &ndash; even though the person with put options is technically &ldquo;doing options.&rdquo;</p>
+<blockquote>
+<p>I had invested crazy money in US stocks. The CAGR was amazing. But it would be stupid of me not to protect the gains. Hence, I hedged it by buying put options. When markets started falling and mass panic set in, the top 10% of investors had either hedged or saved cash to buy the dips.</p>
+</blockquote>
+<p>When US markets actually started falling &ndash; driven by tariff concerns, DeepSeek disruption, and interest rate uncertainty &ndash; I was not panicking. I was calmly evaluating whether to buy the dip. That is the difference between an insured investor and an uninsured one. One panics. The other plans.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="iii-the-anatomy-of-a-covered-call">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>III. The Anatomy of a Covered Call</h2>
+      </div>
+      <div class="section-content">
+        <p>If a put option is insurance you buy, a <strong>covered call</strong> is rental income you earn. And just like collecting rent on a property you own, it is one of the most reliable income-generating strategies in investing.</p>
+<p>Here is the concept, stripped bare: you own a stock. You are willing to sell it at a higher price. Someone in the market is willing to pay you money today for the right to buy it at that higher price later. You take their money. If the stock reaches that price, you sell (which you were happy to do anyway). If it does not reach that price, you keep both the stock and the premium.</p>
+<p>Let me give you a real example. I bought a lot of NIFTY 50 at around 25,800. Within a week, it moved up. Now I needed to decide: do I hold and hope for more upside, or do I start generating income from this position?</p>
+<p>Here is what I did:</p>
+<ol>
+<li><strong>Sold a call option on NIFTY 50 at a strike price of 26,200</strong> (October expiry).</li>
+<li>Because I was <em>selling</em> the option, I received a <strong>premium</strong> upfront.</li>
+<li>The contract expired the next day.</li>
+</ol>
+<p>Two possible outcomes:</p>
+<ul>
+<li><strong>NIFTY closes below 26,200</strong>: The option expires worthless. I keep the premium as free money. I still own all my NIFTY 50 shares. This is what happened.</li>
+<li><strong>NIFTY closes above 26,200</strong>: I sell my shares at 26,200, which I was happy to do anyway. Going back to the original thesis &ndash; I was already comfortable selling at 26,200 because that was near the all-time high.</li>
+</ul>
+<p>People looked at the 1-1.5% gain and said, &ldquo;What is the big deal?&rdquo; The big deal is this was done in a single week. Annualize that return and it is extraordinary. And this is not a one-time play. You can repeat this every week, every month. The premiums compound into a significant income stream over time.</p>
+<blockquote>
+<p>You might say: &ldquo;oh you are making 1-1.5%, what is the big deal?&rdquo; The big deal is: this was done in a week. So if you look at the CAGR it is amazing. This further amplifies my returns.</p>
+</blockquote>
+<p>Now let me show you an even more powerful real-world example with <strong>Meta</strong> stock. The options chain data on Meta is absolutely wild:</p>
+<ol>
+<li>You buy 100 shares of Meta at $640 per share. Total investment: <strong>$64,000</strong>.</li>
+<li>You write (sell) a <strong>6-month covered call</strong> that is 20% out-of-the-money (strike price around $760).</li>
+<li>The premium you receive: <strong>$2,850</strong>.</li>
+<li>That is a <strong>4.5% yield in 6 months</strong>, or roughly <strong>9-9.5% annualized</strong>.</li>
+</ol>
+<p>Think about what just happened. If Meta goes up 20% to $760, you pocket the 20% capital gain PLUS the 9% options yield. Your total return is approximately 29% in a year. If Meta stays flat, you still earn 9% from the premiums alone &ndash; nearly double the dividend yield of most blue-chip stocks. If Meta drops moderately, the $2,850 premium you collected offsets some of the downside, reducing your effective cost basis from $640 to approximately $611 per share.</p>
+<p>The takeaway: own Meta stock, even if you cannot write options yet. The options data tells you what sophisticated investors think about the stock &ndash; and they are very bullish.</p>
+<p>The critical rule with covered calls: <strong>do not do naked options</strong>. That means do not simply &ldquo;sell&rdquo; a call unless you can &ldquo;cover&rdquo; it with shares you already own. If you sell a naked call and the stock explodes upward, your losses are theoretically unlimited. But when the call is covered by shares you own, the worst case is that you sell those shares at a price you chose. That is not risk. That is a planned exit.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="iv-capital-rotation-supercharged-options-on-stocks-you-already-trade">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>IV. Capital Rotation Supercharged: Options on Stocks You Already Trade</h2>
+      </div>
+      <div class="section-content">
+        <p>This is where the real power emerges. If you already practice capital rotation &ndash; buying at support, selling at resistance, rotating between sectors &ndash; options can amplify your returns by 30-50% on the same positions.</p>
+<p>Let me show you how this works with a concrete example using <strong>Amazon</strong>, which was trading in a well-defined channel with a 10-12% range:</p>
+<p><strong>Step 1: Capital rotation without options.</strong> You buy Amazon at support. It moves to resistance. You sell. That is roughly 10% per cycle, and the stock touches support and resistance approximately 2 times per year. So your base rotation return is 10% x 2 = <strong>20% per year</strong>.</p>
+<p>Anyone can do Step 1. It requires nothing more than patience, discipline, and the ability to read a basic chart.</p>
+<p><strong>Step 2: Layer options on top.</strong> At resistance, you sell a covered call &ndash; collecting premium for committing to sell at a price you were going to sell at anyway. At support, you sell a cash-secured put &ndash; collecting premium for committing to buy at a price you were going to buy at anyway.</p>
+<p>The additional options income on roughly 50% of your total Amazon holding: about <strong>+5% per year</strong>. Total potential: <strong>25% annually on a single mega-cap US stock</strong>.</p>
+<blockquote>
+<p>Sell a part of your portfolio via covered calls at resistance. And sell a put option at support. That adds another 10% per year on roughly 50% of your total holding. Total potential: 25%.</p>
+</blockquote>
+<p>This is the reason I added Meta, Microsoft, Amazon, and Google quite aggressively. It is not just about the stock appreciation. It is about the entire ecosystem of income and protection you can build around quality holdings.</p>
+<p>The beauty of this approach is that you are never adding speculative risk. You are getting paid to do things you were going to do anyway &ndash; sell at resistance, buy at support. The options premiums are a bonus on top of an existing, proven strategy.</p>
+<p>Now compare this to what happens when you layer the insurance component on top:</p>
+<ol>
+<li><strong>Core portfolio protection</strong>: I buy QQQ puts at 10% below market. Cost: 4.5% of portfolio per year.</li>
+<li><strong>Income generation</strong>: I sell covered calls at resistance on my individual holdings. Income: 4-5% of covered positions per year.</li>
+<li><strong>Premium offset</strong>: I sell cash-secured puts on stocks I want to buy at lower prices. Income: 3-5% of cash deployed per year.</li>
+</ol>
+<p>The income from steps 2 and 3 largely offsets the cost of step 1. I end up with a portfolio that has defined maximum loss, generates consistent income, and participates fully in market upside. This is not theory. This is what I am doing right now with real money.</p>
+<p>I did not do anything special. Many investors do all this. But unfortunately, no one discusses these advanced strategies. My push would be that you learn new things. Put some effort in learning and cultivating your portfolio.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="v-cash-secured-puts-getting-paid-to-buy-the-dip">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>V. Cash-Secured Puts: Getting Paid to Buy the Dip</h2>
+      </div>
+      <div class="section-content">
+        <p>Most investors wait for stocks to fall and then buy the dip. Smart investors get <em>paid</em> to wait.</p>
+<p>A <strong>cash-secured put</strong> is an options strategy where you sell a put option on a stock you want to own, at a price you would be happy to buy it at, and you get paid a premium for making that commitment. If the stock falls to your target price, you buy it (which you wanted to do anyway). If it does not fall, you keep the premium as pure income.</p>
+<p>Let me illustrate with a real trade. I sold put options on Microsoft at a strike price 10% below its peak and received $500 per contract. Here is what that means:</p>
+<p><strong>Outcome 1: MSFT stays above the strike price.</strong> The put expires worthless. I keep the $500 premium and do nothing. Then I sell another put for the next month and collect more premium. Repeat. The cash that would have been sitting idle earning nothing is now generating consistent income.</p>
+<p><strong>Outcome 2: MSFT falls to the strike price or below.</strong> I am obligated to buy 100 shares at the strike price. But this is the price I wanted to buy at anyway. And the $500 premium effectively lowers my cost basis even further. I end up owning a stock I wanted at a price even better than my target.</p>
+<p>The common objection is: &ldquo;But what if MSFT drops to $300? You are forced to buy at $380!&rdquo; This is true. But consider: if you had placed a limit order at $380, you would have bought at $380 anyway, and you would not have received any premium for doing so. The cash-secured put does not create additional risk. It compensates you for a risk you were already willing to take.</p>
+<p>Here is how I think about the 50% of my portfolio that is in cash at any given time:</p>
+<ul>
+<li>50% of the portfolio is invested in long-term quality stocks that I wish to own.</li>
+<li>The remaining 50% is in cash, and I sell put options on this cash.</li>
+</ul>
+<blockquote>
+<p>Retain 50% of your portfolio in cash and sell put options. We are simply buying options on things we anyways want to own. There is a huge difference between that and being an options trader.</p>
+</blockquote>
+<p>The cash is not idle. It is working. Every month, it generates premium income from cash-secured puts. And if any of those puts get exercised, I end up owning stocks I wanted to buy anyway, at prices I was happy to pay.</p>
+<p>This is critical especially when US markets are likely to go sideways. If you are someone who can sell covered calls and cash-secured puts in a sideways market, there is a lot of money to be made there. A sideways market is boring for buy-and-hold investors. It is a gold mine for options sellers.</p>
+<p>The strategy creates a continuous cycle: sell puts to get paid while waiting to buy, then sell calls to get paid while waiting to sell. In a sideways or range-bound market, this cycle can generate 8-15% annualized income on top of whatever capital gains the underlying stocks produce.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="vi-why-the-indian-options-market-is-a-trap-and-the-us-market-is-not">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>VI. Why the Indian Options Market Is a Trap (And the US Market Is Not)</h2>
+      </div>
+      <div class="section-content">
+        <p>I need to be blunt with you here, because too many people are losing money doing options in India without understanding why the system is rigged against them.</p>
+<p>I have never promoted options or guided anyone to do options in the Indian market. That is a deliberate, carefully considered position. Here is why:</p>
+<p><strong>Problem 1: Very high taxes.</strong> Options profits in India are taxed as business income or speculative income. The tax rates eat your profits alive. Even if you are a skilled trader, the tax drag means you need to generate dramatically higher gross returns just to break even compared to someone trading options in a lower-tax jurisdiction.</p>
+<p><strong>Problem 2: Limited instruments.</strong> In India, you can realistically trade options on NIFTY, Bank NIFTY, and a small handful of individual stocks. The universe is tiny. You cannot sell covered calls on your hospital stocks. You cannot buy protective puts on your IT holdings with any meaningful liquidity. In the US, you can trade options on thousands of stocks and ETFs, each with deep liquidity and tight spreads.</p>
+<p><strong>Problem 3: Margin requirements are punishing.</strong> Indian brokers require enormous margins for options positions. This reduces your capital efficiency and makes the economics far less attractive. You end up tying up three or four times more capital than the actual risk of the position warrants.</p>
+<p><strong>In the Indian options market, you are designed to lose money.</strong></p>
+<p>Now compare this to the US:</p>
+<ul>
+<li>Most of the play is tech. And tech is <strong>high beta</strong> &ndash; meaning it moves a lot. Someone investing 20% of their net worth in NVIDIA takes significant risk, which they <em>need</em> to protect. So they pay premiums as options buyers.</li>
+<li>This creates natural, organic demand for insurance. Options sellers can capture this premium reliably.</li>
+<li>Platforms like Robinhood have thriving options bases. Every big investor in the US uses options.</li>
+<li>Tax treatment is far more favorable, especially in jurisdictions with 0% capital gains.</li>
+<li>The market infrastructure is world-class &ndash; tight spreads, fast execution, deep liquidity.</li>
+</ul>
+<p>This is precisely why I structure my options strategies on US markets. The ecosystem is designed for it to work. The Indian ecosystem is designed for retail to lose.</p>
+<p>The pathway for Indian investors who want to use options:</p>
+<ol>
+<li>Start buying clean US firms &ndash; Mag 7, US index ETFs, tech, healthcare &ndash; through platforms that give you a US brokerage account.</li>
+<li>Build a large enough portfolio over time (anything above 3 crore).</li>
+<li>Once the portfolio is meaningful, layer options strategies on top.</li>
+<li>If you can optimize your tax residency to a 0% capital gains jurisdiction, the options income becomes a massive income generation machine.</li>
+</ol>
+<p>No one will teach you this. Because this is complex. And people hate complicated things. But this is where real money is made.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="vii-the-risk-management-framework-rules-that-protect-you">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>VII. The Risk Management Framework: Rules That Protect You</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me be crystal clear about something: options used carelessly will destroy your portfolio faster than any market crash. The strategies I have outlined work precisely because they come with strict rules. Violate these rules and you convert insurance into speculation.</p>
+<p><strong>Rule 1: Never do naked options.</strong></p>
+<p>I have said this before and I will keep saying it. Do not simply &ldquo;sell&rdquo; a call unless you can &ldquo;cover&rdquo; it with existing stock holdings. Do not sell puts unless you have the cash to back up the purchase obligation. Naked call writing has theoretically unlimited risk &ndash; the stock can go to infinity, and you owe the difference. This is how people blow up.</p>
+<p>The quantum of risk you take as a covered options seller is manageable: 100 stocks per lot. When you sell options on NVIDIA at a stock price of $180, you are effectively taking a maximum risk of $18,000 per lot. On a $1 million portfolio, that is 1.8% of your portfolio on one options position. Perfectly manageable.</p>
+<p>The people who go bankrupt on options are the ones who take positions that are 50% or 100% of their portfolio. That is not an options problem. That is a position sizing problem.</p>
+<p><strong>Rule 2: Only use options on stocks you already own or genuinely want to own.</strong></p>
+<p>Do NOT take options as becoming an options trader. We are simply buying options on things we anyways want to own. There is a huge difference between the two. If you would not buy a stock at any price, you have no business selling a put on it. If you would not sell a stock at a given level, you have no business writing a call there.</p>
+<p><strong>Rule 3: Match your strategy to the market regime.</strong></p>
+<ul>
+<li><strong>Sideways market</strong>: Sell covered calls and cash-secured puts aggressively. Premiums are your primary income source.</li>
+<li><strong>Bull market with crash fears</strong>: Buy protective puts. The cost is worth the peace of mind.</li>
+<li><strong>Bear market</strong>: Keep cash high. Buy puts for insurance. Do not sell puts unless you genuinely want to own at lower levels.</li>
+<li><strong>High volatility</strong>: Premiums are fat. This favors sellers. But be careful &ndash; high premiums exist because the probability of large moves is high.</li>
+</ul>
+<p><strong>Rule 4: Accept the cost of insurance.</strong></p>
+<p>The $45,000 I spent on QQQ puts was not a &ldquo;loss.&rdquo; It was the cost of certainty. Just like you do not regret your home insurance premium when your house does not burn down, you should not regret your options premium when the market does not crash. Insurance has value even when it is not exercised. That value is the ability to think clearly, avoid panic selling, and make rational decisions during market turbulence.</p>
+<p><strong>Rule 5: Position sizing is everything.</strong></p>
+<p>I have told at least 10 times that the holding on any individual position should never be more than 2.5-5% of your entire portfolio. The same discipline applies to options. No single options position should represent more than 5% of your portfolio. If a position goes against you, it should feel like a small cut, not a mortal wound.</p>
+<div class="demo reveal" id="chart-1"></div>
+
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="viii-the-retirement-machine-turning-your-portfolio-into-a-paycheck">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>VIII. The Retirement Machine: Turning Your Portfolio Into a Paycheck</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me share with you the system that most people will never hear about, because it is too complex for financial influencers and too threatening to the mutual fund industry.</p>
+<p>Here is the pathway I have built and continue to optimize:</p>
+<ol>
+<li><strong>Start buying clean US firms</strong> &ndash; Mag 7, US index ETFs, tech, healthcare. This allows you to invest in USD legally, protecting yourself from constant INR depreciation.</li>
+<li><strong>Build a big enough portfolio over time</strong> &ndash; anything above 3 crore.</li>
+<li><strong>Change your tax residency, legally</strong>, to a jurisdiction with 0% capital gains.</li>
+<li><strong>Layer options on the portfolio</strong> &ndash; protective puts, covered calls, cash-secured puts.</li>
+<li><strong>Generate options income. Pay 0% tax, legally.</strong></li>
+</ol>
+<p>Will anyone tell you this? No. Why? Because if an Indian SIP guy tells you this, you will stop your SIP. But I have done it. And I am telling you so that you can plan way ahead.</p>
+<p>Let me show you the math on what this machine looks like:</p>
+<p>Assume you have built a portfolio worth $500,000 (approximately 4 crore) in US tech stocks. Here is your annual income from options strategies alone:</p>
+<ul>
+<li><strong>Covered calls on your holdings</strong> (targeting 9-10% annualized yield, as we saw with the Meta example): <strong>$45,000-$50,000 per year</strong></li>
+<li><strong>Cash-secured puts on your cash reserves</strong> (estimated 5-7% yield on cash): <strong>$10,000-$15,000 per year</strong></li>
+<li><strong>Minus insurance cost</strong> (protective puts at 3-4% of portfolio): <strong>-$15,000-$20,000 per year</strong></li>
+<li><strong>Net options income</strong>: approximately <strong>$40,000-$45,000 per year</strong></li>
+</ul>
+<p>That is 33-37 lakh rupees per year in options income alone, before any capital appreciation on the underlying stocks. And if you are in a 0% capital gains tax jurisdiction, every rupee of that is yours. Chill and enjoy life.</p>
+<p>Now compare this to the alternative that most Indian retail investors follow: SIPs into NIFTY 50. Consider the Nifty 50 over the last 20 years &ndash; it has delivered 12.5% nominal returns. Post tax that is 10.5%. Adjust for INR depreciation and you are at 6.5-7%. Real global dollar inflation is at least 7-8%. Average investors do not typically understand this equation. You are barely keeping pace with inflation.</p>
+<p>Index investing and SIPs have become the goto method of investing. This is an overcrowded space. And it will get more overcrowded with time. The alpha will come down dramatically, net of inflation. As markets become more volatile, risk management becomes more critical. Options allow you to do that.</p>
+<p>The progression for every investor should look like this:</p>
+<ul>
+<li><strong>Beginner</strong>: Pick large-cap mega companies. Pick tech. Build positions.</li>
+<li><strong>Intermediate</strong>: Rotate capital on Indian stocks. Invest for long-term in US stocks.</li>
+<li><strong>Advanced</strong>: Layer your core portfolio with options.</li>
+</ul>
+<p>Most importantly: improve, build better systems for yourself.</p>
+<div class="demo reveal" id="chart-1"></div>
+
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="ix-your-next-move">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>IX. Your Next Move</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me leave you with a concrete action plan, because education without action is entertainment.</p>
+<p><strong>If you are a complete beginner to options:</strong></p>
+<p>Do not trade a single options contract yet. Instead, spend the next 30 days studying five concepts until you can explain them to a child: <strong>put option, call option, strike price, premium, expiry date</strong>. Watch the options chain on a stock you already own. Observe how premiums change with volatility, time decay, and price movement. Build intuition before you build positions. And focus on what matters most at this stage &ndash; building a quality core portfolio in US tech stocks and Indian large caps.</p>
+<p><strong>If you understand the basics but have never traded options:</strong></p>
+<p>Start with a single covered call on a stock you already own and are willing to sell at a higher price. Choose a strike price that is 15-20% above the current market price. Choose an expiry 30-60 days out. Collect the premium. Watch what happens. Do this three or four times before adding any other strategy. The point is to feel how options work with real money, even if the position is small.</p>
+<p><strong>If you are an intermediate investor with some options experience:</strong></p>
+<p>Build the full insurance + income machine. Buy protective puts on your core portfolio (use the index, not individual stocks &ndash; it is cheaper). Sell covered calls on positions at or near resistance. Sell cash-secured puts on stocks you want to own at lower prices. Track your net premium income as a separate line item. Your goal is to offset 60-80% of your insurance costs with income from covered calls and cash-secured puts.</p>
+<p><strong>If you have a large portfolio (3 crore+) and are serious about income generation:</strong></p>
+<p>Start planning the full system &ndash; US equities, options layering, tax optimization. This is a multi-year plan. You might not be able to do this today. But you can start working towards this plan, literally from today. I had no one who told me that such a system exists. Like an elder brother, I am telling you all this so that you can plan way ahead.</p>
+<p><strong>For everyone, regardless of level:</strong></p>
+<ol>
+<li>Do NOT do naked options. Ever.</li>
+<li>Do NOT treat options as a way to make quick money. Treat them as tools for risk management and income generation.</li>
+<li>Do NOT start with Indian options. The tax structure, limited instruments, and margin requirements make it a structurally losing game for retail.</li>
+<li>Always start with stocks you already own or genuinely want to own. Options should enhance your existing investment thesis, not replace it.</li>
+<li>Keep your options positions small relative to your total portfolio. No single position should ever represent more than 5% of your portfolio value.</li>
+<li>It is completely okay not to get into options right now. Not everyone needs to be at the advanced level today. But understand the system exists so you can work toward it.</li>
+</ol>
+<p>The most important thing I want you to take away from this is a mental shift. <strong>Options are not a separate asset class. They are a management layer on top of your existing portfolio.</strong> They are the tools that turn a collection of stocks into a structured, income-generating, risk-managed portfolio.</p>
+<p>Every big investor uses them. Every hedge fund uses them. Every family office uses them. The only people who do not use them are retail investors who have been told that options are &ldquo;too risky&rdquo; or &ldquo;too complicated&rdquo; &ndash; by the same financial media that profits from keeping them in SIPs.</p>
+<p>I am not pushing you to start trading options tomorrow. Do what you like. But if you are serious about building real wealth &ndash; the kind that generates income, protects capital, and compounds over decades &ndash; you need to at least understand how options work. Because the top 10% of investors are playing a completely different game. And the game they are playing uses options as a fundamental tool, not a speculative toy.</p>
+<p>The system could be investing in SIPs or doing options or pursuing capital rotation. The system is to optimize your returns per unit of risk. Money is basically abused labour with no human rights &ndash; it can work 24/7. Put it to work properly.</p>
+<p>Build better systems. Improve your thinking quality. And understand that the most powerful move in investing is not finding the next multibagger &ndash; it is protecting the wealth you have already built while generating income from it.</p>
+<p>That is what options are for. Not gambling. Insurance.</p>
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- Chart Scripts -->
+  <script>
+    // ===== Scroll Reveal Animation =====
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.15,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show all elements immediately
+        revealElements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+
+    // ===== Smooth scroll for TOC links =====
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <!-- Topic-specific chart/widget scripts injected by build -->
+  <script src="../chart-helpers.js"></script>
+<script>
+(function() {
+  var container = document.getElementById("chart-1");
+  if (!container) return;
+
+  var W = 600, H = 360;
+  var pad = { top: 30, right: 30, bottom: 50, left: 60 };
+  var strike = 545;
+  var premium = 25;
+  var rangePct = 27;
+  var optType = "PUT";
+
+  // --- Build DOM ---
+  container.innerHTML = '';
+  container.classList.add('demo');
+
+  var title = document.createElement('div');
+  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
+  title.textContent = "Portfolio Insurance: QQQ Put at $545 Strike" || (optType + ' Option Payoff');
+  container.appendChild(title);
+
+  var svgWrap = document.createElement('div');
+  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
+  container.appendChild(svgWrap);
+
+  var svg = createSVGElement('svg');
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('width', '100%');
+  svg.style.maxWidth = W + 'px';
+  svgWrap.appendChild(svg);
+
+  var tooltip = createTooltip(container);
+
+  // --- Controls ---
+  var ctrl = document.createElement('div');
+  ctrl.style.cssText = 'display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
+  container.appendChild(ctrl);
+
+  var sliderLabel = document.createElement('label');
+  sliderLabel.textContent = 'Strike: ';
+  var sliderVal = document.createElement('span');
+  sliderVal.textContent = strike;
+  sliderLabel.appendChild(sliderVal);
+  ctrl.appendChild(sliderLabel);
+
+  var slider = document.createElement('input');
+  slider.type = 'range';
+  slider.min = Math.round(strike * 0.5);
+  slider.max = Math.round(strike * 1.5);
+  slider.value = strike;
+  slider.step = 1;
+  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
+  ctrl.appendChild(slider);
+
+  var typeBtn = document.createElement('button');
+  typeBtn.textContent = 'Switch to ' + (optType === 'CALL' ? 'PUT' : 'CALL');
+  typeBtn.style.cssText = 'padding:4px 12px;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:4px;cursor:pointer;font-size:12px;';
+  ctrl.appendChild(typeBtn);
+
+  // --- Drawing logic ---
+  function draw() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    var lo = strike * (1 - rangePct / 100);
+    var hi = strike * (1 + rangePct / 100);
+    var step = (hi - lo) / 200;
+    var points = [];
+    var minPnl = 0, maxPnl = 0;
+
+    for (var p = lo; p <= hi; p += step) {
+      var pnl;
+      if (optType === 'CALL') {
+        pnl = Math.max(p - strike, 0) - premium;
+      } else {
+        pnl = Math.max(strike - p, 0) - premium;
+      }
+      points.push({ price: p, pnl: pnl });
+      if (pnl < minPnl) minPnl = pnl;
+      if (pnl > maxPnl) maxPnl = pnl;
+    }
+
+    // Add margin
+    var yRange = maxPnl - minPnl || 1;
+    minPnl -= yRange * 0.1;
+    maxPnl += yRange * 0.1;
+
+    // Axes
+    drawYAxis(svg, minPnl, maxPnl, 5, W, H, pad);
+
+    var xLabels = [];
+    for (var i = 0; i <= 5; i++) {
+      xLabels.push(Math.round(lo + (hi - lo) * i / 5).toString());
+    }
+    drawXAxis(svg, xLabels, W, H, pad);
+
+    // Zero line
+    var zeroY = scaleY(0, minPnl, maxPnl, H, pad);
+    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 0.8, '6,3');
+
+    // Profit / loss shading
+    var profitD = 'M';
+    var lossD = 'M';
+    var profitStarted = false;
+    var lossStarted = false;
+
+    for (var i = 0; i < points.length; i++) {
+      var sx = scaleX(points[i].price, lo, hi, W, pad);
+      var sy = scaleY(points[i].pnl, minPnl, maxPnl, H, pad);
+
+      if (points[i].pnl >= 0) {
+        if (!profitStarted) {
+          profitD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' L';
+          profitStarted = true;
+        }
+        profitD += sx.toFixed(1) + ',' + sy.toFixed(1) + ' L';
+      } else {
+        if (profitStarted) {
+          profitD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+          profitStarted = false;
+        }
+      }
+
+      if (points[i].pnl < 0) {
+        if (!lossStarted) {
+          lossD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' L';
+          lossStarted = true;
+        }
+        lossD += sx.toFixed(1) + ',' + sy.toFixed(1) + ' L';
+      } else {
+        if (lossStarted) {
+          lossD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+          lossStarted = false;
+        }
+      }
+    }
+    // Close paths
+    if (profitStarted) {
+      var lastProfit = points[points.length - 1];
+      profitD += scaleX(lastProfit.price, lo, hi, W, pad).toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+    }
+    if (lossStarted) {
+      var lastLoss = points[points.length - 1];
+      lossD += scaleX(lastLoss.price, lo, hi, W, pad).toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+    }
+
+    if (profitD.length > 2) drawPath(svg, profitD, 'none', 0, hexToRGBA('#48bb78', 0.25), 1);
+    if (lossD.length > 2) drawPath(svg, lossD, 'none', 0, hexToRGBA('#fc8181', 0.25), 1);
+
+    // Payoff curve
+    var curveD = '';
+    for (var i = 0; i < points.length; i++) {
+      var sx = scaleX(points[i].price, lo, hi, W, pad);
+      var sy = scaleY(points[i].pnl, minPnl, maxPnl, H, pad);
+      curveD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+    }
+    drawPath(svg, curveD, 'var(--accent)', 2.5, 'none', 1);
+
+    // Breakeven point
+    var be = optType === 'CALL' ? strike + premium : strike - premium;
+    if (be >= lo && be <= hi) {
+      var bx = scaleX(be, lo, hi, W, pad);
+      drawCircle(svg, bx, zeroY, 5, 'var(--accent)', '#fff');
+      drawText(svg, bx, zeroY - 12, 'BE: ' + be.toFixed(1), {
+        fontSize: 11, fill: 'var(--accent)', anchor: 'middle', fontWeight: 'bold'
+      });
+    }
+
+    // Strike line
+    var strikeX = scaleX(strike, lo, hi, W, pad);
+    drawLine(svg, strikeX, pad.top, strikeX, H - pad.bottom, '#a0aec0', 1, '4,4');
+    drawText(svg, strikeX, pad.top - 6, 'Strike: ' + strike, {
+      fontSize: 10, fill: '#a0aec0', anchor: 'middle'
+    });
+
+    // Labels
+    drawText(svg, W / 2, H - 4, 'Underlying Price', {
+      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
+    });
+    drawText(svg, 14, H / 2, 'P&L', {
+      fontSize: 11, fill: 'var(--text-secondary, var(--text))',
+      transform: 'rotate(-90,' + 14 + ',' + (H / 2) + ')'
+    });
+
+    // Max loss / profit annotations
+    var maxLoss = -premium;
+    var maxProfitLabel = optType === 'CALL' ? 'Unlimited' : (strike - premium).toFixed(1);
+    drawText(svg, W - pad.right - 4, pad.top + 14, 'Max Profit: ' + maxProfitLabel, {
+      fontSize: 10, fill: '#48bb78', anchor: 'end'
+    });
+    drawText(svg, W - pad.right - 4, pad.top + 28, 'Max Loss: ' + maxLoss.toFixed(1) + ' (premium)', {
+      fontSize: 10, fill: '#fc8181', anchor: 'end'
+    });
+
+    // Hover overlay
+    var overlay = createSVGElement('rect');
+    overlay.setAttribute('x', pad.left);
+    overlay.setAttribute('y', pad.top);
+    overlay.setAttribute('width', W - pad.left - pad.right);
+    overlay.setAttribute('height', H - pad.top - pad.bottom);
+    overlay.setAttribute('fill', 'transparent');
+    svg.appendChild(overlay);
+
+    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
+    hoverLine.style.display = 'none';
+    var hoverDot = drawCircle(svg, 0, 0, 4, 'var(--accent)', '#fff');
+    hoverDot.style.display = 'none';
+
+    overlay.addEventListener('mousemove', function(e) {
+      var rect = svg.getBoundingClientRect();
+      var mx = (e.clientX - rect.left) / rect.width * W;
+      var price = lo + ((mx - pad.left) / (W - pad.left - pad.right)) * (hi - lo);
+      price = Math.max(lo, Math.min(hi, price));
+      var pnl;
+      if (optType === 'CALL') {
+        pnl = Math.max(price - strike, 0) - premium;
+      } else {
+        pnl = Math.max(strike - price, 0) - premium;
+      }
+      var sx = scaleX(price, lo, hi, W, pad);
+      var sy = scaleY(pnl, minPnl, maxPnl, H, pad);
+      hoverLine.setAttribute('x1', sx);
+      hoverLine.setAttribute('x2', sx);
+      hoverLine.style.display = '';
+      hoverDot.setAttribute('cx', sx);
+      hoverDot.setAttribute('cy', sy);
+      hoverDot.style.display = '';
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = 'Price: ' + price.toFixed(1) + '<br>P&L: <span style="color:' + (pnl >= 0 ? '#48bb78' : '#fc8181') + '">' + pnl.toFixed(2) + '</span>';
+      var tipX = (sx / W) * 100;
+      tooltip.style.left = tipX + '%';
+      tooltip.style.top = (sy / H * 100 - 14) + '%';
+      tooltip.style.transform = 'translateX(-50%)';
+    });
+
+    overlay.addEventListener('mouseleave', function() {
+      hoverLine.style.display = 'none';
+      hoverDot.style.display = 'none';
+      tooltip.style.display = 'none';
+    });
+  }
+
+  draw();
+
+  slider.addEventListener('input', function() {
+    strike = parseInt(this.value);
+    sliderVal.textContent = strike;
+    draw();
+  });
+
+  typeBtn.addEventListener('click', function() {
+    optType = optType === 'CALL' ? 'PUT' : 'CALL';
+    title.textContent = "Portfolio Insurance: QQQ Put at $545 Strike" || (optType + ' Option Payoff');
+    typeBtn.textContent = 'Switch to ' + (optType === 'CALL' ? 'PUT' : 'CALL');
+    draw();
+  });
+})();
+
+(function() {
+  var container = document.getElementById("chart-1");
+  if (!container) return;
+
+  var W = 600, H = 360;
+  var pad = { top: 30, right: 30, bottom: 50, left: 60 };
+  var strike = 760;
+  var premium = 28;
+  var rangePct = 21;
+  var optType = "CALL";
+
+  // --- Build DOM ---
+  container.innerHTML = '';
+  container.classList.add('demo');
+
+  var title = document.createElement('div');
+  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
+  title.textContent = "Covered Call on Meta: $760 Strike, $28.50 Premium" || (optType + ' Option Payoff');
+  container.appendChild(title);
+
+  var svgWrap = document.createElement('div');
+  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
+  container.appendChild(svgWrap);
+
+  var svg = createSVGElement('svg');
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('width', '100%');
+  svg.style.maxWidth = W + 'px';
+  svgWrap.appendChild(svg);
+
+  var tooltip = createTooltip(container);
+
+  // --- Controls ---
+  var ctrl = document.createElement('div');
+  ctrl.style.cssText = 'display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
+  container.appendChild(ctrl);
+
+  var sliderLabel = document.createElement('label');
+  sliderLabel.textContent = 'Strike: ';
+  var sliderVal = document.createElement('span');
+  sliderVal.textContent = strike;
+  sliderLabel.appendChild(sliderVal);
+  ctrl.appendChild(sliderLabel);
+
+  var slider = document.createElement('input');
+  slider.type = 'range';
+  slider.min = Math.round(strike * 0.5);
+  slider.max = Math.round(strike * 1.5);
+  slider.value = strike;
+  slider.step = 1;
+  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
+  ctrl.appendChild(slider);
+
+  var typeBtn = document.createElement('button');
+  typeBtn.textContent = 'Switch to ' + (optType === 'CALL' ? 'PUT' : 'CALL');
+  typeBtn.style.cssText = 'padding:4px 12px;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:4px;cursor:pointer;font-size:12px;';
+  ctrl.appendChild(typeBtn);
+
+  // --- Drawing logic ---
+  function draw() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    var lo = strike * (1 - rangePct / 100);
+    var hi = strike * (1 + rangePct / 100);
+    var step = (hi - lo) / 200;
+    var points = [];
+    var minPnl = 0, maxPnl = 0;
+
+    for (var p = lo; p <= hi; p += step) {
+      var pnl;
+      if (optType === 'CALL') {
+        pnl = Math.max(p - strike, 0) - premium;
+      } else {
+        pnl = Math.max(strike - p, 0) - premium;
+      }
+      points.push({ price: p, pnl: pnl });
+      if (pnl < minPnl) minPnl = pnl;
+      if (pnl > maxPnl) maxPnl = pnl;
+    }
+
+    // Add margin
+    var yRange = maxPnl - minPnl || 1;
+    minPnl -= yRange * 0.1;
+    maxPnl += yRange * 0.1;
+
+    // Axes
+    drawYAxis(svg, minPnl, maxPnl, 5, W, H, pad);
+
+    var xLabels = [];
+    for (var i = 0; i <= 5; i++) {
+      xLabels.push(Math.round(lo + (hi - lo) * i / 5).toString());
+    }
+    drawXAxis(svg, xLabels, W, H, pad);
+
+    // Zero line
+    var zeroY = scaleY(0, minPnl, maxPnl, H, pad);
+    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 0.8, '6,3');
+
+    // Profit / loss shading
+    var profitD = 'M';
+    var lossD = 'M';
+    var profitStarted = false;
+    var lossStarted = false;
+
+    for (var i = 0; i < points.length; i++) {
+      var sx = scaleX(points[i].price, lo, hi, W, pad);
+      var sy = scaleY(points[i].pnl, minPnl, maxPnl, H, pad);
+
+      if (points[i].pnl >= 0) {
+        if (!profitStarted) {
+          profitD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' L';
+          profitStarted = true;
+        }
+        profitD += sx.toFixed(1) + ',' + sy.toFixed(1) + ' L';
+      } else {
+        if (profitStarted) {
+          profitD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+          profitStarted = false;
+        }
+      }
+
+      if (points[i].pnl < 0) {
+        if (!lossStarted) {
+          lossD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' L';
+          lossStarted = true;
+        }
+        lossD += sx.toFixed(1) + ',' + sy.toFixed(1) + ' L';
+      } else {
+        if (lossStarted) {
+          lossD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+          lossStarted = false;
+        }
+      }
+    }
+    // Close paths
+    if (profitStarted) {
+      var lastProfit = points[points.length - 1];
+      profitD += scaleX(lastProfit.price, lo, hi, W, pad).toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+    }
+    if (lossStarted) {
+      var lastLoss = points[points.length - 1];
+      lossD += scaleX(lastLoss.price, lo, hi, W, pad).toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+    }
+
+    if (profitD.length > 2) drawPath(svg, profitD, 'none', 0, hexToRGBA('#48bb78', 0.25), 1);
+    if (lossD.length > 2) drawPath(svg, lossD, 'none', 0, hexToRGBA('#fc8181', 0.25), 1);
+
+    // Payoff curve
+    var curveD = '';
+    for (var i = 0; i < points.length; i++) {
+      var sx = scaleX(points[i].price, lo, hi, W, pad);
+      var sy = scaleY(points[i].pnl, minPnl, maxPnl, H, pad);
+      curveD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+    }
+    drawPath(svg, curveD, 'var(--accent)', 2.5, 'none', 1);
+
+    // Breakeven point
+    var be = optType === 'CALL' ? strike + premium : strike - premium;
+    if (be >= lo && be <= hi) {
+      var bx = scaleX(be, lo, hi, W, pad);
+      drawCircle(svg, bx, zeroY, 5, 'var(--accent)', '#fff');
+      drawText(svg, bx, zeroY - 12, 'BE: ' + be.toFixed(1), {
+        fontSize: 11, fill: 'var(--accent)', anchor: 'middle', fontWeight: 'bold'
+      });
+    }
+
+    // Strike line
+    var strikeX = scaleX(strike, lo, hi, W, pad);
+    drawLine(svg, strikeX, pad.top, strikeX, H - pad.bottom, '#a0aec0', 1, '4,4');
+    drawText(svg, strikeX, pad.top - 6, 'Strike: ' + strike, {
+      fontSize: 10, fill: '#a0aec0', anchor: 'middle'
+    });
+
+    // Labels
+    drawText(svg, W / 2, H - 4, 'Underlying Price', {
+      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
+    });
+    drawText(svg, 14, H / 2, 'P&L', {
+      fontSize: 11, fill: 'var(--text-secondary, var(--text))',
+      transform: 'rotate(-90,' + 14 + ',' + (H / 2) + ')'
+    });
+
+    // Max loss / profit annotations
+    var maxLoss = -premium;
+    var maxProfitLabel = optType === 'CALL' ? 'Unlimited' : (strike - premium).toFixed(1);
+    drawText(svg, W - pad.right - 4, pad.top + 14, 'Max Profit: ' + maxProfitLabel, {
+      fontSize: 10, fill: '#48bb78', anchor: 'end'
+    });
+    drawText(svg, W - pad.right - 4, pad.top + 28, 'Max Loss: ' + maxLoss.toFixed(1) + ' (premium)', {
+      fontSize: 10, fill: '#fc8181', anchor: 'end'
+    });
+
+    // Hover overlay
+    var overlay = createSVGElement('rect');
+    overlay.setAttribute('x', pad.left);
+    overlay.setAttribute('y', pad.top);
+    overlay.setAttribute('width', W - pad.left - pad.right);
+    overlay.setAttribute('height', H - pad.top - pad.bottom);
+    overlay.setAttribute('fill', 'transparent');
+    svg.appendChild(overlay);
+
+    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
+    hoverLine.style.display = 'none';
+    var hoverDot = drawCircle(svg, 0, 0, 4, 'var(--accent)', '#fff');
+    hoverDot.style.display = 'none';
+
+    overlay.addEventListener('mousemove', function(e) {
+      var rect = svg.getBoundingClientRect();
+      var mx = (e.clientX - rect.left) / rect.width * W;
+      var price = lo + ((mx - pad.left) / (W - pad.left - pad.right)) * (hi - lo);
+      price = Math.max(lo, Math.min(hi, price));
+      var pnl;
+      if (optType === 'CALL') {
+        pnl = Math.max(price - strike, 0) - premium;
+      } else {
+        pnl = Math.max(strike - price, 0) - premium;
+      }
+      var sx = scaleX(price, lo, hi, W, pad);
+      var sy = scaleY(pnl, minPnl, maxPnl, H, pad);
+      hoverLine.setAttribute('x1', sx);
+      hoverLine.setAttribute('x2', sx);
+      hoverLine.style.display = '';
+      hoverDot.setAttribute('cx', sx);
+      hoverDot.setAttribute('cy', sy);
+      hoverDot.style.display = '';
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = 'Price: ' + price.toFixed(1) + '<br>P&L: <span style="color:' + (pnl >= 0 ? '#48bb78' : '#fc8181') + '">' + pnl.toFixed(2) + '</span>';
+      var tipX = (sx / W) * 100;
+      tooltip.style.left = tipX + '%';
+      tooltip.style.top = (sy / H * 100 - 14) + '%';
+      tooltip.style.transform = 'translateX(-50%)';
+    });
+
+    overlay.addEventListener('mouseleave', function() {
+      hoverLine.style.display = 'none';
+      hoverDot.style.display = 'none';
+      tooltip.style.display = 'none';
+    });
+  }
+
+  draw();
+
+  slider.addEventListener('input', function() {
+    strike = parseInt(this.value);
+    sliderVal.textContent = strike;
+    draw();
+  });
+
+  typeBtn.addEventListener('click', function() {
+    optType = optType === 'CALL' ? 'PUT' : 'CALL';
+    title.textContent = "Covered Call on Meta: $760 Strike, $28.50 Premium" || (optType + ' Option Payoff');
+    typeBtn.textContent = 'Switch to ' + (optType === 'CALL' ? 'PUT' : 'CALL');
+    draw();
+  });
+})();
+
+(function() {
+  var container = document.getElementById("chart-1");
+  if (!container) return;
+
+  var W = 600, H = 360;
+  var pad = { top: 30, right: 30, bottom: 50, left: 60 };
+  var strike = 380;
+  var premium = 12;
+  var rangePct = 16;
+  var optType = "PUT";
+
+  // --- Build DOM ---
+  container.innerHTML = '';
+  container.classList.add('demo');
+
+  var title = document.createElement('div');
+  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
+  title.textContent = "Cash-Secured Put: MSFT at $380 Strike, $12 Premium" || (optType + ' Option Payoff');
+  container.appendChild(title);
+
+  var svgWrap = document.createElement('div');
+  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
+  container.appendChild(svgWrap);
+
+  var svg = createSVGElement('svg');
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('width', '100%');
+  svg.style.maxWidth = W + 'px';
+  svgWrap.appendChild(svg);
+
+  var tooltip = createTooltip(container);
+
+  // --- Controls ---
+  var ctrl = document.createElement('div');
+  ctrl.style.cssText = 'display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
+  container.appendChild(ctrl);
+
+  var sliderLabel = document.createElement('label');
+  sliderLabel.textContent = 'Strike: ';
+  var sliderVal = document.createElement('span');
+  sliderVal.textContent = strike;
+  sliderLabel.appendChild(sliderVal);
+  ctrl.appendChild(sliderLabel);
+
+  var slider = document.createElement('input');
+  slider.type = 'range';
+  slider.min = Math.round(strike * 0.5);
+  slider.max = Math.round(strike * 1.5);
+  slider.value = strike;
+  slider.step = 1;
+  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
+  ctrl.appendChild(slider);
+
+  var typeBtn = document.createElement('button');
+  typeBtn.textContent = 'Switch to ' + (optType === 'CALL' ? 'PUT' : 'CALL');
+  typeBtn.style.cssText = 'padding:4px 12px;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:4px;cursor:pointer;font-size:12px;';
+  ctrl.appendChild(typeBtn);
+
+  // --- Drawing logic ---
+  function draw() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    var lo = strike * (1 - rangePct / 100);
+    var hi = strike * (1 + rangePct / 100);
+    var step = (hi - lo) / 200;
+    var points = [];
+    var minPnl = 0, maxPnl = 0;
+
+    for (var p = lo; p <= hi; p += step) {
+      var pnl;
+      if (optType === 'CALL') {
+        pnl = Math.max(p - strike, 0) - premium;
+      } else {
+        pnl = Math.max(strike - p, 0) - premium;
+      }
+      points.push({ price: p, pnl: pnl });
+      if (pnl < minPnl) minPnl = pnl;
+      if (pnl > maxPnl) maxPnl = pnl;
+    }
+
+    // Add margin
+    var yRange = maxPnl - minPnl || 1;
+    minPnl -= yRange * 0.1;
+    maxPnl += yRange * 0.1;
+
+    // Axes
+    drawYAxis(svg, minPnl, maxPnl, 5, W, H, pad);
+
+    var xLabels = [];
+    for (var i = 0; i <= 5; i++) {
+      xLabels.push(Math.round(lo + (hi - lo) * i / 5).toString());
+    }
+    drawXAxis(svg, xLabels, W, H, pad);
+
+    // Zero line
+    var zeroY = scaleY(0, minPnl, maxPnl, H, pad);
+    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 0.8, '6,3');
+
+    // Profit / loss shading
+    var profitD = 'M';
+    var lossD = 'M';
+    var profitStarted = false;
+    var lossStarted = false;
+
+    for (var i = 0; i < points.length; i++) {
+      var sx = scaleX(points[i].price, lo, hi, W, pad);
+      var sy = scaleY(points[i].pnl, minPnl, maxPnl, H, pad);
+
+      if (points[i].pnl >= 0) {
+        if (!profitStarted) {
+          profitD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' L';
+          profitStarted = true;
+        }
+        profitD += sx.toFixed(1) + ',' + sy.toFixed(1) + ' L';
+      } else {
+        if (profitStarted) {
+          profitD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+          profitStarted = false;
+        }
+      }
+
+      if (points[i].pnl < 0) {
+        if (!lossStarted) {
+          lossD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' L';
+          lossStarted = true;
+        }
+        lossD += sx.toFixed(1) + ',' + sy.toFixed(1) + ' L';
+      } else {
+        if (lossStarted) {
+          lossD += sx.toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+          lossStarted = false;
+        }
+      }
+    }
+    // Close paths
+    if (profitStarted) {
+      var lastProfit = points[points.length - 1];
+      profitD += scaleX(lastProfit.price, lo, hi, W, pad).toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+    }
+    if (lossStarted) {
+      var lastLoss = points[points.length - 1];
+      lossD += scaleX(lastLoss.price, lo, hi, W, pad).toFixed(1) + ',' + zeroY.toFixed(1) + ' Z';
+    }
+
+    if (profitD.length > 2) drawPath(svg, profitD, 'none', 0, hexToRGBA('#48bb78', 0.25), 1);
+    if (lossD.length > 2) drawPath(svg, lossD, 'none', 0, hexToRGBA('#fc8181', 0.25), 1);
+
+    // Payoff curve
+    var curveD = '';
+    for (var i = 0; i < points.length; i++) {
+      var sx = scaleX(points[i].price, lo, hi, W, pad);
+      var sy = scaleY(points[i].pnl, minPnl, maxPnl, H, pad);
+      curveD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+    }
+    drawPath(svg, curveD, 'var(--accent)', 2.5, 'none', 1);
+
+    // Breakeven point
+    var be = optType === 'CALL' ? strike + premium : strike - premium;
+    if (be >= lo && be <= hi) {
+      var bx = scaleX(be, lo, hi, W, pad);
+      drawCircle(svg, bx, zeroY, 5, 'var(--accent)', '#fff');
+      drawText(svg, bx, zeroY - 12, 'BE: ' + be.toFixed(1), {
+        fontSize: 11, fill: 'var(--accent)', anchor: 'middle', fontWeight: 'bold'
+      });
+    }
+
+    // Strike line
+    var strikeX = scaleX(strike, lo, hi, W, pad);
+    drawLine(svg, strikeX, pad.top, strikeX, H - pad.bottom, '#a0aec0', 1, '4,4');
+    drawText(svg, strikeX, pad.top - 6, 'Strike: ' + strike, {
+      fontSize: 10, fill: '#a0aec0', anchor: 'middle'
+    });
+
+    // Labels
+    drawText(svg, W / 2, H - 4, 'Underlying Price', {
+      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
+    });
+    drawText(svg, 14, H / 2, 'P&L', {
+      fontSize: 11, fill: 'var(--text-secondary, var(--text))',
+      transform: 'rotate(-90,' + 14 + ',' + (H / 2) + ')'
+    });
+
+    // Max loss / profit annotations
+    var maxLoss = -premium;
+    var maxProfitLabel = optType === 'CALL' ? 'Unlimited' : (strike - premium).toFixed(1);
+    drawText(svg, W - pad.right - 4, pad.top + 14, 'Max Profit: ' + maxProfitLabel, {
+      fontSize: 10, fill: '#48bb78', anchor: 'end'
+    });
+    drawText(svg, W - pad.right - 4, pad.top + 28, 'Max Loss: ' + maxLoss.toFixed(1) + ' (premium)', {
+      fontSize: 10, fill: '#fc8181', anchor: 'end'
+    });
+
+    // Hover overlay
+    var overlay = createSVGElement('rect');
+    overlay.setAttribute('x', pad.left);
+    overlay.setAttribute('y', pad.top);
+    overlay.setAttribute('width', W - pad.left - pad.right);
+    overlay.setAttribute('height', H - pad.top - pad.bottom);
+    overlay.setAttribute('fill', 'transparent');
+    svg.appendChild(overlay);
+
+    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
+    hoverLine.style.display = 'none';
+    var hoverDot = drawCircle(svg, 0, 0, 4, 'var(--accent)', '#fff');
+    hoverDot.style.display = 'none';
+
+    overlay.addEventListener('mousemove', function(e) {
+      var rect = svg.getBoundingClientRect();
+      var mx = (e.clientX - rect.left) / rect.width * W;
+      var price = lo + ((mx - pad.left) / (W - pad.left - pad.right)) * (hi - lo);
+      price = Math.max(lo, Math.min(hi, price));
+      var pnl;
+      if (optType === 'CALL') {
+        pnl = Math.max(price - strike, 0) - premium;
+      } else {
+        pnl = Math.max(strike - price, 0) - premium;
+      }
+      var sx = scaleX(price, lo, hi, W, pad);
+      var sy = scaleY(pnl, minPnl, maxPnl, H, pad);
+      hoverLine.setAttribute('x1', sx);
+      hoverLine.setAttribute('x2', sx);
+      hoverLine.style.display = '';
+      hoverDot.setAttribute('cx', sx);
+      hoverDot.setAttribute('cy', sy);
+      hoverDot.style.display = '';
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = 'Price: ' + price.toFixed(1) + '<br>P&L: <span style="color:' + (pnl >= 0 ? '#48bb78' : '#fc8181') + '">' + pnl.toFixed(2) + '</span>';
+      var tipX = (sx / W) * 100;
+      tooltip.style.left = tipX + '%';
+      tooltip.style.top = (sy / H * 100 - 14) + '%';
+      tooltip.style.transform = 'translateX(-50%)';
+    });
+
+    overlay.addEventListener('mouseleave', function() {
+      hoverLine.style.display = 'none';
+      hoverDot.style.display = 'none';
+      tooltip.style.display = 'none';
+    });
+  }
+
+  draw();
+
+  slider.addEventListener('input', function() {
+    strike = parseInt(this.value);
+    sliderVal.textContent = strike;
+    draw();
+  });
+
+  typeBtn.addEventListener('click', function() {
+    optType = optType === 'CALL' ? 'PUT' : 'CALL';
+    title.textContent = "Cash-Secured Put: MSFT at $380 Strike, $12 Premium" || (optType + ' Option Payoff');
+    typeBtn.textContent = 'Switch to ' + (optType === 'CALL' ? 'PUT' : 'CALL');
+    draw();
+  });
+})();
+</script>
+
+</body>
+</html>

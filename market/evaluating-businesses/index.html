@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Evaluate Any Business — Market Explainers</title>
+  <meta name="description" content="ROIC, operating margins, and the 6-point investability framework">
+  <meta name="author" content="Market Explainers">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="How to Evaluate Any Business">
+  <meta property="og:description" content="ROIC, operating margins, and the 6-point investability framework">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="../explainer.css">
+
+  <!-- Per-page accent color override -->
+  <style>
+    :root {
+      --accent: #553c9a;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Market Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">How to Evaluate Any Business</h1>
+      <p class="hero__subtitle">ROIC, operating margins, and the 6-point investability framework</p>
+      <p class="hero__meta">Synthesized from 0 posts &middot; 25 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+                <li><a href="#i-the-one-skill-that-separates-investors-from-gamblers">I. The One Skill That Separates Investors From Gamblers</a></li>
+        <li><a href="#ii-roic-vs-wacc-the-single-most-important-number">II. ROIC vs. WACC: The Single Most Important Number</a></li>
+        <li><a href="#iii-operating-margins-the-metric-that-predicts-everything">III. Operating Margins: The Metric That Predicts Everything</a></li>
+        <li><a href="#iv-the-three-moat-framework-research-distribution-product">IV. The Three-Moat Framework: Research, Distribution, Product</a></li>
+        <li><a href="#v-the-6-point-investability-framework">V. The 6-Point Investability Framework</a></li>
+        <li><a href="#vi-valuation-metrics-knowing-what-you-are-paying">VI. Valuation Metrics: Knowing What You Are Paying</a></li>
+        <li><a href="#vii-reading-the-earnings-revenue-quality-and-the-buyback-signal">VII. Reading the Earnings: Revenue Quality and the Buyback Signal</a></li>
+        <li><a href="#viii-spotting-value-traps-when-cheap-is-actually-expensive">VIII. Spotting Value Traps: When "Cheap" Is Actually Expensive</a></li>
+        <li><a href="#ix-putting-it-all-together-your-complete-evaluation-system">IX. Putting It All Together: Your Complete Evaluation System</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article Body -->
+  <article class="article">
+        <section class="reveal" id="i-the-one-skill-that-separates-investors-from-gamblers">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>I. The One Skill That Separates Investors From Gamblers</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me be very direct with you. Most people who call themselves &ldquo;investors&rdquo; are actually doing something much closer to gambling. They buy stocks based on tips, news headlines, or what their WhatsApp groups are buzzing about. They have no framework. No checklist. No systematic way to evaluate whether a business is worth owning at any price, let alone the price they are paying.</p>
+<p>And here is what happens to these people: they buy Lenskart at a PE of 200 because it sounds exciting, or they pile into Adani Enterprise because the narrative is compelling, or they chase DMART at sky-high valuations because everyone else is doing it. Then they spend years watching their money do nothing &ndash; or worse, watching it evaporate.</p>
+<p>The difference between an investor and a gambler is not intelligence or access to information. It is the ability to <strong>evaluate a business systematically</strong> before putting money on the line. That is what this article is about.</p>
+<p>Over the years, I have developed a framework that combines quantitative metrics with qualitative judgment. It is not complicated. In fact, the core of it can be reduced to a handful of numbers and a 6-point checklist. But applying it consistently &ndash; that is what separates the people who compound wealth over decades from the people who blow up their portfolios every market cycle.</p>
+<p>We are going to cover everything from ROIC and operating margins to the three-moat framework, from valuation metrics to margin expansion analysis. I will use real examples throughout &ndash; Meta, Amazon, Adani, Lenskart, hospitals, banks, food delivery companies. By the end, you will have a complete system for evaluating any business, in any market, at any point in time.</p>
+<blockquote>
+<p>Your competition is not with me. It is with inflation. Your goal should be to learn the framework, not chase stock tips.</p>
+</blockquote>
+<p>Let us get to work.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="ii-roic-vs-wacc-the-single-most-important-number">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>II. ROIC vs. WACC: The Single Most Important Number</h2>
+      </div>
+      <div class="section-content">
+        <p>If I could teach you only one concept about evaluating businesses, it would be this: <strong>does the company earn more on its investments than it costs to fund them?</strong></p>
+<p>This is the ROIC vs. WACC framework, and it is the single most reliable way to separate genuine wealth creators from capital destroyers.</p>
+<p><strong>ROIC</strong> stands for Return on Invested Capital. It measures how much return a company generates on the money it has deployed into its business &ndash; every rupee or dollar spent on factories, technology, acquisitions, inventory, working capital. If a company has invested 1000 crore into its operations and generates 200 crore in after-tax operating profit, its ROIC is 20%.</p>
+<p><strong>WACC</strong> stands for Weighted Average Cost of Capital. It measures what it costs the company to raise that money &ndash; the blended cost of its debt (interest payments) and equity (the return shareholders demand). For most companies, this sits somewhere between 8-14%.</p>
+<p>The golden rule is simple: <strong>when ROIC is significantly greater than WACC, the company creates value with every rupee it invests.</strong> When ROIC is less than WACC &ndash; or dramatically less &ndash; the company is destroying value. It is borrowing expensive money and deploying it into projects that generate mediocre returns.</p>
+<p>Let me give you a real example that illustrates this perfectly.</p>
+<h3 id="the-adani-warning">The Adani Warning</h3>
+<p>In the last 4 years, Adani Enterprise has given -22% returns. I had already forewarned investors about investing in politically connected businesses. The reason is straightforward: <strong>ROIC &lt;&lt; WACC</strong>.</p>
+<p>When ROIC is dramatically below WACC, it does not take rocket science to figure out what happens next. The company has no choice but to keep borrowing money &ndash; even from places where it should not. The capital structure becomes increasingly fragile, returns keep disappointing, and eventually the stock price reflects the underlying reality of value destruction.</p>
+<p>This is not about politics or Hindenburg reports or any of that noise. It is about basic math. If a company cannot earn returns above its cost of capital on a sustained basis, it cannot compound wealth for shareholders. Period.</p>
+<p>Now think about why politically connected businesses are particularly dangerous. The connections may help you win contracts and concessions &ndash; airports, coal mining, green energy projects, data centers, roads. But connections do not help you generate returns on those contracts that exceed your cost of capital. You end up with a large, growing, increasingly leveraged business that looks impressive on the surface but destroys wealth underneath.</p>
+<h3 id="the-meta-contrast">The Meta Contrast</h3>
+<p>Now compare this to Meta. ROIC on the stock is decent. Revenues are at all-time highs. Operating profits are at all-time highs. Yes, 2026 is a transition year where massive AI infrastructure spending will temporarily drag ROIC down. This looks bad on paper.</p>
+<p>But here is the critical distinction: Meta&rsquo;s ROIC compression is <strong>temporary and strategic</strong>. The company is spending 70-72 billion dollars on AI infrastructure because every hyperscaler must do this or lose market share. The underlying business economics remain extraordinary &ndash; this is a company where 40% of the world uses its products every single day.</p>
+<p>There is a clear market mispricing going on. In the last infrastructure push around the Metaverse build-out, Meta burned a lot of money and investors are being cautious. But this current AI push is not a Meta-specific play. This is being done by almost all top tech firms in the US. This is very different from the Metaverse play. In simple words, there are higher odds for Meta to succeed.</p>
+<p>When you understand ROIC vs. WACC, you can distinguish between a company like Adani where poor returns are structural and a company like Meta where lower returns are a temporary investment phase that will eventually expand the earnings base dramatically.</p>
+<div class="demo reveal" id="chart-1"></div>
+
+<p>The chart tells the story clearly. Meta&rsquo;s ROIC dips during heavy investment periods (the Metaverse push in 2021-2022, the AI push now) but consistently stays well above its cost of capital. Adani Enterprise&rsquo;s ROIC has lingered below WACC for years. One is a compounder going through investment cycles. The other is a capital trap.</p>
+<blockquote>
+<p>As long-term investors, please avoid firms where ROIC is dramatically below WACC. It does not take rocket science to figure out that when a company cannot earn its cost of capital, it has no choice but to keep borrowing money from increasingly questionable sources.</p>
+</blockquote>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="iii-operating-margins-the-metric-that-predicts-everything">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>III. Operating Margins: The Metric That Predicts Everything</h2>
+      </div>
+      <div class="section-content">
+        <p>Almost 80% of my entire stock portfolio is tech. The reason is simple: tech firms generate, by far, the highest operating profit margins. And this game is likely to continue.</p>
+<p><strong>Operating margin</strong> tells you what percentage of a firm&rsquo;s revenues get converted to operating profits. It is the single best indicator of a company&rsquo;s pricing power, competitive position, and operational efficiency. And more importantly, the <strong>direction</strong> of operating margins tells you where the stock price is headed.</p>
+<p>Here is why this matters so much: when operating margins expand, earnings grow faster than revenue. That creates a double compounding effect &ndash; revenue growth multiplied by margin expansion. When margins shrink, the opposite happens, and even strong revenue growth can produce disappointing earnings.</p>
+<p>Since a lot of money is being spent on AI right now, this operational efficiency is critical for tech firms. This is a simple data point that can be tracked even by new investors. Let me break this down with the Magnificent 7, because these examples teach principles you can apply to any stock in any market.</p>
+<h3 id="amazon-the-margin-expansion-story">Amazon: The Margin Expansion Story</h3>
+<p>Amazon&rsquo;s operating margin moved from low single digits in 2016 to about 11% by 2025. That is a massive improvement driven by scale and tighter cost control. But here is where the real investment opportunity lies: <strong>AWS runs at structurally much higher margins and already contributes a disproportionate share of operating income relative to its revenue weight.</strong></p>
+<p>In Q4 2025, Amazon delivered 14% year-over-year revenue growth to 213.39 billion dollars, beating estimates. AWS led at 24% growth to 35.6 billion &ndash; its strongest in years. AWS operating income climbed to 12.5 billion from 10.6 billion. The advertising segment grew 22-24%. Both segments are scalable high-margin businesses that are growing faster than the company average.</p>
+<p>What this means is that Amazon&rsquo;s overall operating margin will keep expanding as these high-margin businesses become a larger share of total revenue. Analysts forecast EPS growth near 28% into 2026 as AI investments yield returns. E-commerce leverage is also kicking in, supporting operating income expansion even amid 200 billion dollars of capital spend.</p>
+<p>This is why Amazon remains a high-quality stock. While I limit it to 8-10% of my portfolio, given these results it makes sense to max it out and wait.</p>
+<h3 id="nvidia-when-margins-are-too-good">NVIDIA: When Margins Are Too Good</h3>
+<p>NVIDIA&rsquo;s operating margin jumped from the mid-teens to above 60% by 2025. That is extraordinary &ndash; and it points to incredibly strong pricing power from a near-monopoly in high-end data-center GPUs.</p>
+<p>But here is the risk: as we go into 2026, increased usage of custom chips like Amazon&rsquo;s Trainium and Inferentia could replace some of NVIDIA&rsquo;s high-cost product. This would challenge NVIDIA&rsquo;s operating profit margins downward.</p>
+<p>Therefore, NVIDIA should only be bought when valuations make sense. I have run my DCF valuations, and for me the fair price is around 210. The lesson: extremely high margins attract competition, and you always need to ask whether they are sustainable.</p>
+<h3 id="tesla-the-red-flag">Tesla: The Red Flag</h3>
+<p>Tesla&rsquo;s margins surged and then came right back down. The company has been cutting prices and using promotional financing in the US, China, and Europe to maintain demand as competition from BYD and others intensified. When you are cutting prices to maintain volume while costs are rising, margins compress. This is usually a very bad sign.</p>
+<p>The stock has given 0% gains over the last 4 years. Tesla is mostly a news-based stock right now. It is NOT a fundamental buy. Had it been any other company with these fundamentals, it would have been dumped by now. But investors continue to believe in Elon&rsquo;s ability to touch a company and make it pure gold.</p>
+<h3 id="how-to-use-operating-margins-in-your-analysis">How to Use Operating Margins in Your Analysis</h3>
+<p>Here is the practical framework:</p>
+<ol>
+<li><strong>Check the current operating margin</strong> &ndash; is it healthy for the industry?</li>
+<li><strong>Track the trend over 3-5 years</strong> &ndash; is it expanding or contracting?</li>
+<li><strong>Identify the driver</strong> &ndash; is it pricing power, scale, or cost-cutting? Pricing power and scale are durable; cost-cutting has limits.</li>
+<li><strong>Compare across competitors</strong> &ndash; higher margins usually indicate a stronger competitive position.</li>
+<li><strong>Project the direction</strong> &ndash; will the high-margin segments grow as a share of total revenue?</li>
+</ol>
+<blockquote>
+<p>If you buy firms where operating profit margins are likely to expand, you would be able to handle the volatility. And you are likely to benefit massively from investing in those businesses.</p>
+</blockquote>
+<p>You can pretty much apply these principles across India and US stocks. Making you an independent investor is what my goal is.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="iv-the-three-moat-framework-research-distribution-product">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>IV. The Three-Moat Framework: Research, Distribution, Product</h2>
+      </div>
+      <div class="section-content">
+        <p>A good firm in 2025 has 3 things. Let me explain each one, because this framework is how I evaluate the qualitative strength of any business before I look at a single number.</p>
+<h3 id="moat-1-research">Moat 1: Research</h3>
+<p>A <strong>research moat</strong> means the company can attract the best talent, spend enormous sums on R&amp;D, and stay at the cutting edge of its industry. Microsoft and NVIDIA are prime examples. They have massive research operations, can hire the best people in the world, and can spend crazy amounts of money to maintain their technological leadership.</p>
+<p>The research moat is what keeps a company competitive over 5-10 year horizons. Without it, today&rsquo;s innovation becomes tomorrow&rsquo;s commodity. And this moat is expensive to build but extremely durable &ndash; you cannot replicate a decade of compounded research with a single year of spending.</p>
+<h3 id="moat-2-distribution">Moat 2: Distribution</h3>
+<p>A <strong>distribution moat</strong> means the company has unmatched reach and customer access. Meta is the ultimate example: 40% of the world uses its products every single day. WhatsApp, Instagram, Facebook &ndash; these platforms are embedded in billions of people&rsquo;s daily routines. That kind of distribution is nearly impossible to replicate.</p>
+<p>In India, think of Zomato and Swiggy in food delivery. The two dominant players have built distribution networks &ndash; rider fleets, restaurant partnerships, app installations &ndash; that would cost any new entrant billions to replicate. This is why food delivery is a duopoly play. The unit economics are so hard to achieve that the two dominant players are already set, and it is unlikely to see any new competition.</p>
+<h3 id="moat-3-product">Moat 3: Product</h3>
+<p>A <strong>product moat</strong> means the company controls something that competitors cannot easily copy. ASML is the gold standard here &ndash; its lithographic machines are required for manufacturing advanced chips. No other firm can replicate this capability. The machines are so complex that there is effectively no competition at the top end.</p>
+<h3 id="the-key-insight-great-firms-control-all-three">The Key Insight: Great Firms Control All Three</h3>
+<p>Now, a <strong>great</strong> firm controls all 3 levers. This is where the framework becomes powerful &ndash; not just checking boxes, but evaluating how the moats reinforce each other.</p>
+<p>Take Meta. It has a great product right now &ndash; Instagram, WhatsApp. But with time, these could become obsolete. So the critical question is: is it spending enough on research now to build the next Instagram? The data tells us yes. Over the next 5 years, Meta is going to spend 600 billion dollars on research. It already has the distribution moat. And it is building new products &ndash; Meta Compute, AI infrastructure, VR/AR hardware &ndash; that leverage all three moats simultaneously.</p>
+<p>Zuckerberg just announced that they are going to build Meta Compute, which is likely to evolve into one of the largest AI compute platforms globally over this decade. This is a company where the fundamentals and the storyline add up, with significant room for growth.</p>
+<p>Therefore: Meta = great firm, next 5 years.</p>
+<p>Now let me show you how the framework exposes weaknesses. Consider Eternal (Zomato&rsquo;s parent entity):</p>
+<ul>
+<li><strong>Research Moat: 8/10</strong> &ndash; in India, they can hire great folks, have money, have a sticky product. Can expand to multiple businesses.</li>
+<li><strong>Distribution Moat: 9/10</strong> &ndash; excellent and reliable distribution across a range of products.</li>
+<li><strong>Product Moat: 4/10</strong> &ndash; there is no product they actually control. Swiggy, Zepto, everyone is competing for the same exact thing. And the core product is FMCG/food &ndash; end customers are price hunters. If the price of lauki goes up by 5 rupees, customers drop off.</li>
+</ul>
+<p>At a PE of 1500, you are paying an extreme premium for a company that scores 4/10 on the most important moat. Unless they research and scale other products, there is no reason why this firm should go even 3X from this point. I would rather take that money and put it in firms that actually control their product.</p>
+<blockquote>
+<p>Use this framework for India. Tell me which firms fit all three moats. You guys get to work &ndash; rather than pushing me to tell stocks, tell stocks.</p>
+</blockquote>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="v-the-6-point-investability-framework">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>V. The 6-Point Investability Framework</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me now give you the complete operational checklist I use to evaluate any business, in any sector, in any market. If a sector or company is not struggling on these 6 points, it becomes investable.</p>
+<p><strong>1. Unit Economics</strong> &ndash; Is this a needed product at a somewhat sensible price point? Can the business actually make money selling what it sells? This sounds basic, but you would be shocked how many hyped-up companies fail this first test.</p>
+<p><strong>2. Expansion/Contraction Cycle</strong> &ndash; Is the industry expanding or contracting? Mature industries in contraction mode offer limited upside. Industries in structural expansion offer tailwinds that lift even average operators.</p>
+<p><strong>3. Growth Rate</strong> &ndash; Can the company grow at least 15% per year for the next 3 years? Below that threshold, you are essentially taking equity-level risk for bond-level returns.</p>
+<p><strong>4. Competition</strong> &ndash; Can the company survive? Does it have a defensible position, or can competitors waltz in and take market share? This is where the three-moat framework plugs in directly.</p>
+<p><strong>5. Valuation</strong> &ndash; Is there some kind of stress, discount, or market mispricing? Even the best business in the world is a bad investment at the wrong price.</p>
+<p><strong>6. Margins</strong> &ndash; Are operating margins expanding or shrinking? As we covered, margin direction predicts earnings trajectory, which predicts stock price direction.</p>
+<h3 id="applying-the-framework-evs-vs-hospitals">Applying the Framework: EVs vs. Hospitals</h3>
+<p>Let me walk through two real examples so you see exactly how this works.</p>
+<p><strong>EV 4-Wheelers in India:</strong></p>
+<ol>
+<li>Unit economics &ndash; debatable. We might have driverless cars in the next 5 years. What happens to EVs then? To survive, firms need to keep cutting costs.</li>
+<li>Expansion/contraction &ndash; debatable at best.</li>
+<li>Growth rate &ndash; inconsistent. No reliable 15%+ trajectory.</li>
+<li>Competition &ndash; foreign players can enter at any time. China has a MOAT in EVs; India does not. The day the Indian market opens up to Chinese and US firms, companies like Tata Motors will struggle. So far, industrialists in India have been defending their moat using government connections. But given our foreign policy, there is a real risk of opening the economy to foreign players.</li>
+<li>Valuation &ndash; okay, they are at a discount.</li>
+<li>Margins &ndash; likely to shrink. Tata Motors operates at 12% margins and every year has to dump a crazy ton of money on R&amp;D just to keep the business alive.</li>
+</ol>
+<p><strong>Result: 1 out of 6 positive. Not investable.</strong> This is exactly why I have never been bullish on EVs.</p>
+<p><strong>Hospitals in India:</strong></p>
+<ol>
+<li>Unit economics &ndash; works. They can sell at high cost. Healthcare is non-discretionary.</li>
+<li>Expansion/contraction &ndash; will continue to expand as India moves from informal to formal healthcare. Insurance penetration is rising. Medical tourism will add crazy money to the economy.</li>
+<li>Growth rate &ndash; faster than the overall economy. Max Healthcare already posts 20% earnings growth.</li>
+<li>Competition &ndash; lot of investment required to start, so there is a major barrier to entry. Given how much real estate prices have gone up, we are unlikely to get massive new competition. Apollo, Fortis, Max etc. are all strong.</li>
+<li>Valuations &ndash; they have corrected from peaks.</li>
+<li>Margins &ndash; will expand with time as insurance gets more organized. Example: my dad had a kidney stone operation &ndash; the doctor said, if you have insurance, I will keep you for 3 days; if not, I will leave you in 2 days. As healthcare plus insurance gets more organized, profit margins go up.</li>
+</ol>
+<p><strong>Result: 6 out of 6 positive. Highly investable.</strong> This is why on a 5-year basis, hospital stocks are my number one bet.</p>
+<blockquote>
+<p>If I want to invest 100 units of money in the Indian market, 25 will go to hospitals. Apply the 6-point framework to every sector, and you will know exactly where to allocate.</p>
+</blockquote>
+<p>Let me show you one more application &ndash; <strong>IEX (Indian Energy Exchange):</strong></p>
+<ol>
+<li>Unit economics &ndash; works. IEX charges a regulated transaction fee per MWh traded. Transaction fees represent roughly 65-80% of revenue. Clear, defensible revenue model.</li>
+<li>Expansion/contraction &ndash; power trading volumes in India have grown at 9-13% CAGR over 10-15 years. IEX&rsquo;s green market volumes were up over 200% YoY. Renewable energy is forecast to grow at 15% CAGR.</li>
+<li>Growth rate &ndash; IEX&rsquo;s traded electricity volume grew 19% YoY in the first nine months of FY25.</li>
+<li>Competition &ndash; this is the risk. Due to Market Coupling regulations, IEX&rsquo;s share could fall from 84% to 60% or lower. The question becomes: will the industry grow fast enough to give space for multiple players?</li>
+<li>Valuation &ndash; sentiments seem bad, which means there could be value.</li>
+<li>Margins &ndash; platform businesses have inherently high operating leverage.</li>
+</ol>
+<p><strong>Result: 4-5 out of 6 positive, with one clear risk.</strong> This makes it a 2.5% portfolio stock &ndash; not a 10% conviction bet. Size your position to match the framework score.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="vi-valuation-metrics-knowing-what-you-are-paying">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>VI. Valuation Metrics: Knowing What You Are Paying</h2>
+      </div>
+      <div class="section-content">
+        <p>I have spent entire posts explaining why you should not overpay for stocks, and I am going to say it again: <strong>the price you pay determines your returns more than the quality of the business you buy.</strong> A great business at a terrible price is still a terrible investment.</p>
+<p>But &ldquo;valuation&rdquo; is not one number. Different businesses require different valuation approaches.</p>
+<h3 id="pe-ratio-the-starting-point-and-its-limitations">PE Ratio: The Starting Point (and Its Limitations)</h3>
+<p>PE tells you what investors are paying for every rupee of current annual earnings. A PE of 50 means investors are betting that earnings will grow fast enough to justify paying 50 times today&rsquo;s profits.</p>
+<p>Here is the critical insight: <strong>a high PE is not a problem if the growth of the industry, country, and firm matches up.</strong> But if growth slows down, you are in for a very long correction. That is where a LOT of money is lost &ndash; because you feel the firm is good, so you keep downward averaging. And that strategy can backfire badly.</p>
+<p>Consider Lenskart. The founder was asked why the PE is 200. There was no sensible answer. The company&rsquo;s profit margin was 1.7% last year. Not 17%. One point seven percent. In July 2025, the founder took a 200 crore loan to buy stock at an 8,500 crore valuation. Three months later, the company was valued at 70,000 crore. That is 8X in months &ndash; which tells you exactly how bloated the valuations are. No proprietary tech, no world domination plans, nothing. But getting 200 PE. Like always, SIP bros will fund the IPO.</p>
+<p>Or look at CDSL at 67 PE. Either the firm expands revenues really fast, or it will see PE erosion. Looking at the concentration of retail holdings on the stock, it makes me nervous. There are much better risk-adjusted stocks in the US &ndash; for example, Amazon.</p>
+<h3 id="evebitda-for-capital-intensive-businesses">EV/EBITDA: For Capital-Intensive Businesses</h3>
+<p>For hospitals, real estate, infrastructure plays, and bottling companies, you should use <strong>EV/EBITDA</strong>, not PE. The distinction matters:</p>
+<ul>
+<li><strong>PE</strong> includes only equity value and after-tax profits.</li>
+<li><strong>EV</strong> (Enterprise Value) includes equity plus debt minus cash &ndash; giving you the true total cost of acquiring the business.</li>
+<li><strong>EBITDA</strong> strips out interest, taxes, depreciation, and amortization &ndash; giving you a cleaner picture of operating cash generation for capital-heavy businesses.</li>
+</ul>
+<p>Take VBL (Varun Beverages). Its EV/EBIT of roughly 38.7x is fairly high compared to a historical average of about 30x. For a firm like VBL, you should use EV/EBIT, not PE, because this is more of an infrastructure play. EV/EBIT being high tells you the firm has expanded in size but is not yet making enough earnings relative to that expansion.</p>
+<p>For hospitals, the same logic applies. Hospital chains carry significant real estate and equipment assets, often financed with debt. EV/EBITDA gives a truer picture than PE.</p>
+<h3 id="the-currency-kicker-most-indian-investors-ignore">The Currency Kicker Most Indian Investors Ignore</h3>
+<p>Here is a point that zero mutual fund guys will tell you, because it would hurt their SIP flow.</p>
+<p>When comparing Indian vs. US stocks, you need to account for currency. You send 90 rupees today to buy 1 USD of US stocks. After 3 years, that dollar equals roughly 100 rupees. Even if the stock makes zero returns, you earn about 3% CAGR just from USD strengthening against INR.</p>
+<p>Compare Visa vs. ITC. On the surface, this comparison looks stupid. But step back and think: you have 10,000 to invest today. Where will you put it?</p>
+<ul>
+<li>Visa&rsquo;s operating margins and FCF growth: 66% and 17%.</li>
+<li>ITC&rsquo;s operating margins and FCF growth: 32% and 5%.</li>
+<li>Visa is targeting forward-looking high-margin businesses like stablecoins, instant payments, and AI-driven automated payments. ITC is focusing on retail.</li>
+<li>Visa&rsquo;s cost of financing new operations is at least 50% lower.</li>
+</ul>
+<p>If you have to pick a mature company for the next 5 years, it is a no-brainer. Add the currency tailwind on top, and the gap widens further.</p>
+<div class="demo reveal" id="chart-1"></div>
+
+<p>The divergence is stark. Microsoft, Meta, Amazon &ndash; these are 20% CAGR firms trading at decent valuations. Indian IT consists of 12% CAGR firms at okay valuations. If you take any timeframe &ndash; 20, 10, 5, or 7 years &ndash; Nasdaq Composite beats Nifty 50. And yes, you need to adjust that in USD terms for a fair comparison.</p>
+<p>These are facts. I am laying out all the facts: you need to decide how much to put in each market and with what strategy.</p>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="vii-reading-the-earnings-revenue-quality-and-the-buyback-signal">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>VII. Reading the Earnings: Revenue Quality and the Buyback Signal</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me take you through a real earnings analysis so you can see how the metrics come together. Most people look at the headline number &ndash; &ldquo;revenue beat&rdquo; or &ldquo;revenue miss&rdquo; &ndash; and trade on that. That is amateur hour. The real insights are in the composition of revenue and what the company does with its cash.</p>
+<h3 id="not-all-revenue-dollars-are-equal">Not All Revenue Dollars Are Equal</h3>
+<p>Here is an advanced point that most people miss entirely. When we buy stocks, markets now reward different revenues very differently. If it is a FMCG firm, 1 dollar of revenue gets a multiple of about 10. But if that revenue comes from AI, it can get a 40 PE.</p>
+<p>This is the point people miss. And the market reprices such discrepancies.</p>
+<p>The same thing happened with Google. My community bought Google, and the stock went up 107% on our portfolio. The market recognized that YouTube, Google Cloud, and AI-driven products deserved higher multiples than traditional search ads. When that repricing happened, the stock moved fast.</p>
+<p>The same is likely to happen with Meta, where close to 40% of its revenues might come from AI-related services. When the market re-rates those revenue streams, the stock reprices upward &ndash; sometimes violently.</p>
+<p>For Amazon, look at where the growth actually is:
+- AWS at 24% growth and structurally higher margins
+- Advertising at 22-24% growth
+- Core e-commerce at lower margins but massive scale</p>
+<p>Both AWS and advertising are growing faster than overall sales and represent scalable high-margin segments. That is the investment thesis in one sentence.</p>
+<h3 id="the-free-cash-flow-tension">The Free Cash Flow Tension</h3>
+<p>Every hyperscaler is spending like crazy right now. If it does not, other hyperscalers will eat its market share. This creates lower Free Cash Flows, which create their own set of problems:</p>
+<ul>
+<li>Weak FCF limits buybacks, dividends, or debt reduction, frustrating value investors.</li>
+<li>It heightens vulnerability to rising rates or economic slowdowns, amplifying volatility.</li>
+</ul>
+<p>But growth investors worry less about FCFs. They prioritize revenue growth, TAM expansion, and unit economics over immediate cash generation, accepting temporary FCF dips.</p>
+<p>The question you need to answer: which type of investor are you? If you need cash returns now, the capex cycle is uncomfortable. If you have a 3-5 year horizon, the capex cycle is building future competitive advantages.</p>
+<h3 id="the-meta-buyback-signal">The Meta Buyback Signal</h3>
+<p>Meta is running one of the most aggressive buyback programs in the S&amp;P 500 &ndash; buybacks exceeding 40 billion dollars over the last 12 months, alongside record operating cash flow. When firms start buying back their own stock at this scale, it typically increases the stock price because it reduces share count, boosting EPS mechanically.</p>
+<p>The firm currently sits at 1.6 trillion in market cap. Even conservatively, with the resources it is pouring into AI, it should reach 3-3.5 trillion in the next 3 years. That is 100% upside.</p>
+<p>Here is Meta&rsquo;s EPS track record:
+- <strong>Last 3-year EPS CAGR: 20.7% per year</strong>
+- <strong>Last 5-year EPS CAGR: 30.6% per year</strong>
+- <strong>Last 10-year EPS CAGR: 36.2% per year</strong></p>
+<p>In India, we keep looking for 20% CAGR opportunities in INR terms. But when a monopoly stock gives 25% CAGR in INR terms, we are too scared to invest. The current 2025 drop did not even have shrinking revenues or financial stress. In fact, the firm is set to expand capacity. Every dip is a massive buy.</p>
+<blockquote>
+<p>Always go back and ask the question: is the quality of the asset good? Did you buy it at a decent price? If the answer to both is yes, the firm remains high quality and very investable. Avoid any panic.</p>
+</blockquote>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="viii-spotting-value-traps-when-cheap-is-actually-expensive">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>VIII. Spotting Value Traps: When "Cheap" Is Actually Expensive</h2>
+      </div>
+      <div class="section-content">
+        <p>Not every discount is a buying opportunity. Some stocks are cheap for very good reasons. Let me teach you how to tell the difference between genuine value and a value trap, because this is where a huge amount of money gets destroyed.</p>
+<h3 id="the-lenskart-trap">The Lenskart Trap</h3>
+<p>In July 2025, the Lenskart founder took a 200 crore loan to buy stock at an 8,500 crore valuation. Three months later, the company was valued at 70,000 crore. That 8X move in months indicates exactly how bloated the valuations are.</p>
+<p>The company&rsquo;s profit margin is 1.7%. There is no proprietary technology, no world domination plans. When I have to speculate, there are at least 100 better instruments where the risk-reward makes sense. I will invest zero money in Lenskart.</p>
+<h3 id="the-tesla-trap">The Tesla Trap</h3>
+<p>Tesla&rsquo;s stock price sustains due to the autonomous vehicle narrative. But the firm&rsquo;s revenues have hardly scaled up from its current business. Profit margins on the current setup are abysmal. It faces increasing competition from BYD, which is arguably better on both technology and cost.</p>
+<p>Tesla is a well-marketed stock. Had it been any other company, it would have been dumped by now. But investors continue to believe in Elon&rsquo;s ability to turn everything into gold. That is not investing; it is a personality cult.</p>
+<h3 id="the-whirlpool-warning">The Whirlpool Warning</h3>
+<p>Here is an interesting case. Whirlpool India&rsquo;s parent firm started cutting its stake. The CEO said explicitly: &ldquo;If we have a business trading at 50 times multiple, and your own company trades a lot lower, it is basically an asset arbitrage.&rdquo;</p>
+<p>Numbers-wise, the firm has done well &ndash; revenues and profits at all-time highs. But studying their fixed capacity expansions reveals that fixed assets have remained the same for 3 years. They are not expanding aggressively. The management considers India a slow growth market. This is a sell-on-rise type of stock given the structural issue that the firm is not keen to expand capacity.</p>
+<p>The lesson: when the parent company thinks the stock is overvalued, you should pay attention.</p>
+<h3 id="the-high-pe-slow-growth-trap">The High-PE-Slow-Growth Trap</h3>
+<p>For the last several months, I have repeatedly said: do not buy high PE stocks in a slow growth environment. Here is why this matters:</p>
+<ol>
+<li>A high PE is not a problem if the growth matches up.</li>
+<li>But if growth slows down, you are in for a very long correction. That is where a LOT of money is lost.</li>
+<li>You feel the firm is good, so you keep downward averaging. That strategy can backfire badly.</li>
+<li>When growth eventually recovers, the market may not reward the same high-PE firm again. Will the market give it 1500 PE again? This is the real risk.</li>
+</ol>
+<p>Firms like Zomato and DMART are good &ndash; no problem. Their growth rate is also good. But due to very high PEs, they need to maintain very high growth rates for the foreseeable future. In an environment where general economic growth is struggling, this is a tough thing to achieve.</p>
+<h3 id="how-to-identify-genuine-value">How to Identify Genuine Value</h3>
+<p>Real value sits at the intersection of three conditions:</p>
+<ol>
+<li><strong>Business quality is intact</strong> &ndash; revenues growing, margins stable or expanding, competitive position strong.</li>
+<li><strong>Stock price has corrected</strong> &ndash; due to market-wide selling, temporary setbacks, or sentiment shifts.</li>
+<li><strong>The cause of correction is fixable</strong> &ndash; not structural deterioration.</li>
+</ol>
+<p>MercadoLibre (MELI) is the textbook example. The stock has 3 major business streams &ndash; e-commerce, payments, and lending/cards. In LATAM, it has 30%+ market share in e-commerce. In Argentina, Mercado Pago controls 74-80% of the digital wallet float. They have built such a strong network across commerce and fintech that it is really tough for anyone to challenge them.</p>
+<p>Every new user or transaction makes the system stronger. More sales give better credit data, which boosts wallet usage, which keeps merchants hooked, which increases order volume, cuts costs, and attracts even more users. It is a self-reinforcing loop.</p>
+<p>EPS CAGR of 59% over 5 years and 36.9% over 10 years. Yet the stock consolidated for 4 years after growing 350% between 2018-2021. Different valuation models showed MELI was undervalued by 30-60%. When EPS grows in excess of 30%+ and the stock price stalls, the disconnect eventually resolves &ndash; always in favor of the fundamentals.</p>
+<div class="demo reveal" id="chart-1"></div>
+
+<p>MELI&rsquo;s earnings compounded relentlessly while the stock consolidated &ndash; creating a coiled spring of undervaluation. Tesla&rsquo;s earnings stagnated while the stock oscillated wildly on narrative and sentiment. One is a genuine value opportunity. The other is a speculative vehicle masquerading as an investment.</p>
+<blockquote>
+<p>When you see golden stocks fall, buy &ndash; do not hesitate. And be okay with the correction. But make sure you know the difference between a golden stock having a bad quarter and a broken business pretending to be golden.</p>
+</blockquote>
+<hr />
+      </div>
+    </section>
+
+    <section class="reveal" id="ix-putting-it-all-together-your-complete-evaluation-system">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>IX. Putting It All Together: Your Complete Evaluation System</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me now give you the complete system, step by step, that you can apply to any stock in any market. This synthesizes everything we have covered into an actionable workflow.</p>
+<h3 id="step-1-check-roic-vs-wacc-2-minutes">Step 1: Check ROIC vs. WACC (2 minutes)</h3>
+<p>This is your binary filter. If ROIC is consistently and dramatically below WACC, stop here. The business destroys value, no matter how compelling the narrative. This single check would have saved you from Adani Enterprise&rsquo;s -22% returns over 4 years.</p>
+<h3 id="step-2-assess-the-three-moats-5-minutes">Step 2: Assess the Three Moats (5 minutes)</h3>
+<p>Score the company on research, distribution, and product moats. A firm needs to score at least 7/10 on two of the three moats to be worth deeper analysis. If it scores below 5 on all three, move on.</p>
+<h3 id="step-3-run-the-6-point-checklist-10-minutes">Step 3: Run the 6-Point Checklist (10 minutes)</h3>
+<p>For each point, assign a simple pass/fail:
+1. Unit economics &ndash; does the core business model make money?
+2. Expansion/contraction &ndash; is the industry growing?
+3. Growth rate &ndash; can the firm grow 15%+ for the next 3 years?
+4. Competition &ndash; can it defend its position?
+5. Valuation &ndash; is there any margin of safety?
+6. Margins &ndash; are operating margins expanding?</p>
+<p>You need at least 4 out of 6 passes. At 6 out of 6, like hospitals, you allocate aggressively. At 4 out of 6, like IEX, you allocate modestly &ndash; a 2.5% position, not 10%.</p>
+<h3 id="step-4-check-the-numbers-15-minutes">Step 4: Check the Numbers (15 minutes)</h3>
+<p>Pull up:
+- <strong>Operating margin trend</strong> over 3-5 years
+- <strong>EPS CAGR</strong> at 3, 5, and 10-year horizons
+- <strong>Revenue quality</strong> &ndash; what percentage comes from high-growth, high-margin segments?
+- <strong>FCF trajectory</strong> &ndash; growing or consumed by capex?</p>
+<h3 id="step-5-choose-the-right-valuation-metric">Step 5: Choose the Right Valuation Metric</h3>
+<ul>
+<li><strong>PE</strong> for asset-light businesses (tech, financial services)</li>
+<li><strong>EV/EBITDA</strong> for capital-intensive businesses (hospitals, real estate, infrastructure)</li>
+<li><strong>EV/EBIT</strong> for companies with significant depreciation differences</li>
+</ul>
+<p>Compare to the company&rsquo;s own 5-year average and to sector peers. If the stock is trading above historical average AND growth is decelerating, wait for a better entry.</p>
+<h3 id="step-6-size-the-position">Step 6: Size the Position</h3>
+<p>Based on your conviction from Steps 1-5:
+- <strong>High conviction</strong> (5-6 out of 6, strong moats, clear undervaluation): 8-10% of portfolio. This is my Meta position &ndash; roughly 300,000 USD. 10% is the absolute max I would do.
+- <strong>Medium conviction</strong> (4 out of 6, decent moats, fair valuation): 3-5% of portfolio.
+- <strong>Small/speculative</strong> (interesting thesis but higher risk): 2-2.5% of portfolio maximum. This is where Aavas, Dreamfolks, and Natco Pharma sit.</p>
+<p>My biggest regret on Google was keeping it at only 5% of my portfolio when it went up 107%. You always need to back your high conviction bets with good money. But the discipline of never exceeding 10% protects you when your conviction is wrong.</p>
+<h3 id="step-7-set-your-time-horizon-and-hold">Step 7: Set Your Time Horizon and Hold</h3>
+<p>Different theses require different patience:
+- <strong>Structural compounders</strong> (Meta, MELI, hospitals): 3-5 year minimum. When I say 5 years, I mean 5 years. Do not track the price from tomorrow.
+- <strong>Cyclical recovery</strong> (banks, PVR): 2-3 years through the cycle. Some stocks give run-ups when you least expect.
+- <strong>Turnaround bets</strong> (Natco Pharma, Swiggy): 1-2 years with strict position limits.</p>
+<h3 id="the-final-synthesis">The Final Synthesis</h3>
+<p>The framework I have laid out here is not complicated. ROIC vs. WACC to check if the business creates value. Operating margins to check if profitability is improving. Three moats to check if the competitive position is durable. The 6-point checklist to confirm investability. Proper valuation metrics to ensure you are not overpaying. And disciplined position sizing to manage your risk.</p>
+<p>None of this requires an MBA or a Bloomberg terminal. It requires discipline, patience, and the willingness to say &ldquo;no&rdquo; to 95% of opportunities so you can say &ldquo;yes&rdquo; with conviction to the 5% that actually matter.</p>
+<p>Every investment mistake &ndash; from holding Adani for four years of negative returns, to buying Lenskart at 200 PE with 1.7% margins, to chasing Tesla on narrative, to overpaying for Indian small-caps at 40+ PE &ndash; can be traced to skipping one or more of these steps. And every great investment &ndash; buying Meta at the dip, buying hospitals at corrected valuations, building a basket of US tech compounders, buying MELI during its 4-year consolidation &ndash; can be traced to following them.</p>
+<p>Your competition is not with other investors. It is with inflation &ndash; with the rising prices that erode your purchasing power every year. The businesses that compound at 20-30% annually, the ones with high ROIC, expanding margins, consistent EPS growth, and durable moats &ndash; those are the vehicles that let you win that competition.</p>
+<p>Now you have the tools. Go apply them. And remember &ndash; money is only made when you buy a bit contrarian.</p>
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- Chart Scripts -->
+  <script>
+    // ===== Scroll Reveal Animation =====
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.15,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function(el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: show all elements immediately
+        revealElements.forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+    })();
+
+    // ===== Smooth scroll for TOC links =====
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <!-- Topic-specific chart/widget scripts injected by build -->
+  <script src="../chart-helpers.js"></script>
+<script>
+(function() {
+  var container = document.getElementById("chart-1");
+  if (!container) return;
+
+  var W = 620, H = 380;
+  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
+  var series = [{"data": [{"x": 0, "y": 22}, {"x": 1, "y": 18}, {"x": 2, "y": 14}, {"x": 3, "y": 28}, {"x": 4, "y": 33}, {"x": 5, "y": 30}, {"x": 6, "y": 25}], "name": "Meta ROIC %", "color": "#4299e1"}, {"data": [{"x": 0, "y": 6}, {"x": 1, "y": 5}, {"x": 2, "y": 7}, {"x": 3, "y": 4}, {"x": 4, "y": 5}, {"x": 5, "y": 6}, {"x": 6, "y": 5}], "name": "Adani Enterprise ROIC %", "color": "#ed8936"}, {"data": [{"x": 0, "y": 10}, {"x": 1, "y": 10}, {"x": 2, "y": 10}, {"x": 3, "y": 10}, {"x": 4, "y": 10}, {"x": 5, "y": 10}, {"x": 6, "y": 10}], "name": "Typical WACC %", "color": "#48bb78"}];
+  var xLabels = ["2019", "2020", "2021", "2022", "2023", "2024", "2025"];
+  var visibleEnd = series[0].data.length;
+
+  container.innerHTML = '';
+  container.classList.add('demo');
+
+  var title = document.createElement('div');
+  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
+  title.textContent = "ROIC vs Cost of Capital: Value Creators vs Value Destroyers";
+  container.appendChild(title);
+
+  var svgWrap = document.createElement('div');
+  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
+  container.appendChild(svgWrap);
+
+  var svg = createSVGElement('svg');
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('width', '100%');
+  svg.style.maxWidth = W + 'px';
+  svgWrap.appendChild(svg);
+
+  var tooltip = createTooltip(container);
+
+  // Time scrubber
+  var ctrl = document.createElement('div');
+  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
+  container.appendChild(ctrl);
+
+  var scrubLabel = document.createElement('label');
+  scrubLabel.textContent = 'Time: ';
+  var scrubVal = document.createElement('span');
+  scrubVal.style.fontWeight = '600';
+  scrubVal.textContent = visibleEnd;
+  scrubLabel.appendChild(scrubVal);
+  ctrl.appendChild(scrubLabel);
+
+  var scrubber = document.createElement('input');
+  scrubber.type = 'range';
+  scrubber.min = 5;
+  scrubber.max = series[0].data.length;
+  scrubber.value = series[0].data.length;
+  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
+  ctrl.appendChild(scrubber);
+
+  // Legend
+  var legend = document.createElement('div');
+  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
+  for (var i = 0; i < series.length; i++) {
+    var item = document.createElement('span');
+    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
+    var dot = document.createElement('span');
+    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
+    item.appendChild(dot);
+    item.appendChild(document.createTextNode(series[i].name));
+    legend.appendChild(item);
+  }
+  container.appendChild(legend);
+
+  function draw() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    // Collect visible data
+    var allVals = [];
+    var maxX = visibleEnd - 1;
+    for (var s = 0; s < series.length; s++) {
+      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
+        allVals.push(series[s].data[i].y);
+      }
+    }
+    if (allVals.length === 0) return;
+
+    var minP = Math.min.apply(null, allVals);
+    var maxP = Math.max.apply(null, allVals);
+    var margin = (maxP - minP) * 0.08 || 1;
+    minP -= margin;
+    maxP += margin;
+
+    // Axes
+    drawYAxis(svg, minP, maxP, 5, W, H, pad);
+
+    // Determine which x labels to show
+    var visLabels = [];
+    if (xLabels.length > 0) {
+      var ratio = xLabels.length / series[0].data.length;
+      for (var i = 0; i < xLabels.length; i++) {
+        var dataIdx = Math.round(i / ratio);
+        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
+      }
+    } else {
+      var step = Math.max(1, Math.floor(visibleEnd / 6));
+      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
+    }
+    drawXAxis(svg, visLabels, W, H, pad);
+
+    // Draw each series
+    for (var s = 0; s < series.length; s++) {
+      var pathD = '';
+      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
+        var sx = scaleX(i, 0, maxX, W, pad);
+        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
+        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+      }
+      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
+
+      // End dot and label
+      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
+      var endX = scaleX(lastIdx, 0, maxX, W, pad);
+      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
+      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
+      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
+        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      });
+    }
+
+    // Hover crosshair
+    var overlay = createSVGElement('rect');
+    overlay.setAttribute('x', pad.left);
+    overlay.setAttribute('y', pad.top);
+    overlay.setAttribute('width', W - pad.left - pad.right);
+    overlay.setAttribute('height', H - pad.top - pad.bottom);
+    overlay.setAttribute('fill', 'transparent');
+    svg.appendChild(overlay);
+
+    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
+    hoverLine.style.display = 'none';
+    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
+    hoverHLine.style.display = 'none';
+    var dots = [];
+    for (var s = 0; s < series.length; s++) {
+      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
+      dots[s].style.display = 'none';
+    }
+
+    overlay.addEventListener('mousemove', function(e) {
+      var rect = svg.getBoundingClientRect();
+      var mx = (e.clientX - rect.left) / rect.width * W;
+      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
+      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
+      var sx = scaleX(idx, 0, maxX, W, pad);
+
+      hoverLine.setAttribute('x1', sx);
+      hoverLine.setAttribute('x2', sx);
+      hoverLine.style.display = '';
+
+      var html = '';
+      if (xLabels.length > 0) {
+        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
+        lblIdx = Math.min(lblIdx, xLabels.length - 1);
+        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
+      } else {
+        html += 'Period: ' + idx + '<br>';
+      }
+
+      for (var s = 0; s < series.length; s++) {
+        if (idx < series[s].data.length) {
+          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
+          dots[s].setAttribute('cx', sx);
+          dots[s].setAttribute('cy', sy);
+          dots[s].style.display = '';
+          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
+          if (s === 0) {
+            hoverHLine.setAttribute('y1', sy);
+            hoverHLine.setAttribute('y2', sy);
+            hoverHLine.style.display = '';
+          }
+        }
+      }
+
+      // Difference
+      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
+        var diff = series[0].data[idx].y - series[1].data[idx].y;
+        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
+      }
+
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = html;
+      tooltip.style.left = (sx / W * 100) + '%';
+      tooltip.style.top = '5%';
+      tooltip.style.transform = 'translateX(-50%)';
+    });
+
+    overlay.addEventListener('mouseleave', function() {
+      hoverLine.style.display = 'none';
+      hoverHLine.style.display = 'none';
+      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
+      tooltip.style.display = 'none';
+    });
+  }
+
+  draw();
+
+  scrubber.addEventListener('input', function() {
+    visibleEnd = parseInt(this.value);
+    scrubVal.textContent = visibleEnd;
+    draw();
+  });
+})();
+
+(function() {
+  var container = document.getElementById("chart-1");
+  if (!container) return;
+
+  var W = 620, H = 380;
+  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
+  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 130}, {"x": 2, "y": 169}, {"x": 3, "y": 220}, {"x": 4, "y": 286}, {"x": 5, "y": 358}, {"x": 6, "y": 430}], "name": "US Tech Basket (Blended EPS Index)", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 112}, {"x": 2, "y": 125}, {"x": 3, "y": 140}, {"x": 4, "y": 155}, {"x": 5, "y": 170}, {"x": 6, "y": 190}], "name": "Nifty 50 EPS Index", "color": "#ed8936"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 112}, {"x": 2, "y": 126}, {"x": 3, "y": 141}, {"x": 4, "y": 158}, {"x": 5, "y": 177}, {"x": 6, "y": 198}], "name": "Indian IT Blended EPS", "color": "#48bb78"}];
+  var xLabels = ["2019", "2020", "2021", "2022", "2023", "2024", "2025"];
+  var visibleEnd = series[0].data.length;
+
+  container.innerHTML = '';
+  container.classList.add('demo');
+
+  var title = document.createElement('div');
+  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
+  title.textContent = "Earnings Growth: US Tech Monopolies vs Indian Benchmarks";
+  container.appendChild(title);
+
+  var svgWrap = document.createElement('div');
+  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
+  container.appendChild(svgWrap);
+
+  var svg = createSVGElement('svg');
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('width', '100%');
+  svg.style.maxWidth = W + 'px';
+  svgWrap.appendChild(svg);
+
+  var tooltip = createTooltip(container);
+
+  // Time scrubber
+  var ctrl = document.createElement('div');
+  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
+  container.appendChild(ctrl);
+
+  var scrubLabel = document.createElement('label');
+  scrubLabel.textContent = 'Time: ';
+  var scrubVal = document.createElement('span');
+  scrubVal.style.fontWeight = '600';
+  scrubVal.textContent = visibleEnd;
+  scrubLabel.appendChild(scrubVal);
+  ctrl.appendChild(scrubLabel);
+
+  var scrubber = document.createElement('input');
+  scrubber.type = 'range';
+  scrubber.min = 5;
+  scrubber.max = series[0].data.length;
+  scrubber.value = series[0].data.length;
+  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
+  ctrl.appendChild(scrubber);
+
+  // Legend
+  var legend = document.createElement('div');
+  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
+  for (var i = 0; i < series.length; i++) {
+    var item = document.createElement('span');
+    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
+    var dot = document.createElement('span');
+    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
+    item.appendChild(dot);
+    item.appendChild(document.createTextNode(series[i].name));
+    legend.appendChild(item);
+  }
+  container.appendChild(legend);
+
+  function draw() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    // Collect visible data
+    var allVals = [];
+    var maxX = visibleEnd - 1;
+    for (var s = 0; s < series.length; s++) {
+      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
+        allVals.push(series[s].data[i].y);
+      }
+    }
+    if (allVals.length === 0) return;
+
+    var minP = Math.min.apply(null, allVals);
+    var maxP = Math.max.apply(null, allVals);
+    var margin = (maxP - minP) * 0.08 || 1;
+    minP -= margin;
+    maxP += margin;
+
+    // Axes
+    drawYAxis(svg, minP, maxP, 5, W, H, pad);
+
+    // Determine which x labels to show
+    var visLabels = [];
+    if (xLabels.length > 0) {
+      var ratio = xLabels.length / series[0].data.length;
+      for (var i = 0; i < xLabels.length; i++) {
+        var dataIdx = Math.round(i / ratio);
+        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
+      }
+    } else {
+      var step = Math.max(1, Math.floor(visibleEnd / 6));
+      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
+    }
+    drawXAxis(svg, visLabels, W, H, pad);
+
+    // Draw each series
+    for (var s = 0; s < series.length; s++) {
+      var pathD = '';
+      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
+        var sx = scaleX(i, 0, maxX, W, pad);
+        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
+        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+      }
+      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
+
+      // End dot and label
+      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
+      var endX = scaleX(lastIdx, 0, maxX, W, pad);
+      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
+      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
+      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
+        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      });
+    }
+
+    // Hover crosshair
+    var overlay = createSVGElement('rect');
+    overlay.setAttribute('x', pad.left);
+    overlay.setAttribute('y', pad.top);
+    overlay.setAttribute('width', W - pad.left - pad.right);
+    overlay.setAttribute('height', H - pad.top - pad.bottom);
+    overlay.setAttribute('fill', 'transparent');
+    svg.appendChild(overlay);
+
+    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
+    hoverLine.style.display = 'none';
+    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
+    hoverHLine.style.display = 'none';
+    var dots = [];
+    for (var s = 0; s < series.length; s++) {
+      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
+      dots[s].style.display = 'none';
+    }
+
+    overlay.addEventListener('mousemove', function(e) {
+      var rect = svg.getBoundingClientRect();
+      var mx = (e.clientX - rect.left) / rect.width * W;
+      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
+      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
+      var sx = scaleX(idx, 0, maxX, W, pad);
+
+      hoverLine.setAttribute('x1', sx);
+      hoverLine.setAttribute('x2', sx);
+      hoverLine.style.display = '';
+
+      var html = '';
+      if (xLabels.length > 0) {
+        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
+        lblIdx = Math.min(lblIdx, xLabels.length - 1);
+        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
+      } else {
+        html += 'Period: ' + idx + '<br>';
+      }
+
+      for (var s = 0; s < series.length; s++) {
+        if (idx < series[s].data.length) {
+          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
+          dots[s].setAttribute('cx', sx);
+          dots[s].setAttribute('cy', sy);
+          dots[s].style.display = '';
+          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
+          if (s === 0) {
+            hoverHLine.setAttribute('y1', sy);
+            hoverHLine.setAttribute('y2', sy);
+            hoverHLine.style.display = '';
+          }
+        }
+      }
+
+      // Difference
+      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
+        var diff = series[0].data[idx].y - series[1].data[idx].y;
+        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
+      }
+
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = html;
+      tooltip.style.left = (sx / W * 100) + '%';
+      tooltip.style.top = '5%';
+      tooltip.style.transform = 'translateX(-50%)';
+    });
+
+    overlay.addEventListener('mouseleave', function() {
+      hoverLine.style.display = 'none';
+      hoverHLine.style.display = 'none';
+      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
+      tooltip.style.display = 'none';
+    });
+  }
+
+  draw();
+
+  scrubber.addEventListener('input', function() {
+    visibleEnd = parseInt(this.value);
+    scrubVal.textContent = visibleEnd;
+    draw();
+  });
+})();
+
+(function() {
+  var container = document.getElementById("chart-1");
+  if (!container) return;
+
+  var W = 620, H = 380;
+  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
+  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 145}, {"x": 2, "y": 210}, {"x": 3, "y": 305}, {"x": 4, "y": 440}, {"x": 5, "y": 580}, {"x": 6, "y": 720}], "name": "MELI EPS (Indexed)", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 350}, {"x": 2, "y": 320}, {"x": 3, "y": 310}, {"x": 4, "y": 340}, {"x": 5, "y": 360}, {"x": 6, "y": 380}], "name": "MELI Stock Price (Indexed)", "color": "#ed8936"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 115}, {"x": 2, "y": 160}, {"x": 3, "y": 130}, {"x": 4, "y": 125}, {"x": 5, "y": 120}, {"x": 6, "y": 130}], "name": "Tesla EPS (Indexed)", "color": "#48bb78"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 180}, {"x": 2, "y": 320}, {"x": 3, "y": 200}, {"x": 4, "y": 260}, {"x": 5, "y": 330}, {"x": 6, "y": 320}], "name": "Tesla Stock Price (Indexed)", "color": "#805ad5"}];
+  var xLabels = ["2019", "2020", "2021", "2022", "2023", "2024", "2025"];
+  var visibleEnd = series[0].data.length;
+
+  container.innerHTML = '';
+  container.classList.add('demo');
+
+  var title = document.createElement('div');
+  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
+  title.textContent = "Value Trap vs Genuine Value: Stock Price vs Earnings Trajectory";
+  container.appendChild(title);
+
+  var svgWrap = document.createElement('div');
+  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
+  container.appendChild(svgWrap);
+
+  var svg = createSVGElement('svg');
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('width', '100%');
+  svg.style.maxWidth = W + 'px';
+  svgWrap.appendChild(svg);
+
+  var tooltip = createTooltip(container);
+
+  // Time scrubber
+  var ctrl = document.createElement('div');
+  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
+  container.appendChild(ctrl);
+
+  var scrubLabel = document.createElement('label');
+  scrubLabel.textContent = 'Time: ';
+  var scrubVal = document.createElement('span');
+  scrubVal.style.fontWeight = '600';
+  scrubVal.textContent = visibleEnd;
+  scrubLabel.appendChild(scrubVal);
+  ctrl.appendChild(scrubLabel);
+
+  var scrubber = document.createElement('input');
+  scrubber.type = 'range';
+  scrubber.min = 5;
+  scrubber.max = series[0].data.length;
+  scrubber.value = series[0].data.length;
+  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
+  ctrl.appendChild(scrubber);
+
+  // Legend
+  var legend = document.createElement('div');
+  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
+  for (var i = 0; i < series.length; i++) {
+    var item = document.createElement('span');
+    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
+    var dot = document.createElement('span');
+    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
+    item.appendChild(dot);
+    item.appendChild(document.createTextNode(series[i].name));
+    legend.appendChild(item);
+  }
+  container.appendChild(legend);
+
+  function draw() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    // Collect visible data
+    var allVals = [];
+    var maxX = visibleEnd - 1;
+    for (var s = 0; s < series.length; s++) {
+      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
+        allVals.push(series[s].data[i].y);
+      }
+    }
+    if (allVals.length === 0) return;
+
+    var minP = Math.min.apply(null, allVals);
+    var maxP = Math.max.apply(null, allVals);
+    var margin = (maxP - minP) * 0.08 || 1;
+    minP -= margin;
+    maxP += margin;
+
+    // Axes
+    drawYAxis(svg, minP, maxP, 5, W, H, pad);
+
+    // Determine which x labels to show
+    var visLabels = [];
+    if (xLabels.length > 0) {
+      var ratio = xLabels.length / series[0].data.length;
+      for (var i = 0; i < xLabels.length; i++) {
+        var dataIdx = Math.round(i / ratio);
+        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
+      }
+    } else {
+      var step = Math.max(1, Math.floor(visibleEnd / 6));
+      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
+    }
+    drawXAxis(svg, visLabels, W, H, pad);
+
+    // Draw each series
+    for (var s = 0; s < series.length; s++) {
+      var pathD = '';
+      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
+        var sx = scaleX(i, 0, maxX, W, pad);
+        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
+        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+      }
+      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
+
+      // End dot and label
+      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
+      var endX = scaleX(lastIdx, 0, maxX, W, pad);
+      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
+      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
+      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
+        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      });
+    }
+
+    // Hover crosshair
+    var overlay = createSVGElement('rect');
+    overlay.setAttribute('x', pad.left);
+    overlay.setAttribute('y', pad.top);
+    overlay.setAttribute('width', W - pad.left - pad.right);
+    overlay.setAttribute('height', H - pad.top - pad.bottom);
+    overlay.setAttribute('fill', 'transparent');
+    svg.appendChild(overlay);
+
+    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
+    hoverLine.style.display = 'none';
+    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
+    hoverHLine.style.display = 'none';
+    var dots = [];
+    for (var s = 0; s < series.length; s++) {
+      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
+      dots[s].style.display = 'none';
+    }
+
+    overlay.addEventListener('mousemove', function(e) {
+      var rect = svg.getBoundingClientRect();
+      var mx = (e.clientX - rect.left) / rect.width * W;
+      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
+      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
+      var sx = scaleX(idx, 0, maxX, W, pad);
+
+      hoverLine.setAttribute('x1', sx);
+      hoverLine.setAttribute('x2', sx);
+      hoverLine.style.display = '';
+
+      var html = '';
+      if (xLabels.length > 0) {
+        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
+        lblIdx = Math.min(lblIdx, xLabels.length - 1);
+        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
+      } else {
+        html += 'Period: ' + idx + '<br>';
+      }
+
+      for (var s = 0; s < series.length; s++) {
+        if (idx < series[s].data.length) {
+          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
+          dots[s].setAttribute('cx', sx);
+          dots[s].setAttribute('cy', sy);
+          dots[s].style.display = '';
+          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
+          if (s === 0) {
+            hoverHLine.setAttribute('y1', sy);
+            hoverHLine.setAttribute('y2', sy);
+            hoverHLine.style.display = '';
+          }
+        }
+      }
+
+      // Difference
+      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
+        var diff = series[0].data[idx].y - series[1].data[idx].y;
+        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
+      }
+
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = html;
+      tooltip.style.left = (sx / W * 100) + '%';
+      tooltip.style.top = '5%';
+      tooltip.style.transform = 'translateX(-50%)';
+    });
+
+    overlay.addEventListener('mouseleave', function() {
+      hoverLine.style.display = 'none';
+      hoverHLine.style.display = 'none';
+      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
+      tooltip.style.display = 'none';
+    });
+  }
+
+  draw();
+
+  scrubber.addEventListener('input', function() {
+    visibleEnd = parseInt(this.value);
+    scrubVal.textContent = visibleEnd;
+    draw();
+  });
+})();
+</script>
+
+</body>
+</html>

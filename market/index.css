@@ -1,0 +1,245 @@
+
+    /* ===== CSS Custom Properties ===== */
+    :root {
+      --bg: #FAF9F7;
+      --text: #2D2D2D;
+      --text-secondary: #666;
+      --border: #E5E5E0;
+      --radius: 12px;
+      --max-w: 680px;
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-sans: 'Figtree', system-ui, sans-serif;
+    }
+
+    /* ===== Reset & Base ===== */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ===== Layout ===== */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Header ===== */
+    .header {
+      padding: 80px 0 16px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-family: var(--font-serif);
+      font-size: 54px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .header .intro {
+      font-family: var(--font-sans);
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .header .intro strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ===== Card Grid ===== */
+    .card-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 48px 0 64px;
+    }
+
+    /* ===== Card ===== */
+    .card {
+      display: block;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #fff;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .card:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .card-hero {
+      height: 140px;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.35) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .card-hero h2 {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+    }
+
+    .card-body {
+      padding: 16px 24px 20px;
+      background: #fff;
+    }
+
+    .card-body p {
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 8px;
+    }
+
+    .card-body .card-date {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      color: #999;
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      padding: 32px 0 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer p {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: #999;
+      letter-spacing: 0.01em;
+    }
+
+    .footer a {
+      color: var(--text-secondary);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: var(--border);
+      transition: color 0.2s ease;
+    }
+
+    .footer a:hover {
+      color: var(--text);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .header {
+        padding: 56px 0 12px;
+      }
+
+      .header h1 {
+        font-size: 38px;
+      }
+
+      .header .intro {
+        font-size: 15.5px;
+      }
+
+      .card-grid {
+        padding: 36px 0 48px;
+        gap: 16px;
+      }
+
+      .card-hero {
+        height: 120px;
+        padding: 16px 20px;
+      }
+
+      .card-hero h2 {
+        font-size: 19px;
+      }
+
+      .card-body {
+        padding: 14px 20px 18px;
+      }
+
+      .card-body p {
+        font-size: 14px;
+      }
+
+      .container {
+        padding: 0 16px;
+      }
+    }
+
+    /* ===== Animations ===== */
+    @media (prefers-reduced-motion: no-preference) {
+      .card {
+        opacity: 0;
+        transform: translateY(12px);
+        animation: fadeInUp 0.4s ease forwards;
+        animation-delay: var(--stagger, 0s);
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  
