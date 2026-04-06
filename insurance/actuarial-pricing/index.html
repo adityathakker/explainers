@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Insurance Is Priced — Insurance Explainers</title>
+  <meta name="description" content="From first principles to the full actuarial premium buildup — learn insurance pricing like an actuary">
+  <meta name="author" content="Insurance Explainers">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="How Insurance Is Priced">
+  <meta property="og:description" content="From first principles to the full actuarial premium buildup">
+  <meta property="og:type" content="article">
+
+  <!-- Favicon -->
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="../../market/explainer.css">
+
+  <!-- Per-page accent color override -->
+  <style>
+    :root {
+      --accent: #285e61;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+
+    /* Inline formula styling */
+    .formula {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      background: var(--demo-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 20px 0;
+      text-align: center;
+      color: var(--accent);
+      font-weight: 500;
+      line-height: 1.8;
+    }
+
+    /* Interactive input groups */
+    .input-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+      align-items: center;
+    }
+
+    .input-group {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .input-group label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .input-group input[type="number"],
+    .input-group select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input[type="number"]:focus,
+    .input-group select:focus {
+      border-color: var(--accent);
+    }
+
+    /* Result display */
+    .result-box {
+      background: #fff;
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      text-align: center;
+    }
+
+    .result-box .result-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .result-box .result-value {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .result-box .result-sub {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Pool visualization */
+    .pool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 18px);
+      gap: 4px;
+      margin: 16px 0;
+    }
+
+    .pool-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.3;
+      transition: all 0.3s ease;
+    }
+
+    .pool-dot.hit {
+      background: #e53e3e;
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    .pool-dot.safe {
+      background: var(--accent);
+      opacity: 0.25;
+    }
+
+    /* Waterfall chart specific */
+    .waterfall-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0;
+      font-family: var(--font-sans);
+      font-size: 14px;
+    }
+
+    .waterfall-label {
+      width: 140px;
+      flex-shrink: 0;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .waterfall-bar-container {
+      flex: 1;
+      height: 28px;
+      background: var(--demo-bg);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .waterfall-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #fff;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .waterfall-amount {
+      width: 80px;
+      text-align: right;
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* Toggle pills for rating factors */
+    .factor-toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .factor-pill {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      cursor: pointer;
+      background: #fff;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .factor-pill.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .factor-pill:hover {
+      border-color: var(--accent);
+    }
+
+    /* Simulation log */
+    .sim-log {
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 12px 0;
+      padding: 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .sim-log .claim {
+      color: #e53e3e;
+    }
+
+    .sim-log .safe {
+      color: var(--accent);
+    }
+
+    /* Separator line in demos */
+    .demo-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    /* Inline emphasis number */
+    .big-num {
+      font-family: var(--font-mono);
+      font-size: 1.1em;
+      font-weight: 500;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Insurance Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" style="background: linear-gradient(135deg, #234e52 0%, #38a169 100%);">
+    <div class="hero__inner">
+      <h1 class="hero__title">How Insurance Is Priced</h1>
+      <p class="hero__subtitle">From first principles to the full actuarial premium buildup &mdash; think like an actuary</p>
+      <p class="hero__meta">Interactive explainer &middot; 25 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i">The Axiom: Why Insurance Exists</a></li>
+        <li><a href="#ii">The Law of Large Numbers</a></li>
+        <li><a href="#iii">Frequency &times; Severity = Pure Premium</a></li>
+        <li><a href="#iv">Rating Factors: Not Everyone Pays the Same</a></li>
+        <li><a href="#v">The Expense Loading</a></li>
+        <li><a href="#vi">Profit &amp; Risk Loading</a></li>
+        <li><a href="#vii">The Full Premium Buildup</a></li>
+        <li><a href="#viii">Running a Book: The Loss Ratio Simulator</a></li>
+        <li><a href="#ix">The Credibility Problem</a></li>
+        <li><a href="#x">Why Livestock Insurance Is Especially Hard</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article Body -->
+  <article class="article">
+
+    <!-- ==================== SECTION I ==================== -->
+    <section class="reveal" id="i">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>The Axiom: Why Insurance Exists</h2>
+      </div>
+      <div class="section-content">
+        <p>Before we touch a formula, we need to understand one idea. It is the foundation everything else rests on. Get this right and the rest is arithmetic.</p>
+
+        <p><strong>Individual risk is catastrophic. Pooled risk is manageable.</strong></p>
+
+        <p>A farmer owns one cow worth &#8377;80,000. If that cow dies, the farmer loses &#8377;80,000 &mdash; possibly their entire livelihood. The probability of any single cow dying in a year is about 3.5%. Small probability, devastating consequence. This is the structure of risk that creates demand for insurance.</p>
+
+        <p>Now imagine 1,000 farmers, each with one cow worth &#8377;80,000. If each farmer puts &#8377;2,800 into a common pool, the pool collects &#8377;28,00,000 (&#8377;28 lakh). On average, 35 cows will die. The pool pays out 35 &times; &#8377;80,000 = &#8377;28,00,000. The pool breaks even.</p>
+
+        <p>Each farmer traded a <em>small certain loss</em> (&#8377;2,800 premium) for protection against a <em>large uncertain loss</em> (&#8377;80,000). That is the entire concept. That is insurance.</p>
+
+        <div class="callout">
+          <div class="callout-title">The fundamental axiom</div>
+          <p>Insurance works because the cost of a rare, devastating event, when spread across many people, becomes a small, affordable payment for each person. The insurer is the mechanism that makes pooling possible.</p>
+        </div>
+
+        <p>Try it yourself. Click &ldquo;Run Year&rdquo; below to simulate what happens to a pool of 200 cattle. Each dot is one cow. Red dots are deaths. Watch how the pool absorbs individual disasters.</p>
+
+        <!-- DEMO: Risk Pool Visualization -->
+        <div class="demo reveal" id="demo-pool">
+          <div class="demo-title">Risk Pool Simulator</div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Pool Size (cows)</label>
+              <input type="number" id="pool-size" value="200" min="10" max="500" step="10">
+            </div>
+            <div class="input-group">
+              <label>Mortality Rate (%)</label>
+              <input type="number" id="pool-mortality" value="3.5" min="0.5" max="20" step="0.5">
+            </div>
+            <div class="input-group">
+              <label>Value per cow (&#8377;)</label>
+              <input type="number" id="pool-value" value="80000" min="10000" max="200000" step="5000">
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn-primary" id="pool-run">Run Year</button>
+            <button class="btn-secondary" id="pool-reset">Reset</button>
+          </div>
+          <div id="pool-dots" class="pool-grid"></div>
+          <div class="stat-row" id="pool-stats">
+            <div class="stat">
+              <div class="stat-value" id="pool-deaths">0</div>
+              <div class="stat-label">Deaths</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="pool-payout">&#8377;0</div>
+              <div class="stat-label">Total Payout</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="pool-premium">&#8377;0</div>
+              <div class="stat-label">Premium Collected</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="pool-surplus">&#8377;0</div>
+              <div class="stat-label">Surplus / Deficit</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Run it multiple times. Sometimes the pool loses money, sometimes it profits. That variance is what the rest of this article is about managing.</p>
+        </div>
+
+        <p>Notice something? The pool doesn&rsquo;t break even every year. Some years 25 cows die, some years 45. The <em>expected</em> outcome and the <em>actual</em> outcome are different. That gap is risk. And managing that gap is what actuaries do.</p>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION II ==================== -->
+    <section class="reveal" id="ii">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>The Law of Large Numbers</h2>
+      </div>
+      <div class="section-content">
+        <p>The risk pool works because of a mathematical law that is the bedrock of all insurance: <strong>the law of large numbers</strong>.</p>
+
+        <p>Here is the intuition. Flip a coin 10 times. You might get 7 heads and 3 tails &mdash; that is 70% heads, far from the &ldquo;true&rdquo; 50%. But flip it 10,000 times and you will get very close to 50%. The more trials you run, the closer the observed average gets to the true average.</p>
+
+        <p>For insurance this means: <strong>the more policies you write, the more predictable your total claims become</strong>. A pool of 50 cows might see 0 deaths or 5 deaths &mdash; huge variance. A pool of 50,000 cows will see deaths very close to the expected 3.5%.</p>
+
+        <p>Use the tool below to see this in action. Start with a small pool and increase it. Watch how the observed mortality rate converges toward the true rate.</p>
+
+        <!-- DEMO: Law of Large Numbers -->
+        <div class="demo reveal" id="demo-lln">
+          <div class="demo-title">Convergence Simulator</div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Pool Size</span>
+              <span class="slider-value" id="lln-size-val">100</span>
+            </div>
+            <input type="range" id="lln-size" min="10" max="5000" value="100" step="10">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>True Mortality Rate</span>
+              <span class="slider-value" id="lln-rate-val">3.5%</span>
+            </div>
+            <input type="range" id="lln-rate" min="1" max="20" value="3.5" step="0.5">
+          </div>
+          <div class="btn-group">
+            <button class="btn-primary" id="lln-run">Simulate 50 Years</button>
+          </div>
+          <div style="position:relative;width:100%;min-height:280px;">
+            <svg id="lln-chart" viewBox="0 0 600 280" width="100%" style="max-width:600px;"></svg>
+          </div>
+          <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">Each dot is one simulated year. The red dashed line is the true mortality rate. Bigger pools cluster tighter around the truth.</p>
+        </div>
+
+        <p>This is why insurers want scale. A larger book of business isn&rsquo;t just more revenue &mdash; it is <em>more predictable</em> revenue. The variance shrinks. This is the mathematical reason insurance companies exist: they pool enough risk that the outcome becomes nearly deterministic.</p>
+
+        <div class="callout">
+          <div class="callout-title">Key insight</div>
+          <p>Insurance is not a bet that bad things won&rsquo;t happen. It is the mathematical certainty that, in a large enough pool, the <em>average</em> outcome is predictable even though any <em>individual</em> outcome is not.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION III ==================== -->
+    <section class="reveal" id="iii">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>Frequency &times; Severity = Pure Premium</h2>
+      </div>
+      <div class="section-content">
+        <p>Now we arrive at the first real formula. This is the foundation of all pricing.</p>
+
+        <div class="formula">
+          Pure Premium = Frequency &times; Severity
+        </div>
+
+        <p><strong>Frequency</strong> is how often the insured event happens. For cattle: what percentage die per year?</p>
+        <p><strong>Severity</strong> is how much it costs when it does happen. For cattle: the payout amount (typically the full insured value).</p>
+        <p>The <strong>pure premium</strong> (also called the <em>burning cost</em>) is the expected claims cost per policy. It tells you: if you charged exactly this amount and nothing else, you would break even on claims over the long run.</p>
+
+        <p>Play with the calculator below. Change the mortality rate and the animal value and see how the pure premium changes.</p>
+
+        <!-- DEMO: Pure Premium Calculator -->
+        <div class="demo reveal" id="demo-pure">
+          <div class="demo-title">Pure Premium Calculator</div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Mortality Rate (%)</label>
+              <input type="number" id="pure-freq" value="3.5" min="0.1" max="30" step="0.1">
+            </div>
+            <div class="input-group">
+              <label>Sum Insured (&#8377;)</label>
+              <input type="number" id="pure-sev" value="80000" min="1000" max="500000" step="1000">
+            </div>
+          </div>
+          <div class="result-box">
+            <div class="result-label">Pure Premium per Animal</div>
+            <div class="result-value" id="pure-result">&#8377;2,800</div>
+            <div class="result-sub" id="pure-pct">3.50% of sum insured</div>
+          </div>
+          <hr class="demo-divider">
+          <p style="font-size:13px;color:var(--text-secondary);">This is the minimum the insurer needs to collect per policy to cover expected claims. It does not include any expenses, profit, or safety margin. Charging only this would mean breaking even on average &mdash; and going bankrupt half the time.</p>
+        </div>
+
+        <p>The pure premium is deceptively simple. The hard part is getting the <em>frequency</em> right. Where does 3.5% come from? Is it 3.5% for all cattle everywhere? Obviously not. A young, vaccinated Holstein in Tamil Nadu has a different mortality rate than an old, unvaccinated indigenous breed in Rajasthan. This is where rating factors come in.</p>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION IV ==================== -->
+    <section class="reveal" id="iv">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>Rating Factors: Not Everyone Pays the Same</h2>
+      </div>
+      <div class="section-content">
+        <p>Actuaries do not charge everyone the same rate. They <strong>segment risk</strong>. Different risk profiles get different prices. Each characteristic that affects the probability or cost of a claim is called a <em>rating factor</em>.</p>
+
+        <p>For livestock insurance, the key rating factors are:</p>
+
+        <ul>
+          <li><strong>Species</strong> &mdash; cattle (~3-5%), goat (~8-12%), poultry (~15-25%)</li>
+          <li><strong>Breed</strong> &mdash; indigenous breeds are hardier; crossbred/exotic have higher mortality</li>
+          <li><strong>Age</strong> &mdash; very young and very old animals die more (the &ldquo;bathtub curve&rdquo;)</li>
+          <li><strong>Geography</strong> &mdash; flood-prone, drought-prone, and disease-endemic regions differ</li>
+          <li><strong>Vaccination</strong> &mdash; vaccinated animals have measurably lower mortality</li>
+          <li><strong>Herd size</strong> &mdash; larger herds correlate with better husbandry practices</li>
+        </ul>
+
+        <p>Each factor has a <em>relativity</em> &mdash; a multiplier applied to the base rate:</p>
+
+        <div class="formula">
+          Adjusted Rate = Base Rate &times; Factor<sub>1</sub> &times; Factor<sub>2</sub> &times; Factor<sub>3</sub> &times; &hellip;
+        </div>
+
+        <p>Toggle the risk factors below and watch how the premium changes. Start from the base case and layer on risk characteristics one at a time.</p>
+
+        <!-- DEMO: Rating Factors -->
+        <div class="demo reveal" id="demo-factors">
+          <div class="demo-title">Rating Factor Explorer</div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Base Mortality Rate (%)</label>
+              <input type="number" id="factor-base" value="3.5" min="0.5" max="15" step="0.1">
+            </div>
+            <div class="input-group">
+              <label>Sum Insured (&#8377;)</label>
+              <input type="number" id="factor-si" value="80000" min="10000" max="300000" step="5000">
+            </div>
+          </div>
+          <hr class="demo-divider">
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Click to toggle risk factors on/off:</p>
+          <div class="factor-toggles" id="factor-pills"></div>
+          <hr class="demo-divider">
+          <div style="margin:16px 0;">
+            <div id="factor-waterfall"></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat">
+              <div class="stat-value" id="factor-rate">3.50%</div>
+              <div class="stat-label">Adjusted Rate</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="factor-premium">&#8377;2,800</div>
+              <div class="stat-label">Pure Premium</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="factor-multiplier">1.00x</div>
+              <div class="stat-label">Total Multiplier</div>
+            </div>
+          </div>
+        </div>
+
+        <p>Notice how quickly the premium compounds. An exotic breed (1.4x) in a flood-prone area (1.3x) that is old (1.5x) doesn&rsquo;t pay 3.5% &mdash; it pays close to 10%. The insurer that doesn&rsquo;t segment risk this way will attract all the high-risk animals (because they&rsquo;re getting a bargain) and repel all the low-risk ones. This is <strong>adverse selection</strong> and it destroys insurance companies.</p>
+
+        <blockquote>
+          <p>The art of insurance pricing is not calculating the average. It is knowing who is above and who is below the average, and charging accordingly.</p>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION V ==================== -->
+    <section class="reveal" id="v">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>The Expense Loading</h2>
+      </div>
+      <div class="section-content">
+        <p>The pure premium covers claims. But an insurer has costs beyond claims. Someone has to sell the policy, process the paperwork, investigate claims, and keep the lights on. These are <strong>expenses</strong>, and they get loaded on top of the pure premium.</p>
+
+        <p>The four main expense categories:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Expense</th>
+              <th>What it covers</th>
+              <th class="num">Typical %</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Acquisition</strong></td>
+              <td>Agent commissions, distribution, marketing</td>
+              <td class="num">15&ndash;25%</td>
+            </tr>
+            <tr>
+              <td><strong>Administration</strong></td>
+              <td>Policy issuance, IT systems, compliance, staff</td>
+              <td class="num">8&ndash;15%</td>
+            </tr>
+            <tr>
+              <td><strong>Claims management</strong></td>
+              <td>Field investigators, vet network, adjusters</td>
+              <td class="num">5&ndash;10%</td>
+            </tr>
+            <tr>
+              <td><strong>Reinsurance</strong></td>
+              <td>Cession to reinsurers (e.g. GIC Re mandatory 4%)</td>
+              <td class="num">2&ndash;5%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>The expense loading formula flips the intuition. You don&rsquo;t <em>add</em> a percentage to the pure premium &mdash; you <em>divide</em> by the complement:</p>
+
+        <div class="formula">
+          Expense-Loaded Premium = Pure Premium &divide; (1 &minus; Expense Ratio)
+        </div>
+
+        <p>Why division instead of addition? Because expenses are expressed as a percentage <em>of the gross premium</em>, not of the pure premium. If expenses are 35% of gross premium, then claims must be covered by the remaining 65%.</p>
+
+        <!-- DEMO: Expense Loading -->
+        <div class="demo reveal" id="demo-expense">
+          <div class="demo-title">Expense Loading Calculator</div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Pure Premium (&#8377;)</label>
+              <input type="number" id="exp-pure" value="2800" min="100" max="50000" step="100">
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Acquisition Cost</span>
+              <span class="slider-value" id="exp-acq-val">20%</span>
+            </div>
+            <input type="range" id="exp-acq" min="0" max="30" value="20" step="1">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Administration</span>
+              <span class="slider-value" id="exp-admin-val">10%</span>
+            </div>
+            <input type="range" id="exp-admin" min="0" max="20" value="10" step="1">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Claims Management</span>
+              <span class="slider-value" id="exp-claims-val">5%</span>
+            </div>
+            <input type="range" id="exp-claims" min="0" max="15" value="5" step="1">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Reinsurance</span>
+              <span class="slider-value" id="exp-reins-val">3%</span>
+            </div>
+            <input type="range" id="exp-reins" min="0" max="10" value="3" step="1">
+          </div>
+          <hr class="demo-divider">
+          <div class="stat-row">
+            <div class="stat">
+              <div class="stat-value" id="exp-ratio">38%</div>
+              <div class="stat-label">Total Expense Ratio</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="exp-loaded">&#8377;4,516</div>
+              <div class="stat-label">Loaded Premium</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="exp-markup">1.61x</div>
+              <div class="stat-label">Markup over Pure</div>
+            </div>
+          </div>
+        </div>
+
+        <p>This is why insurance feels expensive. A 3.5% mortality rate becomes a 5.5&ndash;7% premium rate once expenses are loaded. For low-value products like livestock insurance, the expense ratio is especially punishing &mdash; it costs almost the same to process a &#8377;5,000 premium as a &#8377;50,000 premium.</p>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION VI ==================== -->
+    <section class="reveal" id="vi">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>Profit &amp; Risk Loading</h2>
+      </div>
+      <div class="section-content">
+        <p>The expense-loaded premium covers expected claims plus expenses. But the insurer still needs two more things:</p>
+
+        <h3>Profit Margin</h3>
+        <p>The insurer is a business. Shareholders expect a return on the capital they have locked up (remember: IRDAI requires &#8377;100 crore minimum, plus 1.5x solvency). A typical profit target is <strong>3&ndash;8%</strong> of premium. In competitive, subsidized lines like livestock, it is often closer to 0&ndash;3%.</p>
+
+        <h3>Risk Loading</h3>
+        <p>This is the critical concept most people miss. The pure premium is the <em>average</em> expected claims cost. But averages are dangerous. In any given year, actual claims could be much higher than average.</p>
+
+        <p>The risk loading is a buffer for <strong>uncertainty</strong>. The thinner your data, the wider your confidence interval, the larger this buffer needs to be.</p>
+
+        <div class="formula">
+          Risk-Loaded Premium = Pure Premium &times; (1 + Risk Load %)
+        </div>
+
+        <p>Two common approaches actuaries use:</p>
+        <ul>
+          <li><strong>Standard deviation method</strong>: Add k &times; standard deviation of losses. More volatile risk = bigger loading.</li>
+          <li><strong>Cost of capital method</strong>: How much return must the capital backing this risk earn? Higher capital requirement = bigger loading.</li>
+        </ul>
+
+        <!-- DEMO: Risk Loading -->
+        <div class="demo reveal" id="demo-risk">
+          <div class="demo-title">Risk Loading: Why Averages Aren&rsquo;t Enough</div>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">This simulates 1,000 years for your pool. The histogram shows the distribution of annual loss ratios. The red zone is where the insurer loses money.</p>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Pool Size</label>
+              <input type="number" id="risk-pool" value="500" min="50" max="5000" step="50">
+            </div>
+            <div class="input-group">
+              <label>Mortality Rate (%)</label>
+              <input type="number" id="risk-rate" value="3.5" min="1" max="15" step="0.5">
+            </div>
+            <div class="input-group">
+              <label>Risk Loading (%)</label>
+              <input type="number" id="risk-load" value="20" min="0" max="50" step="5">
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn-primary" id="risk-run">Simulate 1,000 Years</button>
+          </div>
+          <div style="position:relative;width:100%;min-height:280px;">
+            <svg id="risk-chart" viewBox="0 0 600 280" width="100%" style="max-width:600px;"></svg>
+          </div>
+          <div class="stat-row">
+            <div class="stat">
+              <div class="stat-value" id="risk-ruin">0%</div>
+              <div class="stat-label">Ruin Probability</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="risk-mean">100%</div>
+              <div class="stat-label">Mean Loss Ratio</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="risk-p95">0%</div>
+              <div class="stat-label">95th Percentile</div>
+            </div>
+          </div>
+        </div>
+
+        <p>The key tradeoff: a higher risk loading makes the insurer safer but the product more expensive (and less competitive). An actuary&rsquo;s job is to find the sweet spot &mdash; enough buffer to survive bad years, not so much that no one buys the product.</p>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION VII ==================== -->
+    <section class="reveal" id="vii">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>The Full Premium Buildup</h2>
+      </div>
+      <div class="section-content">
+        <p>Now we put it all together. Every insurance premium is built from these layers, stacked bottom-up:</p>
+
+        <div class="formula">
+          Gross Premium = (Pure Premium &times; (1 + Risk Load)) &divide; (1 &minus; Expense Ratio &minus; Profit Margin)
+        </div>
+
+        <p>The interactive waterfall below shows how a &#8377;80,000 cow&rsquo;s premium is built up from a 3.5% base mortality rate to the final number the farmer sees. Adjust any component and watch the entire waterfall recalculate.</p>
+
+        <!-- DEMO: Full Premium Buildup Waterfall -->
+        <div class="demo reveal" id="demo-buildup">
+          <div class="demo-title">Premium Buildup Waterfall</div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Sum Insured (&#8377;)</label>
+              <input type="number" id="build-si" value="80000" min="10000" max="300000" step="5000">
+            </div>
+            <div class="input-group">
+              <label>Mortality Rate (%)</label>
+              <input type="number" id="build-rate" value="4.2" min="0.5" max="20" step="0.1">
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Risk Loading</span>
+              <span class="slider-value" id="build-risk-val">20%</span>
+            </div>
+            <input type="range" id="build-risk" min="0" max="50" value="20" step="1">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Acquisition Cost</span>
+              <span class="slider-value" id="build-acq-val">15%</span>
+            </div>
+            <input type="range" id="build-acq" min="0" max="30" value="15" step="1">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Administration</span>
+              <span class="slider-value" id="build-admin-val">8%</span>
+            </div>
+            <input type="range" id="build-admin" min="0" max="20" value="8" step="1">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Claims Mgmt</span>
+              <span class="slider-value" id="build-claims-val">3%</span>
+            </div>
+            <input type="range" id="build-claims" min="0" max="10" value="3" step="1">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Profit Margin</span>
+              <span class="slider-value" id="build-profit-val">5%</span>
+            </div>
+            <input type="range" id="build-profit" min="0" max="15" value="5" step="1">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Govt Subsidy</span>
+              <span class="slider-value" id="build-subsidy-val">50%</span>
+            </div>
+            <input type="range" id="build-subsidy" min="0" max="85" value="50" step="5">
+          </div>
+          <hr class="demo-divider">
+          <div id="build-waterfall"></div>
+          <hr class="demo-divider">
+          <div class="stat-row">
+            <div class="stat">
+              <div class="stat-value" id="build-gross">&#8377;0</div>
+              <div class="stat-label">Gross Premium</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="build-farmer">&#8377;0</div>
+              <div class="stat-label">Farmer Pays</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="build-pct">0%</div>
+              <div class="stat-label">% of Sum Insured</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="build-monthly">&#8377;0</div>
+              <div class="stat-label">Per Month</div>
+            </div>
+          </div>
+        </div>
+
+        <p>This is the complete picture. Every insurance premium in the world &mdash; whether it is cattle in Maharashtra or cyber risk in Manhattan &mdash; follows this exact same structure. The numbers change, the layers are identical.</p>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION VIII ==================== -->
+    <section class="reveal" id="viii">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>Running a Book: The Loss Ratio Simulator</h2>
+      </div>
+      <div class="section-content">
+        <p>The <strong>loss ratio</strong> is the single most important metric in insurance. It is the ratio of claims paid to premiums collected:</p>
+
+        <div class="formula">
+          Loss Ratio = Claims Paid &divide; Premiums Collected &times; 100%
+        </div>
+
+        <ul>
+          <li><strong>&lt; 60%</strong>: Excellent. The insurer has plenty of room for expenses and profit.</li>
+          <li><strong>60&ndash;80%</strong>: Healthy. Standard for well-priced books.</li>
+          <li><strong>80&ndash;100%</strong>: Marginal. Little room for expenses. May be losing money.</li>
+          <li><strong>&gt; 100%</strong>: The insurer is paying out more in claims than it collected in premiums. Unsustainable.</li>
+        </ul>
+
+        <p>The <strong>combined ratio</strong> adds expenses: Combined Ratio = Loss Ratio + Expense Ratio. Above 100% means the underwriting operation is losing money (though the insurer might still profit from investment income on the float).</p>
+
+        <p>Run the simulator below to experience what it feels like to manage a book of livestock policies over 10 years. Watch the loss ratio swing year to year.</p>
+
+        <!-- DEMO: Loss Ratio Simulator -->
+        <div class="demo reveal" id="demo-book">
+          <div class="demo-title">Book of Business: 10-Year Simulator</div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Policies</label>
+              <input type="number" id="book-policies" value="1000" min="100" max="10000" step="100">
+            </div>
+            <div class="input-group">
+              <label>Premium Rate (%)</label>
+              <input type="number" id="book-prem-rate" value="5.5" min="1" max="15" step="0.5">
+            </div>
+            <div class="input-group">
+              <label>True Mortality (%)</label>
+              <input type="number" id="book-mort" value="3.5" min="1" max="12" step="0.5">
+            </div>
+            <div class="input-group">
+              <label>Expense Ratio (%)</label>
+              <input type="number" id="book-expense" value="35" min="10" max="50" step="5">
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn-primary" id="book-run">Run 10 Years</button>
+          </div>
+          <div style="position:relative;width:100%;min-height:300px;">
+            <svg id="book-chart" viewBox="0 0 600 300" width="100%" style="max-width:600px;"></svg>
+          </div>
+          <div class="stat-row">
+            <div class="stat">
+              <div class="stat-value" id="book-avg-lr">0%</div>
+              <div class="stat-label">Avg Loss Ratio</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="book-avg-cr">0%</div>
+              <div class="stat-label">Avg Combined Ratio</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="book-profit">&#8377;0</div>
+              <div class="stat-label">Cumulative Profit</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="book-bad-years">0</div>
+              <div class="stat-label">Loss-Making Years</div>
+            </div>
+          </div>
+        </div>
+
+        <p>The key insight: even a well-priced book has bad years. The insurer needs enough capital to survive those years. That is why IRDAI requires a 1.5x solvency ratio &mdash; it is a buffer for the years when the loss ratio spikes above 100%.</p>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION IX ==================== -->
+    <section class="reveal" id="ix">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>The Credibility Problem</h2>
+      </div>
+      <div class="section-content">
+        <p>Every calculation above assumed we <em>know</em> the true mortality rate. But in practice, we don&rsquo;t. We estimate it from data. And the quality of that estimate depends on how much data we have.</p>
+
+        <p><strong>Credibility theory</strong> is the actuarial framework for dealing with this. It answers: how much should I trust my own data versus the industry average?</p>
+
+        <div class="formula">
+          Credibility-Weighted Rate = Z &times; (Own Experience) + (1 &minus; Z) &times; (Industry Rate)
+        </div>
+
+        <p><strong>Z</strong> is the credibility factor, between 0 and 1. It increases with more data:</p>
+        <ul>
+          <li><strong>Z = 0</strong>: You have no data. Use the industry rate entirely.</li>
+          <li><strong>Z = 0.5</strong>: Blend equally between your own experience and the industry.</li>
+          <li><strong>Z = 1</strong>: You have so much data that your own experience is fully credible.</li>
+        </ul>
+
+        <p>A common formula for Z is: Z = n / (n + k), where n is your number of claims and k is a constant (often 1,082 for Poisson-distributed claims, known as the B&uuml;hlmann credibility).</p>
+
+        <!-- DEMO: Credibility Blending -->
+        <div class="demo reveal" id="demo-cred">
+          <div class="demo-title">Credibility Blending</div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Your Observed Mortality (%)</label>
+              <input type="number" id="cred-own" value="5.2" min="0" max="20" step="0.1">
+            </div>
+            <div class="input-group">
+              <label>Industry Rate (%)</label>
+              <input type="number" id="cred-industry" value="3.5" min="0" max="15" step="0.1">
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Your Policies (n)</span>
+              <span class="slider-value" id="cred-n-val">200</span>
+            </div>
+            <input type="range" id="cred-n" min="10" max="5000" value="200" step="10">
+          </div>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>B&uuml;hlmann k</span>
+              <span class="slider-value" id="cred-k-val">1082</span>
+            </div>
+            <input type="range" id="cred-k" min="100" max="3000" value="1082" step="50">
+          </div>
+          <hr class="demo-divider">
+          <div class="stat-row">
+            <div class="stat">
+              <div class="stat-value" id="cred-z">0.16</div>
+              <div class="stat-label">Credibility (Z)</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="cred-result">3.77%</div>
+              <div class="stat-label">Blended Rate</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--text-secondary);margin-top:8px;">With only 200 policies, your credibility is low. Your observed 5.2% mortality is pulled back toward the industry 3.5%. As you grow to thousands of policies, your own experience dominates.</p>
+        </div>
+
+        <p>This is why new insurers can&rsquo;t just &ldquo;set their own rates.&rdquo; They don&rsquo;t have enough data. They start with industry rates and gradually adjust as their own claims experience accumulates. It takes years to build full credibility.</p>
+
+        <div class="callout">
+          <div class="callout-title">Why data is the moat</div>
+          <p>In livestock insurance, the industry data itself is thin &mdash; no centralized national mortality database exists. A tech provider that accumulates animal health and mortality data across thousands of policies has a <em>structural pricing advantage</em> over incumbents flying blind. This is where technology creates real value in insurance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION X ==================== -->
+    <section class="reveal" id="x">
+      <div class="section-heading">
+        <div class="section-number">X.</div>
+        <h2>Why Livestock Insurance Is Especially Hard</h2>
+      </div>
+      <div class="section-content">
+        <p>Everything you&rsquo;ve learned above applies to all insurance. But livestock insurance in India faces a set of challenges that make each step harder:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Challenge</th>
+              <th>Impact on Pricing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Adverse selection</strong></td>
+              <td>Farmers insure sick or old animals. Observed mortality >> true population mortality.</td>
+            </tr>
+            <tr>
+              <td><strong>Moral hazard</strong></td>
+              <td>Less incentive to care for an insured animal. Some intentional deaths.</td>
+            </tr>
+            <tr>
+              <td><strong>No centralized data</strong></td>
+              <td>Can&rsquo;t build credible mortality tables. Low Z everywhere.</td>
+            </tr>
+            <tr>
+              <td><strong>Regional variation</strong></td>
+              <td>Disease, climate, husbandry vary enormously. Need hyper-local rates.</td>
+            </tr>
+            <tr>
+              <td><strong>Breed diversity</strong></td>
+              <td>50+ recognized cattle breeds with different mortality profiles.</td>
+            </tr>
+            <tr>
+              <td><strong>Fraud</strong></td>
+              <td>Duplicate claims, phantom animals inflate apparent loss ratios to 130%+.</td>
+            </tr>
+            <tr>
+              <td><strong>Small sums insured</strong></td>
+              <td>High expense ratio: processing a &#8377;5,000 policy costs as much as &#8377;50,000.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>This is exactly why technology matters here. Each tech intervention maps directly to a pricing improvement:</p>
+
+        <ul>
+          <li><strong>Muzzle biometrics</strong> (Nandi AI, ID-Scan) &rarr; eliminate duplicate/phantom claims &rarr; lower fraud load</li>
+          <li><strong>IoT health monitoring</strong> (BrainWired, PsiBorg) &rarr; continuous underwriting data &rarr; better rating factors, lower adverse selection</li>
+          <li><strong>Digital enrollment</strong> &rarr; lower acquisition cost &rarr; lower expense ratio</li>
+          <li><strong>Automated claims triage</strong> &rarr; lower claims management cost + faster settlement</li>
+          <li><strong>Data accumulation</strong> &rarr; higher credibility (Z) &rarr; more accurate pricing &rarr; lower risk loading</li>
+        </ul>
+
+        <p>Every basis point of improvement in these areas flows directly to a lower premium or a better loss ratio. That is the business case for being a tech provider in this space: <strong>you are not just distributing insurance, you are making it actuarially viable</strong>.</p>
+
+        <div class="callout">
+          <div class="callout-title">The bottom line</div>
+          <p>Insurance pricing is a stack: expected losses + uncertainty buffer + expenses + profit. Each layer can be compressed by better data, better technology, and better processes. The company that compresses this stack most efficiently wins &mdash; either as an insurer with better margins, or as a tech provider that makes the insurer&rsquo;s product viable in the first place.</p>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude</a> &middot; InRisk Research</p>
+  </footer>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script src="../../market/chart-helpers.js"></script>
+
+  <script>
+  // ===== Scroll Reveal =====
+  (function() {
+    var els = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(el) { obs.observe(el); });
+    } else {
+      els.forEach(function(el) { el.classList.add('visible'); });
+    }
+  })();
+
+  // ===== Smooth Scroll for TOC =====
+  document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var t = document.getElementById(this.getAttribute('href').slice(1));
+      if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 76, behavior: 'smooth' }); }
+    });
+  });
+
+  // ===== Utility =====
+  function fmt(n) {
+    if (Math.abs(n) >= 1e7) return '\u20B9' + (n/1e7).toFixed(2) + ' Cr';
+    if (Math.abs(n) >= 1e5) return '\u20B9' + (n/1e5).toFixed(2) + ' L';
+    return '\u20B9' + n.toLocaleString('en-IN');
+  }
+
+  function binomial(n, p) {
+    var count = 0;
+    for (var i = 0; i < n; i++) { if (Math.random() < p) count++; }
+    return count;
+  }
+
+  // ==========================================
+  // DEMO I: Risk Pool Simulator
+  // ==========================================
+  (function() {
+    var dotsEl = document.getElementById('pool-dots');
+    var runBtn = document.getElementById('pool-run');
+    var resetBtn = document.getElementById('pool-reset');
+
+    function initDots() {
+      var n = parseInt(document.getElementById('pool-size').value) || 200;
+      dotsEl.innerHTML = '';
+      for (var i = 0; i < n; i++) {
+        var d = document.createElement('div');
+        d.className = 'pool-dot';
+        dotsEl.appendChild(d);
+      }
+      document.getElementById('pool-deaths').textContent = '0';
+      document.getElementById('pool-payout').innerHTML = '&#8377;0';
+      document.getElementById('pool-premium').innerHTML = '&#8377;0';
+      document.getElementById('pool-surplus').innerHTML = '&#8377;0';
+      document.getElementById('pool-surplus').style.color = '';
+    }
+
+    function runYear() {
+      var n = parseInt(document.getElementById('pool-size').value) || 200;
+      var rate = parseFloat(document.getElementById('pool-mortality').value) / 100 || 0.035;
+      var val = parseInt(document.getElementById('pool-value').value) || 80000;
+
+      // Reset dots to correct count
+      if (dotsEl.children.length !== n) initDots();
+
+      var deaths = 0;
+      var dots = dotsEl.children;
+      for (var i = 0; i < n; i++) {
+        dots[i].className = 'pool-dot';
+      }
+
+      // Simulate with staggered animation
+      for (var i = 0; i < n; i++) {
+        if (Math.random() < rate) {
+          deaths++;
+          dots[i].className = 'pool-dot hit';
+        } else {
+          dots[i].className = 'pool-dot safe';
+        }
+      }
+
+      var premium = n * rate * val;
+      var payout = deaths * val;
+      var surplus = premium - payout;
+
+      document.getElementById('pool-deaths').textContent = deaths;
+      document.getElementById('pool-payout').textContent = fmt(payout);
+      document.getElementById('pool-premium').textContent = fmt(premium);
+      document.getElementById('pool-surplus').textContent = fmt(surplus);
+      document.getElementById('pool-surplus').style.color = surplus >= 0 ? 'var(--accent)' : '#e53e3e';
+    }
+
+    runBtn.addEventListener('click', runYear);
+    resetBtn.addEventListener('click', initDots);
+    initDots();
+  })();
+
+  // ==========================================
+  // DEMO II: Law of Large Numbers
+  // ==========================================
+  (function() {
+    var sizeSlider = document.getElementById('lln-size');
+    var rateSlider = document.getElementById('lln-rate');
+    var sizeVal = document.getElementById('lln-size-val');
+    var rateVal = document.getElementById('lln-rate-val');
+    var runBtn = document.getElementById('lln-run');
+    var svg = document.getElementById('lln-chart');
+
+    sizeSlider.addEventListener('input', function() { sizeVal.textContent = this.value; });
+    rateSlider.addEventListener('input', function() { rateVal.textContent = this.value + '%'; });
+
+    function run() {
+      var n = parseInt(sizeSlider.value);
+      var trueRate = parseFloat(rateSlider.value) / 100;
+      var W = 600, H = 280;
+      var pad = { top: 20, right: 20, bottom: 40, left: 50 };
+
+      // Simulate 50 years
+      var results = [];
+      for (var y = 0; y < 50; y++) {
+        var deaths = binomial(n, trueRate);
+        results.push({ year: y + 1, rate: deaths / n });
+      }
+
+      // Clear
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+      // Y range
+      var rates = results.map(function(r) { return r.rate; });
+      var minR = Math.min.apply(null, rates.concat([trueRate * 0.5]));
+      var maxR = Math.max.apply(null, rates.concat([trueRate * 1.5]));
+      var rangeR = maxR - minR;
+      minR -= rangeR * 0.1;
+      maxR += rangeR * 0.1;
+
+      // Axes
+      drawYAxis(svg, minR * 100, maxR * 100, 5, W, H, pad);
+      var xLabels = [];
+      for (var i = 0; i <= 5; i++) xLabels.push(String(Math.round(1 + 49 * i / 5)));
+      drawXAxis(svg, xLabels, W, H, pad);
+
+      // True rate line
+      var trueY = scaleY(trueRate, minR, maxR, H, pad);
+      drawLine(svg, pad.left, trueY, W - pad.right, trueY, '#e53e3e', 1.5, '6,4');
+      drawText(svg, W - pad.right - 5, trueY - 8, 'True: ' + (trueRate * 100).toFixed(1) + '%', {
+        fontSize: 11, fill: '#e53e3e', anchor: 'end'
+      });
+
+      // Plot dots
+      for (var i = 0; i < results.length; i++) {
+        var x = scaleX(results[i].year, 1, 50, W, pad);
+        var y = scaleY(results[i].rate, minR, maxR, H, pad);
+        drawCircle(svg, x, y, 4, resolveColor('var(--accent)'));
+      }
+    }
+
+    runBtn.addEventListener('click', run);
+    run();
+  })();
+
+  // ==========================================
+  // DEMO III: Pure Premium Calculator
+  // ==========================================
+  (function() {
+    var freqEl = document.getElementById('pure-freq');
+    var sevEl = document.getElementById('pure-sev');
+    var resultEl = document.getElementById('pure-result');
+    var pctEl = document.getElementById('pure-pct');
+
+    function calc() {
+      var freq = parseFloat(freqEl.value) / 100 || 0;
+      var sev = parseFloat(sevEl.value) || 0;
+      var pp = freq * sev;
+      resultEl.textContent = fmt(Math.round(pp));
+      pctEl.textContent = (freq * 100).toFixed(2) + '% of sum insured';
+    }
+
+    freqEl.addEventListener('input', calc);
+    sevEl.addEventListener('input', calc);
+    calc();
+  })();
+
+  // ==========================================
+  // DEMO IV: Rating Factors
+  // ==========================================
+  (function() {
+    var factors = [
+      { name: 'Exotic Breed', multiplier: 1.4, active: false },
+      { name: 'Age 8+ years', multiplier: 1.5, active: false },
+      { name: 'Flood-prone District', multiplier: 1.3, active: false },
+      { name: 'Not Vaccinated', multiplier: 1.25, active: false },
+      { name: 'Small Herd (<5)', multiplier: 1.15, active: false },
+      { name: 'Monsoon Season', multiplier: 1.2, active: false },
+    ];
+
+    var pillsEl = document.getElementById('factor-pills');
+    var waterfallEl = document.getElementById('factor-waterfall');
+
+    // Build pills
+    factors.forEach(function(f, idx) {
+      var pill = document.createElement('div');
+      pill.className = 'factor-pill';
+      pill.textContent = f.name + ' (' + f.multiplier + 'x)';
+      pill.addEventListener('click', function() {
+        f.active = !f.active;
+        pill.classList.toggle('active', f.active);
+        calc();
+      });
+      pillsEl.appendChild(pill);
+    });
+
+    function calc() {
+      var base = parseFloat(document.getElementById('factor-base').value) / 100 || 0.035;
+      var si = parseFloat(document.getElementById('factor-si').value) || 80000;
+
+      var totalMult = 1;
+      var activeFactors = [];
+      factors.forEach(function(f) {
+        if (f.active) {
+          totalMult *= f.multiplier;
+          activeFactors.push(f);
+        }
+      });
+
+      var adjustedRate = base * totalMult;
+      var premium = adjustedRate * si;
+
+      document.getElementById('factor-rate').textContent = (adjustedRate * 100).toFixed(2) + '%';
+      document.getElementById('factor-premium').textContent = fmt(Math.round(premium));
+      document.getElementById('factor-multiplier').textContent = totalMult.toFixed(2) + 'x';
+
+      // Build waterfall
+      waterfallEl.innerHTML = '';
+      var maxRate = base * 4; // reasonable max for bar width
+
+      function addRow(label, rate, color) {
+        var row = document.createElement('div');
+        row.className = 'waterfall-row';
+        var lbl = document.createElement('div');
+        lbl.className = 'waterfall-label';
+        lbl.textContent = label;
+        var barC = document.createElement('div');
+        barC.className = 'waterfall-bar-container';
+        var bar = document.createElement('div');
+        bar.className = 'waterfall-bar';
+        bar.style.width = Math.min(100, (rate / maxRate) * 100) + '%';
+        bar.style.background = color;
+        if ((rate / maxRate) * 100 > 15) bar.textContent = (rate * 100).toFixed(2) + '%';
+        barC.appendChild(bar);
+        var amt = document.createElement('div');
+        amt.className = 'waterfall-amount';
+        amt.textContent = fmt(Math.round(rate * si));
+        row.appendChild(lbl);
+        row.appendChild(barC);
+        row.appendChild(amt);
+        waterfallEl.appendChild(row);
+      }
+
+      addRow('Base Rate', base, 'var(--accent)');
+      var cumRate = base;
+      activeFactors.forEach(function(f) {
+        cumRate *= f.multiplier;
+        addRow('+ ' + f.name, cumRate, '#e53e3e');
+      });
+      if (activeFactors.length > 0) {
+        addRow('Adjusted Rate', adjustedRate, '#285e61');
+      }
+    }
+
+    document.getElementById('factor-base').addEventListener('input', calc);
+    document.getElementById('factor-si').addEventListener('input', calc);
+    calc();
+  })();
+
+  // ==========================================
+  // DEMO V: Expense Loading
+  // ==========================================
+  (function() {
+    var ids = ['exp-acq', 'exp-admin', 'exp-claims', 'exp-reins'];
+    var valIds = ['exp-acq-val', 'exp-admin-val', 'exp-claims-val', 'exp-reins-val'];
+
+    function calc() {
+      var pure = parseFloat(document.getElementById('exp-pure').value) || 0;
+      var total = 0;
+      ids.forEach(function(id, i) {
+        var v = parseFloat(document.getElementById(id).value);
+        document.getElementById(valIds[i]).textContent = v + '%';
+        total += v;
+      });
+
+      var loaded = total >= 100 ? Infinity : pure / (1 - total / 100);
+      document.getElementById('exp-ratio').textContent = total + '%';
+      document.getElementById('exp-loaded').textContent = loaded === Infinity ? 'N/A' : fmt(Math.round(loaded));
+      document.getElementById('exp-markup').textContent = loaded === Infinity ? 'N/A' : (loaded / pure).toFixed(2) + 'x';
+    }
+
+    ids.forEach(function(id) {
+      document.getElementById(id).addEventListener('input', calc);
+    });
+    document.getElementById('exp-pure').addEventListener('input', calc);
+    calc();
+  })();
+
+  // ==========================================
+  // DEMO VI: Risk Loading (Histogram)
+  // ==========================================
+  (function() {
+    var runBtn = document.getElementById('risk-run');
+    var svg = document.getElementById('risk-chart');
+
+    function run() {
+      var poolSize = parseInt(document.getElementById('risk-pool').value) || 500;
+      var rate = parseFloat(document.getElementById('risk-rate').value) / 100 || 0.035;
+      var riskLoad = parseFloat(document.getElementById('risk-load').value) / 100 || 0.2;
+
+      var premiumRate = rate * (1 + riskLoad);
+      var years = 1000;
+      var lossRatios = [];
+
+      for (var y = 0; y < years; y++) {
+        var deaths = binomial(poolSize, rate);
+        var lr = (deaths / poolSize) / premiumRate;
+        lossRatios.push(lr);
+      }
+
+      lossRatios.sort(function(a, b) { return a - b; });
+
+      // Histogram
+      var bins = 30;
+      var minLR = lossRatios[0];
+      var maxLR = lossRatios[years - 1];
+      var binW = (maxLR - minLR) / bins;
+      var counts = new Array(bins).fill(0);
+
+      lossRatios.forEach(function(lr) {
+        var b = Math.min(bins - 1, Math.floor((lr - minLR) / binW));
+        counts[b]++;
+      });
+
+      var maxCount = Math.max.apply(null, counts);
+
+      var W = 600, H = 280;
+      var pad = { top: 20, right: 20, bottom: 40, left: 50 };
+
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+      // Draw bars
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+      var barGap = 1;
+      var barW = (plotW / bins) - barGap;
+
+      for (var i = 0; i < bins; i++) {
+        var x = pad.left + i * (barW + barGap);
+        var h = (counts[i] / maxCount) * plotH;
+        var y = H - pad.bottom - h;
+        var binMid = minLR + (i + 0.5) * binW;
+        var color = binMid > 1.0 ? '#e53e3e' : resolveColor('var(--accent)');
+        drawRect(svg, x, y, barW, h, color, 2);
+      }
+
+      // 100% line
+      if (minLR < 1.0 && maxLR > 0.5) {
+        var x100 = pad.left + ((1.0 - minLR) / (maxLR - minLR)) * plotW;
+        if (x100 > pad.left && x100 < W - pad.right) {
+          drawLine(svg, x100, pad.top, x100, H - pad.bottom, '#e53e3e', 1.5, '4,3');
+          drawText(svg, x100, pad.top - 5, '100% Loss Ratio', { fontSize: 10, fill: '#e53e3e' });
+        }
+      }
+
+      // X axis labels
+      var xLabels = [];
+      for (var i = 0; i <= 5; i++) {
+        xLabels.push((minLR * 100 + (maxLR - minLR) * 100 * i / 5).toFixed(0) + '%');
+      }
+      drawXAxis(svg, xLabels, W, H, pad);
+
+      // Stats
+      var mean = lossRatios.reduce(function(a, b) { return a + b; }, 0) / years;
+      var ruinCount = lossRatios.filter(function(lr) { return lr > 1; }).length;
+      var p95 = lossRatios[Math.floor(years * 0.95)];
+
+      document.getElementById('risk-ruin').textContent = (ruinCount / years * 100).toFixed(1) + '%';
+      document.getElementById('risk-mean').textContent = (mean * 100).toFixed(1) + '%';
+      document.getElementById('risk-p95').textContent = (p95 * 100).toFixed(1) + '%';
+    }
+
+    runBtn.addEventListener('click', run);
+    run();
+  })();
+
+  // ==========================================
+  // DEMO VII: Premium Buildup Waterfall
+  // ==========================================
+  (function() {
+    var sliders = ['build-risk', 'build-acq', 'build-admin', 'build-claims', 'build-profit', 'build-subsidy'];
+    var valEls = ['build-risk-val', 'build-acq-val', 'build-admin-val', 'build-claims-val', 'build-profit-val', 'build-subsidy-val'];
+
+    function calc() {
+      var si = parseFloat(document.getElementById('build-si').value) || 80000;
+      var rate = parseFloat(document.getElementById('build-rate').value) / 100 || 0.042;
+      var riskLoad = parseFloat(document.getElementById('build-risk').value) / 100;
+      var acq = parseFloat(document.getElementById('build-acq').value) / 100;
+      var admin = parseFloat(document.getElementById('build-admin').value) / 100;
+      var claims = parseFloat(document.getElementById('build-claims').value) / 100;
+      var profit = parseFloat(document.getElementById('build-profit').value) / 100;
+      var subsidy = parseFloat(document.getElementById('build-subsidy').value) / 100;
+
+      // Update labels
+      sliders.forEach(function(id, i) {
+        document.getElementById(valEls[i]).textContent = document.getElementById(id).value + '%';
+      });
+
+      var purePremium = rate * si;
+      var riskPremium = purePremium * (1 + riskLoad);
+      var expenseTotal = acq + admin + claims;
+      var denom = 1 - expenseTotal - profit;
+      var grossPremium = denom <= 0 ? Infinity : riskPremium / denom;
+      var farmerPays = grossPremium * (1 - subsidy);
+
+      // Waterfall
+      var wf = document.getElementById('build-waterfall');
+      wf.innerHTML = '';
+
+      var layers = [
+        { label: 'Pure Premium', amount: purePremium, color: '#285e61' },
+        { label: '+ Risk Loading', amount: riskPremium - purePremium, color: '#38a169' },
+        { label: '+ Acquisition', amount: grossPremium * acq, color: '#d69e2e' },
+        { label: '+ Administration', amount: grossPremium * admin, color: '#dd6b20' },
+        { label: '+ Claims Mgmt', amount: grossPremium * claims, color: '#e53e3e' },
+        { label: '+ Profit', amount: grossPremium * profit, color: '#805ad5' },
+      ];
+
+      var maxAmount = grossPremium || 1;
+
+      layers.forEach(function(l) {
+        if (grossPremium === Infinity) return;
+        var row = document.createElement('div');
+        row.className = 'waterfall-row';
+        var lbl = document.createElement('div');
+        lbl.className = 'waterfall-label';
+        lbl.textContent = l.label;
+        var barC = document.createElement('div');
+        barC.className = 'waterfall-bar-container';
+        var bar = document.createElement('div');
+        bar.className = 'waterfall-bar';
+        bar.style.width = Math.min(100, (l.amount / maxAmount) * 100) + '%';
+        bar.style.background = l.color;
+        if ((l.amount / maxAmount) * 100 > 12) bar.textContent = fmt(Math.round(l.amount));
+        barC.appendChild(bar);
+        var amt = document.createElement('div');
+        amt.className = 'waterfall-amount';
+        amt.textContent = fmt(Math.round(l.amount));
+        row.appendChild(lbl);
+        row.appendChild(barC);
+        row.appendChild(amt);
+        wf.appendChild(row);
+      });
+
+      // Totals row
+      if (grossPremium !== Infinity) {
+        var sep = document.createElement('hr');
+        sep.className = 'demo-divider';
+        wf.appendChild(sep);
+        var totalRow = document.createElement('div');
+        totalRow.className = 'waterfall-row';
+        totalRow.innerHTML = '<div class="waterfall-label" style="font-weight:600;color:var(--text);">= Gross Premium</div>' +
+          '<div class="waterfall-bar-container"><div class="waterfall-bar" style="width:100%;background:var(--accent);">' + fmt(Math.round(grossPremium)) + '</div></div>' +
+          '<div class="waterfall-amount" style="font-weight:600;">' + fmt(Math.round(grossPremium)) + '</div>';
+        wf.appendChild(totalRow);
+
+        if (subsidy > 0) {
+          var subRow = document.createElement('div');
+          subRow.className = 'waterfall-row';
+          subRow.innerHTML = '<div class="waterfall-label" style="color:#38a169;">- Govt Subsidy</div>' +
+            '<div class="waterfall-bar-container"><div class="waterfall-bar" style="width:' + (subsidy * 100) + '%;background:#38a169;">' +
+            fmt(Math.round(grossPremium * subsidy)) + '</div></div>' +
+            '<div class="waterfall-amount" style="color:#38a169;">-' + fmt(Math.round(grossPremium * subsidy)) + '</div>';
+          wf.appendChild(subRow);
+        }
+      }
+
+      document.getElementById('build-gross').textContent = grossPremium === Infinity ? 'N/A' : fmt(Math.round(grossPremium));
+      document.getElementById('build-farmer').textContent = grossPremium === Infinity ? 'N/A' : fmt(Math.round(farmerPays));
+      document.getElementById('build-pct').textContent = grossPremium === Infinity ? 'N/A' : ((grossPremium / si) * 100).toFixed(1) + '%';
+      document.getElementById('build-monthly').textContent = grossPremium === Infinity ? 'N/A' : fmt(Math.round(farmerPays / 12));
+    }
+
+    sliders.forEach(function(id) {
+      document.getElementById(id).addEventListener('input', calc);
+    });
+    document.getElementById('build-si').addEventListener('input', calc);
+    document.getElementById('build-rate').addEventListener('input', calc);
+    calc();
+  })();
+
+  // ==========================================
+  // DEMO VIII: Book of Business 10-Year Sim
+  // ==========================================
+  (function() {
+    var runBtn = document.getElementById('book-run');
+    var svg = document.getElementById('book-chart');
+
+    function run() {
+      var policies = parseInt(document.getElementById('book-policies').value) || 1000;
+      var premRate = parseFloat(document.getElementById('book-prem-rate').value) / 100 || 0.055;
+      var mort = parseFloat(document.getElementById('book-mort').value) / 100 || 0.035;
+      var expRatio = parseFloat(document.getElementById('book-expense').value) / 100 || 0.35;
+      var si = 80000; // fixed for simplicity
+
+      var years = [];
+      var cumProfit = 0;
+      var badYears = 0;
+
+      for (var y = 0; y < 10; y++) {
+        var deaths = binomial(policies, mort);
+        var premiums = policies * premRate * si;
+        var claimsPaid = deaths * si;
+        var expenses = premiums * expRatio;
+        var lr = claimsPaid / premiums;
+        var cr = lr + expRatio;
+        var profit = premiums - claimsPaid - expenses;
+        cumProfit += profit;
+        if (cr > 1) badYears++;
+        years.push({ year: y + 1, lr: lr, cr: cr, profit: profit, cumProfit: cumProfit });
+      }
+
+      var W = 600, H = 300;
+      var pad = { top: 30, right: 20, bottom: 50, left: 55 };
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+      // Y axis: combined ratio
+      var crs = years.map(function(y) { return y.cr; });
+      var minCR = Math.min.apply(null, crs.concat([0.5]));
+      var maxCR = Math.max.apply(null, crs.concat([1.3]));
+
+      drawYAxis(svg, minCR * 100, maxCR * 100, 5, W, H, pad);
+      var xLabels = years.map(function(y) { return 'Y' + y.year; });
+      drawXAxis(svg, xLabels, W, H, pad);
+
+      // 100% line
+      var y100 = scaleY(1.0, minCR, maxCR, H, pad);
+      drawLine(svg, pad.left, y100, W - pad.right, y100, '#e53e3e', 1.5, '6,4');
+      drawText(svg, W - pad.right, y100 - 8, '100%', { fontSize: 10, fill: '#e53e3e', anchor: 'end' });
+
+      // Bars for combined ratio
+      var plotW = W - pad.left - pad.right;
+      var barW = (plotW / 10) * 0.6;
+      var gap = (plotW / 10) * 0.4;
+
+      for (var i = 0; i < 10; i++) {
+        var cx = pad.left + (i / 9) * plotW;
+        var topY = scaleY(years[i].cr, minCR, maxCR, H, pad);
+        var bottomY = scaleY(0, minCR, maxCR, H, pad);
+        var barH = bottomY - topY;
+        var color = years[i].cr > 1 ? '#e53e3e' : resolveColor('var(--accent)');
+
+        // Loss ratio portion
+        var lrTopY = scaleY(years[i].lr, minCR, maxCR, H, pad);
+        drawRect(svg, cx - barW / 2, lrTopY, barW, bottomY - lrTopY, color, 3);
+        // Expense portion on top
+        drawRect(svg, cx - barW / 2, topY, barW, lrTopY - topY, color + '88', 3);
+      }
+
+      // Legend
+      drawText(svg, pad.left + 5, pad.top + 10, 'Combined Ratio by Year (dark = loss ratio, light = expenses)', {
+        fontSize: 11, fill: 'var(--text-secondary)', anchor: 'start'
+      });
+
+      // Stats
+      var avgLR = years.reduce(function(a, y) { return a + y.lr; }, 0) / 10;
+      var avgCR = years.reduce(function(a, y) { return a + y.cr; }, 0) / 10;
+      document.getElementById('book-avg-lr').textContent = (avgLR * 100).toFixed(1) + '%';
+      document.getElementById('book-avg-cr').textContent = (avgCR * 100).toFixed(1) + '%';
+      document.getElementById('book-profit').textContent = fmt(Math.round(cumProfit));
+      document.getElementById('book-profit').style.color = cumProfit >= 0 ? 'var(--accent)' : '#e53e3e';
+      document.getElementById('book-bad-years').textContent = badYears + '/10';
+      document.getElementById('book-bad-years').style.color = badYears > 3 ? '#e53e3e' : 'var(--accent)';
+    }
+
+    runBtn.addEventListener('click', run);
+    run();
+  })();
+
+  // ==========================================
+  // DEMO IX: Credibility Blending
+  // ==========================================
+  (function() {
+    var nSlider = document.getElementById('cred-n');
+    var kSlider = document.getElementById('cred-k');
+
+    function calc() {
+      var own = parseFloat(document.getElementById('cred-own').value) / 100 || 0;
+      var industry = parseFloat(document.getElementById('cred-industry').value) / 100 || 0;
+      var n = parseInt(nSlider.value);
+      var k = parseInt(kSlider.value);
+
+      document.getElementById('cred-n-val').textContent = n.toLocaleString();
+      document.getElementById('cred-k-val').textContent = k.toLocaleString();
+
+      var z = n / (n + k);
+      var blended = z * own + (1 - z) * industry;
+
+      document.getElementById('cred-z').textContent = z.toFixed(2);
+      document.getElementById('cred-result').textContent = (blended * 100).toFixed(2) + '%';
+    }
+
+    nSlider.addEventListener('input', calc);
+    kSlider.addEventListener('input', calc);
+    document.getElementById('cred-own').addEventListener('input', calc);
+    document.getElementById('cred-industry').addEventListener('input', calc);
+    calc();
+  })();
+
+  </script>
+
+</body>
+</html>
