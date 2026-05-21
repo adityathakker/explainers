@@ -4,32 +4,85 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>India Is a Trading Market — Market Explainers</title>
-  <meta name="description" content="Why buy-and-hold fails and capital rotation wins">
+  <meta name="description" content="Why buy-and-hold fails in India and capital rotation wins — shown with three live simulations.">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="India Is a Trading Market">
-  <meta property="og:description" content="Why buy-and-hold fails and capital rotation wins">
+  <meta property="og:description" content="Why buy-and-hold fails in India and capital rotation wins — shown with three live simulations.">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #7b341e;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget-specific layout helpers */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .stat-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .stat-cell-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .stat-cell-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .stat-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .stat-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) {
+      .stat-grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    .style-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
   </style>
 </head>
 <body>
@@ -47,8 +100,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">India Is a Trading Market</h1>
-      <p class="hero__subtitle">Why buy-and-hold fails and capital rotation wins</p>
-      <p class="hero__meta">22 min read</p>
+      <p class="hero__subtitle">Why buy-and-hold fails in India and capital rotation wins — shown, not told.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 24 min read</p>
     </div>
   </header>
 
@@ -57,342 +110,586 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-the-contrarian-truth-about-indian-markets">I. The Contrarian Truth About Indian Markets</a></li>
-        <li><a href="#ii-why-buy-and-hold-fails-in-india">II. Why Buy-and-Hold Fails in India</a></li>
-        <li><a href="#iii-the-mechanics-of-capital-rotation">III. The Mechanics of Capital Rotation</a></li>
-        <li><a href="#iv-how-to-read-sector-cycles">IV. How to Read Sector Cycles</a></li>
-        <li><a href="#v-the-math-of-small-frequent-returns">V. The Math of Small, Frequent Returns</a></li>
-        <li><a href="#vi-when-and-how-to-book-profits">VI. When and How to Book Profits</a></li>
-        <li><a href="#vii-building-the-rotation-portfolio">VII. Building the Rotation Portfolio</a></li>
-        <li><a href="#viii-the-sideways-market-playbook">VIII. The Sideways Market Playbook</a></li>
-        <li><a href="#ix-putting-it-all-together-your-capital-rotation-action-plan">IX. Putting It All Together: Your Capital Rotation Action Plan</a></li>
+        <li><a href="#i-why-not-buy-and-hold">Why doesn't buy-and-hold work in India?</a></li>
+        <li><a href="#ii-what-is-rotation">What does capital rotation actually look like?</a></li>
+        <li><a href="#iii-allocator">How should the mix change with the regime?</a></li>
+        <li><a href="#iv-cycle">How do you trade buy-at-support, sell-at-resistance without lying to yourself?</a></li>
+        <li><a href="#v-yield-curve">What signal tells you which style is in favour?</a></li>
+        <li><a href="#vi-small-frequent">Why do small, frequent gains beat the multibagger hunt?</a></li>
+        <li><a href="#vii-book-profits">When should you actually book profits?</a></li>
+        <li><a href="#viii-portfolio">How do you build a portfolio designed to rotate?</a></li>
+        <li><a href="#ix-action-plan">What do you do on Monday morning?</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-the-contrarian-truth-about-indian-markets">
+
+    <!-- ============================================================
+         I. Why doesn't buy-and-hold work in India?
+         ============================================================ -->
+    <section class="reveal" id="i-why-not-buy-and-hold">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. The Contrarian Truth About Indian Markets</h2>
+        <h2>Why doesn't buy-and-hold work in India?</h2>
       </div>
       <div class="section-content">
-        <p>Let me say something that most financial influencers, mutual fund distributors, and investment advisors will never tell you: <strong>India is a trading market, not a long-term investing market.</strong></p>
-<p>Read that again. Let it sink in.</p>
-<p>For the last decade, you have been fed a narrative. Buy quality. Hold forever. Let compounding work its magic. Just do your SIP and forget about it. The people telling you this made their money selling you this idea &ndash; through management fees, through commissions, through total expense ratios that they are quietly raising by 10% when you are not watching. The Mutual Fund Sahi Hai crowd built an industry on the back of this narrative.</p>
-<p>And what did it deliver?</p>
-<p>Over the last 1.5 years, broad market investors in India made 0% returns. In fact, if you adjust for the rupee&rsquo;s fall, you made negative returns. If you bought Hospitals, IT, Banks, PSUs &ndash; any of these themes at the top, you lost money. These were not bad companies. They were not fraudulent firms. They were the best investable themes in the Indian market. And they still lost people money.</p>
-<blockquote>
-<p>The fundamental shift in the markets has been that instead of &ldquo;buy and hold&rdquo; it has become a &ldquo;capital rotation&rdquo; market. This is something I have been saying for a while.</p>
-</blockquote>
-<p>Here is the approach that actually works in India: you rotate capital between undervalued sectors, you book profits at resistance, and you repeat. You are not a passive investor sitting on a beach letting compounding do the work. You are an active allocator constantly repositioning your money where the risk-reward is most favorable.</p>
-<p>This is not day trading. This is not speculation. This is a disciplined, macro-aware investment framework that acknowledges a fundamental reality about Indian markets &ndash; they are cyclical, they are sentiment-driven, and they reward the investor who understands when to enter and when to exit a theme.</p>
-<p>In this article, I am going to teach you exactly how capital rotation works, why it is structurally necessary in India, how to identify sector cycles, when to book profits, and how to build a portfolio that compounds real wealth in a market that refuses to go in a straight line. This is the strategy I have personally used to generate profits through one of the most difficult market environments in recent Indian history &ndash; while most SIP investors were watching their portfolios go nowhere.</p>
-<p>Let us get into it.</p>
-<hr />
+        <p>Say "India is a trading market, not an investing market" and the entire SIP-distribution complex will tell you that you're wrong. They have a financial reason to tell you that. You have a portfolio reason to ignore them.</p>
+
+        <p>Here is the uncomfortable arithmetic. Over the eighteen months ending mid-2025, broad-market Indian investors made roughly <strong>zero percent</strong> in nominal terms. Adjusted for the rupee's drift against the dollar, slightly negative. The Mutual Fund Sahi Hai crowd built an industry on top of a US-flavoured narrative — buy quality, hold forever, let compounding work its magic — and then quietly raised expense ratios by 10% while no one was looking<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>.</p>
+
+        <p>The reason that narrative works in the United States and doesn't work here is structural. The S&amp;P 500 is, in practice, a portfolio of seven mega-cap monopolies — Apple, Microsoft, Google, Amazon, NVIDIA, Meta, Tesla — riding global technology adoption denominated in the world's reserve currency. Hold the index and you ride the monopoly. India has no equivalent stack at that scale. What India has is a wide, cyclical, sentiment-driven market where individual sectors take turns leading and turns dying.</p>
+
+        <p>Five concrete reasons buy-and-hold fails here:</p>
+
+        <ol>
+          <li><strong>Sectors are violently cyclical.</strong> The real return ceiling for the index is roughly inflation plus two-to-three percent — call it 12-13% pre-tax. That figure holds, but only if you're in the right sector at the right time. Bought IT, hospitals, or PSUs at the top and you waited years for nothing.</li>
+          <li><strong>Valuations rarely stay cheap.</strong> When a sector is hot, it gets bid to absurdity. When it turns, it can stay dead for two or three years. Capital trapped in a sideways stock is capital not compounding.</li>
+          <li><strong>The taxman keeps moving the goalposts.</strong> LTCG was 0% before 2018, then 10%, then 12.5%. Every step up erodes the compounding edge that long holds are supposed to give you<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</li>
+          <li><strong>The rupee bleeds your real return.</strong> A 12% INR CAGR with 4-5% annual depreciation and rising LTCG nets out to mediocrity once you measure in purchasing power.</li>
+          <li><strong>SIP flows have changed market structure.</strong> Domestic institutional buyers are now the counter-flow to FII selling. That puts a floor under prices but also prevents the deep, sustained corrections that would make passive entries cheap. You get a long, sideways grind — paradise for rotators, purgatory for holders.</li>
+        </ol>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the US comparison is overstated</summary>
+          <p>It is fashionable in Indian finance circles to claim "US buy-and-hold works because of the Mag 7." That's partially true and partially propaganda. From 2000 to 2013, the S&amp;P 500 produced essentially zero real return — a thirteen-year sideways grind featuring two 50% drawdowns. Buy-and-hold investors who started in 1999 watched their portfolios go nowhere for over a decade.</p>
+          <p>The 2013-2024 mega-cap-tech super-cycle is the exception, not the rule. Even American investors had to live through long flat periods where active rotation would have crushed passive holding. The lesson generalises: <em>no market</em> trends forever. The American experience for the last decade simply rhymes with the Indian experience of the next decade. India is just earlier in the cycle of figuring out what to do about it.</p>
+        </details>
+
+        <div class="callout">
+          <div class="callout-title">The point</div>
+          <p>India does not reward the investor who sits still. It rewards the investor who reads the regime, moves capital to where the risk-reward is best <em>right now</em>, and books profits at resistance. This isn't speculation. It's a different operating system for a different market.</p>
+        </div>
+
+        <p>The 18-month receipt for the buy-and-hold investor in India, mid-2024 to mid-2025:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">~0%</div><div class="stat-label">Nominal INR return on Nifty 50</div></div>
+          <div class="stat"><div class="stat-value">−4%</div><div class="stat-label">After rupee depreciation, in USD</div></div>
+          <div class="stat"><div class="stat-value">12.5%</div><div class="stat-label">LTCG rate (was 0% in 2017)</div></div>
+          <div class="stat"><div class="stat-value">−7 cr</div><div class="stat-label">Cost of 1% extra TER on 40-year SIP</div></div>
+        </div>
+
+        <p>The last figure is worth pausing on. A 25,000/month SIP compounded at 12.5% for 40 years builds a corpus of roughly 28 crore. The same SIP at 11.5% (one extra percentage point of fund-house expenses) builds 21 crore. <strong>That one percent of TER costs the investor roughly seven crore.</strong> Multiply by the ten million SIP accounts in India and you have built a financial empire on a percent.</p>
+
+        <p>Consider HDFC Bank. Impeccable fundamentals. Record results. Growing deposits, expanding loan book, clean asset quality. And for long stretches, dead money. The stock eventually catches up to the economy. But in the interim, your capital is hostage. The alternative is to take control of your own allocation — and that starts with seeing what rotation actually looks like.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-why-buy-and-hold-fails-in-india">
+    <!-- ============================================================
+         II. What does capital rotation actually look like?
+         ============================================================ -->
+    <section class="reveal" id="ii-what-is-rotation">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. Why Buy-and-Hold Fails in India</h2>
+        <h2>What does capital rotation actually look like?</h2>
       </div>
       <div class="section-content">
-        <p>The buy-and-hold gospel works beautifully in one specific market: the United States. And there are very concrete structural reasons for that.</p>
-<p>The US has a handful of mega-cap technology companies &ndash; the Magnificent Seven &ndash; that are genuine monopolies or near-monopolies in their respective domains. Apple, Microsoft, Google, Amazon, NVIDIA, Meta, Tesla. These firms sit at the intersection of global demand, technological innovation, and enormous economic moats. When you buy the S&amp;P 500 and hold it, you are essentially riding the compounding engine of global technology adoption. The US dollar is the world&rsquo;s reserve currency. US regulatory structures, while imperfect, are relatively transparent. Corporate governance is strong enough that shareholder value creation is a genuine priority.</p>
-<p>India has none of these structural advantages at scale. Here is why buy-and-hold fails here:</p>
-<p><strong>1. Markets are cyclical, especially in India.</strong> Some themes run, some do not. Sometimes the entire market stops running. We can expect real inflation plus 2-3% returns, which comes out to roughly 12-13% pre-tax. That equation holds. But to actually capture that return, you need to be in the right sectors at the right time.</p>
-<p><strong>2. Valuations rarely stay cheap.</strong> The Indian market moves in sentiment-driven cycles. When a sector is hot, it gets bid up to absurd valuations. When it falls out of favor, it can stay depressed for years. If you bought at the top of a cycle and held, you are looking at dead money for potentially 2-3 years while your capital could have been working elsewhere.</p>
-<p><strong>3. The taxation structure penalizes passive holding.</strong> LTCG went from 0% pre-2018 to 10%, then from 10% to 12.5%. By 2030, who knows what this number will be. The government will always cultivate an asset class first, then tax it. Every additional percentage point of LTCG erodes the compounding advantage that buy-and-hold theoretically provides.</p>
-<p><strong>4. Rupee depreciation eats your real returns.</strong> This is the part nobody talks about. Even if your stock portfolio returned 15% in INR terms, the rupee&rsquo;s constant depreciation against the dollar means your real, purchasing-power-adjusted returns are significantly lower. A 12% CAGR in rupees with 4-5% annual depreciation and rising LTCG taxes starts looking very mediocre.</p>
-<p><strong>5. SIP money has changed market structure.</strong> Massive inflows of SIP money go to DIIs, who are now functioning as counter-buyers in the market, balancing out FII selling. This creates a floor under prices but also prevents the kind of deep, sustained corrections that would make buy-and-hold entries compelling. Instead, you get a long, sideways market where capital rotation is the only way to generate alpha.</p>
-<blockquote>
-<p>If you believe in narratives like &ldquo;buy and hold forever,&rdquo; &ldquo;buy quality companies,&rdquo; &ldquo;buy monopoly stocks&rdquo; &ndash; all these are super simple narratives that have been run by SIP bros. Now, their funds are suffering at scale.</p>
-</blockquote>
-<p>Consider the case of HDFC Bank. Impeccable fundamentals. Record results. Growing deposits, expanding loan book, maintaining asset quality. And yet investors who bought at elevated levels experienced what felt like a dead investment for months. The stock market returns eventually catch up to the fundamentals of the economy &ndash; but in the interim, your capital is trapped.</p>
-<p>The entire &ldquo;buy and forget&rdquo; philosophy has been promoted at scale by mutual fund houses because it serves their business model. You keep your SIP running, they keep collecting their TER. Let me show you what that costs over time: on a 25,000 rupee SIP at 12.5% average returns over 40 years, the total corpus is 28.2 crore. With just 1% additional commissions reducing your effective return to 11.5%, the corpus drops to 21.26 crore. That is a 32.6% difference. Seven crore rupees gone to the fund house, from one percentage point.</p>
-<p>The alternative is to take control of your own capital. And that starts with understanding how sectors rotate.</p>
-<hr />
+        <p>Capital rotation is the simplest investing strategy ever described. It is also one of the hardest to execute, because it requires you to sell things you're emotionally bonded to.</p>
+
+        <p>The strategy in one line: <strong>buy what is cheap. Hold until it becomes fairly valued. Sell, and move the proceeds to the next cheap thing. Repeat.</strong></p>
+
+        <p>That's it. The art lies entirely in three places: identifying which sector is in which phase, sizing the position so you can survive being early, and having the discipline to sell when the thesis has played out instead of falling in love with the stock.</p>
+
+        <p>A concrete cycle, end to end. PNB (Punjab National Bank) was deeply hated in 2023 — fraud headlines, asset-quality fears, a PE around 18 on a depressed earnings base. Sentiment was awful, which is exactly when the math gets interesting. Build a position 10-20% of intended size. Add as the chart confirms. Hold through the slow recovery. Take it up roughly 100% over the cycle. Sell most of it. Move the proceeds to SBI and Bank of Baroda when PSU sentiment broadened out. SBI ran another 40%. By then PSU banks were no longer cheap — but private banks were unloved on a relative basis. Rotate again, this time into the Private Sector Bank Index. The capital never stopped working.</p>
+
+        <p>A second example, this time from the technology side. Nifty IT had corrected 35% from peak by mid-2025 — a brutal selloff driven by US client budget freezes, GenAI overhang, and the visa narrative. I was structurally bearish on long-term IT margins, but at a 35% discount, the math for a swing trade was compelling: limited downside (the sector was already cheap), 15-20% upside to the next resistance, a 1:3 risk-reward. Bought the IT Index aggressively. Within four months the sector caught a sentiment shift on GenAI revenue commentary and was up 25%. Exited at resistance. Rotated the proceeds into healthcare, which had just begun Phase 1 after a long sideways grind. <strong>The trade was never about loving IT. It was about exploiting a temporary mispricing while keeping the structural view intact.</strong></p>
+
+        <p>And a third, smaller but instructive. The capital-market plays — CDSL, CAMS, Angel One — went on a tear in 2023 as F&amp;O participation exploded. By early 2024 they were on every retail watchlist. Trim 60% of position. Rotate into FMCG names trading at their 200DMA after a long defensive underperformance. The capital-market stocks corrected 30% over the next two quarters. The FMCG positions delivered 15% on the rotation. <strong>No predictions were required. Only attention to where the crowd was, and the discipline to be elsewhere.</strong></p>
+
+        <p>Every rotation follows the same five-step pattern:</p>
+
+        <ol>
+          <li><strong>Identify a sector in negative sentiment.</strong> Charts ugly. Media bearish. Nobody on social media touting it. That's your entry signal — not the price chart by itself, but the chart combined with the silence around it.</li>
+          <li><strong>Build positions in tranches.</strong> 10-33% of intended size to start. The rest is dry powder for averaging down. If you're early, you want to be glad about it, not panicked.</li>
+          <li><strong>Hold through the recovery.</strong> Three to twelve months is typical. Daily price-checking is the enemy of conviction.</li>
+          <li><strong>Book profits at technically defined resistance.</strong> Not on emotion. Not on "it's been a great run." On a level you wrote down before you entered.</li>
+          <li><strong>Rotate to the next beaten-down sector.</strong> The market always has one.</li>
+        </ol>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — this isn't market timing</summary>
+          <p>Capital rotation is sometimes accused of being "market timing in disguise." It isn't. Market timing predicts the direction of the <em>index</em> — when to be in vs. out of equities entirely. Rotation predicts the relative ranking of <em>sectors</em> within the index while staying near-fully invested.</p>
+          <p>The difference matters because relative-rank prediction is empirically much easier than absolute-level prediction. Sectors move on identifiable drivers — rate cuts help banks and housing, weak rupee helps IT and pharma, commodity cycles help metals. Predicting "next month, banks will outperform staples" is a far more tractable bet than "next month, the Nifty will be up."</p>
+        </details>
+
+        <p>The pattern repeats across every sector and every cycle. Zomato up 70% from entry — book 70%, rotate 30% into Swiggy on the same theme, keep a runner. CDSL/CAMS through their 2023 cycle — same drill. The Smallcap Index in 2024 — 100%+, exited before the 25% correction wiped out latecomers. The rotation isn't the trick. The trick is doing it on cue, every time, without the sentimentality that traps amateurs in losing themes.</p>
+
+        <p>Every sector at any moment is in one of four cyclical phases. Misidentifying the phase is the most expensive single error in active investing — buying euphoria, selling capitulation, or worse, both in the same cycle.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Phase</th><th>What the sector looks like</th><th>What you do</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>1. Accumulation</strong></td><td>Beaten down, valuations cheap, media bearish, social-media silent, charts ugly</td><td>Build first tranche (10-33% of intended size)</td></tr>
+            <tr><td><strong>2. Recovery</strong></td><td>50DMA crosses above 150DMA, volume returns, narrative softens from bearish to neutral</td><td>Add to position aggressively as the breakout confirms</td></tr>
+            <tr><td><strong>3. Momentum</strong></td><td>Headlines turn bullish, valuations stretch, "this time is different" appears in print</td><td>Begin systematic profit-booking (50-70% at first resistance)</td></tr>
+            <tr><td><strong>4. Distribution</strong></td><td>Smart money exits quietly, retail piles in late, then a sharp 20-40% correction</td><td>Cash on the sidelines, watching for the next sector to enter Phase 1</td></tr>
+          </tbody>
+        </table>
+
+        <p>The four phases happen on different timelines for different sectors. Banks were in Phase 1 through most of 2024 — earnings fine, sentiment terrible, valuations bottom-quintile. By the time RBI's first rate cut landed, they were already past the breakout. IT corrected 35% from peak in mid-2025 and entered Phase 1 with everyone still anti-IT structurally. Healthcare cycled from Phase 3 back to Phase 1 inside twelve months as hospital chains digested their post-COVID overvaluations. <strong>Sectors don't move in lockstep. That asynchrony is the entire opportunity.</strong></p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-the-mechanics-of-capital-rotation">
+    <!-- ============================================================
+         III. How should the mix change with the regime?
+         ============================================================ -->
+    <section class="reveal" id="iii-allocator">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. The Mechanics of Capital Rotation</h2>
+        <h2>How should the mix change with the regime?</h2>
       </div>
       <div class="section-content">
-        <p>Capital rotation is not a complicated concept. It is, in fact, one of the most intuitive investment strategies once you understand the logic. Let me break it down in simple language.</p>
-<p><strong>You buy what is cheap. You hold until it becomes fairly valued or expensive. You sell and move that capital to the next thing that is cheap. Repeat.</strong></p>
-<p>That is it. That is the entire strategy. The art lies in identifying the cycles, sizing your positions correctly, and having the discipline to book profits when your thesis plays out rather than falling in love with a stock.</p>
-<p>Let me give you a real example from my own portfolio. Consider the case study of City Union Bank. The stock went up 30% in three months. This was in my portfolio. So what did I do? I rotated some capital &ndash; cut about 25% of the position &ndash; and reinvested into beaten-down stocks. I started a small position on something like CRISIL. The PE was still high, and the growth rate was not explosive. But since I was buying below the 200DMA, at about 10% of my intended capital, I left significant room to downward average. CRISIL is a strong business that would revive with time as India&rsquo;s capital market grows.</p>
-<blockquote>
-<p>I hope you guys got the concept of capital rotation. You buy undervalued, hold until fairly valued, sell a portion, and redeploy to the next undervalued opportunity.</p>
-</blockquote>
-<p>Here is another example. I invested in PNB when sentiment was terrible and the PE was around 18. Made more than 100% profits. Exited well. Then rotated that capital to Bank of Baroda and SBI. SBI went up 40% from that point &ndash; exceptional returns. But then SBI started looking fairly valued, while private sector banks looked deeply undervalued. So I exited SBI and rotated capital to the Private Sector Bank Index. The PSU bank theme had played out. It was time to reap rewards and do basic portfolio rebalancing.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Asset allocation books tell you to pick a number — 60% equities, 40% bonds — and rebalance to it once a year. That advice was written for a different country in a different decade. In a regime-driven market, the question "what is the right mix?" has no static answer. The right mix changes when the regime changes, and the regime changes more often than annually.</p>
 
-<p>The pattern is always the same:</p>
-<ol>
-<li><strong>Identify a sector in negative sentiment.</strong> Nobody believes it is coming back. The charts are ugly. The financial media is bearish. This is your entry signal.</li>
-<li><strong>Build positions aggressively.</strong> Not all at once &ndash; typically 10-33% of your intended allocation to start, leaving room to average down.</li>
-<li><strong>Hold through the recovery.</strong> This takes patience. It could be 3 months, 6 months, sometimes a year.</li>
-<li><strong>Book profits when the resistance point hits.</strong> The technicals will tell you when the easy money has been made.</li>
-<li><strong>Rotate to the next beaten-down sector.</strong> The market always gives you a new opportunity.</li>
-</ol>
-<p>I did this with Zomato &ndash; booked profits at 70%, rotated to Swiggy (same theme), kept 30% on Zomato. Did it with CDSL/CAMS &ndash; booked profits and rotated capital to other things. Did it with the Smallcap Index &ndash; we invested heavily, made 100%+ profits, and exited at the right time. Then when the index corrected 25%, the profits were already safe and ready for redeployment.</p>
-<p>This is how wealth is actually built in India. Not by sitting passively and hoping your stock goes up. But by actively managing your capital through cycles.</p>
-<hr />
+        <p>The four buckets that matter, regardless of how you slice equities further:</p>
+
+        <ul>
+          <li><strong>Cash</strong> — option value. Pays nothing on its own, but lets you take swings when others can't.</li>
+          <li><strong>Bonds</strong> — yield with low drawdown. Outperforms in risk-off; underperforms badly in risk-on.</li>
+          <li><strong>Equities</strong> — the long-run engine. Highest drawdown, highest expected return.</li>
+          <li><strong>Commodities</strong> — inflation hedge, regime diversifier. Gold and oil don't move with stocks.</li>
+        </ul>
+
+        <p>Drag the slider below from -1 (deep risk-off) to +1 (greed mode). The bars rearrange. The expected return and expected drawdown numbers update live. There is no "right" answer — there is the right answer <em>given the regime you think we're in.</em></p>
+
+        <!-- Widget 1: Phase-driven allocator -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 — The regime-driven allocator</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 280px;"></canvas>
+          <div class="slider-group">
+            <div class="slider-label"><span>Risk regime</span><span class="slider-value" id="w1-regime-val">Neutral (0.00)</span></div>
+            <input type="range" id="w1-regime" min="-100" max="100" value="0" step="1">
+          </div>
+          <div class="stat-grid-3">
+            <div class="stat-cell"><div class="stat-cell-label">Expected 1Y return</div><div class="stat-cell-value" id="w1-ret">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Expected drawdown</div><div class="stat-cell-value" id="w1-dd">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Return / drawdown</div><div class="stat-cell-value" id="w1-rd">—</div></div>
+          </div>
+          <p class="widget-hint">Slide left for risk-off (cash + bonds dominate, defensive). Slide right for risk-on (equities + commodities). Notice the expected drawdown grows faster than the return — that's the whole reason regime matters.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — these aren't backtested numbers</summary>
+          <p>The expected-return and drawdown figures in the widget are illustrative estimates of long-run averages for each asset class, weighted by allocation. They are not the output of a Monte Carlo simulation, and they are not specific to any window of Indian or global market history.</p>
+          <p>The point isn't precision. The point is the shape: as you push the slider right, expected return climbs roughly linearly, but expected drawdown climbs faster. That is the regime trade-off all allocators face. Pick a mix you can survive in the worst-case regime, not the one you'd love in the best-case.</p>
+        </details>
+
+        <p>Look at what the bar does when you slide to -1. Cash dominates. Bonds are the second-largest slice. Equities collapse to a sliver. That's not a permanent recommendation. That's the allocation of a portfolio waiting for a discount. When the discount arrives — when the market is screaming buyer's-market signals — you slide right and the allocation flips. <strong>Static allocation is for people who don't read the market.</strong></p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-how-to-read-sector-cycles">
+    <!-- ============================================================
+         IV. How do you trade buy-at-support, sell-at-resistance?
+         ============================================================ -->
+    <section class="reveal" id="iv-cycle">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. How to Read Sector Cycles</h2>
+        <h2>How do you trade buy-at-support, sell-at-resistance without lying to yourself?</h2>
       </div>
       <div class="section-content">
-        <p>To rotate capital effectively, you need to understand how sector cycles work in the Indian market. Every sector goes through four distinct phases, and your job is to identify which phase a sector is in.</p>
-<p><strong>Phase 1: Negative Sentiment / Accumulation.</strong> The sector has been beaten down. No one is talking about it. Financial media is bearish. Valuations are below historical averages. This is where smart money starts accumulating. When I picked up Nifty IT three months before the breakout, nobody believed IT was coming back. That was the signal.</p>
-<p><strong>Phase 2: Recovery / Breakout.</strong> The sector starts moving. A breakout happens on the chart. Volume picks up. The narrative slowly starts to shift from bearish to cautiously optimistic. This is when you add to your positions if you have not already.</p>
-<p><strong>Phase 3: Momentum / Euphoria.</strong> Everyone is bullish. The sector is making headlines. Retail investors start piling in. Valuations stretch beyond fundamentals. You start hearing phrases like &ldquo;this time is different.&rdquo; This is when you begin booking profits &ndash; not all at once, but systematically.</p>
-<p><strong>Phase 4: Distribution / Decline.</strong> The smart money exits. Retail is left holding the bag. The sector corrects 20-40%. The cycle resets. The sector moves back toward Phase 1.</p>
-<p>Let me give you concrete examples of how these phases played out in real time:</p>
-<p><strong>Banks (2024-2025):</strong> Private banks had significantly underperformed the market for five years. Corporate numbers were good, growth rate was fine. RBI rate cuts were on the horizon, which help private banks massively. This was a textbook Phase 1 setup. Kotak Bank, HDFC Bank &ndash; these had become deep value stocks. Very strong volume started coming in. This was sector rotation in action. Whenever serious money comes to India, these names move.</p>
-<p><strong>IT (2025):</strong> Nifty IT had corrected 35% from peak. I was anti-IT fundamentally as a long-term thesis, but at a 35% discount, the risk-reward for a swing trade was compelling. I bought IT Index aggressively. It entered bullish momentum. We were already on profits. The plan was not to hold forever &ndash; it was to trade the range. When IT hit the resistance, we would rotate out.</p>
-<p><strong>Healthcare / Hospitals:</strong> As banks played out and started hitting resistance, the rotation target became healthcare. Hospitals, diagnostics &ndash; these are 5-10 year structural growth stories. Insurance penetration is increasing, margins are expanding, pricing power is strong. For 5-10 year bets, you need to pick segments that can grow at more than 15% CAGR. Banks typically grow in alignment with the economy. Healthcare grows faster.</p>
-<blockquote>
-<p>Banks become sell on rise. Healthcare becomes buy on dips.</p>
-</blockquote>
-<p>The key to reading these cycles is a combination of:</p>
-<ul>
-<li><strong>Valuation awareness.</strong> Know where the PE sits relative to its historical range. If a sector PE is at the bottom 20% of its 10-year range, you are likely in Phase 1.</li>
-<li><strong>Technical analysis.</strong> Moving averages, support/resistance levels, and breakout patterns tell you when a sector is transitioning between phases. When the 50DMA crosses above the 150DMA and both change their incline &ndash; that is the start of a bullish momentum.</li>
-<li><strong>Sentiment reading.</strong> When everybody is bearish on a sector, that is your buy signal. When everybody is bullish, that is your sell signal.</li>
-<li><strong>Fundamental check.</strong> The underlying businesses need to be healthy. You are not buying sectors in decline because of genuine structural problems. You are buying sectors that are temporarily out of favor.</li>
-</ul>
-<hr />
+        <p>"Buy low, sell high" is the most over-quoted, under-executed phrase in finance. The reason almost nobody does it is psychological: the moment a stock looks cheap, it usually feels terrible, and the moment it looks expensive, it usually feels great. To execute, you need to commit to entry and exit levels <em>before</em> the trade — and then mechanically honour them.</p>
+
+        <p>Concretely: every range-bound stock and every sector index has a support level (the floor it's bounced off multiple times) and a resistance level (the ceiling it's failed at multiple times). On Nifty 50, that range was roughly 21,000 to 26,650 through most of 2024-2025. You buy near the floor, you sell near the ceiling, you wait for the next dip. A 5-8% swing inside the range, executed two or three times a year, compounds to 15-25% annual returns — while a passive holder in the same window earns zero<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>.</p>
+
+        <p>The widget below simulates a random price path with explicit support and resistance lines. Hit Play: the simulated trader buys when the price tags support, sells when it tags resistance, and accumulates a running P&amp;L. The grey line is the same money sitting passively in the underlying. Watch the gap open up.</p>
+
+        <!-- Widget 2: Trade cycle animator -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 — The rotation trader vs the buy-and-hold investor</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="btn-group">
+            <button class="btn-primary" id="w2-play">Play</button>
+            <button class="btn-secondary" id="w2-new">New path</button>
+          </div>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Volatility (σ)</span><span class="slider-value" id="w2-vol-val">22%</span></div>
+              <input type="range" id="w2-vol" min="10" max="40" value="22" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Cycles to simulate</span><span class="slider-value" id="w2-cycles-val">6</span></div>
+              <input type="range" id="w2-cycles" min="2" max="12" value="6" step="1">
+            </div>
+          </div>
+          <div class="stat-grid-3">
+            <div class="stat-cell"><div class="stat-cell-label">Rotator return</div><div class="stat-cell-value" id="w2-rot-ret">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Buy-and-hold return</div><div class="stat-cell-value" id="w2-bh-ret">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Buy-and-hold max drawdown</div><div class="stat-cell-value" id="w2-bh-dd">—</div></div>
+          </div>
+          <p class="widget-hint">Markers stay on the chart as the price walks across. Green = buy at support, red = sell at resistance. Generate a few paths — sometimes the rotator wins by a mile, sometimes by a sliver. Over many paths it wins on average, and it wins with a fraction of the drawdown.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — when buy-and-hold wins</summary>
+          <p>Run enough paths and you'll find some where buy-and-hold beats the rotator. Those are typically the paths where the underlying breaks decisively above resistance and never looks back. The rotator sold at the ceiling and watched the stock keep climbing.</p>
+          <p>This is real, and it's the cost of running the strategy. The defence is partial exits — sell 50-70% at resistance, keep a runner. You give up some upside on breakouts to lock in profits on the more common range-bound paths. In a market that genuinely trends most of the time (US large-cap tech, 2015-2024), the rotator loses. In a market that genuinely chops (India, 2024-2025), the rotator wins. Match the strategy to the regime.</p>
+        </details>
+
+        <p>The danger of this strategy is mechanical execution without checking the underlying. If the support breaks because the company is fundamentally deteriorating — fraud, regulator action, irreversible competitive loss — the trade is not "buying support." It's catching a falling knife. The rule is simple: rotate sectors that are temporarily out of favour, not sectors that are dying. The chart tells you where to act. The fundamentals tell you whether to act.</p>
+
+        <p>How to identify a valid support level — three filters:</p>
+
+        <ol>
+          <li><strong>Multiple touches.</strong> The level has been tested at least three times and held each time. A single bounce is noise; a third bounce is a level.</li>
+          <li><strong>Volume confirmation.</strong> Selling volume thins as price approaches the level. Buying volume picks up sharply on the bounce. This is the footprint of accumulators absorbing supply.</li>
+          <li><strong>Fundamental anchor.</strong> The price at support corresponds to a sensible valuation — say, the bottom of the historical PE range, or the dividend yield reaches a notable level. The chart and the fundamentals agree.</li>
+        </ol>
+
+        <p>If all three line up, you have a high-confidence entry. If only one or two, the position size shrinks. If none, you don't take the trade — there is no edge in pretending a level exists when the market is telling you it doesn't.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-the-math-of-small-frequent-returns">
+    <!-- ============================================================
+         V. What signal tells you which style is in favour?
+         ============================================================ -->
+    <section class="reveal" id="v-yield-curve">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. The Math of Small, Frequent Returns</h2>
+        <h2>What signal tells you which style is in favour?</h2>
       </div>
       <div class="section-content">
-        <p>One of the most misunderstood concepts in investing is the power of small, frequent returns compounded over time. Most retail investors chase the 100% multibagger while ignoring the far more reliable strategy of generating 1-5% returns repeatedly through disciplined rotation.</p>
-<p>Let me show you the math.</p>
-<p>I took a significant swing trade on Nifty last week. It was up 1.65%. Now, 1.65% does not look like much on the surface. But on a large capital base, it is everything. If someone could make 1.65% returns weekly (and no, I am not claiming you can do this every week), the annualized return is <strong>134.2%.</strong></p>
-<p>Or consider this: Nifty goes up 1-1.5% during Muhurat Trading. If I make a 1% return in 3 days, that is an annualized return of <strong>235%.</strong> What is the downside? The market falls 5%. I hold it for 6 months, I am still likely to come out on top.</p>
-<blockquote>
-<p>It is better to put 10X capital and make 15% (&ldquo;trades&rdquo;) rather than X capital and try to make 30%.</p>
-</blockquote>
-<p>This is the fundamental insight. Most people think about returns in absolute percentage terms on a per-stock basis. The capital rotation approach thinks about returns in terms of <strong>capital velocity</strong> &ndash; how quickly and how often you can generate returns on your total capital.</p>
-<p>Here is a practical framework:</p>
-<p><strong>The Swing Cycle Math:</strong>
-- You have 1 crore of investable capital
-- You identify a swing trade on Nifty 50 with 5% upside to resistance
-- You deploy the full capital, make 5% in 2-3 months
-- That is 5 lakhs in profit
-- You now redeploy to the next beaten-down sector
-- You do this 3 times a year: 15% annual return on your total capital
-- On a large capital base, this is absolutely phenomenal</p>
-<p><strong>The Momentum Rotation Math:</strong>
-- Ride momentum 2-3 times on strong stocks and rotate capital
-- 15% per cycle multiplied by 3 cycles = 45% returns
-- I did this quite aggressively in 2021 and these opportunities are opening up again</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Rotation is not arbitrary. It tracks something measurable. The single best macro signal for which style — growth, value, defensives, cyclicals — is about to outperform is the <strong>shape of the yield curve</strong>.</p>
 
-<p>The key advantages of this approach:</p>
-<p><strong>1. Risk management through position sizing.</strong> When you are swinging Nifty 50 or a sector Index rather than individual stocks, your maximum downside is capped. A 5% correction on Nifty is painful but survivable. A 50% crash on a smallcap can be devastating. By rotating through indices and large themes rather than trying to find the next multibagger, you dramatically reduce your risk per trade.</p>
-<p><strong>2. Capital never sits idle.</strong> In a buy-and-hold approach, your capital can be trapped in a sideways stock for 1-2 years. In a rotation approach, the moment a trade hits resistance, the capital moves to the next opportunity. Your money is always working.</p>
-<p><strong>3. Tax loss harvesting becomes natural.</strong> When you are actively rotating, you can strategically sell losing positions to offset gains elsewhere. I sell stocks at a loss to reduce my tax liabilities, then buy them back. This is a legal, efficient tax strategy that buy-and-hold investors cannot easily execute.</p>
-<p><strong>4. Compounding frequency increases.</strong> Instead of compounding once over a 5-year hold, you are compounding multiple times per year. Even at lower per-trade returns, the compounding effect of frequent rotations beats the infrequent compounding of passive holding.</p>
-<p>The philosophical shift here is important. You are not looking for the one stock that will make you rich. You are building a machine &ndash; a process &ndash; that generates consistent returns through disciplined rotation. You need no more than 3-4 good cycles to make crazy wealth. To run those cycles, you need extreme preparation.</p>
-<hr />
+        <p>The intuition is straightforward. Short rates reflect today's policy stance: the central bank's stamp on the cost of money <em>right now</em>. Long rates reflect the market's expectation of growth and inflation years out. The relationship between the two divides the world into four regimes — and each regime mechanically favours a different equity style.</p>
+
+        <ul>
+          <li><strong>Low short, low long</strong> — easy policy, weak growth expectations. <em>Growth stocks win</em>: cheap money funds long-duration cash flows, and the scarcity of growth makes the few growers valuable.</li>
+          <li><strong>Low short, high long</strong> — easy policy, rising growth expectations. <em>Cyclicals win</em>: industrials, autos, materials, banks. The yield curve is steepening because the economy is accelerating.</li>
+          <li><strong>High short, low long</strong> — tight policy, falling growth expectations. <em>Defensives win</em>: staples, utilities, healthcare. The curve is inverting because a recession is being priced in.</li>
+          <li><strong>High short, high long</strong> — tight policy, high inflation. <em>Value wins</em>: short-duration cash flows, dividend payers, commodity producers. Long-duration growth gets crushed by the discount rate.</li>
+        </ul>
+
+        <p>Drag the two sliders below. The dot moves across the four quadrants. The "favoured style" label updates live. You can map almost every major rotation of the last twenty years onto a transition between these four squares.</p>
+
+        <!-- Widget 3: Yield curve to equity style map -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 — Yield curve to equity style map</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Short rate (Fed Funds / RBI repo)</span><span class="slider-value" id="w3-short-val">5.50%</span></div>
+              <input type="range" id="w3-short" min="0" max="700" value="550" step="10">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Long rate (10Y bond)</span><span class="slider-value" id="w3-long-val">4.20%</span></div>
+              <input type="range" id="w3-long" min="100" max="800" value="420" step="10">
+            </div>
+          </div>
+          <div class="stat-grid-2">
+            <div class="stat-cell"><div class="stat-cell-label">Curve slope (10Y − short)</div><div class="stat-cell-value" id="w3-slope">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Favoured style</div><div class="stat-cell-value" id="w3-style">—</div></div>
+          </div>
+          <p class="widget-hint">The four labelled quadrants are the regime map. Move the sliders so the dot lands in each quadrant in turn — notice how the favoured style flips. The dashed diagonal is where short rate equals long rate (a flat curve).</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the curve is necessary, not sufficient</summary>
+          <p>The yield-curve map gives you the <em>direction</em> of rotation, not the timing. A steepening curve tells you cyclicals will outperform defensives over the next six-to-eighteen months on average; it does not tell you that Tata Motors will be up next week.</p>
+          <p>The second-order effects matter too. India's curve doesn't operate in isolation — when the US 10Y rips higher, capital flows out of EM equities regardless of where the Indian curve is. The complete signal stack is: domestic curve + USD direction + commodity backdrop + FII flow. The curve is the first read. The other three calibrate it.</p>
+        </details>
+
+        <p>Apply this to mid-2025: the US short rate is around 5.25-5.50%, the 10Y near 4.20%. That's the high-short / low-long quadrant — defensives. RBI has cut once, with more cuts expected; the Indian curve is steepening, pulling India toward the low-short / high-long quadrant — cyclicals. Both maps line up with what actually outperformed: US healthcare and staples held in while growth wobbled; Indian private banks, autos, and industrials caught the rotation as rate cuts approached. None of this required prediction. It required reading the curve.</p>
+
+        <p>A few historical regime transitions to anchor the framework:</p>
+
+        <ul>
+          <li><strong>2020 (COVID emergency cuts).</strong> Fed Funds slashed to 0%, 10Y crashed to 0.5%. Pure growth regime. Tech, biotech, anything with long-duration cash flows ripped. Defensives went nowhere despite being defensive — the regime didn't favour them.</li>
+          <li><strong>2021 (reopening).</strong> Short rates pinned near zero, 10Y climbed past 1.5%. Steepening curve — cyclicals quadrant. Banks, autos, materials, commodities led. Growth started underperforming for the first time in years.</li>
+          <li><strong>2022 (inflation regime change).</strong> Fed hiked aggressively, short rates ripped to 4%+, 10Y to 4%. High-high — value quadrant. The energy sector was the only positive S&amp;P sector that year. Growth was crushed by the discount rate; the Nasdaq fell 33%.</li>
+          <li><strong>2023-2024 (disinflation).</strong> Short stays high (5%+), long drifts down to 4%. High-low quadrant — defensives. Healthcare, staples, utilities held in while the market chopped sideways and only the largest mega-cap names broke out.</li>
+        </ul>
+
+        <p>Notice how each of those transitions happened over months, not days. The yield curve doesn't ask you to be fast. It asks you to be paying attention.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-when-and-how-to-book-profits">
+    <!-- ============================================================
+         VI. Small frequent returns
+         ============================================================ -->
+    <section class="reveal" id="vi-small-frequent">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. When and How to Book Profits</h2>
+        <h2>Why do small, frequent gains beat the multibagger hunt?</h2>
       </div>
       <div class="section-content">
-        <p>If buying stocks is the easier part of investing, selling is where the real skill lies. Profit booking is a deeply complicated subject. You will almost never be perfectly right about when to sell. But there are frameworks that dramatically improve your odds.</p>
-<p>Here are the rules I have developed through years of active capital rotation:</p>
-<p><strong>Rule 1: Never sell more than 50% of a position in a single move.</strong> Unless the business looks dead or you are holding a fundamentally expensive stock, you trim rather than exit completely. This protects you against the very real possibility that the stock continues its run after you sell.</p>
-<p><strong>Example:</strong> On Zomato, I booked profits on 70% and rotated to Swiggy (same theme). I kept 30% on Zomato. If Zomato continued to run, I still participated. If it corrected, I had already locked in most of my gains.</p>
-<p><strong>Rule 2: Sell at technically defined resistance levels, not on emotion.</strong> Every stock and every index has clear resistance levels based on historical price action. These are not mysterious &ndash; they are visible on any chart. The first major selling target for Nifty 50 was 26,650. That was the point where I would exit 50% of my swing trades and diversify into other sectors.</p>
-<blockquote>
-<p>Just because you are sitting on X% profits does not mean you should sell a stock. This is how amateur investors behave. A smart investor thinks: what is the best use of my money now?</p>
-</blockquote>
-<p><strong>Rule 3: Use the 20-25% cover strategy for volatile stocks.</strong> On stocks that have given major run-ups, create a profit cover. The math works like this:
-- You invest 100 in a stock
-- It goes to 250 (a 150% gain)
-- You book 25%: that gives you 63 back
-- The remaining 187 you let ride
-- Even if the stock corrects 30% from here, you are still net positive because of the profits already booked</p>
-<p>I used this on SMCI, which had given a 300% run-up. Book 25%, let the rest ride. If you did that, even after the correction, you were still in profits.</p>
-<p><strong>Rule 4: Think about profit booking in terms of capital redeployment, not just profit-taking.</strong> The question is never simply &ldquo;should I sell this stock?&rdquo; The question is: &ldquo;is there a better use for this capital right now?&rdquo;</p>
-<p>If I am booking profits on AMC firms, it is not because AMCs are bad businesses long-term. They are excellent. But I found private banks in India to be much cheaper than other finance stocks at that point. So I cut positions by 50% and rotated. The AMC money went to work in a sector with better risk-reward.</p>
-<p><strong>Rule 5: In a buyers&rsquo; market, do not sell.</strong> This is critical. The market alternates between buyer&rsquo;s markets and seller&rsquo;s markets. In a buyer&rsquo;s market, your job is to max out positions &ndash; build to 85-90% invested &ndash; so that when the market turns into a seller&rsquo;s market, you have goods to sell. Too many people sell too early and then sit in cash watching the rally continue without them.</p>
-<p><strong>Rule 6: Sell bad themes even at a loss to rotate into good themes.</strong> If you are stuck with low-growth industries or bad stocks &ndash; railways, for example, during a down cycle &ndash; it is better to exit even at a loss and rotate capital to high-growth industries like banks or healthcare. Selling 10-11% down does not feel good, but holding dead money for 2 years while better opportunities pass you by feels worse.</p>
-<p>The hardest part of profit booking is psychological. You will never sell at the exact top. You will always look back and see that you could have held longer, or that you should have sold earlier. The goal is not perfection. The goal is systematic extraction of profits at pre-defined levels, followed by disciplined redeployment into the next opportunity.</p>
-<hr />
+        <p>Most retail investors chase the 10x. They want the next Polycab, the next Trent, the one stock that vindicates everything. The capital-rotation investor doesn't chase the 10x. They run a process that throws off 1-5% trades, frequently, on a large capital base. The math is unkind to the multibagger hunter.</p>
+
+        <p>Suppose you make 1.65% on a single swing trade that took a week. That figure looks unimpressive standing alone. Compound it weekly and the annualised number is <span class="math">(1.0165)<sup>52</sup> − 1 = 134%</span>. Nobody actually does 1.65% every week — but the point of the math is to show that capital <em>velocity</em>, not per-trade size, is what builds wealth at scale.</p>
+
+        <div class="math-block">
+          CAGR<sub>rotator</sub> = (1 + r<sub>per-cycle</sub>)<sup>cycles/yr</sup> − 1
+          <span class="math-where">where r is the per-cycle return and the exponent is the number of cycles per year</span>
+        </div>
+
+        <p>Three concrete templates:</p>
+
+        <ul>
+          <li><strong>Index swing.</strong> Identify a Nifty range with 5% upside to resistance. Deploy the full base, exit at the top. Three cycles a year compounds to <span class="math">(1.05)<sup>3</sup> − 1 ≈ 15.8%</span> — on the total capital, not on a sliver.</li>
+          <li><strong>Sector rotation.</strong> Ride three momentum cycles a year at 15% each. <span class="math">(1.15)<sup>3</sup> − 1 ≈ 52%</span>. This is the upper end and requires getting the rotation timing right, but the cycles do happen.</li>
+          <li><strong>Hybrid.</strong> One big sector cycle (25%), one Nifty swing (5%), one defensive period in cash. <span class="math">(1.25)(1.05)(1.00) − 1 = 31%</span>. Realistic, repeatable, requires the discipline of holding cash when nothing is cheap.</li>
+        </ul>
+
+        <p>The structural advantages of running a velocity strategy over a one-shot strategy:</p>
+
+        <ol>
+          <li><strong>Risk per trade is bounded by sector or index drawdown.</strong> A 5% Nifty correction stings. A 50% smallcap blowup ends careers. Swing the index, not the lottery ticket.</li>
+          <li><strong>Capital never sits idle.</strong> The moment one trade hits target, the cash redeploys. In a buy-and-hold strategy, capital can be trapped for two years in a sideways stock.</li>
+          <li><strong>Tax-loss harvesting becomes natural.</strong> Active rotators always have losing positions to harvest against winners. Buy-and-hold investors have to manufacture this artificially.</li>
+          <li><strong>Compounding frequency increases.</strong> Compounding three times a year at 5% beats compounding once every five years at 30% — both deliver roughly 16% IRR, but only the first one frees the capital between events.</li>
+        </ol>
+
+        <p>The philosophical shift is the part that takes time to internalise. You are not looking for the one stock that makes you rich. You are building a machine that throws off consistent returns through disciplined rotation. <strong>Three or four good cycles per year — every year — and you outperform 95% of retail.</strong></p>
+
+        <p>Velocity, compounded out:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">15.8%</div><div class="stat-label">3 × 5% Nifty swings per year</div></div>
+          <div class="stat"><div class="stat-value">31.0%</div><div class="stat-label">Hybrid: sector + swing + cash</div></div>
+          <div class="stat"><div class="stat-value">52.1%</div><div class="stat-label">3 × 15% sector rotations</div></div>
+          <div class="stat"><div class="stat-value">10.5%</div><div class="stat-label">Passive Nifty after tax + INR drag</div></div>
+        </div>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-building-the-rotation-portfolio">
+    <!-- ============================================================
+         VII. When should you book profits?
+         ============================================================ -->
+    <section class="reveal" id="vii-book-profits">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. Building the Rotation Portfolio</h2>
+        <h2>When should you actually book profits?</h2>
       </div>
       <div class="section-content">
-        <p>Now let me give you a practical framework for constructing a portfolio designed for capital rotation. This is not a list of stocks to buy blindly. This is a structural template that you adapt to current market conditions.</p>
-<p><strong>Step 1: Define your allocation across asset classes.</strong></p>
-<p>Let me give you my own framework as a sample. You have 100 units of money. You need to answer five questions:</p>
-<ol>
-<li>How much across asset classes: Equities, Gold, Cryptos, Real Estate &ndash; and why?</li>
-<li>Which segments within equities?</li>
-<li>What is your current portfolio mix?</li>
-<li>Is it aligned with your 5-year wealth strategy?</li>
-<li>What is your game plan to beat the market?</li>
-</ol>
-<p>For me: 70% Equities, 25% Real Estate, 5% Cryptos (BTC). My reasoning: I rotate capital on equities for active returns. RE gives cash flow plus leverage (5-6% yield plus appreciation). Cryptos/BTC is the asymmetric alpha bet.</p>
-<p><strong>Step 2: Within equities, build a core-swing structure.</strong></p>
-<p>Your portfolio should have two distinct components:</p>
-<p><strong>Core Holdings (40-50% of equity allocation):</strong> These are 3-5 year positions in structural growth sectors. Hospitals, healthcare, select private banks, quality financials. These you buy on dips and hold through cycles. The criteria: 15% ROIC, 15% cash flow growth, 15% expansion-oriented growth. Market leaders or near-market leaders. Cash-rich firms.</p>
-<p><strong>Swing/Rotation Capital (50-60% of equity allocation):</strong> This is the capital you actively rotate. Nifty 50 swings, sector index trades, tactical positions in beaten-down themes. The sell targets are clear. The holding period is months to a year, not years.</p>
-<p><strong>Step 3: Maintain geographic diversification.</strong></p>
-<p>This is critical. People who do not see this will learn a very harsh lesson in the next few years. My own split is trending toward 40% Indian stocks, 60% US over time. Why? Robotics, AI, ML, Semiconductors &ndash; for these, you need to be in the US. Buy high-quality assets everywhere.</p>
-<p>The game plan:
-1. Buy US Stocks (Mag 7, semiconductors, tech)
-2. Buy Indian Banks (private) and Healthcare
-3. Rotate Nifty
-4. Add Small/Midcaps when the time comes
-5. Buy Chinese stocks selectively
-6. Diversify across assets and geographies as much as you possibly can</p>
-<p><strong>Step 4: Keep a cash reserve for tactical deployment.</strong></p>
-<p>Always maintain 10-20% in cash. This is your ammunition for when the market gives you a genuine discount. When everyone is panicking, you want to have dry powder. I had been saving around 20-30% of my portfolio specifically for swing opportunities. When the budget trade setup appeared with 1:2 risk-reward (5% downside versus 12-13% upside), I deployed that cash reserve.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Buying is the easy half. Selling is where the strategy lives or dies. Almost every amateur error in active investing is a selling error — selling too early, selling too late, or refusing to sell at all because the stock was "going to recover."</p>
 
-<p><strong>Step 5: Use indices for large-allocation swings, individual stocks for alpha.</strong></p>
-<p>When the environment is unclear, start with the Index. Why? The sell targets are clear compared to individual stocks, and you can put bigger amounts. I bought Nifty IT Index as a swing with 40 lakhs in a single day. I would not have done that with an individual IT stock. The Index gives you sector exposure with lower idiosyncratic risk.</p>
-<p>As the market clarifies, you can rotate from indices to individual stocks within the winning sectors. Start with Nifty 50, and as markets go up, keep adding more stocks or rotate capital from Nifty 50 to individual stocks within emerging themes.</p>
-<p><strong>Step 6: Size individual stock positions appropriately.</strong></p>
-<p>For individual smallcaps, never hold more than 2.5% of your total portfolio. This is non-negotiable. Drawdowns on smallcaps can go to 50-60%. Ujjivan is a classic case. But as long as your exposure is limited to 2.5%, even a 50% drawdown on a single name only impacts your total portfolio by 1.25%. That is survivable. That is manageable. That is not a portfolio killer.</p>
-<p>For index positions and sector bets, you can go much heavier &ndash; 10-30% of your equity allocation. Because the downside is contained and the recovery is more predictable.</p>
-<hr />
+        <p>Six rules, in order of importance:</p>
+
+        <p><strong>Rule 1. Never trim more than 50% in a single move.</strong> Unless the underlying business is broken, you scale out, you don't exit. The cost of being wrong about the top is missing the runaway move. A 50% exit captures the win, a 100% exit captures the regret. Zomato to Swiggy: 70% exit on Zomato, 30% runner, fresh position in Swiggy. The runner kept paying when Zomato kept climbing.</p>
+
+        <p><strong>Rule 2. Sell at technically defined resistance, not on feel.</strong> Every stock and every index has visible resistance levels — prior highs, round numbers, multi-year ceilings. The first major resistance on Nifty 50 was 26,650. That was the exit zone. Pre-commit. Don't argue with yourself in the moment.</p>
+
+        <p><strong>Rule 3. Build a profit cushion on volatile names.</strong> Stock runs from 100 to 250 (a 150% gain). Book 25% — you take 63 off the table. The remaining 187 you let ride. A 30% correction from here still leaves you net positive because the booked profits already cleared cost basis. This is how you stay invested in a runaway name without going broke when it finally cracks.</p>
+
+        <p><strong>Rule 4. Think in terms of capital redeployment, not profit-taking.</strong> The right question is never "should I sell this stock?" — it's "is there a better use for this capital right now?" If AMCs are fully valued and private banks are cheap, you trim AMCs into banks. The AMC sale isn't a bearish call on AMCs. It's a relative-value rotation.</p>
+
+        <p><strong>Rule 5. In a buyer's market, don't sell.</strong> The market alternates between buyer's markets (the whole index is cheap) and seller's markets (the whole index is expensive). In a buyer's market your job is to max out exposure — 85-90% invested — so you have inventory to distribute when the seller's market comes. Most investors do the opposite: panic-sell at the bottom, get euphoric at the top.</p>
+
+        <p><strong>Rule 6. Cut losers to fund rotation.</strong> If you're stuck in a dying theme — say, railways during a slowdown — exit at a loss to fund the next opportunity. Holding dead money for two years to "avoid booking the loss" is a psychological trade, not a financial one. Selling 11% down hurts. Watching a 25% rotation pass you by hurts more.</p>
+
+        <p>The mechanics of the partial exit, applied to a stock that has run 100% from entry:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Move</th><th>Position size</th><th>Capital released</th><th>What you've achieved</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Initial entry</td><td>100 units</td><td>—</td><td>Position opened at cost basis 100</td></tr>
+            <tr><td>At +50% (first checkpoint)</td><td>75 units</td><td>37.5 units</td><td>25% off, original cost recovered on net basis</td></tr>
+            <tr><td>At +100% (planned resistance)</td><td>40 units</td><td>70 units more</td><td>Played out the cycle, kept a runner</td></tr>
+            <tr><td>At +150% (breakout extension)</td><td>20 units</td><td>40 units more</td><td>Capital almost fully returned, free option on remaining 20</td></tr>
+          </tbody>
+        </table>
+
+        <p>By the time the runner reaches +150%, you've extracted roughly 147 units of capital from the original 100-unit investment, with 20 units of stock still on the table at a cost basis that's effectively zero. This is the structural defence against the "I sold too early" regret. You never sold completely. You just compressed your exposure as the stock got more expensive.</p>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p>Profit-booking is not a one-time event. It is a continuous portfolio management discipline. You don't sell stocks because you're sitting on gains. You sell stocks because the capital can earn more elsewhere. The amateur asks <em>"is this a winner?"</em> The professional asks <em>"is this still the best use of my money?"</em></p>
+        </div>
+
+        <p>The hardest part is psychological. You will never sell at the exact top. You will always look back and see that you could have held longer, or that you should have exited sooner. Stop optimising for the perfect exit. Optimise for the <em>systematic</em> exit — pre-defined levels, mechanical execution, disciplined redeployment.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the tax implications of frequent rotation</summary>
+          <p>Rotation creates short-term gains that are taxed at slab rates in India, which can hit 30%+ for high-income brackets. Long-term capital gains (held more than one year) get the gentler 12.5% treatment. So shouldn't you hold for a year and a day to get the lower rate?</p>
+          <p>Two answers. First, the math: a 12% short-term gain taxed at 30% nets 8.4%. A 6% long-term gain taxed at 12.5% nets 5.25%. The post-tax IRR on faster rotation can still win — as long as the per-cycle returns are large enough to overcome the tax differential. Second, the workaround: most active rotators use a hybrid where the <em>swing</em> sleeve is in indices and ETFs (which can be held longer and traded more efficiently) while the <em>core</em> sleeve qualifies for LTCG by design. The tax tail wags the strategy dog less than commonly thought.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-the-sideways-market-playbook">
+    <!-- ============================================================
+         VIII. How do you build a portfolio designed to rotate?
+         ============================================================ -->
+    <section class="reveal" id="viii-portfolio">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. The Sideways Market Playbook</h2>
+        <h2>How do you build a portfolio designed to rotate?</h2>
       </div>
       <div class="section-content">
-        <p>My long-term thesis for the Indian market is this: we will be sideways for roughly 1.5-2 years. The market will likely trade in a range &ndash; say, 21,000 to 25,000 on Nifty. This means that people who do not rotate capital will suffer. Their portfolios will go nowhere. Their SIPs will deliver mediocre returns at best.</p>
-<p>But for the capital rotator, a sideways market is paradise.</p>
-<p>Here is why: in a sideways market, sectors still move. While the index goes nowhere, individual sectors rotate through their cycles. Banks rally while IT corrects. Then IT recovers while pharma dips. Then pharma rallies while FMCG underperforms. The index stays flat, but underneath the surface, there is constant movement &ndash; constant opportunity.</p>
-<blockquote>
-<p>My long-term thesis stays intact: that the market will be sideways for roughly 1.5-2 years. This means that people who don&rsquo;t rotate capital will suffer.</p>
-</blockquote>
-<p>The sideways market playbook:</p>
-<p><strong>1. Trade the range on Nifty 50.</strong> The index has a clear support and resistance. Buy near support (the bottom of the range), sell near resistance (the top). A 5-8% swing within the range, done 2-3 times a year, generates 15-24% annual returns &ndash; well above what a passive holder earns in a flat market.</p>
-<p><strong>2. Overweight the sector that is in Phase 1 (beaten down).</strong> At any given time, at least one major sector is out of favor. That is your entry. Right now, depending on when you are reading this, it could be IT, it could be FMCG, it could be auto. The specific sector changes. The strategy does not.</p>
-<p><strong>3. Underweight or exit the sector in Phase 3 (euphoria).</strong> When the financial media is gushing about a sector, when your cab driver is buying stocks in that sector, that is when you trim. Book profits, rotate to the beaten-down sector.</p>
-<p><strong>4. Buy breakdowns, sell breakouts.</strong> In a range-bound market, every 10% dip is a buying opportunity and every 10% rally is a selling opportunity. You always get worried about a 5% correction but often miss 10% rallies. Stop fearing corrections. They are the mechanism through which capital rotation generates returns.</p>
-<p><strong>5. Use the V-shaped recovery pattern.</strong> Indian markets have moved to V-shaped recovery patterns with consolidations. These are very hard to enter for anyone who exits completely. The investor who stays 80-90% invested and rotates within the market captures both the recovery and the opportunity. The investor who goes to cash and waits for the &ldquo;perfect&rdquo; bottom misses the move entirely.</p>
-<p>I have friends who are still waiting to invest at Nifty 8,500 &ndash; the COVID low. The market has more than tripled since then. They missed the entire move because they were waiting for a level that never came back. Do not be that person.</p>
-<p><strong>6. Learn swing investing.</strong> This is distinct from day trading. Swing investing means you buy stocks cheap, stay invested without worrying about daily price drops, and when it goes overvalued, you sell a big part and move to the next segment. The holding period can range from months to 2 years. These are safer trades, executed with larger amounts.</p>
-<p>The critical mindset shift for a sideways market: stop measuring your performance by how much your portfolio is up or down on any given day. Start measuring it by how many successful rotations you have executed this year. Each rotation is a compounding event. Four successful rotations at 5% each is 21.6% annualized (compounded, not simply added). In a market that returned 0% over 1.5 years for passive investors, that is a transformative difference.</p>
-<hr />
+        <p>A rotation portfolio is structurally different from a buy-and-hold portfolio. It needs persistent cash, modular sector allocations, clear exit levels for every position, and a core that doesn't trade. Here is the template I run, adapted from years of running this strategy through Indian and US markets.</p>
+
+        <p><strong>Layer 1: Asset-class split (the macro skeleton).</strong></p>
+
+        <p>My own current split: 70% equities, 25% real estate, 5% crypto (mostly BTC). The equity sleeve is where rotation happens. Real estate gives cash flow plus leverage and doesn't correlate intra-day with equities, which dampens portfolio volatility. Crypto is the asymmetric alpha bet — small allocation, large potential payoff, willingness to write the whole sleeve to zero.</p>
+
+        <p><strong>Layer 2: Within equities, core plus swing.</strong></p>
+
+        <ul>
+          <li><strong>Core (40-50% of equity).</strong> Three-to-five year positions in structural growth. Hospitals, healthcare, select private banks, premium financials. Criteria: 15%+ ROIC, 15%+ cash flow growth, market leadership. You buy on dips and hold across cycles — these are the chassis, not the cargo.</li>
+          <li><strong>Swing (50-60% of equity).</strong> Actively rotated. Nifty swings, sector index trades, tactical entries in beaten-down themes. Pre-defined exit levels. Holding periods measured in months, not years.</li>
+        </ul>
+
+        <p><strong>Layer 3: Geographic diversification.</strong></p>
+
+        <p>My target split is trending toward 40% India / 60% US over time. Why so US-heavy? Because the next wave — robotics, AI, ML, semiconductors — sits in the US. India is overweight financials and consumption; you need US exposure to participate in the technology stack. Diversification across geographies is no longer optional for a serious portfolio.</p>
+
+        <p><strong>Layer 4: Cash reserve for tactical deployment.</strong></p>
+
+        <p>Always 10-20% in cash. This is your option value — the ability to take a swing when others are forced sellers. The cash isn't dead money. It's the most valuable asset you own when everyone else is panicking. When the budget setup appeared in early 2025 with 1:2 risk-reward (5% downside, 12-13% upside), I deployed that reserve. Without it, I would have been a spectator.</p>
+
+        <p>The cash reserve has a strict refill rule: every time a swing position hits target and gets booked, the next-highest priority is replenishing cash back to the 15% target. Only <em>after</em> cash is restored does fresh deployment happen. This stops the very common error of "the trade worked, let me redeploy 100% into the next opportunity" — which leaves you cashless when the better opportunity arrives a month later.</p>
+
+        <p><strong>Layer 5: Indices for size, individual stocks for alpha.</strong></p>
+
+        <p>When the macro is unclear, start with the Index. Sell targets are clearer, and you can take larger position sizes. I deployed 40 lakhs into the Nifty IT Index as a single swing — I would not have done that with one IT stock. As the picture clarifies, rotate from the index into individual names within the winning sector.</p>
+
+        <p><strong>Layer 6: Position sizing for survival.</strong></p>
+
+        <p>No single smallcap above 2.5% of total portfolio. Non-negotiable. A 50% drawdown on a 2.5% position is a 1.25% portfolio hit — survivable. A 50% drawdown on a 10% position is a 5% portfolio hit, which sounds fine on a spreadsheet but ruins your decision-making at the moment it matters most. Sector indices can run heavier — 10-30% of equity — because the diversification within the basket caps the idiosyncratic blowup risk.</p>
+
+        <p>The full portfolio at a glance, with target weights and rotation behaviour:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Sleeve</th><th>Target weight</th><th>Rotation cadence</th><th>Max single-name risk</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Cash reserve</td><td>10-20%</td><td>Deployed opportunistically</td><td>—</td></tr>
+            <tr><td>Core equity (India)</td><td>20-25%</td><td>Held 3-5 years, trimmed at extremes</td><td>5%</td></tr>
+            <tr><td>Swing equity (India)</td><td>25-30%</td><td>Months to one year per cycle</td><td>3% individual / 15% index</td></tr>
+            <tr><td>Core equity (US)</td><td>30-40%</td><td>Held with periodic rebalance</td><td>10% (Mag 7 names)</td></tr>
+            <tr><td>Real estate</td><td>10-15%</td><td>Bought for yield, not flipped</td><td>—</td></tr>
+            <tr><td>Asymmetric (BTC)</td><td>2-5%</td><td>Hold across cycles</td><td>Whole sleeve writable</td></tr>
+          </tbody>
+        </table>
+
+        <p>The exact numbers will look different at different portfolio sizes, life stages, and macro regimes. The <em>structure</em> is what generalises — cash always present, core long-duration, swing actively rotated, smallcaps bounded. A portfolio built on this skeleton can survive being wrong about any single position and still compound.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-putting-it-all-together-your-capital-rotation-action-plan">
+    <!-- ============================================================
+         IX. The action plan
+         ============================================================ -->
+    <section class="reveal" id="ix-action-plan">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. Putting It All Together: Your Capital Rotation Action Plan</h2>
+        <h2>What do you do on Monday morning?</h2>
       </div>
       <div class="section-content">
-        <p>Let me synthesize everything into a clear, actionable framework that you can start implementing immediately.</p>
-<p><strong>The Core Philosophy:</strong></p>
-<p>God has given you a brain. Do not give up on your critical thinking skills. Analyze and build different strategies. You do not need more than 3-4 good cycles to make crazy wealth. To run those cycles, you need extreme preparation. And you will not get there simply by SIP-ing, as investment pundits make it out to be. Money making and investing is a skill. Take it as a skill and improve.</p>
-<blockquote>
-<p>If you do things that most people are not doing, you get results most people are not getting.</p>
-</blockquote>
-<p><strong>Your Weekly Routine:</strong></p>
-<ol>
-<li>
-<p><strong>Check sector technicals.</strong> Which sectors are at or below their 200DMA? Those are your watchlist for accumulation. Which sectors are at resistance? Those are your watchlist for profit booking.</p>
-</li>
-<li>
-<p><strong>Monitor the Nifty 50 range.</strong> Where are we within the expected range? Near support (buy zone) or near resistance (sell zone)?</p>
-</li>
-<li>
-<p><strong>Track your rotation targets.</strong> For every position you hold, know your exit price. For every sector you are watching, know your entry price. Remove guesswork from the equation.</p>
-</li>
-</ol>
-<p><strong>Your Monthly Routine:</strong></p>
-<ol>
-<li>
-<p><strong>Portfolio rebalancing assessment.</strong> Has any single position or sector grown to dominate your portfolio? If banks have run up and now represent 35% of your Indian equity allocation, it is time to trim and redeploy.</p>
-</li>
-<li>
-<p><strong>Macro check.</strong> What is happening with interest rates, rupee trajectory, global sentiment? These drive sector rotation at the macro level. RBI rate cuts help banks and housing finance. Global uncertainty drives gold. Tech narratives drive US allocation.</p>
-</li>
-<li>
-<p><strong>Cash position check.</strong> Are you maintaining your 10-20% tactical reserve? If not, where can you book partial profits to rebuild it?</p>
-</li>
-</ol>
-<p><strong>Your Quarterly Rotation Review:</strong></p>
-<ol>
-<li><strong>What themes played out?</strong> Book profits on sectors that have delivered 15%+ from your entry.</li>
-<li><strong>What themes are emerging?</strong> Look for sectors that have corrected 25%+ from their peaks with intact fundamentals.</li>
-<li><strong>Where is the risk-reward most favorable?</strong> Calculate the potential upside to resistance versus the downside to support. You want at least a 1:2 ratio.</li>
-</ol>
-<p><strong>The Specific Sectors to Watch in a Rotation Framework:</strong></p>
-<p>These are the sectors that offer the most consistent rotation opportunities in the Indian market:</p>
-<ul>
-<li>
-<p><strong>Private Banks:</strong> The backbone of the Indian economy. These cycle between undervaluation and fair value regularly. Buy when they underperform for 6+ months, sell when they catch up. HDFC Bank, Kotak, ICICI &ndash; these are your anchors.</p>
-</li>
-<li>
-<p><strong>IT:</strong> Pure swing plays in the current environment. India&rsquo;s IT sector tags along with US tech sentiment. Buy after 25-35% corrections, sell after 15-20% bounces. Use the IT Index for larger allocations.</p>
-</li>
-<li>
-<p><strong>Healthcare/Hospitals:</strong> Structural growth story. These are buy-on-dip-and-hold candidates for your core portfolio, but also offer swing opportunities. Insurance penetration, aging demographics, oncology growth &ndash; the thesis is strong for 5-10 years.</p>
-</li>
-<li>
-<p><strong>Financial Services (Non-Bank):</strong> CDSL, CAMS, Angel One, 5Paisa, brokerages. These benefit from capital market expansion. When the market rallies, these stocks outperform. Sector rotation in this industry is visible and tradeable.</p>
-</li>
-<li>
-<p><strong>FMCG/Consumption:</strong> Defensive plays that rotate into favor during uncertain times. Asian Paints, HUL &ndash; buy at 200DMA, these are not exciting but provide stability and rotation opportunities.</p>
-</li>
-<li>
-<p><strong>Auto:</strong> Cyclical plays tied to economic sentiment and interest rates. Bajaj Auto and 2W auto offer growth with reasonable valuations.</p>
-</li>
-</ul>
-<p><strong>The Non-Negotiable Rules:</strong></p>
-<ol>
-<li><strong>Never be 100% invested with no cash reserve.</strong> You need ammunition for opportunities.</li>
-<li><strong>Never have more than 2.5% of your portfolio in a single smallcap.</strong> Drawdowns kill.</li>
-<li><strong>Always know your exit price before you enter.</strong> If you cannot define the resistance level where you will book profits, you are not making an investment &ndash; you are gambling.</li>
-<li><strong>Do not track your portfolio daily.</strong> Check weekly for swing positions, monthly for core positions. Noise kills conviction.</li>
-<li><strong>Diversify across geographies.</strong> India is one market in a world of markets. The US, China, Southeast Asia &ndash; all offer opportunities that Indian markets do not.</li>
-<li><strong>Book profits and rotate. Do not fall in love with stocks.</strong> This is the hardest rule to follow and the most important. Your attachment to a stock is the enemy of capital rotation.</li>
-</ol>
-<blockquote>
-<p>The stock market has turned from an &ldquo;investable&rdquo; asset class to a &ldquo;speculative&rdquo; asset class. And in any speculation, it is critical to book profits. If you get this point, great.</p>
-</blockquote>
-<p>The Indian market is not broken. It is just different from what you were told it was. It is not a market where you buy and hold forever and magically become wealthy. It is a market where themes rotate, where sectors cycle, where the smart money moves from one opportunity to the next. If you align your strategy with this reality instead of fighting it, you will not only survive but thrive &ndash; generating real, compounding wealth through deliberate, disciplined capital rotation.</p>
-<p>The opportunities are opening up. You just need extreme preparation, a clear framework, and the courage to act when others are frozen by fear. Start today. Build different strategies. Improve each day as an investor. That is the game, and it is the only game worth playing.</p>
+        <p>The thesis through 2026 is unchanged: India trades in a roughly 21,000-25,000 Nifty range for another twelve to eighteen months. Beneath the flat index, sectors rotate. Passive holders earn nothing. Rotators print.</p>
+
+        <p>The pivot is psychological more than tactical. You are not switching strategies — you are switching <em>identity</em>. You stop being someone who buys good companies and holds them forever. You become someone who runs a process. A portfolio manager, not a stock picker. The change feels uncomfortable for about three months, then it feels obvious.</p>
+
+        <p>The operating routine, by cadence:</p>
+
+        <p><strong>Weekly.</strong></p>
+        <ol>
+          <li>Check sector technicals. Which sectors trade below their 200-day moving average? Watchlist for accumulation. Which sit at resistance? Watchlist for profit-booking.</li>
+          <li>Locate Nifty 50 within its range. Near support is a buy zone. Near resistance is a trim zone. The midpoint is a hold.</li>
+          <li>Update target prices. Every position has a pre-defined exit. Every watchlist name has a pre-defined entry. No guesswork at the moment of action.</li>
+        </ol>
+
+        <p><strong>Monthly.</strong></p>
+        <ol>
+          <li>Rebalance check. Has any single sector grown past its target weight? If banks ran from 20% to 35%, trim back to 25% and redeploy.</li>
+          <li>Macro read. Rate trajectory (RBI and Fed). Rupee direction. FII flows. Commodity backdrop. These drive the next quarter's rotation.</li>
+          <li>Cash discipline. Maintain the 10-20% reserve. If you're below it, partial-trim the largest winner. If above it, look for fresh entries.</li>
+        </ol>
+
+        <p><strong>Quarterly.</strong></p>
+        <ol>
+          <li>Played-out themes. Book 50-70% on sectors up 15%+ from entry. Roll the proceeds.</li>
+          <li>Emerging themes. Scan for sectors down 25%+ from peak with intact fundamentals. Build entry tranches.</li>
+          <li>Risk-reward audit. For every active position, compute upside to resistance vs. downside to support. Anything below 1:2 ratio gets trimmed.</li>
+        </ol>
+
+        <p>The sectors that historically offer the cleanest rotation signal in India:</p>
+
+        <ul>
+          <li><strong>Private banks</strong> — the chassis. HDFC, Kotak, ICICI cycle between underperformance and catch-up regularly. Anchor positions.</li>
+          <li><strong>IT</strong> — pure swing material. Trades with US tech sentiment, large beta to the rupee. Buy after 25%+ corrections, sell after 15%+ bounces.</li>
+          <li><strong>Healthcare and hospitals</strong> — structural plus tactical. Insurance penetration is a decade-long tailwind. Buy on dip, hold core, swing the excess.</li>
+          <li><strong>Capital-market plays</strong> — CDSL, CAMS, brokerages. Benefit directly from rising market participation. Volatile, rotation-friendly.</li>
+          <li><strong>FMCG and consumption</strong> — defensive rotation target. Buy at 200DMA when growth stocks are overheating.</li>
+          <li><strong>Auto</strong> — cyclical, rate-sensitive. Outperforms when the curve steepens and rate cuts arrive.</li>
+        </ul>
+
+        <p>A cheat-sheet for what triggers what:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Macro trigger</th><th>Sectors that benefit</th><th>Sectors that suffer</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>RBI rate cut</td><td>Private banks, NBFCs, housing finance, auto</td><td>Insurance (compressed spread income)</td></tr>
+            <tr><td>RBI rate hike</td><td>FMCG, defensives, gold</td><td>Real estate, autos, midcap finance</td></tr>
+            <tr><td>Rupee weakness</td><td>IT, pharma exporters, US-listed names</td><td>Importers (oil refiners, electronics)</td></tr>
+            <tr><td>Strong monsoon</td><td>Rural FMCG, tractors, two-wheelers, fertilisers</td><td>Power (lower seasonal demand)</td></tr>
+            <tr><td>Capex cycle pickup</td><td>Capital goods, infrastructure, cement, metals</td><td>Defensives (rotation out)</td></tr>
+            <tr><td>Global risk-off</td><td>Gold, defensives, large-cap quality</td><td>Smallcap, midcap, cyclicals</td></tr>
+          </tbody>
+        </table>
+
+        <p>This is not a market-predicting table. It is a relative-ranking table: <em>given</em> a macro trigger, which sectors are likely to outperform on average. The trigger itself you don't predict — you observe and react.</p>
+
+        <p>The non-negotiable rules:</p>
+
+        <ol>
+          <li><strong>Never 100% invested.</strong> Always carry tactical cash.</li>
+          <li><strong>Never more than 2.5% in a single smallcap.</strong> Drawdowns kill.</li>
+          <li><strong>Always know the exit before you enter.</strong> If you can't define resistance, you're gambling.</li>
+          <li><strong>Don't track daily.</strong> Weekly for swings, monthly for core. Noise kills conviction.</li>
+          <li><strong>Diversify geographically.</strong> India is one market in a world of markets.</li>
+          <li><strong>Book and rotate. Don't fall in love.</strong> Attachment is the enemy.</li>
+        </ol>
+
+        <p>For the reader at the beginning of this arc, the on-ramp by portfolio size:</p>
+
+        <ul>
+          <li><strong>Under 25 lakh.</strong> Build the chassis first. Core holdings in 3-5 quality names you'd be happy to own across cycles. One Nifty 50 swing per year to learn the mechanics. Don't run a 6-sector rotation portfolio on this base — the per-trade costs and concentration risk dominate.</li>
+          <li><strong>25 lakh to 2 crore.</strong> Now the rotation strategy starts paying for itself. Core / swing split. Two-to-three rotation cycles a year. Start tracking sector positions as a separate sleeve. Introduce US exposure (10-20% of equities).</li>
+          <li><strong>2 crore to 10 crore.</strong> Full rotation portfolio. Six sector themes active. Tactical cash routine. US exposure scaled to 40-60% of equities. This is the size at which the strategy genuinely outperforms the SIP holder by a wide margin.</li>
+          <li><strong>10 crore-plus.</strong> Layer in options (puts on US tech as insurance, covered calls for income). Optimise tax residency where legally appropriate. The rotation engine generates the returns; the tax and hedging layers compound them.</li>
+        </ul>
+
+        <p>Where the rotator ends up after three years of disciplined execution, compared with the SIP holder who stayed the course over the same window:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">~30%</div><div class="stat-label">3-year IRR for the disciplined rotator</div></div>
+          <div class="stat"><div class="stat-value">~8%</div><div class="stat-label">3-year IRR for the SIP holder (post-tax)</div></div>
+          <div class="stat"><div class="stat-value">3-4×</div><div class="stat-label">Capital velocity multiplier</div></div>
+          <div class="stat"><div class="stat-value">&lt; 15%</div><div class="stat-label">Worst peak-to-trough drawdown</div></div>
+        </div>
+
+        <p>None of those numbers are guaranteed. All of them require the discipline that the rest of this article describes. But they're the gap that exists, in a real market, between people who run a process and people who outsource their decisions to a fund house that profits more from your inaction than from your returns.</p>
+
+        <p>The Indian market is not broken. It's just a different operating system from the one the SIP-distribution complex sold you. It rewards the investor who reads regime, rotates with discipline, and books profits on cue. Align with that reality and the market becomes the most lucrative game you can play — not because you found the next multibagger, but because you built a machine that throws off cycles year after year. <span class="style-badge">Build the machine</span></p>
+
+        <ol class="footnotes">
+          <li id="fn-1">AMFI industry data shows aggregate equity-MF expense ratios drifted higher in 2023-2024 even as the SEBI-prescribed slab cap was unchanged, primarily through reduction of direct-plan discounts and reclassification of scheme size brackets. Net effect on investor returns: an additional 10-25 bps annual drag in many flagship schemes. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">India's long-term capital gains tax on listed equity was zero through March 2018, introduced at 10% (with a &#8377;1 lakh annual exemption) from FY19, and raised to 12.5% in the July 2024 Union Budget. The exemption threshold was simultaneously raised to &#8377;1.25 lakh. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Range figures for Nifty 50 in 2024-25 are approximate and reflect the major support and resistance bands during the period; precise levels shifted over the window as the index re-tested both ends. The analytical point — that the index traded sideways inside a wide band rather than trending — holds regardless of the exact figures used. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -402,12 +699,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -416,23 +713,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -447,585 +733,507 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 620, H = 420;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var sectors = [{"name": "PSU Banks", "color": "#4299e1", "weights_by_phase": {"Early Cycle": 30, "Mid Cycle": 22, "Late Cycle": 14, "Recession": 6}}, {"name": "Private Banks", "color": "#805ad5", "weights_by_phase": {"Early Cycle": 22, "Mid Cycle": 30, "Late Cycle": 22, "Recession": 14}}, {"name": "Healthcare", "color": "#48bb78", "weights_by_phase": {"Early Cycle": 14, "Mid Cycle": 22, "Late Cycle": 30, "Recession": 22}}, {"name": "IT", "color": "#ed8936", "weights_by_phase": {"Early Cycle": 6, "Mid Cycle": 14, "Late Cycle": 22, "Recession": 30}}, {"name": "FMCG", "color": "#ecc94b", "weights_by_phase": {"Early Cycle": 5, "Mid Cycle": 6, "Late Cycle": 14, "Recession": 22}}];
-  var phases = ["Early Cycle", "Mid Cycle", "Late Cycle", "Recession"];
-  var currentPhase = 0;
-  var animating = false;
+  <!-- ============================================================
+       WIDGET 1 — Phase-driven allocator (stacked horizontal bar)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 280 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  container.innerHTML = '';
-  container.classList.add('demo');
+    // Three presets to lerp between.
+    // Each holds: { cash, bonds, equities, commodities, ret, dd }
+    var presetOff     = { cash: 35, bonds: 35, equities: 22, commodities: 8,  ret: 4.0,  dd: 6  };
+    var presetNeutral = { cash: 15, bonds: 25, equities: 50, commodities: 10, ret: 8.5,  dd: 14 };
+    var presetOn      = { cash: 5,  bonds: 10, equities: 70, commodities: 15, ret: 14.0, dd: 28 };
 
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Capital Rotation Cycle: PSU Banks to Private Banks to Healthcare";
-  container.appendChild(title);
+    var assets = [
+      { key: 'cash',        label: 'Cash',        color: '#94a3b8' },
+      { key: 'bonds',       label: 'Bonds',       color: '#3b82f6' },
+      { key: 'equities',    label: 'Equities',    color: '#7b341e' },
+      { key: 'commodities', label: 'Commodities', color: '#d97706' }
+    ];
 
-  // Phase buttons
-  var btnRow = document.createElement('div');
-  btnRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;';
-  container.appendChild(btnRow);
-
-  var buttons = [];
-  for (var i = 0; i < phases.length; i++) {
-    var btn = document.createElement('button');
-    btn.textContent = phases[i];
-    btn.dataset.idx = i;
-    btn.style.cssText = 'padding:6px 14px;border:1px solid var(--accent);background:transparent;color:var(--text);border-radius:4px;cursor:pointer;font-size:12px;transition:all 0.3s;';
-    btnRow.appendChild(btn);
-    buttons.push(btn);
-  }
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // State for animation
-  var currentWeights = sectors.map(function(s) {
-    return s.weights_by_phase[phases[0]] || 0;
-  });
-  var targetWeights = currentWeights.slice();
-
-  function normalizeWeights(weights) {
-    var total = weights.reduce(function(a, b) { return a + b; }, 0);
-    if (total === 0) return weights.map(function() { return 100 / weights.length; });
-    return weights.map(function(w) { return (w / total) * 100; });
-  }
-
-  function updateButtons() {
-    for (var i = 0; i < buttons.length; i++) {
-      if (i === currentPhase) {
-        buttons[i].style.background = 'var(--accent)';
-        buttons[i].style.color = '#fff';
-        buttons[i].style.borderColor = 'var(--accent)';
-      } else {
-        buttons[i].style.background = 'transparent';
-        buttons[i].style.color = 'var(--text)';
-        buttons[i].style.borderColor = 'var(--accent)';
-      }
-    }
-  }
-
-  function drawChart(weights) {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var nWeights = normalizeWeights(weights);
-    var plotW = W - pad.left - pad.right;
-    var barAreaH = H - pad.top - pad.bottom;
-
-    // Draw horizontal stacked bars (one bar per sector, height proportional to weight)
-    var y = pad.top;
-    for (var i = 0; i < sectors.length; i++) {
-      var segH = (nWeights[i] / 100) * barAreaH;
-      if (segH < 1) { y += segH; continue; }
-
-      var rect = drawRect(svg, pad.left, y, plotW, segH, sectors[i].color || 'var(--accent)', 4);
-      rect.setAttribute('opacity', 0.8);
-
-      // Label inside bar
-      if (segH > 18) {
-        drawText(svg, pad.left + 12, y + segH / 2, sectors[i].name, {
-          fontSize: 13, fill: '#fff', anchor: 'start', fontWeight: 'bold', dy: '0.35em'
-        });
-        drawText(svg, W - pad.right - 12, y + segH / 2, nWeights[i].toFixed(1) + '%', {
-          fontSize: 13, fill: '#fff', anchor: 'end', fontWeight: 'bold', dy: '0.35em'
-        });
-      } else if (segH > 10) {
-        drawText(svg, pad.left + plotW / 2, y + segH / 2, sectors[i].name + ' ' + nWeights[i].toFixed(1) + '%', {
-          fontSize: 10, fill: '#fff', anchor: 'middle', dy: '0.35em'
-        });
-      }
-
-      // Hover
-      (function(idx, ry, rh) {
-        rect.style.cursor = 'pointer';
-        rect.addEventListener('mouseenter', function() {
-          rect.setAttribute('opacity', 1);
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + sectors[idx].name + '</strong><br>'
-            + 'Weight: ' + nWeights[idx].toFixed(1) + '%<br>'
-            + 'Phase: ' + phases[currentPhase];
-          tooltip.style.left = '50%';
-          tooltip.style.top = ((ry + rh / 2) / H * 100) + '%';
-          tooltip.style.transform = 'translate(-50%, -50%)';
-        });
-        rect.addEventListener('mouseleave', function() {
-          rect.setAttribute('opacity', 0.8);
-          tooltip.style.display = 'none';
-        });
-      })(i, y, segH);
-
-      y += segH;
+    function mix(a, b, t) {
+      var out = {};
+      for (var k in a) out[k] = a[k] + (b[k] - a[k]) * t;
+      return out;
     }
 
-    // Phase label
-    drawText(svg, W / 2, H - 6, phases[currentPhase], {
-      fontSize: 14, fill: 'var(--accent)', anchor: 'middle', fontWeight: 'bold'
-    });
-  }
-
-  function animateToPhase(phaseIdx) {
-    if (animating) return;
-    currentPhase = phaseIdx;
-    updateButtons();
-
-    targetWeights = sectors.map(function(s) {
-      return s.weights_by_phase[phases[phaseIdx]] || 0;
-    });
-
-    var startWeights = currentWeights.slice();
-    var duration = 500;
-    var startTime = null;
-    animating = true;
-
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var elapsed = timestamp - startTime;
-      var t = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      var ease = 1 - Math.pow(1 - t, 3);
-
-      for (var i = 0; i < currentWeights.length; i++) {
-        currentWeights[i] = startWeights[i] + (targetWeights[i] - startWeights[i]) * ease;
-      }
-
-      drawChart(currentWeights);
-
-      if (t < 1) {
-        requestAnimationFrame(step);
-      } else {
-        currentWeights = targetWeights.slice();
-        animating = false;
-      }
-    }
-    requestAnimationFrame(step);
-  }
-
-  // Button handlers
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', function() {
-      animateToPhase(parseInt(this.dataset.idx));
-    });
-  }
-
-  updateButtons();
-  drawChart(currentWeights);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < sectors.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + (sectors[i].color || 'var(--accent)') + ';display:inline-block;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(sectors[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 420;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var sectors = [{"name": "Nifty 50", "color": "#4299e1", "weights_by_phase": {"Early Cycle": 30, "Mid Cycle": 22, "Late Cycle": 14, "Recession": 6}}, {"name": "IT Index", "color": "#805ad5", "weights_by_phase": {"Early Cycle": 22, "Mid Cycle": 30, "Late Cycle": 22, "Recession": 14}}, {"name": "Private Banks", "color": "#48bb78", "weights_by_phase": {"Early Cycle": 14, "Mid Cycle": 22, "Late Cycle": 30, "Recession": 22}}, {"name": "Pharma", "color": "#ed8936", "weights_by_phase": {"Early Cycle": 6, "Mid Cycle": 14, "Late Cycle": 22, "Recession": 30}}, {"name": "Auto", "color": "#ecc94b", "weights_by_phase": {"Early Cycle": 5, "Mid Cycle": 6, "Late Cycle": 14, "Recession": 22}}];
-  var phases = ["Early Cycle", "Mid Cycle", "Late Cycle", "Recession"];
-  var currentPhase = 0;
-  var animating = false;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Capital Velocity: Rotating Through Sectors in a Sideways Market";
-  container.appendChild(title);
-
-  // Phase buttons
-  var btnRow = document.createElement('div');
-  btnRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;';
-  container.appendChild(btnRow);
-
-  var buttons = [];
-  for (var i = 0; i < phases.length; i++) {
-    var btn = document.createElement('button');
-    btn.textContent = phases[i];
-    btn.dataset.idx = i;
-    btn.style.cssText = 'padding:6px 14px;border:1px solid var(--accent);background:transparent;color:var(--text);border-radius:4px;cursor:pointer;font-size:12px;transition:all 0.3s;';
-    btnRow.appendChild(btn);
-    buttons.push(btn);
-  }
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // State for animation
-  var currentWeights = sectors.map(function(s) {
-    return s.weights_by_phase[phases[0]] || 0;
-  });
-  var targetWeights = currentWeights.slice();
-
-  function normalizeWeights(weights) {
-    var total = weights.reduce(function(a, b) { return a + b; }, 0);
-    if (total === 0) return weights.map(function() { return 100 / weights.length; });
-    return weights.map(function(w) { return (w / total) * 100; });
-  }
-
-  function updateButtons() {
-    for (var i = 0; i < buttons.length; i++) {
-      if (i === currentPhase) {
-        buttons[i].style.background = 'var(--accent)';
-        buttons[i].style.color = '#fff';
-        buttons[i].style.borderColor = 'var(--accent)';
-      } else {
-        buttons[i].style.background = 'transparent';
-        buttons[i].style.color = 'var(--text)';
-        buttons[i].style.borderColor = 'var(--accent)';
-      }
-    }
-  }
-
-  function drawChart(weights) {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var nWeights = normalizeWeights(weights);
-    var plotW = W - pad.left - pad.right;
-    var barAreaH = H - pad.top - pad.bottom;
-
-    // Draw horizontal stacked bars (one bar per sector, height proportional to weight)
-    var y = pad.top;
-    for (var i = 0; i < sectors.length; i++) {
-      var segH = (nWeights[i] / 100) * barAreaH;
-      if (segH < 1) { y += segH; continue; }
-
-      var rect = drawRect(svg, pad.left, y, plotW, segH, sectors[i].color || 'var(--accent)', 4);
-      rect.setAttribute('opacity', 0.8);
-
-      // Label inside bar
-      if (segH > 18) {
-        drawText(svg, pad.left + 12, y + segH / 2, sectors[i].name, {
-          fontSize: 13, fill: '#fff', anchor: 'start', fontWeight: 'bold', dy: '0.35em'
-        });
-        drawText(svg, W - pad.right - 12, y + segH / 2, nWeights[i].toFixed(1) + '%', {
-          fontSize: 13, fill: '#fff', anchor: 'end', fontWeight: 'bold', dy: '0.35em'
-        });
-      } else if (segH > 10) {
-        drawText(svg, pad.left + plotW / 2, y + segH / 2, sectors[i].name + ' ' + nWeights[i].toFixed(1) + '%', {
-          fontSize: 10, fill: '#fff', anchor: 'middle', dy: '0.35em'
-        });
-      }
-
-      // Hover
-      (function(idx, ry, rh) {
-        rect.style.cursor = 'pointer';
-        rect.addEventListener('mouseenter', function() {
-          rect.setAttribute('opacity', 1);
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + sectors[idx].name + '</strong><br>'
-            + 'Weight: ' + nWeights[idx].toFixed(1) + '%<br>'
-            + 'Phase: ' + phases[currentPhase];
-          tooltip.style.left = '50%';
-          tooltip.style.top = ((ry + rh / 2) / H * 100) + '%';
-          tooltip.style.transform = 'translate(-50%, -50%)';
-        });
-        rect.addEventListener('mouseleave', function() {
-          rect.setAttribute('opacity', 0.8);
-          tooltip.style.display = 'none';
-        });
-      })(i, y, segH);
-
-      y += segH;
+    function allocation(regime) {
+      // regime in [-1, 1]
+      if (regime < 0) return mix(presetOff, presetNeutral, regime + 1);
+      return mix(presetNeutral, presetOn, regime);
     }
 
-    // Phase label
-    drawText(svg, W / 2, H - 6, phases[currentPhase], {
-      fontSize: 14, fill: 'var(--accent)', anchor: 'middle', fontWeight: 'bold'
-    });
-  }
-
-  function animateToPhase(phaseIdx) {
-    if (animating) return;
-    currentPhase = phaseIdx;
-    updateButtons();
-
-    targetWeights = sectors.map(function(s) {
-      return s.weights_by_phase[phases[phaseIdx]] || 0;
-    });
-
-    var startWeights = currentWeights.slice();
-    var duration = 500;
-    var startTime = null;
-    animating = true;
-
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var elapsed = timestamp - startTime;
-      var t = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      var ease = 1 - Math.pow(1 - t, 3);
-
-      for (var i = 0; i < currentWeights.length; i++) {
-        currentWeights[i] = startWeights[i] + (targetWeights[i] - startWeights[i]) * ease;
-      }
-
-      drawChart(currentWeights);
-
-      if (t < 1) {
-        requestAnimationFrame(step);
-      } else {
-        currentWeights = targetWeights.slice();
-        animating = false;
-      }
-    }
-    requestAnimationFrame(step);
-  }
-
-  // Button handlers
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', function() {
-      animateToPhase(parseInt(this.dataset.idx));
-    });
-  }
-
-  updateButtons();
-  drawChart(currentWeights);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < sectors.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + (sectors[i].color || 'var(--accent)') + ';display:inline-block;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(sectors[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 420;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var sectors = [{"name": "SBI/PSU Banks", "color": "#4299e1", "weights_by_phase": {"Early Cycle": 30, "Mid Cycle": 22, "Late Cycle": 14, "Recession": 6}}, {"name": "Private Banks", "color": "#805ad5", "weights_by_phase": {"Early Cycle": 22, "Mid Cycle": 30, "Late Cycle": 22, "Recession": 14}}, {"name": "IT Index", "color": "#48bb78", "weights_by_phase": {"Early Cycle": 14, "Mid Cycle": 22, "Late Cycle": 30, "Recession": 22}}, {"name": "Healthcare", "color": "#ed8936", "weights_by_phase": {"Early Cycle": 6, "Mid Cycle": 14, "Late Cycle": 22, "Recession": 30}}, {"name": "Smallcap Finance", "color": "#ecc94b", "weights_by_phase": {"Early Cycle": 5, "Mid Cycle": 6, "Late Cycle": 14, "Recession": 22}}];
-  var phases = ["Early Cycle", "Mid Cycle", "Late Cycle", "Recession"];
-  var currentPhase = 0;
-  var animating = false;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Portfolio Rotation Framework: Current Allocation Shifts";
-  container.appendChild(title);
-
-  // Phase buttons
-  var btnRow = document.createElement('div');
-  btnRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;';
-  container.appendChild(btnRow);
-
-  var buttons = [];
-  for (var i = 0; i < phases.length; i++) {
-    var btn = document.createElement('button');
-    btn.textContent = phases[i];
-    btn.dataset.idx = i;
-    btn.style.cssText = 'padding:6px 14px;border:1px solid var(--accent);background:transparent;color:var(--text);border-radius:4px;cursor:pointer;font-size:12px;transition:all 0.3s;';
-    btnRow.appendChild(btn);
-    buttons.push(btn);
-  }
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // State for animation
-  var currentWeights = sectors.map(function(s) {
-    return s.weights_by_phase[phases[0]] || 0;
-  });
-  var targetWeights = currentWeights.slice();
-
-  function normalizeWeights(weights) {
-    var total = weights.reduce(function(a, b) { return a + b; }, 0);
-    if (total === 0) return weights.map(function() { return 100 / weights.length; });
-    return weights.map(function(w) { return (w / total) * 100; });
-  }
-
-  function updateButtons() {
-    for (var i = 0; i < buttons.length; i++) {
-      if (i === currentPhase) {
-        buttons[i].style.background = 'var(--accent)';
-        buttons[i].style.color = '#fff';
-        buttons[i].style.borderColor = 'var(--accent)';
-      } else {
-        buttons[i].style.background = 'transparent';
-        buttons[i].style.color = 'var(--text)';
-        buttons[i].style.borderColor = 'var(--accent)';
-      }
-    }
-  }
-
-  function drawChart(weights) {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var nWeights = normalizeWeights(weights);
-    var plotW = W - pad.left - pad.right;
-    var barAreaH = H - pad.top - pad.bottom;
-
-    // Draw horizontal stacked bars (one bar per sector, height proportional to weight)
-    var y = pad.top;
-    for (var i = 0; i < sectors.length; i++) {
-      var segH = (nWeights[i] / 100) * barAreaH;
-      if (segH < 1) { y += segH; continue; }
-
-      var rect = drawRect(svg, pad.left, y, plotW, segH, sectors[i].color || 'var(--accent)', 4);
-      rect.setAttribute('opacity', 0.8);
-
-      // Label inside bar
-      if (segH > 18) {
-        drawText(svg, pad.left + 12, y + segH / 2, sectors[i].name, {
-          fontSize: 13, fill: '#fff', anchor: 'start', fontWeight: 'bold', dy: '0.35em'
-        });
-        drawText(svg, W - pad.right - 12, y + segH / 2, nWeights[i].toFixed(1) + '%', {
-          fontSize: 13, fill: '#fff', anchor: 'end', fontWeight: 'bold', dy: '0.35em'
-        });
-      } else if (segH > 10) {
-        drawText(svg, pad.left + plotW / 2, y + segH / 2, sectors[i].name + ' ' + nWeights[i].toFixed(1) + '%', {
-          fontSize: 10, fill: '#fff', anchor: 'middle', dy: '0.35em'
-        });
-      }
-
-      // Hover
-      (function(idx, ry, rh) {
-        rect.style.cursor = 'pointer';
-        rect.addEventListener('mouseenter', function() {
-          rect.setAttribute('opacity', 1);
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + sectors[idx].name + '</strong><br>'
-            + 'Weight: ' + nWeights[idx].toFixed(1) + '%<br>'
-            + 'Phase: ' + phases[currentPhase];
-          tooltip.style.left = '50%';
-          tooltip.style.top = ((ry + rh / 2) / H * 100) + '%';
-          tooltip.style.transform = 'translate(-50%, -50%)';
-        });
-        rect.addEventListener('mouseleave', function() {
-          rect.setAttribute('opacity', 0.8);
-          tooltip.style.display = 'none';
-        });
-      })(i, y, segH);
-
-      y += segH;
+    function regimeName(regime) {
+      if (regime <= -0.66) return 'Deep risk-off';
+      if (regime <= -0.2)  return 'Defensive';
+      if (regime <  0.2)   return 'Neutral';
+      if (regime <  0.66)  return 'Risk-on';
+      return 'Greed mode';
     }
 
-    // Phase label
-    drawText(svg, W / 2, H - 6, phases[currentPhase], {
-      fontSize: 14, fill: 'var(--accent)', anchor: 'middle', fontWeight: 'bold'
-    });
-  }
+    function draw(regime) {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var alloc = allocation(regime);
+      var pad = { top: 50, right: 24, bottom: 60, left: 24 };
+      var barH = 56;
+      var barY = pad.top + 8;
+      var barX = pad.left;
+      var barW = W - pad.left - pad.right;
 
-  function animateToPhase(phaseIdx) {
-    if (animating) return;
-    currentPhase = phaseIdx;
-    updateButtons();
+      // Title (well above the bar)
+      drawTextCanvas(ctx, W/2, 16, 'Allocation across cash / bonds / equities / commodities',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+      drawTextCanvas(ctx, W/2, 34, regimeName(regime),
+        { fontSize: 13, color: 'var(--accent)', baseline: 'top', weight: '600' });
 
-    targetWeights = sectors.map(function(s) {
-      return s.weights_by_phase[phases[phaseIdx]] || 0;
-    });
+      // Draw the stacked horizontal bar with rounded ends on first/last
+      var x = barX;
+      for (var i = 0; i < assets.length; i++) {
+        var pct = alloc[assets[i].key];
+        var segW = (pct / 100) * barW;
+        ctx.save();
+        ctx.fillStyle = assets[i].color;
+        if (i === 0) {
+          var r = 6;
+          ctx.beginPath();
+          ctx.moveTo(x + r, barY);
+          ctx.lineTo(x + segW, barY);
+          ctx.lineTo(x + segW, barY + barH);
+          ctx.lineTo(x + r, barY + barH);
+          ctx.quadraticCurveTo(x, barY + barH, x, barY + barH - r);
+          ctx.lineTo(x, barY + r);
+          ctx.quadraticCurveTo(x, barY, x + r, barY);
+          ctx.closePath();
+          ctx.fill();
+        } else if (i === assets.length - 1) {
+          var r2 = 6;
+          ctx.beginPath();
+          ctx.moveTo(x, barY);
+          ctx.lineTo(x + segW - r2, barY);
+          ctx.quadraticCurveTo(x + segW, barY, x + segW, barY + r2);
+          ctx.lineTo(x + segW, barY + barH - r2);
+          ctx.quadraticCurveTo(x + segW, barY + barH, x + segW - r2, barY + barH);
+          ctx.lineTo(x, barY + barH);
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          ctx.fillRect(x, barY, segW, barH);
+        }
+        ctx.restore();
 
-    var startWeights = currentWeights.slice();
-    var duration = 500;
-    var startTime = null;
-    animating = true;
-
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var elapsed = timestamp - startTime;
-      var t = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      var ease = 1 - Math.pow(1 - t, 3);
-
-      for (var i = 0; i < currentWeights.length; i++) {
-        currentWeights[i] = startWeights[i] + (targetWeights[i] - startWeights[i]) * ease;
+        // In-bar label
+        if (segW > 60) {
+          drawTextCanvas(ctx, x + segW/2, barY + barH/2 - 7, assets[i].label,
+            { fontSize: 11, color: '#fff', weight: '600', baseline: 'middle' });
+          drawTextCanvas(ctx, x + segW/2, barY + barH/2 + 9, pct.toFixed(0) + '%',
+            { fontSize: 13, color: '#fff', weight: '600', baseline: 'middle' });
+        } else if (segW > 26) {
+          drawTextCanvas(ctx, x + segW/2, barY + barH/2, pct.toFixed(0) + '%',
+            { fontSize: 11, color: '#fff', weight: '600', baseline: 'middle' });
+        }
+        x += segW;
       }
 
-      drawChart(currentWeights);
-
-      if (t < 1) {
-        requestAnimationFrame(step);
-      } else {
-        currentWeights = targetWeights.slice();
-        animating = false;
+      // Legend underneath
+      var legendY = barY + barH + 28;
+      var legendItemW = barW / assets.length;
+      for (var j = 0; j < assets.length; j++) {
+        var lx = pad.left + j * legendItemW + 10;
+        // Color swatch
+        ctx.save();
+        ctx.fillStyle = assets[j].color;
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(lx, legendY - 6, 12, 12, 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(lx, legendY - 6, 12, 12);
+        }
+        ctx.restore();
+        drawTextCanvas(ctx, lx + 18, legendY, assets[j].label,
+          { fontSize: 11, color: 'var(--text)', align: 'left', baseline: 'middle' });
       }
+
+      return alloc;
     }
-    requestAnimationFrame(step);
-  }
 
-  // Button handlers
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', function() {
-      animateToPhase(parseInt(this.dataset.idx));
+    function regimeLabel(regime) {
+      var sign = regime >= 0 ? '+' : '';
+      return regimeName(regime) + ' (' + sign + regime.toFixed(2) + ')';
+    }
+
+    var retEl = document.getElementById('w1-ret');
+    var ddEl  = document.getElementById('w1-dd');
+    var rdEl  = document.getElementById('w1-rd');
+
+    attachSliders([
+      { el: document.getElementById('w1-regime'),
+        label: document.getElementById('w1-regime-val'),
+        format: function(v) { return regimeLabel(v/100); } }
+    ], function(vals) {
+      var regime = vals['w1-regime'] / 100;
+      var alloc = draw(regime);
+      retEl.textContent = '+' + alloc.ret.toFixed(1) + '%';
+      ddEl.textContent  = '−' + alloc.dd.toFixed(0) + '%';
+      var ratio = alloc.dd > 0 ? (alloc.ret / alloc.dd) : 0;
+      rdEl.textContent  = ratio.toFixed(2);
     });
-  }
+  })();
+  </script>
 
-  updateButtons();
-  drawChart(currentWeights);
+  <!-- ============================================================
+       WIDGET 2 — Trade cycle animator
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 340 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < sectors.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + (sectors[i].color || 'var(--accent)') + ';display:inline-block;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(sectors[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-})();
-</script>
+    var state = {
+      vol: 0.22,
+      targetCycles: 6,
+      path: null,
+      support: 0,
+      resistance: 0,
+      allTrades: [],
+      idx: 0,
+      anim: null
+    };
+
+    function buildPath() {
+      var n = 252;
+      var raw = gbmPath({ S0: 100, mu: 0.0, sigma: state.vol, T: 1, steps: n });
+      // Detrend slightly, recenter to 100
+      var mean = 0;
+      for (var i = 0; i < raw.length; i++) mean += raw[i];
+      mean /= raw.length;
+      var rescale = 100 / mean;
+      for (var j = 0; j < raw.length; j++) raw[j] *= rescale;
+
+      state.path = raw;
+
+      // Support and resistance at 15th and 85th percentile of the path
+      var sorted = raw.slice().sort(function(a, b) { return a - b; });
+      state.support    = sorted[Math.floor(sorted.length * 0.15)];
+      state.resistance = sorted[Math.floor(sorted.length * 0.85)];
+    }
+
+    function precomputeTrades() {
+      var trades = [];
+      var pos = 0;
+      var cyclesDone = 0;
+      for (var i = 1; i < state.path.length; i++) {
+        var px = state.path[i];
+        if (pos === 0 && px <= state.support * 1.005 && cyclesDone < state.targetCycles) {
+          trades.push({ i: i, kind: 'B', px: px });
+          pos = 1;
+        } else if (pos === 1 && px >= state.resistance * 0.995) {
+          trades.push({ i: i, kind: 'S', px: px });
+          pos = 0;
+          cyclesDone++;
+        }
+      }
+      state.allTrades = trades;
+    }
+
+    function drawBase() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 30, right: 18, bottom: 36, left: 50 };
+      var minPx = Math.min.apply(null, state.path);
+      var maxPx = Math.max.apply(null, state.path);
+      var range = maxPx - minPx;
+      var yMin = minPx - range * 0.08;
+      var yMax = maxPx + range * 0.08;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['0', '63', '126', '189', '252'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return v.toFixed(0); }
+      });
+
+      var supY = mapY(state.support, yMin, yMax, H, pad);
+      var resY = mapY(state.resistance, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#38a169'; ctx.setLineDash([6,4]); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(pad.left, supY); ctx.lineTo(W - pad.right, supY); ctx.stroke();
+      ctx.strokeStyle = '#e53e3e';
+      ctx.beginPath(); ctx.moveTo(pad.left, resY); ctx.lineTo(W - pad.right, resY); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, W - pad.right - 6, supY - 8, 'Support ' + state.support.toFixed(1),
+        { fontSize: 10, color: '#38a169', align: 'right', baseline: 'bottom' });
+      drawTextCanvas(ctx, W - pad.right - 6, resY + 8, 'Resistance ' + state.resistance.toFixed(1),
+        { fontSize: 10, color: '#e53e3e', align: 'right', baseline: 'top' });
+
+      drawTextCanvas(ctx, W/2, 12, 'Simulated price path · ' + state.targetCycles + ' rotation cycles target',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+
+      return { pad: pad, yMin: yMin, yMax: yMax };
+    }
+
+    function drawProgress(step) {
+      var meta = drawBase();
+      var pad = meta.pad, yMin = meta.yMin, yMax = meta.yMax;
+      var n = state.path.length;
+
+      // Buy-and-hold passive grey line from start to current step
+      var passive = [];
+      for (var k = 0; k <= step && k < n; k++) {
+        passive.push({ x: mapX(k, 0, n - 1, W, pad), y: mapY(state.path[k], yMin, yMax, H, pad) });
+      }
+      // Faint version of the underlying as a "background" reference
+      drawLineCanvas(ctx, passive, { color: '#9ca3af', width: 1.2 });
+
+      // Heavier accent overlay up to step for emphasis
+      drawLineCanvas(ctx, passive, { color: 'var(--accent)', width: 1.6 });
+
+      // Plot trades that have triggered by now
+      var booked = 0;
+      var pos = 0, entryPx = 0;
+      for (var t = 0; t < state.allTrades.length; t++) {
+        var tr = state.allTrades[t];
+        if (tr.i > step) break;
+        var tx = mapX(tr.i, 0, n - 1, W, pad);
+        var ty = mapY(tr.px, yMin, yMax, H, pad);
+        if (tr.kind === 'B') {
+          drawPointCanvas(ctx, tx, ty, 5, '#38a169', '#fff');
+          pos = 1; entryPx = tr.px;
+        } else {
+          drawPointCanvas(ctx, tx, ty, 5, '#e53e3e', '#fff');
+          booked += (tr.px - entryPx) / entryPx * 100;
+          pos = 0;
+        }
+      }
+
+      var rotRet = booked;
+      if (pos === 1 && step < n) {
+        rotRet += (state.path[step] - entryPx) / entryPx * 100;
+      }
+      var bhRet = (state.path[Math.min(step, n - 1)] - state.path[0]) / state.path[0] * 100;
+
+      // Buy-and-hold max drawdown up to current step
+      var peak = state.path[0];
+      var maxDD = 0;
+      for (var p = 1; p <= step && p < n; p++) {
+        if (state.path[p] > peak) peak = state.path[p];
+        var dd = (state.path[p] - peak) / peak * 100;
+        if (dd < maxDD) maxDD = dd;
+      }
+
+      document.getElementById('w2-rot-ret').textContent = (rotRet >= 0 ? '+' : '') + rotRet.toFixed(1) + '%';
+      document.getElementById('w2-bh-ret').textContent  = (bhRet >= 0 ? '+' : '') + bhRet.toFixed(1) + '%';
+      document.getElementById('w2-bh-dd').textContent   = maxDD.toFixed(1) + '%';
+    }
+
+    function reset() {
+      buildPath();
+      precomputeTrades();
+      drawProgress(state.path.length - 1);
+    }
+
+    function play() {
+      if (state.anim) { state.anim.stop(); state.anim = null; }
+      state.idx = 0;
+      var n = state.path.length;
+      var stepsPerFrame = 3;
+      state.anim = animate(function() {
+        state.idx += stepsPerFrame;
+        if (state.idx >= n) {
+          state.idx = n - 1;
+          drawProgress(state.idx);
+          state.anim.stop();
+          state.anim = null;
+          return;
+        }
+        drawProgress(state.idx);
+      });
+      state.anim.start();
+    }
+
+    document.getElementById('w2-play').addEventListener('click', play);
+    document.getElementById('w2-new').addEventListener('click', function() {
+      if (state.anim) { state.anim.stop(); state.anim = null; }
+      reset();
+    });
+
+    attachSliders([
+      { el: document.getElementById('w2-vol'), label: document.getElementById('w2-vol-val'),
+        format: function(v) { return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w2-cycles'), label: document.getElementById('w2-cycles-val'),
+        format: function(v) { return v.toFixed(0); } }
+    ], function(vals) {
+      state.vol = vals['w2-vol'] / 100;
+      state.targetCycles = vals['w2-cycles'];
+      if (state.anim) { state.anim.stop(); state.anim = null; }
+      reset();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Yield curve to equity style map
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    var state = { shortR: 5.5, longR: 4.2 };
+
+    // Quadrant midpoint thresholds (in %)
+    var SHORT_MID = 3.0;
+    var LONG_MID  = 4.0;
+
+    function styleFor(shortR, longR) {
+      var lowShort = shortR < SHORT_MID;
+      var lowLong  = longR  < LONG_MID;
+      if (lowShort && lowLong)   return { name: 'Growth',     color: '#7c3aed' };
+      if (lowShort && !lowLong)  return { name: 'Cyclicals',  color: '#d97706' };
+      if (!lowShort && lowLong)  return { name: 'Defensives', color: '#0891b2' };
+      return { name: 'Value', color: '#15803d' };
+    }
+
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 44, right: 28, bottom: 50, left: 60 };
+      var xMin = 0, xMax = 8;
+      var yMin = 1, yMax = 8;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['0%','2%','4%','6%','8%'],
+        yMin: yMin, yMax: yMax, ySteps: 7,
+        yFmt: function(v){ return v.toFixed(0) + '%'; }
+      });
+
+      var x0 = pad.left;
+      var x1 = W - pad.right;
+      var y0 = pad.top;
+      var y1 = H - pad.bottom;
+
+      var midX = mapX(SHORT_MID, xMin, xMax, W, pad);
+      var midY = mapY(LONG_MID,  yMin, yMax, H, pad);
+
+      // Quadrant shading
+      function quad(qx0, qy0, qx1, qy1, color) {
+        ctx.save();
+        ctx.fillStyle = color;
+        ctx.globalAlpha = 0.10;
+        ctx.fillRect(qx0, qy0, qx1 - qx0, qy1 - qy0);
+        ctx.restore();
+      }
+      // Y in canvas: smaller y = higher long rate. So:
+      //   top-left  (x<midX, y<midY): low short, high long  -> Cyclicals
+      //   top-right (x>midX, y<midY): high short, high long -> Value
+      //   bot-left  (x<midX, y>midY): low short, low long   -> Growth
+      //   bot-right (x>midX, y>midY): high short, low long  -> Defensives
+      quad(x0,   y0,   midX, midY, '#d97706');
+      quad(midX, y0,   x1,   midY, '#15803d');
+      quad(x0,   midY, midX, y1,   '#7c3aed');
+      quad(midX, midY, x1,   y1,   '#0891b2');
+
+      // Midlines
+      ctx.save();
+      ctx.strokeStyle = '#cbd5e0'; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(midX, y0); ctx.lineTo(midX, y1); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x0, midY); ctx.lineTo(x1, midY); ctx.stroke();
+      ctx.restore();
+
+      // Quadrant labels
+      function qLabel(x, y, label, sub, color) {
+        drawTextCanvas(ctx, x, y, label,
+          { fontSize: 14, color: color, weight: '600', baseline: 'middle' });
+        drawTextCanvas(ctx, x, y + 16, sub,
+          { fontSize: 10, color: 'var(--text-secondary)', baseline: 'middle' });
+      }
+      qLabel((x0 + midX) / 2, (y0 + midY) / 2, 'Cyclicals',  'low short · high long', '#d97706');
+      qLabel((midX + x1) / 2, (y0 + midY) / 2, 'Value',      'high short · high long', '#15803d');
+      qLabel((x0 + midX) / 2, (midY + y1) / 2, 'Growth',     'low short · low long',   '#7c3aed');
+      qLabel((midX + x1) / 2, (midY + y1) / 2, 'Defensives', 'high short · low long',  '#0891b2');
+
+      // Flat-curve diagonal (short == long)
+      ctx.save();
+      ctx.strokeStyle = '#a0aec0';
+      ctx.setLineDash([3,3]);
+      ctx.lineWidth = 1;
+      var lo = Math.max(xMin, yMin);
+      var hi = Math.min(xMax, yMax);
+      var px0 = mapX(lo, xMin, xMax, W, pad);
+      var py0 = mapY(lo, yMin, yMax, H, pad);
+      var px1 = mapX(hi, xMin, xMax, W, pad);
+      var py1 = mapY(hi, yMin, yMax, H, pad);
+      ctx.beginPath();
+      ctx.moveTo(px0, py0); ctx.lineTo(px1, py1);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, px1 - 4, py1 - 8, 'flat curve',
+        { fontSize: 9, color: 'var(--text-secondary)', align: 'right', baseline: 'bottom' });
+
+      // Current point
+      var cx = mapX(state.shortR, xMin, xMax, W, pad);
+      var cy = mapY(state.longR,  yMin, yMax, H, pad);
+      var style = styleFor(state.shortR, state.longR);
+
+      ctx.save();
+      ctx.fillStyle = style.color;
+      ctx.globalAlpha = 0.30;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 14, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      drawPointCanvas(ctx, cx, cy, 6, style.color, '#fff');
+
+      // Title — well above plot area
+      drawTextCanvas(ctx, W/2, 14,
+        'Short rate ' + state.shortR.toFixed(2) + '%   ·   Long rate ' + state.longR.toFixed(2) + '%',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+      drawTextCanvas(ctx, W/2, 30, 'Favoured style: ' + style.name,
+        { fontSize: 12, color: style.color, baseline: 'top', weight: '600' });
+
+      // Axis titles
+      drawTextCanvas(ctx, W/2, H - 6, 'Short rate (Fed Funds / RBI repo) →',
+        { fontSize: 10, color: 'var(--text-secondary)', baseline: 'bottom' });
+      ctx.save();
+      ctx.translate(16, H/2);
+      ctx.rotate(-Math.PI / 2);
+      drawTextCanvas(ctx, 0, 0, '10Y bond yield →',
+        { fontSize: 10, color: 'var(--text-secondary)', baseline: 'middle' });
+      ctx.restore();
+
+      return style;
+    }
+
+    var slopeEl = document.getElementById('w3-slope');
+    var styleEl = document.getElementById('w3-style');
+
+    attachSliders([
+      { el: document.getElementById('w3-short'),
+        label: document.getElementById('w3-short-val'),
+        format: function(v) { return (v / 100).toFixed(2) + '%'; } },
+      { el: document.getElementById('w3-long'),
+        label: document.getElementById('w3-long-val'),
+        format: function(v) { return (v / 100).toFixed(2) + '%'; } }
+    ], function(vals) {
+      state.shortR = vals['w3-short'] / 100;
+      state.longR  = vals['w3-long']  / 100;
+      var style = draw();
+      var slope = state.longR - state.shortR;
+      slopeEl.textContent = (slope >= 0 ? '+' : '') + slope.toFixed(2) + ' pp';
+      styleEl.textContent = style.name;
+    });
+  })();
+  </script>
 
 </body>
 </html>

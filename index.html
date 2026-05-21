@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explainers</title>
+  <meta name="description" content="Long-form interactive explainers on investing, markets, and insurance — built for understanding through play.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Explainers">
+  <meta property="og:description" content="Long-form interactive explainers on investing, markets, and insurance — built for understanding through play.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="market/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAF9F7;
+      --text: #2D2D2D;
+      --text-secondary: #666;
+      --border: #E5E5E0;
+      --radius: 14px;
+      --max-w: 680px;
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-sans: 'Figtree', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .header {
+      padding: 96px 0 8px;
+    }
+
+    .header h1 {
+      font-family: var(--font-serif);
+      font-size: 60px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.04;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .header .intro {
+      font-family: var(--font-sans);
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 620px;
+    }
+
+    .header .intro a {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: var(--border);
+      transition: text-decoration-color 0.2s ease;
+    }
+    .header .intro a:hover { text-decoration-color: var(--text); }
+
+    .follow-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 26px;
+      padding: 12px 18px;
+      max-width: 620px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .follow-pill:hover {
+      border-color: var(--text-secondary);
+      color: var(--text);
+    }
+    .follow-pill .follow-emoji { font-size: 15px; line-height: 1; flex-shrink: 0; }
+    .follow-pill .follow-handle { font-weight: 600; color: var(--text); }
+
+    .card-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      padding: 48px 0 0;
+    }
+
+    .card {
+      display: block;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #fff;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-hero {
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px 30px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.35) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .card-hero h2 {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .card-hero p {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.5;
+      max-width: 480px;
+    }
+
+    .card-body {
+      padding: 18px 30px 22px;
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-count {
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+
+    .card-arrow {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+
+    .card:hover .card-arrow {
+      color: var(--text);
+      transform: translateX(4px);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 64px 0 56px;
+      margin-top: 64px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer p {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: #999;
+    }
+
+    .footer a {
+      color: var(--text-secondary);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .header { padding: 64px 0 8px; }
+      .header h1 { font-size: 42px; }
+      .header .intro { font-size: 15.5px; }
+      .container { padding: 0 18px; }
+      .card-hero { min-height: 150px; padding: 22px 22px 20px; }
+      .card-hero h2 { font-size: 24px; }
+      .card-hero p { font-size: 14px; }
+      .card-body { padding: 14px 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <header class="header">
+      <h1>Interactive Explainers</h1>
+      <p class="intro">
+        Generating interactive explainers on interesting topics using AI, inspired by
+        the beautiful <a href="https://explainers.blog/" target="_blank" rel="noopener">explainers.blog</a>.
+        Because you don't really understand something until you can play with it.
+      </p>
+      <a class="follow-pill" href="https://x.com/adityathakker" target="_blank" rel="noopener">
+        <span class="follow-emoji">📩</span>
+        <span>To get updated whenever new explainers are added, follow <span class="follow-handle">@adityathakker</span> on X.</span>
+      </a>
+    </header>
+
+    <main class="card-grid">
+
+      <a href="market/index.html" class="card">
+        <div class="card-hero" style="background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);">
+          <h2>Markets &amp; Investing</h2>
+          <p>Real returns, option pricing, position sizing, sector cycles, capital rotation, and the math behind every claim financial media skips.</p>
+        </div>
+        <div class="card-body">
+          <span class="card-count">18 explainers</span>
+          <span class="card-arrow">Browse &rarr;</span>
+        </div>
+      </a>
+
+      <a href="insurance/index.html" class="card">
+        <div class="card-hero" style="background: linear-gradient(135deg, #285e61 0%, #319795 100%);">
+          <h2>Insurance</h2>
+          <p>How insurance is actually priced &mdash; from the law of large numbers to the full actuarial premium buildup. Think like an actuary, not a customer.</p>
+        </div>
+        <div class="card-body">
+          <span class="card-count">1 explainer</span>
+          <span class="card-arrow">Browse &rarr;</span>
+        </div>
+      </a>
+
+    </main>
+
+    <footer class="footer">
+      <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a>.</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

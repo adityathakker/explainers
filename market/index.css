@@ -51,9 +51,27 @@
       padding: 0 24px;
     }
 
+    /* ===== Back nav (top of landing pages, links up one level) ===== */
+    .nav-back {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 24px 24px 0;
+    }
+    .nav-back a {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-back a:hover { color: var(--text); }
+
     /* ===== Header (paraschopra-style: left-aligned with prose intro) ===== */
     .header {
-      padding: 88px 0 12px;
+      padding: 56px 0 12px;
       text-align: left;
     }
 

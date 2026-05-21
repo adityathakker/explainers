@@ -4,32 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Making Money When Markets Go Nowhere — Market Explainers</title>
-  <meta name="description" content="Range trading, covered calls, and the cash deployment playbook">
+  <meta name="description" content="Range trading, covered calls and volatility harvesting — how to extract 15-25% from a market that returns 0%.">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Making Money When Markets Go Nowhere">
-  <meta property="og:description" content="Range trading, covered calls, and the cash deployment playbook">
+  <meta property="og:description" content="Range trading, covered calls and volatility harvesting — how to extract 15-25% from a market that returns 0%.">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #744210;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget layout helpers */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stat-cell-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .stat-cell-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
   </style>
 </head>
 <body>
@@ -47,8 +81,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">Making Money When Markets Go Nowhere</h1>
-      <p class="hero__subtitle">Range trading, covered calls, and the cash deployment playbook</p>
-      <p class="hero__meta">25 min read</p>
+      <p class="hero__subtitle">Range trading, covered calls and volatility harvesting — how to extract 15-25% from a market that returns 0%.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 28 min read</p>
     </div>
   </header>
 
@@ -57,334 +91,451 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#range-trading-covered-calls-and-the-cash-deployment-playbook">Range trading, covered calls, and the cash deployment playbook</a></li>
-        <li><a href="#i-what-a-sideways-market-actually-is">I. What a Sideways Market Actually Is</a></li>
-        <li><a href="#ii-the-anatomy-of-support-and-resistance">II. The Anatomy of Support and Resistance</a></li>
-        <li><a href="#iii-the-capital-rotation-playbook-for-sideways-markets">III. The Capital Rotation Playbook for Sideways Markets</a></li>
-        <li><a href="#iv-the-art-of-buying-at-support-tranches-timing-and-discipline">IV. The Art of Buying at Support -- Tranches, Timing, and Discipline</a></li>
-        <li><a href="#v-covered-calls-and-puts-the-options-income-layer">V. Covered Calls and Puts -- The Options Income Layer</a></li>
-        <li><a href="#vi-what-to-buy-in-a-sideways-market">VI. What to Buy in a Sideways Market</a></li>
-        <li><a href="#vii-the-cash-hedge-why-20-cash-is-non-negotiable">VII. The Cash Hedge -- Why 20% Cash is Non-Negotiable</a></li>
-        <li><a href="#viii-the-psychology-of-sideways-why-most-investors-fail-here">VIII. The Psychology of Sideways -- Why Most Investors Fail Here</a></li>
-        <li><a href="#ix-your-sideways-market-action-plan">IX. Your Sideways Market Action Plan</a></li>
+        <li><a href="#i-third-state">How do you make money in a market that goes nowhere?</a></li>
+        <li><a href="#ii-what-sideways-is">What actually counts as a sideways market?</a></li>
+        <li><a href="#iii-support-resistance">Why do support and resistance lines work at all?</a></li>
+        <li><a href="#iv-range-trade">What does range trading look like against buy-and-hold?</a></li>
+        <li><a href="#v-tranches">How do you actually buy at support without flinching?</a></li>
+        <li><a href="#vi-covered-calls">How big is the covered-call income stream in a range?</a></li>
+        <li><a href="#vii-vol-harvest">What's the math behind volatility harvesting?</a></li>
+        <li><a href="#viii-cash-hedge">Why is 20% cash the most underrated position?</a></li>
+        <li><a href="#ix-playbook">What does the full sideways playbook look like?</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="range-trading-covered-calls-and-the-cash-deployment-playbook">
+
+    <!-- ============================================================
+         I. The third state
+         ============================================================ -->
+    <section class="reveal" id="i-third-state">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>Range trading, covered calls, and the cash deployment playbook</h2>
+        <h2>How do you make money in a market that goes nowhere?</h2>
       </div>
       <div class="section-content">
-        <p>Most investors know only two emotions: euphoria when markets go up, and panic when markets go down. But there is a third state that the market spends an enormous amount of time in &ndash; and almost nobody is trained for it. That state is sideways.</p>
-<p>Markets go nowhere. The Nifty 50 oscillates between 22,000 and 26,500. The S&amp;P 500 churns within a 15-20% band. Your portfolio value at the end of the year is roughly where it was at the beginning. Your SIPs keep running, your money keeps flowing in, and your returns are functionally zero.</p>
-<p>This is not an anomaly. This is the normal condition of a consolidating market. And right now, as of early 2026, this is exactly where we are &ndash; both in India and in the US. Excessive debt, slowing GDP growth, tariff wars, and central banks trying to thread the needle between inflation control and liquidity maintenance have created the perfect recipe for a rangebound market that could last 12 to 18 months or longer.</p>
-<p>Shankar Sharma has predicted 0% stock market returns for the next five years. Whether that exact prediction comes true or not is irrelevant. What matters is this: if you only know how to make money in a bull market, you are going to have a very frustrating few years. And if you learn to make money in a sideways market, you will outperform 90% of investors who are sitting on their hands waiting for the &ldquo;next rally.&rdquo;</p>
-<p>This article is about that skill. The skill of making money when markets go absolutely nowhere.</p>
-<hr />
+        <p>Most investors know two emotions: euphoria when markets go up, panic when they go down. There is a third state the market spends an enormous amount of time in &mdash; and almost nobody is trained for it. That state is <strong>sideways</strong>.</p>
+
+        <p>The Nifty 50 oscillates between 22,000 and 26,500 for fourteen months. The S&amp;P 500 churns inside a 15&ndash;20% band. Your portfolio value at the end of the year is roughly where it was at the beginning. Your SIPs keep running, your money keeps flowing in, and your returns are functionally zero.</p>
+
+        <p>This is not an anomaly. This is the normal condition of a consolidating market. Excessive debt, slowing GDP growth, tariff wars and central banks trying to thread the needle between inflation control and liquidity maintenance have produced exactly this setup right now &mdash; both in India and in the US. A rangebound market that could last 12 to 18 months or longer.</p>
+
+        <p>If you only know how to make money in a bull market, you are going to have a frustrating few years. If you learn to make money in a sideways market, you will outperform 90% of investors who are sitting on their hands waiting for the &ldquo;next rally.&rdquo;</p>
+
+        <p>Here is the entire idea of this article in one sentence: <strong>a 0% index return does not have to mean a 0% investor return.</strong> The index can travel from 22,000 to 26,500 and back to 22,000 and finish the year flat. The investor who bought at 22,000, sold at 26,000, collected option premium along the way and redeployed at 22,000 has made 20&ndash;25% on their capital. Same market, same stocks, completely different outcome.</p>
+
+        <div class="callout">
+          <div class="callout-title">The point</div>
+          <p>In a sideways market, your edge is not stock-picking. It is <strong>structure</strong> &mdash; a range, a deployment ladder, an income layer, and a cash reserve. Three simulations in this article each show you one of those edges in motion.</p>
+        </div>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="i-what-a-sideways-market-actually-is">
+    <!-- ============================================================
+         II. What counts as a sideways market?
+         ============================================================ -->
+    <section class="reveal" id="ii-what-sideways-is">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>I. What a Sideways Market Actually Is</h2>
+        <h2>What actually counts as a sideways market?</h2>
       </div>
       <div class="section-content">
-        <p>Let us be precise about definitions, because sloppy thinking about market states leads to sloppy investing decisions.</p>
-<p>A <strong>sideways market</strong> &ndash; also called a consolidation or rangebound market &ndash; is a market that oscillates between a defined support level and a defined resistance level without making a sustained breakout in either direction. The key word is &ldquo;sustained.&rdquo; A sideways market can have sharp 5-7% moves in either direction. It can have days that feel like a crash and weeks that feel like a bull run. But zoom out to the monthly chart, and you will see price bouncing between two horizontal lines like a ball trapped in a corridor.</p>
-<p>There are three types of market declines you need to understand, because each produces a different kind of sideways:</p>
-<p><strong>Type 1: Sharp Parabolic Fall.</strong> This is COVID-2020, the 2008 crisis. Completely unexpected, violently fast, and usually followed by a V-shaped recovery. You rarely get a long sideways market after this. The crash happens, the recovery happens, and within 6-12 months you are back to making new highs.</p>
-<p><strong>Type 2: Valuation Correction.</strong> This is what Indian mid and small caps went through in late 2024 and 2025. Prices got too expensive relative to earnings. The market corrects by going sideways or grinding lower until valuations become reasonable again. This can easily last 2-3 years. Time does the work that price cannot.</p>
-<p><strong>Type 3: Slow Decay.</strong> This is an economic growth forecast problem. There is too much debt in the system, governments need to reduce it, so they spend less, and that reduced spending eventually reflects in poor corporate earnings growth. The market does not crash &ndash; it just drifts sideways with wide swings.</p>
-<p>My assessment right now is that we are in a Type 3 environment. The US is repaying $1 trillion in debt this year. If they borrow more, their yearly debt service goes up. The only ways to control this are to tax more or spend less &ndash; both of which decrease liquidity. India, as an emerging market, benefits in growth phases but struggles in consolidation phases. We are in the consolidation phase.</p>
-<p>An economy goes through predictable cycles: crash, increased liquidity through money printing and government spending, consolidation, euphoria and run-up, and then crash again. After the 2020 crash and the 2021-2022 liquidity expansion, the world is firmly in the consolidation phase. The excess money printing created excessive debt, and now that debt needs to be worked off. This takes time. And during that time, markets go sideways.</p>
-<blockquote>
-<p>The markets are going to go sideways and consolidate in a range. I am betting on a sideways market with 20% rangebound movement for over 1.5 years. And designing my portfolio accordingly.</p>
-</blockquote>
-<p>This is not a guess. This is a structural read based on the debt cycle, the liquidity cycle, and the interest rate trajectory. Interest rates in the US have been lowered from 5.5% at their peak to 4.5% now, with expectations of reaching 3.5% by year end. But until those rate cuts fully transmit into the real economy, the market has no catalyst for a sustained breakout.</p>
-<p>Let me walk you through the macro scorecard as it stands:</p>
-<ul>
-<li><strong>Tariff news</strong>: largely factored in (positive)</li>
-<li><strong>Growth forecast</strong>: slower &ndash; 1.7% GDP growth in the US is &ldquo;slow&rdquo; by any standard (negative)</li>
-<li><strong>Short-term interest rate cuts</strong>: unlikely (negative)</li>
-<li><strong>Medium-term rate cuts</strong>: expected by next year (positive)</li>
-<li><strong>Inflation</strong>: by and large under control, though tariff-related supply disruptions could push it higher (neutral)</li>
-<li><strong>US Fed liquidity policy</strong>: slowing down the selling of securities, which means the Fed wants to maintain liquidity in the market (positive for stability)</li>
-</ul>
-<p>Add it up and you get a picture that is neither bullish nor bearish. It is sideways. The floor is held up by liquidity maintenance and eventual rate cuts. The ceiling is capped by slow growth, high debt, and persistent inflation fears. In between, the market oscillates. And that oscillation is where we make money.</p>
-<hr />
+        <p>Sloppy thinking about market states leads to sloppy investing decisions, so let us be precise.</p>
+
+        <p>A <strong>sideways market</strong> &mdash; also called a consolidation or rangebound market &mdash; oscillates between a defined support level and a defined resistance level without making a sustained breakout in either direction. The key word is &ldquo;sustained.&rdquo; A sideways market can have sharp 5&ndash;7% moves both ways. It can have days that feel like a crash and weeks that feel like a bull run. Zoom out to the monthly chart and price is bouncing between two horizontal lines like a ball trapped in a corridor.</p>
+
+        <p>There are three flavours of decline that produce different sideways behaviour:</p>
+
+        <ul>
+          <li><strong>Sharp parabolic fall</strong> &mdash; March 2020, 2008. Unexpected, violent, usually followed by a V-shaped recovery. You rarely get a long sideways phase after this; the crash happens, recovery happens, new highs inside a year.</li>
+          <li><strong>Valuation correction</strong> &mdash; Indian mid and small caps in late 2024 and 2025. Prices got too expensive relative to earnings. The market corrects by going sideways or grinding lower until valuations become reasonable again. Easily 2&ndash;3 years. Time does the work that price cannot.</li>
+          <li><strong>Slow decay</strong> &mdash; the present regime. Too much debt in the system, governments need to reduce it, so they spend less, and reduced spending reflects in poor corporate earnings growth. The market does not crash. It drifts sideways with wide swings.</li>
+        </ul>
+
+        <p>We are in the slow-decay variety. The US is repaying roughly $1&nbsp;trillion in debt this year. The only ways to control it are to tax more or spend less &mdash; both of which decrease liquidity. India, as an emerging market, benefits in growth phases but struggles in consolidation phases. After the 2020 crash and the 2021&ndash;2022 liquidity expansion, the world is firmly in the consolidation phase, and the excess money printing left a debt overhang that has to be worked off.</p>
+
+        <p>Interest rates in the US have been lowered from 5.5% at their peak to 4.5%, with expectations of reaching 3.5% by year end<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. But until those rate cuts fully transmit into the real economy, the market has no catalyst for a sustained breakout. The floor is held up by liquidity maintenance and eventual rate cuts. The ceiling is capped by slow growth, high debt and persistent inflation fears.</p>
+
+        <blockquote>
+          <p>I am betting on a sideways market with 20% rangebound movement for over 1.5 years. And designing my portfolio accordingly.</p>
+        </blockquote>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; sideways is the default state</summary>
+          <p>If you study the long-term chart of any major index, the market spends more time consolidating than it does rallying or crashing. The rally gets all the headlines. The crash gets all the fear. The sideways phase &mdash; the boring, frustrating, seemingly pointless sideways phase &mdash; is where the real money is quietly made by those with a plan.</p>
+          <p>The Dow went sideways from 1966 to 1982. The Nikkei has gone sideways for thirty-five years. The S&amp;P 500 went sideways from 2000 to 2013. The investors who came out of those decades ahead were not buy-and-hold tourists &mdash; they were range traders, options sellers and rebalancers.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-the-anatomy-of-support-and-resistance">
+    <!-- ============================================================
+         III. Support and resistance — why the lines work
+         ============================================================ -->
+    <section class="reveal" id="iii-support-resistance">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>II. The Anatomy of Support and Resistance</h2>
+        <h2>Why do support and resistance lines work at all?</h2>
       </div>
       <div class="section-content">
-        <p>If you are going to trade a range, you need to understand the two lines that define it. These are the most fundamental concepts in technical analysis, and I am going to explain them in a way that actually helps you make money rather than just pass an exam.</p>
-<p><strong>Support</strong> is a price level where buying pressure is strong enough to prevent the price from falling further. Think of it as a floor. Every time the stock or index falls to this level, buyers step in, demand absorbs the selling, and the price bounces. The more times a support level is tested and holds, the stronger it becomes.</p>
-<p><strong>Resistance</strong> is a price level where selling pressure is strong enough to prevent the price from rising further. Think of it as a ceiling. Every time the price rallies to this level, sellers step in, supply overwhelms demand, and the price drops. Again, the more times it is tested without breaking, the stronger it becomes.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>If you are going to trade a range, you need to understand the two lines that define it. These are the most fundamental concepts in technical analysis, and they actually <em>work</em> for reasons that have nothing to do with mysticism.</p>
 
-<p>In the current Indian market context, the Nifty 50 has a well-defined range. The first major support sits around 22,500. Below that, the second support is at approximately 21,900. On the upside, resistance is in the 25,500-26,500 zone. The total range is roughly 4,000-4,500 points, which translates to about 18-20% from bottom to top.</p>
-<p>Now here is the concept that separates amateurs from professionals: <strong>psychological support levels</strong>. These are round-number pivotal levels &ndash; like 25,000 on the Nifty &ndash; that carry outsized importance because of how humans think about numbers. When I wrote about this to the community, I explained it in two parts:</p>
-<ol>
-<li>If the market breaks this psychological level, it can sharply correct. But it will revert to this base level at every chance it gets. So anything below this is a great buying point for the long term.</li>
-<li>If the market does not break this level and stays above it, the level transforms from ordinary support into a powerful psychological support.</li>
-</ol>
-<p>This matters for your execution. When the Nifty is at 22,500 and the psychological support at 25,000 has already been broken, you know two things: first, you are getting the market roughly 14% cheap from recent highs. That is a solid margin of safety. Second, there is likely to be a magnetic pull back towards that psychological level over the next 3-6 months, which gives you a defined upside target.</p>
-<p>Let me give you a real example. When the Nifty was trading around 25,000, I told the community: deploy 25% of your bulk buy from cash positions at this level and stay put. On a 2-3 year basis, money deployed at that level is very likely to give more than 13% CAGR. And generating a 13% CAGR with new money today is genuinely tough, because for the next big rally we need more liquidity, and that might take time to materialize. The support gave us a defined entry, and the expected reversion to the mean gave us a defined exit thesis.</p>
-<p>In any sideways market, you also need to understand <strong>channel patterns</strong>. A channel is drawn with two parallel lines &ndash; one connecting the support levels and one connecting the resistance levels. When you see price bouncing between these lines on a weekly or monthly chart, you have a tradeable channel. The size of candles at the extremes tells you about momentum: large candles at support mean strong buying, small candles (called <strong>Doji patterns</strong>) at resistance mean indecisiveness &ndash; the market is running out of steam.</p>
-<blockquote>
-<p>Understanding such simple strategies leads to 2-3% alpha. And on a 30-40 year basis, this is DOUBLING of your portfolio.</p>
-</blockquote>
-<hr />
+        <p><strong>Support</strong> is a price level where buying pressure is strong enough to prevent the price from falling further. Think of it as a floor. Every time the index falls to this level, buyers step in, demand absorbs selling, and the price bounces. The more times the level is tested and holds, the stronger it becomes.</p>
+
+        <p><strong>Resistance</strong> is the mirror image &mdash; a price where selling pressure overwhelms buying. Each time price rallies there, sellers dump, supply swamps demand, and the price drops.</p>
+
+        <p>Why do these levels persist? Not because the chart is magic. Because of three mechanical, repeatable forces:</p>
+
+        <ol>
+          <li><strong>Anchoring memory.</strong> Investors who bought at a higher price are waiting to &ldquo;get out at breakeven&rdquo; when price returns to that level. That creates a wall of supply at the same price every time.</li>
+          <li><strong>Option positioning.</strong> Market makers who have sold options at round-number strikes hedge by trading the underlying. Their hedging absorbs moves toward the strike, which is why <span class="math">25,000</span> or <span class="math">5,000</span> levels become unusually sticky.</li>
+          <li><strong>Stop-loss clustering.</strong> Retail stops cluster just below obvious supports. When support breaks, those stops fire, the move accelerates, and then exhausted sellers create a new support a small distance below. The same mechanism in reverse defines resistance.</li>
+        </ol>
+
+        <p>Now here is the concept that separates amateurs from professionals: <strong>psychological levels</strong>. These are round-number pivots &mdash; like 25,000 on the Nifty &mdash; that carry outsized importance because humans think in round numbers. If the market breaks one of these levels it can correct sharply, but it tends to revert to that base level at every chance it gets. Anything below it becomes a great long-term buying point. If the market holds the level instead, that level transforms from ordinary support into <em>powerful</em> psychological support<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
+
+        <p>Channel candle behaviour at the extremes tells you about momentum. Large candles at support mean strong buying. Small candles &mdash; <em>Doji</em> patterns &mdash; at resistance mean indecisiveness, the market running out of steam. You do not need to memorise hundreds of patterns. You need to know these two.</p>
+
+        <blockquote>
+          <p>Understanding such simple strategies leads to 2&ndash;3% alpha. On a 30&ndash;40 year basis, this is the <em>doubling</em> of your portfolio.</p>
+        </blockquote>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-the-capital-rotation-playbook-for-sideways-markets">
+    <!-- ============================================================
+         IV. Range trade vs buy-and-hold — Widget 1
+         ============================================================ -->
+    <section class="reveal" id="iv-range-trade">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>III. The Capital Rotation Playbook for Sideways Markets</h2>
+        <h2>What does range trading look like against buy-and-hold?</h2>
       </div>
       <div class="section-content">
-        <p>Here is where the money is actually made. In a sideways market, buy-and-hold is dead. SIPs are suboptimal. The strategy that works is <strong>capital rotation</strong> &ndash; buying at support, selling at resistance, and redeploying the freed-up capital into the next opportunity.</p>
-<p>Let me break this down with real math from a stock I have been tracking.</p>
-<p>Take a large-cap stock &ndash; let us use Amazon as the example. Since its last major trend change in 2023, the stock has been moving in a well-defined channel. The range of that channel is 10-12%. On average, the stock touches support and resistance about 2 times per year.</p>
-<p>If you successfully buy at support and sell at resistance, that is 10% times 2 = <strong>20% minimum per year</strong>. In a market that is going &ldquo;nowhere,&rdquo; you are generating 20% returns simply by respecting the channel.</p>
-<p>Now add options on top. Sell a covered call at resistance on a portion of your holding &ndash; say 50% of your position. Sell a put option at support. The premiums from these options trades add roughly another 10% per year on that 50% allocation. That translates to an additional 5% on your total holding. <strong>Total potential: 25% per year.</strong> On a stock in a &ldquo;sideways&rdquo; market.</p>
-<p>This is why I have added Meta, Microsoft, Amazon, and Google quite aggressively. These are not moonshot bets. These are channel-trading opportunities with options enhancement. The range is defined. The support and resistance levels are clear. And the options market gives you additional income on top of the capital gains from trading the range.</p>
-<p>The same principle applies to the Indian market. Take the Nifty 50 range I described earlier: 21,500 to 26,500. That is roughly a 23% range from bottom to top. If you deploy capital at 22,000 and the index reverts to 25,000-26,000 over the next 3-6 months, you have made 14-18% on that deployment. If you then take some profits at the upper end and wait for the next dip to support, you can repeat the cycle.</p>
-<p>Consider a concrete example from the community. Aavas, a small-cap stock, ran up 20% in a single month. Small-caps move fast. But when fast run-ups happen, you should book around 15-20% profits, because it has hit a resistance point. You carry forward with the rest of the position. That booked profit becomes cash &ndash; ammunition for the next support-level buy. This is the rotation engine in action.</p>
-<p>Or take NIFTY IT. We picked it at extremely negative sentiments. The community was already in profits. At that point, the correct move was not to add more, but to expect a range to form and trade that range. In a sideways market, the discipline is not in the buying &ndash; it is in the selling. You must be willing to let go of positions at resistance, even when the stock feels like it still has momentum.</p>
-<blockquote>
-<p>Anyone can do this. This is the reason why I keep saying: Indian market right now is NOT buy and hold. It makes sense to rotate capital.</p>
-</blockquote>
-<p>The key execution rules for capital rotation in a sideways market are:</p>
-<ol>
-<li>
-<p><strong>Never go all-in at once.</strong> Buy in at least 2-3 tranches. If support is at 22,000, put your first tranche in at 22,500, your second at 22,000, and hold your third in reserve for a potential break below support.</p>
-</li>
-<li>
-<p><strong>No single stock should exceed 5% of your total portfolio.</strong> Indexes and ETFs are a different category &ndash; you can go heavier on those. But individual stock positions must be size-controlled.</p>
-</li>
-<li>
-<p><strong>Book 15-20% profits on fast run-ups.</strong> When a stock hits resistance or gives you a quick 15-20% gain, take some off the table. You can always carry forward with the rest of the position, but locking in partial gains is how you compound in a rangebound market.</p>
-</li>
-<li>
-<p><strong>Keep 20-25% cash at all times.</strong> This is your ammunition for the next dip to support. The biggest mistake investors make in sideways markets is being fully invested at the wrong time.</p>
-</li>
-</ol>
-<hr />
+        <p>Here is where the abstract becomes arithmetic. In a sideways market, buy-and-hold returns roughly zero. The same market handed to a disciplined range trader returns 15&ndash;25%. The difference is not insider information or genius. It is mechanical extraction of the bounce.</p>
+
+        <p>Take a large-cap stock with a well-defined channel of 10&ndash;12% width, touching support and resistance roughly twice a year. Buy at support, sell at resistance: <span class="math">10% &times; 2 = 20% per year</span>. In a market that is going &ldquo;nowhere,&rdquo; you generate 20% simply by respecting the channel.</p>
+
+        <p>Drag the sliders below. The grey line is what buy-and-hold investors get &mdash; a roller coaster that ends where it began. The accent-coloured line is what the range trader extracts by buying every dip to the lower threshold and selling every rally to the upper threshold.</p>
+
+        <!-- Widget 1: Range trade vs Buy-Hold -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Range trader vs buy-and-hold inside a sideways channel</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Range low (% below mid)</span><span class="slider-value" id="w1-lo-val">10%</span></div>
+              <input type="range" id="w1-lo" min="3" max="20" value="10" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Range high (% above mid)</span><span class="slider-value" id="w1-hi-val">10%</span></div>
+              <input type="range" id="w1-hi" min="3" max="20" value="10" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Cycles per year</span><span class="slider-value" id="w1-cyc-val">3</span></div>
+              <input type="range" id="w1-cyc" min="1" max="8" value="3" step="1">
+            </div>
+          </div>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Buy threshold (% above low)</span><span class="slider-value" id="w1-buy-val">15%</span></div>
+              <input type="range" id="w1-buy" min="0" max="40" value="15" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Sell threshold (% below high)</span><span class="slider-value" id="w1-sel-val">15%</span></div>
+              <input type="range" id="w1-sel" min="0" max="40" value="15" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Buy &amp; Hold</div><div class="stat-cell-value" id="w1-bh">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Range trader</div><div class="stat-cell-value" id="w1-rt">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Trades placed</div><div class="stat-cell-value" id="w1-tr">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Alpha</div><div class="stat-cell-value" id="w1-al">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Push cycles to 6 and watch the alpha gap explode. Sideways markets are gold for swing traders.</p>
+        </div>
+
+        <p>Notice what happens when you widen the range. Each round trip extracts roughly <span class="math">range_height &minus; (buy_threshold + sell_threshold)</span> percent. Multiply by cycles per year and that is your annual return from range trading alone. Buy-and-hold is a tax on this same volatility &mdash; you live through every dip and every rally and end up roughly flat.</p>
+
+        <p>The execution rules that make this work:</p>
+
+        <ol>
+          <li><strong>Never go all-in at once.</strong> Buy in 2&ndash;3 tranches. If support is at 22,000, first tranche at 22,500, second at 22,000, third in reserve for a break.</li>
+          <li><strong>No single stock above 5% of the portfolio.</strong> Indexes and ETFs are a different category; individual stock positions must be size-controlled.</li>
+          <li><strong>Book 15&ndash;20% profits on fast run-ups.</strong> When a stock hits resistance or hands you a quick 15&ndash;20% gain, take some off the table. Carry the rest, but lock in something.</li>
+          <li><strong>Keep 20&ndash;25% cash at all times.</strong> Your ammunition for the next dip. The biggest mistake in sideways markets is being fully invested at the wrong time.</li>
+        </ol>
+
+        <blockquote>
+          <p>Anyone can do this. The Indian market right now is NOT buy-and-hold. It makes sense to rotate capital.</p>
+        </blockquote>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-the-art-of-buying-at-support-tranches-timing-and-discipline">
+    <!-- ============================================================
+         V. Tranches and the art of buying at support
+         ============================================================ -->
+    <section class="reveal" id="v-tranches">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>IV. The Art of Buying at Support -- Tranches, Timing, and Discipline</h2>
+        <h2>How do you actually buy at support without flinching?</h2>
       </div>
       <div class="section-content">
-        <p>Knowing that you should buy at support is the easy part. Actually doing it &ndash; with real money, when the market is falling and fear is everywhere &ndash; is the hard part. Let me give you the exact framework I use.</p>
-<p><strong>Step 1: Identify the support level.</strong> This comes from drawing channels on weekly and monthly charts. Look at where price has bounced at least 2-3 times. The more touches, the stronger the support. For the Nifty 50 right now, the first support is around 22,500 and the second support is around 21,900.</p>
-<p><strong>Step 2: Decide your total allocation.</strong> Let us say you have 10 lakhs of cash earmarked for deployment. Do not put all 10 lakhs in at once.</p>
-<p><strong>Step 3: Deploy in tranches.</strong> Split your allocation into at least 3 buckets of roughly 33% each.</p>
-<ul>
-<li><strong>Tranche 1 (33%):</strong> Deploy when the market reaches the first support level. This is your &ldquo;high conviction&rdquo; buy. The market has already corrected and you are buying at a defined level.</li>
-<li><strong>Tranche 2 (33%):</strong> Deploy if the market falls further, ideally at the second support level. This averages down your cost significantly.</li>
-<li><strong>Tranche 3 (33%):</strong> Hold in reserve. This is your insurance against the &ldquo;breakdown scenario&rdquo; &ndash; the small probability event where support is broken entirely.</li>
-</ul>
-<p><strong>Step 4: Choose what to buy.</strong> In a panicked market, buy the safest possible assets. That means the Nifty 50 or Sensex through an ETF or index fund. You do not need to experiment with individual small-cap stock picks when the market is in fear mode. The index gives you broad exposure and ensures you benefit when the recovery comes.</p>
-<blockquote>
-<p>In times of panic, follow the basics. Buy at supports. Just simply buy Nifty 50 if you want lower risk. You do not need to experiment in a panicked market.</p>
-</blockquote>
-<p><strong>Step 5: Wait.</strong> This is the hardest part. After deploying your first tranche, the market might continue falling. You will feel like an idiot. Your unrealized P&amp;L will be red. News channels will be screaming about recession. Your friends will tell you the market is going to zero.</p>
-<p>Ignore all of it. You bought at a defined support level with only one-third of your allocated capital. You have two more tranches ready. Your downside is limited and your upside &ndash; when the market reverts to the upper end of the range over the next 3-6 months &ndash; is substantial.</p>
-<p>On a 2-3 year basis, money deployed at these support levels is very likely to give you more than 13% CAGR. And generating a 13% CAGR with new money in today&rsquo;s market is genuinely difficult, because for the next big rally we need more liquidity, and that takes time to materialize.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Knowing that you should buy at support is the easy part. Doing it &mdash; with real money, when the market is falling and fear is everywhere &mdash; is the hard part. The framework that survives contact with your own emotions is <strong>tranche deployment</strong>.</p>
 
-<p>The chart above illustrates the typical tranche deployment pattern. In Week 5, the market is approaching the first support level &ndash; that is your Tranche 1 entry. In Week 6, it dips below to the second support zone &ndash; that is your Tranche 2 entry. From Week 7 onwards, the market begins reverting toward the upper half of the range, and your deployed capital starts working.</p>
-<hr />
+        <p>The mechanics:</p>
+
+        <ol>
+          <li><strong>Identify the support level.</strong> Draw channels on weekly and monthly charts. Look at where price has bounced at least 2&ndash;3 times. More touches = stronger support. The Nifty 50 in early 2026 has its first support near 22,500 and a deeper one near 21,900.</li>
+          <li><strong>Decide your total allocation.</strong> Say 10 lakhs of dry powder. Do not put all 10 lakhs in at once.</li>
+          <li><strong>Split into three buckets of 33% each.</strong>
+            <ul>
+              <li><em>Tranche 1 (33%)</em> deploys when the market reaches the first support. Your high-conviction entry at a defined level.</li>
+              <li><em>Tranche 2 (33%)</em> deploys if the market falls further, ideally at the second support. This averages down significantly.</li>
+              <li><em>Tranche 3 (33%)</em> stays in reserve. Insurance against the breakdown scenario &mdash; the small-probability event where support breaks entirely.</li>
+            </ul>
+          </li>
+          <li><strong>Choose what to buy.</strong> In a panicked market, buy the safest possible asset &mdash; the index ETF (Nifty 50 or SPY/QQQ). You do not need to experiment with small-cap picks when fear dominates.</li>
+          <li><strong>Wait.</strong> The hardest step. After Tranche 1 the market may keep falling. Your P&amp;L turns red. News screams recession. Friends tell you the market is going to zero.</li>
+        </ol>
+
+        <p>Ignore all of it. You deployed only one-third of your capital at a defined level. You have two more tranches. Your downside is bounded and your upside &mdash; when the market reverts to the upper end of the range over the next 3&ndash;6 months &mdash; is substantial.</p>
+
+        <p>On a 2&ndash;3 year basis, money deployed at support levels has historically delivered 13%+ CAGR. Generating a 13% CAGR with new money in today's market is genuinely difficult, because the next big rally needs more liquidity, and liquidity takes time. The tranche structure converts &ldquo;I should buy the dip&rdquo; from a wish into a procedure.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the breakdown scenario is the whole point of Tranche 3</summary>
+          <p>People sometimes ask: why hold a third in reserve if I am confident in the support? Because confidence is not certainty. Markets break support roughly 20&ndash;30% of the time before reverting. If you have deployed 100% at the first support and price drops another 8%, you are sitting on a paper loss with no ammunition.</p>
+          <p>The investor with Tranche 3 in reserve <em>welcomes</em> the breakdown &mdash; it is the moment to deploy the final third at an even better entry. The first investor is staring at red and praying. The second is buying. Same market, completely different psychology, all because of how you sized the entry.</p>
+        </details>
+
+        <blockquote>
+          <p>In times of panic, follow the basics. Buy at supports. Just buy Nifty 50 if you want lower risk. You do not need to experiment in a panicked market.</p>
+        </blockquote>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-covered-calls-and-puts-the-options-income-layer">
+    <!-- ============================================================
+         VI. Covered call income — Widget 2
+         ============================================================ -->
+    <section class="reveal" id="vi-covered-calls">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>V. Covered Calls and Puts -- The Options Income Layer</h2>
+        <h2>How big is the covered-call income stream in a range?</h2>
       </div>
       <div class="section-content">
-        <p>This section is for intermediate and advanced investors. If you have never traded options before, you can skip ahead to Section VI &ndash; but I strongly recommend learning this, because options income is the difference between a 15% year and a 25% year in a sideways market.</p>
-<p>The basic concept is simple. In a sideways market, there is a high probability that a stock will NOT break above resistance or below support in any given month. Options traders can monetize this probability by selling options at those levels and collecting premiums.</p>
-<p><strong>Covered Calls: Selling at the Ceiling</strong></p>
-<p>A <strong>covered call</strong> means you own the stock (or index ETF) and you sell a call option at the resistance level. Here is how it works step by step:</p>
-<ol>
-<li>You own 100 shares of Amazon, bought at $180 (near support).</li>
-<li>You sell a call option with a strike price at $200 (near resistance), expiring in 30-45 days.</li>
-<li>You collect a premium &ndash; let us say $4 per share, or $400 total.</li>
-<li><strong>Scenario A:</strong> Amazon stays below $200. The option expires worthless. You keep the $400 premium AND your 100 shares. You can sell another call next month.</li>
-<li><strong>Scenario B:</strong> Amazon rises above $200. Your shares get &ldquo;called away&rdquo; &ndash; sold at $200. You made $20 per share in capital gains ($2,000) PLUS the $400 premium ($2,400 total). You hit resistance anyway, so you would have been selling here regardless.</li>
-</ol>
-<p>In a sideways market, Scenario A happens most of the time. You are essentially collecting rent on your stock position every single month. Over a year, this premium income can add 8-12% to your returns on the shares you sell calls against.</p>
-<p><strong>Cash-Secured Puts: Buying the Floor</strong></p>
-<p>A <strong>cash-secured put</strong> means you sell a put option at the support level while holding enough cash to buy the shares if assigned. Here is the logic:</p>
-<ol>
-<li>Amazon is currently trading at $190. Support is at $175.</li>
-<li>You sell a put option with a strike price of $175, expiring in 30-45 days.</li>
-<li>You collect a premium &ndash; say $3 per share.</li>
-<li><strong>Scenario A:</strong> Amazon stays above $175. The option expires worthless. You keep the premium. You wanted to buy at support anyway, and the market did not give you the chance &ndash; but you still made money.</li>
-<li><strong>Scenario B:</strong> Amazon drops to $175 or below. You are assigned and buy the shares at $175. This is exactly the price you wanted to buy at. And your effective cost basis is $175 minus the $3 premium = $172.</li>
-</ol>
-<p>Do you see the beauty of this? In a sideways market, you are getting paid to wait for the price you already wanted. You either collect income from the puts expiring worthless, or you get to buy the stock at your ideal entry price at an even lower effective cost.</p>
-<p><strong>Combining Both Strategies</strong></p>
-<p>Now here is the full picture, and this is what generates that 25% annual potential I described earlier:</p>
-<ul>
-<li>You hold a core position in a large-cap stock (bought at support)</li>
-<li>You sell covered calls on 50% of your position at resistance</li>
-<li>You sell cash-secured puts at support when you have dry powder</li>
-</ul>
-<p>The capital gains from trading the range give you 10-12% (two round trips per year at 5-6% each). The options premiums on 50% of your position add another 5-8%. The cash-secured put premiums on your reserve cash add another 2-3%.</p>
-<p><strong>Total: 17-23% per year.</strong> In a market going &ldquo;nowhere.&rdquo;</p>
-<p>This is exactly the math on stocks like Meta, Microsoft, Amazon, and Google. These companies have massive, liquid options markets. Their channels are well-defined. And the premiums are rich enough to make this strategy genuinely profitable.</p>
-<hr />
+        <p>Range trading captures the bounce. Covered calls capture the <em>boredom</em>. In a sideways market, a stock has a high probability of not breaking above resistance in any given month &mdash; and options traders can monetize that probability by selling calls at the ceiling and pocketing the premium.</p>
+
+        <p>The mechanics: you already own 100 shares of a stock near support. You sell a 1-month call with a strike near the range high. You collect a premium today. If the stock stays below the strike at expiry, the call expires worthless &mdash; you keep the premium and the shares, and you sell another call next month. If the stock pushes above the strike, your shares get called away at exactly the price you wanted to sell at anyway, plus you keep the premium on top of the capital gain.</p>
+
+        <p>The premium size scales with implied volatility &mdash; a stock with 25% vol pays roughly twice the premium of a stock with 12% vol, holding strike and tenor constant<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. The widget below stacks twelve months of premium income against a baseline of buy-and-hold + dividends.</p>
+
+        <!-- Widget 2: Covered Call Income -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Twelve months of covered-call income vs buy-and-hold</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Implied volatility (annual)</span><span class="slider-value" id="w2-iv-val">25%</span></div>
+              <input type="range" id="w2-iv" min="8" max="60" value="25" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Strike (% above spot)</span><span class="slider-value" id="w2-k-val">3%</span></div>
+              <input type="range" id="w2-k" min="0" max="15" value="3" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Write frequency</span><span class="slider-value" id="w2-freq-val">Monthly</span></div>
+              <input type="range" id="w2-freq" min="1" max="4" value="1" step="1">
+            </div>
+          </div>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Dividend yield (baseline)</span><span class="slider-value" id="w2-div-val">1.5%</span></div>
+              <input type="range" id="w2-div" min="0" max="5" value="1.5" step="0.1">
+            </div>
+            <div class="stat-cell"><div class="stat-cell-label">Annualized CC yield</div><div class="stat-cell-value" id="w2-yield">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Bump implied vol to 30% on a stock you already own. The premium stack often beats the dividend baseline by an order of magnitude.</p>
+        </div>
+
+        <p>Read the chart. The brown bars are monthly premium income from selling near-ATM calls at the range high. The grey baseline is the dividend yield a buy-and-hold investor collects across the same year. A sideways market with 25% implied volatility can yield <strong>15&ndash;20% in covered-call income alone</strong> &mdash; before any capital appreciation, before any range-trading gains. Stack that on top of the 20% from range trading and the math reaches the 25%-per-year ceiling we keep talking about.</p>
+
+        <p>The full picture for one large-cap position in a sideways year:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">10&ndash;12%</div><div class="stat-label">Range capture (2 round trips)</div></div>
+          <div class="stat"><div class="stat-value">8&ndash;12%</div><div class="stat-label">Covered call premium on 50% of position</div></div>
+          <div class="stat"><div class="stat-value">2&ndash;3%</div><div class="stat-label">Cash-secured put premium on reserve cash</div></div>
+          <div class="stat"><div class="stat-value">~20&ndash;25%</div><div class="stat-label">Total in a market going nowhere</div></div>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the trade-off you are making with every covered call</summary>
+          <p>A covered call is not free money. You are explicitly capping your upside in exchange for premium today. If the stock breaks out and rips 40% higher in a month, you sold at the strike and collected the premium &mdash; you did not get the 40%. That is the deal.</p>
+          <p>This is why covered calls are perfect for sideways markets and dangerous in bull markets. The premium is real income when the breakout never comes. In a true bull run, the opportunity cost dwarfs the premium. Match the strategy to the regime &mdash; that is rule one of every options playbook worth following.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-what-to-buy-in-a-sideways-market">
+    <!-- ============================================================
+         VII. Volatility harvesting — Widget 3
+         ============================================================ -->
+    <section class="reveal" id="vii-vol-harvest">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VI. What to Buy in a Sideways Market</h2>
+        <h2>What's the math behind volatility harvesting?</h2>
       </div>
       <div class="section-content">
-        <p>Not everything works in a sideways market. The stock selection criteria change dramatically compared to a bull market. Here is how to think about it.</p>
-<p><strong>The Index is Your Safest Bet</strong></p>
-<p>When there are a lot of uncertainties, buy the safest possible assets. In the Indian market, this is Nifty 50 or Sensex through an ETF. In the US market, this is QQQ or SPY. The index gives you automatic diversification, eliminates single-stock risk, and ensures you participate in any recovery without having to pick the exact right stock.</p>
-<p>Between QQQ (US index) and the Indian index, I would pick the US index for now. Why? Multiple reasons: oil crisis is likely to hit the US less, more stable currency, and more earnings stability. The US has structural advantages in a consolidation phase that India does not.</p>
-<p><strong>Large-Cap Quality Stocks at Support</strong></p>
-<p>If you want individual stocks, stick to the highest quality names and buy them ONLY at support levels. Here are five names I have identified for 2026:</p>
-<ol>
-<li><strong>Meta</strong> &ndash; dominant AI infrastructure play, 41% operating margins</li>
-<li><strong>Amazon</strong> &ndash; cloud computing and e-commerce duopoly, clear 10-12% channel</li>
-<li><strong>Visa</strong> &ndash; global payment rails, steady compounder</li>
-<li><strong>MercadoLibre (MELI)</strong> &ndash; Latin American e-commerce leader, massive TAM</li>
-<li><strong>Top Indian hospitals</strong> (top 3-4 by market cap) &ndash; domestic consumption play</li>
-</ol>
-<p>The common thread: these are businesses with structural earnings growth, liquid options markets for income enhancement, and well-defined trading ranges.</p>
-<p><strong>Sectors to Watch in India</strong></p>
-<ul>
-<li><strong>Private Banks</strong> (HDFC Bank, ICICI, SBI): Still undervalued relative to their earnings power. HDFC Bank is sitting on its best profits and revenues, but money has not flowed into the stock yet. When FIIs return and SIP money has no other option but to get invested, banks will move.</li>
-<li><strong>IT</strong>: NIFTY IT broke into bullish momentum after we picked it at extremely negative sentiments. But do not chase it now &ndash; wait for the range to form, then trade that range.</li>
-<li><strong>Healthcare/Pharma</strong>: Good long-term bets. If you can avoid short-term noise and stay invested, you are likely to make money.</li>
-</ul>
-<p><strong>What to Avoid</strong></p>
-<ul>
-<li><strong>Mid and small caps at current valuations.</strong> In India, small and mid-cap valuations are still rich. There is still a good chance for more correction. Wait for these to come down to sensible valuations before deploying serious capital. There has been so much negativity on small and mid-caps that even MF managers are fighting with each other about the category. This tells you everything about the current state of confusion.</li>
-<li><strong>Stocks trading at extreme PEs without earnings growth.</strong> Tesla is a prime example &ndash; the stock already trades at a higher PE, the recent numbers have not been great, and there is key-man risk with Elon. If you enter in a bad cycle, you could lose a lot of money. Be picky about entering such stocks.</li>
-<li><strong>SIPs in the traditional sense.</strong> In the current volatile, sideways environment, I do not see much value in mechanical SIPs. Given how much the markets have become volatile, trading the channel &ndash; buying at support and selling at resistance &ndash; makes more sense. Even when the market was going up, the volatility was way too high for SIPs to be the optimal strategy. SIPs work in secular bull markets. This is not one.</li>
-<li><strong>Anything where you do not understand the thesis.</strong> If you do not know exactly why you should be holding a stock, exit. Loss and wins are a part of the stock market, but confusion about your own thesis is unforgivable.</li>
-</ul>
-<blockquote>
-<p>If I don&rsquo;t know &ldquo;why&rdquo; exactly I should be holding a stock, I will exit.</p>
-</blockquote>
-<p>One more important filter: stocks go through distinct <strong>growth phases</strong>. A stock does not go up in a straight line &ndash; it moves through phases of growth followed by periods of consolidation. If you hold a stock through 6-7 growth phases, it can become a 10x-15x stock. But this takes a long time. In a sideways market, the key question is: which phase is the stock in? If one clear phase of growth is over and the stock is entering consolidation, you have two choices &ndash; hold through the consolidation if the business fundamentals are intact, or rotate your capital into something at the beginning of its growth phase. Both are valid strategies. What is NOT valid is buying a stock that has just completed a growth phase and expecting immediate returns.</p>
-<hr />
+        <p>Range trading and covered calls are <em>active</em> strategies &mdash; you have to watch the market and pull triggers. There is a third edge in sideways markets that requires almost no skill, just discipline. It is called the <strong>rebalancing premium</strong>, or volatility harvesting.</p>
+
+        <p>The mechanism is mechanical. Hold a 60/40 portfolio of equities and bonds. In a sideways but choppy market, equities zigzag. Without intervention, when equities rise, the portfolio drifts to 65/35 &mdash; you are overweight at a high. When equities fall, it drifts to 55/45 &mdash; you are underweight at a low. The static portfolio is doing the worst possible thing: buying high (by neglect) and selling low (by neglect).</p>
+
+        <p>Rebalance monthly back to 60/40 and you invert that. After a rally, you trim equities back down (selling high). After a dip, you top up equities (buying low). The portfolio extracts return from variance itself. There is a clean closed-form approximation for how much that extraction is worth<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>:</p>
+
+        <div class="math-block">
+          Rebalancing premium &asymp; &frac12; &middot; w &middot; (1 &minus; w) &middot; &sigma;<sup>2</sup>
+          <span class="math-where">w is the weight of the volatile asset, &sigma; is its annualised volatility</span>
+        </div>
+
+        <p>Plug in real numbers: a 60/40 portfolio with equity vol of 20% earns roughly <span class="math">&frac12; &middot; 0.6 &middot; 0.4 &middot; 0.04 = 0.48%</span> per year of pure rebalancing alpha, on top of whatever the assets do. At equity vol of 30%, the harvest jumps to <span class="math">~1.08%</span>. At 40% vol &mdash; think single-stock or crypto-equity blends &mdash; it grows to <span class="math">~1.92%</span>. The premium grows with the <em>square</em> of volatility, which is why choppy markets are gold for rebalancers and calm markets are not.</p>
+
+        <p>The simulation below runs two portfolios through identical sideways equity paths. The static 60/40 sits and drifts. The monthly-rebalanced 60/40 keeps trimming the winner and topping up the loser. Both finish the year in the same noisy market &mdash; but only one has compounded the harvest.</p>
+
+        <!-- Widget 3: Volatility harvesting -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Static 60/40 vs monthly-rebalanced 60/40 in a sideways market</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="btn-group">
+            <button class="btn-primary" id="w3-run">Run new paths</button>
+          </div>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Equity volatility (annual)</span><span class="slider-value" id="w3-vol-val">25%</span></div>
+              <input type="range" id="w3-vol" min="8" max="50" value="25" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Equity weight (w)</span><span class="slider-value" id="w3-w-val">60%</span></div>
+              <input type="range" id="w3-w" min="20" max="90" value="60" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Horizon (years)</span><span class="slider-value" id="w3-yr-val">3</span></div>
+              <input type="range" id="w3-yr" min="1" max="10" value="3" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Static 60/40</div><div class="stat-cell-value" id="w3-static">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Rebalanced</div><div class="stat-cell-value" id="w3-rebal">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Harvest (actual)</div><div class="stat-cell-value" id="w3-harvest">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Harvest (theory)</div><div class="stat-cell-value" id="w3-theory">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Crank equity vol to 40% and hit &ldquo;Run new paths&rdquo; a few times. The rebalanced line systematically pulls ahead. Rebalancing pays you for being disciplined.</p>
+        </div>
+
+        <p>The harvest is not a one-off. It compounds every year. Over a decade of choppy markets, a disciplined rebalancer can extract 5&ndash;10% in pure rebalancing alpha &mdash; on top of whatever the underlying assets deliver. The cost is two trades per quarter and the discipline to actually execute them when your gut is screaming the opposite.</p>
+
+        <blockquote>
+          <p>Rebalancing is the only free lunch in a sideways market. You are not predicting anything. You are not picking anything. You are just refusing to let the portfolio drift to its riskiest state at the worst possible time.</p>
+        </blockquote>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; where the &frac12;&middot;w(1&minus;w)&middot;&sigma;<sup>2</sup> formula comes from</summary>
+          <p>It is the difference between the arithmetic mean return and the geometric mean return of the portfolio. For a single asset, the geometric return is roughly <span class="math">&mu; &minus; &frac12;&sigma;<sup>2</sup></span> &mdash; volatility drag. For a rebalanced portfolio, the drag depends on the <em>portfolio's</em> variance, which is smaller than the weighted average of the components' variances whenever the components are not perfectly correlated.</p>
+          <p>That gap &mdash; the difference between a static buy-and-hold drag and a rebalanced drag &mdash; is approximately <span class="math">&frac12; &middot; w(1&minus;w) &middot; (&sigma;<sub>1</sub><sup>2</sup> + &sigma;<sub>2</sub><sup>2</sup> &minus; 2&rho;&sigma;<sub>1</sub>&sigma;<sub>2</sub>)</span>. Set bonds to roughly zero vol and the formula collapses to the clean version above. It is a real, mechanical edge &mdash; not a marketing claim.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-the-cash-hedge-why-20-cash-is-non-negotiable">
+    <!-- ============================================================
+         VIII. Cash hedge
+         ============================================================ -->
+    <section class="reveal" id="viii-cash-hedge">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VII. The Cash Hedge -- Why 20% Cash is Non-Negotiable</h2>
+        <h2>Why is 20% cash the most underrated position?</h2>
       </div>
       <div class="section-content">
-        <p>Here is a rule I follow that most retail investors find counterintuitive: in a sideways market, I always keep 20-25% of my portfolio in cash.</p>
-<p>Not invested. Not &ldquo;earning returns.&rdquo; Just sitting there. Waiting.</p>
-<p>This feels wasteful in a bull market. But in a sideways market, cash is not a drag on returns &ndash; it is a weapon. Here is why.</p>
-<p>When markets consolidate in a wide range, there are periodic sharp dips of 5-8% that happen fast and recover fast. The investor who is 100% invested cannot take advantage of these dips. The investor with 20-25% cash can deploy aggressively at support and capture the subsequent rebound.</p>
-<p>Let me illustrate with the scenario analysis I shared with the community:</p>
-<p><strong>Scenario 1: &ldquo;Slow Bleed.&rdquo;</strong> The market consolidates around the current range for the next few months. Returns are 0%. But if you are able to rotate capital &ndash; buying at the low end and selling at the high end &ndash; you make money. Your cash position enables this rotation.</p>
-<p><strong>Scenario 2: &ldquo;Sharp Fall and V-Shaped Recovery.&rdquo;</strong> The first support is broken, and the market falls to the second support &ndash; about 10% below current levels. This happens quickly. And then there is a V-shaped recovery. The investor with cash can deploy at the bottom and ride the recovery. The investor who was 100% invested at the top just went through a roller coaster and ended up roughly where they started.</p>
-<p><strong>Scenario 3: &ldquo;Breakdown.&rdquo;</strong> This has the least probability. It requires a completely unseen global event. But if it happens, the investor with cash can buy at generational discounts. The investor without cash can only watch.</p>
-<p>My current allocation reflects this thinking: 95% invested in India (very safe instruments), around 30% built in the US portfolio, and new money being held as cash to see how far the sideways movement goes.</p>
-<blockquote>
-<p>Build a simple 20-25% cash hedge to take advantage of sideways movement. This is a very complex market to invest now.</p>
-</blockquote>
-<p>The insider data backs this up. The Insider Sell-to-Buy Ratio (STB) &ndash; which tracks how much company insiders at an aggregate level are selling versus buying &ndash; has recently peaked. Historically, when this ratio peaks, the market either crashes or goes sideways. Given the current macroeconomic environment (US elections, Chinese QE providing a floor, tariffs providing a ceiling), the sideways scenario is more likely.</p>
-<p>People who aggregate good stocks at good prices and keep rotating capital will do very well in this environment. People who are 100% invested and hoping for a bull run will be frustrated for a long time.</p>
-<p>There is another dimension to the cash hedge that most people miss: <strong>asymmetric opportunity capture</strong>. In a sideways market, there are periodic moments &ndash; usually driven by sentiment, not fundamentals &ndash; when high-quality stocks correct by 20% or more alongside the broader market. These are temporary dislocations. The business has not changed, but the price has. The investor with a 20% cash position can aggressively deploy into these dislocations.</p>
-<p>For example, during the December 2025 correction, several high-quality firms corrected by roughly 20%. If you were a long-term holder with cash on the side, the process was simple: check which themes you want to own (in my case, more healthcare in India), check if the stock is trading at support (Max Healthcare was trading at support), and then build a position. How much depends on your portfolio construct, but a typical rule is 5% of your portfolio per stock, deployed in at least 2 tranches.</p>
-<p>Without cash, you cannot execute this. You are fully invested, watching the correction with no ability to act. With a 20% cash hedge, every correction becomes a controlled deployment opportunity. Over the course of a 12-18 month sideways period, you might get 3-4 such opportunities. Capturing even two of them at the right support levels can add 5-8% to your annual returns.</p>
-<hr />
+        <p>Here is a rule most retail investors find counterintuitive: in a sideways market, I always keep 20&ndash;25% of the portfolio in cash. Not invested. Not earning returns. Just sitting there. Waiting.</p>
+
+        <p>This feels wasteful in a bull market. In a sideways market, cash is not a drag on returns &mdash; it is a <strong>weapon</strong>. When markets consolidate in a wide range, there are periodic sharp dips of 5&ndash;8% that happen fast and recover fast. The investor who is 100% invested cannot take advantage. The investor with 20&ndash;25% cash deploys aggressively at support and captures the rebound.</p>
+
+        <p>Three scenarios and what cash does for you in each:</p>
+
+        <ul>
+          <li><strong>Slow bleed.</strong> The market consolidates near current levels for months. Headline return is 0%. But if you rotate capital &mdash; buy low end, sell high end &mdash; you make money. The cash position enables the rotation.</li>
+          <li><strong>Sharp fall and V-recovery.</strong> The first support breaks, the market falls to the second support (~10% below current), then V-recovers. The cash holder deploys at the bottom and rides the rebound. The fully-invested investor just rode a roller coaster to roughly nowhere.</li>
+          <li><strong>Breakdown.</strong> Lowest probability. Requires an unforeseen global event. But if it happens, the cash holder buys at generational discounts. The fully-invested holder watches.</li>
+        </ul>
+
+        <p>There is another dimension to the cash hedge that most people miss: <strong>asymmetric opportunity capture</strong>. In a sideways market, there are periodic moments &mdash; usually driven by sentiment, not fundamentals &mdash; when high-quality stocks correct by 20% alongside the broader market. The business has not changed. The price has. With cash, you build a position aggressively. Without cash, you watch. Over a 12&ndash;18 month sideways period, you might get 3&ndash;4 such opportunities. Capturing even two of them adds 5&ndash;8% to your annual returns.</p>
+
+        <blockquote>
+          <p>Build a simple 20&ndash;25% cash hedge to take advantage of sideways movement. This is a very complex market to invest in. Cash is the only position that lets you act on every other position.</p>
+        </blockquote>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-the-psychology-of-sideways-why-most-investors-fail-here">
+    <!-- ============================================================
+         IX. Full playbook
+         ============================================================ -->
+    <section class="reveal" id="ix-playbook">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>VIII. The Psychology of Sideways -- Why Most Investors Fail Here</h2>
+        <h2>What does the full sideways playbook look like?</h2>
       </div>
       <div class="section-content">
-        <p>The hardest part of navigating a sideways market is not the strategy. The strategy is straightforward: buy at support, sell at resistance, keep cash, use options. A teenager could understand it.</p>
-<p>The hard part is the psychology. And the psychology destroys most investors in sideways markets. Here is why.</p>
-<p><strong>Problem 1: You will feel the urge to do something.</strong> Markets go up and you want to buy more. Markets go down and you want to sell everything. In a sideways market, the correct action is often to do nothing &ndash; to sit with your position and wait for the channel to reach the other extreme. But doing nothing feels lazy. It feels unproductive. It feels like you are missing out.</p>
-<p>You are not. The most profitable action in a sideways market is patience. Wait for the support. Wait for the resistance. Execute your plan. And then wait again.</p>
-<p><strong>Problem 2: You will mistake consolidation for breakdown.</strong> Every time the market dips 3-5% within the range, financial media will scream about crashes. Your friends will panic. Twitter will be full of &ldquo;I told you so&rdquo; bears. And you will start questioning whether the support will hold.</p>
-<p>This is normal. On any given correction day, there need not be any specific reason for the fall. Do not waste your time looking for one. Technicals dominate in consolidation phases. The support is either going to hold or it is not. Watching CNBC will not change that outcome, but it will change your emotional state &ndash; for the worse.</p>
-<p><strong>Problem 3: You will anchor to past returns.</strong> If you made 40% in 2023 or 30% in 2024, you will feel entitled to similar returns in 2025 and 2026. But the market does not owe you anything. A 15-20% return in a sideways market through capital rotation is an exceptional outcome. Comparing it to bull market returns is a recipe for bad decisions.</p>
-<p><strong>Problem 4: You will confuse stock price movement with business quality.</strong> HDFC Bank has fallen 6% in a month while sitting on its best-ever profits and revenues. Does that mean HDFC Bank is a bad stock? Absolutely not. Stock prices move because money comes or goes out of a stock. When a business grows and gives good results, it becomes attractive for money to flow in. But until that money actually flows in, the stock price will not move up.</p>
-<blockquote>
-<p>A business can keep posting good results but its stock price would not move. Possible? Yes. But this cannot go on indefinitely. If a business keeps posting good results, its PE keeps falling. And this range of price cannot be manipulated artificially for too long.</p>
-</blockquote>
-<p>This is why time horizon matters enormously in a sideways market. If you buy a good business at a reasonable price and can wait 2-3 years, you will make good money. It happens almost every time. The stock market is not broken. It is just consolidating. And consolidation ends.</p>
-<p><strong>Problem 5: You will want to time the breakout.</strong> Everyone in a sideways market is secretly waiting for the breakout &ndash; that glorious moment when the index smashes through resistance and begins a new bull run. The temptation is to stay 100% invested so you do not &ldquo;miss&rdquo; it.</p>
-<p>But here is what I have observed over decades: markets fall when you least expect them to fall. People are rejoicing that tariff news is factored in and from now on there will be a bull run. If you have been investing even for the last 2-3 years, you know this is usually the moment before the next unexpected drop. Stay disciplined. Stay in the range-trading framework. If the breakout comes, you will still participate &ndash; you just will not be leveraged to the max when it does.</p>
-<p><strong>Problem 6: You will second-guess your sells.</strong> This is the flip side of anchoring. You sell a stock at resistance, book 15% profit, and two weeks later the stock rallies another 5%. You feel like an idiot. You swear you will never sell too early again. And then the next time resistance is hit, you hold on &ndash; and the stock drops back to support, erasing all your gains.</p>
-<p>This happened with real examples in the community. Tarsons was sold, and then it gave a breakout. Was that a mistake? Looking back, perhaps. But the reason for selling was to reduce risk, and the thesis around China dumping was still not clear. If I were to go back in time and change it, I would not. Because the goal of selling at resistance is not to capture every last rupee of upside. The goal is to generate consistent, repeatable returns. And consistent returns come from following your system, not from trying to be perfect on every trade.</p>
-<p>The market does one unpredictable thing every decade. Guessing that one thing right is where generational wealth is made. But your job is not to guess the unpredictable thing. Your job is to systematically capture the predictable thing &ndash; the range, the support, the resistance, the premium. Do this consistently, and the unpredictable things become noise rather than portfolio-defining events.</p>
-<hr />
-      </div>
-    </section>
+        <p>Pull all three edges together and you have a complete playbook. This is what to do with your own portfolio for the next 12&ndash;18 months.</p>
 
-    <section class="reveal" id="ix-your-sideways-market-action-plan">
-      <div class="section-heading">
-        <div class="section-number">X.</div>
-        <h2>IX. Your Sideways Market Action Plan</h2>
-      </div>
-      <div class="section-content">
-        <p>Let me pull everything together into a concrete, executable plan. This is what I am doing with my own portfolio, and it is what I recommend for anyone navigating the next 12-18 months.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Step</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>1. Define your range</strong></td><td>For the Nifty 50, approximately 21,500&ndash;26,500. For the S&amp;P 500, identify the equivalent channel on a weekly chart. For individual stocks, draw the channel using at least 6 months of price data.</td></tr>
+            <tr><td><strong>2. Set cash allocation</strong></td><td>Keep 20&ndash;25% of total portfolio in cash or liquid funds. Not idle money &mdash; deployment reserve.</td></tr>
+            <tr><td><strong>3. Build buy list</strong></td><td>Identify 5&ndash;7 high-quality stocks or index ETFs you want to own. Note support and resistance for each. Buy only when price is in the lower third of the range.</td></tr>
+            <tr><td><strong>4. Deploy in tranches</strong></td><td>When a stock hits support: 25&ndash;33% at first support, 25&ndash;33% at second support, hold the rest in reserve.</td></tr>
+            <tr><td><strong>5. Book profits at resistance</strong></td><td>Trim 15&ndash;20% of the position. Sell covered calls on another 30&ndash;50%. Let the remaining core ride in case this is the real breakout.</td></tr>
+            <tr><td><strong>6. Sell puts at support</strong></td><td>Near the top of the range with cash reserves, sell cash-secured puts at the support level. Get paid to wait for your ideal entry.</td></tr>
+            <tr><td><strong>7. Rebalance monthly</strong></td><td>Across asset classes (equities, real estate, bonds, crypto) keep your target weights. Harvest the rebalancing premium from variance itself.</td></tr>
+            <tr><td><strong>8. Review monthly, not daily</strong></td><td>Daily price movements are noise. Check levels once a week. Execute when a level is hit. Otherwise, close the app.</td></tr>
+          </tbody>
+        </table>
 
-<p><strong>Step 1: Define your range.</strong> For the Nifty 50, the current range is approximately 21,500-26,500. For the S&amp;P 500, identify the equivalent channel on a weekly chart. For individual stocks (Meta, Amazon, HDFC Bank, etc.), draw the channel using at least 6 months of price data.</p>
-<p><strong>Step 2: Set your cash allocation.</strong> Keep 20-25% of your total portfolio in cash or liquid funds. This is not idle money &ndash; it is your deployment reserve. It is the ammunition that lets you be aggressive when others are fearful.</p>
-<p><strong>Step 3: Build your buy list.</strong> Identify 5-7 high-quality stocks or index ETFs that you want to own. For each one, note the support and resistance levels. Only buy when the price is in the lower third of the range.</p>
-<p><strong>Step 4: Deploy in tranches.</strong> When a stock or index hits support:
-- Deploy 25-33% of your intended allocation at the first support
-- Deploy another 25-33% if it falls to the second support
-- Hold the rest in reserve</p>
-<p><strong>Step 5: Book profits at resistance.</strong> When a stock or index approaches resistance:
-- Book 15-20% of your position
-- Sell covered calls on another 30-50% of your position
-- Let the remaining core position ride (in case this is the real breakout)</p>
-<p><strong>Step 6: Sell puts at support.</strong> When price is near the top of the range and you have cash reserves:
-- Sell cash-secured puts at the support level
-- Collect premiums while waiting for the price to come back down
-- If assigned, you are buying at your ideal entry price</p>
-<p><strong>Step 7: Diversify across asset classes.</strong> Do not put everything into equities. My current allocation: 60-70% equities, 20-25% real estate, 5% crypto (purely Bitcoin). The exact mix depends on your age, risk tolerance, and income stability. But the principle is the same: in a consolidation phase, concentration kills.</p>
-<p><strong>Step 8: Review monthly, not daily.</strong> Stop watching your portfolio every day. In a sideways market, daily price movements are noise. The signal is on the monthly chart. Check your levels once a week. Execute your plan when a level is hit. Otherwise, close the app and go live your life.</p>
-<blockquote>
-<p>Stop reading news. Learn to invest in a sideways market. The markets have not fallen enough to panic, and they have not risen enough to celebrate. This is the consolidation phase. And the consolidation phase is where patient, disciplined investors build the foundations of serious wealth.</p>
-</blockquote>
-<p>Here is the bottom line. A 0% market return does not mean 0% investor returns. The index going from 22,000 to 26,500 and back to 22,000 in a year is technically a 0% annual return. But the investor who bought at 22,000, sold some at 26,000, collected options premiums along the way, and redeployed at 22,000 again has made 20-25% on their capital. Same market. Same stocks. Completely different outcome.</p>
-<p>The difference is not intelligence or insider information. It is a framework. The framework of support and resistance. The framework of tranche-based deployment. The framework of options income. The framework of cash as a strategic asset rather than a drag on returns.</p>
-<p>Markets go sideways all the time. In fact, if you study the long-term chart of any major index, the market spends more time consolidating than it does rallying or crashing. The rally gets all the headlines. The crash gets all the fear. But the sideways phase &ndash; the boring, frustrating, seemingly pointless sideways phase &ndash; is where the real money is quietly made by those who have a plan.</p>
-<p>Indian stock market still remains an amazing place to build wealth. The US markets still offer the best risk-adjusted opportunities on the planet. Neither market is broken. Both are consolidating. And consolidation, for the prepared investor, is not a problem &ndash; it is an opportunity.</p>
-<p>People who invest through a sideways market with discipline and structure come out the other side with two things: a significantly larger portfolio, and a skill set that will serve them for the rest of their investing lives. Because if you can make 20-25% in a market going nowhere, imagine what you will do when the bull market finally arrives.</p>
-<p>You now have the plan. Execute it.</p>
+        <p>The hard part is not the strategy. The strategy is straightforward &mdash; a teenager could understand it. The hard part is the <em>psychology</em>. Markets dip 3&ndash;5% inside the range and CNBC screams about crashes. Twitter fills with &ldquo;I told you so&rdquo; bears. You start questioning whether support will hold.</p>
+
+        <p>This is normal. On any given correction day, there need not be a specific reason. Do not waste time looking for one. Technicals dominate in consolidation phases. Support either holds or it does not. Watching news will not change the outcome &mdash; it will only change your emotional state for the worse.</p>
+
+        <p>You will also second-guess your sells. You exit at resistance, book a 15% gain, and two weeks later the stock rallies another 5%. You feel like an idiot. The next time resistance is hit, you hold &mdash; and the stock drops back to support, erasing the gains. The goal of selling at resistance is not to capture every last rupee. The goal is consistent, repeatable returns. Consistency comes from following your system, not from being perfect on every trade.</p>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p>A 0% market return does not mean a 0% investor return. The index going 22,000 &rarr; 26,500 &rarr; 22,000 in a year is technically flat. The investor who bought at 22,000, sold at 26,000, collected covered-call premium and rebalanced monthly made 20&ndash;25% on the same capital, in the same market, holding the same stocks. The edge is structure, not stock-picking.</p>
+        </div>
+
+        <p>Markets go sideways all the time. The rally gets the headlines. The crash gets the fear. The sideways phase is where patient, disciplined investors quietly build the foundations of serious wealth. You now have three simulations and one playbook. Execute.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Federal Reserve target range as of early 2026. The trajectory from a 5.25&ndash;5.50% peak in mid-2023 down to projected 3.25&ndash;3.50% by year-end 2026 spans roughly 200 bps of total cuts &mdash; significant easing, but slow enough to keep the consolidation regime intact rather than triggering a fresh bull cycle. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The mechanism behind round-number stickiness is partially documented in microstructure research on &ldquo;price clustering&rdquo;: limit orders and stops cluster disproportionately at round figures, which means liquidity is genuinely deeper there. The behavioural component (anchoring) reinforces the structural one (limit-order density) until the level becomes a self-fulfilling prophecy. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">For at-the-money short-dated options, the Black-Scholes approximation <span class="math">premium &asymp; 0.4 &middot; S &middot; &sigma; &middot; &radic;T</span> shows the linear scaling with implied volatility. A 30-day ATM call on a $100 stock at 12% vol is worth roughly $1.39; the same option at 25% vol is worth roughly $2.89 &mdash; just over double. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">The <span class="math">&frac12; &middot; w(1&minus;w) &middot; &sigma;<sup>2</sup></span> rebalancing premium formula is a special case of the general result derived by Booth &amp; Fama (1992) and revisited by Granger &amp; Booth. It assumes continuous rebalancing and uncorrelated noise; the empirical premium from monthly rebalancing is typically 70&ndash;85% of the theoretical figure, with the gap representing transaction costs and discrete-time approximation error. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -394,12 +545,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -408,23 +559,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -439,480 +579,443 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 80, bottom: 55, left: 60 };
-  var allData = [{"x": 0, "y": 22800}, {"x": 1, "y": 23400}, {"x": 2, "y": 22100}, {"x": 3, "y": 24200}, {"x": 4, "y": 23000}, {"x": 5, "y": 25100}, {"x": 6, "y": 22500}, {"x": 7, "y": 24800}, {"x": 8, "y": 23200}, {"x": 9, "y": 25600}, {"x": 10, "y": 22300}, {"x": 11, "y": 24500}];
-  var levels = [{"type": "support", "price": 21900, "label": "Support 21900"}, {"type": "resistance", "price": 26000, "label": "Resistance 26000"}];
-  var visibleEnd = allData.length;
+  <!-- ============================================================
+       WIDGET 1 — Range trader vs Buy-and-Hold
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { lo: 10, hi: 10, cyc: 3, buy: 15, sel: 15 };
 
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Nifty 50 Sideways Channel (Illustrative Monthly View)";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd + '/' + allData.length;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 10;
-  scrubber.max = allData.length;
-  scrubber.value = allData.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var data = allData.slice(0, visibleEnd);
-    if (data.length < 2) return;
-
-    var prices = data.map(function(d) { return d.y; });
-    var lvlPrices = levels.map(function(l) { return l.price; });
-    var allPrices = prices.concat(lvlPrices);
-    var minP = Math.min.apply(null, allPrices);
-    var maxP = Math.max.apply(null, allPrices);
-    var margin = (maxP - minP) * 0.08;
-    minP -= margin;
-    maxP += margin;
-
-    var minX = 0, maxX = data.length - 1;
-
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
-    var xLabels = [];
-    var xStep = Math.max(1, Math.floor(data.length / 6));
-    for (var i = 0; i < data.length; i += xStep) {
-      xLabels.push(i.toString());
-    }
-    drawXAxis(svg, xLabels, W, H, pad);
-
-    // Support/resistance levels
-    for (var i = 0; i < levels.length; i++) {
-      var lvl = levels[i];
-      var ly = scaleY(lvl.price, minP, maxP, H, pad);
-      var color = lvl.type === 'support' ? '#48bb78' : '#fc8181';
-      drawLine(svg, pad.left, ly, W - pad.right, ly, color, 1.5, '8,4');
-      drawText(svg, W - pad.right + 4, ly, lvl.label, {
-        fontSize: 9, fill: color, anchor: 'start', dy: '0.35em'
-      });
-    }
-
-    // Price line
-    var pathD = '';
-    for (var i = 0; i < data.length; i++) {
-      var sx = scaleX(i, minX, maxX, W, pad);
-      var sy = scaleY(data[i].y, minP, maxP, H, pad);
-      pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-    }
-    drawPath(svg, pathD, 'var(--accent)', 2, 'none', 1);
-
-    // Hover overlay
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverDot = drawCircle(svg, 0, 0, 4, 'var(--accent)', '#fff');
-    hoverDot.style.display = 'none';
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(data.length - 1, idx));
-      var sx = scaleX(idx, minX, maxX, W, pad);
-      var sy = scaleY(data[idx].y, minP, maxP, H, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-      hoverDot.setAttribute('cx', sx);
-      hoverDot.setAttribute('cy', sy);
-      hoverDot.style.display = '';
-
-      // Check proximity to levels
-      var nearLevel = '';
-      for (var i = 0; i < levels.length; i++) {
-        if (Math.abs(data[idx].y - levels[i].price) / (maxP - minP) < 0.03) {
-          nearLevel = ' (near ' + levels[i].label + ')';
-        }
+    function simulate() {
+      // Generate a sinusoidal sideways path with mild noise.
+      // Path returns ~0% over the year (sideways by construction).
+      var N = 252; // trading days
+      var mid = 100;
+      var lowPx = mid * (1 - state.lo / 100);
+      var highPx = mid * (1 + state.hi / 100);
+      var amp = (highPx - lowPx) / 2;
+      var ctr = (highPx + lowPx) / 2;
+      var path = [];
+      for (var i = 0; i <= N; i++) {
+        var phase = 2 * Math.PI * state.cyc * (i / N);
+        // Small deterministic noise to make it look real but stay inside range
+        var noise = 0.012 * amp * Math.sin(13.1 * phase + 1.4) + 0.008 * amp * Math.sin(7.3 * phase + 0.7);
+        path.push(ctr + amp * Math.sin(phase) + noise);
       }
 
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = 'Period: ' + idx + '<br>Price: <strong>' + data[idx].y.toFixed(1) + '</strong>' + nearLevel;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = (sy / H * 100 - 14) + '%';
-      tooltip.style.transform = 'translateX(-50%)';
-    });
+      // Buy-and-Hold equity curve: just track price / initial
+      var p0 = path[0];
+      var bhCurve = path.map(function(p) { return (p / p0 - 1) * 100; });
 
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverDot.style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd + '/' + allData.length;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 80, bottom: 55, left: 60 };
-  var allData = [{"x": 0, "y": 25200}, {"x": 1, "y": 24800}, {"x": 2, "y": 24100}, {"x": 3, "y": 23500}, {"x": 4, "y": 22800}, {"x": 5, "y": 22100}, {"x": 6, "y": 22500}, {"x": 7, "y": 23200}, {"x": 8, "y": 24000}, {"x": 9, "y": 24800}, {"x": 10, "y": 25500}, {"x": 11, "y": 25200}];
-  var levels = [{"type": "support", "price": 22000, "label": "Support 22000"}, {"type": "resistance", "price": 25500, "label": "Resistance 25500"}];
-  var visibleEnd = allData.length;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Deploying Capital in Tranches at Support Levels";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd + '/' + allData.length;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 10;
-  scrubber.max = allData.length;
-  scrubber.value = allData.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var data = allData.slice(0, visibleEnd);
-    if (data.length < 2) return;
-
-    var prices = data.map(function(d) { return d.y; });
-    var lvlPrices = levels.map(function(l) { return l.price; });
-    var allPrices = prices.concat(lvlPrices);
-    var minP = Math.min.apply(null, allPrices);
-    var maxP = Math.max.apply(null, allPrices);
-    var margin = (maxP - minP) * 0.08;
-    minP -= margin;
-    maxP += margin;
-
-    var minX = 0, maxX = data.length - 1;
-
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
-    var xLabels = [];
-    var xStep = Math.max(1, Math.floor(data.length / 6));
-    for (var i = 0; i < data.length; i += xStep) {
-      xLabels.push(i.toString());
-    }
-    drawXAxis(svg, xLabels, W, H, pad);
-
-    // Support/resistance levels
-    for (var i = 0; i < levels.length; i++) {
-      var lvl = levels[i];
-      var ly = scaleY(lvl.price, minP, maxP, H, pad);
-      var color = lvl.type === 'support' ? '#48bb78' : '#fc8181';
-      drawLine(svg, pad.left, ly, W - pad.right, ly, color, 1.5, '8,4');
-      drawText(svg, W - pad.right + 4, ly, lvl.label, {
-        fontSize: 9, fill: color, anchor: 'start', dy: '0.35em'
-      });
-    }
-
-    // Price line
-    var pathD = '';
-    for (var i = 0; i < data.length; i++) {
-      var sx = scaleX(i, minX, maxX, W, pad);
-      var sy = scaleY(data[i].y, minP, maxP, H, pad);
-      pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-    }
-    drawPath(svg, pathD, 'var(--accent)', 2, 'none', 1);
-
-    // Hover overlay
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverDot = drawCircle(svg, 0, 0, 4, 'var(--accent)', '#fff');
-    hoverDot.style.display = 'none';
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(data.length - 1, idx));
-      var sx = scaleX(idx, minX, maxX, W, pad);
-      var sy = scaleY(data[idx].y, minP, maxP, H, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-      hoverDot.setAttribute('cx', sx);
-      hoverDot.setAttribute('cy', sy);
-      hoverDot.style.display = '';
-
-      // Check proximity to levels
-      var nearLevel = '';
-      for (var i = 0; i < levels.length; i++) {
-        if (Math.abs(data[idx].y - levels[i].price) / (maxP - minP) < 0.03) {
-          nearLevel = ' (near ' + levels[i].label + ')';
+      // Range trader: start in cash, buy when price crosses up through buyTrigger
+      // (which sits just above the low), sell when price crosses down through
+      // sellTrigger (just below the high). Track cumulative realized return.
+      var buyTrigger = lowPx + (highPx - lowPx) * (state.buy / 100);
+      var sellTrigger = highPx - (highPx - lowPx) * (state.sel / 100);
+      var holding = false;
+      var entry = 0;
+      var cum = 0; // cumulative % return realized
+      var trades = 0;
+      var rtCurve = [0];
+      for (var j = 1; j < path.length; j++) {
+        var px = path[j];
+        var prev = path[j-1];
+        // Mark-to-market the equity curve
+        if (holding) {
+          rtCurve.push(cum + (px / entry - 1) * 100);
+        } else {
+          rtCurve.push(cum);
+        }
+        // Buy: crossing up through buy trigger from below, in lower half of range
+        var midPx = (lowPx + highPx) / 2;
+        if (!holding && prev <= buyTrigger && px > buyTrigger && px < midPx) {
+          holding = true;
+          entry = px;
+        } else if (holding && prev >= sellTrigger && px < sellTrigger && px > midPx) {
+          cum += (sellTrigger / entry - 1) * 100;
+          rtCurve[rtCurve.length - 1] = cum;
+          holding = false;
+          trades++;
         }
       }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = 'Period: ' + idx + '<br>Price: <strong>' + data[idx].y.toFixed(1) + '</strong>' + nearLevel;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = (sy / H * 100 - 14) + '%';
-      tooltip.style.transform = 'translateX(-50%)';
-    });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverDot.style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd + '/' + allData.length;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 80, bottom: 55, left: 60 };
-  var allData = [{"x": 0, "y": 24000}, {"x": 1, "y": 23200}, {"x": 2, "y": 22400}, {"x": 3, "y": 22800}, {"x": 4, "y": 23600}, {"x": 5, "y": 24400}, {"x": 6, "y": 25200}, {"x": 7, "y": 25800}, {"x": 8, "y": 25200}, {"x": 9, "y": 24400}, {"x": 10, "y": 23600}, {"x": 11, "y": 22800}, {"x": 12, "y": 23200}, {"x": 13, "y": 24000}, {"x": 14, "y": 24800}, {"x": 15, "y": 25600}];
-  var levels = [{"type": "support", "price": 22000, "label": "Support 22000"}, {"type": "resistance", "price": 26000, "label": "Resistance 26000"}];
-  var visibleEnd = allData.length;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "The Sideways Market Playbook: Buy Low, Sell High, Collect Premiums";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd + '/' + allData.length;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 10;
-  scrubber.max = allData.length;
-  scrubber.value = allData.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var data = allData.slice(0, visibleEnd);
-    if (data.length < 2) return;
-
-    var prices = data.map(function(d) { return d.y; });
-    var lvlPrices = levels.map(function(l) { return l.price; });
-    var allPrices = prices.concat(lvlPrices);
-    var minP = Math.min.apply(null, allPrices);
-    var maxP = Math.max.apply(null, allPrices);
-    var margin = (maxP - minP) * 0.08;
-    minP -= margin;
-    maxP += margin;
-
-    var minX = 0, maxX = data.length - 1;
-
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
-    var xLabels = [];
-    var xStep = Math.max(1, Math.floor(data.length / 6));
-    for (var i = 0; i < data.length; i += xStep) {
-      xLabels.push(i.toString());
-    }
-    drawXAxis(svg, xLabels, W, H, pad);
-
-    // Support/resistance levels
-    for (var i = 0; i < levels.length; i++) {
-      var lvl = levels[i];
-      var ly = scaleY(lvl.price, minP, maxP, H, pad);
-      var color = lvl.type === 'support' ? '#48bb78' : '#fc8181';
-      drawLine(svg, pad.left, ly, W - pad.right, ly, color, 1.5, '8,4');
-      drawText(svg, W - pad.right + 4, ly, lvl.label, {
-        fontSize: 9, fill: color, anchor: 'start', dy: '0.35em'
-      });
-    }
-
-    // Price line
-    var pathD = '';
-    for (var i = 0; i < data.length; i++) {
-      var sx = scaleX(i, minX, maxX, W, pad);
-      var sy = scaleY(data[i].y, minP, maxP, H, pad);
-      pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-    }
-    drawPath(svg, pathD, 'var(--accent)', 2, 'none', 1);
-
-    // Hover overlay
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverDot = drawCircle(svg, 0, 0, 4, 'var(--accent)', '#fff');
-    hoverDot.style.display = 'none';
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(data.length - 1, idx));
-      var sx = scaleX(idx, minX, maxX, W, pad);
-      var sy = scaleY(data[idx].y, minP, maxP, H, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-      hoverDot.setAttribute('cx', sx);
-      hoverDot.setAttribute('cy', sy);
-      hoverDot.style.display = '';
-
-      // Check proximity to levels
-      var nearLevel = '';
-      for (var i = 0; i < levels.length; i++) {
-        if (Math.abs(data[idx].y - levels[i].price) / (maxP - minP) < 0.03) {
-          nearLevel = ' (near ' + levels[i].label + ')';
-        }
+      if (holding) {
+        cum += (path[path.length - 1] / entry - 1) * 100;
+        rtCurve[rtCurve.length - 1] = cum;
       }
 
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = 'Period: ' + idx + '<br>Price: <strong>' + data[idx].y.toFixed(1) + '</strong>' + nearLevel;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = (sy / H * 100 - 14) + '%';
-      tooltip.style.transform = 'translateX(-50%)';
+      return {
+        path: path,
+        bh: bhCurve,
+        rt: rtCurve,
+        trades: trades,
+        bhFinal: bhCurve[bhCurve.length - 1],
+        rtFinal: cum
+      };
+    }
+
+    function draw() {
+      var sim = simulate();
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 40, right: 90, bottom: 40, left: 56 };
+
+      // Title — well above the plot area
+      drawTextCanvas(ctx, W/2, 14, 'Cumulative return over 1 year (sideways path)',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+
+      var all = sim.bh.concat(sim.rt);
+      var yMin = Math.min.apply(null, all);
+      var yMax = Math.max.apply(null, all);
+      var rng = Math.max(yMax - yMin, 4);
+      yMin -= rng * 0.15; yMax += rng * 0.18;
+      yMin = Math.floor(yMin / 5) * 5;
+      yMax = Math.ceil(yMax / 5) * 5;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['Jan','Mar','May','Jul','Sep','Nov','Dec'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) { return (v >= 0 ? '+' : '') + v.toFixed(0) + '%'; }
+      });
+
+      // Zero line accent
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+      ctx.restore();
+
+      var N = sim.bh.length - 1;
+      var bhPts = sim.bh.map(function(v, i) {
+        return { x: mapX(i, 0, N, W, pad), y: mapY(v, yMin, yMax, H, pad) };
+      });
+      var rtPts = sim.rt.map(function(v, i) {
+        return { x: mapX(i, 0, N, W, pad), y: mapY(v, yMin, yMax, H, pad) };
+      });
+
+      drawLineCanvas(ctx, bhPts, { color: '#9b9b9b', width: 2 });
+      drawLineCanvas(ctx, rtPts, { color: 'var(--accent)', width: 2.5 });
+
+      // Endpoint labels
+      var bhEnd = bhPts[bhPts.length - 1];
+      var rtEnd = rtPts[rtPts.length - 1];
+      drawTextCanvas(ctx, bhEnd.x + 6, bhEnd.y,
+        'B&H ' + (sim.bhFinal >= 0 ? '+' : '') + sim.bhFinal.toFixed(1) + '%',
+        { fontSize: 10.5, color: '#777', align: 'left', baseline: 'middle' });
+      drawTextCanvas(ctx, rtEnd.x + 6, rtEnd.y,
+        'Range ' + (sim.rtFinal >= 0 ? '+' : '') + sim.rtFinal.toFixed(1) + '%',
+        { fontSize: 10.5, color: 'var(--accent)', align: 'left', baseline: 'middle', weight: '600' });
+
+      // Stat cells
+      document.getElementById('w1-bh').textContent = (sim.bhFinal >= 0 ? '+' : '') + sim.bhFinal.toFixed(1) + '%';
+      document.getElementById('w1-rt').textContent = (sim.rtFinal >= 0 ? '+' : '') + sim.rtFinal.toFixed(1) + '%';
+      document.getElementById('w1-tr').textContent = sim.trades.toString();
+      var alpha = sim.rtFinal - sim.bhFinal;
+      document.getElementById('w1-al').textContent = (alpha >= 0 ? '+' : '') + alpha.toFixed(1) + '%';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w1-lo'),  label: document.getElementById('w1-lo-val'),  format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w1-hi'),  label: document.getElementById('w1-hi-val'),  format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w1-cyc'), label: document.getElementById('w1-cyc-val'), format: function(v){ return v.toFixed(0); } },
+      { el: document.getElementById('w1-buy'), label: document.getElementById('w1-buy-val'), format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w1-sel'), label: document.getElementById('w1-sel-val'), format: function(v){ return v.toFixed(0) + '%'; } }
+    ], function(vals) {
+      state.lo = vals['w1-lo']; state.hi = vals['w1-hi']; state.cyc = vals['w1-cyc'];
+      state.buy = vals['w1-buy']; state.sel = vals['w1-sel'];
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Covered call income (stacked bars)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { iv: 25, k: 3, freq: 1, div: 1.5 };
+
+    function freqLabel(f) {
+      return ({1:'Monthly', 2:'Bi-monthly', 3:'Bi-weekly', 4:'Weekly'})[f] || 'Monthly';
+    }
+    function writesPerYear(f) {
+      return ({1:12, 2:24, 3:26, 4:52})[f] || 12;
+    }
+
+    // Approximate call premium (% of spot) for short-dated calls using a
+    // simplified Black-Scholes-style formula:
+    //   ATM premium / S ~ 0.4 * sigma * sqrt(T)
+    // OTM dampening: each unit of moneyness (in standard deviations) cuts
+    // premium roughly by an exponential factor.
+    function callPremiumPct(sigma, K_pct_above, daysToExpiry) {
+      var T = daysToExpiry / 365;
+      var atmFrac = 0.4 * sigma * Math.sqrt(T);
+      var z = (K_pct_above / 100) / (sigma * Math.sqrt(T) + 1e-6);
+      var damp = Math.exp(-1.4 * z);
+      return atmFrac * damp * 100;
+    }
+
+    function compute() {
+      var sigma = state.iv / 100;
+      var nWrites = writesPerYear(state.freq);
+      var daysPerWrite = 365 / nWrites;
+      var prem = callPremiumPct(sigma, state.k, daysPerWrite); // % per write
+
+      // Total annualized covered-call yield
+      var ccYieldYear = nWrites * prem;
+
+      // Distribute across 12 calendar months
+      var writesPerMonth = nWrites / 12;
+      var monthly = [];
+      for (var m = 0; m < 12; m++) {
+        // Small natural seasonality so bars aren't identical
+        var varFactor = 1 + 0.08 * Math.sin(m * 1.7 + 0.4);
+        monthly.push(prem * writesPerMonth * varFactor);
+      }
+      return {
+        monthly: monthly,
+        ccYieldYear: ccYieldYear,
+        divBaseline: state.div
+      };
+    }
+
+    function draw() {
+      var r = compute();
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 50, right: 24, bottom: 50, left: 56 };
+
+      drawTextCanvas(ctx, W/2, 14, 'Monthly premium income vs dividend baseline',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+
+      var months = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+      var maxBar = Math.max.apply(null, r.monthly);
+      var divPerMonth = r.divBaseline / 12;
+      var yMax = Math.max(maxBar, divPerMonth) * 1.35;
+      yMax = Math.max(yMax, 0.5);
+      var yMin = 0;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: months,
+        yMin: yMin, yMax: yMax, ySteps: 4,
+        yFmt: function(v) { return v.toFixed(2) + '%'; }
+      });
+
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+      var barSlotW = plotW / 12;
+      var barW = barSlotW * 0.42;
+      var gap = barSlotW * 0.06;
+
+      // Dividend baseline as horizontal dashed line
+      var divY = mapY(divPerMonth, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#999'; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, divY); ctx.lineTo(W - pad.right, divY); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, W - pad.right - 4, divY - 8,
+        'Dividend: ' + divPerMonth.toFixed(2) + '%/mo',
+        { fontSize: 10, color: '#666', align: 'right', baseline: 'middle' });
+
+      // Paired bars: CC premium (accent) + tiny dividend bar (grey)
+      for (var i = 0; i < 12; i++) {
+        var x = pad.left + barSlotW * i + (barSlotW - barW * 2 - gap) / 2;
+        var ccH = (r.monthly[i] / yMax) * plotH;
+        drawRectCanvas(ctx, x, H - pad.bottom - ccH, barW, ccH, 'var(--accent)', 3);
+        var divH = (divPerMonth / yMax) * plotH;
+        drawRectCanvas(ctx, x + barW + gap, H - pad.bottom - divH, barW, divH, '#9b9b9b', 3);
+      }
+
+      // Legend (above axes, well clear of plot area)
+      drawRectCanvas(ctx, pad.left, pad.top - 18, 10, 10, 'var(--accent)', 2);
+      drawTextCanvas(ctx, pad.left + 14, pad.top - 13, 'Covered call premium',
+        { fontSize: 10.5, color: 'var(--text)', align: 'left', baseline: 'middle' });
+      drawRectCanvas(ctx, pad.left + 160, pad.top - 18, 10, 10, '#9b9b9b', 2);
+      drawTextCanvas(ctx, pad.left + 174, pad.top - 13, 'Dividend',
+        { fontSize: 10.5, color: 'var(--text)', align: 'left', baseline: 'middle' });
+
+      document.getElementById('w2-yield').textContent = r.ccYieldYear.toFixed(1) + '%';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-iv'),   label: document.getElementById('w2-iv-val'),   format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w2-k'),    label: document.getElementById('w2-k-val'),    format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w2-freq'), label: document.getElementById('w2-freq-val'), format: function(v){ return freqLabel(v); } },
+      { el: document.getElementById('w2-div'),  label: document.getElementById('w2-div-val'),  format: function(v){ return v.toFixed(1) + '%'; } }
+    ], function(vals) {
+      state.iv = vals['w2-iv']; state.k = vals['w2-k'];
+      state.freq = vals['w2-freq']; state.div = vals['w2-div'];
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Volatility harvesting (static vs rebalanced 60/40)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { vol: 25, w: 60, years: 3, seed: 42 };
+
+    // Seeded RNG so the chart is stable between slider drags
+    // and re-rolls only when the user clicks "Run new paths".
+    function mulberry32(seed) {
+      var s = seed >>> 0;
+      return function() {
+        s = (s + 0x6D2B79F5) >>> 0;
+        var t = Math.imul(s ^ (s >>> 15), 1 | s);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    function randnSeeded(rng) {
+      var u = 0, v = 0;
+      while (u === 0) u = rng();
+      while (v === 0) v = rng();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function simulate() {
+      var steps = 252 * state.years;
+      var dt = 1 / 252;
+      var sigma = state.vol / 100;
+      var muEq = 0.0;   // sideways: zero drift on equities
+      var muBd = 0.04;  // 4% bond yield (drift only)
+      var bondVol = 0.03;
+
+      var rng = mulberry32(state.seed);
+      var w = state.w / 100;
+
+      var Eq = 1.0, Bd = 1.0;
+      var staticEqShares = w;
+      var staticBdShares = 1 - w;
+      var rebalEqShares = w;
+      var rebalBdShares = 1 - w;
+      var rebalanceEvery = 21; // ~monthly
+
+      var staticCurve = [0];
+      var rebalCurve = [0];
+
+      for (var i = 1; i <= steps; i++) {
+        var z = randnSeeded(rng);
+        Eq = Eq * Math.exp((muEq - 0.5 * sigma * sigma) * dt + sigma * Math.sqrt(dt) * z);
+        var zb = randnSeeded(rng) * 0.3;
+        Bd = Bd * Math.exp((muBd - 0.5 * bondVol * bondVol) * dt + bondVol * Math.sqrt(dt) * zb);
+
+        var staticVal = staticEqShares * Eq + staticBdShares * Bd;
+        var rebalVal = rebalEqShares * Eq + rebalBdShares * Bd;
+
+        if (i % rebalanceEvery === 0) {
+          rebalEqShares = (rebalVal * w) / Eq;
+          rebalBdShares = (rebalVal * (1 - w)) / Bd;
+        }
+
+        staticCurve.push((staticVal - 1) * 100);
+        rebalCurve.push((rebalVal - 1) * 100);
+      }
+
+      return {
+        staticCurve: staticCurve,
+        rebalCurve: rebalCurve,
+        staticFinal: staticCurve[staticCurve.length - 1],
+        rebalFinal: rebalCurve[rebalCurve.length - 1],
+        sigma: sigma,
+        w: w
+      };
+    }
+
+    function draw() {
+      var sim = simulate();
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 40, right: 90, bottom: 40, left: 56 };
+
+      drawTextCanvas(ctx, W/2, 14,
+        'Two portfolios, identical paths, ' + state.years + '-year horizon',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+
+      var all = sim.staticCurve.concat(sim.rebalCurve);
+      var yMin = Math.min.apply(null, all);
+      var yMax = Math.max.apply(null, all);
+      var rng = Math.max(yMax - yMin, 4);
+      yMin -= rng * 0.12; yMax += rng * 0.18;
+      yMin = Math.floor(yMin / 5) * 5;
+      yMax = Math.ceil(yMax / 5) * 5;
+
+      var xLabels = [];
+      for (var i = 0; i <= state.years; i++) xLabels.push('Y' + i);
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: xLabels,
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) { return (v >= 0 ? '+' : '') + v.toFixed(0) + '%'; }
+      });
+
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+      ctx.restore();
+
+      var N = sim.staticCurve.length - 1;
+      var staticPts = sim.staticCurve.map(function(v, i) {
+        return { x: mapX(i, 0, N, W, pad), y: mapY(v, yMin, yMax, H, pad) };
+      });
+      var rebalPts = sim.rebalCurve.map(function(v, i) {
+        return { x: mapX(i, 0, N, W, pad), y: mapY(v, yMin, yMax, H, pad) };
+      });
+
+      drawLineCanvas(ctx, staticPts, { color: '#9b9b9b', width: 2 });
+      drawLineCanvas(ctx, rebalPts, { color: 'var(--accent)', width: 2.5 });
+
+      var sEnd = staticPts[staticPts.length - 1];
+      var rEnd = rebalPts[rebalPts.length - 1];
+      drawTextCanvas(ctx, sEnd.x + 6, sEnd.y,
+        'Static ' + (sim.staticFinal >= 0 ? '+' : '') + sim.staticFinal.toFixed(1) + '%',
+        { fontSize: 10.5, color: '#777', align: 'left', baseline: 'middle' });
+      drawTextCanvas(ctx, rEnd.x + 6, rEnd.y,
+        'Rebal ' + (sim.rebalFinal >= 0 ? '+' : '') + sim.rebalFinal.toFixed(1) + '%',
+        { fontSize: 10.5, color: 'var(--accent)', align: 'left', baseline: 'middle', weight: '600' });
+
+      document.getElementById('w3-static').textContent = (sim.staticFinal >= 0 ? '+' : '') + sim.staticFinal.toFixed(1) + '%';
+      document.getElementById('w3-rebal').textContent = (sim.rebalFinal >= 0 ? '+' : '') + sim.rebalFinal.toFixed(1) + '%';
+      var actualHarvest = (sim.rebalFinal - sim.staticFinal) / state.years;
+      document.getElementById('w3-harvest').textContent = (actualHarvest >= 0 ? '+' : '') + actualHarvest.toFixed(2) + '%/yr';
+      var theory = 0.5 * sim.w * (1 - sim.w) * sim.sigma * sim.sigma * 100;
+      document.getElementById('w3-theory').textContent = '+' + theory.toFixed(2) + '%/yr';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-vol'), label: document.getElementById('w3-vol-val'), format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w3-w'),   label: document.getElementById('w3-w-val'),   format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w3-yr'),  label: document.getElementById('w3-yr-val'),  format: function(v){ return v.toFixed(0); } }
+    ], function(vals) {
+      state.vol = vals['w3-vol']; state.w = vals['w3-w']; state.years = vals['w3-yr'];
+      draw();
     });
 
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverDot.style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd + '/' + allData.length;
-    draw();
-  });
-})();
-</script>
+    var runBtn = document.getElementById('w3-run');
+    if (runBtn) {
+      runBtn.addEventListener('click', function() {
+        state.seed = Math.floor(Math.random() * 1e9);
+        draw();
+      });
+    }
+  })();
+  </script>
 
 </body>
 </html>

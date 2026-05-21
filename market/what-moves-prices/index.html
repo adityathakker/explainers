@@ -4,32 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>What Actually Moves Stock Prices — Market Explainers</title>
-  <meta name="description" content="The PE × EPS equation every investor must internalize">
+  <meta name="description" content="Price = PE × EPS. Decompose any rally into multiple expansion, earnings growth, and surprise — with three live simulators.">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="What Actually Moves Stock Prices">
-  <meta property="og:description" content="The PE × EPS equation every investor must internalize">
+  <meta property="og:description" content="Price = PE × EPS. Decompose any rally into multiple expansion, earnings growth, and surprise.">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #44337a;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget-specific layout helpers */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .greek-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .greek-grid { grid-template-columns: repeat(2, 1fr); } }
+    .greek-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .greek-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .greek-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
   </style>
 </head>
 <body>
@@ -47,8 +81,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">What Actually Moves Stock Prices</h1>
-      <p class="hero__subtitle">The PE × EPS equation every investor must internalize</p>
-      <p class="hero__meta">25 min read</p>
+      <p class="hero__subtitle">Price = PE × EPS. Every rally and every crash decomposes into those two numbers — and one of them is almost always lying to you.</p>
+      <p class="hero__meta">8 chapters &middot; 3 simulations &middot; 22 min read</p>
     </div>
   </header>
 
@@ -57,250 +91,405 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-the-only-equation-you-need-to-know">I. The Only Equation You Need to Know</a></li>
-        <li><a href="#ii-pe-expansion-when-the-crowd-gets-optimistic">II. PE Expansion: When the Crowd Gets Optimistic</a></li>
-        <li><a href="#iii-eps-growth-when-the-business-actually-delivers">III. EPS Growth: When the Business Actually Delivers</a></li>
-        <li><a href="#iv-the-dangerous-trap-high-pe-without-high-growth">IV. The Dangerous Trap: High PE Without High Growth</a></li>
-        <li><a href="#v-price-correction-vs-time-correction-the-two-wealth-destroyers">V. Price Correction vs Time Correction: The Two Wealth Destroyers</a></li>
-        <li><a href="#vi-how-to-identify-what-you-are-actually-betting-on">VI. How to Identify What You Are Actually Betting On</a></li>
-        <li><a href="#vii-the-macro-overlay-why-market-level-pe-matters-more-than-your-stock-pick">VII. The Macro Overlay: Why Market-Level PE Matters More Than Your Stock Pick</a></li>
-        <li><a href="#viii-valuation-tools-beyond-pe-matching-the-metric-to-the-business">VIII. Valuation Tools Beyond PE: Matching the Metric to the Business</a></li>
-        <li><a href="#ix-your-investment-action-plan-putting-pe-x-eps-to-work">IX. Your Investment Action Plan: Putting PE x EPS to Work</a></li>
+        <li><a href="#i-nvda">Why did NVDA go up 10×? Was it earnings, or was it sentiment?</a></li>
+        <li><a href="#ii-equation">What is the one equation behind every stock price?</a></li>
+        <li><a href="#iii-decomp">How much of a doubling can come from multiple expansion alone?</a></li>
+        <li><a href="#iv-surprise">Why is the earnings <em>surprise</em> what moves the stock — not the number?</a></li>
+        <li><a href="#v-three-drivers">How much of the S&amp;P's return is multiple expansion vs. growth vs. dividends?</a></li>
+        <li><a href="#vi-trap">What is the high-PE trap, and why is time correction worse than a crash?</a></li>
+        <li><a href="#vii-bet">When should you bet on PE expansion vs. EPS growth?</a></li>
+        <li><a href="#viii-portfolio">What does this mean for the next stock you buy?</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-the-only-equation-you-need-to-know">
+
+    <!-- ============================================================
+         I. NVDA opener
+         ============================================================ -->
+    <section class="reveal" id="i-nvda">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. The Only Equation You Need to Know</h2>
+        <h2>Why did NVDA go up 10×? Was it earnings, or was it sentiment?</h2>
       </div>
       <div class="section-content">
-        <p>Let me give you the single most important equation in investing. If you understand this deeply, you will beat 95% of fund managers. If you don&rsquo;t, you will keep buying lottery tickets and calling it &ldquo;investing.&rdquo;</p>
-<p>Here it is:</p>
-<blockquote>
-<p><strong>Stock Price = PE Ratio x Earnings Per Share (EPS)</strong></p>
-</blockquote>
-<p>That is it. Every stock price movement in the history of financial markets can be decomposed into these two variables. The PE ratio represents how much the market is willing to pay for each rupee of earnings. The EPS represents how much the company actually earns per share.</p>
-<p>When a stock goes up, one of two things happened: the PE expanded (investors became more optimistic and willing to pay a higher multiple), or the EPS grew (the company made more money). Often both happen at the same time in a bull market, which is why returns feel magical. And when both contract simultaneously, you get the bloodbaths that make people swear off equities forever.</p>
-<p><strong>Stock prices grow for exactly 2 reasons: PE expansion or EPS growth.</strong> This is not my opinion. This is math. And the sooner you internalize this equation, the sooner you stop gambling and start investing.</p>
-<p>Let me show you why this matters with a real example. Bata India in 2019 had a PE of 83 and a stock price of 1,250. In 2025, six years later, Bata India&rsquo;s stock price was still 1,250. The PE had halved to 43. The sales went from 3,000 crore to 3,500 crore. Profits went from 330 crore to 350 crore. The EPS barely moved. The PE got cut in half.</p>
-<p><strong>In 6 years, Bata India lost 6 years. And half its PE.</strong></p>
-<p>The business grew a little. But the market decided it was no longer willing to pay 83 times earnings for a shoe company. The PE contracted, the EPS inched up, and the net result was zero returns for six years. If you had understood the equation, you would have seen this coming. At 83 PE, you were betting almost entirely on the market continuing to pay a premium. The business itself could not save you.</p>
-<p>This is the foundational concept. Everything else in this article builds on it. So let me say it one more time:</p>
-<blockquote>
-<p><strong>If you are picking companies, you have to understand whether you are betting on PE expansion, EPS growth, or both. If you don&rsquo;t know which one, you are gambling.</strong></p>
-</blockquote>
+        <p>In January 2023 NVIDIA closed near $14 (split-adjusted). Two years later it traded near $140 &mdash; a 10&times; run that minted hundreds of billionaires and made every CIO who didn't own more of it look reckless. The story everyone told themselves was: <em>AI</em>. The story that is actually true is more interesting, because it answers a question almost no retail investor asks before clicking buy.</p>
+
+        <p>Did NVIDIA's <strong>earnings</strong> go up 10&times;? Or did the <strong>market's willingness to pay for those earnings</strong> go up 10&times;? Or some mix? Because the same price chart can mean three completely different things depending on which lever did the work &mdash; and which lever did the work tells you whether to hold, trim, or get out.</p>
+
+        <p>Here is the rough decomposition from the actual filings<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. In early 2023, NVDA's trailing EPS was about $0.45 (split-adjusted) and the stock traded near a PE of 31. By early 2025, trailing EPS was around $2.85 and the PE sat near 49. The math:</p>
+
+        <div class="math-block">
+          Price<sub>2025</sub> / Price<sub>2023</sub> = (PE<sub>2025</sub> / PE<sub>2023</sub>) &times; (EPS<sub>2025</sub> / EPS<sub>2023</sub>)
+          <br>
+          ~10× &asymp; 1.58 &times; 6.33
+          <span class="math-where">earnings did most of the heavy lifting; the multiple added another ~58% on top</span>
+        </div>
+
+        <p>Translated: <strong>NVDA earnings grew about 6&times;, and the multiple grew another 1.6&times; on top.</strong> The fundamental work did most of it, but a meaningful chunk &mdash; about a third of the log-return &mdash; was the market deciding to pay more per dollar of profit. That mix is the difference between a great business at a great price and a great business that has already priced in greatness.</p>
+
+        <p>Why does this distinction matter when the bank statement shows the same gain either way? Because the two components have wildly different shelf lives. Earnings growth, once delivered, is yours forever &mdash; tomorrow's PE can't take back the dollars NVIDIA already reported. Multiple expansion, on the other hand, is fully reversible. The same market that re-rated the stock from PE 31 to PE 49 can revert it to 31 in a single quarter on a guidance scare, wiping out a third of your gain without anything actually changing at the company. Decomposing the return tells you how much of your paper profit is locked in versus on loan.</p>
+
+        <p>This article is about doing that decomposition for any stock, any time. Every price move &mdash; from a single quarter to a hundred-year index return &mdash; resolves into the same three components. Internalise them and you stop being surprised by markets. You start being able to say, before you buy: <em>here is what has to be true for me to make money, and here is what is already priced in.</em></p>
+
+        <p>The exercise is uncomfortable on purpose. It forces you to articulate which lever you're actually betting on, and most retail positions don't have an answer beyond "the stock has been going up." That's not a thesis. That's momentum dressed in fundamentals clothing. By the end of this article you'll have a framework that takes ten minutes per stock and screens out the majority of bad ideas before they become bad positions.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-pe-expansion-when-the-crowd-gets-optimistic">
+    <!-- ============================================================
+         II. The equation
+         ============================================================ -->
+    <section class="reveal" id="ii-equation">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. PE Expansion: When the Crowd Gets Optimistic</h2>
+        <h2>What is the one equation behind every stock price?</h2>
       </div>
       <div class="section-content">
-        <p>PE expansion is when the market decides a company, a sector, or an entire country is worth paying more for. It is driven by sentiment, narratives, capital flows, and growth expectations. It has very little to do with what the company is actually earning right now.</p>
-<p>Let me walk you through the Indian market&rsquo;s PE expansion cycle so you understand how this works at a macro level.</p>
-<p>In 2015, something big happened. A new government came in with a fresh promise of fast reforms, efficiency, and economic transformation. Investors saw &ldquo;growth&rdquo; and poured money into Indian equities. PE/VC funds deployed billions. These institutional players operate on 10-year cycles, and 2015 was the start of a massive pumping phase.</p>
-<p>Between 2015 and 2019, the PE of the Indian market expanded significantly. Investors were not buying because earnings were exploding. They were buying because they believed earnings would explode in the future. That belief, expressed through higher PE multiples, drove stock prices up.</p>
-<p>Then came the exit phase. Post-2020, foreign investors and PE/VC funds started selling. Mutual funds became the buyers. Foreign investors became the sellers. This phase has been continuing. The PE expansion narrative played out. The people who bought early on the PE expansion made their money. The people who bought at the top of the PE expansion are still waiting.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>If you remember nothing else from this article, remember this. Every share price on every exchange in the world is the product of two numbers:</p>
 
-<p>Now look at this pattern carefully. When PE expanded from 2015 to 2021, the Nifty went on a tear. When PE started to contract from the highs, even though corporate earnings were growing, the market went sideways or fell. This is the core mechanism you must understand.</p>
-<p>Here is another real example: Railway stocks in India. In the last couple of years, railway stocks saw massive PE re-rating. The market decided that the government&rsquo;s infrastructure push would mean massive growth for these companies. PEs went from 15-20 to 50-80 in some cases. Did earnings justify those multiples? Not even close. The market was pricing in five years of growth in advance. That is PE expansion at work.</p>
-<p>And when PE expansion reverses, it is brutal. Because the business has not actually changed. Only the market&rsquo;s willingness to pay has changed. You can wake up one morning and your stock is down 30% with no change in the company&rsquo;s fundamentals. That is PE contraction. It is the silent wealth destroyer.</p>
-<p><strong>PE expansion on the market happens when investors see more &ldquo;growth&rdquo; opportunities.</strong> PE contraction happens when that growth does not materialize, or when there are simply better opportunities elsewhere.</p>
-<p>Right now, fund managers in India are saying we are in a &ldquo;bottom up&rdquo; market, be stock specific. What does this really mean? It means they are fundamentally telling you that the era of broad PE expansion in India is over for now. You cannot just buy the index and expect the rising tide to lift your boat. You need to find individual stocks where EPS growth will compensate for the ongoing PE contraction.</p>
-<p>There is another dimension to PE expansion that most people miss: it is heavily influenced by interest rates. When interest rates go down, firms borrow more. A fresh CAPEX cycle starts. Investors are willing to pay higher PE multiples because the discount rate on future earnings drops. This is why rate cut expectations can trigger PE expansion even before earnings actually improve. The current correction is NOT like the 2022 crash. In 2022, valuations were bloated and interest rates were expected to rise because we were in a high inflation year. Now, inflation is already low and rates are expected to be cut. This is a huge difference for PE expansion potential.</p>
+        <div class="math-block">
+          Price = PE &times; EPS
+          <span class="math-where">PE is what the market pays per dollar of earnings; EPS is the dollars of earnings per share</span>
+        </div>
+
+        <p>That's it. The identity is true by construction &mdash; PE is <em>defined</em> as price divided by EPS, so multiplying it back recovers price. The reason this trivially-true statement matters is what happens when you take the log and differentiate. Returns decompose cleanly:</p>
+
+        <div class="math-block">
+          ln(P<sub>1</sub>/P<sub>0</sub>) = ln(PE<sub>1</sub>/PE<sub>0</sub>) + ln(EPS<sub>1</sub>/EPS<sub>0</sub>)
+          <br>
+          total return &asymp; multiple expansion + earnings growth
+          <span class="math-where">add dividend yield for total shareholder return; the three drivers are additive in log-space</span>
+        </div>
+
+        <p>In English: a stock's return over any period is the sum of three things &mdash; <strong>how much earnings grew</strong>, <strong>how much the multiple rebounded or contracted</strong>, and <strong>how much was paid out as dividends</strong>. There are no other categories. "Investor sentiment", "narrative", "AI hype" &mdash; these all live inside the PE term. "Real business performance" lives inside the EPS term. Everything else is noise.</p>
+
+        <p>Pause on why the log form matters. In percentage space, a 50% gain followed by a 50% loss leaves you with 75% of what you started with &mdash; the asymmetric math of compounding distorts the picture. In log space, the same path is <span class="math">+0.405 &minus; 0.693 = &minus;0.288</span>, which exponentiates back to that 75% cleanly. The log decomposition lets you <em>add</em> the contributions of PE and EPS without worrying about the cross-term distortion that mangles percentage arithmetic. It is the difference between an identity that always holds and an approximation that breaks down at the extremes &mdash; which is exactly where the most interesting stocks live.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — buybacks hide inside EPS</summary>
+          <p>EPS is earnings <em>per share</em>. A company can grow EPS without growing earnings at all by buying back stock and shrinking the denominator. Apple has done this aggressively for a decade. So when you see "EPS growth" in the decomposition, ask: was it the numerator (more profit) or the denominator (fewer shares)? Both count as real for the shareholder, but they're qualitatively different signals about the business.</p>
+          <p>The cleaner decomposition splits EPS growth into <em>revenue growth + margin expansion + buyback yield</em>. That's a four-driver model. For this article we'll fold buybacks into EPS growth because the data is easier to source and the mental model is tighter.</p>
+        </details>
+
+        <p>The framework feels obvious once written down, and that's a clue. Every powerful idea in finance reduces to an identity that nobody actively disputes &mdash; what people disagree about is which term will do the work next. The mutual fund industry would much rather you focus on a stock's "story" than on which term of <span class="math">PE &times; EPS</span> is actually paying you. Stories sell SIPs. Math doesn't.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-eps-growth-when-the-business-actually-delivers">
+    <!-- ============================================================
+         III. WIDGET 1 — PE × EPS decomposition
+         ============================================================ -->
+    <section class="reveal" id="iii-decomp">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. EPS Growth: When the Business Actually Delivers</h2>
+        <h2>How much of a doubling can come from multiple expansion alone?</h2>
       </div>
       <div class="section-content">
-        <p>If PE expansion is about narratives and sentiment, EPS growth is about cold, hard numbers. Revenue goes up. Margins expand. Profits increase. Earnings per share grow. This is the bedrock of long-term wealth creation.</p>
-<p>Let me explain why EPS growth is more reliable than PE expansion. A company&rsquo;s PE can swing wildly based on market mood, but EPS is tied to actual business performance. If a company is growing revenues at 20% a year and expanding margins, EPS will grow regardless of what the market thinks about it in the short term. Eventually, the stock price follows.</p>
-<p><strong>Stock price follows earnings.</strong> I keep repeating this because it is the most important insight in investing.</p>
-<p>Consider firms like Google, Meta, and Microsoft. These are compounding their earnings at around 18-20% CAGR in US dollar terms. For context, Indian large caps typically do this at about 14% in INR terms, which translates to 9-10% in USD terms. When you buy these US tech giants, you are primarily buying EPS growth. The PE might fluctuate, but the underlying earnings machine keeps grinding higher.</p>
-<p>Now look at Mercado Libre (MELI). A long-term study pegs MELI&rsquo;s EPS CAGR at about 59% over the past 5 years and 36.9% over the past 10 years. That is extraordinary earnings growth driven by real business expansion across e-commerce, payments, and lending in Latin America. In LATAM, MELI has 30%+ market share in e-commerce. In Argentina, Mercado Pago controls around 74-80% of the digital wallet float. Every new user or transaction makes the system stronger. More sales give them better credit data, which boosts wallet usage. That keeps merchants hooked, increases order volume, cuts costs, and attracts even more users. It is a self-reinforcing loop that just keeps accelerating.</p>
-<p>Between March 2018 and 2021, the stock grew 350%. Since then, it consolidated for 4 years. But the EPS kept growing at 30%+ annually.</p>
-<p>Here is the critical insight: <strong>it is unlikely that when the EPS grows in excess of 30%+, the stock price curtails forever.</strong> The stock may go sideways for years as the PE normalizes, but eventually the earnings growth forces the stock price to catch up. Different valuation models show MELI is undervalued by 30-60% from current prices. That is EPS growth pulling the stock price forward.</p>
-<p>Let me give you the Indian counterpart. Max Healthcare has been posting 20% earnings growth, which is exceptional in the Indian market. Hospital stocks in general benefit from a structural tailwind: India is moving from informal to formal healthcare, unit economics work at high price points, there are massive barriers to entry, and margins expand with time. When you buy a hospital stock at reasonable valuations, you are betting on EPS growth, and that is a high-confidence bet.</p>
-<p>Compare this to buying a stock at 100 PE where you need the narrative to stay alive. With EPS growth, you need the business to keep performing. One is within your circle of analysis. The other is a prayer.</p>
-<p>The beauty of EPS growth is that it works even in sideways markets. When India&rsquo;s market PE is contracting, stocks with genuine EPS expansion still reward you. The PE might compress from 25 to 20, but if EPS grows 40% in that same period, you still come out ahead. This is what &ldquo;bottom up&rdquo; stock picking actually means: finding companies where the earnings engine is strong enough to overcome the headwind of market-wide PE contraction.</p>
-<p>Natco Pharma is an interesting example from the other direction. The firm had been growing fast with healthy year-on-year revenues and expanding EPS. Then one quarter, results spooked investors with a major revenue shrink, possibly due to tariff impacts on exports. The stock fell to a PE of 8-9. At that PE, with the growth trajectory expected to resume, you are getting the EPS growth almost for free. The market is pricing in permanent damage, but if the earnings recover, you make money on both PE expansion (from 8 back to 15-20) and EPS growth. That is the best possible setup.</p>
+        <p>The widget below is the article in miniature. Pick a starting price and ending price for any stock you remember. Pick the EPS at each endpoint. The decomposition is automatic.</p>
+
+        <p>Try this first: starting price 100, ending price 200, both EPS values 5. The price doubled. Earnings did nothing. The PE doubled from 20 to 40 &mdash; that is the entire move. <strong>A stock can double on multiple expansion alone with zero help from the business.</strong> This was Bata India during its 83-PE peak, every Indian SaaS name in 2021, and a good chunk of the Nasdaq in 1999.</p>
+
+        <p>Now do the opposite. Starting price 100, ending price 200, starting EPS 5, ending EPS 10. The PE didn't move at all &mdash; the entire double came from the business making twice as much money. This is the cleaner, more durable version of the same return. The shareholder got identical 100% but is sitting on a stock that doesn't need any further help from sentiment.</p>
+
+        <!-- WIDGET 1: PE × EPS Decomposition -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Decompose any rally into its three drivers</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 320px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Starting price</span><span class="slider-value" id="w1-p0-val">100</span></div>
+              <input type="range" id="w1-p0" min="20" max="300" value="100" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Ending price</span><span class="slider-value" id="w1-p1-val">200</span></div>
+              <input type="range" id="w1-p1" min="20" max="600" value="200" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Years elapsed</span><span class="slider-value" id="w1-yr-val">5</span></div>
+              <input type="range" id="w1-yr" min="1" max="20" value="5" step="1">
+            </div>
+          </div>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Starting EPS</span><span class="slider-value" id="w1-e0-val">5.0</span></div>
+              <input type="range" id="w1-e0" min="0.5" max="20" value="5" step="0.1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Ending EPS</span><span class="slider-value" id="w1-e1-val">7.5</span></div>
+              <input type="range" id="w1-e1" min="0.5" max="40" value="7.5" step="0.1">
+            </div>
+          </div>
+          <div class="greek-grid">
+            <div class="greek-cell"><div class="greek-label">Total return</div><div class="greek-value" id="w1-total">&mdash;</div></div>
+            <div class="greek-cell"><div class="greek-label">CAGR</div><div class="greek-value" id="w1-cagr">&mdash;</div></div>
+            <div class="greek-cell"><div class="greek-label">PE then → now</div><div class="greek-value" id="w1-pe">&mdash;</div></div>
+            <div class="greek-cell"><div class="greek-label">EPS CAGR</div><div class="greek-value" id="w1-epscagr">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">The stacked bar splits your total return into EPS growth (the business), multiple change (sentiment), and their interaction (the cross term). Drag any slider to see which lever is doing the work.</p>
+        </div>
+
+        <p>Now play with a real one. Bata India 2019&rarr;2025: starting price 1250, ending 1250, starting EPS 15, ending EPS 17, years 6. The total return bar comes out roughly flat &mdash; but the decomposition shows EPS contributed +13% while the PE contraction wiped out 48%. The business did its (modest) job; the market took back the multiple. <strong>That is what a "stock went nowhere for six years" actually looks like under the hood.</strong> Not bad luck. Math.</p>
+
+        <p>Try one more, in the other direction: Eli Lilly from 2020 to 2024. Starting price 130, ending price 800, starting EPS 6.8, ending EPS 12, years 4. The total return is over 500%, with EPS contributing 76%, the multiple contributing 247%, and the cross term &mdash; that "ignored" interaction &mdash; adding another 188 percentage points. Most popular analysis of Lilly attributes the run to GLP-1 drugs, which is correct in spirit, but the decomposition tells you precisely <em>where</em> the GLP-1 story lives: it's mostly in the multiple. The market is paying you for earnings Eli Lilly hasn't reported yet. That's a perfectly defensible bet &mdash; but it's a very different bet from "I'm buying because earnings grew."</p>
+
+        <p>The widget also explains why "double bagger" headlines mislead. A stock that goes from PE 10 to PE 20 with no earnings growth has doubled. A stock that doubles its earnings at a constant PE has doubled. To the headline writer both are "+100%". To you, as the investor still holding tomorrow's risk, only one of them has a foundation under it.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the cross term, and why it isn't a rounding error</summary>
+          <p>The clean log-decomposition is <span class="math">ln(P&prime;/P) = ln(PE&prime;/PE) + ln(EPS&prime;/EPS)</span>. In linear (percentage) space it's <span class="math">(1+r) = (1+r<sub>PE</sub>)(1+r<sub>EPS</sub>)</span>, which expands to <span class="math">r &asymp; r<sub>PE</sub> + r<sub>EPS</sub> + r<sub>PE</sub>&middot;r<sub>EPS</sub></span>. That last <em>interaction term</em> can be 20+ percentage points when both PE and EPS double.</p>
+          <p>For NVDA's 10&times; &mdash; with PE roughly +58% and EPS roughly +533% &mdash; the interaction term alone is about +310 percentage points. It is not a rounding error. The widget displays it as a third slice precisely because pretending it's negligible is what makes journalists write "earnings doubled, so the stock should double" and get it embarrassingly wrong.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-the-dangerous-trap-high-pe-without-high-growth">
+    <!-- ============================================================
+         IV. WIDGET 2 — Earnings surprise
+         ============================================================ -->
+    <section class="reveal" id="iv-surprise">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. The Dangerous Trap: High PE Without High Growth</h2>
+        <h2>Why is the earnings <em>surprise</em> what moves the stock — not the number?</h2>
       </div>
       <div class="section-content">
-        <p>Now we get to the part where most investors lose serious money. This is the trap that fund managers will not warn you about because it would hurt their SIP flows.</p>
-<p><strong>There is zero point in buying very high PE firms where earnings growth cannot justify the multiple.</strong> Let me explain this with several real examples from the Indian market.</p>
-<p>DMART trades at a PE of around 100. In a world where people are shifting to Blinkit, Swiggy Instamart, and other quick commerce platforms, DMART&rsquo;s growth model faces real headwinds. The way DMART grew in its last cycle was by adding massive numbers of stores when borrowing rates were low around 2020-2021. Now borrowing rates are high, store expansion speed slows down, and the only way to justify a PE of 100 is to keep growing earnings at breakneck speed. In an environment where general economic growth is slowing, this is nearly impossible.</p>
-<p>The PE will contract. It has to. It is math. Either the earnings catch up to justify the multiple, or the price comes down until the PE reaches a more reasonable level. As an investor, you are essentially praying for one of two things: either the company pulls off exceptional growth in a tough environment, or greater fools keep buying at these elevated prices. Neither is a sound investment thesis.</p>
-<p>Lenskart is another case study. In July 2025, the founder took a 200 crore loan to buy Lenskart stock when the valuation was 8,500 crore. Three months later, the company was valued at 70,000 crore. That is 8X returns in months, which tells you everything about how bloated the valuations are. The founder was asked why the PE of the stock is 200. There was no sensible answer. The company&rsquo;s profit margin is 1.7%. Not 17%. <strong>1.7%.</strong> No proprietary tech, no world domination plans, but getting a 200 PE. This is speculation, not investing.</p>
-<p>Eternal (Zomato&rsquo;s parent) at 1500 PE. CDSL at 67 PE. Adani Enterprise at PE of 100 with a 3.3 lakh crore market cap. These are all examples where the PE is disconnected from any reasonable earnings trajectory.</p>
-<blockquote>
-<p><strong>A high PE is not really a problem if the growth of the industry, country, or firm matches up. But if the growth slows down, you can be in for a very long correction. That is where A LOT of money is lost.</strong></p>
-</blockquote>
-<p>Here is why this trap is so dangerous: when the stock starts falling, your instinct is to downward average. The firm is good, you think, so you keep buying the dip. But the PE contraction can continue for years. The firm can post decent results quarter after quarter, and the stock still goes nowhere because the PE is normalizing from absurd levels. You end up with dead money for half a decade.</p>
-<p>The way to avoid this trap: before buying any stock, calculate how much EPS growth is required to justify the current PE. If the company needs to grow earnings at 30%+ for the next 5 years just to bring the PE to a reasonable level, and the economy around it is growing at 6-7%, you are making a heroic assumption. Do not do it.</p>
-<p>DMART versus Zomato is actually an instructive comparison. Zomato can undertake vertical and horizontal integrations rapidly. They deliver food, but can sell tickets, start their own restaurant business, move into new categories. Every new business line expands the Total Addressable Market. DMART, on the other hand, can only grow by opening more physical stores. There is a hard limit on physical infrastructure expansion. Therefore, paying a high PE for Zomato has some logic because the growth optionality is real. Paying the same high PE for DMART makes much less sense because the growth ceiling is visible.</p>
-<p>Let me also address why Indian stocks in general command higher PEs than US or China. Three reasons: India&rsquo;s growth expectation was around 7-8%+, so paying a higher PE made sense for investors; India&rsquo;s market was getting organized from unorganized (think HUL taking business from local manufacturers, bringing scale and efficiency); and businesses that could premiumize would benefit as India&rsquo;s middle class grew.</p>
-<p>But what has happened? GDP has structurally slowed down to 6-6.5%. Something strange has occurred: savings for the typical middle class (people earning 5-15 lakhs) have gone down. This undermines the premiumization thesis. So many of those high-PE stocks are sitting on assumptions that no longer hold. <strong>Anything that is discretionary, trading at a high PE, and caters primarily to the typical middle class is a dangerous combination to hold.</strong></p>
+        <p>NVIDIA reports earnings, beats Wall Street by 20%, and the stock falls 8% after-hours. Tesla reports earnings, misses by 5%, and the stock rips 12% the next morning. Retail investors call this "the market is irrational." It isn't. The market is doing exactly what an efficient pricing engine should do.</p>
+
+        <p>The stock price already contains everyone's best guess of what earnings will be. By the time a company reports, the consensus EPS number is baked in &mdash; it's the central case. What <em>moves</em> the price is the gap between the actual print and what was already discounted. That gap is called the <strong>surprise</strong>.</p>
+
+        <div class="math-block">
+          Surprise % = (EPS<sub>actual</sub> &minus; EPS<sub>consensus</sub>) &divide; EPS<sub>consensus</sub>
+          <span class="math-where">if you only watch the headline EPS and ignore the surprise, you'll be wrong about direction half the time</span>
+        </div>
+
+        <p>The market's reaction function to surprise is well-documented and consistently <em>asymmetric</em><a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. A 10% beat might add 3&ndash;5% to the stock. A 10% miss might cost 8&ndash;12%. Misses are punished harder than equivalent beats are rewarded. That isn't a bug &mdash; it's a feature of how risk-averse investors process new information. A miss raises the variance of future earnings (maybe management is hiding something, maybe the moat is cracking), and higher variance means a higher discount rate, which means a lower price even if the central case is unchanged.</p>
+
+        <!-- WIDGET 2: Earnings Surprise Simulator -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; The asymmetric reaction function</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Earnings surprise</span><span class="slider-value" id="w2-surp-val">+0.0%</span></div>
+              <input type="range" id="w2-surp" min="-20" max="20" value="0" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Asymmetry factor</span><span class="slider-value" id="w2-asym-val">2.0×</span></div>
+              <input type="range" id="w2-asym" min="1" max="4" value="2" step="0.1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Idiosyncratic vol (σ)</span><span class="slider-value" id="w2-vol-val">3.5%</span></div>
+              <input type="range" id="w2-vol" min="1" max="8" value="3.5" step="0.1">
+            </div>
+          </div>
+          <div class="greek-grid">
+            <div class="greek-cell"><div class="greek-label">Predicted 1-day move</div><div class="greek-value" id="w2-move">&mdash;</div></div>
+            <div class="greek-cell"><div class="greek-label">% of history worse</div><div class="greek-value" id="w2-pct">&mdash;</div></div>
+            <div class="greek-cell"><div class="greek-label">Beat / Miss</div><div class="greek-value" id="w2-class">&mdash;</div></div>
+            <div class="greek-cell"><div class="greek-label">Beats : Misses</div><div class="greek-value" id="w2-ratio">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Each dot is one simulated post-earnings report. The black line is the asymmetric reaction function. Drag the surprise slider &mdash; the big white-bordered marker moves through the cloud. Push asymmetry up to 4&times; and you'll see misses tunnel into the bottom-left much faster than beats reach the top-right.</p>
+        </div>
+
+        <p>Two practical lessons from playing with this. <strong>First</strong>: a "great" earnings print is not enough &mdash; it has to beat what was already expected. NVIDIA in Q3 2024 reported revenue up 94% year-over-year and the stock fell because the guide was "only" up 70%. <strong>Second</strong>: never average down on a miss until you understand <em>why</em>. The asymmetry exists because misses contain information beyond the number itself. If the market is yanking 12% off a 4% miss, the market is saying it no longer trusts the next four quarters of guidance.</p>
+
+        <p>The asymmetry also explains the strange post-earnings drift that academic finance has documented for over fifty years. After a positive surprise the stock keeps drifting up for weeks; after a negative surprise it keeps drifting down. The simplest explanation is informational stickiness &mdash; analysts revise estimates slowly, institutions rebalance over days not seconds, and the new fundamental signal takes a while to be fully absorbed. For the patient investor this is actionable: a quality business that posts a clean beat and is being punished anyway (because of macro fears or sector rotation) is often a setup where the eventual re-rating happens not on the day of the report but in the weeks after. The market is mostly efficient. It is not instantly efficient.</p>
+
+        <p>There is one more pattern worth knowing. Stocks with high implied volatility going into earnings &mdash; usually high-PE growth names &mdash; have <em>larger</em> absolute reactions in both directions. This is mechanical: a 4% miss on a name that normally moves 1% a day is a 4-sigma event by the market's own pricing, so the post-earnings adjustment has to be commensurately large. The same 4% miss on a low-volatility utility moves the stock 1-2%. If you own a high-multiple growth name, you are implicitly long volatility around earnings &mdash; even if you've never thought about it that way.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the "whisper number"</summary>
+          <p>Consensus EPS is the published average of analyst estimates. The <em>whisper number</em> is the unwritten figure that institutional buyers are actually positioned for &mdash; usually higher than consensus for high-momentum names and lower than consensus for distressed ones. When a stock beats consensus but falls, the surprise relative to the whisper was negative. This is why Bloomberg terminals show "estimate revisions in the last 7 days" as a key field &mdash; it's the closest public proxy for where the whisper is moving.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-price-correction-vs-time-correction-the-two-wealth-destroyers">
+    <!-- ============================================================
+         V. WIDGET 3 — The three drivers over decades
+         ============================================================ -->
+    <section class="reveal" id="v-three-drivers">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. Price Correction vs Time Correction: The Two Wealth Destroyers</h2>
+        <h2>How much of the S&amp;P's return is multiple expansion vs. growth vs. dividends?</h2>
       </div>
       <div class="section-content">
-        <p>As investors, you need to understand that there are two types of corrections in the market. Most people only think about price correction. The smarter investors also prepare for time correction.</p>
-<p><strong>Price correction</strong> is when the stock price falls sharply. This usually happens to firms that are fundamentally bad, or where the business has deteriorated. The firm loses stock value over time. This hurts investors visibly, and they stop investing if it happens to them frequently.</p>
-<p><strong>Time correction</strong> is the silent killer. This usually happens when a PE re-rating is underway. The stock does not lose much value, but it moves sideways for a frustratingly long period. Your money is not losing value on paper. But it is losing its most precious resource: time.</p>
-<p>The Bata India example I mentioned earlier is a textbook illustration of time correction. Six years. Zero returns. The business was fine. Sales grew from 3,000 to 3,500 crore. But the PE went from 83 to 43, and the stock went absolutely nowhere.</p>
-<p>ITC is another classic case. The stock has been in a valuation correction for years. Earnings have consistently disappointed investors. The PE keeps adjusting downward. At a PE of 21, it is not discounted enough for a bulk buy. The stock is decent. The business is fine. But you would be buying into a time correction that can drag on further.</p>
-<p>IRCTC makes this point even more starkly. It will always be a great revenue-making firm. But one way or another, the increase in revenues is NOT systematically passed onto shareholders. The stock is back to its 2021 price. So from a shareholder returns perspective, you have had years of dead money despite a fundamentally sound business. That is time correction in its purest form.</p>
-<p>Jio Financial Services is a live example. After its 2023 rally, the stock peaked at a PE of around 400. Since then, the PE has been correcting. At 120 PE, is it expensive? Nobody can definitively say what the right PE for Jio Fin is. But whenever it starts its next growth phase, it is likely a 20%+ CAGR business. The key is not buying at extremely premium valuations and getting trapped in a multi-year time correction.</p>
-<blockquote>
-<p><strong>In bull markets, you can easily get trapped with high PE stocks where the chances of time correction are very high. The only reason to hold through a time correction is if the EPS growth will eventually pull the stock price to new highs.</strong></p>
-</blockquote>
-<p>Here is how to think about this practically. The NIFTY itself goes through these phases. It averages around 12-13% returns per year, which means the NIFTY should double every 5.5-6 years. Before COVID, it was at 12,500. By 2025, it was around 24,000 in roughly 5 years. That means it was somewhat fairly valued. Not overvalued, not undervalued. Just fair.</p>
-<p>What happens when the market is fairly valued? You get time correction. The market does not crash, but it does not run either. It consolidates in a range. During the last valuation correction from October 2021 to roughly May 2023, rotating capital was the only way to make sensible returns. If you bought and held through that phase, you experienced time correction. Your money sat idle while inflation eroded its purchasing power.</p>
-<p>The practical lesson: when markets are fairly valued or overvalued, keep 15-20% cash positions. When the inevitable correction comes &ndash; whether a price correction or a time correction that creates pockets of undervaluation &ndash; you deploy that cash into the best opportunities. The people who have cash when fear is maximum make the most money.</p>
-<p>And do not underestimate the power of this approach. During one such correction, I invested close to 5 crore by buying at supports and booking at resistance, generating 37-40 lakhs of profit within a month. This is not trading. This is capital rotation based on understanding where PE stands relative to its cycle.</p>
-<p>The only reason a capital rotation strategy fails is if the market goes into a structural decline. This rarely happens, especially when firms are growing their earnings. Keep a check on earnings. If earnings are growing, the market will eventually follow. The only question is when.</p>
+        <p>You've heard "stocks return 10% a year over the long run." That number is real, but it is a brutal oversimplification of what actually happens. The 10% is a blended figure across vastly different decades &mdash; and the <em>mix</em> of where the return came from changes more than the total does.</p>
+
+        <p>The S&amp;P 500 (and its predecessor indices going back to 1900) decomposes into three drivers using exactly the framework from Section II:</p>
+
+        <ul>
+          <li><strong>EPS growth</strong> &mdash; the businesses earned more dollars per share. The underlying engine.</li>
+          <li><strong>Multiple expansion / contraction</strong> &mdash; the market changed how much it would pay per dollar of those earnings. The mood.</li>
+          <li><strong>Dividend yield</strong> &mdash; the cash actually returned to shareholders. The boring rent.</li>
+        </ul>
+
+        <p>The widget below animates the decade-by-decade decomposition from 1900 to the 2020s. Hit play. Watch the mix transform.</p>
+
+        <!-- WIDGET 3: The three drivers over decades -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; S&amp;P 500 total return decomposed by decade</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="btn-group">
+            <button class="btn-primary" id="w3-play">Play</button>
+            <button class="btn-secondary" id="w3-reset">Reset</button>
+          </div>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Through decade</span><span class="slider-value" id="w3-dec-val">2020s</span></div>
+              <input type="range" id="w3-dec" min="0" max="12" value="12" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Animation speed</span><span class="slider-value" id="w3-speed-val">1.0×</span></div>
+              <input type="range" id="w3-speed" min="0.5" max="4" value="1" step="0.5">
+            </div>
+          </div>
+          <p class="widget-hint">Each bar is one decade of nominal S&amp;P 500 annualised return, split into EPS growth (purple), multiple change (gold), and dividends (slate). The 1970s and 2000s look completely different from the 1990s and 2010s &mdash; that's the &ldquo;regime&rdquo; debate in one chart.</p>
+        </div>
+
+        <p>The patterns that fall out of this are jarring once you see them.</p>
+
+        <p>The <strong>1950s and 1990s</strong> were the great multiple-expansion decades. In the 1990s, EPS grew about 7% a year &mdash; respectable but not spectacular &mdash; while the multiple roughly doubled from a PE of 15 to a PE near 30. Roughly half the decade's return was the market re-rating, not the businesses delivering. When the dot-com bubble burst, the multiple did its mean-reversion, and the 2000s gave back almost a full decade of price appreciation despite EPS continuing to grow.</p>
+
+        <p>The <strong>1970s</strong> were the opposite. Brutal multiple contraction &mdash; PE compressed from 18 to under 8 &mdash; while EPS actually grew with inflation. Without dividends, the decade was a disaster. <em>With</em> dividends (which were 4&ndash;5% yields in that era), the total return came out positive but mostly cash.</p>
+
+        <p>The <strong>2010s</strong> were the cleanest "balanced" decade in a century: EPS growth, modest multiple expansion, and 2% dividends roughly summed to a 13% annualised total return with no single driver dominating. That balance is also why nobody saw the 2020s coming &mdash; a single year of pandemic, monetary stimulus, and AI hype rewrote the multiple in one direction, then yanked it back, then rebuilt it again.</p>
+
+        <p>Notice what the <strong>1930s and the 1970s</strong> have in common despite looking entirely different on the surface. Both were dominated by multiple <em>contraction</em>. The 1930s lost half their multiple from deflation and economic collapse; the 1970s lost over half of theirs to inflation and rising rates. The two macro environments are opposites &mdash; one is the absence of inflation, the other is too much of it &mdash; but the equity-market consequence is the same: the PE term goes negative for a decade, and you need either heroic EPS growth or fat dividends to come out ahead. Most retail investors do not have a mental model for "the multiple itself can compress for ten years." The decade view forces that model on you.</p>
+
+        <p>And one more observation that doesn't fit a neat narrative. <em>Dividend yield as a share of total return has been falling steadily for a century.</em> In the 1900s and 1940s, dividends were the dominant component &mdash; 5% out of an 8% total. By the 2010s, dividends were 2% out of 13%. This isn't because companies got cheap with cash; it's because they shifted the return-of-capital channel to buybacks (which show up inside EPS as a denominator effect, not as cash to shareholders). So the "EPS growth" bar in modern decades is partly capturing what would historically have been "dividend yield." The total return is still real. The plumbing changed.</p>
+
+        <div class="callout">
+          <div class="callout-title">The point</div>
+          <p>"Stocks return 10%" is the average answer to a question that has a different answer every decade. If you buy when multiples are at the top of their century-long range, you're betting on EPS to carry the entire return &mdash; the multiple has no further to expand. If you buy when multiples are compressed, you have a tailwind. <strong>Where the multiple sits today, relative to history, is the single most important number nobody talks about.</strong></p>
+        </div>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-how-to-identify-what-you-are-actually-betting-on">
+    <!-- ============================================================
+         VI. The high-PE trap
+         ============================================================ -->
+    <section class="reveal" id="vi-trap">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. How to Identify What You Are Actually Betting On</h2>
+        <h2>What is the high-PE trap, and why is time correction worse than a crash?</h2>
       </div>
       <div class="section-content">
-        <p>Now let me give you a practical framework for every stock you look at. Before you invest a single rupee, answer these three questions:</p>
-<p><strong>Question 1: Am I betting on PE expansion, EPS growth, or both?</strong></p>
-<p>If you are buying Indian IT stocks right now, you are making a bet on PE expansion. These stocks have been undervalued relative to their fundamentals. PPFAS, one of India&rsquo;s most respected mutual funds, has been increasing its allocation to IT stocks since January. The bet is that when sentiment shifts, the PE re-rates upward, and you capture that expansion. This is smart money making a PE expansion bet on a sector with decent fundamentals.</p>
-<p>If you are buying Meta, Amazon, or Microsoft, you are primarily making an EPS growth bet. All three trade below their long-term PE ratios, so you are actually NOT buying expensive from a PE standpoint. What you are buying is 20% CAGR earnings growth in industries that are likely to outperform GDP. Bill Ackman put $2 billion on Meta stock. This is not a narrative bet. This is a math bet. The earnings will grow, and the stock price will follow.</p>
-<p>If you are buying a hospital stock like Max Healthcare at a reasonable valuation, you are betting on both. Hospitals benefit from structural tailwinds that should drive PE expansion (more investor interest in healthcare as a theme) AND EPS growth (20% earnings growth driven by India&rsquo;s formalization of healthcare).</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>There are two ways the market punishes you for buying at a stretched multiple. The visible one is the crash &mdash; the stock falls 40%, you panic, you sell at the bottom, the story ends. Painful, but at least it's over.</p>
 
-<p>Look at this chart carefully. Stock A is a pure PE expansion bet: if the PE goes from 20 to 30 over 5 years, you make 50% even with flat earnings. Nice, but it requires the market to cooperate. Stock B is a pure EPS growth bet: 18% annual EPS growth with no PE change gives you 129% returns over 5 years. The business does all the work. Stock C is the trap: 15% EPS growth sounds great, but if the PE contracts from 40 to 25, you barely break even after 5 years. This is the DMART scenario. This is the high-PE trap. The earnings grow, but the PE compression eats all your returns.</p>
-<p><strong>Question 2: What is the margin of safety if my PE expansion bet does not work?</strong></p>
-<p>This is critical. If you buy a stock at PE 20 betting on PE expansion to 30, and the PE stays at 20, what happens? If the EPS is growing at 15%, you still make 15% returns. Your floor is EPS growth. That is margin of safety.</p>
-<p>But if you buy a stock at PE 100 betting on PE expansion to 120, and the PE contracts to 60, even 20% EPS growth will not save you. Your EPS goes up 20%, but your PE drops 40%. Net result: you lose money despite the company doing well. No margin of safety.</p>
-<p><strong>Question 3: What are the alternative opportunities?</strong></p>
-<p>This is what most investors forget. You do not invest in a vacuum. CDSL at 67 PE might be a fine business, but there are much better risk-adjusted stocks in the US. Amazon at a reasonable PE with 20%+ earnings growth is simply a better bet. When you buy CDSL at 67 PE, you need everything to go right. When you buy Amazon at a fair PE, you need the world&rsquo;s largest e-commerce and cloud company to keep doing what it has been doing for 20 years.</p>
-<p>Here is a quick framework I use for evaluating Indian stocks specifically. I look for 6 things:</p>
-<ol>
-<li><strong>Unit economics</strong> &ndash; is this a needed product at a sensible price point?</li>
-<li><strong>Expansion/contraction cycle</strong> &ndash; is the industry still expanding or has it matured?</li>
-<li><strong>Growth rate</strong> &ndash; at least 15% profit growth for the next 3 years</li>
-<li><strong>Competition</strong> &ndash; can the firm survive and defend its position?</li>
-<li><strong>Valuation</strong> &ndash; some kind of stress, discount, or market mis-pricing</li>
-<li><strong>Margins</strong> &ndash; will they expand or shrink going forward?</li>
-</ol>
-<p>If a stock passes all six filters and is available at a reasonable PE, you are likely making an EPS growth bet with a margin of safety. If it fails on valuation but passes everything else, you are making a PE expansion bet without a safety net. Know the difference.</p>
+        <p>The invisible one is <strong>time correction</strong> &mdash; the stock simply does nothing for six years while the rest of the market doubles. The business keeps growing. The numbers look fine. The PE quietly normalises from 80 to 30, and EPS growth has to claw back every point of multiple contraction before you see a single rupee of return. You don't panic-sell because there's nothing to panic about. You just lose six years.</p>
+
+        <p>The math is unambiguous. If you buy a stock at PE 80 and the PE normalises to 30 over six years &mdash; a 62.5% multiple contraction &mdash; the business has to grow EPS at <span class="math">(1/0.375)<sup>1/6</sup> &minus; 1 &asymp; 17.7%</span> per year just to keep the stock price flat. To deliver a 10% return on top of that, EPS needs to grow at roughly 28% annually for six straight years. That is heroic. The number of businesses that compound earnings at 28% for six years is in the single digits per decade.</p>
+
+        <p>Bata India 2019&rarr;2025 was a textbook time correction. So was IRCTC from its 2021 highs. So was every Indian SaaS name that IPO'd at 30&times; revenue. The investors who held them are not down. They are just deeply behind whoever held a 12% Treasury bill, and they don't fully realise it because their statement says "+2%" instead of "&minus;30%". The opportunity cost is invisible to the same psychology that makes losing $100 hurt more than missing out on $300 of gains.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the "justified" PE</summary>
+          <p>The classical Gordon Growth model says a justified forward PE is roughly <span class="math">(1 &minus; b) &divide; (k &minus; g)</span>, where <span class="math">b</span> is the earnings retention ratio, <span class="math">k</span> is the cost of equity, and <span class="math">g</span> is the long-run earnings growth rate. With <span class="math">k = 10%</span> and <span class="math">g = 5%</span>, that puts justified PE around 12&ndash;15.</p>
+          <p>When NVDA traded at PE 80 in mid-2024, the implied long-run <span class="math">g</span> needed to justify it was around 8% in perpetuity. Plausible? Maybe, for the next decade. In perpetuity? Mathematically impossible &mdash; nothing grows faster than nominal GDP forever. So even when the stock is "right" you're implicitly betting on a finite-but-large window before mean reversion kicks in. Knowing that window matters.</p>
+        </details>
+
+        <p>The reason mutual funds don't warn you about high-PE traps is the same reason cigarette companies didn't warn you about cancer in 1965. SIP flows depend on the appearance of constant progress. A frank conversation about "this category is in a multi-year time correction and you should rotate out" is a marketing disaster. So the message gets diluted to "stay invested for the long term" &mdash; which is technically not wrong, but routes around the actionable insight.</p>
+
+        <p>There is also a survivorship-bias trap embedded in the "high-multiple businesses justify themselves over time" argument. Yes, Amazon traded at PE 100+ for years and the business eventually grew into it. So did Microsoft in the late 1990s &mdash; eventually. The ones that <em>didn't</em> grow into their multiples are forgotten. Sun Microsystems traded at PE 70 in 2000; by 2005 it was a takeover target at a fraction of the price, and most retail investors who held it ate ten years of dead money. The lesson is not "never buy high-PE stocks." It's "high-PE stocks need an exceptional, durable, defensible reason for the multiple to hold &mdash; and most don't have one."</p>
+
+        <p>How do you tell the difference in real time? Three filters that work surprisingly well. <strong>First</strong>: is the company growing earnings faster than the implied multiple decay required? Run the math like the example above &mdash; if normalisation needs 17% EPS growth for six years, does the company actually do 20%+ historically? <strong>Second</strong>: is the moat structural or narrative? Network effects, scale advantages, regulatory protection survive decades. "First-mover advantage" and "thought leadership" don't. <strong>Third</strong>: is the high multiple being awarded by sophisticated buyers (sovereign wealth funds, multi-strategy hedge funds) or by retail momentum? Watch the institutional ownership reports. When the smart money quietly trims and retail keeps buying the dip, the time correction has already started &mdash; you just can't see it in the price yet.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-the-macro-overlay-why-market-level-pe-matters-more-than-your-stock-pick">
+    <!-- ============================================================
+         VII. When to bet on which lever
+         ============================================================ -->
+    <section class="reveal" id="vii-bet">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. The Macro Overlay: Why Market-Level PE Matters More Than Your Stock Pick</h2>
+        <h2>When should you bet on PE expansion vs. EPS growth?</h2>
       </div>
       <div class="section-content">
-        <p>Here is an important conceptual point that most stock pickers miss entirely: <strong>if the overall market is undergoing PE contraction, even your good stock picks will do nothing.</strong></p>
-<p>Let me explain. If you buy good stocks in the Indian market, but the &ldquo;market&rdquo; as a whole undergoes PE correction, those good stocks stagnate or fall. This is because institutional capital flows drive the broad market PE. When FIIs are selling Indian equities (which has been happening for an extended period), even fundamentally strong stocks get dragged down.</p>
-<p>Right now in India, the average PE of mid and small caps is in excess of 40+. This means valuations are still elevated at the index level. Even good mid and small cap stocks will get hit in a broad correction. Aavas Financiers is a perfect example. The numbers are fine. DII, FII, and promoters have all built positions. They have not cut their stakes. Revenues and profits are all up. But the stock is going through a valuation correction because the entire small and mid cap segment is correcting.</p>
-<p>This brings us to a crucial comparison between Indian and US markets.</p>
-<p>In India, the top 7 profit generators &ndash; Reliance, SBI, HDFC Bank, ONGC, TCS, ICICI Bank, IOCL &ndash; together earn roughly 40-45% of the total net profits of all NIFTY 50 companies. Their average PE is 18.7. The remaining 43 firms on NIFTY 50 have an average PE of 25-26X. For NIFTY 50 to be considered undervalued, the average PE should be around 22 or less.</p>
-<p>Now here is the problem: if you invest in the top 7 profit-making firms in India, the average CAGR of stock price over various time periods is:</p>
-<ul>
-<li>1-year: around 10-12%</li>
-<li>3-year: around 11-13%</li>
-<li>5-year: around 11-13%</li>
-<li>7-year: around 11-13%</li>
-<li>10-year: around 13-15%</li>
-</ul>
-<p>If you go beyond the top 7 to the remaining 43 firms, you are essentially buying &ldquo;overvalued.&rdquo; If you go to small and mid caps too early, the Sharpe ratio is not sensible compared to Nasdaq.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Both bets work. Both have a place in a portfolio. They are not interchangeable, and confusing one for the other is the most common analytical error in retail investing.</p>
 
-<p>These are facts. Zero mutual fund managers will tell you this because it would hurt their SIP flows. If you take any timeframe &ndash; 5, 7, 10, or 20 years &ndash; and adjust for currency, Nasdaq Composite beats Nifty 50. This means that by investing in a lower risk asset (Nasdaq), you get almost equal or better returns than Indian small and mid caps, with less volatility.</p>
-<p>The macro overlay matters enormously for your returns. You can pick the perfect stock, but if you are in the wrong market at the wrong valuation level, your returns will disappoint. This is why thinking about asset allocation across markets is not optional. It is essential.</p>
-<p>India struggled in 2025 (stock market wise) because the upper income segment is not big enough and AI is not getting built in India. The AI revolution and upper income spending added most to the US GDP. Reliance pausing its plan to build lithium batteries due to lack of technical knowhow is a reality check. As an investor, you should be where the growth is. And right now, more growth is happening in US tech than in most Indian sectors.</p>
-<p>But this does not mean abandon India entirely. It means be strategic about which PE x EPS bets you take:</p>
-<ol>
-<li><strong>Buy AI stocks in the US</strong> when available at reasonable prices &ndash; these are EPS growth bets</li>
-<li><strong>In India, buy industries growing at least 50% faster</strong> than general economic growth (like energy trading, fintech) &ndash; these are EPS growth bets</li>
-<li><strong>Buy firms where PE expansion is likely</strong> (like IT firms currently undervalued) &ndash; these are PE expansion bets with earnings support</li>
-<li><strong>Buy firms where operating profit margins are likely to expand</strong> (like hospitals) &ndash; these are EPS growth bets with potential PE expansion kicker</li>
-<li><strong>Buy firms where the bottom line is turning positive</strong> (like select turnaround stories at low P/S ratios) &ndash; these are EPS inflection bets</li>
-</ol>
-<p>The investment landscape right now is less about individual stocks and more about asset class allocation. Allocate your capital poorly across markets and themes, and you will see bad results regardless of how well you pick individual names.</p>
+        <p><strong>A PE-expansion bet</strong> says: this asset is currently mispriced. The market will eventually agree with me. When sentiment shifts, the multiple rerates, and I capture the gap. This bet is fast when it works &mdash; the rerate can happen in months &mdash; and it has a hard ceiling determined by what a sensible long-run multiple looks like. It is a bet about <em>other investors</em>, not about the company. Indian IT names trading at 18&times; in late 2024, when their long-term average was 24&times;, were a classic PE-expansion setup.</p>
+
+        <p><strong>An EPS-growth bet</strong> says: the business will compound earnings faster than the market expects, for longer than the market expects. The multiple may not change &mdash; in fact, ideally it doesn't, because then the stock price tracks the EPS trajectory directly. This bet is slow but has no ceiling. Microsoft from 2014 to 2024 was a textbook EPS-growth bet: PE roughly stable, EPS roughly 4&times;, stock roughly 4&times;. The business did all the work.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Question</th><th>PE-expansion bet</th><th>EPS-growth bet</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>What has to be true?</td><td>Other investors change their mind</td><td>The business keeps executing</td></tr>
+            <tr><td>Time horizon</td><td>Months to a year</td><td>3&ndash;10 years</td></tr>
+            <tr><td>How is it triggered?</td><td>Macro shift, sector rotation, news</td><td>Quarterly compounding</td></tr>
+            <tr><td>What is the ceiling?</td><td>~Mean multiple for the asset class</td><td>None in principle</td></tr>
+            <tr><td>What is the floor?</td><td>EPS growth if the multiple doesn't move</td><td>Multiple contraction if you overpay</td></tr>
+            <tr><td>Worst case</td><td>Multiple goes the other way</td><td>Business stumbles, multiple AND earnings drop</td></tr>
+            <tr><td>Where it shines</td><td>Sideways and rising markets</td><td>Every market eventually</td></tr>
+          </tbody>
+        </table>
+
+        <p>The combined bet &mdash; both PE expansion and EPS growth &mdash; is the rarest and most powerful setup. You buy a quality business at a depressed multiple after a sentiment shock. The earnings keep compounding, and the multiple eventually returns to fair. Returns multiply. Natco Pharma at PE 8 with intact growth was this setup. Meta in late 2022 at PE 12 with intact ad-revenue growth was this setup. They are uncommon &mdash; the market is mostly efficient &mdash; but they are what generational wealth gets built on.</p>
+
+        <p>The combined <em>anti-bet</em> &mdash; both PE contraction and EPS deceleration &mdash; is what blows up portfolios. The high-multiple growth darling that misses guidance is the textbook case. The PE contracts because the growth story is questioned; the EPS contracts because the growth story was real and is now ending. Both terms work against you simultaneously. Zoom from 2021 to 2023 lost 88% this way<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. Peloton lost 97%. Their earnings didn't fall 88% &mdash; the <em>combination</em> of multiple compression and modest earnings reset did the rest.</p>
+
+        <p>So how do you choose, in practice? Match the bet to the market regime, your conviction, and your time horizon. When index multiples are stretched (top quartile of their history), the PE-expansion lever at the index level is exhausted &mdash; you have to find individual mispricings, which is hard and frequently wrong. EPS-growth bets dominate in that environment because the only sustainable return source <em>is</em> the business. When index multiples are compressed (bottom quartile), the opposite holds: the PE-expansion tailwind alone can deliver a decade of double-digit returns even on mediocre stock picks. The 2009-2019 S&amp;P run was largely a multiple-expansion phenomenon off a compressed 2009 base &mdash; the bull market many people credit to their stock-picking skill was, in aggregate, the market re-rating from 13&times; to 22&times;.</p>
+
+        <p>The other dimension is your own time horizon. PE-expansion bets resolve fast or not at all &mdash; if the rerating doesn't happen within a year or two, the thesis is usually broken (sentiment moved on, the catalyst evaporated). EPS-growth bets resolve slowly &mdash; you may need three to five years for the earnings trajectory to fully express itself in the price, because the multiple can move against you in the short term even when the business is delivering. If your money has a one-year horizon, PE-expansion bets are the natural fit. If it has a ten-year horizon, EPS-growth bets compound more reliably. Mismatch the horizon to the bet and you'll end up selling the long-duration thesis at the worst possible moment.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-valuation-tools-beyond-pe-matching-the-metric-to-the-business">
+    <!-- ============================================================
+         VIII. Action
+         ============================================================ -->
+    <section class="reveal" id="viii-portfolio">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. Valuation Tools Beyond PE: Matching the Metric to the Business</h2>
+        <h2>What does this mean for the next stock you buy?</h2>
       </div>
       <div class="section-content">
-        <p>PE is the most common valuation metric, but it is not always the right one. Using the wrong metric for the wrong type of business will lead you to wrong conclusions. Let me help you understand when to use what.</p>
-<p><strong>PE Ratio (Price to Earnings):</strong> Best for profitable, stable companies with consistent earnings. Use PE when comparing firms within the same industry. For large cap, dividend-paying, profit-generating companies, PE works well. Banks, IT companies, FMCG players &ndash; PE is your primary tool here. When I say HDFC Bank is undervalued or Meta trades below its long-term PE, the PE ratio is the right lens.</p>
-<p>However, PE has clear limitations. For firms like VBL (Varun Beverages), which is more of an infrastructure and bottling play, <strong>EV/EBIT</strong> is more appropriate. VBL&rsquo;s EV/EBIT of roughly 38.7X versus a historic average of 30 tells us the firm has expanded in size but is not making enough earnings relative to that expansion. PE would miss this nuance because it does not account for the firm&rsquo;s capital structure and debt.</p>
-<p><strong>EV/EBITDA (Enterprise Value to EBITDA):</strong> Use this for capital-intensive businesses like hospitals, real estate, and infrastructure companies. PE only includes equity in its calculation. EV includes equity, debt, and cash on hand, giving a more holistic view of the total enterprise. For hospitals and real estate firms, EV/EBITDA is the correct metric. As one of our community members correctly pointed out, analyzing hospital stocks through PE alone gives you an incomplete picture.</p>
-<p><strong>P/S (Price to Sales):</strong> Use this when earnings are negative or highly volatile. PVR is a perfect example. The PE went negative because the firm was losing money post-COVID. But you can still evaluate the stock using P/S. When the P/S is contracting and reaches a sensible level, it signals potential value even though the PE ratio is meaningless. This is how you find turnaround candidates that PE-only investors completely miss.</p>
-<p><strong>For small cap and growth-stage companies, PE ratios are often misleading.</strong> Duolingo is a small cap company. You simply cannot judge it by PE ratios. It has more to do with the growth rate and trajectory. The firm fell 20% after-hours despite beating earnings estimates because it pivoted its marketing model from paid back to freemium. This creates uncertainty around near-term earnings. But if you focus only on PE, you miss the bigger picture: Duolingo is positioning itself as the leading AI educational app, which explodes the Total Addressable Market. For such companies, look at revenue growth rates, DAU growth, and TAM expansion potential.</p>
-<p>The key insight is this: <strong>valuation metrics are tools, not answers.</strong> A PE of 18 for Dreamfolks is cheap because the growth is there. A PE of 100 for DMART is expensive because the growth trajectory cannot justify it. A PE of 67 for CDSL could go either way: either the firm expands revenues really fast, or it will see PE erosion. Context is everything.</p>
-<p>One powerful approach that has worked well for me: look at where the current PE is relative to the stock&rsquo;s own historical range. Amazon, Meta, and Microsoft all three trade below their long-term PE ratios right now. This means you are STILL not buying expensive, even though the absolute PE might look high to someone unfamiliar with these businesses. The market is giving you a discount on proven earnings compounders. When proven compounders trade below their own historical PE, and their earnings growth rate has not slowed, you invest aggressively.</p>
-<p>Conversely, when a stock like Whirlpool India trades at 50 PE and its own CEO says &ldquo;if we have a business trading at 50 times multiple, and your own company trades a lot lower, it is basically an asset arbitrage&rdquo; &ndash; that is management telling you the PE is too high. When the parent company is selling because the Indian subsidiary&rsquo;s PE is elevated, listen to them. They know their business better than any analyst.</p>
-      </div>
-    </section>
+        <p>If you do nothing else differently after reading this, do this one thing: before any purchase, write down the decomposition.</p>
 
-    <section class="reveal" id="ix-your-investment-action-plan-putting-pe-x-eps-to-work">
-      <div class="section-heading">
-        <div class="section-number">IX.</div>
-        <h2>IX. Your Investment Action Plan: Putting PE x EPS to Work</h2>
-      </div>
-      <div class="section-content">
-        <p>Let me synthesize everything into an actionable framework you can use starting today.</p>
-<p><strong>Step 1: Decompose every investment into PE and EPS components.</strong></p>
-<p>Before you buy anything, ask: where will my returns come from? If you are buying Indian IT, you are betting on PE expansion. If you are buying US tech, you are betting on EPS growth. If you are buying hospitals, you are betting on both. Be honest about this. Do not tell yourself you are a &ldquo;long-term investor&rdquo; when you are actually making a short-term PE expansion bet on an overvalued stock.</p>
-<p><strong>Step 2: Avoid the high-PE trap ruthlessly.</strong></p>
-<p>Anything that is discretionary, trading at a high PE, and caters primarily to the typical middle class is a dangerous combination. The savings rate for people earning 5-15 lakhs has gone down. Premiumization assumptions from 5 years ago may not hold. If you are holding high PE consumer stocks, ask yourself: can this company grow earnings fast enough to justify the multiple? If the answer requires heroic assumptions, exit. I say the same boring things repeatedly: DMART at 100 PE, Lenskart at 200 PE, Eternal at 1500 PE &ndash; these are speculative positions, not investments.</p>
-<p><strong>Step 3: Build positions in tranches, not all at once.</strong></p>
-<p>General advice: always buy any stock in 3-5 tranches. This is not a risk management gimmick. It is the single most practical way to handle the uncertainty of PE expansion and contraction. If you bulk buy at the wrong PE level, you are stuck for years. If you build in tranches, your average cost smooths out the PE volatility. For example, with Jio Fin: invest a fixed budget monthly, but only buy if the stock is at or below its trading channel. If it is above, skip that month. This disciplined approach prevents you from buying at peak PE.</p>
-<p><strong>Step 4: Keep 15-20% cash when the market is fairly valued.</strong></p>
-<p>Big money does not come when things are fairly priced. It comes when things are discounted. Keeping 15-20% cash when markets are fair means you have ammunition when markets turn fearful. The most important decision is to keep emotions aside and follow simple math of risk management. The biggest loss in a sideways market is time correction loss. Cash positions help you avoid that.</p>
-<p>When the valuation of the market is not crazy high, you should buy it. But the valuation can go from discounted to hyper-discounted. Handling the fall is the hard part. If your portfolio falls from 100 to 85 (that is a 15% loss), invest MORE. Bring the loss down to -10%. Average at supports. Keep the losses in check. At some point the market reverts, and you win.</p>
-<p><strong>Step 5: Think globally, allocate across markets.</strong></p>
-<p>Your portfolio should be at least 25% in AI and global tech. If you do not know much about investing, simply buy Amazon, Meta, and Microsoft. These have close to zero chance of getting disrupted by AI because they ARE the AI companies. They trade below long-term PE ratios. Will they move tomorrow? I do not know. Will they move in a month? I do not know. But will they outperform the economy after 3.5 years? 99% chance that they do.</p>
-<p>With the trade wars increasing regionalism in the world, you need to think about multiple asset classes: how much in neutral currencies like Gold and BTC, how much in US vs India equities, whether to explore new emerging markets like UAE, how much in real estate, and whether to buy value economies like Europe. We worry too much about picking great individual stocks but forget that if emerging markets go down 40%, every stock within them goes down too.</p>
-<p><strong>Step 6: Use different strategies for different market phases.</strong></p>
-<p>In bull markets, ride the PE expansion but keep trailing stops. In sideways markets, rotate capital and sell options for income. In corrections, deploy your cash reserves into deeply undervalued assets. In a sideways market specifically, learning how to sell covered calls and cash-secured puts is a great income stream. A lot of money can be made there.</p>
-<blockquote>
-<p><strong>Investing is simple: buy high quality at a decent price in industries and segments which will do better than GDP. Then hold.</strong></p>
-</blockquote>
-<p>The stocks that will make you wealthy are not the ones that go up 50% in a month on narrative. They are the ones that compound EPS at 15-20% for a decade. That is how Amazon became Amazon. That is how HDFC Bank became HDFC Bank. That is how your wealth gets built: not through PE expansion lottery tickets, but through the relentless accumulation of earnings growth.</p>
-<p>The PE x EPS equation is not complicated. But internalizing it &ndash; truly making it the lens through which you evaluate every investment decision &ndash; is what separates investors from gamblers. Every time you look at a stock, ask: which variable am I betting on? Can I quantify it? What is my downside if I am wrong?</p>
-<p>If you can answer those questions honestly, you are already ahead of 95% of the market. Keep a check on earnings. Understand whether you are in a PE expansion or contraction cycle. Buy quality at reasonable valuations. Build in tranches. Keep cash reserves. Think globally.</p>
-<p>Do this consistently for 10 years, and you will build serious wealth. Not because you found some secret formula. But because you understood the only formula that matters.</p>
-<p><strong>Price = PE x EPS. Everything else is noise.</strong></p>
+        <ol>
+          <li><strong>What is my time horizon?</strong> One number, in years.</li>
+          <li><strong>What EPS growth do I expect over that horizon?</strong> Express as a CAGR. Be honest. Compare to the company's last 5-year actual CAGR.</li>
+          <li><strong>What will the multiple be at the end?</strong> Pick a number. Justify it with peer comparisons, the stock's own historical range, and the implied long-run growth rate from the Gordon model.</li>
+          <li><strong>Multiply the implied future EPS by the implied future PE.</strong> That's your target price.</li>
+          <li><strong>Divide by today's price.</strong> Is that the return you need for the risk you're taking?</li>
+        </ol>
+
+        <p>This exercise takes ten minutes and screens out 70% of the bad ideas before any money moves. Most retail investors skip it because step 3 forces them to articulate a multiple thesis, and most people don't have one &mdash; which is itself the signal that they're making a story-based bet rather than a math-based one.</p>
+
+        <p>A second rule: <strong>match the strategy to the regime.</strong> When market multiples sit in the top quartile of their historical range, you cannot count on multiple expansion at the index level &mdash; the index has used up its tailwind. In those phases, every dollar of return has to come from EPS growth or from being right about an individual mispricing. That makes stock-picking harder, not easier &mdash; and explains why most active managers underperform during stretched-multiple regimes (the universe of mispriced names shrinks just as the difficulty of finding them rises).</p>
+
+        <p>When market multiples are compressed &mdash; PE under 14 for the S&amp;P, under 18 for the Nifty in modern terms &mdash; the index itself is doing some of the work for you. You can buy quality with leverage from the multiple <em>and</em> the business. That is what Warren Buffett means when he says he likes to be greedy when others are fearful. He is not waxing poetic. He is saying: when the multiple is compressed, the PE term flips from headwind to tailwind, and the math works in your favour even on mediocre stock picks.</p>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p>Every stock you own is a bet on PE expansion, EPS growth, or both. If you don't know which one, you don't own a position &mdash; you own a story. Stories underperform math over any horizon longer than a news cycle. Pick a lever, write down the thesis, set the time horizon, and check the math against today's price. If the math doesn't work, the story won't save you.</p>
+        </div>
+
+        <p>The framework is not a trading system. It will not tell you what to buy tomorrow. What it does is force you to be honest about <em>what you're actually buying</em> when you click the button &mdash; the business, the sentiment, or both. Most retail losses come from confusion about which one. Most institutional alpha comes from clarity about it. The gap between those two facts is where 95% of investors live, and it doesn't have to be where you do.</p>
+
+        <p>One more piece of advice and then I'll stop. <strong>Build the decomposition habit on stocks you already own</strong> before you use it for new purchases. Pull up every position in your portfolio. Estimate where the PE was when you bought it, where it is now, and where you think it's going. Estimate the EPS trajectory the same way. Then look at the implied total return you're underwriting for each. You'll find at least one position that doesn't survive the exercise &mdash; usually a story stock you bought on momentum and never re-evaluated. Trim it. That single rotation, repeated annually, will compound into more lifetime alpha than any "next big idea" you ever find.</p>
+
+        <p>Price = PE &times; EPS. Decompose. Then decide.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">NVIDIA filings: FY2023 (Jan 2023) trailing EPS approximately $0.45 split-adjusted, share price ~$14; FY2025 (Jan 2025) trailing EPS approximately $2.85, share price ~$140. Decomposition uses simple ratio math: 10&times; &asymp; 1.58 &times; 6.33 with an interaction term that absorbs the residual. Numbers rounded; exact ratios shift the contribution split by a few percentage points without changing the qualitative story. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The asymmetric earnings-surprise reaction is one of the most-replicated findings in empirical finance. See Ball &amp; Brown (1968) for the original "post-earnings-announcement drift" effect; Skinner &amp; Sloan (2002) "Earnings Surprises, Growth Expectations, and Stock Returns" specifically documents the asymmetry where misses are punished roughly 2&times; harder than equivalent beats are rewarded, with the asymmetry strongest for high-multiple growth stocks. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Zoom (ZM) peaked at ~$559 in October 2020 trading at a forward PE near 150. By late 2023 the stock had fallen to ~$65 against a forward PE near 13. Earnings actually grew modestly over that window &mdash; the entire drawdown was multiple compression. Peloton (PTON) followed an even sharper version of the same trajectory after EPS turned negative, with the multiple losing meaning entirely and the stock pricing on revenue-multiple instead. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -310,12 +499,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -324,23 +513,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -355,624 +533,519 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 22.7}, {"x": 1, "y": 20.9}, {"x": 2, "y": 26.7}, {"x": 3, "y": 25.5}, {"x": 4, "y": 28.8}, {"x": 5, "y": 33.5}, {"x": 6, "y": 38.2}, {"x": 7, "y": 22.4}, {"x": 8, "y": 21.8}, {"x": 9, "y": 23.1}, {"x": 10, "y": 21.5}], "name": "Nifty 50 PE Ratio", "color": "#4299e1"}, {"data": [{"x": 0, "y": 7.9}, {"x": 1, "y": 8.2}, {"x": 2, "y": 10.5}, {"x": 3, "y": 10.9}, {"x": 4, "y": 12.2}, {"x": 5, "y": 13.5}, {"x": 6, "y": 17.4}, {"x": 7, "y": 17.8}, {"x": 8, "y": 19.7}, {"x": 9, "y": 24.9}, {"x": 10, "y": 23.0}], "name": "Nifty 50 (thousands)", "color": "#ed8936"}];
-  var xLabels = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
-  var visibleEnd = series[0].data.length;
+  <!-- ============================================================
+       WIDGET 1 — PE × EPS decomposition (stacked horizontal bar)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 320 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { p0: 100, p1: 200, e0: 5, e1: 7.5, yr: 5 };
 
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Indian Market PE Ratio vs Nifty 50 Level (2015-2025)";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
-      }
+    function decomp() {
+      var totalRet = state.p1 / state.p0 - 1;
+      var pe0 = state.p0 / state.e0;
+      var pe1 = state.p1 / state.e1;
+      var peRet = pe1 / pe0 - 1;
+      var epsRet = state.e1 / state.e0 - 1;
+      // Linear-space decomposition with cross term:
+      //   (1+r) = (1+rPE)(1+rEPS) = 1 + rPE + rEPS + rPE*rEPS
+      var cross = peRet * epsRet;
+      var cagr = state.yr > 0 ? Math.pow(state.p1 / state.p0, 1 / state.yr) - 1 : 0;
+      var epsCagr = state.yr > 0 ? Math.pow(state.e1 / state.e0, 1 / state.yr) - 1 : 0;
+      return {
+        totalRet: totalRet, peRet: peRet, epsRet: epsRet, cross: cross,
+        pe0: pe0, pe1: pe1, cagr: cagr, epsCagr: epsCagr
+      };
     }
-    if (allVals.length === 0) return;
 
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
+    function fmtPct(v) { return (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%'; }
 
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var d = decomp();
 
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
+      // Update stat cells
+      document.getElementById('w1-total').textContent = fmtPct(d.totalRet);
+      document.getElementById('w1-cagr').textContent = fmtPct(d.cagr);
+      document.getElementById('w1-pe').textContent = d.pe0.toFixed(1) + ' → ' + d.pe1.toFixed(1);
+      document.getElementById('w1-epscagr').textContent = fmtPct(d.epsCagr);
 
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
+      // Layout — title at top, single horizontal bar in the middle, legend at bottom
+      var pad = { top: 50, right: 20, bottom: 30, left: 30 };
+      var barTopY = pad.top + 30;
+      var barH = 70;
+      var barX = pad.left + 10;
+      var barRight = W - pad.right - 10;
+      var barW = barRight - barX;
 
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      // Title
+      drawTextCanvas(ctx, W / 2, 18, 'Total return: ' + fmtPct(d.totalRet) +
+        '   ·   ' + state.yr + 'y CAGR ' + fmtPct(d.cagr),
+        { fontSize: 13, color: 'var(--text)', weight: '600', baseline: 'middle' });
+
+      // Three contributions, signed. Plot positives going right from center,
+      // negatives going left. The center represents 0%.
+      var contribs = [
+        { name: 'EPS growth',      value: d.epsRet, color: '#44337a' },
+        { name: 'Multiple change', value: d.peRet,  color: '#d69e2e' },
+        { name: 'Interaction',     value: d.cross,  color: '#4a5568' }
+      ];
+
+      // Scale to fit the bar — use whichever side is larger.
+      var posSum = 0, negSum = 0;
+      contribs.forEach(function(c) { if (c.value >= 0) posSum += c.value; else negSum += c.value; });
+      var maxSide = Math.max(Math.abs(posSum), Math.abs(negSum), Math.abs(d.totalRet), 0.05);
+      var halfBarW = barW / 2 - 4;
+      var scale = halfBarW / maxSide;
+      var midX = (barX + barRight) / 2;
+
+      // Background bar
+      ctx.fillStyle = '#e8e6e0';
+      ctx.fillRect(barX, barTopY, barW, barH);
+
+      // Draw segments — stack positives rightward, negatives leftward.
+      var curR = midX, curL = midX;
+      contribs.forEach(function(c) {
+        var len = Math.abs(c.value) * scale;
+        if (len < 0.5) return;
+        var segX = c.value >= 0 ? curR : (curL - len);
+        ctx.fillStyle = c.color;
+        ctx.fillRect(segX, barTopY, len, barH);
+        // White separator at far edge
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        var sepX = c.value >= 0 ? segX + len : segX;
+        ctx.moveTo(sepX, barTopY);
+        ctx.lineTo(sepX, barTopY + barH);
+        ctx.stroke();
+        // Inline label if segment is wide enough
+        if (len > 64) {
+          drawTextCanvas(ctx, segX + len / 2, barTopY + barH / 2 - 7, c.name,
+            { fontSize: 11, color: '#fff', weight: '600', baseline: 'middle' });
+          drawTextCanvas(ctx, segX + len / 2, barTopY + barH / 2 + 9, fmtPct(c.value),
+            { fontSize: 11, color: '#fff', baseline: 'middle' });
+        }
+        if (c.value >= 0) curR += len; else curL -= len;
+      });
+
+      // Zero line through the bar
+      ctx.save();
+      ctx.strokeStyle = '#2d2d2d'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(midX, barTopY - 8);
+      ctx.lineTo(midX, barTopY + barH + 8);
+      ctx.stroke();
+      drawTextCanvas(ctx, midX, barTopY - 16, '0%',
+        { fontSize: 10, color: 'var(--text-secondary)', baseline: 'bottom' });
+      ctx.restore();
+
+      // Net marker — heavy vertical at where total return lands
+      var netX = clamp(midX + d.totalRet * scale, barX, barRight);
+      ctx.save();
+      ctx.strokeStyle = '#000'; ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(netX, barTopY - 14);
+      ctx.lineTo(netX, barTopY + barH + 14);
+      ctx.stroke();
+      drawTextCanvas(ctx, netX, barTopY + barH + 26, 'Net: ' + fmtPct(d.totalRet),
+        { fontSize: 11, color: 'var(--text)', weight: '600', baseline: 'middle' });
+      ctx.restore();
+
+      // Legend
+      var legendY = barTopY + barH + 56;
+      ctx.font = '11px Figtree, system-ui, sans-serif';
+      var legendItems = contribs.map(function(c) {
+        return { label: c.name + ': ' + fmtPct(c.value), color: c.color };
+      });
+      var totalWidth = 0;
+      legendItems.forEach(function(it) { totalWidth += 14 + 6 + ctx.measureText(it.label).width + 18; });
+      var lx = (W - totalWidth) / 2;
+      legendItems.forEach(function(it) {
+        ctx.fillStyle = it.color;
+        ctx.fillRect(lx, legendY - 6, 14, 12);
+        drawTextCanvas(ctx, lx + 20, legendY, it.label,
+          { fontSize: 11, color: 'var(--text)', align: 'left', baseline: 'middle' });
+        lx += 14 + 6 + ctx.measureText(it.label).width + 18;
       });
     }
 
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
-    }
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
-      } else {
-        html += 'Period: ' + idx + '<br>';
-      }
-
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
-          }
-        }
-      }
-
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
+    attachSliders([
+      { el: document.getElementById('w1-p0'), label: document.getElementById('w1-p0-val'), format: function(v){ return v.toFixed(0); } },
+      { el: document.getElementById('w1-p1'), label: document.getElementById('w1-p1-val'), format: function(v){ return v.toFixed(0); } },
+      { el: document.getElementById('w1-yr'), label: document.getElementById('w1-yr-val'), format: function(v){ return v.toFixed(0); } },
+      { el: document.getElementById('w1-e0'), label: document.getElementById('w1-e0-val'), format: function(v){ return v.toFixed(1); } },
+      { el: document.getElementById('w1-e1'), label: document.getElementById('w1-e1-val'), format: function(v){ return v.toFixed(1); } }
+    ], function(vals) {
+      state.p0 = vals['w1-p0']; state.p1 = vals['w1-p1'];
+      state.e0 = vals['w1-e0']; state.e1 = vals['w1-e1'];
+      state.yr = vals['w1-yr'];
+      draw();
     });
+  })();
+  </script>
 
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
+  <!-- ============================================================
+       WIDGET 2 — Earnings-surprise asymmetric reaction simulator
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { surp: 0, asym: 2.0, vol: 3.5 };
+    var samples = null;
 
-  draw();
+    // Asymmetric reaction function: positive surprises get a small slope,
+    // negative surprises get the same slope multiplied by the asym factor.
+    function reactionMean(surpPct, asym) {
+      var beatSlope = 0.45;  // pct stock-move per 1pp surprise on the upside
+      if (surpPct >= 0) return surpPct * beatSlope;
+      return surpPct * beatSlope * asym;
+    }
+    function predictedMove(surpPct) { return reactionMean(surpPct, state.asym); }
 
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 110}, {"x": 2, "y": 125}, {"x": 3, "y": 140}, {"x": 4, "y": 150}, {"x": 5, "y": 150}], "name": "Stock A: PE Expands 20 to 30, EPS flat", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 118}, {"x": 2, "y": 139}, {"x": 3, "y": 164}, {"x": 4, "y": 194}, {"x": 5, "y": 229}], "name": "Stock B: PE Stays at 20, EPS +18% per yr", "color": "#ed8936"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 96}, {"x": 2, "y": 93}, {"x": 3, "y": 90}, {"x": 4, "y": 96}, {"x": 5, "y": 96}], "name": "Stock C: PE Contracts 40 to 25, EPS +15% per yr", "color": "#48bb78"}];
-  var xLabels = ["Year 0", "Year 1", "Year 2", "Year 3", "Year 4", "Year 5"];
-  var visibleEnd = series[0].data.length;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "PE Expansion Bet vs EPS Growth Bet: Hypothetical 5-Year Returns";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
+    function regen() {
+      samples = [];
+      var n = 800;
+      for (var i = 0; i < n; i++) {
+        var surp;
+        // Mixture: 85% small surprises, 15% larger ones — gives a realistic
+        // fat-tailed surprise distribution.
+        if (Math.random() < 0.85) surp = randn(0, 4);
+        else surp = randn(0, 10);
+        var move = reactionMean(surp, state.asym) + randn(0, state.vol);
+        samples.push({ surp: surp, move: move });
       }
     }
-    if (allVals.length === 0) return;
 
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 40, right: 24, bottom: 50, left: 56 };
 
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
+      drawTextCanvas(ctx, W / 2, 14, '800 simulated post-earnings 1-day moves vs. surprise %',
+        { fontSize: 12, color: 'var(--text-secondary)', baseline: 'top' });
 
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
-
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
-
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      var xMin = -25, xMax = 25;
+      var yMin = -25, yMax = 25;
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['-25%', '-12%', '0%', '+12%', '+25%'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) { return (v >= 0 ? '+' : '') + v.toFixed(0) + '%'; }
       });
+
+      // Quadrant zero lines
+      ctx.save();
+      ctx.strokeStyle = '#999'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.beginPath(); ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+      var x0 = mapX(0, xMin, xMax, W, pad);
+      ctx.beginPath(); ctx.moveTo(x0, pad.top); ctx.lineTo(x0, H - pad.bottom); ctx.stroke();
+      ctx.restore();
+
+      // Scatter the samples
+      var beats = 0, misses = 0;
+      ctx.save();
+      ctx.globalAlpha = 0.4;
+      for (var i = 0; i < samples.length; i++) {
+        var s = samples[i];
+        if (s.surp >= 0) beats++; else misses++;
+        var sx = mapX(clamp(s.surp, xMin, xMax), xMin, xMax, W, pad);
+        var sy = mapY(clamp(s.move, yMin, yMax), yMin, yMax, H, pad);
+        ctx.fillStyle = s.move >= 0 ? '#38a169' : '#c53030';
+        ctx.beginPath();
+        ctx.arc(sx, sy, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      // Reaction-function mean line
+      ctx.save();
+      ctx.strokeStyle = '#2d2d2d'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      var first = true;
+      for (var x = xMin; x <= xMax; x += 0.5) {
+        var lineX = mapX(x, xMin, xMax, W, pad);
+        var lineY = mapY(reactionMean(x, state.asym), yMin, yMax, H, pad);
+        if (first) { ctx.moveTo(lineX, lineY); first = false; } else ctx.lineTo(lineX, lineY);
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Current pick — bold marker, label placed so it doesn't collide with the chart title.
+      var cx = mapX(clamp(state.surp, xMin, xMax), xMin, xMax, W, pad);
+      var cyVal = predictedMove(state.surp);
+      var cy = mapY(clamp(cyVal, yMin, yMax), yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 3;
+      ctx.fillStyle = state.surp >= 0 ? '#2f855a' : '#9b2c2c';
+      ctx.beginPath(); ctx.arc(cx, cy, 8, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.restore();
+
+      // Marker label — flip above/below depending on where the dot sits,
+      // to avoid overlap with the title at the top.
+      var labelText = 'You: ' + (state.surp >= 0 ? '+' : '') + state.surp.toFixed(1) +
+        '% surprise → ' + (cyVal >= 0 ? '+' : '') + cyVal.toFixed(1) + '%';
+      var labelBelow = cy < pad.top + 40;
+      drawTextCanvas(ctx, cx, cy + (labelBelow ? 18 : -16), labelText,
+        { fontSize: 11, color: 'var(--text)', weight: '600', baseline: labelBelow ? 'top' : 'bottom' });
+
+      // Axis labels
+      drawTextCanvas(ctx, W / 2, H - pad.bottom + 32, 'Earnings surprise %',
+        { fontSize: 11, color: 'var(--text-secondary)', baseline: 'middle' });
+      ctx.save();
+      ctx.translate(14, H / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillStyle = resolveCSSColor('var(--text-secondary)');
+      ctx.font = '11px Figtree, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Next-day stock move %', 0, 0);
+      ctx.restore();
+
+      // Update stat cells
+      var move = predictedMove(state.surp);
+      document.getElementById('w2-move').textContent =
+        (move >= 0 ? '+' : '') + move.toFixed(2) + '%';
+
+      var nWorse = 0;
+      for (var k = 0; k < samples.length; k++) if (samples[k].move < move) nWorse++;
+      document.getElementById('w2-pct').textContent =
+        ((nWorse / samples.length) * 100).toFixed(0) + '%';
+      document.getElementById('w2-class').textContent =
+        state.surp >= 1 ? 'Beat' : (state.surp <= -1 ? 'Miss' : 'In-line');
+      document.getElementById('w2-ratio').textContent = beats + ' : ' + misses;
     }
 
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
+    var lastAsym = null, lastVol = null;
+    function maybeRegen() {
+      if (samples === null || lastAsym !== state.asym || lastVol !== state.vol) {
+        regen();
+        lastAsym = state.asym;
+        lastVol = state.vol;
+      }
     }
 
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
-      } else {
-        html += 'Period: ' + idx + '<br>';
-      }
-
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
-          }
-        }
-      }
-
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
+    attachSliders([
+      { el: document.getElementById('w2-surp'), label: document.getElementById('w2-surp-val'),
+        format: function(v){ return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w2-asym'), label: document.getElementById('w2-asym-val'),
+        format: function(v){ return v.toFixed(1) + '×'; } },
+      { el: document.getElementById('w2-vol'),  label: document.getElementById('w2-vol-val'),
+        format: function(v){ return v.toFixed(1) + '%'; } }
+    ], function(vals) {
+      state.surp = vals['w2-surp'];
+      state.asym = vals['w2-asym'];
+      state.vol  = vals['w2-vol'];
+      maybeRegen();
+      draw();
     });
+  })();
+  </script>
 
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
+  <!-- ============================================================
+       WIDGET 3 — Three drivers over decades (animated stacked bar)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 420 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  draw();
+    // Decade-by-decade S&P 500 (and predecessor) approximate decomposition.
+    // Numbers are annualised, in nominal percentage points. They are widely
+    // cited approximations from index-history work (Siegel, Damodaran, Shiller
+    // data) — exact values shift by 0.5–1 pp depending on the data source and
+    // smoothing, but the qualitative regime story is unambiguous.
+    var decades = [
+      { label: '1900s', eps: 3.5,  pe:  0.5, div: 5.0 },
+      { label: '1910s', eps: 2.5,  pe: -2.0, div: 5.5 },
+      { label: '1920s', eps: 8.0,  pe:  3.0, div: 5.5 },
+      { label: '1930s', eps: -2.0, pe: -3.5, div: 5.5 },
+      { label: '1940s', eps: 9.0,  pe: -3.0, div: 6.0 },
+      { label: '1950s', eps: 4.0,  pe:  8.0, div: 5.5 },
+      { label: '1960s', eps: 5.5,  pe: -0.5, div: 3.0 },
+      { label: '1970s', eps: 9.5,  pe: -9.0, div: 4.5 },
+      { label: '1980s', eps: 4.5,  pe:  7.5, div: 4.5 },
+      { label: '1990s', eps: 7.0,  pe:  7.5, div: 2.5 },
+      { label: '2000s', eps: 0.5,  pe: -3.5, div: 1.8 },
+      { label: '2010s', eps: 7.5,  pe:  3.0, div: 2.0 },
+      { label: '2020s', eps: 6.0,  pe:  3.5, div: 1.6 }
+    ];
 
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
+    var state = { through: decades.length - 1, speed: 1, running: false };
+    var anim = null;
 
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+    function totalFor(d) { return d.eps + d.pe + d.div; }
 
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 108}, {"x": 2, "y": 140}, {"x": 3, "y": 135}, {"x": 4, "y": 175}, {"x": 5, "y": 210}, {"x": 6, "y": 290}, {"x": 7, "y": 255}, {"x": 8, "y": 310}, {"x": 9, "y": 395}, {"x": 10, "y": 380}], "name": "Nasdaq Composite (USD)", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 95}, {"x": 2, "y": 112}, {"x": 3, "y": 100}, {"x": 4, "y": 110}, {"x": 5, "y": 115}, {"x": 6, "y": 145}, {"x": 7, "y": 130}, {"x": 8, "y": 140}, {"x": 9, "y": 170}, {"x": 10, "y": 155}], "name": "Nifty 50 (USD)", "color": "#ed8936"}];
-  var xLabels = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
-  var visibleEnd = series[0].data.length;
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 56, right: 28, bottom: 78, left: 56 };
 
-  container.innerHTML = '';
-  container.classList.add('demo');
+      drawTextCanvas(ctx, W / 2, 18, 'S&P 500 nominal annualised total return by decade, decomposed',
+        { fontSize: 13, color: 'var(--text)', weight: '600', baseline: 'middle' });
+      drawTextCanvas(ctx, W / 2, 38, 'EPS growth + multiple change + dividend yield   ·   bold line = decade total',
+        { fontSize: 11, color: 'var(--text-secondary)', baseline: 'middle' });
 
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Cumulative Returns: Nasdaq Composite vs Nifty 50 (USD terms, indexed to 100)";
-  container.appendChild(title);
+      var yMin = -16, yMax = 22;
+      var nDec = decades.length;
+      var visible = state.through + 1;
 
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
-      }
-    }
-    if (allVals.length === 0) return;
-
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
-
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
-
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
-
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
-
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: decades.map(function(d){ return d.label; }),
+        yMin: yMin, yMax: yMax, ySteps: 6,
+        yFmt: function(v) { return (v >= 0 ? '+' : '') + v.toFixed(0) + '%'; }
       });
-    }
 
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
+      // Zero line
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#2d2d2d'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+      ctx.restore();
 
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
-    }
+      // Stacked bars per decade
+      var plotW = W - pad.left - pad.right;
+      var bandW = plotW / nDec;
+      var barW = bandW * 0.62;
+      var bands = ['eps', 'pe', 'div'];
+      var colors = { eps: '#44337a', pe: '#d69e2e', div: '#4a5568' };
 
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
+      for (var i = 0; i < nDec; i++) {
+        var d = decades[i];
+        var bx = pad.left + bandW * (i + 0.5) - barW / 2;
 
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
+        // Fade unfilled bars
+        ctx.save();
+        ctx.globalAlpha = i < visible ? 1 : 0.18;
 
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
-      } else {
-        html += 'Period: ' + idx + '<br>';
+        // Stack positives upward from zero, negatives downward from zero.
+        var posCursor = 0, negCursor = 0;
+        bands.forEach(function(name) {
+          var v = d[name];
+          if (v >= 0) {
+            var topY = mapY(posCursor + v, yMin, yMax, H, pad);
+            var bottomY = mapY(posCursor, yMin, yMax, H, pad);
+            ctx.fillStyle = colors[name];
+            ctx.fillRect(bx, topY, barW, bottomY - topY);
+            posCursor += v;
+          } else {
+            var topNegY = mapY(negCursor, yMin, yMax, H, pad);
+            var bottomNegY = mapY(negCursor + v, yMin, yMax, H, pad);
+            ctx.fillStyle = colors[name];
+            ctx.fillRect(bx, topNegY, barW, bottomNegY - topNegY);
+            negCursor += v;
+          }
+        });
+
+        // Net marker line across the bar at total
+        var total = totalFor(d);
+        var ty = mapY(total, yMin, yMax, H, pad);
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(bx - 2, ty);
+        ctx.lineTo(bx + barW + 2, ty);
+        ctx.stroke();
+        if (i < visible) {
+          var labelY = total >= 0 ? ty - 10 : ty + 10;
+          drawTextCanvas(ctx, bx + barW / 2, labelY,
+            (total >= 0 ? '+' : '') + total.toFixed(1) + '%',
+            { fontSize: 10, color: 'var(--text)', weight: '600', baseline: 'middle' });
+        }
+        ctx.restore();
       }
 
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
+      // Y axis label
+      ctx.save();
+      ctx.translate(14, H / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillStyle = resolveCSSColor('var(--text-secondary)');
+      ctx.font = '11px Figtree, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Annualised contribution (pp/year)', 0, 0);
+      ctx.restore();
+
+      // Legend
+      var legY = H - 18;
+      ctx.font = '11px Figtree, system-ui, sans-serif';
+      var legItems = [
+        { label: 'EPS growth (business)',   color: '#44337a' },
+        { label: 'Multiple change (mood)',  color: '#d69e2e' },
+        { label: 'Dividend yield (cash)',   color: '#4a5568' }
+      ];
+      var totalLegWidth = 0;
+      legItems.forEach(function(it) { totalLegWidth += 12 + 4 + ctx.measureText(it.label).width + 18; });
+      var lx = (W - totalLegWidth) / 2;
+      legItems.forEach(function(it) {
+        ctx.fillStyle = it.color;
+        ctx.fillRect(lx, legY - 6, 12, 12);
+        drawTextCanvas(ctx, lx + 16, legY, it.label,
+          { fontSize: 11, color: 'var(--text)', align: 'left', baseline: 'middle' });
+        lx += 12 + 4 + ctx.measureText(it.label).width + 18;
+      });
+
+      // Update slider label
+      var dec = decades[clamp(state.through, 0, decades.length - 1)];
+      var dispEl = document.getElementById('w3-dec-val');
+      if (dispEl) dispEl.textContent = dec.label;
+    }
+
+    function startAnim() {
+      if (anim && anim.running) return;
+      if (state.through >= decades.length - 1) state.through = -1;
+      state.running = true;
+      var acc = 0;
+      anim = animate(function(elapsed, dt) {
+        acc += dt;
+        var stepMs = 700 / state.speed;
+        while (acc >= stepMs) {
+          acc -= stepMs;
+          state.through += 1;
+          if (state.through >= decades.length - 1) {
+            state.through = decades.length - 1;
+            anim.stop(); state.running = false;
+            document.getElementById('w3-dec').value = state.through;
+            draw();
+            return;
           }
         }
-      }
+        document.getElementById('w3-dec').value = state.through;
+        draw();
+      });
+      anim.start();
+    }
+    function resetAnim() {
+      if (anim) anim.stop();
+      state.running = false;
+      state.through = decades.length - 1;
+      document.getElementById('w3-dec').value = state.through;
+      draw();
+    }
 
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
+    attachButton('#w3-play', startAnim);
+    attachButton('#w3-reset', resetAnim);
 
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
+    attachSliders([
+      { el: document.getElementById('w3-dec'),   label: document.getElementById('w3-dec-val'),
+        format: function(v){ return decades[clamp(Math.round(v), 0, decades.length - 1)].label; } },
+      { el: document.getElementById('w3-speed'), label: document.getElementById('w3-speed-val'),
+        format: function(v){ return v.toFixed(1) + '×'; } }
+    ], function(vals) {
+      state.through = Math.round(vals['w3-dec']);
+      state.speed = vals['w3-speed'];
+      draw();
     });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
-</script>
+  })();
+  </script>
 
 </body>
 </html>

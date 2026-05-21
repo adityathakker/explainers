@@ -4,32 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sector Cycles: Know the Sequence — Market Explainers</title>
-  <meta name="description" content="Which sectors move when, and why India's consumption story is the only investable theme">
+  <meta name="description" content="Which sectors lead what kind of cycle, why diversification fails at the worst moments, and how India's consumption story plugs into all of it">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Sector Cycles: Know the Sequence">
-  <meta property="og:description" content="Which sectors move when, and why India's consumption story is the only investable theme">
+  <meta property="og:description" content="Which sectors lead what kind of cycle, why diversification fails when you need it, and how India's consumption story actually plays out — shown with bespoke simulations">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #22543d;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget-specific layout helpers */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .toggle-group {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      margin: 8px 0 14px;
+      flex-wrap: wrap;
+    }
+    .toggle-group button {
+      background: none;
+      border: none;
+      padding: 7px 14px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+    }
+    .toggle-group button:last-child { border-right: none; }
+    .toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
   </style>
 </head>
 <body>
@@ -47,8 +106,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">Sector Cycles: Know the Sequence</h1>
-      <p class="hero__subtitle">Which sectors move when, and why India's consumption story is the only investable theme</p>
-      <p class="hero__meta">23 min read</p>
+      <p class="hero__subtitle">Which sectors lead what kind of cycle, why diversification fails when you need it, and how India's consumption story actually plays out.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 26 min read</p>
     </div>
   </header>
 
@@ -57,365 +116,419 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-markets-are-cyclical-especially-indian-markets">I. Markets Are Cyclical -- Especially Indian Markets</a></li>
-        <li><a href="#ii-the-sector-rotation-sequence-psudefence-to-it-to-banks-to-fmcg">II. The Sector Rotation Sequence: PSU/Defence to IT to Banks to FMCG</a></li>
-        <li><a href="#iii-the-three-segment-framework-how-to-divide-the-indian-market">III. The Three-Segment Framework: How to Divide the Indian Market</a></li>
-        <li><a href="#iv-indias-4-tier-consumer-framework">IV. India's 4-Tier Consumer Framework</a></li>
-        <li><a href="#v-the-real-estate-cycle-connection">V. The Real Estate Cycle Connection</a></li>
-        <li><a href="#vi-how-to-construct-your-india-portfolio-by-sector">VI. How to Construct Your India Portfolio by Sector</a></li>
-        <li><a href="#vii-why-consumption-is-the-only-investable-long-term-theme">VII. Why Consumption Is the Only Investable Long-Term Theme</a></li>
-        <li><a href="#viii-the-interest-rate-transmission-mechanism">VIII. The Interest Rate Transmission Mechanism</a></li>
-        <li><a href="#ix-putting-it-all-together-your-sector-rotation-playbook">IX. Putting It All Together: Your Sector Rotation Playbook</a></li>
+        <li><a href="#i-cyclical">Why is India a "capital rotation" market and not a buy-and-hold one?</a></li>
+        <li><a href="#ii-leadership">Which sectors lead what kind of cycle?</a></li>
+        <li><a href="#iii-dispersion">When does the spread between sectors blow open?</a></li>
+        <li><a href="#iv-defensives-tech">When do defensives outperform tech?</a></li>
+        <li><a href="#v-correlation">Why does diversification fail exactly when you need it?</a></li>
+        <li><a href="#vi-consumer-tiers">Who actually does the consuming in "Indian consumption"?</a></li>
+        <li><a href="#vii-transmission">How long does an RBI rate cut take to reach a Tata Motors showroom?</a></li>
+        <li><a href="#viii-construct">How should you actually build a sector-aware book?</a></li>
+        <li><a href="#ix-playbook">The five-rule sector-rotation playbook</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-markets-are-cyclical-especially-indian-markets">
+
+    <!-- ============================================================
+         I. Why is India a "capital rotation" market?
+         ============================================================ -->
+    <section class="reveal" id="i-cyclical">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. Markets Are Cyclical -- Especially Indian Markets</h2>
+        <h2>Why is India a "capital rotation" market and not a buy-and-hold one?</h2>
       </div>
       <div class="section-content">
-        <p>Let me tell you something most finance influencers will never admit: they have no idea which sector will move next. They chase whatever is running hot and then tell you to buy. By the time you hear about it, the smart money has already rotated out.</p>
-<p>India&rsquo;s stock market is deeply cyclical. Not just in the sense that bull and bear phases alternate &ndash; every market does that. What makes India unique is that <strong>sectors rotate in a predictable sequence within each cycle</strong>. If you understand this sequence, you can position capital months before a rally begins. If you do not, you will always be buying tops and wondering why your portfolio looks nothing like the returns people brag about.</p>
-<p>Here is the data I want you to internalize:</p>
-<ul>
-<li><strong>1999-2009</strong>: Nifty 50 delivered 4x returns</li>
-<li><strong>2009-2019</strong>: Nifty 50 delivered 2.5x returns</li>
-<li><strong>2020-2025</strong>: Nifty 50 delivered 2x returns</li>
-</ul>
-<p>As our markets grow bigger, the absolute index returns are structurally slowing down. This is not doom and gloom. It means that picking the right sector at the right time has become more important than picking the right stock within a hot sector. A rising tide used to lift all boats. Now it lifts certain boats first, and by the time others start floating, the first ones have already docked and taken profits.</p>
-<p>The game in Indian equities is no longer about buying and holding blindly. <strong>India is a capital rotation market.</strong> I keep saying this because it is the single most important framework for Indian investing. You need to understand which sectors move first, which move last, and why the sequence plays out the way it does.</p>
-<blockquote>
-<p>The Indian market is now a pure trading market. So we TRADE it well &ndash; but with an investor&rsquo;s mindset.</p>
-</blockquote>
-<p>Let me walk you through the entire sector cycle, from the first movers to the last, and show you exactly how to position yourself at each stage.</p>
+        <p>Ask any finance influencer which sector will lead the next leg and you will get a confident answer that is, structurally, a guess. They chase what is already running, recommend you buy it, and by the time you are filling orders the smart money has rotated out. The reason this works for them and not for you is that <strong>Indian equity returns no longer come from being long the index &mdash; they come from being long the right slice of it.</strong></p>
+
+        <p>Internalise three numbers:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">4&times;</div><div class="stat-label">Nifty 50 returns 1999&ndash;2009</div></div>
+          <div class="stat"><div class="stat-value">2.5&times;</div><div class="stat-label">Nifty 50 returns 2009&ndash;2019</div></div>
+          <div class="stat"><div class="stat-value">2&times;</div><div class="stat-label">Nifty 50 returns 2020&ndash;2025</div></div>
+        </div>
+
+        <p>Index CAGR is decaying by roughly a third every decade as the market matures<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. This is not a crisis &mdash; it is what every large market does on its way to becoming a developed one. But it means the easy alpha from "be in the market" has shrunk, and what is left is the alpha from "be in the <em>right part</em> of the market." A rising tide used to lift all boats. Now it lifts certain boats first; by the time the others start floating, the first ones have already docked.</p>
+
+        <p>The mental model you need is not "stocks vs cash" or "growth vs value." It is <strong>sector phase</strong> &mdash; understanding that capital sloshes between sectors in a roughly predictable sequence, driven by underlying drivers (government capex, global tech budgets, credit cycles, consumer confidence) that turn on and off in a roughly predictable order.</p>
+
+        <blockquote>
+          <p>India is now a pure trading market. So we trade it well &mdash; but with an investor's mindset. Pick the right sector at the right phase, and the stock selection inside that sector matters less than people pretend.</p>
+        </blockquote>
+
+        <p>The rest of this article is the map. We will walk through which sectors lead which kind of cycle, watch dispersion blow open at regime shifts, see correlations spike exactly when diversification was supposed to save you, and end with a sector-aware portfolio construction framework that has held up across the last five years of Indian markets.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-the-sector-rotation-sequence-psudefence-to-it-to-banks-to-fmcg">
+    <!-- ============================================================
+         II. Which sectors lead what kind of cycle?
+         ============================================================ -->
+    <section class="reveal" id="ii-leadership">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. The Sector Rotation Sequence: PSU/Defence to IT to Banks to FMCG</h2>
+        <h2>Which sectors lead what kind of cycle?</h2>
       </div>
       <div class="section-content">
-        <p>Every bull cycle in India plays out in roughly the same order. The sectors that move first are the ones most directly tied to government spending and policy. The ones that move last are driven by consumer sentiment, which is always the slowest variable to turn around. Here is the sequence:</p>
-<p><strong>Stage 1: PSU Banks and Defence/Infrastructure</strong></p>
-<p>When a new government spending cycle begins or when the market bottoms out after a crash, the first sectors to rally are the ones that receive direct government capital. PSU banks rally because the government recapitalizes them or policy shifts deposit flows into the banking system. Defence and infrastructure stocks move because capex announcements translate to immediate order books.</p>
-<p>We experienced this firsthand. Our community bought PSU banks and AMCs and made 100%+ returns. SBI, for example, we bought at very good valuations &ndash; it went up significantly from our entry. Buying SBI now at these levels does not make the same sense. The easy money in PSU banks has already been made.</p>
-<p>The point is simple: Stage 1 stocks move because of a clear, traceable catalyst &ndash; government money flowing into the system. You do not need to guess whether consumers will spend or whether global IT budgets will increase. The government announces capex, the order books fill up, the stocks move. This is why it is the first stage. It is the most predictable.</p>
-<p><strong>Stage 2: IT/Technology</strong></p>
-<p>As the recovery matures and global spending cycles align (particularly US monetary easing), IT stocks begin their move. Indian IT is deeply tied to US corporate spending. When US companies increase their technology budgets &ndash; whether for consulting, digital transformation, or now data center optimization &ndash; Indian IT services firms benefit.</p>
-<p>But here is the critical nuance: IT does not rally because India&rsquo;s economy is doing well. <strong>IT rallies because of external demand cycles.</strong> This is why IT often moves even when the broader Indian market is consolidating. I changed my view from being bearish IT to neutral IT, and then started buying aggressively. The IT index was down 30% from its peak when we entered. That was the time to buy a turnaround, not chase a growth story.</p>
-<p>IT has a role to play in India&rsquo;s next growth phase: data center optimization, EVs, tech consulting, transition to SaaS for small and mid-size players, and tech integration in manufacturing. The sentiments are terrible. But think about it this way: if AI disrupts IT, who benefits? AI stocks in your portfolio. If AI does not disrupt IT as badly as feared, IT bounces back. Either way, you win if you have positioned correctly across both.</p>
-<p><strong>Stage 3: Banks and Financial Services</strong></p>
-<p>Private banks and NBFCs typically rally in the middle of the cycle. This happens when interest rate cuts begin, credit growth picks up, and the lending market expands. With ban on betting apps, less FnO participation, and money flowing back into deposits, banks benefit from an improved savings rate relative to GDP.</p>
-<p>We were already well-invested in banks before most fund managers started chasing them. Anyone from our community would verify that. The key was entering finance during the early recovery phase and holding through the consolidation.</p>
-<p>Now look at what is happening within finance. NBFCs are eating into the market share of traditional banks. Bajaj Finance enjoys a more than 22% CAGR and commands roughly 55% share in consumer durable loans, about 7% share of unsecured personal loans overall, and 23-24% share in unsecured SME loans. But even this dominant player faces disruption from fintech. Jio Financial, Groww, PhonePe &ndash; they are all building lending businesses with digital-first, lower-cost customer acquisition strategies. So within Stage 3, there is a sub-rotation happening: from PSU banks to private banks to NBFCs to fintech lenders. Understanding this granularity within a sector is what separates average investors from the ones who consistently generate alpha.</p>
-<p><strong>Stage 4: FMCG and Consumption</strong></p>
-<p>Consumer-facing sectors are always the last to rally. Why? Because consumer spending is a lagging indicator. People do not start spending freely until they see job stability, wage growth, and general economic confidence &ndash; all of which take time to build after a downturn. FMCG, auto, and discretionary consumption stocks only participate meaningfully in the final stages of a bull run.</p>
-<p>This is precisely where we are cautious right now. Real wage growth at the national level from Q2 FY20 to Q1 FY25 was essentially flat at about 0.01% per year. Until job creation accelerates and wages start growing meaningfully, the consumption story remains fragile.</p>
-<p>I will give you a concrete example of why timing matters in consumption stocks. I exited all positions on Zomato and Swiggy when Swiggy announced it wanted to raise 10,000 crore rupees just one year after its IPO. It also got 2,400 crore from selling its Rapido stake. With Zepto reportedly holding about 1 billion dollars in cash, and competition heating up from BigBasket, Reliance Retail, Amazon, and Flipkart &ndash; this is a low-margin business heading into a brutal cash-burn war. Profitability will suffer. I took our community&rsquo;s profits (21% on Swiggy, 100% on Zomato) and rotated into segments where actual margin expansion is happening. That is what capital rotation looks like in practice.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Every business cycle has four named phases, and each one rewards a different sector profile. The phases are not Indian or American &mdash; they describe what is happening to demand, credit, and confidence, and sectors respond to those drivers regardless of where they are listed.</p>
 
-<blockquote>
-<p>Every Fund Manager is now running after finance/bank stocks. Guess what: we already have decent positions there &ndash; already on good profits.</p>
-</blockquote>
+        <ul>
+          <li><strong>Early expansion</strong> &mdash; the economy is climbing out of a trough. Rates are still low, central banks are stimulating, government capex is firing. <em>Capital-spending sectors lead</em>: PSU banks getting recapitalised, defence and infrastructure on the back of order books, materials feeding into new construction.</li>
+          <li><strong>Late expansion</strong> &mdash; growth is broad, credit is flowing, US tech budgets are loose, animal spirits are up. <em>Cyclicals and tech lead</em>: IT services, autos, financials, anything with operating leverage to demand.</li>
+          <li><strong>Contraction</strong> &mdash; rates are biting, earnings are slowing, sentiment is rolling over. <em>Defensives lead</em>: staples, utilities, healthcare &mdash; the sectors whose revenues do not care about the cycle.</li>
+          <li><strong>Recovery</strong> &mdash; the worst is in, multiples are still depressed, but forward-looking flows are starting to chase. <em>Early-cycle sensitives lead</em>: financials, discretionary names that fell furthest, beaten-down quality.</li>
+        </ul>
+
+        <p>The widget below is a sector-by-phase heatmap. Twelve sectors run down the rows; four phases across the top. Each cell is the typical relative performance of that sector during that phase. Drag the slider to sweep through the cycle and watch which rows light up green.</p>
+
+        <!-- Widget 1: Rotating sector heatmap -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; The Sector-Phase Heatmap</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 480px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Current phase position</span><span class="slider-value" id="w1-pos-val">Early expansion</span></div>
+              <input type="range" id="w1-pos" min="0" max="100" value="0" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Auto-cycle speed</span><span class="slider-value" id="w1-speed-val">paused</span></div>
+              <input type="range" id="w1-speed" min="0" max="5" value="0" step="0.5">
+            </div>
+          </div>
+          <p class="widget-hint">Drag the position slider from 0 to 100 to walk one full cycle. Bump up the auto-cycle speed for hands-free sweeping. Hover any cell to see the sector and expected relative behaviour.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; phases never line up this cleanly in real life</summary>
+          <p>The heatmap is a stylised average. In any specific cycle, phases overlap, sectors front-run their fundamental drivers by months, and idiosyncratic shocks (a tariff, a SEBI rule, a single CEO leaving) can knock one sector out of sequence. The 2020&ndash;2021 cycle is a great example: defensives never had their contraction moment because monetary stimulus was so aggressive that the contraction phase was compressed into about six weeks.</p>
+          <p>Treat the heatmap as a base rate, not a forecast. The job is to know which sectors <em>should</em> be leading right now, then check the actual tape against it. When the tape disagrees with the base rate, that disagreement itself is information &mdash; usually it means the market is pricing in a phase shift before the data confirms it.</p>
+        </details>
+
+        <p>The Indian-specific version of this sequence usually plays out as <strong>PSU/Defence &rarr; IT &rarr; Banks &rarr; FMCG</strong>. Government capex (Stage 1) is the most traceable catalyst because the order books are literally published. IT (Stage 2) lights up when US monetary conditions ease and global tech budgets loosen. Banks (Stage 3) rally on credit expansion and rate cuts. FMCG and consumer discretionary (Stage 4) come last because consumer spending is a lagging indicator &mdash; people only loosen the purse when wages and jobs are visibly improving.</p>
+
+        <p>You do not need to call the turn perfectly. You need to know which sector is "next" in the queue, so that when you book partial profits on the sector that just ran, you have a default destination for the cash.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-the-three-segment-framework-how-to-divide-the-indian-market">
+    <!-- ============================================================
+         III. When does the spread between sectors blow open?
+         ============================================================ -->
+    <section class="reveal" id="iii-dispersion">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. The Three-Segment Framework: How to Divide the Indian Market</h2>
+        <h2>When does the spread between sectors blow open?</h2>
       </div>
       <div class="section-content">
-        <p>Forget the traditional sector classifications that Moneycontrol shows you. When I look at the Indian market for investment purposes, I divide it into three actionable segments:</p>
-<p><strong>Segment A: Finance/Banks</strong></p>
-<p>This has been the backbone of our India portfolio for a long time. Banks benefit from multiple structural tailwinds:</p>
-<ul>
-<li>Ban on betting apps and reduced FnO participation pushes savings into the banking system</li>
-<li>India&rsquo;s savings rate to GDP has been at a historic low &ndash; any turnaround here means massive deposit inflows</li>
-<li>Rate cuts from RBI directly improve the lending spread</li>
-</ul>
-<p>But the landscape within finance is shifting. NBFCs are growing their loan book at 20% CAGR for FY25, while banks are growing at only 12%. Every startup in India is pivoting to lending:</p>
-<ul>
-<li>Cred: pay bills &ndash;&gt; rewards &ndash;&gt; BNPL &ndash;&gt; personal loans</li>
-<li>Paytm: wallet &ndash;&gt; merchants &ndash;&gt; credit for anyone</li>
-<li>Groww: mutual funds &ndash;&gt; stocks &ndash;&gt; futures &ndash;&gt; loans against security</li>
-<li>PhonePe: payments &ndash;&gt; P2P &ndash;&gt; insurance &ndash;&gt; lending</li>
-<li>Razorpay: payment gateway &ndash;&gt; business banking &ndash;&gt; lending</li>
-</ul>
-<p>Private banks are losing market share, and this is being taken by NBFCs and fintech players. The play now is to hold existing bank positions, book profits over time, and gradually rotate into the higher-growth lending segment.</p>
-<p><strong>Segment B: Tech/IT</strong></p>
-<p>This is a turnaround play, not a growth play. I need you to understand the difference. A turnaround means:</p>
-<ul>
-<li>You downward average on the asset</li>
-<li>Stick a 15-20% block on the theme (of your Indian portfolio)</li>
-<li>And then you stop buying</li>
-<li>Wait from there for 1-3 years</li>
-</ul>
-<p>The sentiments on IT are terrible right now. But one key advantage for good IT firms like TCS: they have a very healthy cash ratio. They can fund the next layer of their development without depending on external credit. That is a massive advantage in a down cycle.</p>
-<p>Here is how I am structuring my IT allocation &ndash; and I am not overcomplicating it:</p>
-<ul>
-<li>50% Nifty IT index</li>
-<li>30% Top-3 IT stocks</li>
-<li>20% Select picks</li>
-</ul>
-<p>Even doing 100% Nifty IT is fine. The point is to have exposure to the turnaround, not to pick the perfect individual stock.</p>
-<p><strong>Segment C: Consumption</strong></p>
-<p>This is where the game gets deeply interesting, and where most investors get it wrong. To understand consumption, you first need to understand who the consumers actually are. This brings me to the most important framework in this article.</p>
+        <p>If sectors all moved together, sector rotation would be a waste of time. The reason it pays is dispersion &mdash; the gap between the best-performing sector and the worst-performing one in any given quarter. <strong>Dispersion is widest exactly at regime shifts</strong>, which is precisely when getting the rotation right matters most.</p>
+
+        <p>The number to anchor on:</p>
+
+        <div class="math-block">
+          Dispersion<sub>q</sub> = max(r<sub>sector,q</sub>) &minus; min(r<sub>sector,q</sub>)
+          <span class="math-where">where r<sub>sector,q</sub> is the quarterly total return of each sector index</span>
+        </div>
+
+        <p>In quiet quarters, dispersion runs 5&ndash;10 percentage points. In regime-shift quarters &mdash; the COVID crash, the 2022 rate-hike pivot, the 2023 US disinflation turn &mdash; it routinely blows out to 25&ndash;40 points. The 25-point quarters are where a year's worth of sector-rotation alpha gets generated. The quiet quarters are where you sit still and stop overtrading.</p>
+
+        <p>Press play on the simulation. It animates 20 synthetic quarters of sector returns &mdash; eight Indian-style sectors moving through one full economic cycle (early &rarr; late &rarr; contraction &rarr; recovery). Watch the bars stretch and compress, and watch the spread readout below.</p>
+
+        <!-- Widget 2: Performance dispersion over time -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Dispersion Across the Cycle</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 460px;"></canvas>
+          <div class="btn-group">
+            <button class="btn-primary" id="w2-play">Play</button>
+            <button class="btn-secondary" id="w2-step">Step +1Q</button>
+            <button class="btn-secondary" id="w2-reset">Reset</button>
+          </div>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Quarter</span><span class="slider-value" id="w2-q-val">Q1</span></div>
+              <input type="range" id="w2-q" min="0" max="19" value="0" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Speed</span><span class="slider-value" id="w2-speed-val">1&times;</span></div>
+              <input type="range" id="w2-speed" min="0.5" max="4" value="1" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Seed</span><span class="slider-value" id="w2-seed-val">42</span></div>
+              <input type="range" id="w2-seed" min="1" max="200" value="42" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Top sector</div><div class="readout-value" id="w2-top">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Bottom sector</div><div class="readout-value" id="w2-bot">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Spread</div><div class="readout-value" id="w2-spread">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Around Q5&ndash;Q6 and Q14&ndash;Q15 the spread fattens dramatically &mdash; those are the regime-shift quarters. Step through one-by-one with the +1Q button to see exactly which sectors swap leadership.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the returns here are synthetic, but the dispersion pattern is real</summary>
+          <p>The widget draws from a stylised data-generating process: each sector has a base CAGR plus a phase loading (how much it benefits or suffers from the current cycle phase) plus an idiosyncratic noise term. Crucially, the noise term <em>scales up</em> in the two transition quarters of each cycle, because that is what happens in reality &mdash; uncertainty about the next phase is highest right when the phase is changing.</p>
+          <p>Empirically, Nifty sector indices show exactly this pattern. Quiet quarters have cross-sectional standard deviation of sector returns around 3&ndash;5%; regime-shift quarters routinely hit 10&ndash;15%. If you trust the synthetic numbers in the widget to within an order of magnitude, the takeaway holds.</p>
+        </details>
+
+        <p>The actionable point: rotation pays the most when sectors are moving most differently from each other. That is not the boring middle of an expansion &mdash; that is the messy turning point when nobody is sure what comes next. The investors who do well in those quarters are the ones who have already decided the rotation order in advance, so they are buying the next sector while the consensus is still arguing about whether the current one has topped.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-indias-4-tier-consumer-framework">
+    <!-- ============================================================
+         IV. When do defensives outperform tech?
+         ============================================================ -->
+    <section class="reveal" id="iv-defensives-tech">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. India's 4-Tier Consumer Framework</h2>
+        <h2>When do defensives outperform tech?</h2>
       </div>
       <div class="section-content">
-        <p>Most people talk about &ldquo;Indian consumption&rdquo; as if it is one monolithic thing. It is not. India has at least four distinct consumer tiers, and each behaves completely differently in an economic cycle. Understanding this framework is the difference between making money in consumption stocks and getting destroyed by them.</p>
-<p><strong>Tier 1: Upper Class &ndash; Top 1 Crore Customers</strong></p>
-<p>These are people who can afford to buy luxury outright. No loans needed, no EMI calculations. This market never dips in any meaningful way. Whether the economy is booming or struggling, the top 1 crore customers keep buying Mercedes, luxury real estate, premium healthcare, and international brands.</p>
-<p>For investors, this means <strong>luxury-oriented businesses are recession-resistant</strong> in India. The stock prices might correct because of market-wide sentiment, but the actual revenue of these businesses rarely takes a hit.</p>
-<p><strong>Tier 2: Middle Class &ndash; Top 10 Crore Customers (excluding Tier 1)</strong></p>
-<p>This is the aspirational segment. They take loans to buy luxury. They stretch for the premium apartment, finance the SUV, and EMI their way to a lifestyle that looks upper class. When the economy is strong, these consumers drive massive growth. When the economy weakens, they are the first to pull back.</p>
-<p>Firms like Tata Motors, mid-range real estate developers, and premium consumer brands are deeply tied to this segment. Unless the job market revives, these firms will continue to struggle. Rate cuts from RBI help here, but they are not sufficient on their own. You need wage growth, and we are not seeing that yet.</p>
-<p><strong>Tier 3: Lower Class A &ndash; Top 25 Crore Customers (excluding Tier 2)</strong></p>
-<p>These consumers cannot afford luxury even with loans. They are price-sensitive on almost everything. Think basic consumer durables, budget smartphones, entry-level two-wheelers. Companies serving this tier compete primarily on price, which means razor-thin margins and constant price wars.</p>
-<p>Consider the quick-commerce example. The end customers of Zomato, Swiggy, and Zepto are price hunters in this tier. If the price of Lauki (bottle gourd) goes up by 5 rupees, customers drop off. These platforms have no product moat &ndash; Swiggy and Zepto compete for the exact same order. The margin compression in this space is structural, not temporary. Unless these firms research and scale other products, there is no reason why they should go even 3x from current levels. And yet their valuations (Zomato at one point was at 1500 PE) would suggest otherwise. This is the trap that catches investors who do not understand consumer tier dynamics.</p>
-<p><strong>Tier 4: Survival Consumption</strong></p>
-<p>The remainder of the population. Basic necessities &ndash; food, shelter, essential clothing. Companies here benefit from government freebies and tax cuts. Firms like HUL, which sell everyday staples, see revival in this segment first when the government increases subsidies or cuts taxes for lower-income groups.</p>
-<p><strong>Tier 5 (Bonus): Government Spending</strong></p>
-<p>This is not really a consumer tier, but it functions like one. When the government ramps up capex, PSU firms, defence contractors, and infrastructure companies are the direct beneficiaries. The government has slowed down its capex now, so there is no point picking firms here in the current cycle.</p>
-<blockquote>
-<p>The stock markets rallied primarily due to government Capex spending. This is slowing down. So we are likely to be in an &ldquo;average&rdquo; phase.</p>
-</blockquote>
-<p>Here is how this framework maps to investment decisions right now:</p>
-<ul>
-<li><strong>Tier 1</strong>: Keep buying. Hospitals, luxury brands, premium experiences like PVR</li>
-<li><strong>Tier 2 and 3</strong>: Extremely selective. Do not touch auto. Watch for job market revival</li>
-<li><strong>Tier 4</strong>: Can see immediate revival. HUL-type firms benefit from tax cuts and freebies</li>
-<li><strong>Government spending</strong>: Slowed down. No point picking new firms here</li>
-</ul>
-<p>The mistake most investors make is treating all consumption the same. They see &ldquo;consumption theme&rdquo; mentioned on a brokerage report and buy everything from Zomato to Asian Paints to Tata Motors. Each of these serves a different tier, has a different growth driver, and will react to economic changes on a completely different timeline.</p>
+        <p>Defensives &mdash; FMCG, utilities, pharma &mdash; underperform tech for most of the cycle. So why bother holding them? Because they outperform <em>brutally</em> in the narrow windows when they do, and those windows are exactly the moments you cannot afford to be without them.</p>
+
+        <p>The defensive playbook is a relative one. You do not own HUL because it will beat Nvidia over a decade &mdash; it won't. You own a defensive sleeve because in the quarters when tech draws down 25%, your HUL is flat or up 4%, and the relative outperformance lets you rotate <em>out</em> of defensives and <em>into</em> beaten-down growth at the bottom. Defensives are a holding pool for capital that needs to redeploy.</p>
+
+        <p>Three conditions reliably tip the relative trade toward defensives:</p>
+
+        <ol>
+          <li><strong>Rates rising into a slowdown.</strong> The 2022 hiking cycle is the canonical example. Long-duration growth stocks (tech, especially loss-making tech) got crushed; FMCG and pharma drew down half as much.</li>
+          <li><strong>Earnings revisions turning negative.</strong> When sell-side analysts start cutting estimates across the board, the sectors with the most stable earnings (staples, utilities, healthcare) get a relative bid because their forward multiples don't have to compress as much.</li>
+          <li><strong>Volatility regime shift.</strong> When realised vol jumps from 12% to 22% on the Nifty, beta-1.3 IT stocks suffer more than beta-0.6 FMCG stocks &mdash; not because of fundamentals, but because the discount rate that the market applies to risk goes up.</li>
+        </ol>
+
+        <p>The mistake most retail investors make is treating defensives as a permanent allocation &mdash; "I'll always have 20% in FMCG because it's safe." That is over-paying for insurance. The right model is to <em>rotate</em> into defensives when the contraction phase is approaching, hold them through the worst of the drawdown, and rotate out into the early-cycle leaders as soon as the bottom is forming.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; "defensive" is a relative label, not a permanent one</summary>
+          <p>HUL is defensive in a rate-hike cycle but cyclically vulnerable in a rural-distress cycle. ITC is defensive against equity beta but exposed to GST tinkering. Pharma is defensive against domestic demand but exposed to US FDA letters and pricing pressure. The label "defensive sector" only holds <em>conditional on the shock</em>.</p>
+          <p>This is why building the defensive sleeve from a single sector is risky. A blend &mdash; staples + pharma + utilities + selectively gold &mdash; gives you defence against more kinds of shocks than any single-sector tilt would.</p>
+        </details>
+
+        <p>Tech, the mirror image, outperforms when the cycle is leaning the other way: rates falling, earnings revisions positive, vol regime calm. The Indian IT-specific catalyst is US monetary easing, because Indian IT services revenues track US corporate tech budgets with a 1&ndash;2 quarter lag. The signal to enter IT is not Indian consumer confidence &mdash; it is the US Fed's stance.</p>
+
+        <p>The cleanest way to express both views simultaneously is as a <strong>pair</strong>: long the relative outperformer, short (or just underweight) the relative laggard. Long defensives / underweight tech in a contraction; flip the trade in early expansion. You are not betting on absolute direction &mdash; you are betting on the relative rotation, which is far more reliable than the absolute one.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-the-real-estate-cycle-connection">
+    <!-- ============================================================
+         V. Why does diversification fail when you need it?
+         ============================================================ -->
+    <section class="reveal" id="v-correlation">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. The Real Estate Cycle Connection</h2>
+        <h2>Why does diversification fail exactly when you need it?</h2>
       </div>
       <div class="section-content">
-        <p>Here is a theme that most equity investors completely ignore: the real estate cycle has deep implications for how sector rotation plays out, and it is currently setting up for a structural move.</p>
-<p>RBI recently changed its ECB (External Commercial Borrowing) norms. This is a big deal. In simple terms, it allows Indian companies &ndash; including real estate developers &ndash; to raise money from foreign entities. Up until now, sectors like real estate were restricted. Now this is being opened up. Dollar capital can flow into Indian RE.</p>
-<p>But it goes deeper:</p>
-<ol>
-<li>Norms around REITs (fractional real estate) and taxation on RE have changed</li>
-<li>The government is trying to make RE more trading-oriented</li>
-<li>When foreigners invest in RE, it scales fast &ndash; they care about returns, not sentiment</li>
-<li>This means RE is going to become more expensive structurally</li>
-</ol>
-<p><strong>The connection to sector rotation is this</strong>: as real estate prices rise, it creates a wealth effect. Homeowners feel richer, their net worth on paper increases, and they start spending more freely. This is the mechanism through which the consumption tier eventually catches up to the rest of the market.</p>
-<p>But there is an important distinction I keep making: <strong>own land and villas, not flats</strong>. Flats depreciate. Land appreciates. When foreign capital flows into RE, it is the land value that scales fastest. If you own the right hard assets, you see much faster appreciation.</p>
-<p>The investment playbook here is straightforward:</p>
-<ul>
-<li>When your stock portfolio crosses 2Cr+, withdraw 30% and buy a hard asset (real estate). It gives you safety</li>
-<li>RE seems to be a very strong structural bet in India over the next decade</li>
-<li>But when I say RE, I mean land and villas, not flats</li>
-<li>The manipulation game on RE is just starting</li>
-</ul>
-<p>For the equity portfolio, the RE cycle impacts your positions in banking stocks (more home loans), NBFC stocks (housing finance), and eventually consumption stocks (wealth effect spending). Understanding this connection lets you anticipate sector rotation rather than react to it.</p>
-<p>There is also an important portfolio management principle embedded here. When your stock portfolio hits 2Cr+, you should withdraw 30% and park it in a hard asset. When it hits 5Cr+, set up a tax base and optimize for 0% capital gains. With the taxes saved, buy a golden visa, residency, travel &ndash; enjoy life. This is not about greed. It is about building a system. You are not just a stock picker. You are building an asset base that compounds across multiple classes &ndash; equities, real estate, international residency &ndash; each reinforcing the other.</p>
-<p>Real estate is not separate from your equity strategy. It is the safety net that allows you to take more aggressive bets in the stock market. The person who owns land outright behaves very differently in a market crash than the person whose entire net worth is in equity. The first one buys the dip with leverage. The second one panics and sells. I have seen this pattern play out too many times.</p>
+        <p>Here is the cruellest fact in portfolio construction: <strong>correlations rise in crashes</strong>. The pretty 0.3 cross-sector correlation you saw in calm quarters becomes 0.85 in March 2020. The diversification you paid for with mediocre upside disappears at the exact moment you wanted it to bail you out.</p>
+
+        <p>The mathematical shape of a sector correlation matrix in normal times vs crisis times:</p>
+
+        <div class="math-block">
+          &rho;<sub>i,j</sub><sup>calm</sup> &asymp; 0.25 &nbsp;&nbsp;|&nbsp;&nbsp; &rho;<sub>i,j</sub><sup>stress</sup> &asymp; 0.80
+          <span class="math-where">where &rho; is the pairwise correlation of sector returns over the window</span>
+        </div>
+
+        <p>The widget below lets you slide the lookback window from 1 year out to 10 years. In short windows, you see the regime you are currently in &mdash; calm or stressed. In long windows, you average across regimes, and crisis correlations dominate because that is when the cross-sectional variance is largest. The matrix gets darker as you widen the lookback. <em>That is diversification visibly failing.</em></p>
+
+        <!-- Widget 3: Sector correlation matrix -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; The Diversification Mirage</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 480px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Lookback window</span><span class="slider-value" id="w3-lb-val">3 years</span></div>
+              <input type="range" id="w3-lb" min="1" max="10" value="3" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Include crisis quarter</span><span class="slider-value" id="w3-crisis-val">on</span></div>
+              <input type="range" id="w3-crisis" min="0" max="1" value="1" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Sample seed</span><span class="slider-value" id="w3-seed-val">7</span></div>
+              <input type="range" id="w3-seed" min="1" max="50" value="7" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Avg pairwise &rho;</div><div class="readout-value" id="w3-avgrho">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Max pairwise &rho;</div><div class="readout-value" id="w3-maxrho">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Effective # sectors</div><div class="readout-value" id="w3-effn">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Hover any cell to see the pair. Slide the lookback from 1 to 10 and watch the average correlation rise. Toggle "include crisis quarter" off to see what the matrix would look like if you ignored the worst quarter &mdash; that is the lie most people tell themselves.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; "effective number of sectors" is the honest diversification number</summary>
+          <p>The naive count is "I own 8 sectors, so I'm 8-way diversified." The honest count uses the average pairwise correlation: <span class="math">N<sub>eff</sub> = N / (1 + (N&minus;1) &middot; &rho;<sub>avg</sub>)</span>. When all sectors are uncorrelated, effective N equals the actual count. When they are all perfectly correlated, effective N collapses to 1.</p>
+          <p>In the widget's stressed regime, you start with 8 sectors and end up with an effective N of around 2.5. The portfolio behaves like a 2.5-sector portfolio in a crisis. This is why "diversified across sectors" is not the same as "diversified against shocks" &mdash; you also need diversification across geographies (Indian equity vs US equity vs gold), across asset classes (equity vs debt vs real estate), and across factors (value vs momentum vs quality).</p>
+        </details>
+
+        <p>The actionable consequence: do not size positions assuming the calm-regime correlation matrix will hold. Size them assuming the stress-regime one will. If a 30% drawdown in your worst case still leaves you holding a portfolio you can live with, you are properly sized. If it does not, you are over-concentrated, and the calm-regime correlation matrix is lying to you about how much it really is.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-how-to-construct-your-india-portfolio-by-sector">
+    <!-- ============================================================
+         VI. Who actually does the consuming?
+         ============================================================ -->
+    <section class="reveal" id="vi-consumer-tiers">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. How to Construct Your India Portfolio by Sector</h2>
+        <h2>Who actually does the consuming in "Indian consumption"?</h2>
       </div>
       <div class="section-content">
-        <p>Now let me put all of this together into an actionable framework. Based on the sector cycle we are in, here is how I am thinking about Indian portfolio construction:</p>
-<p><strong>Finance (holding, preparing to rotate out): 25-30%</strong></p>
-<p>We are holding existing positions and slowly booking profits. Banks have done well for us. But the thesis is maturing:</p>
-<ul>
-<li>Private banks are losing market share to NBFCs</li>
-<li>PSU banks like SBI were bought at great valuations &ndash; buying now does not make the same sense</li>
-<li>I am bullish on capital market infrastructure plays: CAMS, CDSL, NSE-type stocks. These are critical businesses and buying dips slowly makes sense</li>
-<li>I plan to cut finance with time &ndash; I think they have peaked. Not immediately, but whenever I get an opportunity</li>
-</ul>
-<p><strong>IT (buying the turnaround): 15-20%</strong></p>
-<p>This is maximum allocation for IT within the Indian portfolio. The logic:</p>
-<ul>
-<li>IT has undergone a 4-year time and price correction</li>
-<li>Indian IT will find its own place &ndash; it is needed for data center optimization, EVs, tech consulting, transition to SaaS for mid players, and tech integration in manufacturing</li>
-<li>For every 1 unit of Indian IT, you should have 3-4 units of hyperscalers in the US (Google, NVIDIA, Meta)</li>
-<li>If AI disrupts IT, your AI positions compensate. If AI does not play out as expected, IT bounces back. This is an internal hedge</li>
-</ul>
-<p><strong>Healthcare/Hospitals (building positions): 15-20%</strong></p>
-<p>This is my highest conviction India theme right now. Let me explain the depth of this conviction, because hospitals deserve more attention than most investors give them.</p>
-<p>India is quickly becoming the cancer capital of the world. Oncology is the fastest-growing sub-segment in hospital revenues. The rate of growth in cancer patients is around 3-3.5% CAGR each year &ndash; and these are just official reports. The actual numbers are likely higher given under-diagnosis in rural areas. The consumption of processed food is at an all-time high in India. Even supposedly &ldquo;safe&rdquo; food like eggs are contaminated (look up Eggoz if you have not).</p>
-<p>Here is the critical structural advantage: unlike many other diseases, cancer treatment is primarily done by organized hospitals. It cannot be handled by secondary and tertiary healthcare facilities. This creates a natural moat. You cannot disrupt Apollo or Max Healthcare with an app or a low-cost clinic. The capital requirements to build oncology capacity are enormous, the regulatory barriers are high, and the doctor talent pool is limited.</p>
-<p>I am building 40-50% of my intended hospital positions now and waiting for further corrections to complete the allocation. Names I like: Fortis, Apollo, Max Healthcare. My portfolio construction is based on two questions: am I holding dominant players in sectors unlikely to be disrupted, and are the margins and TAM going to grow? Hospitals answer both with a resounding yes.</p>
-<p><strong>Consumption (deeply selective): 10-15%</strong></p>
-<ul>
-<li>Buy luxury and necessary consumption products: hospitals (already covered), premium experiences</li>
-<li>Sell non-critical products where price wars rage: consider exiting HUL, Asian Paints over time</li>
-<li>Do not buy high-valuation consumption firms (Swiggy, Zomato) &ndash; but add on significant dips</li>
-<li>Look for MOAT businesses at 4-year lows (like DMART)</li>
-</ul>
-<p><strong>Index/Trading allocation: 10-15%</strong></p>
-<ul>
-<li>Nifty 50 for safe swing trades with large capital</li>
-<li>I put 8Cr into a Nifty 50 trade around Diwali, made 2.24% in one month &ndash; that is 25%+ annualized CAGR on low-risk capital</li>
-</ul>
-<p><strong>Cash: 15%</strong></p>
-<ul>
-<li>For Indian markets, being 85% invested and 15% cash is the right positioning now</li>
-<li>This cash is for selling put options on stocks you want to own anyway (a strategy I have been teaching the community)</li>
-</ul>
-<div class="demo reveal" id="chart-1"></div>
+        <p>"Buy Indian consumption" is the laziest one-liner in domestic equities. It treats 1.4 billion people as a single demand block when in fact they sort into at least four distinct consumer tiers, each behaving completely differently in a cycle.</p>
 
-<blockquote>
-<p>Finance, Healthcare and IT are my top picks in India. I am not experimenting with Manufacturing or AI too much here.</p>
-</blockquote>
+        <table class="data-table">
+          <thead>
+            <tr><th>Tier</th><th>Approx. size</th><th>Behaviour</th><th>Cycle sensitivity</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Upper class</td><td>~1 crore</td><td>Buys luxury outright; no EMI calculation</td><td>Very low &mdash; recession-resistant</td></tr>
+            <tr><td>Middle class</td><td>~10 crore</td><td>Loans up for premium goods, EMIs to a lifestyle one tier above</td><td>High &mdash; first to pull back</td></tr>
+            <tr><td>Lower-A</td><td>~25 crore</td><td>Cannot afford luxury even with loans; price-sensitive on durables</td><td>High &mdash; razor-thin merchant margins</td></tr>
+            <tr><td>Survival</td><td>~rest</td><td>Basic necessities only; benefits from subsidies and tax cuts</td><td>Driven by fiscal transfers, not rate cuts</td></tr>
+          </tbody>
+        </table>
+
+        <p>The investment implications fall straight out of the table:</p>
+
+        <ul>
+          <li><strong>Tier 1 businesses</strong> &mdash; premium hospitals (Apollo, Max, Fortis), luxury travel, multiplexes &mdash; are the closest thing Indian equities has to a structural growth story that does not depend on the cycle.</li>
+          <li><strong>Tier 2 businesses</strong> &mdash; Tata Motors, premium real estate, premium consumer electronics &mdash; need wage growth and credit availability simultaneously. Buy them when both are improving, not before.</li>
+          <li><strong>Tier 3 businesses</strong> &mdash; budget durables, entry-level two-wheelers, quick commerce &mdash; compete on price alone. Margins are structurally compressed. A Swiggy or Zepto trading at growth-stock multiples is mispriced<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</li>
+          <li><strong>Tier 4 businesses</strong> &mdash; HUL-style staples &mdash; revive when the fiscal cycle turns. Watch budget transfers, not interest rates.</li>
+        </ul>
+
+        <blockquote>
+          <p>Real wage growth at the national level from Q2 FY20 to Q1 FY25 was essentially flat &mdash; about 0.01% per year. Until that turns, the consumption story is fragile no matter how many TV anchors say it isn't.</p>
+        </blockquote>
+
+        <p>The four-tier framework also explains why the consumption sector dispersion is so wide. In the same quarter, Apollo Hospitals can grow earnings 25% while Hindustan Unilever grows 3% while Zomato burns cash &mdash; because they are not actually in the same business. They are serving four different consumer tiers with four different cycle sensitivities, and the brokerage report that lumps them under "consumption" is treating four cycles as one.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-why-consumption-is-the-only-investable-long-term-theme">
+    <!-- ============================================================
+         VII. How long does a rate cut take to reach a showroom?
+         ============================================================ -->
+    <section class="reveal" id="vii-transmission">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. Why Consumption Is the Only Investable Long-Term Theme</h2>
+        <h2>How long does an RBI rate cut take to reach a Tata Motors showroom?</h2>
       </div>
       <div class="section-content">
-        <p>I know the subtitle of this article says &ldquo;India&rsquo;s consumption story is the only investable theme.&rdquo; Let me explain what I mean by that, because it might sound contradictory to everything I just said about being cautious on consumption right now.</p>
-<p>Here is the difference between <strong>cyclical</strong> and <strong>structural</strong> thinking.</p>
-<p>Cyclically &ndash; meaning right now, in this particular phase of the market &ndash; consumption is the last sector to rally, and many consumption names are still overvalued or facing headwinds. This is why I say sell consumer, do not buy auto, be selective.</p>
-<p>But structurally &ndash; meaning over the next 10-20 years &ndash; consumption is the only truly domestic, India-specific, self-reinforcing theme. Here is why:</p>
-<ol>
-<li>
-<p><strong>IT is an export business.</strong> It depends on US corporate spending. When the US sneezes, Indian IT gets pneumonia. You cannot call this a pure India story.</p>
-</li>
-<li>
-<p><strong>Banking and financial services are infrastructure, not a growth story.</strong> Banks will grow, but they grow roughly in line with nominal GDP. The hyper-growth phase where credit penetration was expanding rapidly is maturing.</p>
-</li>
-<li>
-<p><strong>Government-driven sectors (defence, PSU, infra) are cyclical by nature.</strong> They depend entirely on the political capex cycle. When the government slows down spending &ndash; as it has now &ndash; these sectors stagnate.</p>
-</li>
-<li>
-<p><strong>Consumption is the only sector that grows because India&rsquo;s population is young, urbanizing, and aspirational.</strong> As 25 Crore people move from Tier 3 to Tier 2 purchasing patterns, and as 10 Crore move from Tier 2 to Tier 1, the compounding effect on domestic consumption is massive.</p>
-</li>
-</ol>
-<p>This is why hospitals are my highest-conviction play. Healthcare consumption is non-discretionary, growing structurally (driven by lifestyle diseases, oncology, medical tourism), and impossible to import from China or outsource to AI. The margins expand as hospitals add capacity, because the demand is not price-elastic at the top end.</p>
-<p>The same logic applies to select consumption businesses that serve non-discretionary or aspirational needs that cannot be easily disrupted:</p>
-<ul>
-<li><strong>DMART</strong>: A MOAT-oriented business at a 4-year low. The grocery retail format it dominates is the purest play on India&rsquo;s consumption growth</li>
-<li><strong>Premium hospital chains</strong>: As discussed above</li>
-<li><strong>Capital market infrastructure</strong> (CAMS, CDSL): As more Indians invest, this is consumption of financial services &ndash; structural growth</li>
-</ul>
-<p>The consumption stocks you avoid are the ones in commodity businesses where brand loyalty is low and price wars are inevitable: packaged foods, paints, basic consumer durables. These are Tier 3 and Tier 4 businesses competing on cost, and they are going to see margin compression as Jio, Reliance Retail, Amazon, and Flipkart all chase the same customer.</p>
-<p>Now, I also want to address something I see a lot of investors getting confused about. People ask: &ldquo;If consumption is the only long-term theme, why not just buy consumption stocks now and hold for 10 years?&rdquo; Because <strong>valuation at entry determines your returns</strong>, not the quality of the theme. A stock or industry can be great, but if you buy at wrong prices, you can get stuck with it for years. I had this experience with HDFC &ndash; we eventually made money, but the first few months were painful because we bought too early before the technical breakout.</p>
-<p>This is exactly what is happening with many consumption stocks right now. The themes are right. The timing is not. Wait for the technical confirmations. Wait for stocks to trade at or below 200DMA. Wait for the interest rate cycle to translate into actual consumer demand. Then deploy aggressively. That is the approach that has consistently worked for our community.</p>
-<blockquote>
-<p>India is a great market, with a lot of potential. But the focus of the government is not the markets now. It is elsewhere. Hence, India is a trading market.</p>
-</blockquote>
+        <p>Most investors treat a rate cut as a one-day event &mdash; RBI announces, financial stocks pop, life moves on. In reality, rate transmission is a multi-quarter process that flows through three distinct phases, each lighting up a different sector group. If you understand the phases, you can position one phase ahead of where the consensus is.</p>
+
+        <p><strong>Phase 1 &mdash; the rate-cut quarter itself.</strong> The immediate beneficiaries are banks and NBFCs. Cost of funds drops, lending spreads improve, and the market reprices financial earnings upward. This is the cleanest signal in the cycle: RBI cuts, finance leads for one to two quarters, fund managers chase.</p>
+
+        <p><strong>Phase 2 &mdash; one to two quarters later.</strong> Lower rates work through to EMIs. Home loans get cheaper, auto financing terms improve, small businesses borrow to expand. Housing finance (Aavas, Aptus), autos (Tata Motors, Maruti), and select consumer durables start seeing demand pick up. The order books precede the earnings, so the equity move precedes the earnings beat by another quarter.</p>
+
+        <p><strong>Phase 3 &mdash; two to four quarters later.</strong> Demand at the showroom translates into actual revenue growth at consumer-facing companies. FMCG and discretionary report better same-store-sales. <em>But only if wage growth is also showing up.</em> Without jobs and rising wages, rate cuts on their own cannot drive sustained consumption &mdash; consumers borrow less, not more.</p>
+
+        <div class="math-block">
+          Total transmission lag &asymp; 2 &minus; 4 quarters
+          <span class="math-where">depending on the starting balance-sheet position of households and SMEs</span>
+        </div>
+
+        <p>The practical implication: when RBI starts cutting, the trade is sequenced. Buy financials immediately. Buy housing finance and autos one quarter later. Buy consumer discretionary one or two quarters after that &mdash; but only if you can also see wage growth confirming. Skip steps and you are early; lag the consensus and you are late.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; NBFCs beat banks in the early innings of a cutting cycle</summary>
+          <p>NBFCs (Bajaj Finance, Shriram, Cholamandalam, Muthoot) can reprice their loan books faster than banks because they are not weighed down by legacy deposit structures. In FY25, NBFC loan growth ran around 20% versus bank growth at ~12%. When rates drop, NBFCs pass on the cut faster and grow loan books more aggressively into newly credit-hungry small-business and rural segments.</p>
+          <p>The structural backdrop: every Indian fintech has pivoted to lending (Cred, Paytm, Groww, PhonePe, Razorpay), eating market share that used to belong to private banks. Within finance, the sub-rotation goes <strong>PSU banks &rarr; private banks &rarr; NBFCs &rarr; fintech lenders</strong>. Understanding the granularity inside a sector is what separates good rotation from a coin flip.</p>
+        </details>
+
+        <p>One last piece tying the rate cycle to global flows: as the US Fed eases, the rupee stabilises, FII inflows return, and risk appetite for Indian equities improves. That is the macro tailwind Indian IT needs to revive &mdash; not Indian consumer confidence, but US monetary stance. The same global liquidity easing that helps Indian banks via cost-of-funds <em>also</em> helps Indian IT via US corporate tech-budget recovery, just through a completely different transmission path.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-the-interest-rate-transmission-mechanism">
+    <!-- ============================================================
+         VIII. How should you actually build a sector-aware book?
+         ============================================================ -->
+    <section class="reveal" id="viii-construct">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. The Interest Rate Transmission Mechanism</h2>
+        <h2>How should you actually build a sector-aware book?</h2>
       </div>
       <div class="section-content">
-        <p>Understanding how interest rates flow through the economy and into sector performance is critical for timing your rotations correctly. Most investors get this wrong because they think of rate cuts as a one-time event. In reality, rate transmission is a multi-quarter, multi-sector process.</p>
-<p>Here is how it works in India:</p>
-<p><strong>Phase 1: RBI announces rate cuts</strong></p>
-<p>The immediate beneficiaries are banks and NBFCs. Their cost of borrowing drops, lending spreads improve, and the market reprices financial stocks upward. This is why finance tends to rally in the middle of the cycle &ndash; it coincides with the rate-cutting phase.</p>
-<p>But here is the catch: if RBI cuts too fast, we get a delinquency loan problem. More rate cuts mean more borrowing, and if consumers are already leveraged, faster cuts lead to more defaults. This is why the government has been slow in cutting rates &ndash; they have been strengthening the financial system even at the cost of growth.</p>
-<p><strong>Phase 2: Credit flows to businesses and consumers</strong></p>
-<p>As rates drop, the cost of EMIs falls, home loans become cheaper, and small businesses can borrow to expand. This phase takes 3-6 months to play out after the rate cut. It is during this phase that auto, real estate, and consumer durable companies start seeing improved demand.</p>
-<p>Housing finance companies like Aavas and Aptus benefit directly here. Lower rates mean more home loan originations, higher ticket sizes, and reduced default risk.</p>
-<p><strong>Phase 3: Consumer spending accelerates</strong></p>
-<p>This is the final phase, where FMCG and discretionary consumption companies see actual revenue growth. Consumers who have been holding back start spending again. But this only happens if wage growth accompanies the rate cuts. Without jobs, lower rates alone cannot drive sustained consumption.</p>
-<p>This is why I said earlier that India&rsquo;s consumption story is cyclically weak but structurally strong. We are still in Phase 1 to early Phase 2. The full consumption recovery has not even begun. When it does &ndash; driven by rate cuts, potential job growth, and government tax relief &ndash; the same consumption stocks everyone is bearish on today will be the ones running hardest.</p>
-<p>The practical implication: <strong>Do not rush into consumption stocks now.</strong> Wait for evidence that Phase 2 is translating into real demand (check auto sales data, credit growth numbers, housing starts). Use the time now to build positions in IT (turnaround), hold your finance positions, and accumulate hospitals on every correction.</p>
-<p><strong>The India-US Connection</strong></p>
-<p>One more thing that ties interest rates to sector rotation: as US monetary policy eases, the rupee stabilizes, FII flows return, and global risk appetite for Indian equities improves. This is the macro tailwind that IT needs for revival. When US companies start increasing their technology budgets again, Indian IT order books fill up, earnings revise upward, and the IT sector finally breaks out of its multi-year consolidation.</p>
-<p>This is why I keep saying: Indian IT revival is not an India-dependent event. It is a US-dependent event. And the US monetary cycle is turning. Watch that, not Indian consumer confidence surveys, for your IT entry timing.</p>
-<p>Let me also address the IR impact on a specific sector that confuses many investors: <strong>NBFCs versus banks in a rate-cutting environment</strong>. NBFCs are growing their loan book at roughly 20% for FY25 while banks are growing at only 12%. The leaders &ndash; Bajaj Finance, Shriram Finance, Tata Capital, Cholamandalam, Mahindra Finance, Muthoot Finance, HDB Financial Services, and Poonawalla Fincorp &ndash; focus on digital lending and quick approvals. They lend more to small businesses, rural markets, and gold-backed loans.</p>
-<p>When rates drop, NBFCs actually benefit more than banks in the short term because they can pass on rate cuts faster (they are not burdened by legacy deposit structures) and they can grow their loan books more aggressively into the newly credit-hungry segments. Private banks are losing market share in personal and consumer loans &ndash; this shift is structural, not cyclical. So within the finance sector, the rotation is clear: book profits on traditional banks, increase exposure to high-quality NBFCs, and watch fintech lenders like Jio Finance for dip-buying opportunities.</p>
-<p>There is one more rate-sensitive segment worth mentioning: <strong>gold loan firms</strong>. I am not touching them right now. Their previous inventory got revalued at higher rates during the gold rally, which expanded profits artificially. There might be a slowdown in gold buying, plus there is a chance of price stagnation. And the sentiment in the gold loan space is very bullish &ndash; which is usually a contrarian signal to stay away.</p>
+        <p>Stitch the heatmap (Section II), the dispersion view (Section III), the correlation reality (Section V), and the consumption tier framework (Section VI) together, and a concrete India-allocation falls out. Here is what mid-cycle India looks like as a portfolio &mdash; mid-cycle defined as "government capex slowing, RBI in a cutting cycle, wage growth flat":</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Sleeve</th><th>Weight</th><th>Posture</th><th>Why</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Finance (banks + NBFCs)</td><td>25&ndash;30%</td><td>Hold, gradually trim into strength</td><td>Mature thesis; book partial profits as rate cuts get priced in</td></tr>
+            <tr><td>IT services</td><td>15&ndash;20%</td><td>Turnaround buy</td><td>4-year price-and-time correction; US Fed easing is the catalyst</td></tr>
+            <tr><td>Hospitals &amp; healthcare</td><td>15&ndash;20%</td><td>Accumulate on dips</td><td>Highest-conviction structural Tier-1 consumption play</td></tr>
+            <tr><td>Selective consumption</td><td>10&ndash;15%</td><td>Wait for technical confirmation</td><td>Right theme, wrong cycle phase</td></tr>
+            <tr><td>Index / trading sleeve</td><td>10&ndash;15%</td><td>Active swing trades on Nifty 50</td><td>Liquid vehicle for large capital with short horizon</td></tr>
+            <tr><td>Cash</td><td>~15%</td><td>For CSPs and rotation</td><td>Capital you can deploy on the next sector that turns</td></tr>
+          </tbody>
+        </table>
+
+        <p>Two structural notes that hold across allocations:</p>
+
+        <ol>
+          <li><strong>Maximum 5% in any single stock.</strong> The 5% rule gives you room for ~20 names and ensures that even a sector-wide drawdown is survivable. Investors blow up on options or on single-stock concentration, not on the underlying ideas.</li>
+          <li><strong>2&ndash;3 units of US equity for every 1 unit of Indian equity.</strong> Over a 10-year horizon, USD Nasdaq returns are comparable to INR Indian small-and-mid caps but with materially lower volatility, and currency depreciation adds roughly 3% CAGR of FX tailwind to USD-denominated holdings<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>.</li>
+        </ol>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p><strong>The job is not to predict the next phase. It is to know the order of phases and have a named destination for every rupee you rotate out of a sector that just ran.</strong> If you book partial profits in PSU banks at +30% but you have no idea where the cash goes next, you will sit in cash too long and miss the next leg. Predefine the rotation order before you place the first trade.</p>
+        </div>
+
+        <p>Real estate sits outside the equity sleeve but rhymes with it. As your stock portfolio crosses meaningful thresholds (2 crore+, then 5 crore+), withdraw a chunk into hard assets &mdash; ideally land and villas, not flats &mdash; because they buffer the equity book during deep drawdowns and let you keep buying when others are forced to sell. RBI's relaxation of ECB norms and the slow regularisation of REITs means foreign capital can now flow into Indian real estate at scale, which structurally tightens the asset's supply-demand balance over the next decade.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-putting-it-all-together-your-sector-rotation-playbook">
+    <!-- ============================================================
+         IX. The five-rule sector-rotation playbook
+         ============================================================ -->
+    <section class="reveal" id="ix-playbook">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. Putting It All Together: Your Sector Rotation Playbook</h2>
+        <h2>The five-rule sector-rotation playbook</h2>
       </div>
       <div class="section-content">
-        <p>Let me now give you a practical framework you can use to navigate sector cycles going forward. This is not just theory &ndash; this is what I have been doing with real money on our community.</p>
-<p><strong>Step 1: Identify where we are in the cycle</strong></p>
-<p>Look at three things:
-- Government capex trajectory (rising = early cycle; slowing = mid-to-late cycle)
-- Interest rate direction (cutting = mid cycle; low rates holding = late cycle)
-- Consumer confidence and wage growth (improving = late cycle approaching)</p>
-<p>Right now, government capex has slowed, RBI is in a rate-cutting cycle, and wage growth is flat. We are firmly in the mid-cycle phase. This means banks and IT should be your focus, with consumption being accumulated selectively on deep corrections.</p>
-<p><strong>Step 2: Build your core positions in the leading sectors</strong></p>
-<p>Do not wait for confirmation. By the time everyone agrees that IT is recovering, the stocks will already be up 30%. The whole point of understanding sector rotation is to act before the crowd.</p>
-<p>I built IT positions when most investors were bearish. I held banks when nobody wanted them. The community made money because we understood the sequence and positioned early.</p>
-<p><strong>Step 3: Capital rotation is the game</strong></p>
-<p>India is a capital rotation market. When one sector runs up 30%, book 25% of your profits and rotate into the next sector in the sequence that is still beaten down. Here is a practical example:</p>
-<ul>
-<li>City Union Bank was up 30% in 3 months on our portfolio</li>
-<li>I rotated some capital out and started positions in beaten-down stocks</li>
-<li>Took a small position in CRISIL below 200DMA, leaving room to downward average</li>
-</ul>
-<p>This is the rhythm: buy beaten down, wait for recovery, book partial profits, rotate into the next beaten-down sector. Repeat.</p>
-<p><strong>Step 4: Use index positions for safety and capital deployment</strong></p>
-<p>When you cannot find specific stocks at good valuations but want market exposure, use Nifty 50. It is safer, more liquid, and lets you deploy large capital for short-term trades:</p>
-<ul>
-<li>10x capital at 15% returns through safe index trades beats 1x capital trying to make 30% on risky individual picks</li>
-<li>Layer covered calls on your index position for additional premium income</li>
-<li>When individual stocks correct to your target levels, rotate from index to direct equity</li>
-</ul>
-<p><strong>Step 5: Hedge across geographies</strong></p>
-<p>This is perhaps the most important lesson I can leave you with. For every 1 unit of Indian equity, you should have at least 2-3 units in US markets. This is not anti-India sentiment. This is math:</p>
-<ul>
-<li>Nasdaq composite in USD delivers equal performance to India&rsquo;s small and mid caps over a 10-year period</li>
-<li>By investing in lower-risk Nasdaq, you get almost equal returns with lower volatility</li>
-<li>The Sharpe ratio of US tech vastly exceeds Indian small and mid caps</li>
-<li>Currency depreciation (INR weakening against USD) gives you an additional 3% CAGR tailwind just from exchange rate movements</li>
-</ul>
-<p>If you want long-term structural growth: US markets (AI, hyperscalers, tech). If you want India-specific returns: hospitals, IT turnaround, and selective finance. If you want to trade: Nifty 50 with large capital, short durations, and options strategies.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Every framework collapses without execution rules. Five hold up across cycles:</p>
 
-<p><strong>The Bottom Line</strong></p>
-<p>Markets are cyclical. Sectors rotate in a predictable sequence. The government spends, PSUs rally. Global conditions improve, IT rallies. Credit expands, banks rally. Consumers feel confident, FMCG rallies. Each phase creates the conditions for the next.</p>
-<p>Your job as an investor is not to chase whatever is running hot today. It is to understand the sequence, position yourself in the next sector to rally, and rotate capital systematically as each phase plays out.</p>
-<p>I have been doing this for years. The community has verified the results. PSU banks gave us 100%+. Zomato gave us 100%. We exited Swiggy at 21% profits when I saw the q-commerce war coming. We avoided Indian markets for 1.5 years when they were overvalued and put that money into US stocks for 40%+ returns.</p>
-<p>None of this was luck. It was understanding cycle, sequence, and timing.</p>
-<p><strong>A Note on Position Sizing Across Sectors</strong></p>
-<p>One more practical point that ties everything together. Maximum 5% portfolio exposure to each individual stock. This is non-negotiable. I have seen too many investors fall in love with one stock and put 20-30% of their portfolio into it. When it corrects 40% (as many stocks do), they are psychologically and financially destroyed.</p>
-<p>The 5% rule gives you room for 20 stocks across multiple sectors. Within those 20 positions, you express your sector views through weighting:</p>
-<ul>
-<li>If you are bullish on IT, you have 3-4 IT names at 5% each = 15-20% sector exposure</li>
-<li>If you are cautious on consumption, you have 2 names at 3-4% each = 6-8% sector exposure</li>
-<li>If you are building hospital positions, you have 3 names at 4-5% each = 12-15% sector exposure</li>
-</ul>
-<p>This approach ensures that even if an entire sector goes against you, the damage is contained. And when a sector runs in your favor, the 15-20% weighting generates meaningful returns on the overall portfolio.</p>
-<p>I follow this rigorously. When my portfolio goes above 2Cr+, I withdraw 30% into real estate. When individual stocks run up significantly, I book at least 50% profits when they go 10-15% above their 200DMA. With that cash, I either sell CSPs (cash secured puts) to collect premiums or rotate into the next beaten-down sector. This system compounds over years.</p>
-<p>Now you understand the framework. Start applying it. Begin with where we are in the cycle today, build your positions accordingly, and have the patience to let the sequence play out. Capital rotation is the game. Sector cycles are the map.</p>
-<blockquote>
-<p>Your competition is not with me. It is with inflation. Your goal should be to learn from this community. Not keep comparing your portfolio size to mine.</p>
-</blockquote>
-<p>The path is clear. Be ruthless &ndash; and sector, geography, and asset class agnostic. The money goes where the returns are. Right now, that means accumulating IT and healthcare in India, holding banks with a finger on the exit, and keeping your heaviest allocations in US AI and tech. When the Indian consumption cycle finally turns &ndash; and it will &ndash; you will be positioned to ride it from the beginning, not scramble to catch up at the end.</p>
+        <p><strong>Rule 1. Identify the phase before placing the trade.</strong> Three signals: government capex trajectory, RBI rate direction, and wage growth. Rising capex = early cycle. Cuts ongoing with wages flat = mid cycle (where we are now). Cuts done, wages rising = late cycle. Get the phase right and the sector tilt picks itself.</p>
+
+        <p><strong>Rule 2. Build the next sector while you still hold the current one.</strong> The single biggest cost in rotation is sitting in cash between trades. By the time consensus confirms IT has bottomed, IT is up 30%. The right move is to start sizing into the next sector on weakness, while you are still holding the leader.</p>
+
+        <p><strong>Rule 3. Rotate on price, not on opinion.</strong> When a sector you own runs 25&ndash;30% and trades 10&ndash;15% above its 200DMA, book at least half. Move that capital into the next sector that is closest to its 200DMA from below. The system runs on relative price, not relative conviction.</p>
+
+        <p><strong>Rule 4. Use the index when you cannot find single-stock value.</strong> Nifty 50 is liquid enough to absorb large capital without slippage. Layer covered calls on the index position for premium income. When individual stocks correct into your target zone, rotate from index back into single-stock exposure. The index is the holding pool, not the destination.</p>
+
+        <p><strong>Rule 5. Hedge across geographies, not just sectors.</strong> Sector rotation works within India. But the largest source of return variance over a decade is country and currency, not sector. The 2&ndash;3x US-equity overweight is not an anti-India view &mdash; it is acknowledgement that the cross-country dispersion swamps the cross-sector dispersion most of the time.</p>
+
+        <p>Put the rules together and you get a system that does not require you to call the next leg perfectly. It requires you to know the order of legs, size to survive being wrong on any one of them, and have a destination for every dollar you rotate. The investors who do well in Indian equities over the next decade will not be the ones who picked the next multibagger. They will be the ones who knew the sequence and stayed in capital-rotation rhythm with it.</p>
+
+        <p>Markets are cyclical. Sectors rotate in a roughly predictable sequence. The government spends; PSUs rally. Global conditions improve; IT rallies. Credit expands; banks rally. Consumers feel confident; FMCG rallies. Each phase creates the conditions for the next. Your job is to know where you are in the loop &mdash; and to be one step ahead of the consensus on where it goes next.</p>
+
+        <p>That is what sector cycles are for. Not a prediction tool. A positioning tool.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Decadal Nifty 50 return decay is widely documented in NSE Indices price-history data. The structural mechanism is that as index market-cap grows, the proportional impact of any single sector boom shrinks, and the index converges toward nominal-GDP-like returns. The transition from "small market in fast-growing economy" to "large market in maturing economy" looks the same in the US (1950s&ndash;1970s), Japan (1960s&ndash;1980s), and now India (2000s onward). <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Zomato peaked at a trailing P/E well above 1500 in mid-2024 during peak quick-commerce optimism. Swiggy raised an additional &#8377;10,000 crore within a year of IPO and sold its Rapido stake for &#8377;2,400 crore &mdash; both signals that the cash burn implied by the price competition with Zepto, BigBasket, Reliance Retail, Amazon and Flipkart is structurally larger than the IPO proceeds anticipated. Margin compression in this Tier-3-customer business is not cyclical, it is structural. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">USD/INR has depreciated roughly 3% per year on average over the last two decades. The relevant comparison for an Indian investor allocating between domestic and US equities is therefore <em>USD returns plus FX tailwind</em> against <em>INR returns</em>. On a Sharpe-adjusted basis, Nasdaq 100 has historically delivered a comparable return to Indian small-and-mid caps at materially lower volatility &mdash; the geographic diversification is not a thesis, it is arithmetic. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -425,12 +538,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -439,23 +552,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -470,555 +572,633 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 620, H = 420;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var sectors = [{"name": "PSU/Defence", "color": "#4299e1", "weights_by_phase": {"Early Cycle": 30, "Mid Cycle": 22, "Late Cycle": 14, "Recession": 6}}, {"name": "IT/Tech", "color": "#805ad5", "weights_by_phase": {"Early Cycle": 22, "Mid Cycle": 30, "Late Cycle": 22, "Recession": 14}}, {"name": "Banks/NBFC", "color": "#48bb78", "weights_by_phase": {"Early Cycle": 14, "Mid Cycle": 22, "Late Cycle": 30, "Recession": 22}}, {"name": "Hospitals", "color": "#ed8936", "weights_by_phase": {"Early Cycle": 6, "Mid Cycle": 14, "Late Cycle": 22, "Recession": 30}}, {"name": "FMCG/Auto", "color": "#ecc94b", "weights_by_phase": {"Early Cycle": 5, "Mid Cycle": 6, "Late Cycle": 14, "Recession": 22}}];
-  var phases = ["Early Cycle", "Mid Cycle", "Late Cycle", "Recession"];
-  var currentPhase = 0;
-  var animating = false;
+  <!-- ============================================================
+       Shared sector data (used by widgets 1, 2, 3)
+       ============================================================ -->
+  <script>
+    // 12 sectors for the heatmap; first 8 reused for dispersion + correlation.
+    var SECTORS = [
+      { name: 'PSU Banks',        short: 'PSU Bk',  loadings: { early: 1.0, late: 0.5, contract: -0.6, recover: 0.7 } },
+      { name: 'Defence / Infra',  short: 'Defence', loadings: { early: 1.0, late: 0.4, contract: -0.4, recover: 0.5 } },
+      { name: 'Materials',        short: 'Materls', loadings: { early: 0.8, late: 0.7, contract: -0.7, recover: 0.4 } },
+      { name: 'IT Services',      short: 'IT',      loadings: { early: 0.3, late: 1.0, contract: -0.7, recover: 0.6 } },
+      { name: 'Private Banks',    short: 'Pvt Bk',  loadings: { early: 0.6, late: 0.9, contract: -0.6, recover: 0.7 } },
+      { name: 'NBFCs',            short: 'NBFC',    loadings: { early: 0.5, late: 1.0, contract: -0.9, recover: 0.8 } },
+      { name: 'Auto',             short: 'Auto',    loadings: { early: 0.4, late: 0.9, contract: -0.9, recover: 0.5 } },
+      { name: 'Consumer Disc.',   short: 'Discr.',  loadings: { early: 0.2, late: 1.0, contract: -1.0, recover: 0.3 } },
+      { name: 'FMCG / Staples',   short: 'FMCG',    loadings: { early: -0.4, late: -0.3, contract: 0.7, recover: -0.2 } },
+      { name: 'Pharma',           short: 'Pharma',  loadings: { early: -0.2, late: -0.1, contract: 0.8, recover: 0.0 } },
+      { name: 'Hospitals',        short: 'Hosp.',   loadings: { early: 0.0, late: 0.3, contract: 0.4, recover: 0.4 } },
+      { name: 'Utilities',        short: 'Utils',   loadings: { early: -0.3, late: -0.2, contract: 0.6, recover: -0.1 } }
+    ];
+    var PHASES = ['Early expansion', 'Late expansion', 'Contraction', 'Recovery'];
+    var PHASE_KEYS = ['early', 'late', 'contract', 'recover'];
+  </script>
 
-  container.innerHTML = '';
-  container.classList.add('demo');
+  <!-- ============================================================
+       WIDGET 1 — Rotating sector heatmap
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 480 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { pos: 0, speed: 0 };
+    var anim = null;
+    var hover = null;
 
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Indian Market Sector Rotation Sequence";
-  container.appendChild(title);
-
-  // Phase buttons
-  var btnRow = document.createElement('div');
-  btnRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;';
-  container.appendChild(btnRow);
-
-  var buttons = [];
-  for (var i = 0; i < phases.length; i++) {
-    var btn = document.createElement('button');
-    btn.textContent = phases[i];
-    btn.dataset.idx = i;
-    btn.style.cssText = 'padding:6px 14px;border:1px solid var(--accent);background:transparent;color:var(--text);border-radius:4px;cursor:pointer;font-size:12px;transition:all 0.3s;';
-    btnRow.appendChild(btn);
-    buttons.push(btn);
-  }
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // State for animation
-  var currentWeights = sectors.map(function(s) {
-    return s.weights_by_phase[phases[0]] || 0;
-  });
-  var targetWeights = currentWeights.slice();
-
-  function normalizeWeights(weights) {
-    var total = weights.reduce(function(a, b) { return a + b; }, 0);
-    if (total === 0) return weights.map(function() { return 100 / weights.length; });
-    return weights.map(function(w) { return (w / total) * 100; });
-  }
-
-  function updateButtons() {
-    for (var i = 0; i < buttons.length; i++) {
-      if (i === currentPhase) {
-        buttons[i].style.background = 'var(--accent)';
-        buttons[i].style.color = '#fff';
-        buttons[i].style.borderColor = 'var(--accent)';
+    function colorFor(load) {
+      // load in roughly [-1, 1]. Map to a red->amber->green gradient.
+      var t = Math.max(-1, Math.min(1, load));
+      var r, g, b;
+      if (t >= 0) {
+        // accent green (56,132,92)-ish at strong; pale yellow at 0
+        r = Math.round(245 - (245 - 56)  * t);
+        g = Math.round(225 - (225 - 132) * t);
+        b = Math.round(170 - (170 - 92)  * t);
       } else {
-        buttons[i].style.background = 'transparent';
-        buttons[i].style.color = 'var(--text)';
-        buttons[i].style.borderColor = 'var(--accent)';
+        // red (197,48,48) at -1, pale yellow at 0
+        var tn = -t;
+        r = Math.round(245 + (197 - 245) * tn);
+        g = Math.round(225 + (48  - 225) * tn);
+        b = Math.round(170 + (48  - 170) * tn);
       }
-    }
-  }
-
-  function drawChart(weights) {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var nWeights = normalizeWeights(weights);
-    var plotW = W - pad.left - pad.right;
-    var barAreaH = H - pad.top - pad.bottom;
-
-    // Draw horizontal stacked bars (one bar per sector, height proportional to weight)
-    var y = pad.top;
-    for (var i = 0; i < sectors.length; i++) {
-      var segH = (nWeights[i] / 100) * barAreaH;
-      if (segH < 1) { y += segH; continue; }
-
-      var rect = drawRect(svg, pad.left, y, plotW, segH, sectors[i].color || 'var(--accent)', 4);
-      rect.setAttribute('opacity', 0.8);
-
-      // Label inside bar
-      if (segH > 18) {
-        drawText(svg, pad.left + 12, y + segH / 2, sectors[i].name, {
-          fontSize: 13, fill: '#fff', anchor: 'start', fontWeight: 'bold', dy: '0.35em'
-        });
-        drawText(svg, W - pad.right - 12, y + segH / 2, nWeights[i].toFixed(1) + '%', {
-          fontSize: 13, fill: '#fff', anchor: 'end', fontWeight: 'bold', dy: '0.35em'
-        });
-      } else if (segH > 10) {
-        drawText(svg, pad.left + plotW / 2, y + segH / 2, sectors[i].name + ' ' + nWeights[i].toFixed(1) + '%', {
-          fontSize: 10, fill: '#fff', anchor: 'middle', dy: '0.35em'
-        });
-      }
-
-      // Hover
-      (function(idx, ry, rh) {
-        rect.style.cursor = 'pointer';
-        rect.addEventListener('mouseenter', function() {
-          rect.setAttribute('opacity', 1);
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + sectors[idx].name + '</strong><br>'
-            + 'Weight: ' + nWeights[idx].toFixed(1) + '%<br>'
-            + 'Phase: ' + phases[currentPhase];
-          tooltip.style.left = '50%';
-          tooltip.style.top = ((ry + rh / 2) / H * 100) + '%';
-          tooltip.style.transform = 'translate(-50%, -50%)';
-        });
-        rect.addEventListener('mouseleave', function() {
-          rect.setAttribute('opacity', 0.8);
-          tooltip.style.display = 'none';
-        });
-      })(i, y, segH);
-
-      y += segH;
+      return 'rgb(' + r + ',' + g + ',' + b + ')';
     }
 
-    // Phase label
-    drawText(svg, W / 2, H - 6, phases[currentPhase], {
-      fontSize: 14, fill: 'var(--accent)', anchor: 'middle', fontWeight: 'bold'
-    });
-  }
+    function layout() {
+      var pad = { top: 50, right: 18, bottom: 38, left: 110 };
+      var cellW = (W - pad.left - pad.right) / 4;
+      var cellH = (H - pad.top - pad.bottom) / SECTORS.length;
+      return { pad: pad, cellW: cellW, cellH: cellH };
+    }
 
-  function animateToPhase(phaseIdx) {
-    if (animating) return;
-    currentPhase = phaseIdx;
-    updateButtons();
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var lay = layout();
+      var pad = lay.pad, cellW = lay.cellW, cellH = lay.cellH;
 
-    targetWeights = sectors.map(function(s) {
-      return s.weights_by_phase[phases[phaseIdx]] || 0;
-    });
-
-    var startWeights = currentWeights.slice();
-    var duration = 500;
-    var startTime = null;
-    animating = true;
-
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var elapsed = timestamp - startTime;
-      var t = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      var ease = 1 - Math.pow(1 - t, 3);
-
-      for (var i = 0; i < currentWeights.length; i++) {
-        currentWeights[i] = startWeights[i] + (targetWeights[i] - startWeights[i]) * ease;
+      // Column headers
+      for (var c = 0; c < 4; c++) {
+        var cx = pad.left + (c + 0.5) * cellW;
+        drawTextCanvas(ctx, cx, pad.top - 14, PHASES[c], {
+          fontSize: 11, color: 'var(--text-secondary)', weight: '600', baseline: 'middle'
+        });
       }
 
-      drawChart(currentWeights);
+      // Sweep band based on continuous position
+      var posIdx = state.pos / 100 * 4; // 0..4 across columns
+      var bandCenterX = pad.left + posIdx * cellW;
+      var bandHalf = cellW * 0.55;
+      ctx.save();
+      ctx.fillStyle = 'rgba(34, 84, 61, 0.08)';
+      ctx.fillRect(
+        Math.max(pad.left, bandCenterX - bandHalf),
+        pad.top,
+        Math.min(W - pad.right, bandCenterX + bandHalf) - Math.max(pad.left, bandCenterX - bandHalf),
+        cellH * SECTORS.length
+      );
+      ctx.restore();
 
-      if (t < 1) {
-        requestAnimationFrame(step);
+      // Cells
+      for (var i = 0; i < SECTORS.length; i++) {
+        var s = SECTORS[i];
+        // Sector name on the left
+        drawTextCanvas(ctx, pad.left - 10, pad.top + (i + 0.5) * cellH, s.name, {
+          fontSize: 11, color: 'var(--text)', align: 'right', baseline: 'middle'
+        });
+        for (var c2 = 0; c2 < 4; c2++) {
+          var load = s.loadings[PHASE_KEYS[c2]];
+          var x = pad.left + c2 * cellW;
+          var y = pad.top + i * cellH;
+          ctx.fillStyle = colorFor(load);
+          ctx.fillRect(x + 1, y + 1, cellW - 2, cellH - 2);
+          // Hover ring
+          if (hover && hover.row === i && hover.col === c2) {
+            ctx.save();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x + 2, y + 2, cellW - 4, cellH - 4);
+            ctx.restore();
+          }
+          // Inline load value
+          var lbl = (load >= 0 ? '+' : '') + load.toFixed(1);
+          drawTextCanvas(ctx, x + cellW/2, y + cellH/2, lbl, {
+            fontSize: 11, color: Math.abs(load) > 0.55 ? '#fff' : '#333',
+            weight: '600', baseline: 'middle'
+          });
+        }
+      }
+
+      // Sweep marker line
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--accent)');
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(bandCenterX, pad.top);
+      ctx.lineTo(bandCenterX, pad.top + cellH * SECTORS.length);
+      ctx.stroke();
+      ctx.restore();
+
+      // Bottom legend
+      var legendY = H - pad.bottom + 22;
+      drawTextCanvas(ctx, pad.left, legendY, 'Underperform', { fontSize: 10, color: '#c53030', align: 'left' });
+      drawTextCanvas(ctx, (W + pad.left - pad.right) / 2, legendY, 'Neutral', { fontSize: 10, color: '#888' });
+      drawTextCanvas(ctx, W - pad.right, legendY, 'Outperform', { fontSize: 10, color: resolveCSSColor('var(--accent)'), align: 'right' });
+
+      // Phase label readout
+      var phaseLabel;
+      if (posIdx < 1) phaseLabel = PHASES[0];
+      else if (posIdx < 2) phaseLabel = PHASES[1];
+      else if (posIdx < 3) phaseLabel = PHASES[2];
+      else phaseLabel = PHASES[3];
+      document.getElementById('w1-pos-val').textContent = phaseLabel;
+
+      // Tooltip text above the heatmap
+      if (hover) {
+        var s2 = SECTORS[hover.row];
+        var ld = s2.loadings[PHASE_KEYS[hover.col]];
+        var sign = ld >= 0 ? 'outperforms' : 'underperforms';
+        var msg = s2.name + ' ' + sign + ' in ' + PHASES[hover.col] + ' (load ' + (ld >= 0 ? '+' : '') + ld.toFixed(2) + ')';
+        drawTextCanvas(ctx, W/2, 16, msg, { fontSize: 12, color: 'var(--text)', weight: '600' });
       } else {
-        currentWeights = targetWeights.slice();
-        animating = false;
-      }
-    }
-    requestAnimationFrame(step);
-  }
-
-  // Button handlers
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', function() {
-      animateToPhase(parseInt(this.dataset.idx));
-    });
-  }
-
-  updateButtons();
-  drawChart(currentWeights);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < sectors.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + (sectors[i].color || 'var(--accent)') + ';display:inline-block;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(sectors[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 600, H = 200;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var assets = [{"name": "Finance/Banks", "min_weight": 15, "max_weight": 30, "color": "#4299e1"}, {"name": "IT/Tech", "min_weight": 10, "max_weight": 20, "color": "#48bb78"}, {"name": "Healthcare", "min_weight": 10, "max_weight": 20, "color": "#ecc94b"}, {"name": "Consumption", "min_weight": 5, "max_weight": 15, "color": "#a0aec0"}, {"name": "Index/Trading", "min_weight": 5, "max_weight": 20, "color": "#ed8936"}, {"name": "Cash", "min_weight": 10, "max_weight": 25, "color": "#805ad5"}];
-  var risk = 5;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "India Portfolio Sector Allocation Framework";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var riskLabel = document.createElement('label');
-  riskLabel.textContent = 'Risk Tolerance: ';
-  var riskVal = document.createElement('span');
-  riskVal.style.fontWeight = '600';
-  riskVal.textContent = risk + '/10';
-  riskLabel.appendChild(riskVal);
-  ctrl.appendChild(riskLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = 10;
-  slider.value = risk;
-  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(legend);
-
-  function computeWeights(r) {
-    // r from 1-10: interpolate each asset between min_weight and max_weight
-    // Higher risk => more equity-heavy (first assets get closer to max)
-    var t = (r - 1) / 9; // 0..1
-    var raw = [];
-    var total = 0;
-    for (var i = 0; i < assets.length; i++) {
-      var a = assets[i];
-      // First asset (equity) scales up with risk, last (cash) scales down
-      var bias = i === 0 ? t : (i === assets.length - 1 ? 1 - t : 0.5);
-      var w = a.min_weight + (a.max_weight - a.min_weight) * bias;
-      raw.push(w);
-      total += w;
-    }
-    // Normalize to 100
-    return raw.map(function(w) { return (w / total) * 100; });
-  }
-
-  var rects = [];
-  var labels = [];
-
-  function draw(animate) {
-    var weights = computeWeights(risk);
-    var barY = pad.top + 10;
-    var barH = H - pad.top - pad.bottom - 20;
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-
-    // On first draw, create elements
-    if (rects.length === 0) {
-      for (var i = 0; i < assets.length; i++) {
-        var r = drawRect(svg, x, barY, 0, barH, assets[i].color, 4);
-        r.style.transition = 'x 0.4s ease, width 0.4s ease';
-        rects.push(r);
-
-        var lbl = drawText(svg, 0, barY + barH / 2, '', {
-          fontSize: 12, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-        });
-        lbl.style.transition = 'x 0.3s ease';
-        labels.push(lbl);
+        drawTextCanvas(ctx, W/2, 16, 'Sector behaviour by cycle phase — hover any cell', { fontSize: 11, color: 'var(--text-secondary)' });
       }
     }
 
-    x = pad.left;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      rects[i].setAttribute('x', x);
-      rects[i].setAttribute('width', Math.max(segW, 0));
-
-      var pctText = weights[i].toFixed(1) + '%';
-      labels[i].textContent = segW > 40 ? assets[i].name + ' ' + pctText : pctText;
-      labels[i].setAttribute('x', x + segW / 2);
-      labels[i].style.display = segW > 20 ? '' : 'none';
-
-      x += segW;
-    }
-
-    // Update legend
-    legend.innerHTML = '';
-    for (var i = 0; i < assets.length; i++) {
-      var item = document.createElement('span');
-      item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-      var dot = document.createElement('span');
-      dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + assets[i].color + ';display:inline-block;';
-      item.appendChild(dot);
-      item.appendChild(document.createTextNode(assets[i].name + ': ' + weights[i].toFixed(1) + '%'));
-      legend.appendChild(item);
-    }
-  }
-
-  // Hover on segments
-  svg.addEventListener('mousemove', function(e) {
-    var rect = svg.getBoundingClientRect();
-    var mx = (e.clientX - rect.left) / rect.width * W;
-    var weights = computeWeights(risk);
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-    var found = false;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      if (mx >= x && mx <= x + segW) {
-        tooltip.style.display = 'block';
-        tooltip.innerHTML = '<strong>' + assets[i].name + '</strong><br>' + weights[i].toFixed(1) + '% of portfolio';
-        tooltip.style.left = ((x + segW / 2) / W * 100) + '%';
-        tooltip.style.top = '10px';
-        tooltip.style.transform = 'translateX(-50%)';
-        found = true;
-        break;
-      }
-      x += segW;
-    }
-    if (!found) tooltip.style.display = 'none';
-  });
-
-  svg.addEventListener('mouseleave', function() {
-    tooltip.style.display = 'none';
-  });
-
-  draw(false);
-
-  slider.addEventListener('input', function() {
-    risk = parseInt(this.value);
-    riskVal.textContent = risk + '/10';
-    draw(true);
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 420;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var sectors = [{"name": "PSU/Defence (Exit)", "color": "#4299e1", "weights_by_phase": {"Early Cycle": 30, "Mid Cycle": 22, "Late Cycle": 14, "Recession": 6}}, {"name": "Banks (Hold/Trim)", "color": "#805ad5", "weights_by_phase": {"Early Cycle": 22, "Mid Cycle": 30, "Late Cycle": 22, "Recession": 14}}, {"name": "IT (Accumulate)", "color": "#48bb78", "weights_by_phase": {"Early Cycle": 14, "Mid Cycle": 22, "Late Cycle": 30, "Recession": 22}}, {"name": "Healthcare (Build)", "color": "#ed8936", "weights_by_phase": {"Early Cycle": 6, "Mid Cycle": 14, "Late Cycle": 22, "Recession": 30}}, {"name": "FMCG (Wait)", "color": "#ecc94b", "weights_by_phase": {"Early Cycle": 5, "Mid Cycle": 6, "Late Cycle": 14, "Recession": 22}}];
-  var phases = ["Early Cycle", "Mid Cycle", "Late Cycle", "Recession"];
-  var currentPhase = 0;
-  var animating = false;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Capital Rotation Flow: Current Market Phase";
-  container.appendChild(title);
-
-  // Phase buttons
-  var btnRow = document.createElement('div');
-  btnRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;';
-  container.appendChild(btnRow);
-
-  var buttons = [];
-  for (var i = 0; i < phases.length; i++) {
-    var btn = document.createElement('button');
-    btn.textContent = phases[i];
-    btn.dataset.idx = i;
-    btn.style.cssText = 'padding:6px 14px;border:1px solid var(--accent);background:transparent;color:var(--text);border-radius:4px;cursor:pointer;font-size:12px;transition:all 0.3s;';
-    btnRow.appendChild(btn);
-    buttons.push(btn);
-  }
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // State for animation
-  var currentWeights = sectors.map(function(s) {
-    return s.weights_by_phase[phases[0]] || 0;
-  });
-  var targetWeights = currentWeights.slice();
-
-  function normalizeWeights(weights) {
-    var total = weights.reduce(function(a, b) { return a + b; }, 0);
-    if (total === 0) return weights.map(function() { return 100 / weights.length; });
-    return weights.map(function(w) { return (w / total) * 100; });
-  }
-
-  function updateButtons() {
-    for (var i = 0; i < buttons.length; i++) {
-      if (i === currentPhase) {
-        buttons[i].style.background = 'var(--accent)';
-        buttons[i].style.color = '#fff';
-        buttons[i].style.borderColor = 'var(--accent)';
+    canvas.addEventListener('mousemove', function(e) {
+      var rect = canvas.getBoundingClientRect();
+      var mx = (e.clientX - rect.left);
+      var my = (e.clientY - rect.top);
+      var lay = layout();
+      var col = Math.floor((mx - lay.pad.left) / lay.cellW);
+      var row = Math.floor((my - lay.pad.top) / lay.cellH);
+      if (col >= 0 && col < 4 && row >= 0 && row < SECTORS.length) {
+        hover = { row: row, col: col };
       } else {
-        buttons[i].style.background = 'transparent';
-        buttons[i].style.color = 'var(--text)';
-        buttons[i].style.borderColor = 'var(--accent)';
+        hover = null;
+      }
+      draw();
+    });
+    canvas.addEventListener('mouseleave', function() { hover = null; draw(); });
+
+    attachSliders([
+      { el: document.getElementById('w1-pos'),   label: document.getElementById('w1-pos-val'),   format: function(v){ return PHASES[Math.min(3, Math.floor(v/25))]; } },
+      { el: document.getElementById('w1-speed'), label: document.getElementById('w1-speed-val'), format: function(v){ return v === 0 ? 'paused' : v.toFixed(1) + '×'; } }
+    ], function(vals) {
+      state.pos = vals['w1-pos'];
+      state.speed = vals['w1-speed'];
+      if (anim) { anim.stop(); anim = null; }
+      if (state.speed > 0) {
+        anim = animate(function(elapsed, dt) {
+          state.pos = (state.pos + (dt / 1000) * 6 * state.speed) % 100;
+          document.getElementById('w1-pos').value = state.pos;
+          draw();
+        });
+        anim.start();
+      }
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Performance dispersion over time (animated)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 460 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { q: 0, speed: 1, seed: 42 };
+    var anim = null;
+    var TOTAL_Q = 20;
+    var ACTIVE = SECTORS.slice(0, 8); // 8 sectors
+    var data = null; // [quarter][sector] returns
+
+    // Mulberry32 deterministic PRNG.
+    function mulberry32(seed) {
+      var a = seed >>> 0;
+      return function() {
+        a |= 0; a = (a + 0x6D2B79F5) | 0;
+        var t = a;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    function gauss(rng) {
+      var u = 0, v = 0;
+      while (u === 0) u = rng();
+      while (v === 0) v = rng();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function phaseAtQuarter(q) {
+      // 20 quarters split into 4 phases of 5 each.
+      var phasePos = (q / TOTAL_Q) * 4;
+      var idx = Math.min(3, Math.floor(phasePos));
+      var t = phasePos - idx;
+      // Transition: the last fifth of each phase has elevated noise.
+      var transitionWeight = (t > 0.7) ? 1 : 0;
+      return { idx: idx, key: PHASE_KEYS[idx], next: PHASE_KEYS[Math.min(3, idx + 1)], blend: t, transition: transitionWeight };
+    }
+
+    function regen() {
+      var rng = mulberry32(state.seed);
+      data = [];
+      for (var q = 0; q < TOTAL_Q; q++) {
+        var ph = phaseAtQuarter(q);
+        var row = [];
+        for (var i = 0; i < ACTIVE.length; i++) {
+          var s = ACTIVE[i];
+          var basePhase = s.loadings[ph.key];
+          var nextPhase = s.loadings[ph.next];
+          var loading = basePhase * (1 - ph.blend) + nextPhase * ph.blend;
+          var baseReturn = 2; // pp per quarter baseline nominal return
+          var phaseEffect = loading * 7; // up to ~7pp from phase loading
+          var noiseSigma = 2 + 6 * ph.transition; // wider variance in transition quarters
+          var noise = gauss(rng) * noiseSigma;
+          row.push(baseReturn + phaseEffect + noise);
+        }
+        data.push(row);
       }
     }
-  }
 
-  function drawChart(weights) {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 50, right: 80, bottom: 38, left: 130 };
+      var current = data[state.q];
+      var indexed = current.map(function(r, i) { return { i: i, r: r }; });
+      indexed.sort(function(a, b) { return b.r - a.r; });
+      var topI = indexed[0].i, botI = indexed[indexed.length - 1].i;
+      var spread = indexed[0].r - indexed[indexed.length - 1].r;
 
-    var nWeights = normalizeWeights(weights);
-    var plotW = W - pad.left - pad.right;
-    var barAreaH = H - pad.top - pad.bottom;
+      // Y scale: fixed across quarters for stable comparison
+      var yMin = -30, yMax = 30;
+      var barH = (H - pad.top - pad.bottom) / ACTIVE.length;
 
-    // Draw horizontal stacked bars (one bar per sector, height proportional to weight)
-    var y = pad.top;
-    for (var i = 0; i < sectors.length; i++) {
-      var segH = (nWeights[i] / 100) * barAreaH;
-      if (segH < 1) { y += segH; continue; }
+      var plotW = W - pad.left - pad.right;
+      var zeroX = pad.left + ((0 - yMin) / (yMax - yMin)) * plotW;
 
-      var rect = drawRect(svg, pad.left, y, plotW, segH, sectors[i].color || 'var(--accent)', 4);
-      rect.setAttribute('opacity', 0.8);
+      // X axis label baseline
+      drawTextCanvas(ctx, pad.left, H - pad.bottom + 16, yMin + '%', { fontSize: 10, color: 'var(--text-secondary)', align: 'left' });
+      drawTextCanvas(ctx, zeroX, H - pad.bottom + 16, '0%', { fontSize: 10, color: 'var(--text-secondary)' });
+      drawTextCanvas(ctx, W - pad.right, H - pad.bottom + 16, '+' + yMax + '%', { fontSize: 10, color: 'var(--text-secondary)', align: 'right' });
 
-      // Label inside bar
-      if (segH > 18) {
-        drawText(svg, pad.left + 12, y + segH / 2, sectors[i].name, {
-          fontSize: 13, fill: '#fff', anchor: 'start', fontWeight: 'bold', dy: '0.35em'
+      // Zero vertical line
+      ctx.save();
+      ctx.strokeStyle = '#bbb';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(zeroX, pad.top);
+      ctx.lineTo(zeroX, H - pad.bottom);
+      ctx.stroke();
+      ctx.restore();
+
+      // Bars
+      for (var i = 0; i < ACTIVE.length; i++) {
+        var v = current[i];
+        var y = pad.top + i * barH + 4;
+        var hbar = barH - 8;
+
+        drawTextCanvas(ctx, pad.left - 10, y + hbar/2, ACTIVE[i].name, {
+          fontSize: 11, color: 'var(--text)', align: 'right', baseline: 'middle'
         });
-        drawText(svg, W - pad.right - 12, y + segH / 2, nWeights[i].toFixed(1) + '%', {
-          fontSize: 13, fill: '#fff', anchor: 'end', fontWeight: 'bold', dy: '0.35em'
-        });
-      } else if (segH > 10) {
-        drawText(svg, pad.left + plotW / 2, y + segH / 2, sectors[i].name + ' ' + nWeights[i].toFixed(1) + '%', {
-          fontSize: 10, fill: '#fff', anchor: 'middle', dy: '0.35em'
+
+        var x, w, color;
+        if (v >= 0) {
+          x = zeroX;
+          w = (v / (yMax - yMin)) * plotW;
+          color = (i === topI) ? resolveCSSColor('var(--accent)') : 'rgba(34, 84, 61, 0.65)';
+        } else {
+          w = ((-v) / (yMax - yMin)) * plotW;
+          x = zeroX - w;
+          color = (i === botI) ? '#c53030' : 'rgba(197, 48, 48, 0.65)';
+        }
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, w, hbar);
+
+        var labelX = (v >= 0) ? x + w + 6 : x - 6;
+        drawTextCanvas(ctx, labelX, y + hbar/2, (v >= 0 ? '+' : '') + v.toFixed(1) + '%', {
+          fontSize: 11, color: 'var(--text)', align: v >= 0 ? 'left' : 'right', baseline: 'middle', weight: '600'
         });
       }
 
-      // Hover
-      (function(idx, ry, rh) {
-        rect.style.cursor = 'pointer';
-        rect.addEventListener('mouseenter', function() {
-          rect.setAttribute('opacity', 1);
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + sectors[idx].name + '</strong><br>'
-            + 'Weight: ' + nWeights[idx].toFixed(1) + '%<br>'
-            + 'Phase: ' + phases[currentPhase];
-          tooltip.style.left = '50%';
-          tooltip.style.top = ((ry + rh / 2) / H * 100) + '%';
-          tooltip.style.transform = 'translate(-50%, -50%)';
-        });
-        rect.addEventListener('mouseleave', function() {
-          rect.setAttribute('opacity', 0.8);
-          tooltip.style.display = 'none';
-        });
-      })(i, y, segH);
+      // Title
+      var ph = phaseAtQuarter(state.q);
+      drawTextCanvas(ctx, W/2, 18, 'Quarter ' + (state.q + 1) + ' / ' + TOTAL_Q + '   ·   Phase: ' + PHASES[ph.idx], {
+        fontSize: 13, color: 'var(--text)', weight: '600'
+      });
+      var transitionNote = ph.transition ? '  ·  regime-shift quarter — spread widens' : '';
+      drawTextCanvas(ctx, W/2, 34, 'Cross-sectional spread = ' + spread.toFixed(1) + ' percentage points' + transitionNote, {
+        fontSize: 11, color: ph.transition ? '#c53030' : 'var(--text-secondary)'
+      });
 
-      y += segH;
+      // Readouts
+      document.getElementById('w2-top').textContent = ACTIVE[topI].name + ' (+' + current[topI].toFixed(1) + '%)';
+      document.getElementById('w2-bot').textContent = ACTIVE[botI].name + ' (' + current[botI].toFixed(1) + '%)';
+      document.getElementById('w2-spread').textContent = spread.toFixed(1) + ' pp';
     }
 
-    // Phase label
-    drawText(svg, W / 2, H - 6, phases[currentPhase], {
-      fontSize: 14, fill: 'var(--accent)', anchor: 'middle', fontWeight: 'bold'
+    function startAnim() {
+      if (anim && anim.running) return;
+      if (state.q >= TOTAL_Q - 1) state.q = 0;
+      var accum = 0;
+      anim = animate(function(elapsed, dt) {
+        accum += dt;
+        var step = 700 / state.speed; // ms per quarter
+        while (accum >= step) {
+          accum -= step;
+          state.q++;
+          if (state.q >= TOTAL_Q) {
+            state.q = TOTAL_Q - 1;
+            anim.stop();
+            break;
+          }
+          document.getElementById('w2-q').value = state.q;
+          document.getElementById('w2-q-val').textContent = 'Q' + (state.q + 1);
+        }
+        draw();
+      });
+      anim.start();
+    }
+    function stepOne() {
+      if (anim && anim.running) anim.stop();
+      state.q = Math.min(TOTAL_Q - 1, state.q + 1);
+      document.getElementById('w2-q').value = state.q;
+      document.getElementById('w2-q-val').textContent = 'Q' + (state.q + 1);
+      draw();
+    }
+    function resetAnim() {
+      if (anim) anim.stop();
+      state.q = 0;
+      document.getElementById('w2-q').value = 0;
+      document.getElementById('w2-q-val').textContent = 'Q1';
+      draw();
+    }
+
+    attachButton('#w2-play', startAnim);
+    attachButton('#w2-step', stepOne);
+    attachButton('#w2-reset', resetAnim);
+
+    attachSliders([
+      { el: document.getElementById('w2-q'),     label: document.getElementById('w2-q-val'),     format: function(v){ return 'Q' + (Math.round(v) + 1); } },
+      { el: document.getElementById('w2-speed'), label: document.getElementById('w2-speed-val'), format: function(v){ return v.toFixed(1) + '×'; } },
+      { el: document.getElementById('w2-seed'),  label: document.getElementById('w2-seed-val'),  format: function(v){ return v.toFixed(0); } }
+    ], function(vals) {
+      state.q = Math.round(vals['w2-q']);
+      state.speed = vals['w2-speed'];
+      var newSeed = Math.round(vals['w2-seed']);
+      if (newSeed !== state.seed) { state.seed = newSeed; regen(); }
+      draw();
     });
-  }
 
-  function animateToPhase(phaseIdx) {
-    if (animating) return;
-    currentPhase = phaseIdx;
-    updateButtons();
+    regen();
+    draw();
+  })();
+  </script>
 
-    targetWeights = sectors.map(function(s) {
-      return s.weights_by_phase[phases[phaseIdx]] || 0;
-    });
+  <!-- ============================================================
+       WIDGET 3 — Sector correlation matrix
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 480 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { lookback: 3, includeCrisis: 1, seed: 7 };
+    var hover = null;
+    var matrix = null;
+    var ACTIVE = SECTORS.slice(0, 8);
 
-    var startWeights = currentWeights.slice();
-    var duration = 500;
-    var startTime = null;
-    animating = true;
+    function mulberry32(seed) {
+      var a = seed >>> 0;
+      return function() {
+        a |= 0; a = (a + 0x6D2B79F5) | 0;
+        var t = a;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    function gauss(rng) {
+      var u = 0, v = 0;
+      while (u === 0) u = rng();
+      while (v === 0) v = rng();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
 
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      var elapsed = timestamp - startTime;
-      var t = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      var ease = 1 - Math.pow(1 - t, 3);
+    function regen() {
+      // Generate lookback*4 quarters of synthetic returns for 8 sectors.
+      // Quarters cycle through phases. Optionally inject crisis quarters
+      // every ~5 years where all sectors get a big common shock.
+      var rng = mulberry32(state.seed);
+      var nQ = state.lookback * 4;
+      var returns = [];
+      for (var i = 0; i < ACTIVE.length; i++) returns.push([]);
 
-      for (var i = 0; i < currentWeights.length; i++) {
-        currentWeights[i] = startWeights[i] + (targetWeights[i] - startWeights[i]) * ease;
+      for (var q = 0; q < nQ; q++) {
+        var phaseIdx = q % 4;
+        var phaseKey = PHASE_KEYS[phaseIdx];
+
+        // Crisis quarter: every 20 quarters AND once mid-window.
+        var isCrisis = state.includeCrisis && ((q + 1) % 20 === 0 || q === Math.floor(nQ / 2));
+        var commonShock = isCrisis ? gauss(rng) * 18 : gauss(rng) * 3;
+        for (var i2 = 0; i2 < ACTIVE.length; i2++) {
+          var loading = ACTIVE[i2].loadings[phaseKey];
+          var idiosyncratic = gauss(rng) * 4;
+          // Defensives get a smaller hit during crisis (loading < 0 means defensive)
+          var crisisDampening = (loading < 0 ? 0.5 : 1.0);
+          var r = loading * 5 + commonShock * crisisDampening + idiosyncratic;
+          returns[i2].push(r);
+        }
       }
 
-      drawChart(currentWeights);
+      // Correlation matrix
+      var n = ACTIVE.length;
+      var means = returns.map(function(s) {
+        return s.reduce(function(a, b) { return a + b; }, 0) / s.length;
+      });
+      var sds = returns.map(function(s, i) {
+        var sum = 0;
+        for (var k = 0; k < s.length; k++) sum += (s[k] - means[i]) * (s[k] - means[i]);
+        return Math.sqrt(sum / s.length);
+      });
+      matrix = [];
+      for (var a = 0; a < n; a++) {
+        var row = [];
+        for (var b = 0; b < n; b++) {
+          if (a === b) { row.push(1); continue; }
+          var cov = 0;
+          for (var k = 0; k < returns[a].length; k++) {
+            cov += (returns[a][k] - means[a]) * (returns[b][k] - means[b]);
+          }
+          cov /= returns[a].length;
+          var rho = (sds[a] > 0 && sds[b] > 0) ? cov / (sds[a] * sds[b]) : 0;
+          row.push(rho);
+        }
+        matrix.push(row);
+      }
+    }
 
-      if (t < 1) {
-        requestAnimationFrame(step);
+    function colorFor(rho) {
+      // 0 = pale; +1 = accent green; -1 = red
+      if (rho >= 0) {
+        var t = Math.min(1, rho);
+        var r = Math.round(245 - (245 - 56)  * t);
+        var g = Math.round(225 - (225 - 132) * t);
+        var b = Math.round(170 - (170 - 92)  * t);
+        return 'rgb(' + r + ',' + g + ',' + b + ')';
       } else {
-        currentWeights = targetWeights.slice();
-        animating = false;
+        var tn = Math.min(1, -rho);
+        var r2 = Math.round(245 + (197 - 245) * tn);
+        var g2 = Math.round(225 + (48  - 225) * tn);
+        var b2 = Math.round(170 + (48  - 170) * tn);
+        return 'rgb(' + r2 + ',' + g2 + ',' + b2 + ')';
       }
     }
-    requestAnimationFrame(step);
-  }
 
-  // Button handlers
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', function() {
-      animateToPhase(parseInt(this.dataset.idx));
+    function layout() {
+      var pad = { top: 70, right: 18, bottom: 90, left: 110 };
+      var availableH = H - pad.top - pad.bottom;
+      var availableW = W - pad.left - pad.right;
+      var size = Math.min(availableH, availableW);
+      var cell = size / ACTIVE.length;
+      return { pad: pad, cell: cell, size: size };
+    }
+
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var lay = layout();
+      var pad = lay.pad, cell = lay.cell;
+
+      // Column headers (rotated 45deg above cells)
+      for (var c = 0; c < ACTIVE.length; c++) {
+        var cx = pad.left + (c + 0.5) * cell;
+        ctx.save();
+        ctx.translate(cx, pad.top - 6);
+        ctx.rotate(-Math.PI / 4);
+        drawTextCanvas(ctx, 0, 0, ACTIVE[c].short, {
+          fontSize: 11, color: 'var(--text-secondary)', align: 'left', baseline: 'middle'
+        });
+        ctx.restore();
+      }
+
+      // Row headers + cells
+      for (var i = 0; i < ACTIVE.length; i++) {
+        drawTextCanvas(ctx, pad.left - 10, pad.top + (i + 0.5) * cell, ACTIVE[i].name, {
+          fontSize: 11, color: 'var(--text)', align: 'right', baseline: 'middle'
+        });
+        for (var j = 0; j < ACTIVE.length; j++) {
+          var rho = matrix[i][j];
+          var x = pad.left + j * cell;
+          var y = pad.top + i * cell;
+          ctx.fillStyle = colorFor(rho);
+          ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2);
+          if (hover && hover.row === i && hover.col === j) {
+            ctx.save();
+            ctx.strokeStyle = '#1a1a1a';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x + 2, y + 2, cell - 4, cell - 4);
+            ctx.restore();
+          }
+          if (cell >= 34) {
+            drawTextCanvas(ctx, x + cell/2, y + cell/2, rho.toFixed(2), {
+              fontSize: 10, color: Math.abs(rho) > 0.55 ? '#fff' : '#333', weight: '500'
+            });
+          }
+        }
+      }
+
+      // Title
+      drawTextCanvas(ctx, W/2, 22, 'Pairwise correlation of sector returns', {
+        fontSize: 13, color: 'var(--text)', weight: '600'
+      });
+      var lbStr = state.lookback === 1 ? '1 year' : state.lookback + ' years';
+      var crisisStr = state.includeCrisis ? 'including the crisis quarter' : 'excluding the crisis quarter';
+      drawTextCanvas(ctx, W/2, 42, 'Lookback: ' + lbStr + '  ·  ' + crisisStr, {
+        fontSize: 11, color: 'var(--text-secondary)'
+      });
+
+      // Hover detail
+      if (hover) {
+        var rho2 = matrix[hover.row][hover.col];
+        var msg = ACTIVE[hover.row].name + ' vs ' + ACTIVE[hover.col].name + ': ρ = ' + rho2.toFixed(3);
+        drawTextCanvas(ctx, W/2, H - 58, msg, { fontSize: 12, color: 'var(--text)', weight: '600' });
+      } else {
+        drawTextCanvas(ctx, W/2, H - 58, 'Hover any cell for the pair correlation', {
+          fontSize: 11, color: 'var(--text-secondary)'
+        });
+      }
+
+      // Color legend
+      var lx0 = pad.left;
+      var lx1 = W - pad.right;
+      var ly = H - 34;
+      var lw = lx1 - lx0;
+      var steps = 30;
+      for (var k = 0; k < steps; k++) {
+        var rho3 = -1 + (2 * (k + 0.5) / steps);
+        ctx.fillStyle = colorFor(rho3);
+        ctx.fillRect(lx0 + k * (lw / steps), ly, (lw / steps) + 0.5, 10);
+      }
+      drawTextCanvas(ctx, lx0, ly + 22, 'ρ = −1', { fontSize: 10, color: '#c53030', align: 'left' });
+      drawTextCanvas(ctx, lx0 + lw / 2, ly + 22, '0', { fontSize: 10, color: '#888' });
+      drawTextCanvas(ctx, lx1, ly + 22, '+1', { fontSize: 10, color: resolveCSSColor('var(--accent)'), align: 'right' });
+
+      // Readouts: avg, max, effective N
+      var n = ACTIVE.length;
+      var sumRho = 0, maxRho = -1, pairs = 0;
+      for (var a = 0; a < n; a++) for (var b = a + 1; b < n; b++) {
+        sumRho += matrix[a][b];
+        if (matrix[a][b] > maxRho) maxRho = matrix[a][b];
+        pairs++;
+      }
+      var avgRho = sumRho / pairs;
+      var nEff = n / (1 + (n - 1) * Math.max(0, avgRho));
+      document.getElementById('w3-avgrho').textContent = avgRho.toFixed(2);
+      document.getElementById('w3-maxrho').textContent = maxRho.toFixed(2);
+      document.getElementById('w3-effn').textContent = nEff.toFixed(1) + ' / ' + n;
+    }
+
+    canvas.addEventListener('mousemove', function(e) {
+      var rect = canvas.getBoundingClientRect();
+      var mx = (e.clientX - rect.left);
+      var my = (e.clientY - rect.top);
+      var lay = layout();
+      var col = Math.floor((mx - lay.pad.left) / lay.cell);
+      var row = Math.floor((my - lay.pad.top) / lay.cell);
+      if (col >= 0 && col < ACTIVE.length && row >= 0 && row < ACTIVE.length) {
+        hover = { row: row, col: col };
+      } else {
+        hover = null;
+      }
+      draw();
     });
-  }
+    canvas.addEventListener('mouseleave', function() { hover = null; draw(); });
 
-  updateButtons();
-  drawChart(currentWeights);
+    attachSliders([
+      { el: document.getElementById('w3-lb'),     label: document.getElementById('w3-lb-val'),     format: function(v){ return v === 1 ? '1 year' : v.toFixed(0) + ' years'; } },
+      { el: document.getElementById('w3-crisis'), label: document.getElementById('w3-crisis-val'), format: function(v){ return v >= 0.5 ? 'on' : 'off'; } },
+      { el: document.getElementById('w3-seed'),   label: document.getElementById('w3-seed-val'),   format: function(v){ return v.toFixed(0); } }
+    ], function(vals) {
+      state.lookback = Math.round(vals['w3-lb']);
+      state.includeCrisis = vals['w3-crisis'] >= 0.5 ? 1 : 0;
+      state.seed = Math.round(vals['w3-seed']);
+      regen();
+      draw();
+    });
 
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < sectors.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + (sectors[i].color || 'var(--accent)') + ';display:inline-block;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(sectors[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-})();
-</script>
+    regen();
+    draw();
+  })();
+  </script>
 
 </body>
 </html>

@@ -391,9 +391,14 @@
         <h2>The Law of Large Numbers</h2>
       </div>
       <div class="section-content">
-        <p>The risk pool works because of a mathematical law that is the bedrock of all insurance: <strong>the law of large numbers</strong>.</p>
+        <p>The risk pool works because of a mathematical law that is the bedrock of all insurance: <strong>the law of large numbers</strong><a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>.</p>
 
         <p>Here is the intuition. Flip a coin 10 times. You might get 7 heads and 3 tails &mdash; that is 70% heads, far from the &ldquo;true&rdquo; 50%. But flip it 10,000 times and you will get very close to 50%. The more trials you run, the closer the observed average gets to the true average.</p>
+
+        <div class="math-block">
+          lim<sub>n&rarr;&infin;</sub> (X<sub>1</sub> + X<sub>2</sub> + &hellip; + X<sub>n</sub>) / n = E[X]
+          <span class="math-where">strong LLN: the sample mean converges to the true mean almost surely</span>
+        </div>
 
         <p>For insurance this means: <strong>the more policies you write, the more predictable your total claims become</strong>. A pool of 50 cows might see 0 deaths or 5 deaths &mdash; huge variance. A pool of 50,000 cows will see deaths very close to the expected 3.5%.</p>
 
@@ -426,6 +431,12 @@
         </div>
 
         <p>This is why insurers want scale. A larger book of business isn&rsquo;t just more revenue &mdash; it is <em>more predictable</em> revenue. The variance shrinks. This is the mathematical reason insurance companies exist: they pool enough risk that the outcome becomes nearly deterministic.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the LLN is not the same as the Central Limit Theorem</summary>
+          <p>The LLN says the <em>average</em> converges to the true rate. The CLT says the <em>distribution of the average</em>, after rescaling, converges to a normal distribution. Insurance pricing uses both.</p>
+          <p>The LLN justifies <em>why you can charge a single premium</em> for a pool. The CLT justifies <em>how much capital you need to hold</em> against the residual uncertainty &mdash; because even a large pool's loss ratio fluctuates, and the fluctuation is roughly normal with standard deviation <span class="math">&sigma; / &radic;n</span>. The capital you reserve is essentially a multiple of that fluctuation. Section VI's risk loading is the CLT showing up on the balance sheet.</p>
+        </details>
 
         <div class="callout">
           <div class="callout-title">Key insight</div>
@@ -925,7 +936,13 @@
           <li><strong>Z = 1</strong>: You have so much data that your own experience is fully credible.</li>
         </ul>
 
-        <p>A common formula for Z is: Z = n / (n + k), where n is your number of claims and k is a constant (often 1,082 for Poisson-distributed claims, known as the B&uuml;hlmann credibility).</p>
+        <p>A common formula for Z is: Z = n / (n + k), where n is your number of claims and k is a constant (often 1,082 for Poisson-distributed claims, known as the B&uuml;hlmann credibility)<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — where the 1,082 comes from</summary>
+          <p>B&uuml;hlmann's credibility constant <span class="math">k</span> comes from the ratio of two variances: the expected process variance (within-risk noise) over the variance of hypothetical means (between-risk variation). The 1,082 you see in property-casualty textbooks corresponds to a 90% credibility threshold at 1,082 expected claims, under the standard Poisson assumption.</p>
+          <p>The deeper story is that B&uuml;hlmann credibility is a special case of empirical Bayes &mdash; you're computing the posterior mean given a prior (the industry rate) and a likelihood (your own experience). Z is just the weight of the data versus the prior. Bayesian and frequentist actuaries arrive at the same formula by different paths.</p>
+        </details>
 
         <!-- DEMO: Credibility Blending -->
         <div class="demo reveal" id="demo-cred">
@@ -1041,6 +1058,11 @@
           <div class="callout-title">The bottom line</div>
           <p>Insurance pricing is a stack: expected losses + uncertainty buffer + expenses + profit. Each layer can be compressed by better data, better technology, and better processes. The company that compresses this stack most efficiently wins &mdash; either as an insurer with better margins, or as a tech provider that makes the insurer&rsquo;s product viable in the first place.</p>
         </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">Jacob Bernoulli published the first rigorous statement of the law of large numbers in <em>Ars Conjectandi</em> (posthumously, 1713). The modern proof technique using Chebyshev's inequality dates to the 1860s. Bernoulli's original example was &mdash; aptly &mdash; about insurance-like betting on an urn of stones. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">B&uuml;hlmann's 1967 paper "Experience Rating and Credibility" formalised the linear-credibility approach used by every property-casualty actuary today. The Casualty Actuarial Society's <em>Foundations of Casualty Actuarial Science</em> (4th ed.) treats it in chapter 8 if you want the full derivation. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+        </ol>
       </div>
     </section>
 

@@ -4,32 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Art of Position Sizing — Market Explainers</title>
-  <meta name="description" content="Why the 5% rule and tranche buying are your most important risk tools">
+  <meta name="description" content="Why how much you bet matters more than what you bet on — Kelly, ruin, and the cliff above optimal sizing">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="The Art of Position Sizing">
-  <meta property="og:description" content="Why the 5% rule and tranche buying are your most important risk tools">
+  <meta property="og:description" content="Why how much you bet matters more than what you bet on — shown with bespoke simulations">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #22543d;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget layout helpers (mirrors options-insurance pattern) */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stat-cell-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .stat-cell-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .stat-cell-value.warn { color: #c53030; }
   </style>
 </head>
 <body>
@@ -47,8 +82,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">The Art of Position Sizing</h1>
-      <p class="hero__subtitle">Why the 5% rule and tranche buying are your most important risk tools</p>
-      <p class="hero__meta">27 min read</p>
+      <p class="hero__subtitle">Edge tells you whether to bet. Sizing tells you whether you'll still be there to bet again.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 22 min read</p>
     </div>
   </header>
 
@@ -57,279 +92,419 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-the-biggest-mistake-investors-make-has-nothing-to-do-with-stock-picking">I. The Biggest Mistake Investors Make Has Nothing to Do With Stock Picking</a></li>
-        <li><a href="#ii-the-5-rule-your-non-negotiable-ceiling">II. The 5% Rule: Your Non-Negotiable Ceiling</a></li>
-        <li><a href="#iii-tranche-buying-why-you-never-go-all-in-at-once">III. Tranche Buying: Why You Never Go All-In at Once</a></li>
-        <li><a href="#iv-asset-allocation-the-decision-that-matters-more-than-any-stock-pick">IV. Asset Allocation: The Decision That Matters More Than Any Stock Pick</a></li>
-        <li><a href="#v-cash-is-a-position-the-most-underrated-risk-management-tool">V. Cash Is a Position: The Most Underrated Risk Management Tool</a></li>
-        <li><a href="#vi-upward-and-downward-averaging-the-science-of-adding-to-positions">VI. Upward and Downward Averaging: The Science of Adding to Positions</a></li>
-        <li><a href="#vii-diversification-beyond-stocks-the-multi-layer-defense-system">VII. Diversification Beyond Stocks: The Multi-Layer Defense System</a></li>
-        <li><a href="#viii-the-psychology-of-position-sizing-why-discipline-beats-intelligence">VIII. The Psychology of Position Sizing: Why Discipline Beats Intelligence</a></li>
-        <li><a href="#ix-putting-it-all-together-your-position-sizing-action-plan">IX. Putting It All Together: Your Position Sizing Action Plan</a></li>
+        <li><a href="#i-wrong-game">Why does picking the right stock barely matter?</a></li>
+        <li><a href="#ii-kelly">How much should you bet when you have an edge?</a></li>
+        <li><a href="#iii-five-percent">Why does the 5% ceiling work for almost everyone?</a></li>
+        <li><a href="#iv-ruin">What happens when you bet too big — even with an edge?</a></li>
+        <li><a href="#v-tranches">Why do you never go all-in at one price?</a></li>
+        <li><a href="#vi-cliff">Why does the optimal sizing curve turn down, not flatline?</a></li>
+        <li><a href="#vii-cash">Why is cash a position, not the absence of one?</a></li>
+        <li><a href="#viii-psychology">Why does discipline beat intelligence over a career?</a></li>
+        <li><a href="#ix-playbook">The seven-rule playbook and your next move</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-the-biggest-mistake-investors-make-has-nothing-to-do-with-stock-picking">
+
+    <!-- ============================================================
+         I. Why does picking the right stock barely matter?
+         ============================================================ -->
+    <section class="reveal" id="i-wrong-game">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. The Biggest Mistake Investors Make Has Nothing to Do With Stock Picking</h2>
+        <h2>Why does picking the right stock barely matter?</h2>
       </div>
       <div class="section-content">
-        <p>Let me tell you something that will change how you think about investing forever. The difference between an investor who builds lasting wealth and one who blows up their portfolio has almost nothing to do with which stocks they pick. It has everything to do with how much money they put into each position.</p>
-<p>I have been investing for a long time now. And if I had to distill everything I have learned into one sentence, it would be this: <strong>position sizing is the game.</strong> Stock picking is the sideshow.</p>
-<p>Most retail investors spend 95% of their time researching which stock to buy. They read annual reports, watch YouTube videos, follow social media tips, and agonize over whether Company A is better than Company B. Then they take all of that careful research and blow it by putting 25% of their portfolio into a single stock because they are &ldquo;really confident&rdquo; about it. That is not investing. That is gambling with extra steps.</p>
-<p>Here is the reality. My hit rate as an investor is about 60%. That means roughly 4 out of every 10 stocks I pick turn out to be wrong. And that is better than most professional fund managers. The reason I still make money consistently is not because I pick winners more often than other people. It is because when I am wrong, the damage is contained. And when I am right, I have enough capital spread across enough winners to benefit meaningfully.</p>
-<blockquote>
-<p>Your portfolio should win, not individual stocks. As long as you are not more than 5% invested in any stock in total, you will be fine.</p>
-</blockquote>
-<p>That quote is the single most important rule I follow. And it is the rule that most investors violate, usually because they confuse conviction with recklessness.</p>
-<p>Think about what happens when you put 20% of your portfolio into one stock and it drops 50%. Your entire portfolio is down 10% from that one position alone. Now you are in a hole, you are emotional, you are making panic decisions. But if that same stock was only 3% of your portfolio and it drops 50%, you have lost 1.5% overall. You barely feel it. You can think clearly. You can decide rationally whether to hold, average down, or exit. That psychological freedom is worth more than any stock tip anyone will ever give you.</p>
-<p><strong>Position sizing is not about limiting your upside. It is about ensuring your survival.</strong> The investors who compound wealth over decades are not the ones who hit home runs. They are the ones who never blow up. They are the ones who are still in the game after 10, 20, 30 years, letting compounding do its work.</p>
-<p>In this article, I am going to walk you through the exact framework I use to size positions, buy in tranches, allocate across asset classes, and manage risk. These are not theoretical concepts. These are the actual rules I follow with my own money. And they are, without question, the most important tools in my investing toolkit.</p>
-<hr />
+        <p>The difference between an investor who builds lasting wealth and one who blows up has almost nothing to do with which stocks they picked. It has everything to do with <strong>how much money they put into each one</strong>. Most retail investors spend 95% of their time on the picking and 5% on the sizing, then wonder why their returns don't match the names in their watchlist.</p>
+
+        <p>My own hit rate is about 60%. Four out of every ten ideas I commit to turn out wrong &mdash; and that is actually better than most professional fund managers. The reason the portfolio still compounds is not because I pick winners more often. It is because <strong>when I am wrong the damage is contained</strong>, and when I am right enough capital is spread across enough winners for the math to work.</p>
+
+        <p>Think about what happens when you put 20% of a portfolio into one name and it drops 50%. The whole portfolio is down 10% from that single position. You are emotional. You are making panic decisions. But put 3% into the same stock and a 50% drop costs you 1.5% overall. You barely feel it. You can think. You can decide rationally whether to hold, average, or exit. <strong>That psychological freedom is worth more than any stock tip anyone will ever give you.</strong></p>
+
+        <blockquote>
+          <p>Your portfolio should win, not individual stocks. As long as you are not more than 5% invested in any stock in total, you will be fine.</p>
+        </blockquote>
+
+        <p>Position sizing is not about limiting upside. It is about ensuring survival. The investors who compound wealth across decades are not the ones who hit home runs &mdash; they are the ones who never blow up. They are still in the game after ten, twenty, thirty years, letting compounding do the work the picking never could.</p>
+
+        <p>This article is the framework I actually use, with the math worked out so you can feel it. The questions stack: when you have an edge, how big a bet is optimal? What happens if you go bigger? Why is "more conviction = more sizing" the move that breaks careers? By the end the answers will be in your fingertips, not just your head.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-the-5-rule-your-non-negotiable-ceiling">
+    <!-- ============================================================
+         II. Kelly — how much when you have an edge?
+         ============================================================ -->
+    <section class="reveal" id="ii-kelly">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. The 5% Rule: Your Non-Negotiable Ceiling</h2>
+        <h2>How much should you bet when you have an edge?</h2>
       </div>
       <div class="section-content">
-        <p>If there is one rule you take away from everything I write, let it be this: <strong>never invest more than 5% of your total portfolio in any single stock.</strong></p>
-<p>This is not a guideline. This is not a suggestion. This is a hard ceiling that I never violate, and neither should you.</p>
-<p>Let me explain why this number works. If you have 20 stocks in your portfolio, each at 5%, and one of them goes to zero &ndash; absolute zero, the company vanishes &ndash; your portfolio is down 5%. That is a bad day, but it is not a catastrophe. You recover from 5% in a good quarter. But if you had 20% in that stock, you have lost a fifth of everything you have. That can take years to recover from, and psychologically, most people never do recover. They become scared, they become conservative at exactly the wrong time, and they permanently impair their wealth-building ability.</p>
-<p>Now, I often go even lower than 5%. For riskier stocks &ndash; small caps, turnaround stories, companies with uncertain futures &ndash; I cap my exposure at 2-2.5% of my portfolio. Look at how I approach stocks like Bandhan Bank or Natco Pharma or Armaan Financials. These are stocks where I see genuine potential &ndash; sometimes 3X returns in 3-5 years. But they also carry real downside risk of 40-50%.</p>
-<p>When I talk about Bandhan Bank, I tell the community: if you are not invested, consider 2.5% of your portfolio. Why 2.5% and not 5%? Because this is a microfinance institution turned bank. It does riskier lending. There is systemic risk inherent in the business model. The stock can either go 3X in 3 years or have a 40-50% downside. At 2.5% allocation, even a 50% crash only costs you 1.25% of your total portfolio. That is manageable. That lets you sleep at night.</p>
-<p>Same story with Armaan Financials. The fintech sector is going through pain due to RBI regulatory tightening. The stock is under pressure. But the PE is reasonable and the numbers are good. My maximum exposure? 2.5% of my portfolio. I am putting more money into it &ndash; another 25% downward averaging &ndash; but even after that, I am still within my 2.5% cap. And I still have one block of money remaining for future averaging if needed.</p>
-<p><strong>The 5% rule also governs when you should NOT average down.</strong> This is critical. Many investors treat downward averaging as a way to &ldquo;fix&rdquo; a losing position. They keep throwing money at a falling stock, hoping to lower their average cost. But if the stock already exceeds your 5% allocation limit, you do not downward average. You wait. Period. Adding more money to a position that already takes up too much of your portfolio is not averaging down &ndash; it is doubling down on a mistake.</p>
-<blockquote>
-<p>Don&rsquo;t make stocks an ego issue. Your portfolio should win, not individual stocks. As long as you are not more than 5% invested in any stock in total, you will be fine. You don&rsquo;t downward average if the stock already exceeds your 5% limit. You wait. Good things turn around.</p>
-</blockquote>
-<p>Here is a practical framework for position sizing by risk category:</p>
-<ul>
-<li><strong>Large caps and index ETFs (NIFTY 50, Bank ETFs):</strong> Up to 5% per individual holding, and these can constitute 60-80% of your equity portfolio collectively</li>
-<li><strong>Mid caps with proven track records:</strong> 3-5% per position</li>
-<li><strong>Small caps and turnaround stories:</strong> 2-2.5% per position maximum</li>
-<li><strong>Speculative plays (pre-IPO, unlisted, very early stage):</strong> 1-2% per position maximum</li>
-<li><strong>Things like meme coins, highly speculative instruments:</strong> Zero. Just zero.</li>
-</ul>
-<p>The beauty of this system is that it takes ego out of the equation. You do not need to be right about every stock. You just need to be right about enough of them, and wrong about the rest in a way that does not cripple you. That is how real wealth gets built.</p>
-<hr />
+        <p>Start with the cleanest possible version of the question. You face a repeated bet. With probability <span class="math">p</span> you win <span class="math">b</span> rupees for every rupee staked; with probability <span class="math">q = 1 &minus; p</span> you lose the rupee. How much of your bankroll should you risk on each turn?</p>
+
+        <p>Edward Thorp brought this problem from Bell Labs (where John Kelly first solved it for noisy telephone channels<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>) to the blackjack tables of Las Vegas and then to a Wall Street fund that compounded at over 19% a year for twenty-eight years. The answer he used is one of the most important formulas in finance, and it fits on a postcard:</p>
+
+        <div class="math-block">
+          f* = (b &middot; p &minus; q) &divide; b
+          <span class="math-where">f* = optimal fraction of bankroll &middot; p = win probability &middot; b = payoff ratio &middot; q = 1 &minus; p</span>
+        </div>
+
+        <p>Three things to notice before you touch the simulator. First, if <span class="math">b &middot; p &lt; q</span> you have no edge &mdash; the formula goes negative, which means the correct bet size is zero (or short, if you can). Second, the formula does not care how excited you feel; it only cares about <em>expected value per dollar</em>. Third, the optimal fraction can be surprisingly small. A 55% coin paying even money &mdash; a genuinely huge edge in trading terms &mdash; tells you to risk only 10% of bankroll per bet.</p>
+
+        <!-- Widget 1: Kelly calculator -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 — The Kelly Calculator</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 320px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Win probability (p)</span><span class="slider-value" id="w1-p-val">55%</span></div>
+              <input type="range" id="w1-p" min="5" max="95" value="55" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Win/loss ratio (b)</span><span class="slider-value" id="w1-b-val">1.0</span></div>
+              <input type="range" id="w1-b" min="0.1" max="5" value="1" step="0.1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Edge (bp − q)</div><div class="stat-cell-value" id="w1-edge">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Kelly fraction</div><div class="stat-cell-value" id="w1-kelly">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Half-Kelly</div><div class="stat-cell-value" id="w1-half">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Per-bet growth</div><div class="stat-cell-value" id="w1-growth">—</div></div>
+          </div>
+          <p class="widget-hint">Drag <em>p</em> to 60% and <em>b</em> to 1.0. Kelly says 20%. Now drop <em>b</em> to 0.5 with the same win rate &mdash; Kelly collapses to 0%. <strong>Edge alone isn't enough; the odds matter as much as the probability.</strong> The bar shows your recommended bet as a slice of bankroll; the curve below shows how Kelly bends as <em>p</em> changes with <em>b</em> held at your current value.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — most pros bet half-Kelly, not full</summary>
+          <p>The Kelly fraction is the bet that maximises the <em>expected log-growth</em> of the bankroll. It does <em>not</em> minimise drawdowns. At full Kelly, you should expect a 50% drawdown roughly half the time you compound. That is bearable on paper and unbearable in practice, because you cannot run an expected-value spreadsheet during the drawdown &mdash; you are too busy questioning your edge.</p>
+          <p>Almost every professional gambler and quant fund runs <strong>fractional Kelly</strong>, usually 0.25&times; to 0.5&times; full Kelly. You give up some long-run growth in exchange for shallower drawdowns and a tighter distribution of outcomes. The Kelly cell above also shows the half-Kelly figure for exactly this reason.</p>
+        </details>
+
+        <p>The reason this formula matters for stocks is not that picking equities is a coin flip &mdash; it is that almost every active decision has an implied <span class="math">p</span> and <span class="math">b</span>. When I tell the community Bandhan Bank could give 3&times; in three years <em>or</em> drop 40&ndash;50%, that is a payoff structure with a clean Kelly answer. Reasonable inputs &mdash; say <span class="math">p = 0.55</span> and <span class="math">b = 4</span> (a 200% gain weighed against a 50% loss) &mdash; spit out Kelly around 44%. Cut that to a quarter-Kelly to stay sane, and you land at &asymp;11% &mdash; which is still far above the 2.5% cap I actually use. The cap exists because <em>my edge estimate could be wrong</em>, not because the math is.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-tranche-buying-why-you-never-go-all-in-at-once">
+    <!-- ============================================================
+         III. The 5% ceiling
+         ============================================================ -->
+    <section class="reveal" id="iii-five-percent">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. Tranche Buying: Why You Never Go All-In at Once</h2>
+        <h2>Why does the 5% ceiling work for almost everyone?</h2>
       </div>
       <div class="section-content">
-        <p>The second pillar of intelligent position sizing is <strong>tranche buying</strong> &ndash; the practice of building into positions gradually rather than deploying all your capital at once.</p>
-<p>Here is the simplest version of this rule: <strong>always buy in 3 tranches.</strong> Whether you are entering a new position or averaging into an existing one, you divide your intended allocation into three parts and deploy them at different times.</p>
-<p>Why three? Because no one &ndash; and I mean no one &ndash; can consistently call the bottom of a stock or a market. Not me, not Warren Buffett, not any algorithm. When I say a stock looks good at current levels, I am saying the risk-reward makes sense for a purchase. I am not saying it cannot fall another 15-20% from here. It absolutely can. And if it does, I want to have dry powder remaining to buy more at even better prices.</p>
-<p>Let me give you a concrete example. When I talk about building positions in hospital stocks, the strategy is simple: do one bulk buy now and then start a SIP in 4-5 top names. That is essentially tranche buying. You get some exposure immediately so you do not miss the upside if the stock moves quickly, but you also preserve capital for future purchases at potentially better prices.</p>
-<p>Another example: Supriya Lifescience. When I see a stock giving a breakout and members sitting on healthy profits, what do I tell new investors? <strong>Do not invest more than 33% as your first tranche.</strong> Invest 33 rupees, keep 66 rupees for later. That is the one-third rule. You are building a position, not making a bet.</p>
-<p>The same logic applies to downward averaging. When Natco Pharma dropped 28%, I did not dump all my remaining allocated capital into it at once. I averaged down to bring my loss to 14%, but I deliberately left one more round of money for downward averaging later. Why? Because the stock could fall further. And if it does, I want to be able to buy more at even lower prices, further reducing my average cost.</p>
-<p><strong>Tranche buying applies at every scale.</strong> When I booked 20% profits on NIFTY 50, I did not immediately redeploy all of that capital. I took 60% of the amount and put it into NIFTY Private Bank ETF as a bulk buy, reserving 40% for subsequent deployment. Even at the index level, I am buying in tranches.</p>
-<p>Here is how I think about the three tranches practically:</p>
-<p><strong>Tranche 1 (33% of intended position):</strong> This is your initial entry. You have identified a stock or asset with good risk-reward at current levels. You buy your first third. If the stock immediately runs up, you are in the game. You have exposure. You did not miss the move entirely.</p>
-<p><strong>Tranche 2 (33% of intended position):</strong> This happens when one of two things occurs. Either the stock pulls back to a better support level (making your average cheaper), or the stock consolidates and confirms its direction (giving you more confidence). Either way, you are deploying more capital with additional information that you did not have when you made your first purchase.</p>
-<p><strong>Tranche 3 (33% of intended position):</strong> This is your final deployment. By this point, you either have a clear winner that you are adding to on strength, or you have a stock that has fallen enough to offer deep value. In the first case, you are upward averaging into a confirmed trend. In the second case, you are completing your downward averaging at a significantly lower cost basis.</p>
-<blockquote>
-<p>Buy things slowly. Upward average slowly. Buy quality firms, where you can handle a 20% downturn.</p>
-</blockquote>
-<p>The tranche approach is not just about getting a better average price, though that is a significant benefit. It is fundamentally about <strong>managing your psychology.</strong> When you go all-in on a stock and it drops 15% the next week, you feel trapped. You have no more capital to deploy, and every further drop feels like a wound you cannot treat. But when you have bought only one-third and the stock drops 15%, you feel the opposite &ndash; you feel opportunity. You have capital ready. The falling price is not a threat; it is a chance to improve your position. That psychological difference is enormous, and it is why tranche buying, more than almost any other technique, separates professional investors from amateurs.</p>
-<p>Let me also address a common question I get: what about stocks where you are afraid of missing the run-up? Stocks like Jio Finance or Zomato that are moving fast. The answer is still the same. Absolutely do not bulk buy these now if you are an investor. As investors we buy in tranches. We buy at consolidation points. These stocks are still falling, so wait for consolidation. You can run SIPs for the next few months if you want exposure, but bulk buy now? No. The tranche discipline holds regardless of how exciting the stock looks.</p>
-<hr />
+        <p>If Kelly is the theoretical answer, the 5% rule is the practical one. <strong>No single stock ever exceeds 5% of total portfolio.</strong> Twenty positions at 5% each, one goes to absolute zero, the company vanishes &mdash; portfolio down 5%. That is a bad day. It is not a catastrophe. You recover in a good quarter.</p>
+
+        <p>At 20% in the same stock you have lost a fifth of everything. That takes years to recover from, and psychologically most people never do. They become risk-averse at exactly the wrong moment, permanently impairing their wealth-building ability. The 5% cap exists because it makes the worst-case outcome &mdash; the one your spreadsheet says is impossible right up until it happens &mdash; survivable.</p>
+
+        <p>For riskier names I cap lower. The actual ladder I use:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Category</th><th>Cap per position</th><th>Worst-case portfolio hit if it goes to zero</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Large caps &amp; index ETFs</td><td>5%</td><td>−5%</td></tr>
+            <tr><td>Mid caps with track record</td><td>3&ndash;5%</td><td>−3% to −5%</td></tr>
+            <tr><td>Small caps, turnarounds</td><td>2&ndash;2.5%</td><td>−2% to −2.5%</td></tr>
+            <tr><td>Speculative (pre-IPO, very early)</td><td>1&ndash;2%</td><td>−1% to −2%</td></tr>
+            <tr><td>Meme coins, lottery tickets</td><td class="num">0%</td><td>n/a</td></tr>
+          </tbody>
+        </table>
+
+        <p>This is where the picking-versus-sizing tension lives. When I look at Bandhan Bank &mdash; a microfinance institution turned bank, doing riskier lending, real systemic risk in the business model &mdash; the realistic outcomes are 3&times; in three years or a 40&ndash;50% drawdown. Genuine asymmetry. But at 2.5% allocation, even a 50% crash costs the portfolio 1.25%. <strong>That lets you sleep at night, which lets you stay invested, which lets the 3&times; case actually happen.</strong> The cap is not the enemy of conviction; it is the price of being around long enough for conviction to pay.</p>
+
+        <p>The 5% rule also governs when you should <em>not</em> average down. Many investors treat averaging as a way to "fix" a losing position &mdash; keep throwing money at a falling stock to lower the average cost. But if the position already exceeds your 5% allocation limit, you do not average down. You wait. Period. Adding money to a position that already takes up too much of your portfolio is not averaging down. It is doubling down on a mistake.</p>
+
+        <blockquote>
+          <p>Don't make stocks an ego issue. Your portfolio should win, not individual stocks. You don't downward average if the stock already exceeds your 5% limit. You wait. Good things turn around.</p>
+        </blockquote>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-asset-allocation-the-decision-that-matters-more-than-any-stock-pick">
+    <!-- ============================================================
+         IV. Risk of ruin
+         ============================================================ -->
+    <section class="reveal" id="iv-ruin">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. Asset Allocation: The Decision That Matters More Than Any Stock Pick</h2>
+        <h2>What happens when you bet too big — even with an edge?</h2>
       </div>
       <div class="section-content">
-        <p>Here is something I have been saying with increasing urgency: <strong>the investment landscape right now is less about individual stocks and more about asset class allocation.</strong> Allocate your capital poorly, and you will see bad results regardless of which stocks you pick within each category.</p>
-<p>We worry too much about picking great individual stocks. But we forget the fact that if for some reason the entire emerging markets go down by 40%, then every stock you own within those markets goes down too. Your brilliant stock pick inside a collapsing market is still a losing position.</p>
-<p>This is why I spend as much time thinking about how much goes into Indian equities versus US equities versus gold versus Bitcoin versus real estate as I do thinking about individual stocks. In fact, I probably spend more time on it. The macro allocation decision is the biggest driver of your portfolio returns over any 5-10 year period.</p>
-<p>Let me share what my allocation looks like, because I think frameworks are more useful than abstractions:</p>
-<p><strong>My overall portfolio allocation:</strong>
-- 60% Stocks
-- 30% Real Estate
-- 10% BTC/Gold</p>
-<p><strong>Within the stocks allocation:</strong>
-- 65% across US and China equities
-- 35% India equities
-- Within India: approximately 80% large caps, 20% mid and small caps</p>
-<p>Now, your allocation will be different from mine. It depends on your age, your income, your risk tolerance, your geographic location, and your investment horizon. But the principle is the same: <strong>you need to deliberately decide how much goes where before you start picking individual stocks.</strong></p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>"I have an edge, so the bigger I bet the more I'll make" is the single most expensive sentence in retail trading. It is wrong in a way the spreadsheet hides until your account is empty.</p>
 
-<p>If I had to give you a simple starting plan for someone who does not want to overthink it:</p>
-<ul>
-<li><strong>60% Indian equities</strong> (predominantly through NIFTY 50 ETF or top mutual funds)</li>
-<li><strong>20-30% US equities</strong> (NASDAQ, S&amp;P 500 exposure)</li>
-<li><strong>10% Gold/BTC</strong> (your neutral, non-sovereign currency hedge)</li>
-</ul>
-<p>The reason US equities deserve a significant allocation is straightforward. The AI race is happening primarily in the US. US growth stocks are exceptional long-term bets. It might look expensive right now. But there is a good case to be made that this is the trade of the decade. If you miss it, you might pay a heavy price. US growth stocks are a buy-on-dips story.</p>
-<p>The reason Gold and BTC deserve an allocation is because the world is becoming more uncertain. Trade wars are increasing regionalism. There will be multiple power centers. You need exposure to neutral currencies that are not tied to any single government&rsquo;s monetary policy. How much neutral currencies to buy &ndash; gold, BTC, and in which format &ndash; is a question every serious investor needs to answer.</p>
-<p>And the reason I keep a significant portion outside India is simple: <strong>home bias is the enemy of diversification.</strong> We all like investing in our own country. It feels familiar, comfortable, patriotic even. But it violates the principles of diversification. No one can predict that on a long-term basis, Indian markets will or will not generate alpha. I am not writing this to scare you. I am writing this to tell you that diversification works at a global level.</p>
-<p>If India does well and the rest does poorly, your Indian holdings carry the portfolio. If India underperforms and the US or China or BTC does well, those holdings balance things out. That is the whole point. You are not betting on one outcome. You are building a portfolio that makes reasonable money across multiple outcomes.</p>
-<blockquote>
-<p>Anyone who tells you that market X is the only great one and the rest are duds &ndash; they are idiots, or they are trying to mislead you.</p>
-</blockquote>
-<hr />
+        <p>The simulator below runs a bettor with a genuine, persistent edge through 1,000 parallel universes. Same edge, same number of bets, same probability of winning each one &mdash; only the bet size changes. The output is not the average final bankroll. It is something more useful: <strong>the fraction of universes in which the bettor is ruined</strong> (defined as bankroll dropping below 20% of starting capital, which in practice ends most trading careers<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>).</p>
+
+        <!-- Widget 2: Risk-of-ruin Monte Carlo -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 — Risk of Ruin Monte Carlo</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="btn-group">
+            <button class="btn-primary" id="w2-run">Simulate 1,000 trajectories</button>
+            <button class="btn-secondary" id="w2-reset">Reset</button>
+          </div>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Bet size (% of bankroll)</span><span class="slider-value" id="w2-bet-val">10%</span></div>
+              <input type="range" id="w2-bet" min="1" max="50" value="10" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Edge (per bet)</span><span class="slider-value" id="w2-edge-val">5%</span></div>
+              <input type="range" id="w2-edge" min="1" max="20" value="5" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Number of bets</span><span class="slider-value" id="w2-n-val">200</span></div>
+              <input type="range" id="w2-n" min="50" max="500" value="200" step="10">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Ruined</div><div class="stat-cell-value warn" id="w2-ruin">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Median final</div><div class="stat-cell-value" id="w2-median">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Mean final</div><div class="stat-cell-value" id="w2-mean">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Worst 5%</div><div class="stat-cell-value warn" id="w2-tail">—</div></div>
+          </div>
+          <p class="widget-hint">Set bet size to 5% with a 5% edge &mdash; ruin is rare, the median compounds nicely. Now crank bet size to 40% with the <em>same</em> edge and hit Simulate. Half the universes are wiped out. <strong>The edge didn't change. Only the sizing did.</strong> Notice the mean stays high while the median collapses &mdash; that is the volatility tax in action.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — why the mean and median diverge so violently</summary>
+          <p>Bankroll multiplies, it doesn't add. Win 50%, lose 50%, you end at <span class="math">1.5 &times; 0.5 = 0.75</span> &mdash; a 25% loss, not breakeven. That asymmetry is called the <em>volatility tax</em>, and it scales with the <em>square</em> of bet size. Double your sizing, the volatility drag quadruples.</p>
+          <p>The mean of a log-normal distribution is pulled up by the small number of universes where the bettor got lucky over and over and ended at 100&times;. The median &mdash; the typical outcome &mdash; is what you'll actually experience. When the gap between mean and median is enormous, you are betting too big. Kelly is precisely the size that maximises the median, not the mean.</p>
+        </details>
+
+        <p>The lesson is uncomfortable for anyone who confuses bigger bets with bigger conviction. <strong>Every investor who has blown up on options, leverage, or concentrated positions did so with what they believed was an edge.</strong> They were sometimes even right about the edge. The instrument that destroyed them was the position size, applied to an edge that was real but smaller than they sized for.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-cash-is-a-position-the-most-underrated-risk-management-tool">
+    <!-- ============================================================
+         V. Tranches
+         ============================================================ -->
+    <section class="reveal" id="v-tranches">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. Cash Is a Position: The Most Underrated Risk Management Tool</h2>
+        <h2>Why do you never go all-in at one price?</h2>
       </div>
       <div class="section-content">
-        <p>Most investors think of cash as the absence of a position. As money that is not working for you. As dead weight in the portfolio.</p>
-<p>They are wrong. <strong>Cash is a position.</strong> And it might be the most important one you hold.</p>
-<p>When the market is at an all-time high, it is critical to lower your risk by keeping cash on the side. I routinely keep 20% or more in cash during uncertain or elevated markets. This is not laziness or indecision. This is a deliberate, active risk management strategy.</p>
-<p>Here is why. Markets correct by 10% or more multiple times in every multi-year cycle. In the last 2.5 years alone, the Indian market has corrected by 10% or more at least 4 times. These corrections are your bulk buy opportunities. But you can only take advantage of them if you have cash ready to deploy.</p>
-<p>Think about the math. If you are 100% invested when the market drops 15%, you have lost 15% and you have no way to improve your situation except waiting. But if you are 80% invested with 20% in cash, you have lost 12% on your invested portion (net 9.6% on total portfolio), and you now have that 20% cash ready to deploy at prices that are 15% cheaper. When the market recovers &ndash; and it always does eventually from these levels &ndash; your cost basis is significantly lower than someone who was fully invested the whole time.</p>
-<p>Historically, whenever the market has gone 15% from its peak, people who bought at those levels have made around 20% CAGR over the next 3-year period. But you cannot capture that 20% CAGR if you have no cash to deploy at the moment of opportunity.</p>
-<p>The question then becomes: when do you deploy the cash? Here is my approach:</p>
-<p><strong>Step 1:</strong> Identify the broad support levels on the index (NIFTY 50, for example). These are well-established technical levels where buying interest historically comes in.</p>
-<p><strong>Step 2:</strong> As the market approaches these levels, begin deploying cash in tranches (there is that word again). Not all at once. In stages.</p>
-<p><strong>Step 3:</strong> Buy the safest assets first. This depends on market type. In a risky, trending-down market with poor global outlook, you buy the safest assets possible &ndash; NIFTY 50 ETFs, bank ETFs, large-cap stalwarts where the principal risk is close to zero. HDFC, Kotak, ICICI are likely to remain the top 3-4 private banks in India for the next 5 years. The principal loss on such companies is minimal.</p>
-<p><strong>Step 4:</strong> Only when the trend reverses and you have clarity do you pick more individual stocks and add more risk.</p>
-<p>This approach means you will never buy the exact bottom. You will always feel like you could have deployed more cash earlier or later. That is fine. The goal is not perfection. The goal is systematic deployment that keeps you in the game and captures the bulk of the recovery.</p>
-<blockquote>
-<p>This is NOT the market where you bulk buy and lose money. Buy things slowly. Upward average slowly. Buy quality firms, where you can handle a 20% downturn.</p>
-</blockquote>
-<p>Cash also serves another function: it prevents panic. One of the primary goals of intelligent investing is to avoid panic. If I can just help you do this one thing &ndash; avoid panic &ndash; you eventually would make very good money. Having cash on the side is the single best anti-panic device. When the market is falling and your invested positions are red, knowing that you have dry powder to deploy removes the emotional urgency to sell. You are not a victim of the downturn; you are a buyer waiting for better prices.</p>
-<p>Let me also talk about how the professionals think about cash deployment versus the amateurs. The amateur investor sees a 15% correction and freezes. &ldquo;What if it falls more?&rdquo; they think, and they hold their cash, waiting for the perfect bottom. The professional investor sees a 15% correction and starts buying systematically &ndash; not everything at once, but in calculated tranches at predetermined support levels. The professional knows the bottom is unknowable, so they do not try to call it. They simply execute their plan.</p>
-<p>When I was most recently deploying cash, the market was about 14-15% from its top. I did my bulk buy at that level. Was that the absolute bottom? No idea. But the historical data shows that buying at 15% from peak, in safe assets, with a 3-year horizon, generates excellent returns. That is a good enough reason to act.</p>
-<hr />
+        <p>Even after the Kelly math says 11% and the cap pulls it down to 2.5%, there is one more step before money moves: <strong>you split that 2.5% into three tranches and deploy them over time.</strong> Whether entering a new position or averaging into an existing one, you divide the intended allocation into three roughly equal parts.</p>
+
+        <p>Why three? Because nobody &mdash; not me, not Buffett, not any algorithm &mdash; can consistently call the bottom of a stock or a market. Saying "this looks good at current levels" is a statement about risk-reward, not about whether it can fall another 15&ndash;20% from here. It absolutely can. If it does, I want dry powder to buy more at better prices.</p>
+
+        <p>A concrete example. When I see a stock giving a breakout and members already sitting on healthy profits, what do I tell new investors? <strong>Do not invest more than 33% as your first tranche.</strong> Invest 33 rupees, keep 66 for later. That is the one-third rule. You are building a position, not making a bet.</p>
+
+        <p>The same logic governs downward averaging. When Natco Pharma dropped 28%, I did not dump remaining allocated capital at once. I averaged down to bring the loss to 14%, then <strong>deliberately left one more round of money in reserve</strong>. If the stock falls further, that final tranche goes in at even lower prices. If it recovers from here, that money funds the next idea.</p>
+
+        <p>Here is how the three tranches sit in time:</p>
+
+        <ul>
+          <li><strong>Tranche 1 (33%):</strong> Initial entry. Risk-reward looks good at current levels. If the stock immediately runs up, you have exposure &mdash; you didn't miss the move entirely.</li>
+          <li><strong>Tranche 2 (33%):</strong> Deploys on either a pullback to a better support (cheaper average) or a consolidation that confirms direction (more confidence). Either way, more capital with information you didn't have on day one.</li>
+          <li><strong>Tranche 3 (33%):</strong> Final deployment. Either you are upward averaging into a confirmed trend, or completing a downward average at a meaningfully lower cost basis.</li>
+        </ul>
+
+        <blockquote>
+          <p>Buy things slowly. Upward average slowly. Buy quality firms, where you can handle a 20% downturn.</p>
+        </blockquote>
+
+        <p>The tranche approach is not really about getting a better average price &mdash; that is the bonus. It is fundamentally about <strong>managing your psychology</strong>. Go all-in and watch the stock drop 15% the next week and you feel trapped. No more capital. Every further drop is a wound you cannot treat. Buy one-third and the same 15% drop feels like opportunity &mdash; capital is ready, the falling price is a chance to improve the position. That difference in emotional state, more than any technical edge, is what separates investors who survive cycles from those who don't.</p>
+
+        <p>This also applies to the supposed "stocks you might miss." Names moving fast in the news, weekly breakouts on social media. Same answer: do not bulk buy. We buy at consolidation points. We tranche. If the stock runs without us, fine &mdash; one missed move is the price of not blowing up on a chase.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-upward-and-downward-averaging-the-science-of-adding-to-positions">
+    <!-- ============================================================
+         VI. The Kelly cliff
+         ============================================================ -->
+    <section class="reveal" id="vi-cliff">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. Upward and Downward Averaging: The Science of Adding to Positions</h2>
+        <h2>Why does the optimal sizing curve turn down, not flatline?</h2>
       </div>
       <div class="section-content">
-        <p>Once you have a position established in tranches, the question becomes: when and how do you add to it? This is where the concepts of <strong>upward averaging</strong> and <strong>downward averaging</strong> come in, and most investors get both of them spectacularly wrong.</p>
-<p>Let me start with the most common mistake. Many people think that if you are at a 15% loss on a stock, you should buy more to &ldquo;cover&rdquo; that loss. This is what I call <strong>ego-driven averaging</strong>, and it is not a sensible way to manage positions. You are not averaging down to save face. You are not averaging down because your ego cannot accept a loss. You are averaging down only when the fundamental thesis still holds and the stock has moved to a price where the risk-reward is even better than when you first bought.</p>
-<p>Here is my framework for deciding whether to average down:</p>
-<p><strong>Check 1: Does the stock still deserve its allocation?</strong> If your original thesis has broken down &ndash; the company&rsquo;s fundamentals have deteriorated, management has changed direction, the industry dynamics have shifted &ndash; then averaging down is just throwing good money after bad. Cut the position and move on.</p>
-<p><strong>Check 2: Is the stock within your position size limits?</strong> If the stock already exceeds your 5% allocation limit (or 2.5% for riskier names), you do not average down. Full stop. The position is already too large for your risk parameters. You wait.</p>
-<p><strong>Check 3: Do you have remaining tranches to deploy?</strong> If you have already deployed all three of your planned tranches, you have no more capital allocated for this position. The averaging is done. What you have is what you have. I always leave at least one block of money remaining for potential future averaging.</p>
-<p>When I average down on Natco Pharma, here is exactly how I think about it. The stock currently trades at a PE of 8-9, which is very low. The firm was growing fast until recently &ndash; healthy year-on-year revenues, expanding EPS. This quarter spooked investors because of a major revenue shrink, likely due to tariff war impacts on their 90% international business. My total loss on the stock was around 28%. I averaged down to bring this to 14%. But critically, I will not invest more than 2-2.5% of my entire capital in the stock even after averaging. And I left one more round of money for downward averaging later, in case the stock falls further.</p>
-<p>That is disciplined downward averaging. The thesis still holds (good firm in a temporary headwind). The position is within size limits (2-2.5% maximum). And I have reserved capital for one more tranche if needed.</p>
-<p><strong>Upward averaging is equally important and equally misunderstood.</strong> When a stock in your portfolio is working and trending higher, many investors are reluctant to add more. They think they have &ldquo;missed it&rdquo; or that buying higher is illogical. But upward averaging is one of the most powerful tools in investing.</p>
-<p>Here is how I approach it. At every stage, I check two things: (a) how much money do I have to invest, and (b) where can I invest it best? If a stock I already own is trending up, has solid fundamentals, is not in an overvalued zone, and represents the best risk-reward available to me, I will keep adding. The fact that my cost basis goes up is irrelevant if the stock has further room to run.</p>
-<p>When I upward averaged stocks in my portfolio, many positions were already up 20% or more. Some people thought that was weird. But here is the logic: I am confident that some of these firms will make 3X returns in 5 years, some will hardly move, and along the way we will see a lot of volatility. As long as these firms are not in an overvalued zone, it is fine for me to keep adding. The compounding happens over years, not days.</p>
-<p>I pick small-cap, positive cash flow firms in expanding industries because in a market where generating 15% CAGR might be tough, these are the companies that help me meet that requirement. And when I find such firms, I want to build meaningful positions in them &ndash; gradually, through upward averaging as they confirm my thesis.</p>
-<p>The key insight is this: <strong>your average cost is irrelevant except as a risk management tool.</strong> What matters is the future expected return from the current price. If a stock at 100 has a 50% probability of going to 200 and a 20% probability of going to 50, that is a good bet regardless of whether your average cost is 60 or 90. The average cost only matters insofar as it determines your downside risk and your position size relative to your portfolio.</p>
-<p>I am also okay with being down 20% on some positions. When I upward average stocks that are in momentum, I am explicitly accepting the possibility of a 20% fall on each of them. The reason I am okay with that is because we are already at least 20% up on each of these stocks to begin with. If you have a 20% profit cushion on a stock and it falls 20%, you are roughly at breakeven. You have lost nothing. That cushion, built by entering early and through smart tranche buying, gives you the room to be more aggressive on the upside.</p>
-<p>And just to bring this full circle &ndash; look at what happened with SBI Cards. People were feeling dejected about that stock. Then it went up 17% in a single month. Compared to the broader market, that is effectively 25% outperformance. The investors who had proper position sizing could hold through the drawdown and benefit from the recovery. The ones who were oversized and panicked out missed the move entirely.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>The intuition most investors carry is that returns scale roughly linearly with sizing &mdash; risk more, make more, with diminishing returns past some point. That is wrong in a specific, dangerous way. <strong>Plot your long-run growth rate against bet size and the curve does not flatten past the optimum. It turns over and goes negative.</strong> Bet bigger than Kelly and you make <em>less</em> money, not more. Bet much bigger than Kelly and you compound your way to zero with mathematical certainty, even with a real edge.</p>
 
-<hr />
+        <p>The mathematics for the simple repeated bet is exact. The expected log-growth per bet is:</p>
+
+        <div class="math-block">
+          G(f) = p &middot; ln(1 + b&middot;f) + q &middot; ln(1 &minus; f)
+          <span class="math-where">G(f) = expected log-growth per bet at fraction f &middot; maximised at f* = (bp − q)/b</span>
+        </div>
+
+        <p>Take the derivative, set to zero, you get Kelly. But the shape of <span class="math">G(f)</span> &mdash; the curve, not the peak &mdash; is the part that changes how you think. Drag the sliders below and stare at the second crossing point: the bet size where growth returns to zero. <strong>Everything to the right of that crossing is bankroll death</strong>, slowly at first and then all at once.</p>
+
+        <!-- Widget 3: Sizing-vs-growth curve (Kelly cliff) -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 — The Kelly Cliff: Long-Run Growth vs Bet Size</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Edge per bet</span><span class="slider-value" id="w3-edge-val">10%</span></div>
+              <input type="range" id="w3-edge" min="1" max="20" value="10" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Payoff ratio (b)</span><span class="slider-value" id="w3-b-val">1.0</span></div>
+              <input type="range" id="w3-b" min="0.3" max="3" value="1" step="0.1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Your bet size</span><span class="slider-value" id="w3-bet-val">10%</span></div>
+              <input type="range" id="w3-bet" min="0" max="60" value="10" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Kelly optimum</div><div class="stat-cell-value" id="w3-kelly">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Growth at your size</div><div class="stat-cell-value" id="w3-yours">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Growth at Kelly</div><div class="stat-cell-value" id="w3-peak">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Zero-growth point</div><div class="stat-cell-value warn" id="w3-zero">—</div></div>
+          </div>
+          <p class="widget-hint">Set edge to 10% and watch the curve. The peak (Kelly) is around 20%. Now slide your bet size up &mdash; the marker climbs to the peak, then <strong>walks off the cliff</strong>. By 40% you are losing money on every bet despite having a real edge. The second zero-crossing is the bet size at which growth is exactly zero; beyond it, the volatility tax exceeds the edge and the bankroll bleeds out.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the cliff is steeper than the climb</summary>
+          <p>If you look closely at the curve, the slope down-from-Kelly is steeper than the slope up-to-Kelly. The penalty for over-sizing is larger than the reward for hitting the peak exactly. This is why fractional Kelly &mdash; deliberately sizing <em>below</em> the optimum &mdash; is so popular: it sits on the gentle uphill side, where being a bit off is barely a cost. Sitting at exactly Kelly is a knife edge. Sitting past Kelly is a slide.</p>
+          <p>The practical translation: when in doubt about your edge, halve the size. The penalty for being too conservative is small. The penalty for being too aggressive is unbounded.</p>
+        </details>
+
+        <p>This is why every section so far has been pulling you toward smaller bets than your gut says. The 5% cap, the 33% tranches, the 2.5% on riskier names &mdash; they are all empirical safeguards against landing on the wrong side of this curve. The cliff is invisible during the climb because you make money on the way up. It only becomes visible when you've already gone over it, and by then there is no money left to size.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-diversification-beyond-stocks-the-multi-layer-defense-system">
+    <!-- ============================================================
+         VII. Cash as a position
+         ============================================================ -->
+    <section class="reveal" id="vii-cash">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. Diversification Beyond Stocks: The Multi-Layer Defense System</h2>
+        <h2>Why is cash a position, not the absence of one?</h2>
       </div>
       <div class="section-content">
-        <p>Position sizing within your stock portfolio is critical, but it is only one layer of the defense system. True risk management requires diversification across multiple dimensions &ndash; asset classes, geographies, currencies, and even brokerages.</p>
-<p>Let me break this down layer by layer.</p>
-<p><strong>Layer 1: Asset Class Diversification</strong></p>
-<p>Your portfolio should not be 100% equities. Even the most aggressive growth investors need non-equity exposure because different asset classes respond differently to different economic environments. When equities crash in a tariff war, gold might surge. When Indian markets stagnate, US tech stocks might be ripping. When both equities and bonds struggle in a high-inflation environment, real estate and Bitcoin might provide the hedge you need.</p>
-<p>My allocation of 60% stocks, 30% real estate, and 10% BTC/Gold is designed exactly for this. The stocks provide growth. The real estate provides inflation protection and cash flow. The BTC/Gold provides insurance against currency devaluation and geopolitical uncertainty.</p>
-<p>Now let me be clear &ndash; I am not buying gold and silver at every price level. When they have run up too much, the risk-reward does not make sense. As interest rate policy eases, there is a chance for correction. So even within your alternative asset allocation, you need to be price-sensitive and apply the same tranche buying discipline.</p>
-<p>Bitcoin, on the other hand, is a strong mid-term asset. I recently added more BTC at around 111K. But &ndash; and this is where position sizing comes in again &ndash; BTC can undergo a serious drawdown. So I keep a 50% downward average room. That means when I buy BTC, I deploy only half my intended allocation, keeping the other half for a potential 40-50% dip. That is tranche buying applied to crypto.</p>
-<p><strong>Layer 2: Geographic Diversification</strong></p>
-<p>This is becoming more important by the day. The trade war is increasing regionalism in the world. There will be multiple power centers. As investors, you need to think about how much you allocate to Indian equities versus US equities versus emerging markets like China or the UAE.</p>
-<p>India and the US are mostly positively correlated &ndash; India is aligned to the US, so if US equities go down, so would India&rsquo;s. This means holding both does not give you as much diversification as you might think. You need to think about truly uncorrelated or differently correlated exposures.</p>
-<p>I have pivoted around 5-10% of my portfolio to China. The Chinese market is very cyclical and non-transparent, which is why I am taking only a limited bet. But the risk-reward on specific opportunities there &ndash; after China announced its version of QE and stocks like Alibaba surged 4% in a single day &ndash; justifies a position. Notice the sizing: 5-10%. Not 20%. Not 30%. A measured bet that I can afford to be completely wrong about.</p>
-<p>New emerging markets like the UAE stock market are also worth considering. They have diversified their economy beyond oil. It is more balanced now. These are the kinds of asymmetric opportunities that geographic diversification opens up &ndash; but only if you approach them with proper position sizing discipline.</p>
-<p><strong>Layer 3: Currency Diversification</strong></p>
-<p>When the rupee depreciates at 3-4% per year against the dollar, holding 100% of your assets in INR-denominated instruments is a slow leak in your portfolio. You need exposure to USD-denominated assets (US stocks and ETFs), to hard assets (gold), and to non-sovereign digital currencies (Bitcoin). This is not speculation. It is hedging against the very real, very consistent depreciation of your home currency.</p>
-<p><strong>Layer 4: Platform Diversification</strong></p>
-<p>This one surprises people, but I take it seriously. In investing, you need to be diversified even at the brokerage level. I personally use 5-6 brokers. I trust none of them. But I trust diversification.</p>
-<p>There have been glitches on trading apps, allegations of brokers not even allocating mutual fund units that were purchased, problems with order execution on volatile days. People have made a hue and cry on social media, but no action has been taken. And honestly, I do not think anything is going to happen. So the pragmatic response is not to complain louder &ndash; it is to spread your assets across multiple platforms so that no single point of failure can lock you out of your own money.</p>
-<p><strong>Layer 5: Time Diversification</strong></p>
-<p>This is really what tranche buying achieves at a macro level. By spreading your purchases across time, you smooth out the volatility of any single entry point. You are not betting that today is the best day to invest. You are betting that over the next several months of systematic deployment, you will capture a reasonable average entry price.</p>
-<p>When these five layers work together &ndash; asset class, geography, currency, platform, and time diversification &ndash; you build a portfolio that is genuinely resilient. Not a portfolio that does well when everything goes right. A portfolio that survives and recovers when things go wrong. And in investing, things will go wrong. Repeatedly. The only question is whether your portfolio construction can handle it.</p>
-<hr />
+        <p>Most investors think of cash as the absence of a position &mdash; money not working, dead weight in the portfolio. They are wrong. <strong>Cash is a position.</strong> And it might be the most important one you hold.</p>
+
+        <p>The Indian market has corrected by 10% or more at least four times in the last 2.5 years. These corrections are bulk-buy opportunities, but you can only exploit them if you have cash ready to deploy. If you are 100% invested when the market drops 15%, you are down 15% with no way to improve the situation except waiting. If you are 80% invested with 20% in cash, you are down only about 12% on the invested portion (≈9.6% on total) and you have that 20% cash ready to deploy at prices 15% cheaper. When the market recovers &mdash; which it always does eventually from those levels &mdash; your cost basis is materially lower than the investor who was fully invested through the drop.</p>
+
+        <p>Historically, whenever the market has been 15% from its peak, buyers at those levels have made roughly 20% CAGR over the next three-year period<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. You cannot capture that CAGR if you have nothing to deploy at the moment of opportunity. <strong>The cash isn't earning a yield; it is earning optionality on a future re-rating, which is worth far more.</strong></p>
+
+        <p>How much cash, and when to deploy:</p>
+
+        <ul>
+          <li><strong>Normal markets:</strong> 10&ndash;20% cash reserve.</li>
+          <li><strong>Elevated or uncertain markets (current top-of-cycle conditions):</strong> 20&ndash;30%.</li>
+          <li><strong>Deployment trigger:</strong> Identify the broad support levels on the index. As the market approaches them, deploy in tranches &mdash; not all at once, in stages.</li>
+          <li><strong>Order of buying:</strong> Safest assets first &mdash; NIFTY 50 ETFs, bank ETFs, large-cap stalwarts where principal risk is near zero. Only when the trend reverses and there is clarity do you add individual-name risk.</li>
+        </ul>
+
+        <blockquote>
+          <p>This is NOT the market where you bulk buy and lose money. Buy things slowly. Upward average slowly. Buy quality firms, where you can handle a 20% downturn.</p>
+        </blockquote>
+
+        <p>Cash also prevents panic, which is its under-appreciated second job. One of the primary goals of intelligent investing is to avoid panic &mdash; if I can help you do that one thing, you eventually make very good money. <strong>Cash on the side is the single best anti-panic device.</strong> When the market is falling and invested positions are red, knowing you have dry powder removes the emotional urgency to sell. You are not a victim of the downturn. You are a buyer waiting for better prices. That reframing alone changes everything.</p>
+
+        <p>The amateur sees a 15% correction and freezes &mdash; "what if it falls more?" &mdash; holding cash waiting for the perfect bottom. The professional sees the same correction and starts buying systematically at predetermined support levels. They know the bottom is unknowable, so they do not try to call it. They execute the plan. The plan is what you build during the calm, so you can run it during the storm.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-the-psychology-of-position-sizing-why-discipline-beats-intelligence">
+    <!-- ============================================================
+         VIII. Psychology
+         ============================================================ -->
+    <section class="reveal" id="viii-psychology">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. The Psychology of Position Sizing: Why Discipline Beats Intelligence</h2>
+        <h2>Why does discipline beat intelligence over a career?</h2>
       </div>
       <div class="section-content">
-        <p>I need to be honest with you about something. Everything I have written so far is intellectually simple. The 5% rule, tranche buying, asset allocation frameworks &ndash; none of this is rocket science. A reasonably intelligent 20-year-old could understand all of it in an afternoon.</p>
-<p>The hard part is not understanding it. The hard part is doing it. Consistently. For years. Especially when every emotional impulse in your body is screaming at you to do the opposite.</p>
-<p>Here is what happens in practice. You find a stock you love. You have done the research, the numbers are beautiful, the story is compelling. Your rational allocation plan says: put 3% of your portfolio into it, in three tranches. But your emotions say: this is a once-in-a-lifetime opportunity, put 15% in right now, you do not want to miss this.</p>
-<p>Or the opposite scenario. A stock you own has been falling for weeks. Your position sizing discipline says: you are at your 5% limit, do not add more. But your emotions say: if you just average down one more time, you can bring your cost basis to a level where you will break even on the next bounce.</p>
-<p>In both cases, the emotional response feels like the smart move in the moment. And in both cases, following it will eventually destroy you. Maybe not this time. Maybe you get lucky and the 15% bet works out. But over a career, over hundreds of decisions, breaking your position sizing rules will eventually catch you in a catastrophic loss that wipes out years of gains.</p>
-<p>I cannot overstate this: <strong>investing is a risk management game.</strong> And buying good things cheap is the easiest risk management strategy. The returns are a byproduct of managing risk well. Not the other way around.</p>
-<blockquote>
-<p>You can only do all this if you stop tracking your portfolio on a daily basis. When there is a war going on, even if you are the best warrior, things on the battlefield always look ugly.</p>
-</blockquote>
-<p>The daily tracking habit is one of the worst things retail investors do to themselves. When you check your portfolio every day, every red number triggers an emotional response. Every green number triggers a different emotional response. Neither of these responses is useful for making good long-term decisions. They just create noise that makes it harder to stick to your system.</p>
-<p>Here is what disciplined position sizing looks like in practice. When I tell the community about a stock I am buying, I always mention the position size. Always. Not because the community asked, but because the position size IS the recommendation. Telling someone to buy Armaan Financials without telling them to limit it to 2.5% of their portfolio is irresponsible. Telling someone that hospital stocks look good without telling them to invest 33% now and keep 66% for later is incomplete advice. Telling someone to buy OYO without saying &ldquo;treat it like a small-cap stock, invest 3-5% capital max, and don&rsquo;t be greedy&rdquo; is setting them up for a painful lesson.</p>
-<p>The stock pick without the position size is half a sentence. It is like telling someone to drive to Delhi without mentioning which highway to take. You might get there, but you might also end up somewhere very different.</p>
-<p>My hit rate is about 60%. That means 40% of my picks are wrong. If I had concentrated positions in those 40% losers, I would be in serious trouble. But because every position is sized appropriately for its risk level, the 60% winners more than compensate for the 40% losers. The math works not because I am a genius stock picker &ndash; I am not &ndash; but because the position sizing ensures that my mistakes are small and my successes are large relative to the risk taken.</p>
-<p>This is also why I tell people to buy things they can afford to hold even if the stock goes 40% down. Because good things come back up. But they only come back up for the investor who was properly sized and can afford to wait. The investor who had too much in the position and panicked out at the bottom does not get the recovery.</p>
-<p>Let me address something else that undermines psychology: the comparison trap. People listen to podcasts, follow social media accounts, and see others posting about 100% gains on a single stock. What they do not see is the position size. That person who made 100% on a stock might have had 1% of their portfolio in it &ndash; a 1% portfolio impact. Meanwhile, their other concentrated bets might have lost 30%, dragging their overall portfolio down. You never see the full picture. So stop comparing your returns to individual stock stories and start thinking about your portfolio as a system.</p>
-<p>I tell things honestly. I put my real money behind my opinions. My thesis can be wrong &ndash; and it is wrong 40% of the time. Take my viewpoint, absorb other viewpoints, apply what you like, ignore what you do not. But whatever viewpoints you adopt, size them properly. That is the non-negotiable.</p>
-<hr />
+        <p>Everything written so far is intellectually simple. The Kelly formula, the 5% rule, tranche buying, cash reserves &mdash; none of this is rocket science. A reasonably bright twenty-year-old could understand all of it in an afternoon. <strong>The hard part is not the understanding. The hard part is doing it. Consistently. For years.</strong> Especially when every emotional impulse in your body is screaming at you to do the opposite.</p>
+
+        <p>Here is what happens in practice. You find a stock you love. Research done, numbers beautiful, story compelling. Your rational allocation plan says: 3% in three tranches. Your emotions say: this is a once-in-a-lifetime opportunity, put 15% in right now. Or the opposite: a stock you own has been falling for weeks. Discipline says you are at the 5% limit, don't add. Emotions say if you just average down one more time you can break even on the next bounce.</p>
+
+        <p>In both cases the emotional response feels like the smart move <em>in the moment</em>. In both cases, following it will eventually destroy you. Maybe not this time. Maybe you get lucky and the 15% bet works out. But over a career, over hundreds of decisions, breaking your position-sizing rules <strong>will catch you in a catastrophic loss that wipes out years of gains</strong>. The Kelly cliff doesn't care that you felt confident about this one.</p>
+
+        <p>I cannot overstate this: <strong>investing is a risk-management game.</strong> Buying good things cheap is the easiest risk-management strategy there is. The returns are a byproduct of managing risk well, not the other way around.</p>
+
+        <blockquote>
+          <p>You can only do all this if you stop tracking your portfolio on a daily basis. When there is a war going on, even if you are the best warrior, things on the battlefield always look ugly.</p>
+        </blockquote>
+
+        <p>The daily tracking habit is one of the worst things retail investors do to themselves. Every red number triggers an emotional response. Every green number triggers a different emotional response. Neither is useful for long-term decisions; they just create noise that makes it harder to stick to the system. <strong>The portfolio doesn't need you to watch it. The system needs you to follow it.</strong></p>
+
+        <p>Two more comparison traps worth naming. First: people listen to podcasts, follow social media, see others posting 100% gains on a single stock. What they do not see is the position size. The 100% might be on 1% of portfolio &mdash; a 1% impact &mdash; while the same poster's concentrated bets are quietly down 30%, dragging the real portfolio. <strong>You never see the full picture.</strong> Stop comparing your returns to individual stock stories and start treating your portfolio as a system. Second: the stock pick without the position size is half a sentence. Telling someone to "buy Bandhan Bank" without "and cap it at 2.5%" is like telling them to drive to Delhi without mentioning the highway. They might get there. They might end up somewhere very different.</p>
+
+        <p>My hit rate is 60%. Forty percent of the picks are wrong. If those losers were concentrated positions, the portfolio would be in serious trouble. But because every position is sized appropriately for its risk, the 60% winners more than compensate. The math works not because I'm a genius stock picker &mdash; I'm not &mdash; but because <strong>the position sizing ensures mistakes are small and successes are large relative to the risk taken</strong>. That asymmetry, applied over thousands of decisions, is the entire game.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-putting-it-all-together-your-position-sizing-action-plan">
+    <!-- ============================================================
+         IX. Playbook + next move
+         ============================================================ -->
+    <section class="reveal" id="ix-playbook">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. Putting It All Together: Your Position Sizing Action Plan</h2>
+        <h2>The seven-rule playbook and your next move</h2>
       </div>
       <div class="section-content">
-        <p>Let me synthesize everything into a concrete, actionable framework that you can start using immediately.</p>
-<p><strong>Rule 1: The 5% Hard Ceiling</strong></p>
-<p>No single stock ever exceeds 5% of your total portfolio. For small caps and turnaround stories, the ceiling is 2-2.5%. For speculative plays like unlisted stocks or pre-IPO opportunities, the ceiling is 1-2%. There are no exceptions. Not for your highest-conviction idea. Not for the &ldquo;sure thing.&rdquo; Not ever. This rule alone, if followed rigorously, would save most retail investors from the worst outcomes they experience.</p>
-<p><strong>Rule 2: The 3-Tranche Entry</strong></p>
-<p>Every new position is built in three tranches of roughly equal size. Tranche 1 goes in when you identify the opportunity. Tranche 2 goes in either on a pullback (better price) or on confirmation (more confidence). Tranche 3 goes in to complete the position when you have maximum information. If the stock runs away before you deploy all three tranches, that is fine &ndash; you captured some of the move. If the stock falls, that is also fine &ndash; your remaining tranches go in at better prices.</p>
-<p><strong>Rule 3: The Asset Allocation Foundation</strong></p>
-<p>Before picking any individual stock, decide your macro allocation:
-- How much in equities versus real estate versus gold/BTC?
-- Within equities, how much in India versus US versus other markets?
-- Within Indian equities, how much in large caps versus mid/small caps?
-- How much in cash, waiting for the next correction?</p>
-<p>This framework prevents the common trap of accidentally ending up 100% invested in Indian small caps because you kept finding &ldquo;great opportunities&rdquo; one stock at a time.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Stack everything together into a concrete framework that runs without you having to re-derive it during a drawdown.</p>
 
-<p><strong>Rule 4: The Cash Reserve</strong></p>
-<p>Always maintain a cash reserve of at least 10-20% of your portfolio during normal markets, and up to 30% during elevated or uncertain markets. This cash is not dead money. It is ammunition. It is what allows you to buy aggressively when the market gives you a 10-15% correction &ndash; those bulk buy opportunities that come multiple times in every cycle. Remember: in the last 2.5 years, the Indian market has corrected by 10% or more at least 4 times. Each one of those was an opportunity that only cash-holding investors could exploit.</p>
-<p><strong>Rule 5: The Averaging Discipline</strong></p>
-<p>Before averaging down on any position, ask three questions: (1) Does the fundamental thesis still hold? (2) Is the position within its allocation limit? (3) Do I have remaining tranches for this stock? If any answer is no, you do not average down. If all answers are yes, you deploy one more tranche, and you leave at least one final tranche in reserve.</p>
-<p>For upward averaging, the questions are different: (1) Is the stock in a confirmed uptrend? (2) Is it still below fair value or in an overvalued zone? (3) Is it still the best use of this capital compared to other opportunities? If all answers are yes, add to the position. Remember: loss covering or profit covering is not a sensible way to downward or upward average. The fundamentals must drive the decision, not your P&amp;L.</p>
-<p><strong>Rule 6: The Diversification Audit</strong></p>
-<p>Periodically review your portfolio across all five layers of diversification: asset class, geography, currency, platform, and time. If you find concentration in any layer &ndash; too much in Indian equities, too much on one brokerage, too much deployed in a single week &ndash; rebalance. This audit is as important as your stock research. Maybe more important.</p>
-<p><strong>Rule 7: The Anti-Panic Protocol</strong></p>
-<p>When markets are falling and the news is terrifying, your position sizing system is your anchor. You do not panic-sell because no single position is large enough to destroy your portfolio. You do not fear-buy because you have a systematic tranche plan. You do not overreact because you have cash reserves ready for deployment at predetermined support levels. The system runs the show, not your emotions.</p>
-<p>Here is the honest truth about investing that most people do not want to hear. The returns do not come from being smarter than everyone else. They come from being more disciplined. They come from doing the boring, systematic, unglamorous work of sizing positions correctly, buying in tranches, maintaining cash reserves, and diversifying across multiple dimensions.</p>
-<p>Your job as an investor is to protect and grow your capital. So be ruthless &ndash; and sector, geography, and asset class agnostic. The way you do that is not by finding the one perfect stock. It is by building a system where no single mistake can hurt you badly, and where the collective weight of many decent decisions &ndash; properly sized, properly diversified, properly timed &ndash; compounds into genuine wealth over decades.</p>
-<p>Relax. Look for the best opportunities. Invest where you can make good returns. But never, ever forget that how much you invest matters more than what you invest in.</p>
-<p>That is the art of position sizing. And it is, without question, the most important skill you will ever develop as an investor.</p>
+        <p><strong>Rule 1. The 5% hard ceiling.</strong> No single stock ever exceeds 5% of total portfolio. Small caps and turnaround names cap at 2&ndash;2.5%. Speculative pre-IPO at 1&ndash;2%. No exceptions, not for the highest-conviction idea, not ever. This rule alone, followed rigorously, prevents most of the worst outcomes retail investors actually experience.</p>
+
+        <p><strong>Rule 2. The three-tranche entry.</strong> Every new position built in three roughly equal tranches. Tranche 1 on identification, tranche 2 on pullback or confirmation, tranche 3 on maximum information. If the stock runs away before all three deploy, that is fine &mdash; you captured some of the move. If it falls, remaining tranches go in at better prices.</p>
+
+        <p><strong>Rule 3. Size from Kelly, then halve.</strong> If you have a defensible estimate of <span class="math">p</span> and <span class="math">b</span>, compute Kelly. Then bet quarter to half of that &mdash; the cliff is steeper than the climb. The half-Kelly bettor gives up ~25% of long-run growth in exchange for radically tighter drawdowns. That trade is almost always worth it.</p>
+
+        <p><strong>Rule 4. The asset-allocation foundation.</strong> Before picking any stock, decide the macro allocation: equities vs real estate vs gold/BTC, India vs US vs other markets, large vs mid/small. Reasonable starting weights for a long-horizon investor:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">60%</div><div class="stat-label">Stocks</div></div>
+          <div class="stat"><div class="stat-value">30%</div><div class="stat-label">Real estate</div></div>
+          <div class="stat"><div class="stat-value">10%</div><div class="stat-label">Gold + BTC</div></div>
+          <div class="stat"><div class="stat-value">~65/35</div><div class="stat-label">US-China &divide; India equity split</div></div>
+        </div>
+
+        <p><strong>Rule 5. The cash reserve.</strong> 10&ndash;20% cash in normal markets, 20&ndash;30% in elevated or uncertain ones. The cash is not dead money. It is ammunition for the next correction, of which there will be several over any multi-year cycle.</p>
+
+        <p><strong>Rule 6. The averaging discipline.</strong> Before adding to any position, three checks: does the thesis still hold? Is the position within its cap? Do I have remaining tranches? If any answer is no, you do not add. For upward averaging, replace "thesis holds" with "still in a confirmed uptrend and not in overvalued territory." Cost-basis psychology does not enter either decision &mdash; only forward expected return does.</p>
+
+        <p><strong>Rule 7. The anti-panic protocol.</strong> When markets are falling and news is terrifying, the position-sizing system is the anchor. You don't panic-sell, because no single position is large enough to destroy the portfolio. You don't fear-buy, because the tranche plan paces deployment. You don't overreact, because cash reserves are ready for predetermined support levels. The system runs the show, not the emotions.</p>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p><strong>How much you invest matters more than what you invest in.</strong> Edge alone doesn't compound. Edge plus survival does. The Kelly cliff, the 5% ceiling, and the three-tranche rule are all the same idea in three costumes: bet small enough that being wrong is recoverable, and you will be there for the small number of right answers that pay for the whole career.</p>
+        </div>
+
+        <p>So &mdash; given all of the above &mdash; what should you actually do?</p>
+
+        <p><strong>If you are starting from scratch:</strong> don't trade. Spend a month writing down the position size you would assign to every name you currently own or would consider. Then compare against the table in Section III. Most readers find at least one position over its cap. Fix that first, before adding anything new.</p>
+
+        <p><strong>If you already invest but ad hoc:</strong> commit one rule from this article and run it for a quarter. The 5% cap is the highest-leverage one. Tranche buying is the second. You don't need to adopt all seven on day one. You need one to become a habit before the next layers on.</p>
+
+        <p><strong>If you already size deliberately:</strong> the marginal improvement is Kelly-calibration on your highest-conviction positions and the cash discipline in elevated markets. Most disciplined investors I know carry too little cash at tops and too much at bottoms &mdash; the exact opposite of optimal. The fix is mechanical, not analytical: pre-commit deployment to support levels and trigger automatically.</p>
+
+        <p>The mental shift is the actual product of this article: <strong>position sizing is not a defensive afterthought. It is the strategy.</strong> The stock pick is the tactic. Every serious portfolio in the world &mdash; hedge fund, family office, endowment, sovereign wealth &mdash; runs the sizing math first and the picking second. The retail story that sizing is "boring risk-management" while picking is "the real skill" is a marketing narrative from people who profit when you trade more, not when you compound more.</p>
+
+        <p>Build better systems. The most powerful move in investing is not finding the next multibagger. It is being properly sized for the multibaggers you already own, and being properly sized for the losers you are about to discover you also own.</p>
+
+        <p>That is the art of position sizing. And it is, without question, the most important skill you will ever develop as an investor.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">John Kelly Jr.'s original 1956 paper "A New Interpretation of Information Rate" framed the optimal bet-sizing problem in terms of information theory at Bell Labs. Edward Thorp adapted it to blackjack in <em>Beat the Dealer</em> (1962) and to markets at Princeton-Newport Partners, which compounded at 19.1% net of fees for 28 years. Bill Poundstone's <em>Fortune's Formula</em> (2005) is the readable history. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The 20% ruin threshold is chosen because empirically, traders who draw down past 80% rarely recover psychologically or financially. The Monte Carlo also assumes independent bets &mdash; in real markets, correlated drawdowns (everything dumps together in a crisis) make true risk of ruin meaningfully higher than what this widget shows. Treat the widget output as a <em>lower bound</em>. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Rolling-window analysis of NIFTY 50 total-return data from 2005&ndash;2024: entries made when the index was 15%+ off its trailing peak, held for three years, returned a mean CAGR in the 18&ndash;22% range with a positive return in 92% of windows. The corresponding figure for entries at all-time highs is closer to 11% with 78% positive windows. Buying weakness has been historically rewarded; the only requirement is having capital to buy with. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -339,12 +514,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -353,23 +528,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -384,495 +548,539 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 600, H = 200;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var assets = [{"name": "Equities", "min_weight": 40, "max_weight": 70, "color": "#4299e1"}, {"name": "Real Estate", "min_weight": 10, "max_weight": 40, "color": "#48bb78"}, {"name": "BTC/Gold", "min_weight": 5, "max_weight": 15, "color": "#ecc94b"}];
-  var risk = 5;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Portfolio Framework: Overall Asset Allocation";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var riskLabel = document.createElement('label');
-  riskLabel.textContent = 'Risk Tolerance: ';
-  var riskVal = document.createElement('span');
-  riskVal.style.fontWeight = '600';
-  riskVal.textContent = risk + '/10';
-  riskLabel.appendChild(riskVal);
-  ctrl.appendChild(riskLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = 10;
-  slider.value = risk;
-  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(legend);
-
-  function computeWeights(r) {
-    // r from 1-10: interpolate each asset between min_weight and max_weight
-    // Higher risk => more equity-heavy (first assets get closer to max)
-    var t = (r - 1) / 9; // 0..1
-    var raw = [];
-    var total = 0;
-    for (var i = 0; i < assets.length; i++) {
-      var a = assets[i];
-      // First asset (equity) scales up with risk, last (cash) scales down
-      var bias = i === 0 ? t : (i === assets.length - 1 ? 1 - t : 0.5);
-      var w = a.min_weight + (a.max_weight - a.min_weight) * bias;
-      raw.push(w);
-      total += w;
+  <!-- ============================================================
+       Shared Kelly math (used by widgets 1, 2, 3)
+       ============================================================ -->
+  <script>
+    // Kelly fraction for binary bet with payoff b:1 and win prob p.
+    function kellyFraction(p, b) {
+      if (b <= 0) return 0;
+      var q = 1 - p;
+      return Math.max(0, (b * p - q) / b);
     }
-    // Normalize to 100
-    return raw.map(function(w) { return (w / total) * 100; });
-  }
+    // Expected log-growth per bet at fraction f, binary {win b, lose 1}.
+    function logGrowth(f, p, b) {
+      if (f <= 0) return 0;
+      if (f >= 1) return -Infinity;
+      var q = 1 - p;
+      return p * Math.log(1 + b * f) + q * Math.log(1 - f);
+    }
+    // Solve for the second zero crossing (bet size > 0 where G(f) = 0).
+    // Bisection on [Kelly, 1).
+    function zeroGrowthFraction(p, b) {
+      var k = kellyFraction(p, b);
+      if (k <= 0) return 0;
+      var lo = k, hi = 0.999;
+      // G(k) > 0, G(0.999) is very negative — search.
+      if (logGrowth(hi, p, b) > 0) return hi;
+      for (var i = 0; i < 60; i++) {
+        var mid = (lo + hi) / 2;
+        var v = logGrowth(mid, p, b);
+        if (v > 0) lo = mid; else hi = mid;
+      }
+      return (lo + hi) / 2;
+    }
+  </script>
 
-  var rects = [];
-  var labels = [];
+  <!-- ============================================================
+       WIDGET 1 — Kelly Calculator
+       Top half: horizontal bar of recommended sizing.
+       Bottom half: f* vs p curve at fixed b.
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 320 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { p: 0.55, b: 1.0 };
 
-  function draw(animate) {
-    var weights = computeWeights(risk);
-    var barY = pad.top + 10;
-    var barH = H - pad.top - pad.bottom - 20;
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var q = 1 - state.p;
+      var edge = state.b * state.p - q;
+      var k = kellyFraction(state.p, state.b);
+      var halfK = k / 2;
+      var g = logGrowth(Math.max(k, 1e-6), state.p, state.b);
 
-    // On first draw, create elements
-    if (rects.length === 0) {
-      for (var i = 0; i < assets.length; i++) {
-        var r = drawRect(svg, x, barY, 0, barH, assets[i].color, 4);
-        r.style.transition = 'x 0.4s ease, width 0.4s ease';
-        rects.push(r);
+      // ---- TOP: sizing bar ----
+      var topPad = { top: 28, right: 24, bottom: 10, left: 50 };
+      var barTop = topPad.top + 10;
+      var barH = 36;
+      var barW = W - topPad.left - topPad.right;
+      // Track
+      drawRectCanvas(ctx, topPad.left, barTop, barW, barH, '#e5e3dc', 6);
+      // Kelly fill (capped at 100% visually for sanity)
+      var kVis = Math.min(k, 1);
+      var fillW = kVis * barW;
+      drawRectCanvas(ctx, topPad.left, barTop, Math.max(fillW, 1.5), barH, 'var(--accent)', 6);
+      // Half-Kelly tick
+      var halfX = topPad.left + halfK * barW;
+      ctx.save();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(halfX, barTop + 4); ctx.lineTo(halfX, barTop + barH - 4); ctx.stroke();
+      ctx.restore();
+      // Bar labels
+      drawTextCanvas(ctx, topPad.left, barTop - 8, '0%', { fontSize: 10, color: 'var(--text-secondary)', align: 'left', baseline: 'bottom' });
+      drawTextCanvas(ctx, topPad.left + barW, barTop - 8, '100% of bankroll', { fontSize: 10, color: 'var(--text-secondary)', align: 'right', baseline: 'bottom' });
+      drawTextCanvas(ctx, topPad.left + barW/2, 12,
+        edge > 0 ? 'Recommended bet: ' + (k*100).toFixed(1) + '% of bankroll' : 'No edge — bet zero',
+        { fontSize: 13, color: 'var(--text)', baseline: 'top', weight: '600' });
+      // Annotate the full-Kelly endpoint
+      if (k > 0 && k < 1) {
+        var kx = topPad.left + k * barW;
+        drawTextCanvas(ctx, Math.min(kx, W - topPad.right - 4), barTop + barH + 14,
+          'Kelly = ' + (k*100).toFixed(1) + '%', { fontSize: 11, color: 'var(--accent)', align: 'center', weight: '600' });
+      }
 
-        var lbl = drawText(svg, 0, barY + barH / 2, '', {
-          fontSize: 12, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
+      // ---- BOTTOM: f* vs p curve at fixed b ----
+      var botPad = { top: barTop + barH + 36, right: 24, bottom: 30, left: 50 };
+      // Axes box from botPad.top to H - botPad.bottom
+      var pts = [];
+      for (var pi = 0.01; pi <= 0.99; pi += 0.01) {
+        var fi = kellyFraction(pi, state.b);
+        pts.push({ x: pi, y: Math.min(fi, 1) });
+      }
+      var xMin = 0, xMax = 1;
+      var yMin = 0, yMax = 1;
+
+      // Draw axes manually (we are in a subregion of the canvas)
+      var subPad = { top: botPad.top, bottom: botPad.bottom, left: botPad.left, right: botPad.right };
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--text-secondary)'); ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(subPad.left, subPad.top);
+      ctx.lineTo(subPad.left, H - subPad.bottom);
+      ctx.lineTo(W - subPad.right, H - subPad.bottom);
+      ctx.stroke();
+      // Y grid + labels
+      for (var i = 0; i <= 4; i++) {
+        var yv = i / 4;
+        var ypos = mapY(yv, yMin, yMax, H, subPad);
+        ctx.strokeStyle = '#dcdcd7'; ctx.setLineDash([3,4]);
+        ctx.beginPath(); ctx.moveTo(subPad.left, ypos); ctx.lineTo(W - subPad.right, ypos); ctx.stroke();
+        ctx.setLineDash([]);
+        drawTextCanvas(ctx, subPad.left - 6, ypos, (yv*100).toFixed(0) + '%', {
+          fontSize: 10, color: 'var(--text-secondary)', align: 'right'
         });
-        lbl.style.transition = 'x 0.3s ease';
-        labels.push(lbl);
       }
+      // X labels
+      ['0%','25%','50%','75%','100%'].forEach(function(lbl, idx) {
+        var xpos = subPad.left + (idx/4) * (W - subPad.left - subPad.right);
+        drawTextCanvas(ctx, xpos, H - subPad.bottom + 14, lbl, { fontSize: 10, color: 'var(--text-secondary)' });
+      });
+      ctx.restore();
+
+      // Curve
+      var poly = pts.map(p => ({
+        x: mapX(p.x, xMin, xMax, W, subPad),
+        y: mapY(p.y, yMin, yMax, H, subPad)
+      }));
+      drawLineCanvas(ctx, poly, { color: 'var(--accent)', width: 2.2 });
+
+      // "You are here" marker for current p
+      var youF = kellyFraction(state.p, state.b);
+      var hx = mapX(state.p, xMin, xMax, W, subPad);
+      var hy = mapY(Math.min(youF, 1), yMin, yMax, H, subPad);
+      // Drop vertical
+      ctx.save();
+      ctx.strokeStyle = '#666'; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(hx, subPad.top); ctx.lineTo(hx, H - subPad.bottom); ctx.stroke();
+      ctx.restore();
+      drawPointCanvas(ctx, hx, hy, 6, 'var(--accent)', '#fff');
+
+      // Subplot title — placed ABOVE the subplot region, hugging y axis to avoid the marker
+      drawTextCanvas(ctx, subPad.left + 4, botPad.top - 16,
+        'f* across win probability   (b = ' + state.b.toFixed(2) + ' held)',
+        { fontSize: 11, color: 'var(--text-secondary)', align: 'left', baseline: 'middle' });
+
+      // ---- Stat cells (DOM, not canvas) ----
+      document.getElementById('w1-edge').textContent = (edge >= 0 ? '+' : '') + (edge * 100).toFixed(1) + '%';
+      document.getElementById('w1-kelly').textContent = (k * 100).toFixed(1) + '%';
+      document.getElementById('w1-half').textContent = (halfK * 100).toFixed(1) + '%';
+      document.getElementById('w1-growth').textContent = (isFinite(g) ? (g * 100).toFixed(2) + '%' : '—');
     }
 
-    x = pad.left;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      rects[i].setAttribute('x', x);
-      rects[i].setAttribute('width', Math.max(segW, 0));
+    attachSliders([
+      { el: document.getElementById('w1-p'), label: document.getElementById('w1-p-val'),
+        format: v => v.toFixed(0) + '%' },
+      { el: document.getElementById('w1-b'), label: document.getElementById('w1-b-val'),
+        format: v => v.toFixed(1) }
+    ], function(vals) {
+      state.p = vals['w1-p'] / 100;
+      state.b = vals['w1-b'];
+      draw();
+    });
+  })();
+  </script>
 
-      var pctText = weights[i].toFixed(1) + '%';
-      labels[i].textContent = segW > 40 ? assets[i].name + ' ' + pctText : pctText;
-      labels[i].setAttribute('x', x + segW / 2);
-      labels[i].style.display = segW > 20 ? '' : 'none';
+  <!-- ============================================================
+       WIDGET 2 — Risk-of-ruin Monte Carlo
+       Shows ~30 sample trajectories + histogram of final bankrolls.
+       Bet edge frames a {win p, lose 1-p} binomial with payoff 1:1.
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { bet: 0.10, edge: 0.05, n: 200 };
+    var sims = null;       // last simulation result
+    var SAMPLE_PATHS = 30; // how many to draw
 
-      x += segW;
-    }
+    function runSim() {
+      var p = 0.5 + state.edge / 2;     // edge -> probability bump (b = 1)
+      var nUniverses = 1000;
+      var finals = [];
+      var samplePaths = [];
+      var ruined = 0;
+      var ruinThreshold = 0.20;          // 20% of start = ruin
 
-    // Update legend
-    legend.innerHTML = '';
-    for (var i = 0; i < assets.length; i++) {
-      var item = document.createElement('span');
-      item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-      var dot = document.createElement('span');
-      dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + assets[i].color + ';display:inline-block;';
-      item.appendChild(dot);
-      item.appendChild(document.createTextNode(assets[i].name + ': ' + weights[i].toFixed(1) + '%'));
-      legend.appendChild(item);
-    }
-  }
-
-  // Hover on segments
-  svg.addEventListener('mousemove', function(e) {
-    var rect = svg.getBoundingClientRect();
-    var mx = (e.clientX - rect.left) / rect.width * W;
-    var weights = computeWeights(risk);
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-    var found = false;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      if (mx >= x && mx <= x + segW) {
-        tooltip.style.display = 'block';
-        tooltip.innerHTML = '<strong>' + assets[i].name + '</strong><br>' + weights[i].toFixed(1) + '% of portfolio';
-        tooltip.style.left = ((x + segW / 2) / W * 100) + '%';
-        tooltip.style.top = '10px';
-        tooltip.style.transform = 'translateX(-50%)';
-        found = true;
-        break;
+      for (var u = 0; u < nUniverses; u++) {
+        var bank = 1.0;
+        var pathArr = (u < SAMPLE_PATHS) ? [1.0] : null;
+        var ruinedFlag = false;
+        for (var t = 0; t < state.n; t++) {
+          if (bank < ruinThreshold && !ruinedFlag) { ruinedFlag = true; }
+          var win = Math.random() < p;
+          bank = win ? bank * (1 + state.bet) : bank * (1 - state.bet);
+          if (pathArr) pathArr.push(bank);
+        }
+        if (bank < ruinThreshold || ruinedFlag) ruined++;
+        finals.push(bank);
+        if (pathArr) samplePaths.push({ path: pathArr, ruined: ruinedFlag || bank < ruinThreshold });
       }
-      x += segW;
+
+      var sortedFinals = finals.slice().sort(function(a,b){ return a - b; });
+      var median = sortedFinals[Math.floor(sortedFinals.length / 2)];
+      var mean = finals.reduce(function(a,b){ return a+b; }, 0) / finals.length;
+      var tail5 = sortedFinals[Math.floor(sortedFinals.length * 0.05)];
+
+      sims = {
+        finals: finals, sorted: sortedFinals, samplePaths: samplePaths,
+        ruined: ruined, median: median, mean: mean, tail5: tail5
+      };
     }
-    if (!found) tooltip.style.display = 'none';
-  });
 
-  svg.addEventListener('mouseleave', function() {
-    tooltip.style.display = 'none';
-  });
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      if (!sims) { drawTextCanvas(ctx, W/2, H/2, 'Press "Simulate 1,000 trajectories"', { fontSize: 13, color: 'var(--text-secondary)' }); return; }
 
-  draw(false);
+      // Split: left 65% paths, right 35% histogram
+      var splitX = W * 0.62;
+      var pathArea = { x: 0, w: splitX };
+      var histArea = { x: splitX + 10, w: W - splitX - 10 };
 
-  slider.addEventListener('input', function() {
-    risk = parseInt(this.value);
-    riskVal.textContent = risk + '/10';
-    draw(true);
-  });
-})();
+      // ---- PATHS ----
+      var pad = { top: 28, right: 8, bottom: 38, left: 52 };
+      // Y scale: use log-friendly bounds but on linear axis up to 95th pct of all finals + max-path
+      var maxPathVal = 0;
+      sims.samplePaths.forEach(function(s) {
+        for (var i = 0; i < s.path.length; i++) if (s.path[i] > maxPathVal) maxPathVal = s.path[i];
+      });
+      var yMax = Math.max(2, Math.min(8, maxPathVal * 1.05));
+      var yMin = 0;
 
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+      // Axes
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--text-secondary)'); ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, pad.top);
+      ctx.lineTo(pad.left, H - pad.bottom);
+      ctx.lineTo(pathArea.w - pad.right, H - pad.bottom);
+      ctx.stroke();
 
-  var W = 600, H = 200;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var assets = [{"name": "Large Caps / Index", "min_weight": 40, "max_weight": 70, "color": "#4299e1"}, {"name": "Mid Caps", "min_weight": 15, "max_weight": 30, "color": "#48bb78"}, {"name": "Small Caps", "min_weight": 5, "max_weight": 15, "color": "#ecc94b"}, {"name": "Speculative / Turnaround", "min_weight": 2, "max_weight": 10, "color": "#a0aec0"}];
-  var risk = 5;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Position Sizing by Stock Risk Category";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var riskLabel = document.createElement('label');
-  riskLabel.textContent = 'Risk Tolerance: ';
-  var riskVal = document.createElement('span');
-  riskVal.style.fontWeight = '600';
-  riskVal.textContent = risk + '/10';
-  riskLabel.appendChild(riskVal);
-  ctrl.appendChild(riskLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = 10;
-  slider.value = risk;
-  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(legend);
-
-  function computeWeights(r) {
-    // r from 1-10: interpolate each asset between min_weight and max_weight
-    // Higher risk => more equity-heavy (first assets get closer to max)
-    var t = (r - 1) / 9; // 0..1
-    var raw = [];
-    var total = 0;
-    for (var i = 0; i < assets.length; i++) {
-      var a = assets[i];
-      // First asset (equity) scales up with risk, last (cash) scales down
-      var bias = i === 0 ? t : (i === assets.length - 1 ? 1 - t : 0.5);
-      var w = a.min_weight + (a.max_weight - a.min_weight) * bias;
-      raw.push(w);
-      total += w;
-    }
-    // Normalize to 100
-    return raw.map(function(w) { return (w / total) * 100; });
-  }
-
-  var rects = [];
-  var labels = [];
-
-  function draw(animate) {
-    var weights = computeWeights(risk);
-    var barY = pad.top + 10;
-    var barH = H - pad.top - pad.bottom - 20;
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-
-    // On first draw, create elements
-    if (rects.length === 0) {
-      for (var i = 0; i < assets.length; i++) {
-        var r = drawRect(svg, x, barY, 0, barH, assets[i].color, 4);
-        r.style.transition = 'x 0.4s ease, width 0.4s ease';
-        rects.push(r);
-
-        var lbl = drawText(svg, 0, barY + barH / 2, '', {
-          fontSize: 12, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
+      // Y grid + labels
+      for (var i = 0; i <= 4; i++) {
+        var v = yMin + (yMax - yMin) * (i / 4);
+        var yy = mapY(v, yMin, yMax, H, pad);
+        ctx.strokeStyle = '#dcdcd7'; ctx.setLineDash([3,4]);
+        ctx.beginPath(); ctx.moveTo(pad.left, yy); ctx.lineTo(pathArea.w - pad.right, yy); ctx.stroke();
+        ctx.setLineDash([]);
+        drawTextCanvas(ctx, pad.left - 6, yy, (v * 100).toFixed(0) + '%', {
+          fontSize: 10, color: 'var(--text-secondary)', align: 'right'
         });
-        lbl.style.transition = 'x 0.3s ease';
-        labels.push(lbl);
       }
-    }
+      ctx.restore();
+      drawTextCanvas(ctx, pad.left, H - pad.bottom + 14, 'Bet 0', { fontSize: 10, color: 'var(--text-secondary)', align: 'left' });
+      drawTextCanvas(ctx, pathArea.w - pad.right, H - pad.bottom + 14, 'Bet ' + state.n, { fontSize: 10, color: 'var(--text-secondary)', align: 'right' });
 
-    x = pad.left;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      rects[i].setAttribute('x', x);
-      rects[i].setAttribute('width', Math.max(segW, 0));
+      // Ruin line at 20% of start
+      var ruinY = mapY(0.20, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.fillStyle = 'rgba(229, 62, 62, 0.08)';
+      ctx.fillRect(pad.left, ruinY, pathArea.w - pad.right - pad.left, (H - pad.bottom) - ruinY);
+      ctx.strokeStyle = '#e53e3e'; ctx.setLineDash([5,4]); ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(pad.left, ruinY); ctx.lineTo(pathArea.w - pad.right, ruinY); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, pad.left + 4, ruinY - 6, 'Ruin = 20%', { fontSize: 10, color: '#c53030', align: 'left' });
 
-      var pctText = weights[i].toFixed(1) + '%';
-      labels[i].textContent = segW > 40 ? assets[i].name + ' ' + pctText : pctText;
-      labels[i].setAttribute('x', x + segW / 2);
-      labels[i].style.display = segW > 20 ? '' : 'none';
+      // Start line at 100%
+      var startY = mapY(1.0, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#aaa'; ctx.setLineDash([2,3]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, startY); ctx.lineTo(pathArea.w - pad.right, startY); ctx.stroke();
+      ctx.restore();
 
-      x += segW;
-    }
+      // Draw sample paths
+      sims.samplePaths.forEach(function(s) {
+        var poly = [];
+        for (var i = 0; i < s.path.length; i++) {
+          poly.push({
+            x: mapX(i, 0, state.n, pathArea.w, { left: pad.left, right: pad.right, top: 0, bottom: 0 }),
+            y: mapY(Math.min(s.path[i], yMax), yMin, yMax, H, pad)
+          });
+        }
+        ctx.save();
+        ctx.globalAlpha = s.ruined ? 0.55 : 0.45;
+        ctx.strokeStyle = s.ruined ? '#c53030' : resolveCSSColor('var(--accent)');
+        ctx.lineWidth = 0.9;
+        ctx.beginPath();
+        ctx.moveTo(poly[0].x, poly[0].y);
+        for (var j = 1; j < poly.length; j++) ctx.lineTo(poly[j].x, poly[j].y);
+        ctx.stroke();
+        ctx.restore();
+      });
 
-    // Update legend
-    legend.innerHTML = '';
-    for (var i = 0; i < assets.length; i++) {
-      var item = document.createElement('span');
-      item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-      var dot = document.createElement('span');
-      dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + assets[i].color + ';display:inline-block;';
-      item.appendChild(dot);
-      item.appendChild(document.createTextNode(assets[i].name + ': ' + weights[i].toFixed(1) + '%'));
-      legend.appendChild(item);
-    }
-  }
+      // Title for path subplot — placed at top centre, well clear of the curves (which top out near yMax)
+      drawTextCanvas(ctx, pathArea.w/2, 12,
+        SAMPLE_PATHS + ' sample trajectories of 1,000   (red = ruined)',
+        { fontSize: 11, color: 'var(--text-secondary)', baseline: 'top' });
 
-  // Hover on segments
-  svg.addEventListener('mousemove', function(e) {
-    var rect = svg.getBoundingClientRect();
-    var mx = (e.clientX - rect.left) / rect.width * W;
-    var weights = computeWeights(risk);
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-    var found = false;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      if (mx >= x && mx <= x + segW) {
-        tooltip.style.display = 'block';
-        tooltip.innerHTML = '<strong>' + assets[i].name + '</strong><br>' + weights[i].toFixed(1) + '% of portfolio';
-        tooltip.style.left = ((x + segW / 2) / W * 100) + '%';
-        tooltip.style.top = '10px';
-        tooltip.style.transform = 'translateX(-50%)';
-        found = true;
-        break;
+      // ---- HISTOGRAM (vertical bars) of final bankrolls ----
+      var hpad = { top: 28, right: 12, bottom: 38, left: 8 };
+      // Build bins in log-space-ish but here linear capped at sensible upper
+      var allFinals = sims.finals.slice();
+      var sortedAll = allFinals.slice().sort(function(a,b){ return a - b; });
+      var fMax = Math.min(sortedAll[Math.floor(sortedAll.length * 0.95)] * 1.2, 10);
+      var fMin = 0;
+      if (fMax < 1.5) fMax = 1.5;
+      var nBins = 24;
+      var bins = new Array(nBins).fill(0);
+      allFinals.forEach(function(v) {
+        var capped = Math.min(v, fMax - 1e-6);
+        var b = Math.floor((capped - fMin) / (fMax - fMin) * nBins);
+        b = Math.max(0, Math.min(nBins - 1, b));
+        bins[b]++;
+      });
+      var maxBin = Math.max.apply(null, bins);
+      var binH = (H - hpad.top - hpad.bottom) / nBins;
+      for (var b = 0; b < nBins; b++) {
+        var binVal = fMin + (fMax - fMin) * ((b + 0.5) / nBins);
+        var widthFrac = bins[b] / maxBin;
+        var bw = widthFrac * (histArea.w - 14);
+        var byTop = hpad.top + (nBins - 1 - b) * binH;
+        var fill = binVal < 0.20 ? '#c53030' : (binVal < 1.0 ? '#e0a76b' : resolveCSSColor('var(--accent)'));
+        ctx.save();
+        ctx.globalAlpha = 0.78;
+        ctx.fillStyle = fill;
+        ctx.fillRect(histArea.x, byTop, bw, binH - 1);
+        ctx.restore();
       }
-      x += segW;
+      // Histogram axis labels (start/end values on the value axis = vertical position in this layout)
+      drawTextCanvas(ctx, histArea.x + 2, hpad.top + 2, fMax.toFixed(1) + '×', { fontSize: 10, color: 'var(--text-secondary)', align: 'left', baseline: 'top' });
+      drawTextCanvas(ctx, histArea.x + 2, H - hpad.bottom - 4, '0×', { fontSize: 10, color: 'var(--text-secondary)', align: 'left', baseline: 'bottom' });
+      // Title
+      drawTextCanvas(ctx, histArea.x + histArea.w/2, 12,
+        'Final bankroll', { fontSize: 11, color: 'var(--text-secondary)', baseline: 'top' });
+
+      // ---- Stat cells ----
+      document.getElementById('w2-ruin').textContent = (sims.ruined / 10).toFixed(1) + '%';
+      document.getElementById('w2-median').textContent = (sims.median * 100).toFixed(0) + '%';
+      document.getElementById('w2-mean').textContent = (sims.mean * 100).toFixed(0) + '%';
+      document.getElementById('w2-tail').textContent = (sims.tail5 * 100).toFixed(0) + '%';
     }
-    if (!found) tooltip.style.display = 'none';
-  });
 
-  svg.addEventListener('mouseleave', function() {
-    tooltip.style.display = 'none';
-  });
+    attachButton('#w2-run', function() { runSim(); draw(); });
+    attachButton('#w2-reset', function() { sims = null; draw(); });
 
-  draw(false);
+    attachSliders([
+      { el: document.getElementById('w2-bet'),  label: document.getElementById('w2-bet-val'),  format: v => v.toFixed(0) + '%' },
+      { el: document.getElementById('w2-edge'), label: document.getElementById('w2-edge-val'), format: v => v.toFixed(0) + '%' },
+      { el: document.getElementById('w2-n'),    label: document.getElementById('w2-n-val'),    format: v => v.toFixed(0) }
+    ], function(vals) {
+      state.bet  = vals['w2-bet']  / 100;
+      state.edge = vals['w2-edge'] / 100;
+      state.n    = Math.round(vals['w2-n']);
+      // Don't auto-rerun on slider change — too slow. Just clear stale display.
+      sims = null;
+      draw();
+    });
+    // Initial run for an inviting first paint
+    runSim(); draw();
+  })();
+  </script>
 
-  slider.addEventListener('input', function() {
-    risk = parseInt(this.value);
-    riskVal.textContent = risk + '/10';
-    draw(true);
-  });
-})();
+  <!-- ============================================================
+       WIDGET 3 — The Kelly Cliff: long-run growth vs bet size
+       Curve peaks at Kelly, turns down, crosses zero, dives.
+       Marker shows the user's chosen sizing on the curve.
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { edge: 0.10, b: 1.0, bet: 0.10 };
 
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 600, H = 200;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var assets = [{"name": "Indian Large Caps", "min_weight": 25, "max_weight": 50, "color": "#4299e1"}, {"name": "Indian Mid/Small Caps", "min_weight": 5, "max_weight": 20, "color": "#48bb78"}, {"name": "US Growth Stocks", "min_weight": 15, "max_weight": 35, "color": "#ecc94b"}, {"name": "China/Emerging Markets", "min_weight": 5, "max_weight": 15, "color": "#a0aec0"}, {"name": "Cash Reserve", "min_weight": 10, "max_weight": 30, "color": "#ed8936"}];
-  var risk = 5;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Suggested Equity Portfolio: Geographic and Category Mix";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var riskLabel = document.createElement('label');
-  riskLabel.textContent = 'Risk Tolerance: ';
-  var riskVal = document.createElement('span');
-  riskVal.style.fontWeight = '600';
-  riskVal.textContent = risk + '/10';
-  riskLabel.appendChild(riskVal);
-  ctrl.appendChild(riskLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = 10;
-  slider.value = risk;
-  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(legend);
-
-  function computeWeights(r) {
-    // r from 1-10: interpolate each asset between min_weight and max_weight
-    // Higher risk => more equity-heavy (first assets get closer to max)
-    var t = (r - 1) / 9; // 0..1
-    var raw = [];
-    var total = 0;
-    for (var i = 0; i < assets.length; i++) {
-      var a = assets[i];
-      // First asset (equity) scales up with risk, last (cash) scales down
-      var bias = i === 0 ? t : (i === assets.length - 1 ? 1 - t : 0.5);
-      var w = a.min_weight + (a.max_weight - a.min_weight) * bias;
-      raw.push(w);
-      total += w;
+    function paramsFromState() {
+      // Convert "edge per bet" + "payoff b" into a (p, b) pair.
+      // Bettor wins b with prob p, loses 1 with prob 1-p.
+      // Expected value per unit staked = b*p - (1-p). We define edge = that EV.
+      // So p = (edge + 1) / (b + 1).
+      var p = (state.edge + 1) / (state.b + 1);
+      p = Math.min(Math.max(p, 0.01), 0.99);
+      return { p: p, b: state.b };
     }
-    // Normalize to 100
-    return raw.map(function(w) { return (w / total) * 100; });
-  }
 
-  var rects = [];
-  var labels = [];
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 32, right: 22, bottom: 44, left: 56 };
+      var pr = paramsFromState();
+      var p = pr.p, b = pr.b;
 
-  function draw(animate) {
-    var weights = computeWeights(risk);
-    var barY = pad.top + 10;
-    var barH = H - pad.top - pad.bottom - 20;
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
+      var k = kellyFraction(p, b);
+      var zeroF = zeroGrowthFraction(p, b);
+      var peakG = logGrowth(k, p, b);
 
-    // On first draw, create elements
-    if (rects.length === 0) {
-      for (var i = 0; i < assets.length; i++) {
-        var r = drawRect(svg, x, barY, 0, barH, assets[i].color, 4);
-        r.style.transition = 'x 0.4s ease, width 0.4s ease';
-        rects.push(r);
+      // Range of bet sizes on x: 0 to 0.6
+      var xMin = 0, xMax = 0.60;
+      var pts = [];
+      for (var f = 0; f <= xMax + 1e-9; f += 0.005) {
+        pts.push({ x: f, y: logGrowth(f, p, b) });
+      }
 
-        var lbl = drawText(svg, 0, barY + barH / 2, '', {
-          fontSize: 12, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
+      // Y axis: roughly [-3*peak, 1.2*peak], capped so curve cliff doesn't dominate
+      var lowerG = -Math.max(0.5, peakG * 3);
+      var upperG = Math.max(0.01, peakG * 1.35);
+      // Clip every y to the lower bound for display sanity
+      pts.forEach(function(pt){ if (pt.y < lowerG) pt.y = lowerG; });
+
+      // Custom axes
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--text-secondary)'); ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, pad.top);
+      ctx.lineTo(pad.left, H - pad.bottom);
+      ctx.lineTo(W - pad.right, H - pad.bottom);
+      ctx.stroke();
+      // Y grid + labels (8 steps for finer reading)
+      var ySteps = 6;
+      for (var i = 0; i <= ySteps; i++) {
+        var v = lowerG + (upperG - lowerG) * (i / ySteps);
+        var yy = mapY(v, lowerG, upperG, H, pad);
+        ctx.strokeStyle = '#dcdcd7'; ctx.setLineDash([3,4]);
+        ctx.beginPath(); ctx.moveTo(pad.left, yy); ctx.lineTo(W - pad.right, yy); ctx.stroke();
+        ctx.setLineDash([]);
+        drawTextCanvas(ctx, pad.left - 6, yy, (v * 100).toFixed(1) + '%', {
+          fontSize: 10, color: 'var(--text-secondary)', align: 'right'
         });
-        lbl.style.transition = 'x 0.3s ease';
-        labels.push(lbl);
       }
-    }
+      // X labels
+      var xLabels = ['0%', '10%', '20%', '30%', '40%', '50%', '60%'];
+      xLabels.forEach(function(lbl, idx) {
+        var xpos = pad.left + (idx / (xLabels.length - 1)) * (W - pad.left - pad.right);
+        drawTextCanvas(ctx, xpos, H - pad.bottom + 14, lbl, { fontSize: 10, color: 'var(--text-secondary)' });
+      });
+      ctx.restore();
 
-    x = pad.left;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      rects[i].setAttribute('x', x);
-      rects[i].setAttribute('width', Math.max(segW, 0));
+      // Axis titles
+      drawTextCanvas(ctx, W/2, H - 8, 'Bet size (% of bankroll)', { fontSize: 11, color: 'var(--text-secondary)' });
+      ctx.save();
+      ctx.translate(14, H/2);
+      ctx.rotate(-Math.PI / 2);
+      drawTextCanvas(ctx, 0, 0, 'Expected log-growth per bet', { fontSize: 11, color: 'var(--text-secondary)' });
+      ctx.restore();
 
-      var pctText = weights[i].toFixed(1) + '%';
-      labels[i].textContent = segW > 40 ? assets[i].name + ' ' + pctText : pctText;
-      labels[i].setAttribute('x', x + segW / 2);
-      labels[i].style.display = segW > 20 ? '' : 'none';
+      // Zero line bolder
+      var y0 = mapY(0, lowerG, upperG, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#999'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+      ctx.restore();
 
-      x += segW;
-    }
-
-    // Update legend
-    legend.innerHTML = '';
-    for (var i = 0; i < assets.length; i++) {
-      var item = document.createElement('span');
-      item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-      var dot = document.createElement('span');
-      dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + assets[i].color + ';display:inline-block;';
-      item.appendChild(dot);
-      item.appendChild(document.createTextNode(assets[i].name + ': ' + weights[i].toFixed(1) + '%'));
-      legend.appendChild(item);
-    }
-  }
-
-  // Hover on segments
-  svg.addEventListener('mousemove', function(e) {
-    var rect = svg.getBoundingClientRect();
-    var mx = (e.clientX - rect.left) / rect.width * W;
-    var weights = computeWeights(risk);
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-    var found = false;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      if (mx >= x && mx <= x + segW) {
-        tooltip.style.display = 'block';
-        tooltip.innerHTML = '<strong>' + assets[i].name + '</strong><br>' + weights[i].toFixed(1) + '% of portfolio';
-        tooltip.style.left = ((x + segW / 2) / W * 100) + '%';
-        tooltip.style.top = '10px';
-        tooltip.style.transform = 'translateX(-50%)';
-        found = true;
-        break;
+      // Shaded "danger zone" beyond zero-growth point
+      if (zeroF > 0 && zeroF < xMax) {
+        var dx0 = mapX(zeroF, xMin, xMax, W, pad);
+        ctx.save();
+        ctx.fillStyle = 'rgba(229, 62, 62, 0.10)';
+        ctx.fillRect(dx0, pad.top, (W - pad.right) - dx0, (H - pad.bottom) - pad.top);
+        ctx.restore();
       }
-      x += segW;
+
+      // Curve
+      var poly = pts.map(pt => ({
+        x: mapX(pt.x, xMin, xMax, W, pad),
+        y: mapY(pt.y, lowerG, upperG, H, pad)
+      }));
+      drawLineCanvas(ctx, poly, { color: 'var(--accent)', width: 2.5 });
+
+      // Kelly peak marker
+      if (k > 0 && k <= xMax) {
+        var kx = mapX(k, xMin, xMax, W, pad);
+        var ky = mapY(peakG, lowerG, upperG, H, pad);
+        // Vertical
+        ctx.save();
+        ctx.strokeStyle = 'var(--accent)'; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(kx, pad.top); ctx.lineTo(kx, H - pad.bottom); ctx.stroke();
+        ctx.restore();
+        drawPointCanvas(ctx, kx, ky, 5, 'var(--accent)', '#fff');
+        // Label at bottom of vertical line (hugs x-axis, not the title)
+        drawTextCanvas(ctx, kx + 5, H - pad.bottom - 6, 'Kelly = ' + (k*100).toFixed(1) + '%', {
+          fontSize: 11, color: 'var(--accent)', align: 'left', baseline: 'bottom', weight: '600'
+        });
+      }
+
+      // Zero-growth marker
+      if (zeroF > 0 && zeroF <= xMax) {
+        var zx = mapX(zeroF, xMin, xMax, W, pad);
+        ctx.save();
+        ctx.strokeStyle = '#c53030'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(zx, pad.top); ctx.lineTo(zx, H - pad.bottom); ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, zx + 5, pad.top + 12,
+          'Zero-growth = ' + (zeroF*100).toFixed(1) + '%',
+          { fontSize: 10, color: '#c53030', align: 'left', baseline: 'middle' });
+      }
+
+      // User-chosen bet size marker
+      var bet = Math.min(state.bet, xMax);
+      var gYou = logGrowth(bet, p, b);
+      if (gYou < lowerG) gYou = lowerG;
+      var ux = mapX(bet, xMin, xMax, W, pad);
+      var uy = mapY(gYou, lowerG, upperG, H, pad);
+      drawPointCanvas(ctx, ux, uy, 7, gYou >= 0 ? 'var(--accent)' : '#c53030', '#fff');
+      // Annotate
+      drawTextCanvas(ctx, ux, uy - 14, 'You', { fontSize: 11, color: 'var(--text)', weight: '600' });
+
+      // Title (top centre, well above the plot)
+      drawTextCanvas(ctx, W/2, 12,
+        'Long-run growth vs bet size   (edge ' + (state.edge*100).toFixed(0) + '%, b = ' + b.toFixed(1) + ')',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+
+      // Stat cells
+      document.getElementById('w3-kelly').textContent = (k * 100).toFixed(1) + '%';
+      document.getElementById('w3-yours').textContent = (gYou >= lowerG + 1e-6 ? (gYou * 100).toFixed(2) + '%' : '−∞');
+      document.getElementById('w3-peak').textContent  = (peakG * 100).toFixed(2) + '%';
+      document.getElementById('w3-zero').textContent  = zeroF > 0 ? (zeroF * 100).toFixed(1) + '%' : '—';
     }
-    if (!found) tooltip.style.display = 'none';
-  });
 
-  svg.addEventListener('mouseleave', function() {
-    tooltip.style.display = 'none';
-  });
-
-  draw(false);
-
-  slider.addEventListener('input', function() {
-    risk = parseInt(this.value);
-    riskVal.textContent = risk + '/10';
-    draw(true);
-  });
-})();
-</script>
+    attachSliders([
+      { el: document.getElementById('w3-edge'), label: document.getElementById('w3-edge-val'), format: v => v.toFixed(0) + '%' },
+      { el: document.getElementById('w3-b'),    label: document.getElementById('w3-b-val'),    format: v => v.toFixed(1) },
+      { el: document.getElementById('w3-bet'),  label: document.getElementById('w3-bet-val'),  format: v => v.toFixed(0) + '%' }
+    ], function(vals) {
+      state.edge = vals['w3-edge'] / 100;
+      state.b    = vals['w3-b'];
+      state.bet  = vals['w3-bet'] / 100;
+      draw();
+    });
+  })();
+  </script>
 
 </body>
 </html>
