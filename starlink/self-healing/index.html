@@ -546,6 +546,8 @@
 
         <p>But for the random, independent failures that fill the news &mdash; debris strikes, individual satellite anomalies, ground-station weather events, the routine churn of a constellation rotating through itself &mdash; the math is overwhelmingly comforting. Lose a hundred satellites overnight and almost nobody notices. The graph theory bought you that for free, just from the topology choice.</p>
 
+        <p>I'll admit I expected gradual degradation under failures &mdash; the kind of curve where things get steadily worse. What the percolation widget actually shows is a phase transition: the network is robust, robust, robust, then at some specific failure fraction it falls apart in one step. The sharpness of that knee surprised me when I first ran the simulation.</p>
+
         <div class="callout">
           <div class="callout-title">What you can now teach</div>
           <p><strong>A 5,000-satellite mesh with 4 links per node has so many redundant paths that losing 100 satellites barely affects throughput.</strong> The math is percolation theory, not heroic engineering &mdash; for a 4-regular graph, you can lose up to ~41% of nodes before the network fragments, and below that threshold the system simply re-routes around damage in tens of milliseconds. Starlink's resilience is a topology property, not a component property.</p>

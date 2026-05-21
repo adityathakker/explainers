@@ -1062,5 +1062,453 @@
         "suggestion": ""
       }
     ]
+  },
+  "starlink/laser-isl/index.html@f5524c8b80b9": {
+    "path": "starlink/laser-isl/index.html",
+    "overall": "This is a well-engineered Mode A explainer that earns its claim \u2014 the three widgets map cleanly onto the three sub-problems (divergence, pointing, Doppler) and the math is shown at the right level of detail. The single meaningful gap is voice: the prose is technically precise but impersonal throughout, with no 'I' anywhere and 'you' relegated to widget hints, which makes the article feel like a technical brief rather than an authored piece. Adding two or three first-person asides \u2014 particularly around the Hubble comparison in Section III and the synthesis in Section IX \u2014 would close that gap w",
+    "seconds": 105.02418613433838,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle delivers the claim before any prose: 'Pointing a laser at a target 5,000 km away that's moving at 7 km/s relative to you is harder than the laser itself. Beam divergence, atomic-scale pointing, and Doppler shift are the three real problems.' Section I then immediately reinforces it",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 shows the 10 cm \u2192 190 m spot bloom and power capture fraction \u2014 removing it would leave the divergence-tax claim unproven. Widget 2 makes the 30-nanoradian budget visceral via a hit/miss beam animation \u2014 removing it loses the Hubble-class comparison. Widget 3 shows the \u00b19 GHz shift sweeping",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero subtitle lands the counter-intuitive inversion immediately: most readers assume the laser is the hard part. 'The laser itself' being the easy commodity part, and pointing being the dominant problem, contradicts the intuitive frame. A reader sees this before scrolling at all.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1: divergence only (\u03bb + D \u2192 spot size + capture fraction). Widget 2: pointing budget only (link distance + aperture \u2192 max error + hit/miss). Widget 3: Doppler only (velocity + \u03bb \u2192 \u0394f + \u0394\u03bb + verdict). No widget conflates two concepts.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The word 'I' does not appear once in any prose section. 'You' is confined almost entirely to widget hint lines ('Drag the relative velocity', 'Push the transmit aperture') rather than the main prose. Sections I\u2013IX read as high-quality technical documentation, not as an author speaking to a reader \u2014 ",
+        "suggestion": "Inject first-person perspective at two or three natural breaks \u2014 e.g., 'The number that stopped me cold was the pointing requirement' in Section III, or 'What I find remarkable is that Hubble spent billions getting to 7 milliarcseconds; Starlink does 0.006 for $200k per satellite.' This doesn't requ"
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section is dense with specifics: 'NASA's TBIRD demonstration (a CubeSat-to-ground optical link in 2023) hit 200 Gbps over ~700 km', 'Hubble's pointing stability is roughly 7 milliarcseconds', '10\u207b\u00b9\u2070 of sea level density', 'Gwynne Shotwell, 2022\u20132024'. No section leans on vague generalities.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Six sidenotes carry the '\ud83e\uddd0' flag and all genuinely correct the simplified model: Section II corrects uniform-illumination vs Gaussian divergence; Section III admits the geometric bound is 600\u00d7 stricter than the real 1\u20135 \u03bcrad operational target; Section IV clarifies that only radial velocity creates ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The hero subtitle is the exact 2-sentence teachable version: 'Pointing a laser at a target 5,000 km away that's moving at 7 km/s relative to you is harder than the laser itself. Beam divergence, atomic-scale pointing, and Doppler shift are the three real problems.' The closing callout repeats it mor",
+        "suggestion": ""
+      }
+    ]
+  },
+  "starlink/launch-economics/index.html@cecf521e5ba7": {
+    "path": "starlink/launch-economics/index.html",
+    "overall": "A rigorous, well-evidenced Mode A explainer with exceptional specificity and five honest model-break sidenotes \u2014 rare discipline. Two things blunt the impact: the author never speaks in first person ('I'), so the piece reads as authoritative journalism rather than an opinionated explainer with a stake, and Widget 3 adds sliders to numbers the prose already fully resolves, failing the delete test. Fix those two and this ships cleanly.",
+    "seconds": 115.06458854675293,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "First paragraph opens: 'Here's the claim worth absorbing before anything else: Falcon 9 reuse changed the satellite-cost equation, not just the rocket-cost equation. At $20,000/kg-to-LEO... no satellite constellation of any meaningful size pencils. At $1,500/kg... a 4,400-satellite Starlink shell be",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "warn",
+        "evidence": "Widgets 1 and 2 pass the delete test cleanly: Widget 1 visualises the historical cost collapse that IS the argument; Widget 2 lets the reader feel the reuse-curve shape and the second-stage floor in a way the static table cannot. Widget 3 is the weak link \u2014 the F9-vs-Starship throughput comparison i",
+        "suggestion": "Give Widget 3 a visual form the prose cannot replicate \u2014 e.g., an animated constellation-fill that shows dots populating an orbit ring over time under each scenario \u2014 so the 'seeing it accumulate' is the point, not just rescaled arithmetic."
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "Hero subtitle: 'Falcon 9 reuse didn't just cut the cost of rockets \u2014 it cut the cost of every satellite constellation that depends on launch.' The Teledesic/Iridium failure context (both tried at $20,000+/kg and imploded) makes the surprise concrete. A general reader almost certainly attributes Star",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "warn",
+        "evidence": "Widget 2 has four simultaneous sliders (reuses, refurb cost, second-stage cost, payload) and the hint explicitly steers toward two distinct conceptual insights: the reuse-curve shape AND the second-stage floor ('Try dropping second-stage cost to $2M to see the floor shift'). That is two concepts \u2014 '",
+        "suggestion": "Either split into two widgets (one for the reuse curve with the second stage fixed, one isolating the floor sensitivity to second-stage cost), or lock the second-stage and payload sliders behind an 'Advanced' disclosure so the primary lesson lands before the secondary one is unlocked."
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "Strong 'you' voice throughout ('The amortisation arithmetic is worth doing yourself', 'The thing to absorb is...') and clear editorial opinion ('The Shuttle is the cautionary tale that convinced an entire generation of engineers'). But there is no first-person 'I' anywhere in 9 sections \u2014 no moment ",
+        "suggestion": "Add at least one explicit 'I' sentence, e.g., in the synthesis: 'I think the Starship cost target is still speculative, but the Falcon 9 marginal numbers are already in the data' \u2014 giving the author a stated position rather than a narrator's perch."
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Specificity is exemplary throughout: '$30,000\u2013$65,000/kg' for the Shuttle era; 'Booster B1062 has flown 23 times'; '134 Falcon 9 missions in 2024'; 'McGregor, Texas facility builds about 2 [second stages] per week'; 'Kuiper (Amazon, ~3,200 planned).' Every section anchors abstractions in named vehic",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Five substantive sidenotes: (I) rocket equation ignores gravity/drag losses; (II) why expendable orthodoxy held for 60 years despite reuse being conceptually obvious; (IV) B1062 flew 23 times, showing the refurb-cost estimates were wrong by 4\u201310\u00d7 in both directions; (VI) three distinct Falcon 9 reco",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The closing callout crystallises the teachable claim: 'Falcon 9 reuse didn't just change rocket costs \u2014 it changed the entire satellite-constellation cost equation. At $20,000/kg-to-LEO no constellation pencils; at $1,500/kg Starlink ships; at $200/kg orbital infrastructure becomes banal.' The three",
+        "suggestion": ""
+      }
+    ]
+  },
+  "starlink/link-budget/index.html@942db90d3d95": {
+    "path": "starlink/link-budget/index.html",
+    "overall": "A technically rigorous and well-structured framework article \u2014 the specificity is exceptional across every section, the sidenotes earn real trust, and the M8 closing callout is one of the cleaner teach-backs in the repo. The two issues worth fixing before ship: Widget 3 conflates frequency-dependent attenuation with slant-path geometry into one canvas when they deserve separate explanations, and the author's voice is entirely impersonal \u2014 the 'you' is strong but there is no 'I' anywhere, which leaves the article reading like a well-written textbook rather than an opinionated explainer.",
+    "seconds": 128.2064983844757,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle previews the framework ('Every RF link is a single ledger in decibels \u2014 gains add, losses subtract, the bottom line says works or doesn't. 6 losses, 4 gains, one threshold'), and Section I paragraph 2 names it explicitly: 'That column is the link budget. It is the most reused tool ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 is the only place the full budget responds live to parameter changes \u2014 prose describes the ledger but cannot show the bottom line moving; Widget 2 demonstrates FSPL's frequency and distance sensitivity in a way the table in Section III cannot; Widget 3 shows the steepness of rain attenuatio",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The opening hook lands the surprise cleanly: 14 orders of magnitude of signal decay (20 W \u2192 10\u207b\u00b9\u00b3 W) collapses into 'additions and subtractions on the back of an envelope.' A non-expert does not expect that kind of reduction, and the framework's existence as the resolution is the payoff.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "warn",
+        "evidence": "Widget 3 teaches two distinct concepts in one canvas: (1) frequency-dependent rain attenuation (k\u00b7R\u1d45 grows steeply above 10 GHz) and (2) slant-path geometry (elevation angle multiplies the rain depth). The widget-hint explicitly names both directions ('push frequency up\u2026 push elevation down'), and t",
+        "suggestion": "Split Widget 3 into two steps: first show rain attenuation vs frequency at a fixed elevation (the primary lesson of Section V), then introduce elevation angle as a multiplier \u2014 either as a follow-on widget or by deferring elevation to Section VII where margin tolerances are discussed."
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The 'you' is present and confident throughout ('Once you've internalised that map,' 'you can debug any link, predict any outage, and call out any vendor'), and the imperative voice is strong ('Memorise this. Print it. Tape it above your desk.'). But the 'I' is entirely absent \u2014 there is no personal ",
+        "suggestion": "Add one sentence of first-person opinion \u2014 something like 'I'd argue FSPL is the only number you need to tattoo on your wrist' or a direct statement about which system (Starlink vs GEO) the author finds more elegant \u2014 to give the voice a person behind it, not just an authority."
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section carries concrete specifics: '20 watts,' '10\u207b\u00b9\u00b3 W,' '169 dB at 12 GHz and 550 km,' 'ITU-R P.838,' tabulated k and \u03b1 values for 4/12/20/30/40/50 GHz, '\u2212174 dBm/Hz,' 'Goldstone 70 m dish at 74 dBi,' '99.9% availability = 8.8 hours of outage.' No section retreats to vague generality.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Three well-placed sidenotes: (1) Friis equation warns that its assumptions (far-field, matched polarization, free space) are violated by real terrestrial links; (2) uplink/downlink frequency asymmetry admits the model hides ITU spectrum politics and thermal constraints; (3) ACM sidenote directly sta",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The closing callout provides the teach-back verbatim: 'The link budget is the engineer's universal RF ledger: transmit power and antenna gain (+) on the left, path loss / atmosphere / rain / pointing / feeder / implementation (\u2212) in the middle, receive antenna gain (+) at the end, and a noise-floor ",
+        "suggestion": ""
+      }
+    ]
+  },
+  "starlink/kessler-risk/index.html@87d4d93096b5": {
+    "path": "starlink/kessler-risk/index.html",
+    "overall": "Strong article: the math is rigorous and shown, the specificity is excellent, the voice is consistent, and four well-placed sidenotes earn real credibility by admitting where the simple model breaks. The single structural weakness is a buried lede \u2014 both the hero subtitle and the article's opening two paragraphs defer the quantitative surprise (5 years vs 1,000 years) to approximately word 250, well past the 200-word target. One edit \u2014 promoting the headline claim to the hero \u2014 closes M1 and M3 simultaneously and makes the article noticeably sharper on first impression.",
+    "seconds": 161.24300813674927,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "warn",
+        "evidence": "The specific quantitative claim \u2014 'at 550 km natural drag deorbits debris in ~5 years; at 1,200 km it takes 1,000+ years. The altitude is the safety valve.' \u2014 arrives at the end of the third paragraph of Section I, approximately word 250\u2013270 into the article. The hero subtitle ('altitude buys you ba",
+        "suggestion": "Promote the headline sentence into the hero subtitle or the opening line of Section I, before the Kessler origin story. Something like: 'At 550 km, Starlink debris burns up in 5 years. At 1,200 km, it stays for a millennium. That gap is the entire safety argument.' The Kessler history can follow."
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 proves the N\u00b2 scaling claim visually \u2014 without it the table of pair counts is static prose. Widget 2 is the only place the subcritical/supercritical flip is demonstrated dynamically. Widget 3 shows the MTTC\u2013\u03c4 altitude crossover that is the article's central argument. All three fail the dele",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "warn",
+        "evidence": "The hero subtitle \u2014 'Every new satellite raises pairwise collision probability non-linearly. At Starlink's scale the math is no longer hypothetical \u2014 but altitude buys you back.' \u2014 gestures at a counter-intuitive reversal but withholds the specific surprising fact. The quantitative claim (5 years vs",
+        "suggestion": "Rewrite the hero subtitle to lead with the quantitative surprise: 'At 550 km, debris burns up in 5 years. At 1,200 km, it stays for a millennium. Constellation altitude is the entire safety argument.' That is the counter-intuitive claim; it belongs on the first screen."
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches N\u00b2 pair scaling only. Widget 2 teaches the cascade regime flip (subcritical vs supercritical) only. Widget 3 teaches the MTTC\u2013\u03c4 altitude crossover only. Each has a single tunable question and one output framing; none tries to do double duty.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "First-person voice is consistent and unhesitant: 'I will show you', 'I flag it', 'By the end you should be able to tell whether a given constellation design at a given altitude is self-cleaning or a debris trap.' The authorial presence is felt in framing choices ('This is the cleanest variable in th",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Named events with coordinates and times: '16:56 UTC on 10 February 2009 over the Taymyr Peninsula in Siberia, at ~789 km altitude.' Named actors throughout: Donald Kessler, 18th Space Defense Squadron, ClearSpace-1, Astroscale ELSA-d, Fengyun-1C. Specific numbers anchor every section: 15 km/s, 2.55\u00d7",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four 'Well, actually \ud83e\uddd0' sidenotes appear: uniform-mixing assumption breaks the kinetic-theory formula for a managed constellation (Section II); the 2007 Chinese ASAT test at 865 km is the dominant cascade risk term, worse than the Iridium/Cosmos event the article leads with (Section IV); the active ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The closing callout box states: 'Pairwise collision count grows as N\u00b2/2 \u2014 quadratically in constellation size \u2014 while atmospheric drag deorbit time grows exponentially with altitude. The result: Starlink's 550 km choice is the single biggest knob in cascade risk. 12,000 satellites at 550 km is rough",
+        "suggestion": ""
+      }
+    ]
+  },
+  "starlink/phased-array/index.html@0a1c46643e60": {
+    "path": "starlink/phased-array/index.html",
+    "overall": "This is a technically rigorous, well-structured article with excellent specificity, three widgets that each earn their place, and four honest sidenotes \u2014 the hard parts of explainer craft are done well. The two real weaknesses are voice (the 'I' is nearly absent, leaving it closer to a textbook than a personal explainer) and M8 accessibility (the derivation density in sections II\u2013VI risks losing a non-expert before the clean closing synthesis delivers the teachable claim). Fix the title to lead with the surprise, add one first-person voice moment, and anchor non-experts with a plain-language s",
+    "seconds": 111.61873459815979,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle states it verbatim before the first paragraph: 'A flat antenna with no moving parts points its beam anywhere in the sky by adjusting the phase of signals at each element \u2014 electronically steered in microseconds, the only way to track a satellite moving at 27,000 km/h.' This is well",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 earns its place by letting the reader feel the steering (phase slider moves the beam); Widget 2 proves the 1/N beamwidth claim viscerally ('push N from 2 to 32 and watch the beam tighten'); Widget 3 makes the grating-lobe Nyquist analogy concrete in a way no sentence can. Removing any one w",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "warn",
+        "evidence": "The 'no moving parts' framing is genuinely counter-intuitive for most readers, and 'electronically steered in microseconds' earns the hook. However, the title 'Phased Arrays \u2014 How Starlink Points Without Moving' hands the answer to any reader who has heard the term before; the surprise is in the sub",
+        "suggestion": "Lead the title with the surprising constraint, not the solution name \u2014 e.g., 'The Antenna That Points Without Moving' or 'How a Flat Dish Tracks a 27,000 km/h Satellite' \u2014 and let 'phased array' emerge as the answer inside the article."
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches phase \u2192 direction (two sliders, one concept). Widget 2 teaches N \u2192 beam sharpening; the steering angle slider is explicitly flagged as a preview ('computed automatically \u2014 next section') so it does not compete with Section V's lesson. Widget 3 teaches spacing \u2192 grating-lobe aliasing",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The 'you' address is consistent and natural throughout ('you should be able to look at a Starlink terminal', 'Play with the widget', 'Stack the three'). However, the 'I' authorial voice is almost entirely absent \u2014 there is no moment where the author expresses a personal opinion, admits uncertainty, ",
+        "suggestion": "Add one or two explicitly first-person moments \u2014 'What floored me when I first worked this out is...' or 'I keep coming back to how absurd the 1969 cost is versus $10 today' \u2014 to differentiate this from a well-written Wikipedia article."
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Specificity is a consistent strength: '550 km altitude, 7.6 km/s, 0.7\u00b0/s per second near zenith'; '12 GHz, 83 picoseconds, 6 mm'; 'AN/FPS-85 SLBM warning radar\u2026 $440 million in 1969 dollars'; 'Anokiwave, Renesas'; '200 Mbps for $349 in 2024'. Every section has at least one concrete number or named a",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four 'Well, actually \ud83e\uddd0' sidenotes, all substantive: element pattern breaks the isotropic-radiator assumption (Section IV); phase delay vs true time delay breaks the narrow-band assumption (Section V); install tilt motivation corrects the implication that the array is mounted horizontally (Section VI",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The closing 'The one thing' callout delivers a clean two-sentence version of the claim. The problem is getting a non-expert there: sections II through VI work through complex exponentials, geometric series in e^(j\u03c8), k-space notation, and wavenumber algebra. A reader without physics or EE background",
+        "suggestion": "Add a plain-language 'before the math' paragraph early in Section III \u2014 one sentence stating what is about to be shown intuitively before the formalism \u2014 so non-experts stay anchored to the claim through the derivation rather than getting lost and skipping to the end."
+      }
+    ]
+  },
+  "starlink/self-healing/index.html@56b455dd9b13": {
+    "path": "starlink/self-healing/index.html",
+    "overall": "A strong single-claim explainer with excellent quantitative specificity and four honest sidenotes that earn real trust. The percolation section (V) is the clear peak \u2014 it delivers a precise, surprising threshold backed by both math and a runnable simulator. The two weaknesses worth fixing before shipping: Widget 2 (failover animation) partially duplicates Widget 1's core demonstration without clearly earning its own slot, and the first-person voice is entirely absent, keeping the article in authoritative-narrator mode rather than the warmer author-with-opinion register the rulebook requires.",
+    "seconds": 131.18284273147583,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle states the claim within the first 30 words: \"so much path redundancy that losing 100 satellites barely affects throughput. The math behind self-healing is graph theory, not heroic engineering.\" The quantitative threshold (41%) is deferred to Section V, but the core surprising claim",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "warn",
+        "evidence": "Widget 1 already demonstrates connectivity persisting under failures with a live \"Source reaches dest?\" readout and path counter. Widget 2 (failover animation) demonstrates the same core insight \u2014 disconnection doesn't happen until many failures \u2014 but animated. Its unique addition is the animated pa",
+        "suggestion": "Either differentiate Widget 2 sharply \u2014 show capacity/throughput degradation (a metric Widget 1 doesn't show) rather than another connectivity demo \u2014 or merge the animation into Widget 1 as a toggled play mode and use the freed slot for something genuinely distinct."
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero immediately leads with the counter-intuitive payload: \"losing 100 satellites barely affects throughput\" \u2014 the naive reader assumes 100 satellite failures would be severe, so this lands as a genuine surprise on the first screen.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches path diversity surviving node failures; Widget 2 teaches temporal re-routing behavior (animated packets, timing); Widget 3 teaches the percolation phase transition and the precise quantitative threshold. Each targets a distinct concept in the argument chain.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "\"You\" appears throughout (\"your satellite\", \"how you think about satellite mesh resilience\", \"what you can now teach\") and authorial judgment surfaces (\"the honest answer\", \"sit with the magnitude of that for a moment\"), but first-person \"I\" never appears anywhere in the article.",
+        "suggestion": "Add one \"I\" moment to ground the voice as a person, not just an authoritative narrator \u2014 e.g., \"I expected gradual degradation; the sharpness of the phase transition in Widget 3 genuinely surprised me\" would cost one sentence and shift the register markedly."
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section deploys concrete anchors: 27,000 km/h orbital speed, 550 km altitude, p_c = 0.5927, 150 ground stations worldwide, the 2008 Mediterranean cable cuts taking 75% of Egypt's internet offline, 12 active transpacific cables with 6 cut in the South China Sea in 2024 alone.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four distinct \"Well, actually \ud83e\uddd0\" sidenotes: satellites don't run distributed routing (Section II admits the press-release framing is wrong); bond vs. site percolation plus correlated-failure limits (Section V); the Pacific Ocean ground-station gap (Section VI); undersea cable MTTR vs. Starlink (Sect",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The closing callout delivers exactly two teachable sentences: \"A 5,000-satellite mesh with 4 links per node has so many redundant paths that losing 100 satellites barely affects throughput... for a 4-regular graph, you can lose up to ~41% of nodes before the network fragments... Starlink's resilienc",
+        "suggestion": ""
+      }
+    ]
+  },
+  "starlink/orbital-mechanics/index.html@0f707f2918e2": {
+    "path": "starlink/orbital-mechanics/index.html",
+    "overall": "A rigorous and well-constructed Mode A explainer that earns its 28-minute length: every section advances the single claim, the real Starlink numbers ground every formula, and the synthesis table in Section IX ties the threads back to F=ma cleanly. The two minor issues both centre on Widget 1 \u2014 it is partially redundant with the Section III data table (weakest against the delete test) and its three readout cells stretch the one-concept rule by teaching velocity, period, and local gravity simultaneously. Both problems share the same fix: drop the prose table and narrow Widget 1 to the v = \u221a(\u03bc/r)",
+    "seconds": 158.97327184677124,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle states 'The satellite is in free fall \u2014 it just keeps missing the Earth' before the article body begins. Section I opens with 'It does fall down. That is the entire trick.' The formal label appears near the 200-word mark: 'The one thing to leave with: orbit is the equilibrium betwe",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "warn",
+        "evidence": "Widget 2 (force balance) and Widget 3 (deorbit time) clearly pass the delete test \u2014 removing either leaves the key insight undemonstrated. Widget 1 (orbital velocity and period vs altitude) is the weakest: Section III already contains a five-row data table showing ISS, Starlink, OneWeb, GPS, and GEO",
+        "suggestion": "Either drop the data table and let Widget 1 carry the data load alone, or restructure Widget 1 to reveal something the table cannot \u2014 for instance, showing which altitude band tips into Kessler-dangerous decay rates, or animating how a satellite's period shifts as a Falcon 9 climbs through staging a"
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "Section I opens with 'It does fall down. That is the entire trick.' \u2014 a direct inversion of the lay intuition that satellites 'stay up' by escaping gravity. The Newton cannon thought experiment follows immediately, and the hero subtitle primes the same reversal before the article body begins. The fi",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "warn",
+        "evidence": "Widget 2 (one concept: force balance at orbital velocity) and Widget 3 (one concept: drag-driven decay lifetime) are clean single-concept widgets. Widget 1 exposes three simultaneous readout cells \u2014 orbital velocity, orbital period, and local gravity g(r) \u2014 which are three distinct derived quantitie",
+        "suggestion": "Drop the g(r) readout cell from Widget 1 and move the 'gravity is 85% of surface value at 550 km' observation into Widget 2's altitude slider readout, where it fits the force-balance concept. That leaves Widget 1 teaching one thing: the v = \u221a(\u03bc/r) altitude relationship."
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "Voice is consistent and confident throughout: 'Most people guess the opposite' (Section III), 'Roughly Mach 22 if we abused the term in vacuum' (Section IV), 'There is nothing to memorise' and 'Kepler observed the patterns over decades. Newton showed they were three lines of math.' (Section IX). Sec",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section carries specific figures: '8.4 m/s\u00b2 at 550 km,' 'Newton's Principia 1687,' 'February 2022 storm took down 38 Starlinks at 210 km,' 'over 1,000 satellites deorbited since 2020,' '6 satellites per day at steady state,' '\u00bd \u00b7 260 \u00b7 (7,600)\u00b2 \u2248 7.5 \u00d7 10\u2079 J \u2014 equivalent to about 1.8 tonnes of",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Three 'Well, actually \ud83e\uddd0' sidenotes: Section II admits real orbits are ellipses, not circles, and quantifies Starlink's eccentricity as below 0.001; Section V admits Earth's oblateness (J2) perturbs the perfect-sphere assumption and gives the \u22125\u00b0/day precession rate at 53\u00b0 inclination; Section VII ad",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The closing callout box provides an explicit two-sentence teachable summary: 'An orbit is the balance between gravity pulling the satellite down and tangential velocity carrying it sideways \u2014 the satellite is in free fall, forever missing the Earth. Set GMm/r\u00b2 equal to mv\u00b2/r and everything else fall",
+        "suggestion": ""
+      }
+    ]
+  },
+  "starlink/why-leo/index.html@eccde7d91fd4": {
+    "path": "starlink/why-leo/index.html",
+    "overall": "This is a strong, ship-ready article. The physics argument is airtight, every widget earns its place, specificity is excellent throughout all nine sections, and the four sidenotes are genuinely honest model-break admissions rather than decorative hedges. The only meaningful gap is voice: the 'you' is confident and direct but the 'I' never shows up, leaving the piece reading as authoritative reference rather than a person with a point of view talking to you \u2014 one or two first-person moments would close that gap without disrupting the rigour.",
+    "seconds": 109.46181535720825,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle states it before the article even begins: '3 satellites at GEO would seem to win. Then physics gets a vote \u2014 latency, link budget, and launch economics make 4,000+ LEO satellites the only answer.' Section I paragraph 3 reinforces it within ~150 words of body text: 'It isn't. The de",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 proves the latency wall exists at a specific altitude (~1,500 km) and lets the reader feel the RTT flip \u2014 the prose table alone cannot. Widget 2 makes the 50\u00d7 footprint advantage viscerally obvious by showing the geometric cross-section. Widget 3 lands the headline number (4,400 satellites ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero subtitle opens with the inversion ('3 satellites at GEO would seem to win. Then physics gets a vote') \u2014 the reader's assumption is named and immediately undercut before the first paragraph. The setup-then-subvert structure in Section I ('this looks insane. It isn't.') lands on the first scr",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches altitude\u2192latency only. Widget 2 teaches altitude\u2192footprint geometry only. Widget 3 teaches altitude\u2192satellite count, with min-elevation and redundancy sliders as supporting parameters for the same calculation \u2014 they do not introduce separate concepts, they parameterise the same one.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The 'you' voice is strong throughout ('You cannot Zoom over GEO. You cannot play any real-time game.', 'you should be able to tell a friend exactly why GEO loses'). But the 'I' is entirely absent \u2014 the author never claims an opinion in first person. The closest is 'arguably the most underappreciated",
+        "suggestion": "Add at least one first-person authorial moment \u2014 e.g. open Section VI with 'The fourth, and in my view the most underappreciated, is the radio link itself' or close Section VIII with 'I think the real story here is that Starlink is not a clever business plan \u2014 it's an old idea that finally fell with"
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section is saturated with concrete specifics: Arthur C. Clarke 1945, 299,792,458 m/s, 7,000 active satellites, 540\u2013570 km, 42,000 licensed, 800 kg per satellite, 12 GHz Ku-band, 4,000\u00d7 signal weakness, $30,000/kg Shuttle era vs $1,500 reused Falcon 9, Teledesic ~$9B launch cost, Iridium $5B co",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four 'Well, actually \ud83e\uddd0' sidenotes, all substantive: (1) slant range geometry when satellite isn't at zenith, (2) coverage \u2260 capacity (the key reason GEO broadband is still capped at 25 Mbps), (3) reuse as the missing economic variable, (4) FSPL is not the only RF loss (rain fade, polarisation, multi",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The Section IX callout box 'What you can now teach' delivers the teachback verbatim in two sentences: 'The LEO vs GEO decision is forced by physics, not marketing. Light travels at a finite speed (480-ms RTT to GEO breaks interactive use), radio signals decay with the square of distance (4,000\u00d7 weak",
+        "suggestion": ""
+      }
+    ]
   }
 }

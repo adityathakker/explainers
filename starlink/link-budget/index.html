@@ -642,6 +642,8 @@
 
         <p>That's it. Ten line items, one threshold, one verdict. Every radio system you'll encounter &mdash; satellite, cellular, WiFi, microwave backhaul, deep-space &mdash; reduces to those rows. Once you can fill them in, you can debug any link, predict any outage, and call out any vendor whose published specs don't close on paper.</p>
 
+        <p>If I had to pick one number to tattoo on my wrist, it would be FSPL at 12 GHz and 550 km: 169 dB. Everything in the link budget is a subtraction from that baseline. Internalize that single number and most of satellite engineering is just bookkeeping around it.</p>
+
         <div class="callout">
           <div class="callout-title">What you can now teach</div>
           <p><strong>The link budget is the engineer's universal RF ledger:</strong> transmit power and antenna gain (+) on the left, path loss / atmosphere / rain / pointing / feeder / implementation (&minus;) in the middle, receive antenna gain (+) at the end, and a noise-floor + required-SNR threshold the bottom line has to clear. Six standard losses, four standard gains, one threshold &mdash; every radio link you'll ever debug fits into that framework, and Starlink's 12 GHz downlink closes with about 2.5 dB of margin in moderate rain.</p>
