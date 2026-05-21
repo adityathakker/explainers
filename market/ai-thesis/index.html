@@ -101,13 +101,24 @@
         <p>The lazy comparison &ndash; and it is lazy &ndash; goes like this: companies are spending enormous amounts of money on a new technology, stock prices are elevated, therefore it must be a bubble. This is the kind of surface-level thinking that loses people money.</p>
 <p>Let me walk you through the structural differences, because they matter enormously.</p>
 <p><strong>In the dotcom era, companies were burning venture capital and IPO proceeds.</strong> Pets.com, Webvan, eToys &ndash; these were pre-revenue or barely-revenue companies that raised money from public markets and lit it on fire trying to acquire customers. When the money ran out, the companies died. The spending was funded by hope, not by cash flow.</p>
-<p><strong>In the AI era, the spending is coming from the largest free cash flow machines in human history.</strong> When Meta announces $100 billion in AI capital expenditure for 2026, that money is not coming from a Series D round or a speculative IPO. It is coming from a business that generates record operating profits, record revenues, and has $40 billion-plus in annual share buybacks running simultaneously. When Amazon spends aggressively on AWS infrastructure, it is backed by a $120 billion-plus cloud business compounding at 20% or more annually.</p>
+<p><strong>In the AI era, the spending is coming from the largest free cash flow machines in human history.</strong> When Meta announces $100 billion in AI capital expenditure for 2026<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>, that money is not coming from a Series D round or a speculative IPO. It is coming from a business that generates record operating profits, record revenues, and has $40 billion-plus in annual share buybacks running simultaneously. When Amazon spends aggressively on AWS infrastructure, it is backed by a $120 billion-plus cloud business compounding at 20% or more annually.</p>
+
+<div class="math-block">
+  Capex sustainability = (FCF before capex) &divide; (planned capex)
+  <span class="math-where">a ratio &gt; 1 means the spending is self-funded; &lt; 1 means it requires external capital</span>
+</div>
 <blockquote>
 <p>Most of this spending comes from their existing free cash flows. So it is not as if this money is coming from unreasonable capital being raised the way it happens for IPOs.</p>
 </blockquote>
 <p>This distinction is not subtle. It is the entire ballgame. Dotcom companies ran out of money and died. Hyperscalers are generating more cash than they can return to shareholders, and they are choosing to reinvest that cash into AI infrastructure because they believe &ndash; based on real revenue data, real customer demand, and real competitive pressure &ndash; that this is the highest-return use of capital available to them.</p>
 <p><strong>The second critical difference is competition-driven necessity.</strong> In the dotcom era, most of the spending was optional and speculative. Nobody forced Kozmo.com to offer free one-hour delivery of Pringles. In the AI era, the spending is driven by competitive survival. Every hyperscaler is spending like crazy because if it does not, then other hyperscalers will eat into their market share. Amazon seemingly overspending might not make the market happy, but it is required for its next layer of growth.</p>
 <p>This creates what I call a <strong>spending floor</strong>. Even if one company wanted to slow down its AI capex, it cannot &ndash; because its competitors will not. Microsoft cannot stop spending because Amazon and Google will take Azure&rsquo;s cloud customers. Meta cannot stop spending because if it falls behind in AI-driven advertising optimization, its $140 billion ad revenue base erodes. NVIDIA cannot stop innovating because Google is building TPUs and Amazon is building Trainium chips.</p>
+
+<details class="sidenote">
+  <summary>Well, actually 🧐 — what could make this thesis wrong</summary>
+  <p>The cleanest bear case isn't "AI is a bubble." It's a more specific worry: that revenue per dollar of capex falls faster than expected. Hyperscalers are spending against the assumption that AI inference + training compute demand grows at ~50% CAGR for the next 3-5 years. If that growth halves &mdash; because model performance plateaus, or because efficiency gains (DeepSeek, mixture-of-experts, distillation) make the same outputs cost 10x less &mdash; then the same capex generates much less revenue, ROIC compresses, and the spending floor cracks.</p>
+  <p>The right hedge against this isn't to skip AI exposure. It's to overweight the firms whose AI revenue is most diversified across use cases (Microsoft, Google) and underweight pure-play infrastructure plays whose entire thesis depends on training-compute demand staying at this growth rate (some smaller GPU-heavy challengers).</p>
+</details>
 <div class="demo reveal" id="chart-1"></div>
 
 <p>Look at the chart above. Dotcom spending followed a classic boom-bust pattern: a rapid ramp fueled by external capital, followed by a violent collapse when that capital dried up. Hyperscaler AI spending follows a steady, accelerating curve funded by internal cash generation. The spending trajectory is steeper, yes &ndash; but the funding source is fundamentally more durable.</p>
@@ -135,7 +146,13 @@
 <li>The world leader becomes number two. China uses its soft and hard influence to scale faster. The world moves from holding US debt to holding Chinese debt.</li>
 </ol>
 <p><strong>Whoever owns tech supremacy owns the next 20 years at least. Tech supremacy right now equals AI.</strong></p>
-<p>This is why the US government is participating in <strong>circular financing</strong>. The government invested in Intel. NVIDIA invests in OpenAI, and OpenAI places orders with NVIDIA. Microsoft does the same with Anthropic. You might look at this and think it is a casino. In a way, it is. But it is a casino that the US government cannot afford to shut down, because the alternative is strategic defeat.</p>
+<p>This is why the US government is participating in <strong>circular financing</strong>. The government invested in Intel. NVIDIA invests in OpenAI, and OpenAI places orders with NVIDIA<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. Microsoft does the same with Anthropic. You might look at this and think it is a casino. In a way, it is. But it is a casino that the US government cannot afford to shut down, because the alternative is strategic defeat.</p>
+
+<details class="sidenote">
+  <summary>Well, actually 🧐 — circular financing has historical precedent, and it ended badly</summary>
+  <p>In 1999, Cisco, Lucent, and Nortel were vendor-financing customers (CLECs and dotcoms) who turned around and bought equipment from them. Cisco extended billions in vendor loans; when the customers went bust, Cisco took massive writedowns and the stock fell 86%. The pattern looked identical to today's NVIDIA→OpenAI→NVIDIA loop on the surface.</p>
+  <p>The structural difference: 1999's circular financing was funded by debt that the equipment vendors raised at increasingly punitive rates as the cycle stretched. Today's loop is funded by hyperscaler free cash flow that is ~10x the size of all 1999 telecom-vendor FCF combined. The loop can sustain a 50%+ revenue drop before any participant runs out of cash. That doesn't mean it survives a 90% drop — but the cushion is real.</p>
+</details>
 <p>On the other side, China is pouring state resources into its own AI ecosystem at a scale that makes even American spending look measured. Two major governments &ndash; the US and China &ndash; are pumping unprecedented money into privately held technology players. Never in recent history has this happened at this scale simultaneously.</p>
 <p>And here is the critical investor insight: <strong>when countries get desperate, there is no end to spending.</strong> This is not a corporate decision that can be reversed in a quarterly earnings call. This is a national security imperative backed by the full weight of two superpowers. The spending floor is set by geopolitics, not by quarterly FCF guidance.</p>
 <p>The practical implication for you as an investor is straightforward. The firms at the center of this race &ndash; Meta, Google, Amazon, Microsoft, NVIDIA &ndash; are not just companies. They are instruments of national power. They are, to put it plainly, <strong>too big to fail</strong> in a way that goes beyond the financial definition. The US government has a vested interest in their success that transcends normal market dynamics.</p>
@@ -359,6 +376,11 @@
 <p>The cost of missing the upside is much higher than the downside risk. If after studying the numbers, the geopolitics, the cash flows, and the competitive dynamics laid out in this article, you are still not excited about AI, then honestly nothing will convince you.</p>
 <p>But if you get it &ndash; if you see what is actually happening here &ndash; then the path forward is clear. Buy quality. Buy at reasonable prices. Aggregate on dips. Hold through volatility. And let the most powerful technology cycle of your lifetime do the compounding for you.</p>
 <p>What you do with this information depends on you.</p>
+
+<ol class="footnotes">
+  <li id="fn-1">Meta's announced 2026 capex of $100B+ is concentrated on AI infrastructure (Reality Labs included but small share). Compare to Microsoft (~$80B), Google (~$75B), Amazon (~$95B). Combined hyperscaler AI capex for 2026 is on track to exceed $350B &mdash; the largest concentrated capital deployment in corporate history, and over 5x the peak telecom capex of 2000. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+  <li id="fn-2">The NVIDIA / OpenAI / Microsoft loop has been formalised in agreements: NVIDIA's $100B equity-and-compute commitment to OpenAI, OpenAI's compute purchase commitments back to NVIDIA via Azure, Microsoft's revenue share with OpenAI. The Information and FT both broke the structure in late 2025; the SEC has not (yet) flagged it as related-party concerns. Worth watching. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+</ol>
       </div>
     </section>
   </article>
