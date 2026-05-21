@@ -95,9 +95,14 @@
       line-height: 1;
     }
 
-    /* ===== Hero ===== */
+    /* ===== Hero =====
+       Default gradient derives from --accent so every article gets a sensible
+       hero without needing a per-article override. Articles can still set
+       their own via inline `<style> .hero { background: ...; } </style>`. */
     .hero {
-      background: {{GRADIENT}};
+      background: linear-gradient(135deg,
+        var(--accent) 0%,
+        color-mix(in srgb, var(--accent) 55%, #ffffff) 100%);
       min-height: 280px;
       display: flex;
       align-items: flex-end;
@@ -364,7 +369,8 @@
 
     .demo canvas {
       width: 100%;
-      max-height: 320px;
+      max-width: 100%;
+      display: block;
     }
 
     .demo .chart-container {

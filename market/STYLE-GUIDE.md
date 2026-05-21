@@ -214,3 +214,86 @@ Before shipping a new article:
 ## When in doubt
 
 Open `real-returns/index.html` and copy the pattern. It's the canonical reference for sidenote + footnote + math-block + widget-hint usage. The full pilot reference lives in `options-insurance/index.html` (gold standard for canvas widgets).
+
+## Polish gotchas (learned the hard way)
+
+These are real bugs we shipped and fixed. Treat them as forced checks before declaring an article done.
+
+### 1. Never pass an explicit `width` to `setupHiDPICanvas`
+
+```js
+// ✗ WRONG — hardcodes 600px, overflows the .demo container on narrow viewports
+setupHiDPICanvas(canvas, { width: 600, height: 320 });
+
+// ✓ RIGHT — auto-detects from canvas's rendered width (style="width: 100%")
+setupHiDPICanvas(canvas, { height: 320 });
+```
+
+The helper reads `getBoundingClientRect().width` when `width` is omitted. The canvas's `style="width: 100%"` then makes it perfectly fit its `.demo` parent, regardless of viewport size.
+
+### 2. Position widget labels so they can't collide
+
+Two specific traps:
+- **Strike-line label vs chart title.** If both sit near the top of the canvas at horizontal centre, they overlap when the strike happens to land near centre. Put the strike label at the *bottom* of its dashed line (hugging the x-axis), and put the title at `y = 10` (above the plot area). They occupy different y-bands by construction.
+- **Plot title vs data points.** If a data point's y-coordinate can reach the top of the plot, the title above can collide. Either reserve extra top-padding (`pad.top = 28+`) or put the title above the canvas entirely (negative y) — never overlapping.
+
+### 3. The hero gradient now derives from `--accent` by default
+
+You no longer need a per-article `.hero { background: linear-gradient(...) }` override. Setting `--accent` in the inline `<style>` block is enough — the shared CSS builds a two-tone gradient from accent → lighter mix-with-white. Only override the hero background if you want a specific non-derived pair.
+
+### 4. The article hero meta uses real numbers, not template fill
+
+```html
+✗ <p class="hero__meta">Synthesized from 0 posts &middot; 22 min read</p>
+✓ <p class="hero__meta">22 min read</p>
+✓ <p class="hero__meta">9 chapters &middot; 6 simulations &middot; 30 min read</p>
+```
+
+No "Synthesized from 0 posts" anywhere. If you want a count, use a real one.
+
+### 5. The landing page card needs a description + meta, not an empty body
+
+Every new article added to `market/index.html` needs both:
+
+```html
+<a href="my-topic/index.html" class="card">
+  <div class="card-hero" style="background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);">
+    <h2>My Article Title</h2>
+    <span class="card-badge">Updated</span>  <!-- optional -->
+  </div>
+  <div class="card-body">
+    <p>One-line description — same text as the article's hero__subtitle works well.</p>
+    <div class="card-meta">22 min read</div>
+  </div>
+</a>
+```
+
+The `card-badge` is a glassy "Updated" pill in the top-right of the hero — use it to mark articles that have been refreshed to the new style.
+
+### 6. Insurance and other verticals belong on the landing too
+
+`market/index.html` has two `<section class="section">` groups: "Markets & Investing" (18 cards) and "Insurance" (1 card linking up to `../insurance/actuarial-pricing/`). Don't orphan articles in sibling directories — link them from the main landing under their own section label.
+
+### 7. Run the parse smoke-test before declaring done
+
+Before claiming an article rewrite is complete:
+
+```bash
+# HTML parses without errors
+python3 -c "import html.parser; p=html.parser.HTMLParser(); open('market/X/index.html').read()" \
+  | python3 -c "import sys,html.parser; p=html.parser.HTMLParser(); p.feed(sys.stdin.read())"
+
+# All inline scripts parse as JS
+node -e "
+const html = require('fs').readFileSync('market/X/index.html', 'utf-8');
+const re = /<script(?![^>]*src)[^>]*>([\s\S]*?)<\/script>/g;
+let m, errors = [];
+while ((m = re.exec(html)) !== null) try { new Function(m[1]); } catch(e) { errors.push(e.message); }
+console.log(errors.length ? errors : 'OK');
+"
+
+# Server returns 200
+curl -s -o /dev/null -w '%{http_code}\n' http://localhost:8080/market/X/
+```
+
+Three checks, ~3 seconds total. Catches 90% of mechanical breakage before the user does.
