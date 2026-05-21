@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Healing Mesh Network — Starlink Explainers</title>
+  <meta name="description" content="5,000 satellites, 4 inter-satellite lasers each, and so much path redundancy that losing 100 nodes barely registers. The math is percolation theory.">
+  <meta name="author" content="Starlink Explainers">
+
+  <meta property="og:title" content="Self-Healing Mesh Network">
+  <meta property="og:description" content="Why losing 100 satellites doesn't break Starlink — graph theory, not heroic engineering.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #1a202c;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%); }
+
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .readout-grid.four { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 540px) {
+      .readout-grid, .readout-grid.four { grid-template-columns: repeat(2, 1fr); }
+    }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .readout-sub {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 6px;
+    }
+    .btn-row button {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-row button:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .btn-row button.danger {
+      border-color: #c53030;
+      color: #c53030;
+    }
+    .btn-row button.danger:hover {
+      background: #c53030;
+      border-color: #c53030;
+      color: #fff;
+    }
+    .btn-row button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Starlink Explainers
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">The Self-Healing Mesh</h1>
+      <p class="hero__subtitle">5,000+ moving satellites, 4 laser links per node, and so much path redundancy that losing 100 satellites barely affects throughput. The math behind self-healing is graph theory, not heroic engineering.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 24 min read</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-handoff">Why does any one LEO satellite serve a user for just ~4 minutes?</a></li>
+        <li><a href="#ii-routing">How do you route a packet through 5,000 moving satellites?</a></li>
+        <li><a href="#iii-diversity">What is the path diversity in a 4-link mesh?</a></li>
+        <li><a href="#iv-failures">How many satellites can you lose before users disconnect?</a></li>
+        <li><a href="#v-percolation">What is the percolation threshold for a constellation?</a></li>
+        <li><a href="#vi-ground">How does Starlink handle a ground-station failure?</a></li>
+        <li><a href="#vii-vs-fiber">Why are LEO meshes more resilient than fiber backbones?</a></li>
+        <li><a href="#viii-convergence">How fast does the network actually re-route?</a></li>
+        <li><a href="#ix-synthesis">The full resilience synthesis</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <!-- ============================================================
+         I. Handoff cadence
+         ============================================================ -->
+    <section class="reveal" id="i-handoff">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why does any one LEO satellite serve a user for just ~4 minutes?</h2>
+      </div>
+      <div class="section-content">
+        <p>Start with the most uncomfortable property of LEO broadband: <strong>your satellite is moving at 27,000 km/h</strong>. At a 550&nbsp;km Starlink altitude the orbital period is ~95 minutes &mdash; the satellite crosses the entire sky over your house in about 7&nbsp;minutes if it passes near zenith, and 3&ndash;4 minutes if it skirts the horizon. The terminal cannot keep it. Every few minutes the network has to hand you off to the next satellite coming up the orbital plane behind it.</p>
+
+        <p>This is the whole reason "self-healing" matters in the first place. A geostationary system never hands off &mdash; the satellite stays where it is. A LEO system hands off <em>continuously</em>, by design, with no failure happening at all. The routing tables churn faster than any terrestrial network's would, just from the geometry. When a satellite genuinely fails &mdash; a thruster glitch, a software watchdog reboot, a debris strike &mdash; it looks indistinguishable from a planned handoff to the routing layer. The system is built to assume every link is temporary.</p>
+
+        <div class="math-block">
+          t<sub>visible</sub> &asymp; (2 / &omega;<sub>orbit</sub>) &middot; acos(cos&theta;<sub>max</sub> / cos&phi;)
+          <span class="math-where">&omega;<sub>orbit</sub> = orbital angular velocity, &theta;<sub>max</sub> = horizon angle, &phi; = pass elevation. For Starlink: 4&ndash;7 min depending on pass geometry.</span>
+        </div>
+
+        <p>Here is the consequence the rest of this article unpacks: because the mesh was already designed to swap satellites every 240 seconds without losing a packet, swapping satellites because one of them died is just <em>more of the same code path</em>. Resilience falls out of the operating model, not out of a heroic failover system bolted on afterwards.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Event</th><th>Cadence</th><th>Detection</th><th>Re-route time</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Planned handoff</td><td class="num">~4 min</td><td>Ephemeris prediction</td><td class="num">~5 ms</td></tr>
+            <tr><td>Beam switch (capacity)</td><td class="num">seconds</td><td>Load metric</td><td class="num">~10 ms</td></tr>
+            <tr><td>Satellite failure</td><td class="num">~0.1 / day</td><td>Heartbeat loss</td><td class="num">~50&ndash;200 ms</td></tr>
+            <tr><td>Solar storm impact</td><td class="num">~1 / decade</td><td>Telemetry anomaly</td><td class="num">minutes</td></tr>
+          </tbody>
+        </table>
+
+        <p>The point of this article: graph theory says that if you have 5,000 nodes with 4 connections each, you can lose a <em>very</em> large fraction of them before the network actually partitions. The interesting question isn't &ldquo;does it stay up&rdquo; &mdash; the interesting question is the precise mathematical threshold where it stops. We're going to find it.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. How routing works
+         ============================================================ -->
+    <section class="reveal" id="ii-routing">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>How do you route a packet through 5,000 moving satellites?</h2>
+      </div>
+      <div class="section-content">
+        <p>The naive answer is &ldquo;the internet figured this out already &mdash; just run BGP.&rdquo; That answer is wrong. BGP (the protocol the public internet uses to route between autonomous systems) assumes the topology changes on a timescale of minutes, that path information propagates by gossip, and that convergence takes seconds to tens of seconds. None of those assumptions hold when half your routers are flying at 7&nbsp;km/s in different directions.</p>
+
+        <p>What Starlink actually does is closer to a <strong>centrally-computed source-routed forwarding plane</strong>. Ground controllers compute the routing tables for each shell based on the satellites' predicted positions (everyone knows where every Starlink satellite will be five minutes from now &mdash; the orbits are determined by physics, not by traffic). These tables are uploaded ahead of time. Each satellite then carries a forwarding rule that says &ldquo;at time T, for destination D, send to neighbour N.&rdquo;</p>
+
+        <p>The mesh topology each satellite participates in is the <strong>+grid</strong>:</p>
+
+        <ul>
+          <li><strong>Forward link</strong>: laser link to the next satellite ahead in the same orbital plane.</li>
+          <li><strong>Backward link</strong>: laser link to the next satellite behind in the same orbital plane.</li>
+          <li><strong>Cross-track left</strong>: laser link to the satellite in the adjacent plane to the west.</li>
+          <li><strong>Cross-track right</strong>: laser link to the satellite in the adjacent plane to the east.</li>
+        </ul>
+
+        <p>That's it. Four links. Every satellite, all the time. The graph this produces is a torus &mdash; a wraparound 2D grid, because both directions (along-track and cross-track) eventually return to themselves. From a graph-theory perspective, this is a 4-regular graph, and the rest of the article is about what 4-regular graphs do under stress.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the satellites don't decide routes themselves</summary>
+          <p>Press releases will sometimes describe Starlink as &ldquo;mesh-routed&rdquo; in a way that implies satellites run a distributed protocol like OSPF or BGP onboard. They don't. The compute budget on a Starlink v2 satellite is constrained (roughly the silicon of a high-end smartphone), and running a global routing protocol with thousands of peers and second-by-second topology updates would melt the CPU.</p>
+          <p>Instead, the routing layer is split: a ground-side planner solves the constrained-shortest-path problem for the entire constellation centrally, every few seconds, then distributes pre-computed forwarding entries that look like &ldquo;between t=120s and t=180s, for traffic destined for ground station X, forward to neighbour N.&rdquo; This is closer to MPLS label switching than to BGP. The satellite's job is just to look up the right entry, not to decide.</p>
+          <p>Failures are handled by precomputing a small set of backup forwarding entries alongside the primary &mdash; if neighbour N stops responding to heartbeats, swap to neighbour N'. This is a local decision that doesn't require a global convergence event, which is the only reason re-route happens in tens of milliseconds rather than tens of seconds.</p>
+        </details>
+
+        <p>The thing that makes this work is that the topology is deterministic. Unlike the public internet &mdash; where a router in Frankfurt advertises a route and the rest of the world has to decide whether to believe it &mdash; everyone with a copy of the ephemerides knows what the graph looks like at every future moment. Routing becomes solving a shortest-path problem on a known graph, not consensus-seeking under adversarial conditions.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Path diversity
+         ============================================================ -->
+    <section class="reveal" id="iii-diversity">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>What is the path diversity in a 4-link mesh?</h2>
+      </div>
+      <div class="section-content">
+        <p>If every satellite has only 4 neighbours, you might think the mesh is fragile &mdash; cut a few links and the route is gone. The intuition is wrong. In a 2D grid of N nodes, the number of distinct shortest paths between two nodes scales <em>combinatorially</em> with the Manhattan distance between them. Between two nodes at grid-distance (a, b), the number of monotone shortest paths is C(a+b, a) &mdash; a binomial coefficient that grows fast.</p>
+
+        <div class="math-block">
+          N<sub>paths</sub>(a, b) = (a + b)! / (a! &middot; b!)
+          <span class="math-where">monotone shortest paths on a grid; for (4, 4) that's 70 paths, for (8, 8) it's 12,870.</span>
+        </div>
+
+        <p>For two satellites 4 hops apart along-track and 4 hops apart cross-track, there are <strong>70 different equally-short paths</strong>. For 8 hops in each direction, there are 12,870. You'd have to delete most of the intermediate satellites to actually kill all of them. Even allowing non-shortest paths (paths that occasionally hop backwards), the redundancy grows further.</p>
+
+        <p>The mean shortest path length in an N-node random 4-regular graph is approximately:</p>
+
+        <div class="math-block">
+          &lang;d&rang; &asymp; log(N) / log(k &minus; 1)
+          <span class="math-where">k = node degree = 4, so &lang;d&rang; &asymp; log(N)/log(3). For N = 5,000: ~7.7 hops on average.</span>
+        </div>
+
+        <p>For a real Starlink shell with ~4,400 satellites in a 72-plane Walker design, the average inter-satellite hop count is roughly 7 hops. The shortest path between any two satellites in the same shell is rarely more than 12 hops, and the number of distinct paths within 1 hop of optimal is in the dozens. That's the redundancy budget.</p>
+
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Routing graph with path redundancy</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Satellites disabled</span><span class="slider-value" id="w1-fail-val">0</span></div>
+              <input type="range" id="w1-fail" min="0" max="35" value="0" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Paths shown</span><span class="slider-value" id="w1-paths-val">5</span></div>
+              <input type="range" id="w1-paths" min="1" max="8" value="5" step="1">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button id="w1-reseed">Reseed random failures</button>
+            <button id="w1-reset">Reset</button>
+          </div>
+          <div class="readout-grid four">
+            <div class="readout-cell"><div class="readout-label">Live satellites</div><div class="readout-value" id="w1-live">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Shortest path</div><div class="readout-value" id="w1-spath">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Paths remaining</div><div class="readout-value" id="w1-pcount">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Source reaches dest?</div><div class="readout-value" id="w1-conn">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">A 40-node grid &mdash; 8 orbital planes, 5 satellites per plane &mdash; with 4 links per node (forward/backward in-plane, left/right cross-plane). Source (green) at top-left, destination (blue) at bottom-right. Drag the failure slider: watch the network re-route. Counter tracks how many distinct shortest paths are still alive.</p>
+        </div>
+
+        <p>That widget is the central intuition pump for the rest of the article. Notice: even at 20+ satellites disabled (half the grid), the source still reaches the destination through <em>some</em> route. The path count drops, but connectivity doesn't. That's not because of clever engineering. That's because of the graph.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Failure tolerance
+         ============================================================ -->
+    <section class="reveal" id="iv-failures">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>How many satellites can you lose before users disconnect?</h2>
+      </div>
+      <div class="section-content">
+        <p>This is the question every newspaper article asks badly. The honest answer has two parts:</p>
+
+        <ol>
+          <li><strong>Locally</strong>: you lose throughput, never connectivity, as long as the graph remains connected. Each lost satellite removes its share of capacity from the local pool but doesn't kill anyone's session because traffic re-routes through a neighbour.</li>
+          <li><strong>Globally</strong>: there exists a threshold &mdash; the <em>percolation threshold</em> &mdash; below which the graph stays connected and above which it shatters into disconnected components. For a 4-connected grid, that threshold is around 50&ndash;60% of nodes lost.</li>
+        </ol>
+
+        <p>Sit with the magnitude of that for a moment. If Starlink lost <strong>2,500 of its 5,000 active satellites at once</strong>, most users would still be online. Throughput would be a fraction of normal, latency would jitter, but the network would not partition. This isn't optimism &mdash; this is what the percolation math says about 4-regular grids.</p>
+
+        <p>What it costs you to lose satellites is capacity, not connectivity:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Fraction failed</th><th>Throughput impact</th><th>Connectivity</th><th>Real-world equivalent</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">1% (50 sats)</td><td>Barely measurable</td><td>100%</td><td>Routine 5-year deorbit pace</td></tr>
+            <tr><td class="num">2% (100 sats)</td><td>~2% local drop</td><td>100%</td><td>Major debris event</td></tr>
+            <tr><td class="num">10% (500 sats)</td><td>~10% drop</td><td>100%</td><td>Severe solar storm</td></tr>
+            <tr><td class="num">30% (1,500 sats)</td><td>~30% drop</td><td>99.9%</td><td>Catastrophic Kessler cascade</td></tr>
+            <tr><td class="num">50% (2,500 sats)</td><td>Half capacity</td><td>~95% (regional partitions emerge)</td><td>Near worst-case scenario</td></tr>
+            <tr><td class="num">60% (3,000 sats)</td><td>Network shattering</td><td>~40% (large disconnected components)</td><td>Past percolation threshold</td></tr>
+          </tbody>
+        </table>
+
+        <p>The line that matters is between 50% and 60%. Below the threshold, the network is a single connected blob with reduced capacity. Above the threshold, the connected component fragments &mdash; suddenly the user in Tokyo can't reach the ground station in Hawthorne even though both their local satellites are healthy, because every path between the two regions has been cut. We're going to find that threshold precisely in the next section.</p>
+
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Failover animation</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="btn-row">
+            <button id="w2-fail1" class="danger">Fail 1 satellite</button>
+            <button id="w2-fail10" class="danger">Fail 10</button>
+            <button id="w2-fail20" class="danger">Fail 20</button>
+            <button id="w2-fail-source" class="danger">Fail near source</button>
+            <button id="w2-reset" class="primary">Reset network</button>
+          </div>
+          <div class="readout-grid four">
+            <div class="readout-cell"><div class="readout-label">Failed satellites</div><div class="readout-value" id="w2-failed">0</div></div>
+            <div class="readout-cell"><div class="readout-label">Packets delivered</div><div class="readout-value" id="w2-delivered">0</div></div>
+            <div class="readout-cell"><div class="readout-label">Current path</div><div class="readout-value" id="w2-path">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Users disconnected</div><div class="readout-value" id="w2-disc">0</div></div>
+          </div>
+          <p class="widget-hint">Same 40-satellite grid. Animated packets flow from source (top-left, green) to destination (bottom-right, blue) along the current shortest path. Click "Fail" buttons to kill random satellites. Watch the packets re-route in real time. The "Users disconnected" counter only rises when the source and destination genuinely lose all paths &mdash; which doesn't happen until well past 20 failures.</p>
+        </div>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Percolation threshold
+         ============================================================ -->
+    <section class="reveal" id="v-percolation">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>What is the percolation threshold for a constellation?</h2>
+      </div>
+      <div class="section-content">
+        <p>Percolation theory is a branch of statistical physics that asks: given a graph where each node is independently &ldquo;open&rdquo; with probability p, what is the probability that two arbitrary nodes are still connected? It's the same math used for modelling forest fires, oil flow through porous rock, and disease spread &mdash; and it applies cleanly to satellite mesh resilience.</p>
+
+        <p>The headline result: every graph has a <strong>critical threshold p<sub>c</sub></strong> such that for p &gt; p<sub>c</sub>, an &ldquo;infinite&rdquo; (very large) connected component exists; for p &lt; p<sub>c</sub>, it does not. The transition is sharp &mdash; almost a phase transition, like water freezing.</p>
+
+        <p>For a 2D square lattice (site percolation, which is what we have):</p>
+
+        <div class="math-block">
+          p<sub>c</sub><sup>site</sup>(square 2D) &asymp; 0.5927
+          <span class="math-where">numerical estimate from Monte Carlo; no closed-form solution exists. Above this fraction of surviving sites, network connects globally; below, it shatters.</span>
+        </div>
+
+        <p>What does 0.5927 mean for Starlink? If you reverse the framing: the failure threshold is <strong>1 &minus; 0.5927 = 0.4073</strong>. You can lose up to ~41% of satellites and the constellation likely still has a giant connected component. Past 41% loss, with high probability you've shattered the mesh.</p>
+
+        <p>The real Starlink shell isn't exactly a 2D square lattice &mdash; it's a torus (wraparound grid) with cross-shell laser links between altitude bands in the v2 design. Toroidal topology gives slightly better thresholds than open grids because there are no edge nodes with reduced degree. The cross-shell links add more redundancy still. A realistic estimate for the operational Starlink mesh is <strong>p<sub>c</sub> &asymp; 0.55&ndash;0.62</strong>, meaning <strong>~38&ndash;45% of satellites can be lost</strong> before catastrophic partition.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; bond vs site percolation, and what Starlink actually faces</summary>
+          <p>There are two flavours of percolation: <em>site percolation</em> (nodes randomly removed) and <em>bond percolation</em> (edges randomly removed). For the 2D square lattice, bond percolation has a known exact threshold of p<sub>c</sub> = 0.5 (proved by Kesten in 1980), while site percolation only has a numerical estimate ~0.5927.</p>
+          <p>A satellite failure is closer to site percolation &mdash; the node and all its links disappear simultaneously. A laser-link failure (pointing error, blockage by another satellite in the swarm, temporary thermal misalignment) is bond percolation. Both happen in operation; site failures are rarer but more total, link failures are more frequent but less damaging.</p>
+          <p>For real Starlink resilience modelling, the worst case is correlated failures &mdash; a solar storm that affects every satellite simultaneously, or a software bug rolled out to the whole fleet. Correlated failures escape the percolation framework entirely; they're not random independent events. That's why SpaceX rolls out firmware in canary stages and why the constellation runs two independent flight-control software variants that don't share code with each other. The percolation math gives a lower bound on resilience under random failures, but the operational resilience hinges on avoiding the non-random ones.</p>
+        </details>
+
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Percolation threshold simulator</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Failure rate</span><span class="slider-value" id="w3-rate-val">30%</span></div>
+              <input type="range" id="w3-rate" min="0" max="100" value="30" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Monte Carlo runs</span><span class="slider-value" id="w3-runs-val">40</span></div>
+              <input type="range" id="w3-runs" min="10" max="100" value="40" step="10">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button id="w3-sweep" class="primary">Run full sweep</button>
+          </div>
+          <div class="readout-grid four">
+            <div class="readout-cell"><div class="readout-label">Connection probability</div><div class="readout-value" id="w3-prob">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Largest component</div><div class="readout-value" id="w3-comp">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Site threshold p<sub>c</sub></div><div class="readout-value">0.593</div></div>
+            <div class="readout-cell"><div class="readout-label">Max safe failures</div><div class="readout-value">~41%</div></div>
+          </div>
+          <p class="widget-hint">A 12×12 toroidal grid of 144 satellites. The chart plots fraction of random source-destination pairs that remain connected (y-axis) against fraction of satellites failed (x-axis). Drag the failure-rate slider to test a single point, or hit "Run full sweep" to plot the full S-curve. Notice the sharp drop near p<sub>c</sub> &asymp; 0.59 &mdash; that's the percolation phase transition. Below it: robust. Above: catastrophe.</p>
+        </div>
+
+        <p>This is the result that should change how you think about satellite mesh resilience. <strong>The constellation's robustness is not the sum of each satellite's reliability.</strong> The constellation's robustness is the percolation threshold of its connectivity graph &mdash; a property of the topology, not the components. A network with 5,000 nodes can lose 2,000 of them and still work, not because each satellite is perfect, but because the graph is highly redundant.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Ground stations
+         ============================================================ -->
+    <section class="reveal" id="vi-ground">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>How does Starlink handle a ground-station failure?</h2>
+      </div>
+      <div class="section-content">
+        <p>The satellite-to-satellite mesh is half the resilience story. The other half is the <strong>ground station</strong> &mdash; the gateway where traffic flows between the constellation and the public internet. Starlink operates roughly 150 ground stations worldwide, each consisting of multiple parabolic dishes that talk to passing satellites at high data rates (gigabits per ground antenna).</p>
+
+        <p>Ground stations are the single biggest concentration of failure risk in the system. A satellite failure removes 0.02% of constellation capacity. A ground-station failure removes the entire egress point for whatever region it served &mdash; potentially gigabits-per-second of traffic with no immediate substitute. This is the part of Starlink that looks most like a traditional network with single points of failure.</p>
+
+        <p>The mitigation: every user has visibility to multiple satellites, and every satellite has visibility to multiple ground stations during its pass. If Ground Station A goes down, the satellite's routing table swaps to use Ground Station B. The user terminal never notices &mdash; the satellite handles it transparently. The only constraint is that B has to be within the satellite's footprint, which for a 550 km orbit means within ~940 km on the ground.</p>
+
+        <div class="math-block">
+          d<sub>footprint</sub> = R &middot; acos[ R &middot; cos(&epsilon;<sub>min</sub>) / (R + h) ] &minus; R &middot; &epsilon;<sub>min</sub>
+          <span class="math-where">R = Earth radius (6,378 km), h = 550 km, &epsilon;<sub>min</sub> = 25&deg;. d &asymp; 940 km, the radius of ground stations visible to one satellite.</span>
+        </div>
+
+        <p>That's why Starlink's ground stations are clustered &mdash; not just for geographic coverage of users, but so that every satellite passes over multiple gateways during every orbit. Real Starlink ground-station siting follows a roughly hexagonal pattern with ~1,500 km spacing in dense regions (US, Europe), which is well inside the 1,880 km diameter of a satellite's footprint. The mesh redundancy at the satellite layer means a ground-station failure rarely partitions any user; their traffic just hops one satellite further before egressing.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the deep South Pacific is the real single point of failure</summary>
+          <p>The previous paragraph is true for the US, Europe, and most populated regions. It is not true in the middle of the Pacific Ocean. Starlink ground stations are exclusively on land masses (cabling logistics, regulatory access, power); a satellite over the central Pacific can be 2,000+ km from any ground station and out of range entirely. In that case the satellite has to <em>buffer</em> the traffic and forward it to a neighbour-satellite via inter-satellite link, hop-by-hop, until one of them is over a ground station.</p>
+          <p>This is exactly what the laser inter-satellite links (ISLs) were designed for. Without ISLs, a Starlink user on a ship halfway between Hawaii and Tahiti is on a satellite that simply can't deliver their packet anywhere. With ISLs, the packet hops across 4&ndash;6 satellites until one of them is over Vancouver, then drops to the ground station there. The maritime case is what made ISLs non-negotiable &mdash; the alternative was no coverage at sea at all. The Pacific coverage is now a function of laser-link reliability rather than ground-station density, which is a much easier resilience problem to solve.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. vs Fiber
+         ============================================================ -->
+    <section class="reveal" id="vii-vs-fiber">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>Why are LEO meshes more resilient than terrestrial fiber backbones?</h2>
+      </div>
+      <div class="section-content">
+        <p>This is the counter-intuitive claim, so it's worth stating bluntly: <strong>a satellite mesh is more resilient than a fiber backbone for the same total bandwidth</strong>. This is not because satellites are more reliable than fiber (they aren't &mdash; individual satellite failures are far more common than individual fiber cuts). It is because the topology is more connected.</p>
+
+        <p>Terrestrial fiber networks are usually trees with a few cross-links. Major routes have one or two diverse paths at most. A backhoe in the wrong place can cut an entire region's connectivity. The famous example is the 2008 Mediterranean cable cuts: two undersea fiber cuts in the same week, in two different incidents, that took 75% of Egypt's internet capacity offline for days.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Network</th><th>Topology</th><th>Node degree</th><th>Failure tolerance</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Submarine cable systems</td><td>Sparse mesh (2&ndash;4 paths between major regions)</td><td class="num">~2&ndash;3</td><td class="num">~30% loss before partition</td></tr>
+            <tr><td>Tier-1 ISP backbone (US)</td><td>Mesh with hub-and-spoke</td><td class="num">~4&ndash;6</td><td class="num">~40% loss</td></tr>
+            <tr><td>Metro fiber (city)</td><td>Ring or grid</td><td class="num">~2&ndash;4</td><td class="num">~30&ndash;45% loss</td></tr>
+            <tr><td>Starlink LEO shell</td><td>4-regular grid (torus)</td><td class="num">4</td><td class="num">~41% loss</td></tr>
+            <tr><td>Random 4-regular graph</td><td>Complete random connections</td><td class="num">4</td><td class="num">~75% loss (best case)</td></tr>
+          </tbody>
+        </table>
+
+        <p>The grid topology is actually slightly worse than a random 4-regular graph &mdash; randomness gives you more short paths between distant nodes. Starlink chose the grid because it's cheap to compute routes on, easy to predict for control, and matches the orbital geometry. A random graph would be theoretically more robust but operationally much harder to manage.</p>
+
+        <p>Compare to fiber. A single undersea cable across the Atlantic has just three physical alternatives (and they all converge on a handful of landing points). A single fiber-optic transcontinental US route has one diverse alternative at most. The aggregate is a graph with much lower mean degree than a 4-regular mesh, and the failure tolerance is correspondingly lower.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; undersea cables vs Starlink for the Pacific</summary>
+          <p>The transpacific fiber market is dominated by about 12 active cables. A single ship-anchor accident can take out one cable, and 6 cables have been damaged in the South China Sea in 2024 alone. Each cut takes weeks to months to repair (the cable ship has to be scheduled, the location pinpointed, the cable cut and pulled to the surface, spliced, lowered back).</p>
+          <p>Starlink's transpacific path is laser-link hops across ~6 satellites, then ground. Damage to a satellite is a fleet of 4,400 replacements in the same orbit; a failure is recovered in milliseconds. The mean time to repair on a Starlink "cut" is essentially zero &mdash; the network just routes around it. For undersea cable, MTTR is 30+ days.</p>
+          <p>This is the structural reason satellite mesh broadband is starting to look attractive even for fixed-location enterprise users who already have fiber: not the throughput (fiber wins on bulk capacity), not the latency (fiber wins for short paths), but the <em>resilience under partial damage</em>. The mesh recovers automatically; the cable needs a ship.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIII. Convergence speed
+         ============================================================ -->
+    <section class="reveal" id="viii-convergence">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>How fast does the network actually re-route?</h2>
+      </div>
+      <div class="section-content">
+        <p>The percolation math says &ldquo;the network can survive the failure.&rdquo; The operational question is whether your TCP connection survives the failure. That depends on how fast the re-route happens relative to the packet timing of whatever application is running.</p>
+
+        <p>Starlink's re-route timeline, by stage:</p>
+
+        <ol>
+          <li><strong>Detection (10&ndash;50 ms)</strong>: the satellite hosting your traffic stops receiving heartbeats from its dead neighbour. Heartbeat interval is ~10 ms; loss of three consecutive heartbeats triggers a fault flag. Total detection: 30&ndash;50 ms.</li>
+          <li><strong>Local fallback (5&ndash;20 ms)</strong>: the satellite consults its precomputed backup forwarding table and starts sending to the alternate neighbour. The backup entry is loaded into the same hardware forwarding pipeline as the primary, so the switch is wire-speed.</li>
+          <li><strong>Global re-plan (1&ndash;10 s)</strong>: the ground-side planner sees the same failure (via telemetry), recomputes globally optimal routing for the updated graph, and pushes new forwarding tables to every affected satellite. This catches subtler effects &mdash; load imbalance, longer-but-better paths.</li>
+        </ol>
+
+        <p>The TCP-relevant number is the first two stages: <strong>~50&ndash;200 ms end-to-end</strong> from a satellite failure to packets flowing on the new path. For comparison: BGP convergence on the public internet is 30&ndash;180 seconds for a typical route change; OSPF/IS-IS in a private network is 1&ndash;5 seconds with aggressive timers; SDN-controlled networks can hit ~100 ms with sub-second flow installation. Starlink lives in the SDN-controlled bracket because the architecture is fundamentally SDN-like: centrally controlled, source-routed, with local fast-failover.</p>
+
+        <p>Compare against typical application timing budgets:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Application</th><th>Tolerable interruption</th><th>What 200 ms looks like</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Web page load (HTTP)</td><td class="num">~3 s</td><td>Invisible</td></tr>
+            <tr><td>Video stream (buffered)</td><td class="num">~5 s</td><td>Invisible</td></tr>
+            <tr><td>Voice call (RTP)</td><td class="num">~300 ms</td><td>One missed syllable</td></tr>
+            <tr><td>Video call (WebRTC)</td><td class="num">~500 ms</td><td>One brief stutter</td></tr>
+            <tr><td>Real-time gaming</td><td class="num">~100 ms</td><td>One bad tick</td></tr>
+            <tr><td>Stock trading (HFT)</td><td class="num">&lt;10 ms</td><td>Probably broken</td></tr>
+          </tbody>
+        </table>
+
+        <p>For 95% of applications, a 50&ndash;200 ms re-route is genuinely invisible. Only the lowest-latency interactive uses notice it, and HFT firms aren't running over Starlink anyway. For everyone else, satellite failures are statistically indistinguishable from any other transient network blip.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IX. Synthesis
+         ============================================================ -->
+    <section class="reveal" id="ix-synthesis">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>The full resilience synthesis</h2>
+      </div>
+      <div class="section-content">
+        <p>Stack the pieces of the argument:</p>
+
+        <ul>
+          <li><strong>Topology</strong>: 4-regular mesh, ~4,400 nodes per orbital shell, multiple shells with cross-shell ISLs in the v2 design.</li>
+          <li><strong>Path diversity</strong>: between any two satellites 7 hops apart, there are dozens of equally-short paths and hundreds of near-shortest ones.</li>
+          <li><strong>Percolation threshold</strong>: ~41% of satellites can be lost before catastrophic partition.</li>
+          <li><strong>Re-route latency</strong>: 50&ndash;200 ms from failure detection to packets flowing on the new path &mdash; invisible to all but the lowest-latency applications.</li>
+          <li><strong>Ground station resilience</strong>: every satellite sees multiple gateways; a single ground station failure shifts a few hops of traffic but never partitions a user.</li>
+          <li><strong>Comparison to fiber</strong>: better topology than terrestrial backbones (4-regular grid vs sparse mesh), much lower MTTR on damage (milliseconds vs days).</li>
+        </ul>
+
+        <p>The thing that makes the system robust is not redundancy in any one component &mdash; satellites fail at a non-trivial rate (~0.1 per day across the fleet), laser links drop, ground stations have weather outages. The system is robust because <em>the graph is robust</em>. You can take a percolation-theory marker pen to the satellite count and prove it: with 5,000 nodes of degree 4, you have to lose more than 2,000 of them simultaneously before connectivity starts to crack. No system on earth currently delivers a comparable amount of damage in a single event.</p>
+
+        <p>The interesting failure modes are not random ones &mdash; those, the graph absorbs. The interesting failure modes are correlated. A Carrington-class solar storm could degrade thousands of satellites at once. A firmware bug could brick every satellite running a particular software version. A cyber attack on the central planner could push pathological routes to the entire fleet. These aren't percolation problems; they're failure-mode problems, and they're what SpaceX's ops team actually worries about, not the percolation math.</p>
+
+        <p>But for the random, independent failures that fill the news &mdash; debris strikes, individual satellite anomalies, ground-station weather events, the routine churn of a constellation rotating through itself &mdash; the math is overwhelmingly comforting. Lose a hundred satellites overnight and almost nobody notices. The graph theory bought you that for free, just from the topology choice.</p>
+
+        <div class="callout">
+          <div class="callout-title">What you can now teach</div>
+          <p><strong>A 5,000-satellite mesh with 4 links per node has so many redundant paths that losing 100 satellites barely affects throughput.</strong> The math is percolation theory, not heroic engineering &mdash; for a 4-regular graph, you can lose up to ~41% of nodes before the network fragments, and below that threshold the system simply re-routes around damage in tens of milliseconds. Starlink's resilience is a topology property, not a component property.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">Site percolation threshold for the 2D square lattice is p<sub>c</sub> &asymp; 0.59274621. No exact analytical value is known; this is from high-precision Monte Carlo simulations (Newman &amp; Ziff, 2000). Bond percolation on the same lattice has the exact value p<sub>c</sub> = 1/2 (Kesten, 1980). <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The figure of 4 inter-satellite laser links per Starlink v2 satellite comes from FCC filings and SpaceX public statements. Earlier v1.5 satellites had fewer ISLs (some had 3 active links, with one as redundancy or unused). Mini and v2 satellites are designed with 4-laser optical heads as standard. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">The ~95-minute orbital period and 4&ndash;7 minute satellite-visibility window are standard LEO mechanics; see the <a href="../orbital-mechanics/">orbital mechanics</a> explainer for the full derivation from Kepler's third law. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts
+       ============================================================ -->
+  <script>
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var t = document.getElementById(this.getAttribute('href').slice(1));
+        if (t) {
+          e.preventDefault();
+          var navH = document.querySelector('.nav').offsetHeight;
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - navH - 20, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Shared mesh-graph utilities
+       ============================================================ -->
+  <script>
+    // 8 rows x 5 columns = 40 satellites
+    // Each satellite has 4 neighbours:
+    //   - forward in same orbit (row+1, same col)
+    //   - backward in same orbit (row-1, same col)
+    //   - cross-track left (same row, col-1)
+    //   - cross-track right (same row, col+1)
+    // Edges at boundary wrap around to make it a torus (matches orbital geometry).
+    var MESH_ROWS = 8;
+    var MESH_COLS = 5;
+    var MESH_N = MESH_ROWS * MESH_COLS;
+    var SOURCE_IDX = 0;
+    var DEST_IDX = MESH_N - 1;
+
+    function nodeIdx(r, c) {
+      return ((r + MESH_ROWS) % MESH_ROWS) * MESH_COLS + ((c + MESH_COLS) % MESH_COLS);
+    }
+    function nodeRC(idx) {
+      return { r: Math.floor(idx / MESH_COLS), c: idx % MESH_COLS };
+    }
+    function meshNeighbours(idx) {
+      var rc = nodeRC(idx);
+      return [
+        nodeIdx(rc.r - 1, rc.c),
+        nodeIdx(rc.r + 1, rc.c),
+        nodeIdx(rc.r, rc.c - 1),
+        nodeIdx(rc.r, rc.c + 1)
+      ];
+    }
+
+    // Lay out the mesh on canvas
+    function meshLayout(W, H, pad) {
+      pad = pad || { top: 40, right: 40, bottom: 40, left: 40 };
+      var cellW = (W - pad.left - pad.right) / (MESH_COLS - 1);
+      var cellH = (H - pad.top - pad.bottom) / (MESH_ROWS - 1);
+      var positions = [];
+      for (var i = 0; i < MESH_N; i++) {
+        var rc = nodeRC(i);
+        positions.push({
+          x: pad.left + rc.c * cellW,
+          y: pad.top + rc.r * cellH
+        });
+      }
+      return positions;
+    }
+
+    // BFS shortest path on the mesh, respecting failed[] mask
+    function bfsPath(src, dst, failed) {
+      if (failed[src] || failed[dst]) return null;
+      var visited = new Array(MESH_N).fill(false);
+      var parent = new Array(MESH_N).fill(-1);
+      var queue = [src];
+      visited[src] = true;
+      while (queue.length) {
+        var u = queue.shift();
+        if (u === dst) {
+          var path = [];
+          var cur = dst;
+          while (cur !== -1) { path.push(cur); cur = parent[cur]; }
+          return path.reverse();
+        }
+        var nbrs = meshNeighbours(u);
+        for (var i = 0; i < nbrs.length; i++) {
+          var v = nbrs[i];
+          if (!visited[v] && !failed[v]) {
+            visited[v] = true;
+            parent[v] = u;
+            queue.push(v);
+          }
+        }
+      }
+      return null;
+    }
+
+    // Count distinct shortest paths from src to dst, ignoring failed nodes.
+    // Returns # of paths and the shortest length.
+    function countShortestPaths(src, dst, failed) {
+      if (failed[src] || failed[dst]) return { count: 0, length: Infinity };
+      var dist = new Array(MESH_N).fill(Infinity);
+      var ways = new Array(MESH_N).fill(0);
+      dist[src] = 0;
+      ways[src] = 1;
+      var queue = [src];
+      while (queue.length) {
+        var u = queue.shift();
+        var nbrs = meshNeighbours(u);
+        for (var i = 0; i < nbrs.length; i++) {
+          var v = nbrs[i];
+          if (failed[v]) continue;
+          if (dist[v] > dist[u] + 1) {
+            dist[v] = dist[u] + 1;
+            ways[v] = ways[u];
+            queue.push(v);
+          } else if (dist[v] === dist[u] + 1) {
+            ways[v] += ways[u];
+          }
+        }
+      }
+      return { count: ways[dst] || 0, length: dist[dst] };
+    }
+
+    // Largest connected component size, ignoring failed nodes
+    function largestComponent(failed) {
+      var visited = new Array(MESH_N).fill(false);
+      var maxSize = 0;
+      for (var i = 0; i < MESH_N; i++) {
+        if (visited[i] || failed[i]) continue;
+        var size = 0;
+        var queue = [i];
+        visited[i] = true;
+        while (queue.length) {
+          var u = queue.shift();
+          size++;
+          var nbrs = meshNeighbours(u);
+          for (var j = 0; j < nbrs.length; j++) {
+            var v = nbrs[j];
+            if (!visited[v] && !failed[v]) {
+              visited[v] = true;
+              queue.push(v);
+            }
+          }
+        }
+        if (size > maxSize) maxSize = size;
+      }
+      return maxSize;
+    }
+
+    function drawMesh(ctx, positions, failed, opts) {
+      opts = opts || {};
+      // Draw edges first
+      for (var i = 0; i < MESH_N; i++) {
+        if (failed[i]) continue;
+        var nbrs = meshNeighbours(i);
+        for (var j = 0; j < nbrs.length; j++) {
+          var v = nbrs[j];
+          if (v <= i) continue; // avoid duplicate
+          if (failed[v]) continue;
+          // Skip drawing the wrap-around edges (visual clutter)
+          var ri = nodeRC(i), rv = nodeRC(v);
+          if (Math.abs(ri.r - rv.r) > 1 || Math.abs(ri.c - rv.c) > 1) continue;
+          drawLineCanvas(ctx, [positions[i], positions[v]], {
+            color: opts.edgeColor || '#cbd5e0', width: 1
+          });
+        }
+      }
+      // Highlight specific path edges if provided
+      if (opts.pathEdges) {
+        opts.pathEdges.forEach(function(edge) {
+          drawLineCanvas(ctx, [positions[edge[0]], positions[edge[1]]], {
+            color: edge[2] || 'var(--accent)', width: edge[3] || 2.5
+          });
+        });
+      }
+      // Draw nodes
+      for (var k = 0; k < MESH_N; k++) {
+        var pos = positions[k];
+        var r = 6;
+        var fill = '#fff', stroke = '#666';
+        if (failed[k]) { fill = '#fff'; stroke = '#c53030'; }
+        if (k === SOURCE_IDX) { fill = '#38a169'; stroke = '#22543d'; r = 9; }
+        else if (k === DEST_IDX) { fill = '#3182ce'; stroke = '#1a365d'; r = 9; }
+        ctx.save();
+        ctx.fillStyle = fill;
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, r, 0, Math.PI * 2);
+        ctx.fill();
+        if (failed[k]) {
+          // Draw an X over failed nodes
+          ctx.strokeStyle = '#c53030';
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(pos.x - 4, pos.y - 4); ctx.lineTo(pos.x + 4, pos.y + 4);
+          ctx.moveTo(pos.x + 4, pos.y - 4); ctx.lineTo(pos.x - 4, pos.y + 4);
+          ctx.stroke();
+        } else {
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+      // Labels for source / dest
+      drawTextCanvas(ctx, positions[SOURCE_IDX].x, positions[SOURCE_IDX].y - 16, 'SOURCE', {
+        fontSize: 10, weight: '600', color: '#22543d'
+      });
+      drawTextCanvas(ctx, positions[DEST_IDX].x, positions[DEST_IDX].y + 16, 'DEST', {
+        fontSize: 10, weight: '600', color: '#1a365d'
+      });
+    }
+
+    // Seeded random helper for reproducible failure patterns
+    function makeRng(seed) {
+      var s = seed || 12345;
+      return function() {
+        s = (s * 9301 + 49297) % 233280;
+        return s / 233280;
+      };
+    }
+
+    // Pick K random non-source/non-dest nodes to fail
+    function randomFailures(count, rng) {
+      var failed = new Array(MESH_N).fill(false);
+      var candidates = [];
+      for (var i = 0; i < MESH_N; i++) {
+        if (i !== SOURCE_IDX && i !== DEST_IDX) candidates.push(i);
+      }
+      // Shuffle
+      for (var j = candidates.length - 1; j > 0; j--) {
+        var k = Math.floor(rng() * (j + 1));
+        var tmp = candidates[j]; candidates[j] = candidates[k]; candidates[k] = tmp;
+      }
+      for (var m = 0; m < Math.min(count, candidates.length); m++) {
+        failed[candidates[m]] = true;
+      }
+      return failed;
+    }
+  </script>
+
+  <!-- ============================================================
+       WIDGET 1 — Routing graph with path redundancy
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 420 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    var state = {
+      failCount: 0,
+      pathsToShow: 5,
+      seed: 7,
+      failed: new Array(MESH_N).fill(false)
+    };
+
+    function regenerate() {
+      var rng = makeRng(state.seed);
+      state.failed = randomFailures(state.failCount, rng);
+    }
+
+    function findKShortestPaths(src, dst, failed, K) {
+      // Yen-like enumeration of shortest paths (simple version): BFS-based
+      // We'll find up to K distinct simple paths by repeated BFS where each
+      // iteration penalises an edge from the previously-found path.
+      var paths = [];
+      var usedEdges = {}; // edgeKey -> count for soft penalty
+      function edgeKey(a, b) { return a < b ? a + '_' + b : b + '_' + a; }
+      for (var k = 0; k < K * 3 && paths.length < K; k++) {
+        // Weighted BFS using Dijkstra with unit edge weight + penalty for used edges
+        var dist = new Array(MESH_N).fill(Infinity);
+        var parent = new Array(MESH_N).fill(-1);
+        dist[src] = 0;
+        var visited = new Array(MESH_N).fill(false);
+        // Simple priority queue (small N so O(N^2) is fine)
+        for (var step = 0; step < MESH_N; step++) {
+          var u = -1, best = Infinity;
+          for (var i = 0; i < MESH_N; i++) {
+            if (!visited[i] && dist[i] < best) { best = dist[i]; u = i; }
+          }
+          if (u === -1) break;
+          visited[u] = true;
+          if (u === dst) break;
+          var nbrs = meshNeighbours(u);
+          for (var n = 0; n < nbrs.length; n++) {
+            var v = nbrs[n];
+            if (failed[v]) continue;
+            var w = 1 + (usedEdges[edgeKey(u, v)] || 0) * 1.5;
+            if (dist[u] + w < dist[v]) {
+              dist[v] = dist[u] + w;
+              parent[v] = u;
+            }
+          }
+        }
+        if (parent[dst] === -1 && dst !== src) break;
+        // Reconstruct path
+        var p = [];
+        var cur = dst;
+        while (cur !== -1) { p.push(cur); cur = parent[cur]; }
+        p.reverse();
+        if (p[0] !== src) break;
+        // Check uniqueness
+        var pKey = p.join(',');
+        var dup = false;
+        for (var d = 0; d < paths.length; d++) {
+          if (paths[d].join(',') === pKey) { dup = true; break; }
+        }
+        if (!dup) paths.push(p);
+        // Penalise edges in this path
+        for (var e = 0; e < p.length - 1; e++) {
+          var key = edgeKey(p[e], p[e+1]);
+          usedEdges[key] = (usedEdges[key] || 0) + 1;
+        }
+      }
+      return paths;
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 50, right: 40, bottom: 50, left: 40 };
+      var positions = meshLayout(W, H, pad);
+
+      // Compute K shortest paths
+      var K = state.pathsToShow;
+      var paths = findKShortestPaths(SOURCE_IDX, DEST_IDX, state.failed, K);
+
+      // Collect edges for each path with a colour
+      var pathEdges = [];
+      var palette = ['#1a202c', '#3182ce', '#38a169', '#dd6b20', '#805ad5', '#319795', '#c53030', '#718096'];
+      for (var p = 0; p < paths.length; p++) {
+        var path = paths[p];
+        for (var e = 0; e < path.length - 1; e++) {
+          pathEdges.push([path[e], path[e+1], palette[p % palette.length], 2.5]);
+        }
+      }
+
+      drawMesh(ctx, positions, state.failed, { pathEdges: pathEdges });
+
+      // Title
+      drawTextCanvas(ctx, W/2, 18, '8 orbital planes × 5 satellites — 4 links per node', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Stats
+      var liveCount = MESH_N;
+      for (var i = 0; i < MESH_N; i++) if (state.failed[i]) liveCount--;
+      var sp = countShortestPaths(SOURCE_IDX, DEST_IDX, state.failed);
+
+      document.getElementById('w1-live').textContent = liveCount + ' / ' + MESH_N;
+      if (paths.length > 0) {
+        document.getElementById('w1-spath').textContent = (paths[0].length - 1) + ' hops';
+        document.getElementById('w1-pcount').textContent = (sp.count > 999 ? '999+' : sp.count);
+        document.getElementById('w1-conn').textContent = 'Yes';
+      } else {
+        document.getElementById('w1-spath').textContent = '—';
+        document.getElementById('w1-pcount').textContent = '0';
+        document.getElementById('w1-conn').textContent = 'NO';
+      }
+    }
+
+    regenerate();
+
+    attachSliders([
+      { el: document.getElementById('w1-fail'),  label: document.getElementById('w1-fail-val'),  format: function(v) { return v.toFixed(0); } },
+      { el: document.getElementById('w1-paths'), label: document.getElementById('w1-paths-val'), format: function(v) { return v.toFixed(0); } }
+    ], function(vals) {
+      var prevCount = state.failCount;
+      state.failCount = vals['w1-fail'];
+      state.pathsToShow = vals['w1-paths'];
+      if (state.failCount !== prevCount) regenerate();
+      render();
+    });
+
+    attachButton('#w1-reseed', function() {
+      state.seed = Math.floor(Math.random() * 100000);
+      regenerate();
+      render();
+    });
+    attachButton('#w1-reset', function() {
+      state.failCount = 0;
+      state.seed = 7;
+      document.getElementById('w1-fail').value = 0;
+      document.getElementById('w1-fail-val').textContent = '0';
+      regenerate();
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Failover animation
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 420 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    var state = {
+      failed: new Array(MESH_N).fill(false),
+      packets: [],
+      delivered: 0,
+      disconnected: 0,
+      currentPath: null,
+      rng: makeRng(42)
+    };
+
+    var positions = null;
+    var pad = { top: 50, right: 40, bottom: 50, left: 40 };
+
+    function recomputePath() {
+      state.currentPath = bfsPath(SOURCE_IDX, DEST_IDX, state.failed);
+    }
+
+    function failRandom(count) {
+      var candidates = [];
+      for (var i = 0; i < MESH_N; i++) {
+        if (i !== SOURCE_IDX && i !== DEST_IDX && !state.failed[i]) candidates.push(i);
+      }
+      for (var j = candidates.length - 1; j > 0; j--) {
+        var k = Math.floor(state.rng() * (j + 1));
+        var tmp = candidates[j]; candidates[j] = candidates[k]; candidates[k] = tmp;
+      }
+      for (var m = 0; m < Math.min(count, candidates.length); m++) {
+        state.failed[candidates[m]] = true;
+      }
+      recomputePath();
+      updateReadouts();
+    }
+
+    function failNearSource(count) {
+      // Fail the immediate neighbours of source first
+      var nbrs = meshNeighbours(SOURCE_IDX);
+      for (var i = 0; i < Math.min(count, nbrs.length); i++) {
+        if (nbrs[i] !== SOURCE_IDX && nbrs[i] !== DEST_IDX) state.failed[nbrs[i]] = true;
+      }
+      recomputePath();
+      updateReadouts();
+    }
+
+    function reset() {
+      state.failed = new Array(MESH_N).fill(false);
+      state.packets = [];
+      state.delivered = 0;
+      state.disconnected = 0;
+      state.rng = makeRng(42);
+      recomputePath();
+      updateReadouts();
+    }
+
+    function updateReadouts() {
+      var failCount = 0;
+      for (var i = 0; i < MESH_N; i++) if (state.failed[i]) failCount++;
+      document.getElementById('w2-failed').textContent = failCount;
+      document.getElementById('w2-delivered').textContent = state.delivered;
+      if (state.currentPath) {
+        document.getElementById('w2-path').textContent = (state.currentPath.length - 1) + ' hops';
+        state.disconnected = 0;
+      } else {
+        document.getElementById('w2-path').textContent = 'NONE';
+        state.disconnected = 1;
+      }
+      document.getElementById('w2-disc').textContent = state.disconnected;
+    }
+
+    function spawnPacket() {
+      if (!state.currentPath || state.currentPath.length < 2) return;
+      state.packets.push({
+        pathIdx: 0,
+        progress: 0,
+        speed: 0.018 // path-segments per frame approximately
+      });
+    }
+
+    function tickPackets(dt) {
+      var newPackets = [];
+      for (var i = 0; i < state.packets.length; i++) {
+        var pkt = state.packets[i];
+        pkt.progress += pkt.speed * (dt / 16.67); // normalise to 60fps
+        if (pkt.progress >= 1) {
+          pkt.pathIdx++;
+          pkt.progress -= 1;
+        }
+        if (state.currentPath && pkt.pathIdx >= state.currentPath.length - 1) {
+          state.delivered++;
+        } else if (state.currentPath) {
+          // Check if a satellite under us has died — if so, kill this packet
+          var here = state.currentPath[pkt.pathIdx];
+          if (state.failed[here]) {
+            // Packet lost; doesn't count toward delivered
+          } else {
+            newPackets.push(pkt);
+          }
+        }
+      }
+      state.packets = newPackets;
+    }
+
+    function drawPackets() {
+      if (!state.currentPath) return;
+      for (var i = 0; i < state.packets.length; i++) {
+        var pkt = state.packets[i];
+        var idx = pkt.pathIdx;
+        if (idx >= state.currentPath.length - 1) continue;
+        var a = positions[state.currentPath[idx]];
+        var b = positions[state.currentPath[idx + 1]];
+        var x = lerp(a.x, b.x, pkt.progress);
+        var y = lerp(a.y, b.y, pkt.progress);
+        drawPointCanvas(ctx, x, y, 4, '#dd6b20', '#fff');
+      }
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      positions = meshLayout(W, H, pad);
+
+      // Highlight current path
+      var pathEdges = [];
+      if (state.currentPath) {
+        for (var e = 0; e < state.currentPath.length - 1; e++) {
+          pathEdges.push([state.currentPath[e], state.currentPath[e+1], '#dd6b20', 3]);
+        }
+      }
+      drawMesh(ctx, positions, state.failed, { pathEdges: pathEdges });
+
+      // Title
+      drawTextCanvas(ctx, W/2, 18, 'Packets re-route as satellites fail', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      drawPackets();
+    }
+
+    reset();
+
+    // Spawn a new packet every ~600 ms
+    var lastSpawn = 0;
+    var anim = animate(function(t, dt) {
+      if (t - lastSpawn > 600) {
+        spawnPacket();
+        lastSpawn = t;
+      }
+      tickPackets(dt);
+      render();
+      // periodic readouts update for delivered count
+      if (Math.floor(t / 200) % 2 === 0) {
+        document.getElementById('w2-delivered').textContent = state.delivered;
+      }
+    });
+    anim.start();
+
+    attachButton('#w2-fail1', function() { failRandom(1); });
+    attachButton('#w2-fail10', function() { failRandom(10); });
+    attachButton('#w2-fail20', function() { failRandom(20); });
+    attachButton('#w2-fail-source', function() { failNearSource(3); });
+    attachButton('#w2-reset', function() { reset(); });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Percolation threshold simulator
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // For this widget, use a larger 12x12 toroidal grid for cleaner stats
+    var PERC_ROWS = 12, PERC_COLS = 12;
+    var PERC_N = PERC_ROWS * PERC_COLS;
+
+    function percNodeIdx(r, c) {
+      return ((r + PERC_ROWS) % PERC_ROWS) * PERC_COLS + ((c + PERC_COLS) % PERC_COLS);
+    }
+    function percRC(i) { return { r: Math.floor(i / PERC_COLS), c: i % PERC_COLS }; }
+    function percNeighbours(i) {
+      var rc = percRC(i);
+      return [
+        percNodeIdx(rc.r - 1, rc.c),
+        percNodeIdx(rc.r + 1, rc.c),
+        percNodeIdx(rc.r, rc.c - 1),
+        percNodeIdx(rc.r, rc.c + 1)
+      ];
+    }
+
+    // Components on a perc grid given failed mask
+    function percLargestComponent(failed) {
+      var visited = new Array(PERC_N).fill(false);
+      var maxSize = 0;
+      for (var i = 0; i < PERC_N; i++) {
+        if (visited[i] || failed[i]) continue;
+        var size = 0;
+        var queue = [i];
+        visited[i] = true;
+        while (queue.length) {
+          var u = queue.shift();
+          size++;
+          var nbrs = percNeighbours(u);
+          for (var j = 0; j < nbrs.length; j++) {
+            var v = nbrs[j];
+            if (!visited[v] && !failed[v]) {
+              visited[v] = true;
+              queue.push(v);
+            }
+          }
+        }
+        if (size > maxSize) maxSize = size;
+      }
+      return maxSize;
+    }
+
+    // Returns connection probability across random src-dst pairs at given failure rate
+    function singleTrial(failRate) {
+      var failed = new Array(PERC_N).fill(false);
+      for (var i = 0; i < PERC_N; i++) {
+        if (Math.random() < failRate) failed[i] = true;
+      }
+      // Pick K random src-dst pairs and count connected fraction
+      var K = 30;
+      var connected = 0;
+      for (var k = 0; k < K; k++) {
+        var src = Math.floor(Math.random() * PERC_N);
+        var dst = Math.floor(Math.random() * PERC_N);
+        while (dst === src) dst = Math.floor(Math.random() * PERC_N);
+        if (failed[src] || failed[dst]) continue;
+        // BFS
+        var visited = new Array(PERC_N).fill(false);
+        var queue = [src];
+        visited[src] = true;
+        var found = false;
+        while (queue.length) {
+          var u = queue.shift();
+          if (u === dst) { found = true; break; }
+          var nbrs = percNeighbours(u);
+          for (var n = 0; n < nbrs.length; n++) {
+            var v = nbrs[n];
+            if (!visited[v] && !failed[v]) {
+              visited[v] = true;
+              queue.push(v);
+            }
+          }
+        }
+        if (found) connected++;
+      }
+      return {
+        connectFrac: connected / K,
+        largest: percLargestComponent(failed),
+        failed: failed
+      };
+    }
+
+    var state = {
+      failRate: 0.30,
+      runs: 40,
+      sweepData: null
+    };
+
+    function runSweep() {
+      var points = [];
+      for (var p = 0; p <= 100; p += 5) {
+        var rate = p / 100;
+        var sumConn = 0;
+        var sumLargest = 0;
+        for (var r = 0; r < state.runs; r++) {
+          var t = singleTrial(rate);
+          sumConn += t.connectFrac;
+          sumLargest += t.largest;
+        }
+        points.push({
+          rate: rate,
+          connectFrac: sumConn / state.runs,
+          largestFrac: (sumLargest / state.runs) / PERC_N
+        });
+      }
+      state.sweepData = points;
+    }
+
+    function runSingle() {
+      var sumConn = 0;
+      var sumLargest = 0;
+      var lastTrial = null;
+      for (var r = 0; r < state.runs; r++) {
+        var t = singleTrial(state.failRate);
+        sumConn += t.connectFrac;
+        sumLargest += t.largest;
+        if (r === 0) lastTrial = t;
+      }
+      return {
+        connectFrac: sumConn / state.runs,
+        largestFrac: (sumLargest / state.runs) / PERC_N
+      };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 40, right: 24, bottom: 50, left: 60 };
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['0%', '20%', '40%', '60%', '80%', '100%'],
+        yMin: 0, yMax: 1, ySteps: 5,
+        yFmt: function(v) { return (v * 100).toFixed(0) + '%'; }
+      });
+
+      // Threshold marker at p_c = 0.5927 (failure rate = 1 - 0.5927 = 0.4073)
+      var plotW = W - pad.left - pad.right;
+      var thresholdX = pad.left + 0.4073 * plotW;
+      ctx.save();
+      ctx.strokeStyle = '#c53030'; ctx.setLineDash([5, 5]); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(thresholdX, pad.top); ctx.lineTo(thresholdX, H - pad.bottom); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, thresholdX, pad.top - 8, 'p_c ≈ 0.41 (site percolation)', {
+        fontSize: 10, color: '#c53030', align: 'center'
+      });
+
+      // Plot sweep
+      if (state.sweepData) {
+        var ptsConn = state.sweepData.map(function(p) {
+          return { x: mapX(p.rate, 0, 1, W, pad), y: mapY(p.connectFrac, 0, 1, H, pad) };
+        });
+        drawLineCanvas(ctx, ptsConn, { color: 'var(--accent)', width: 2.5 });
+        for (var i = 0; i < ptsConn.length; i++) {
+          drawPointCanvas(ctx, ptsConn[i].x, ptsConn[i].y, 3, 'var(--accent)', '#fff');
+        }
+
+        var ptsLargest = state.sweepData.map(function(p) {
+          return { x: mapX(p.rate, 0, 1, W, pad), y: mapY(p.largestFrac, 0, 1, H, pad) };
+        });
+        drawLineCanvas(ctx, ptsLargest, { color: '#3182ce', width: 1.8, dashed: [4, 4] });
+      }
+
+      // Current point
+      var single = runSingle();
+      var px = mapX(state.failRate, 0, 1, W, pad);
+      var py = mapY(single.connectFrac, 0, 1, H, pad);
+      drawPointCanvas(ctx, px, py, 6, '#dd6b20', '#fff');
+
+      // Title + legend
+      drawTextCanvas(ctx, W/2, 16, 'Fraction connected vs failure rate (12×12 torus, 144 nodes)', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      drawTextCanvas(ctx, pad.left + 60, H - pad.bottom + 30, '— Source-dest connection probability', {
+        fontSize: 10, color: 'var(--accent)', align: 'left'
+      });
+      drawTextCanvas(ctx, pad.left + 60, H - pad.bottom + 42, '┄┄ Fraction in largest component', {
+        fontSize: 10, color: '#3182ce', align: 'left'
+      });
+
+      document.getElementById('w3-prob').textContent = (single.connectFrac * 100).toFixed(0) + '%';
+      document.getElementById('w3-comp').textContent = (single.largestFrac * 100).toFixed(0) + '%';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-rate'), label: document.getElementById('w3-rate-val'), format: function(v) { return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w3-runs'), label: document.getElementById('w3-runs-val'), format: function(v) { return v.toFixed(0); } }
+    ], function(vals) {
+      state.failRate = vals['w3-rate'] / 100;
+      state.runs = vals['w3-runs'];
+      render();
+    });
+
+    attachButton('#w3-sweep', function() {
+      runSweep();
+      render();
+    });
+
+    // Run an initial sweep so the chart isn't empty
+    runSweep();
+    render();
+  })();
+  </script>
+
+</body>
+</html>

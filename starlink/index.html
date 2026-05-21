@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Starlink Explainers</title>
-  <meta name="description" content="First-principles interactive explainers on SpaceX's Starlink — orbital mechanics, phased arrays, link budgets, laser ISLs.">
+  <meta name="description" content="First-principles interactive explainers on SpaceX's Starlink — orbital mechanics, phased arrays, link budgets, laser ISLs, self-healing meshes, launch economics, Kessler risk.">
   <meta name="author" content="Aditya Thakker">
 
   <meta property="og:title" content="Starlink Explainers">
@@ -38,33 +38,90 @@
     </header>
 
     <section class="section">
-      <h2 class="section-label">First-Principles Engineering</h2>
+      <h2 class="section-label">First Principles</h2>
       <main class="card-grid">
+
         <a href="why-leo/index.html" class="card">
           <div class="card-hero" style="background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%);">
             <h2>Why LEO, Not GEO</h2>
-            <span class="card-badge">New</span>
+            <span class="card-badge">Pilot</span>
           </div>
           <div class="card-body">
             <p>3 satellites at GEO would seem to win. Then physics gets a vote &mdash; latency, link budget, and launch economics make 4,000+ LEO satellites the only answer.</p>
             <div class="card-meta">9 chapters &middot; 3 simulations &middot; 25 min read</div>
           </div>
         </a>
-      </main>
-    </section>
 
-    <section class="section">
-      <h2 class="section-label">Coming Soon</h2>
-      <main class="card-grid">
-        <a href="#" class="card" style="cursor: default; opacity: 0.55;">
-          <div class="card-hero" style="background: linear-gradient(135deg, #2d3748 0%, #718096 100%);">
-            <h2>More explainers being built</h2>
+        <a href="orbital-mechanics/index.html" class="card">
+          <div class="card-hero" style="background: linear-gradient(135deg, #2c5282 0%, #4299e1 100%);">
+            <h2>Orbital Mechanics</h2>
           </div>
           <div class="card-body">
-            <p>How a satellite stays up (orbital mechanics) &middot; Phased-array beam steering &middot; The link budget &middot; Laser inter-satellite links &middot; Why a constellation self-heals &middot; The launch economics &middot; Kessler syndrome risk.</p>
-            <div class="card-meta">In the pipeline</div>
+            <p>An orbit is a balance: gravity pulling down, tangential velocity carrying sideways. The satellite is in free fall &mdash; it just keeps missing the Earth.</p>
+            <div class="card-meta">9 chapters &middot; 3 simulations &middot; 28 min read</div>
           </div>
         </a>
+
+        <a href="phased-array/index.html" class="card">
+          <div class="card-hero" style="background: linear-gradient(135deg, #553c9a 0%, #9f7aea 100%);">
+            <h2>Phased Arrays</h2>
+          </div>
+          <div class="card-body">
+            <p>A flat antenna with no moving parts points its beam anywhere in the sky by adjusting the phase of signals at each element &mdash; electronically steered in microseconds.</p>
+            <div class="card-meta">9 chapters &middot; 3 simulations &middot; 22 min read</div>
+          </div>
+        </a>
+
+        <a href="link-budget/index.html" class="card">
+          <div class="card-hero" style="background: linear-gradient(135deg, #285e61 0%, #319795 100%);">
+            <h2>The Link Budget</h2>
+          </div>
+          <div class="card-body">
+            <p>Every RF link is a single ledger in decibels &mdash; gains add, losses subtract, the bottom line says "works" or "doesn't." 6 losses, 4 gains, one threshold.</p>
+            <div class="card-meta">9 chapters &middot; 3 calculators &middot; 28 min read</div>
+          </div>
+        </a>
+
+        <a href="laser-isl/index.html" class="card">
+          <div class="card-hero" style="background: linear-gradient(135deg, #742a2a 0%, #e53e3e 100%);">
+            <h2>Laser Inter-Satellite Links</h2>
+          </div>
+          <div class="card-body">
+            <p>Pointing a laser at a target 5,000 km away moving at 7 km/s is harder than the laser itself. Beam divergence, atomic-scale pointing, and Doppler shift are the three real problems.</p>
+            <div class="card-meta">9 chapters &middot; 3 simulations &middot; 28 min read</div>
+          </div>
+        </a>
+
+        <a href="self-healing/index.html" class="card">
+          <div class="card-hero" style="background: linear-gradient(135deg, #22543d 0%, #38a169 100%);">
+            <h2>The Self-Healing Mesh</h2>
+          </div>
+          <div class="card-body">
+            <p>5,000+ moving satellites, 4 laser links per node, and so much path redundancy that losing 100 satellites barely affects throughput. Graph theory, not heroic engineering.</p>
+            <div class="card-meta">9 chapters &middot; 3 simulations &middot; 24 min read</div>
+          </div>
+        </a>
+
+        <a href="launch-economics/index.html" class="card">
+          <div class="card-hero" style="background: linear-gradient(135deg, #7b341e 0%, #dd6b20 100%);">
+            <h2>Launch Economics</h2>
+          </div>
+          <div class="card-body">
+            <p>Falcon 9 reuse didn't just cut the cost of rockets &mdash; it cut the cost of every constellation. At $20,000/kg no constellation pencils; at $1,500/kg, Starlink ships.</p>
+            <div class="card-meta">9 chapters &middot; 3 simulations &middot; 28 min read</div>
+          </div>
+        </a>
+
+        <a href="kessler-risk/index.html" class="card">
+          <div class="card-hero" style="background: linear-gradient(135deg, #63171b 0%, #c53030 100%);">
+            <h2>Kessler Risk</h2>
+          </div>
+          <div class="card-body">
+            <p>Every new satellite raises pairwise collision probability non-linearly. At Starlink's scale the math is no longer hypothetical &mdash; but altitude buys you back.</p>
+            <div class="card-meta">9 chapters &middot; 3 simulations &middot; 28 min read</div>
+          </div>
+        </a>
+
       </main>
     </section>
 

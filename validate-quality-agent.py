@@ -37,8 +37,8 @@ from typing import List, Optional
 REPO_ROOT = Path(__file__).resolve().parent
 QUALITY_MD = REPO_ROOT / "QUALITY.md"
 CACHE_FILE = REPO_ROOT / ".quality-cache.json"
-VERTICALS = ["market", "insurance"]
-SKIP_RELATIVE = {"market/index.html", "insurance/index.html"}
+VERTICALS = ["market", "insurance", "starlink"]
+SKIP_RELATIVE = {"market/index.html", "insurance/index.html", "starlink/index.html"}
 
 DEFAULT_MODEL = "sonnet"
 DEFAULT_PARALLELISM = 3

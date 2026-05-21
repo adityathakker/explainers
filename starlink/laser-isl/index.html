@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laser Inter-Satellite Links — Starlink Explainers</title>
+  <meta name="description" content="Pointing a laser at a target 5,000 km away moving at 7 km/s is harder than the laser itself. Beam divergence, atomic-scale pointing, and Doppler shift are the real problems.">
+  <meta name="author" content="Starlink Explainers">
+
+  <meta property="og:title" content="Laser Inter-Satellite Links">
+  <meta property="og:description" content="Pointing a laser at a 5,000 km target moving at 7 km/s is the real problem. Modulation is easy.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #1a202c;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%); }
+
+    /* Widget-specific layout */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .readout-sub {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Starlink Explainers
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Laser Inter-Satellite Links</h1>
+      <p class="hero__subtitle">Pointing a laser at a target 5,000 km away that's moving at 7 km/s relative to you is harder than the laser itself. Beam divergence, atomic-scale pointing, and Doppler shift are the three real problems.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 28 min read</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-why-laser">Why use lasers between satellites and not radio?</a></li>
+        <li><a href="#ii-divergence">Why does a laser spread out &mdash; and by how much at 5,000 km?</a></li>
+        <li><a href="#iii-pointing">How precisely must you point a laser at a moving target?</a></li>
+        <li><a href="#iv-doppler">What is the Doppler shift at 7 km/s &mdash; and does it matter?</a></li>
+        <li><a href="#v-photons">How does the receiver actually detect a few hundred photons?</a></li>
+        <li><a href="#vi-data-rate">What is the data-rate ceiling at these distances?</a></li>
+        <li><a href="#vii-acquisition">How does Starlink acquire and track another satellite?</a></li>
+        <li><a href="#viii-atmosphere">Why doesn't atmospheric scintillation affect ISLs?</a></li>
+        <li><a href="#ix-synthesis">The full ISL synthesis</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <!-- ============================================================
+         I. Why laser
+         ============================================================ -->
+    <section class="reveal" id="i-why-laser">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why use lasers between satellites and not radio?</h2>
+      </div>
+      <div class="section-content">
+        <p>Every Starlink v1.5 and v2 satellite has four lasers bolted to it. Each one targets a different neighbour satellite &mdash; one in the same orbital plane ahead, one behind, and one in each of the two adjacent planes. Each link runs around 100&ndash;200 Gbps over a distance that ranges from 500 km (in-plane neighbours) to over 5,000 km (cross-plane links near the poles). The lasers operate around 1550 nm in the infrared. There are now more operating optical communication terminals in low Earth orbit than there are on Earth's surface, and almost all of them are Starlink.</p>
+
+        <p>The first question is the obvious one: <em>why bother?</em> Starlink already uses radio for the user uplink (Ku-band, ~12&ndash;14 GHz) and Ka-band gateways. RF is mature, the silicon is cheap, the physics is forgiving. Why introduce optical?</p>
+
+        <p>The answer is that satellite-to-satellite links live in a parameter regime where RF stops being attractive. Three things break:</p>
+
+        <ul>
+          <li><strong>Spectrum.</strong> The radio spectrum is allocated, regulated, and crowded. A 100 GHz-wide chunk in the optical band carries roughly 1,000&times; the data of a typical Ka-band allocation, and it requires no FCC license &mdash; nobody is broadcasting at 1550 nm.</li>
+          <li><strong>Antenna size.</strong> Antenna gain for a given physical aperture scales with frequency. To get 1&deg; of beamwidth at 12 GHz, you need a 2-metre dish; at 200 THz (1550 nm), a 1-cm aperture does it. On a satellite, mass and area are the constraints, not power.</li>
+          <li><strong>Interference.</strong> Two adjacent satellites firing RF at each other would also jam every ground receiver in the footprint. Lasers are spatially confined &mdash; a 75-metre spot at 5,000 km doesn't hit anything but the target. Quiet, in radio terms.</li>
+        </ul>
+
+        <p>So lasers are the obvious choice. The catch is that everything that makes a laser a great inter-satellite communicator &mdash; the tiny beamwidth, the high frequency, the spatial confinement &mdash; is exactly what makes <em>pointing it</em> the dominant engineering problem. <strong>Modulating data onto a 1550 nm carrier is solved telecom physics from the 1980s. Hitting a target 5,000 km away that's moving at 7 km/s relative to you, with arcsecond accuracy, while both satellites are vibrating in orbit, is the real work.</strong></p>
+
+        <p>This article walks through that work. Three widgets cover the three hard problems: beam divergence (the laser doesn't stay a pinprick), pointing accuracy (you have to hit a 30 cm aperture from 5,000 km away), and Doppler shift (the relative motion offsets the carrier frequency by gigahertz). The math is shown. The numbers are real.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Beam divergence
+         ============================================================ -->
+    <section class="reveal" id="ii-divergence">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>Why does a laser spread out &mdash; and by how much at 5,000 km?</h2>
+      </div>
+      <div class="section-content">
+        <p>A laser pointer in your hand looks like a perfect pencil of light because, on the scale of your living room, it is. Shine it at a wall ten metres away and the spot is a millimetre or two larger than the aperture. Shine it at the Moon and the spot is two kilometres across. The reason is <em>diffraction</em>, and it is unavoidable. The minimum divergence of any beam, set by the wave nature of light itself, is the Rayleigh criterion:</p>
+
+        <div class="math-block">
+          &theta;<sub>div</sub> &asymp; 1.22 &middot; &lambda; / D
+          <span class="math-where">&theta;<sub>div</sub> = half-angle divergence (radians); &lambda; = wavelength; D = transmit aperture diameter</span>
+        </div>
+
+        <p>This is the same formula that limits the resolving power of telescopes &mdash; the diffraction limit. A wave passing through an aperture of diameter <span class="math">D</span> cannot stay collimated; it spreads into an Airy pattern with angular radius <span class="math">1.22&lambda;/D</span>. There is no way around it. You can make <span class="math">D</span> bigger (bigger transmit telescope) or <span class="math">&lambda;</span> smaller (shorter wavelength, but you start running into atmospheric absorption windows and laser-physics constraints), but you cannot get a beam that doesn't spread.</p>
+
+        <p>Plug in Starlink's numbers. The laser is at <span class="math">&lambda; = 1550 nm</span>, the transmit aperture (informed by published patents and teardowns) is roughly <span class="math">D = 10 cm</span>:</p>
+
+        <div class="math-block">
+          &theta;<sub>div</sub> = 1.22 &times; (1.55 &times; 10<sup>&minus;6</sup> m) / (0.10 m)
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;= 1.89 &times; 10<sup>&minus;5</sup> rad
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&asymp; 19 microradians (&micro;rad)
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&asymp; 3.9 arcseconds
+          <span class="math-where">half-angle &mdash; the full beam cone is twice this</span>
+        </div>
+
+        <p>19 microradians sounds tiny. It is tiny on the scale of human perception. But across 5,000 km of vacuum, it expands the beam dramatically. The spot diameter at distance <span class="math">d</span> is:</p>
+
+        <div class="math-block">
+          D<sub>spot</sub> &asymp; D + 2 &middot; d &middot; tan(&theta;<sub>div</sub>)
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&asymp; 0.10 m + 2 &times; (5 &times; 10<sup>6</sup> m) &times; (1.89 &times; 10<sup>&minus;5</sup>)
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&asymp; 0.10 m + 189 m
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&asymp; <strong>189 m</strong>
+          <span class="math-where">at d = 5,000 km, &lambda; = 1550 nm, D = 10 cm</span>
+        </div>
+
+        <p>The laser leaves Starlink as a 10-cm spot. By the time it reaches the next Starlink satellite, it has bloomed to a circle <strong>roughly the size of a city block</strong>. The receiver, with a ~10&ndash;30 cm aperture, captures only the small central fraction of this spot &mdash; the fraction of the area covered by the receive aperture relative to the spot area, which is roughly <span class="math">(D<sub>rx</sub> / D<sub>spot</sub>)<sup>2</sup>&nbsp;&asymp;&nbsp;3&nbsp;&times;&nbsp;10<sup>&minus;7</sup></span>. Three parts in ten million of the transmitted power makes it through.</p>
+
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Beam Divergence at Distance</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Wavelength</span><span class="slider-value" id="w1-lambda-val">1550 nm</span></div>
+              <input type="range" id="w1-lambda" min="800" max="1550" value="1550" step="10">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Transmit aperture</span><span class="slider-value" id="w1-d-val">10 cm</span></div>
+              <input type="range" id="w1-d" min="1" max="30" value="10" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Divergence</div><div class="readout-value" id="w1-div">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Spot @ 5,000 km</div><div class="readout-value" id="w1-spot">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Power capture</div><div class="readout-value" id="w1-capture">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Two satellites separated by 5,000 km, beam cone drawn to scale (vertically exaggerated). Push the transmit aperture from 1 cm to 30 cm and watch the spot at the receiver shrink. The receiver aperture (drawn at the right) catches only the central fraction. At &lambda; = 1550 nm and D = 10 cm, expect a 75&ndash;200 m spot.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the 1.22 factor and beam-shape gotchas</summary>
+          <p>The 1.22&lambda;/D formula assumes a circular aperture with uniform illumination &mdash; the classic Rayleigh criterion for the Airy disk. Real laser beams are usually <em>Gaussian</em>, where the divergence is <span class="math">&lambda; / (&pi;w<sub>0</sub>)</span> for a beam waist <span class="math">w<sub>0</sub></span>. The full-aperture, uniform-illumination 1.22 factor is the most pessimistic case; a well-shaped Gaussian beam through a properly oversized aperture can do about 1.6&times; better. For a first-principles estimate, the 1.22 number is the right ballpark.</p>
+          <p>The other complication: at long distances, the beam waist isn't at the transmit aperture &mdash; it can be focused at any intermediate range. Mission designers usually focus the beam at the target distance (5,000 km), which minimises the spot at the receiver. This is why the spot in the calculations above (~189 m) is an upper bound for a perfectly-collimated launch; with focusing, real Starlink ISL spots are believed to be 30&ndash;100 m at peak link distance.</p>
+        </details>
+
+        <p>189 metres at 5,000 km is the headline. A beam that started at 10 cm has expanded by a factor of nearly 2,000. The receiver, with maybe 30 cm of aperture, sees a sliver of the total transmitted energy. This is the divergence tax, and it is what every link-budget calculation has to absorb.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Pointing accuracy
+         ============================================================ -->
+    <section class="reveal" id="iii-pointing">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>How precisely must you point a laser at a moving target?</h2>
+      </div>
+      <div class="section-content">
+        <p>If the spot at the receiver is 189 m wide, and the receiver aperture is 30 cm, the laser has to be pointed so that the centre of its beam stays inside that 30-cm circle. Anything more and you're hitting empty space; the receiver photodiode gets nothing. The pointing error budget is the angle &Delta;&theta; such that the beam centre, after traversing distance <span class="math">d</span>, is still inside the receiver aperture.</p>
+
+        <div class="math-block">
+          &Delta;&theta;<sub>max</sub> &asymp; (D<sub>rx</sub> / 2) / d
+          <span class="math-where">&Delta;&theta;<sub>max</sub> = max pointing error (radians); D<sub>rx</sub> = receiver aperture diameter; d = link distance. Linear approximation valid for small angles.</span>
+        </div>
+
+        <p>With <span class="math">d = 5,000 km</span> and <span class="math">D<sub>rx</sub> = 30 cm</span>:</p>
+
+        <div class="math-block">
+          &Delta;&theta;<sub>max</sub> = 0.15 m / 5 &times; 10<sup>6</sup> m
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;= 3 &times; 10<sup>&minus;8</sup> rad
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;= 30 nanoradians
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&asymp; <strong>0.006 arcseconds</strong>
+          <span class="math-where">an arcsecond is 1/3600 of a degree</span>
+        </div>
+
+        <p>Six thousandths of an arcsecond. Hubble's pointing stability is roughly 7 milliarcseconds &mdash; 0.007 arcseconds &mdash; achieved with gyroscopes, reaction wheels, fine-guidance sensors locked onto specific guide stars, and an entire engineering program built around it. <strong>Starlink's ISL pointing accuracy is in Hubble territory, four times per satellite, at scale, for $200,000 of consumer-grade hardware</strong>.</p>
+
+        <p>For physical intuition: 0.006 arcseconds is the angle subtended by a human hair (0.1 mm thick) viewed from 3.4 kilometres away. It is the diameter of a quarter on the surface of the Moon. It is roughly 1/100th the angular size of any star visible to the naked eye (stars are point sources at much higher resolution than this).</p>
+
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Pointing Accuracy Required</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Link distance</span><span class="slider-value" id="w2-d-val">5,000 km</span></div>
+              <input type="range" id="w2-d" min="100" max="10000" value="5000" step="50">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Receiver aperture</span><span class="slider-value" id="w2-rx-val">30 cm</span></div>
+              <input type="range" id="w2-rx" min="5" max="50" value="30" step="1">
+            </div>
+          </div>
+          <div class="slider-group" style="margin-top: 10px;">
+            <div class="slider-label"><span>Your pointing error</span><span class="slider-value" id="w2-err-val">0 nrad</span></div>
+            <input type="range" id="w2-err" min="-200" max="200" value="0" step="1">
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Max pointing error</div><div class="readout-value" id="w2-max">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">In arcseconds</div><div class="readout-value" id="w2-arc">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Hit / miss</div><div class="readout-value" id="w2-hit">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">The geometry of one ISL: laser source on the left, beam cone, receiver aperture on the right. Drag the pointing error slider &mdash; watch the beam centre drift off the receiver. The pointing budget at 5,000 km with a 30-cm aperture is roughly 30 nanoradians (0.006 arcseconds). For reference: Hubble's pointing stability is ~7 milliarcseconds.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the beam is wider than the receiver, so the budget is laxer</summary>
+          <p>The pure geometric bound above &mdash; <span class="math">&Delta;&theta; = (D<sub>rx</sub>/2) / d</span> &mdash; assumes you need the beam <em>centre</em> on the receiver. But the beam, after divergence, is much wider than the receiver aperture (189 m vs 30 cm). The receiver still captures light if the beam is anywhere with the receiver inside the beam footprint &mdash; not just on dead-centre.</p>
+          <p>The relaxed pointing budget is therefore <span class="math">&Delta;&theta; &asymp; (D<sub>spot</sub>/2 &minus; D<sub>rx</sub>/2) / d</span>, which at our numbers is roughly <strong>19 microradians</strong> (close to the divergence angle itself) &mdash; about 600&times; laxer. But there's a catch: as the beam centre wanders off, the received power drops, because the Gaussian intensity profile is brightest at the centre. Practical ISL pointing aims for ~1 microradian or better (~0.2 arcseconds) to stay near the brightest part of the spot, which is still extraordinarily tight. The 30-nanoradian number above is the "dead-centre on a uniform beam" bound; real systems target <strong>1&ndash;5 &mu;rad RMS</strong>, mostly limited by the fine-steering mirror precision.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Doppler shift
+         ============================================================ -->
+    <section class="reveal" id="iv-doppler">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>What is the Doppler shift at 7 km/s &mdash; and does it matter?</h2>
+      </div>
+      <div class="section-content">
+        <p>Starlink satellites orbit at roughly 7.6 km/s. Two satellites in different orbital planes can have relative velocities up to ~14 km/s when the planes cross. The Doppler effect shifts the apparent frequency of the laser by an amount proportional to the radial component of that relative velocity. For non-relativistic speeds (and 14 km/s is comfortably 1/20,000 of <span class="math">c</span>, so non-relativistic is exact to parts per billion):</p>
+
+        <div class="math-block">
+          &Delta;f / f = &minus;v / c
+          <br>
+          &Delta;&lambda; / &lambda; = v / c
+          <span class="math-where">v = relative radial velocity (positive = receding, negative = approaching); c = speed of light. Non-relativistic limit.</span>
+        </div>
+
+        <p>The laser carrier at <span class="math">&lambda; = 1550 nm</span> is at <span class="math">f = c/&lambda; &asymp; 193 THz</span>. A relative velocity of 14 km/s gives:</p>
+
+        <div class="math-block">
+          &Delta;f = 14,000 m/s &times; (193 &times; 10<sup>12</sup> Hz) / (3 &times; 10<sup>8</sup> m/s)
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;= 14 / 21,400 &times; 193 THz
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&asymp; <strong>&pm;9 GHz</strong>
+          <span class="math-where">at v = 14 km/s, &lambda; = 1550 nm. Sign depends on whether satellites are approaching or receding.</span>
+        </div>
+
+        <p>9 GHz. In wavelength terms that is a shift of <span class="math">&Delta;&lambda; = (v/c) &middot; &lambda; &asymp; 0.072 nm</span> &mdash; a fraction of a nanometre at 1550 nm. As a fraction of carrier frequency, the shift is <span class="math">14/299,792 &asymp; 4.7 &times; 10<sup>&minus;5</sup></span>, or about 47 parts per million.</p>
+
+        <p>Does this matter? It depends on what you're doing.</p>
+
+        <ul>
+          <li><strong>If you're using simple on-off intensity modulation (OOK)</strong>, the Doppler shift barely matters &mdash; you're just looking at whether photons arrived, not at what frequency they were. A 9 GHz shift across a 200 GHz channel is 5% bandwidth slop, well within the photodiode's response curve.</li>
+          <li><strong>If you're using coherent modulation</strong> (BPSK, QPSK, or higher-order QAM), the receiver mixes the incoming signal with a local oscillator laser at known frequency. Any frequency mismatch creates a beat tone; if the beat tone is faster than your DSP can track, the constellation rotates and the bit-error rate explodes. You need to <em>lock</em> the local oscillator within hundreds of MHz of the incoming carrier.</li>
+          <li><strong>If you're using wavelength-division multiplexing (WDM)</strong> &mdash; multiple wavelengths on the same fibre or beam &mdash; the Doppler shift can push your signal into the next channel. A 0.072 nm shift is roughly one ITU 50-GHz channel slot; you'd hit the adjacent wavelength.</li>
+        </ul>
+
+        <p>Starlink ISLs are coherent. A 9 GHz Doppler offset is huge in coherent-receiver terms (compared to fibre links where Doppler is exactly zero), but it is also <em>predictable</em>. Both satellites know each other's orbital state vectors to high precision; the Doppler shift can be computed in advance and pre-compensated. The residual after pre-compensation &mdash; due to clock drift, ephemeris error, and orbital perturbations &mdash; is on the order of tens of MHz, well inside what a digital coherent receiver can pull in with a frequency-locked loop.</p>
+
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Doppler Shift at Relative Velocity</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Relative velocity</span><span class="slider-value" id="w3-v-val">+14 km/s</span></div>
+              <input type="range" id="w3-v" min="-15" max="15" value="14" step="0.1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Wavelength</span><span class="slider-value" id="w3-lambda-val">1550 nm</span></div>
+              <input type="range" id="w3-lambda" min="800" max="1550" value="1550" step="10">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Doppler &Delta;f</div><div class="readout-value" id="w3-df">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Doppler &Delta;&lambda;</div><div class="readout-value" id="w3-dlambda">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Verdict</div><div class="readout-value" id="w3-verdict" style="font-size:13px;">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Drag the relative velocity from &minus;15 km/s (approaching, blueshift) through 0 to +15 km/s (receding, redshift). The spectrum visualisation shows the transmit frequency (centred) and the received-after-Doppler frequency. At +14 km/s, the offset is ~9 GHz &mdash; huge for coherent reception, manageable with pre-compensation from ephemeris.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; only the <em>radial</em> component matters</summary>
+          <p>The Doppler shift depends on the rate of change of distance between transmitter and receiver, not on the total relative velocity. Two satellites moving at 7 km/s in parallel orbits have zero radial velocity (the distance between them isn't changing), so zero Doppler. Two satellites whose orbits are crossing perpendicularly hit peak radial velocity at the moment they are closest &mdash; and then it reverses sign, going from blueshift to redshift in seconds.</p>
+          <p>This is why ISL links between same-plane neighbours (the &ldquo;in-track&rdquo; links) have trivial Doppler &mdash; both satellites are moving in roughly the same direction at roughly the same speed. The hard Doppler is on cross-plane links, especially near the poles where Starlink's orbital planes converge. The Doppler can go from +9 GHz to &minus;9 GHz in roughly a minute, and the receiver has to track that smoothly.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Photon detection
+         ============================================================ -->
+    <section class="reveal" id="v-photons">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>How does the receiver actually detect a few hundred photons?</h2>
+      </div>
+      <div class="section-content">
+        <p>The link budget is brutal. Suppose the transmitter pumps 1 watt of optical power through a 10 cm aperture. The beam diverges to a 189-m spot at 5,000 km. A 30-cm receiver aperture catches a fraction equal to <span class="math">(0.30 / 189)<sup>2</sup> &asymp; 2.5 &times; 10<sup>&minus;6</sup></span> of the power. That's 2.5 microwatts at the receiver photodiode.</p>
+
+        <p>That sounds fine until you remember that data rates of 100+ Gbps mean each bit is encoded into a few hundred picoseconds of light. The energy of a single photon at 1550 nm is:</p>
+
+        <div class="math-block">
+          E<sub>photon</sub> = hc / &lambda;
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;= (6.626 &times; 10<sup>&minus;34</sup>) &times; (3 &times; 10<sup>8</sup>) / (1.55 &times; 10<sup>&minus;6</sup>)
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;= 1.28 &times; 10<sup>&minus;19</sup> J
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;= 1.28 / e &asymp; <strong>0.80 eV</strong>
+          <span class="math-where">at &lambda; = 1550 nm; h = Planck constant, c = speed of light, e = electron charge</span>
+        </div>
+
+        <p>The photon arrival rate is the received power divided by per-photon energy:</p>
+
+        <div class="math-block">
+          N<sub>rate</sub> = P<sub>rx</sub> / E<sub>photon</sub>
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;= (2.5 &times; 10<sup>&minus;6</sup>) / (1.28 &times; 10<sup>&minus;19</sup>)
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&asymp; 2 &times; 10<sup>13</sup> photons/sec
+          <span class="math-where">2.5 &mu;W received, 1550 nm. Roughly 20 trillion photons/second.</span>
+        </div>
+
+        <p>At 100 Gbps, each bit occupies <span class="math">10<sup>&minus;11</sup> seconds</span> &mdash; 10 picoseconds. Photons per bit: <span class="math">2 &times; 10<sup>13</sup> &times; 10<sup>&minus;11</sup> = 200 photons/bit</span>. That's the working envelope: roughly a few hundred photons of signal per bit, surrounded by background noise (mostly thermal in the detector electronics, since deep space is otherwise dark) and shot noise from the photon statistics themselves.</p>
+
+        <p>How does a receiver work with this? It uses <strong>coherent detection</strong>: the incoming signal is mixed with a local-oscillator laser tuned to the same wavelength (after Doppler pre-compensation). The two beams interfere on a photodiode, and the beat frequency &mdash; the difference between the two carriers &mdash; carries the modulated data at a much lower frequency, where electronics can sample it. This is identical to how a superheterodyne radio receiver works, just at optical frequencies.</p>
+
+        <p>The crucial property: coherent detection amplifies the weak signal by mixing it with a strong local oscillator. The detected signal scales as <span class="math">&radic;(P<sub>signal</sub> &middot; P<sub>LO</sub>)</span>, not <span class="math">P<sub>signal</sub></span> alone. With a strong LO (a few milliwatts), even a few hundred photons per bit can drive a photodetector to detectable currents above thermal noise. This is why coherent optical receivers can hit roughly the quantum limit &mdash; about 10 photons per bit for low BER &mdash; while direct-detection (just counting photons) needs hundreds or thousands.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the Shannon limit and why the photon-counting bound matters</summary>
+          <p>The Shannon-Hartley theorem says the maximum bit rate over a channel with bandwidth <span class="math">B</span> and signal-to-noise ratio SNR is <span class="math">C = B log<sub>2</sub>(1 + SNR)</span>. For a coherent optical link, the noise floor is set by shot noise (Poisson statistics of photon arrival), which for ideal receivers gives roughly <span class="math">SNR = N<sub>photon</sub></span>. Plugging in: at 200 photons/bit and 200 GHz of optical bandwidth, you get an absolute upper bound of roughly 1.5 Tbps before fundamental quantum noise dominates.</p>
+          <p>Real Starlink ISLs deliver 100&ndash;200 Gbps, well inside this bound. The gap between the theoretical limit and the operating rate is because real receivers have noise above the shot-noise limit, the modulation isn't perfectly capacity-achieving (Starlink uses something close to QPSK with FEC), and the pointing jitter adds power variability. But the order of magnitude is set by the photon budget, and the photon budget is set by the divergence-pointing-aperture triple from the previous sections.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Data-rate ceiling
+         ============================================================ -->
+    <section class="reveal" id="vi-data-rate">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What is the data-rate ceiling at these distances?</h2>
+      </div>
+      <div class="section-content">
+        <p>Working back up from photons to bits per second. The chain of constraints is:</p>
+
+        <ol>
+          <li><strong>Transmit power:</strong> 1&ndash;5 W optical, set by satellite power budget and thermal management. 1 W is comfortable; 5 W requires serious cooling.</li>
+          <li><strong>Beam divergence:</strong> ~19 &mu;rad at &lambda; = 1550 nm, D = 10 cm. Sets the spot size at the receiver.</li>
+          <li><strong>Receiver capture fraction:</strong> ~10<sup>&minus;6</sup>&ndash;10<sup>&minus;5</sup>, depending on receiver aperture and exact spot focus.</li>
+          <li><strong>Photons per bit:</strong> ~10&ndash;100 for coherent detection above the shot-noise floor, depending on modulation scheme and required BER.</li>
+          <li><strong>Bandwidth:</strong> 10s of GHz, limited by the photodiode and DSP, not by the optical spectrum (which has terahertz to spare).</li>
+        </ol>
+
+        <p>Pencil out the budget at the canonical numbers (1 W TX, 5,000 km, 10 cm TX, 30 cm RX, 1550 nm, coherent QPSK with FEC, 50 photons/bit nominal):</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Quantity</th><th>Value</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Transmit power</td><td class="num">1.0 W</td><td>1.0 J/s of optical energy</td></tr>
+            <tr><td>Divergence (half-angle)</td><td class="num">19 &mu;rad</td><td>1.22&lambda;/D</td></tr>
+            <tr><td>Spot @ 5,000 km</td><td class="num">~190 m</td><td>Full diameter, unfocused</td></tr>
+            <tr><td>Capture fraction</td><td class="num">2.5 &times; 10<sup>&minus;6</sup></td><td>(D<sub>rx</sub>/D<sub>spot</sub>)<sup>2</sup></td></tr>
+            <tr><td>Received power</td><td class="num">~2.5 &mu;W</td><td>1 W &times; capture fraction</td></tr>
+            <tr><td>Photon rate</td><td class="num">~2 &times; 10<sup>13</sup> /s</td><td>P/(hc/&lambda;)</td></tr>
+            <tr><td>Photons/bit @ 100 Gbps</td><td class="num">~200</td><td>Well above the ~10 quantum bound</td></tr>
+            <tr><td>SNR (coherent)</td><td class="num">~23 dB</td><td>Enough for high-order QAM with FEC</td></tr>
+            <tr><td>Achievable rate</td><td class="num">100&ndash;200 Gbps</td><td>Matches published Starlink ISL specs</td></tr>
+          </tbody>
+        </table>
+
+        <p>The chain is tight but consistent. The published Starlink ISL throughput (100&ndash;200 Gbps depending on link distance and conditions) sits comfortably inside the budget. At shorter link distances &mdash; in-plane links of 500 km vs cross-plane links of 5,000 km &mdash; the capture fraction grows as <span class="math">1/d<sup>2</sup></span>, so an in-plane link with 100&times; the received power could in principle hit terabit rates. The current bottleneck is the bandwidth of the electronics (digital signal processor and the DAC/ADC pipeline), not the photon budget.</p>
+
+        <p>An interesting forward-looking number: NASA's TBIRD demonstration (a CubeSat-to-ground optical link in 2023) hit 200 Gbps over ~700 km. Cailabs and Mynaric ground stations regularly demonstrate 10&ndash;100 Gbps optical links. Starlink's ISL system is the first <em>operational</em> network of optical satellite links at this rate, but the lab work has been running for over a decade.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Acquisition
+         ============================================================ -->
+    <section class="reveal" id="vii-acquisition">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>How does Starlink acquire and track another satellite?</h2>
+      </div>
+      <div class="section-content">
+        <p>Before two satellites can exchange data, they have to find each other. From 5,000 km away, with arcsecond-level pointing budget, this is not trivial. The standard solution is a two-stage acquisition handshake.</p>
+
+        <p><strong>Stage 1: Open-loop coarse pointing.</strong> Each satellite knows its own ephemeris (orbital position and velocity) to within a few metres. Each satellite also knows its neighbour's ephemeris through the ground network. A simple coordinate transform tells satellite A which direction satellite B should be in &mdash; with uncertainty of perhaps a few milliradians (a few arcminutes), set by ephemeris error, satellite attitude knowledge error, and the lever arm of the optical bench mounted on a flexing structure.</p>
+
+        <p><strong>Stage 2: Beacon and search.</strong> Both satellites point a wider-divergence <em>beacon laser</em> (a different wavelength or modulation, often with ~1 mrad divergence) in the predicted direction. The wide beacon illuminates a region the size of a few kilometres at 5,000 km &mdash; large enough to overlap the receiver, given ephemeris uncertainty. The receiver detects the beacon, computes the angle of arrival via a <em>quadrant detector</em> (a photodiode split into four quadrants where the relative signal strengths give the arrival direction), and steers its <em>fine-pointing mirror</em> to bring the beacon onto a tighter sensor.</p>
+
+        <p><strong>Stage 3: Closed-loop tracking.</strong> Once both satellites are pointing at each other, they switch from the beacon to the main 1550 nm data laser. From this point onward, the data laser itself provides the tracking signal &mdash; any drift in pointing causes the received intensity to drop on one side of the quadrant detector, which feeds back into the fine-steering mirror to recentre. The control loop runs at kilohertz rates, faster than any orbital or thermal perturbation can build up significant pointing error.</p>
+
+        <p>The full acquisition takes 2&ndash;10 seconds in production Starlink terminals. Lab demos have done it in under a second. The handshake protocol is deterministic &mdash; there's no random search &mdash; because both sides know each other's ephemeris well enough to start within the beacon's wider cone.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; quadrant detectors and the closed-loop math</summary>
+          <p>A quadrant detector is four photodiodes arranged in a 2&times;2 grid. If the beam spot is centred, all four quadrants receive equal power. If it's off-centre in the X direction, the right pair gets more than the left; the difference (left&minus;right)/(left+right) is a normalised error signal that scales linearly with off-axis angle for small displacements. Same for the Y direction with the top and bottom pairs.</p>
+          <p>The control loop is a standard PID: the error signal drives a fine-steering mirror (a tip-tilt mirror on a piezo or voice-coil actuator), which corrects the pointing. The closed-loop bandwidth is set by how fast the mirror can move and how fast the photodiode can sample &mdash; both typically in the kHz range. Pointing jitter from thermal expansion, solar panel deployments, and reaction-wheel vibration is all well below 100 Hz, so the loop has plenty of bandwidth to suppress it. The total residual pointing error in flight is typically 1&ndash;5 &mu;rad RMS, exactly the regime we estimated in Section III.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIII. Atmosphere
+         ============================================================ -->
+    <section class="reveal" id="viii-atmosphere">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>Why doesn't atmospheric scintillation affect ISLs?</h2>
+      </div>
+      <div class="section-content">
+        <p>Ground-to-satellite optical communication is hard. Astronomers know this: the atmosphere is the reason adaptive optics exists. Turbulent cells of air (~10 cm size, ~10 ms timescale) refract the incoming starlight by tens of microradians, blurring and scintillating the image. For an optical communication link from ground to LEO, the same turbulence causes intensity fades of 5&ndash;10 dB on millisecond timescales. Mitigating it requires beam steering at kilohertz rates, plus statistical link margin to absorb the fades.</p>
+
+        <p>Inter-satellite links live entirely above the atmosphere &mdash; both satellites are in vacuum, and the line of sight between them never passes through air at densities high enough to matter. (At LEO altitudes, residual atmosphere is ~10<sup>&minus;10</sup> of sea level density &mdash; effectively zero from an optical perspective.) Therefore:</p>
+
+        <ul>
+          <li><strong>No scintillation.</strong> The intensity at the receiver is whatever the geometry and pointing give you; no atmospheric fades.</li>
+          <li><strong>No turbulence-induced wavefront distortion.</strong> The beam stays diffraction-limited the whole way.</li>
+          <li><strong>No rain, no clouds, no scattering.</strong> Anything that makes ground-based laser comm hard is absent.</li>
+          <li><strong>No regulatory wavelength restrictions.</strong> Eye safety isn't even a serious concern since no human is in the beam path.</li>
+        </ul>
+
+        <p>This is the gift of doing optical comm in space rather than to space. The pointing problem is harder than fibre (because the fibre doesn't move), but the channel itself is the cleanest medium for light short of a perfect waveguide. The only loss above geometric divergence is detector quantum efficiency and a tiny bit of optical-system absorption in the transmit/receive telescope.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; why Starlink chose 1550 nm anyway</summary>
+          <p>Given that there's no atmosphere to deal with on ISLs, why pick 1550 nm specifically? Three reasons that have nothing to do with the atmosphere:</p>
+          <p><strong>Mature telecom optics.</strong> The entire fibre-optic communication industry runs at 1550 nm (the C-band, with minimum fibre loss). Lasers, modulators, photodetectors, amplifiers (EDFAs), and DSP chips for this wavelength are commodity-priced and high-performance. Starlink benefits from billions of dollars of telecom industry R&amp;D.</p>
+          <p><strong>Eye safety.</strong> 1550 nm is absorbed by the cornea before reaching the retina, so the eye-safety threshold is roughly 50&times; higher than visible or near-IR (800 nm) lasers. Even though no human is in the beam path in space, this matters for ground-test alignment and any future ground-station applications.</p>
+          <p><strong>Future ground-station compatibility.</strong> 1550 nm is in one of the atmospheric transmission windows. If Starlink ever wants to fire ISL-style optical signals from a satellite to a ground station (instead of just satellite-to-satellite), 1550 nm is one of the few wavelengths where the atmosphere doesn't kill the link.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IX. Synthesis
+         ============================================================ -->
+    <section class="reveal" id="ix-synthesis">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>The full ISL synthesis</h2>
+      </div>
+      <div class="section-content">
+        <p>The full Starlink inter-satellite link, in one paragraph: a 1-watt 1550 nm laser is launched through a 10-cm aperture, propagates 5,000 km of vacuum, diverges to a 75&ndash;190 m spot, and is captured by a 30 cm receive telescope. About 2.5 microwatts arrive &mdash; roughly 200 photons per 100 Gbps bit. A coherent receiver mixes this with a local oscillator pre-compensated for the &pm;9 GHz Doppler shift, extracts the modulated data via beat-frequency demodulation, and feeds it into a digital signal processor that does carrier-phase tracking and forward-error correction. Pointing is held within 1&ndash;5 microradians by a fine-steering mirror locked to a quadrant detector. Acquisition takes 2&ndash;10 seconds from ephemeris.</p>
+
+        <p>The numbers stack:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Parameter</th><th>Value</th><th>Driver</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Wavelength</td><td class="num">1550 nm</td><td>Telecom heritage, eye safety</td></tr>
+            <tr><td>TX aperture</td><td class="num">~10 cm</td><td>Satellite mass/area budget</td></tr>
+            <tr><td>RX aperture</td><td class="num">~30 cm</td><td>Link budget margin</td></tr>
+            <tr><td>Divergence</td><td class="num">~19 &mu;rad</td><td>Diffraction limit 1.22&lambda;/D</td></tr>
+            <tr><td>Spot @ 5,000 km</td><td class="num">~190 m</td><td>d &middot; &theta;<sub>div</sub></td></tr>
+            <tr><td>Pointing accuracy</td><td class="num">1&ndash;5 &mu;rad</td><td>Match beam centre to receiver</td></tr>
+            <tr><td>Doppler shift (peak)</td><td class="num">&pm;9 GHz</td><td>14 km/s relative velocity</td></tr>
+            <tr><td>TX power</td><td class="num">~1 W</td><td>Satellite power budget</td></tr>
+            <tr><td>Photons/bit</td><td class="num">~200</td><td>Capture fraction &times; photon energy</td></tr>
+            <tr><td>Data rate</td><td class="num">100&ndash;200 Gbps</td><td>Coherent QPSK + FEC</td></tr>
+            <tr><td>Lasers per satellite</td><td class="num">4</td><td>2 in-plane + 2 cross-plane</td></tr>
+          </tbody>
+        </table>
+
+        <p>The lesson worth keeping: the laser was always the easy part. Semiconductor lasers at 1550 nm have been cheap and reliable since the 1980s; modulation up to 100s of Gbps is routine in undersea cables. What was hard was the <em>geometry</em> &mdash; pointing the beam, tracking the target, compensating the Doppler &mdash; under the constraints of a moving satellite. Every dollar of optical communication engineering goes into the pointing assembly, the fine-steering mirror, the quadrant detector, the closed-loop control, and the ephemeris-based Doppler pre-compensation. The light source is a commodity. The pointing engine is the product.</p>
+
+        <div class="callout">
+          <div class="callout-title">What you can now teach</div>
+          <p><strong>Inter-satellite laser communication is a pointing problem, not a laser problem.</strong> A laser fired across 5,000 km blooms into a 190-metre spot, so the receiver only captures parts-per-million of the transmitted power; the laser must be held within microradians (Hubble-class accuracy) on a moving target, and the &pm;9 GHz Doppler shift from the 14 km/s relative orbital velocity must be tracked by a coherent receiver. Starlink solves this with four lasers per satellite, ephemeris-driven open-loop acquisition, beacon-based fine alignment, and closed-loop quadrant-detector tracking &mdash; delivering 100&ndash;200 Gbps per link across an orbital backbone that has more operating optical terminals than the rest of human-built infrastructure combined.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">Rayleigh criterion: for a circular aperture of diameter D, the diffraction-limited angular resolution (and minimum beam divergence half-angle) is 1.22&lambda;/D. The 1.22 factor is the first zero of the Bessel function J<sub>1</sub>; for a Gaussian beam, the divergence is &lambda;/(&pi;w<sub>0</sub>), which is more favourable. The 1.22 number used throughout this article is the pessimistic uniform-illumination bound. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Hubble pointing stability of ~7 milliarcseconds is the documented fine-guidance-sensor specification (ESA/STScI). This is the per-axis 1-sigma pointing jitter over short timescales; longer-term drift is corrected by the guide-star sensors. Starlink ISL pointing of 1&ndash;5 &mu;rad RMS converts to roughly 0.2&ndash;1 arcseconds &mdash; the same order of magnitude as Hubble. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Doppler formula in the non-relativistic limit: &Delta;f/f = &minus;v<sub>r</sub>/c, where v<sub>r</sub> is the radial component of relative velocity. The fully relativistic formula is &Delta;f/f = &radic;((1&minus;&beta;)/(1+&beta;)) &minus; 1 where &beta; = v/c; the difference for v = 14 km/s is parts per billion, irrelevant for ISL receiver design. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">Published Starlink ISL specifications come from SpaceX FCC filings and SpaceX public statements (Gwynne Shotwell, 2022&ndash;2024). The 100&ndash;200 Gbps range is the documented per-link throughput. The 4-lasers-per-satellite figure applies to v1.5 and v2 satellites; earlier satellites had 0 lasers. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+        </ol>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts
+       ============================================================ -->
+  <script>
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var t = document.getElementById(this.getAttribute('href').slice(1));
+        if (t) {
+          e.preventDefault();
+          var navH = document.querySelector('.nav').offsetHeight;
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - navH - 20, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- Constants used by widgets -->
+  <script>
+    var C_LIGHT_MPS = 299792458;          // m/s
+    var C_LIGHT_KMS = 299792.458;         // km/s
+    var H_PLANCK    = 6.62607015e-34;     // J·s
+    var deg2rad = function(d) { return d * Math.PI / 180; };
+    var rad2deg = function(r) { return r * 180 / Math.PI; };
+  </script>
+
+  <!-- ============================================================
+       WIDGET 1 — Beam divergence at distance
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { lambda_nm: 1550, D_cm: 10 };
+
+    function compute() {
+      var lambda_m = state.lambda_nm * 1e-9;
+      var D_m = state.D_cm * 1e-2;
+      var theta = 1.22 * lambda_m / D_m;          // rad (half-angle)
+      var theta_urad = theta * 1e6;
+      var d_link_m = 5e6;                          // 5,000 km
+      var spot_m = D_m + 2 * d_link_m * Math.tan(theta);
+      var rx_m = 0.30;                             // 30 cm receiver
+      var capture = Math.pow(rx_m / spot_m, 2);   // fraction
+      if (capture > 1) capture = 1;
+      return { theta: theta, theta_urad: theta_urad, spot: spot_m, capture: capture, rx: rx_m };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+
+      // Layout: TX satellite on left, RX satellite on right, beam cone between.
+      // Visualise spot size as a vertical bar at right.
+      var pad = { top: 38, right: 30, bottom: 50, left: 60 };
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+      var midY = pad.top + plotH / 2;
+      var txX = pad.left + 30;
+      var rxX = W - pad.right - 30;
+
+      // Reference axis label: distance scale
+      ctx.save();
+      ctx.strokeStyle = '#bbb';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(txX, H - pad.bottom + 16); ctx.lineTo(rxX, H - pad.bottom + 16); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, txX, H - pad.bottom + 30, '0 km', { fontSize: 10, color: '#666', baseline: 'middle' });
+      drawTextCanvas(ctx, (txX + rxX) / 2, H - pad.bottom + 30, '5,000 km link distance →', { fontSize: 10, color: '#666', baseline: 'middle' });
+      drawTextCanvas(ctx, rxX, H - pad.bottom + 30, '5,000 km', { fontSize: 10, color: '#666', baseline: 'middle' });
+
+      // Beam cone — vertical extent shows spot growth (exaggerated for visibility)
+      // Map: 200 m max spot to half-plot-height
+      var maxSpotForScale = 250; // m
+      var visualHalf = Math.min(plotH * 0.42, (r.spot / 2) / maxSpotForScale * plotH * 0.42);
+      // ensure minimum visual presence at small spots
+      var visualMin = 6;
+      if (visualHalf < visualMin) visualHalf = visualMin;
+      var visualTxHalf = Math.max(3, (state.D_cm / 100 / 2) / maxSpotForScale * plotH * 0.42);
+
+      // Filled beam cone
+      ctx.save();
+      var grad = ctx.createLinearGradient(txX, 0, rxX, 0);
+      grad.addColorStop(0, 'rgba(220, 38, 38, 0.85)');
+      grad.addColorStop(1, 'rgba(220, 38, 38, 0.15)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.moveTo(txX, midY - visualTxHalf);
+      ctx.lineTo(rxX, midY - visualHalf);
+      ctx.lineTo(rxX, midY + visualHalf);
+      ctx.lineTo(txX, midY + visualTxHalf);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // TX satellite
+      drawRectCanvas(ctx, txX - 12, midY - 8, 24, 16, 'var(--accent)', 3);
+      drawTextCanvas(ctx, txX, midY - 24, 'TX', { fontSize: 11, color: 'var(--text)', weight: '600' });
+      drawTextCanvas(ctx, txX, midY + 26, state.D_cm.toFixed(0) + ' cm', { fontSize: 10, color: 'var(--text-secondary)' });
+
+      // RX satellite — drawn at scale relative to spot
+      // RX aperture in visual units: 30 cm relative to displayed spot
+      var rxVisualHalf = Math.max(3, (0.30 / 2) / maxSpotForScale * plotH * 0.42);
+      // Spot outline (full diameter)
+      ctx.save();
+      ctx.strokeStyle = '#dc2626';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(rxX, midY - visualHalf);
+      ctx.lineTo(rxX, midY + visualHalf);
+      ctx.stroke();
+      ctx.restore();
+      // Spot endpoint marks
+      drawPointCanvas(ctx, rxX, midY - visualHalf, 3, '#dc2626');
+      drawPointCanvas(ctx, rxX, midY + visualHalf, 3, '#dc2626');
+      drawTextCanvas(ctx, rxX + 8, midY - visualHalf - 4, 'spot ' + (r.spot < 1 ? (r.spot*100).toFixed(1) + ' cm' : r.spot.toFixed(0) + ' m'), {
+        fontSize: 10, color: '#dc2626', align: 'left', baseline: 'bottom'
+      });
+
+      // RX aperture
+      drawRectCanvas(ctx, rxX - 8, midY - rxVisualHalf, 16, rxVisualHalf * 2, '#1a202c', 2);
+      drawTextCanvas(ctx, rxX, midY + rxVisualHalf + 14, 'RX 30cm', { fontSize: 10, color: 'var(--text-secondary)' });
+
+      // Title
+      drawTextCanvas(ctx, W/2, 14, 'Beam from TX (left) to RX (right), 5,000 km apart', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      drawTextCanvas(ctx, W/2, 28, 'Spot at RX = ' + (r.spot < 1 ? (r.spot*100).toFixed(1) + ' cm' : r.spot.toFixed(0) + ' m'), {
+        fontSize: 11, color: 'var(--accent)', baseline: 'top', weight: '600'
+      });
+
+      // Readouts
+      document.getElementById('w1-div').textContent = r.theta_urad.toFixed(1) + ' μrad';
+      document.getElementById('w1-spot').textContent = r.spot < 1
+        ? (r.spot * 100).toFixed(1) + ' cm'
+        : r.spot.toFixed(0) + ' m';
+      document.getElementById('w1-capture').textContent = r.capture < 1e-3
+        ? r.capture.toExponential(1)
+        : (r.capture * 100).toFixed(3) + '%';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w1-lambda'), label: document.getElementById('w1-lambda-val'), format: v => v.toFixed(0) + ' nm' },
+      { el: document.getElementById('w1-d'),      label: document.getElementById('w1-d-val'),      format: v => v.toFixed(0) + ' cm' }
+    ], function(vals) {
+      state.lambda_nm = vals['w1-lambda'];
+      state.D_cm = vals['w1-d'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Pointing accuracy required
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { d_km: 5000, rx_cm: 30, err_nrad: 0 };
+
+    function compute() {
+      var d_m = state.d_km * 1000;
+      var rx_m = state.rx_cm * 1e-2;
+      var maxErr_rad = (rx_m / 2) / d_m;       // strict, beam-centre-on-aperture bound
+      var maxErr_urad = maxErr_rad * 1e6;
+      var maxErr_arcsec = maxErr_rad * (180 / Math.PI) * 3600;
+      var maxErr_nrad = maxErr_rad * 1e9;
+
+      var err_rad = state.err_nrad * 1e-9;
+      var beamOffset_m = err_rad * d_m;        // m off-axis at receiver
+      var hit = Math.abs(beamOffset_m) <= rx_m / 2;
+      return {
+        maxErr_nrad: maxErr_nrad,
+        maxErr_urad: maxErr_urad,
+        maxErr_arcsec: maxErr_arcsec,
+        beamOffset_m: beamOffset_m,
+        rx_m: rx_m,
+        hit: hit
+      };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+      var pad = { top: 38, right: 30, bottom: 50, left: 60 };
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+      var midY = pad.top + plotH / 2;
+      var txX = pad.left + 30;
+      var rxX = W - pad.right - 30;
+
+      // x-axis: 0 to link distance
+      ctx.save();
+      ctx.strokeStyle = '#bbb';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(txX, H - pad.bottom + 16); ctx.lineTo(rxX, H - pad.bottom + 16); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, txX, H - pad.bottom + 30, '0 km', { fontSize: 10, color: '#666', baseline: 'middle' });
+      drawTextCanvas(ctx, (txX + rxX) / 2, H - pad.bottom + 30,
+        state.d_km.toFixed(0) + ' km →', { fontSize: 10, color: '#666', baseline: 'middle' });
+      drawTextCanvas(ctx, rxX, H - pad.bottom + 30, state.d_km.toFixed(0) + ' km', {
+        fontSize: 10, color: '#666', baseline: 'middle'
+      });
+
+      // RX aperture (drawn proportionally large for visibility)
+      var rxVisualHalf = plotH * 0.25; // visual half-height of receiver aperture
+      drawRectCanvas(ctx, rxX - 10, midY - rxVisualHalf, 20, rxVisualHalf * 2,
+        '#1a202c', 2);
+      drawTextCanvas(ctx, rxX, midY - rxVisualHalf - 8, 'RX aperture', {
+        fontSize: 10, color: 'var(--text)', weight: '600'
+      });
+      drawTextCanvas(ctx, rxX, midY + rxVisualHalf + 14,
+        state.rx_cm.toFixed(0) + ' cm', { fontSize: 10, color: 'var(--text-secondary)' });
+
+      // Map beam offset to visual offset (rx_m maps to rxVisualHalf visually)
+      var offsetVisual = (r.beamOffset_m / (r.rx_m / 2)) * rxVisualHalf;
+      // clamp visual offset to plot
+      var maxVisualOff = plotH * 0.40;
+      if (offsetVisual > maxVisualOff) offsetVisual = maxVisualOff;
+      if (offsetVisual < -maxVisualOff) offsetVisual = -maxVisualOff;
+      var beamEndY = midY + offsetVisual;
+
+      // Draw beam cone (narrow, since pointing focus, not divergence here)
+      ctx.save();
+      var grad = ctx.createLinearGradient(txX, 0, rxX, 0);
+      grad.addColorStop(0, 'rgba(220, 38, 38, 0.85)');
+      grad.addColorStop(1, 'rgba(220, 38, 38, 0.25)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(txX, midY);
+      ctx.lineTo(rxX, beamEndY);
+      ctx.stroke();
+      ctx.restore();
+
+      // Beam endpoint marker
+      drawPointCanvas(ctx, rxX, beamEndY, 5, r.hit ? '#22c55e' : '#dc2626');
+
+      // Reference: beam ideal target line
+      ctx.save();
+      ctx.strokeStyle = '#999';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
+      ctx.beginPath();
+      ctx.moveTo(txX, midY);
+      ctx.lineTo(rxX, midY);
+      ctx.stroke();
+      ctx.restore();
+
+      // TX satellite
+      drawRectCanvas(ctx, txX - 12, midY - 8, 24, 16, 'var(--accent)', 3);
+      drawTextCanvas(ctx, txX, midY - 24, 'TX', { fontSize: 11, color: 'var(--text)', weight: '600' });
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 14,
+        'Beam pointing geometry — drift the error slider, watch the beam miss', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      var statusColor = r.hit ? '#22c55e' : '#dc2626';
+      var statusText = r.hit ? 'HIT — beam inside aperture' : 'MISS — beam outside aperture';
+      drawTextCanvas(ctx, W / 2, 28, statusText, {
+        fontSize: 11, color: statusColor, baseline: 'top', weight: '600'
+      });
+
+      // Readouts
+      document.getElementById('w2-max').textContent = r.maxErr_nrad < 1000
+        ? r.maxErr_nrad.toFixed(1) + ' nrad'
+        : (r.maxErr_nrad / 1000).toFixed(2) + ' μrad';
+      document.getElementById('w2-arc').textContent = r.maxErr_arcsec >= 1
+        ? r.maxErr_arcsec.toFixed(3) + '″'
+        : (r.maxErr_arcsec * 1000).toFixed(1) + ' mas';
+      document.getElementById('w2-hit').textContent = r.hit ? 'HIT' : 'MISS';
+      document.getElementById('w2-hit').style.color = statusColor;
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-d'),   label: document.getElementById('w2-d-val'),   format: v => v.toLocaleString() + ' km' },
+      { el: document.getElementById('w2-rx'),  label: document.getElementById('w2-rx-val'),  format: v => v.toFixed(0) + ' cm' },
+      { el: document.getElementById('w2-err'), label: document.getElementById('w2-err-val'), format: v => v.toFixed(0) + ' nrad' }
+    ], function(vals) {
+      state.d_km = vals['w2-d'];
+      state.rx_cm = vals['w2-rx'];
+      state.err_nrad = vals['w2-err'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Doppler shift at relative velocity
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { v_kms: 14, lambda_nm: 1550 };
+
+    function compute() {
+      var v_ms = state.v_kms * 1000;             // m/s, positive = receding
+      var lambda_m = state.lambda_nm * 1e-9;     // m
+      var f_hz = C_LIGHT_MPS / lambda_m;          // carrier frequency
+      var df_hz = -v_ms * f_hz / C_LIGHT_MPS;     // Δf = -v·f/c
+      var dlambda_m = (v_ms / C_LIGHT_MPS) * lambda_m;  // Δλ
+      return {
+        f_hz: f_hz,
+        df_hz: df_hz,
+        df_ghz: df_hz / 1e9,
+        dlambda_m: dlambda_m,
+        dlambda_pm: dlambda_m * 1e12  // picometres
+      };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+
+      var pad = { top: 42, right: 24, bottom: 56, left: 60 };
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+      var midY = pad.top + plotH / 2;
+      var centreX = pad.left + plotW / 2;
+
+      // Frequency axis: -15 GHz to +15 GHz around carrier
+      var fAxisGHz = 15;
+      // Position of the carrier f0 (transmit) and f0+Δf (received)
+      var txX = centreX; // transmit carrier always centred
+      var rxX = centreX + (r.df_ghz / fAxisGHz) * (plotW / 2);
+      // Clamp to plot region for the spectrum bars
+      if (rxX > pad.left + plotW) rxX = pad.left + plotW;
+      if (rxX < pad.left) rxX = pad.left;
+
+      // Frequency axis ticks
+      ctx.save();
+      ctx.strokeStyle = '#999';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, H - pad.bottom);
+      ctx.lineTo(W - pad.right, H - pad.bottom);
+      ctx.stroke();
+      ctx.restore();
+
+      var tickGHz = [-15, -10, -5, 0, 5, 10, 15];
+      tickGHz.forEach(function(t) {
+        var tx = centreX + (t / fAxisGHz) * (plotW / 2);
+        ctx.save();
+        ctx.strokeStyle = '#999';
+        ctx.beginPath();
+        ctx.moveTo(tx, H - pad.bottom);
+        ctx.lineTo(tx, H - pad.bottom + 4);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, tx, H - pad.bottom + 16,
+          (t > 0 ? '+' : '') + t + ' GHz', {
+            fontSize: 10, color: '#666', baseline: 'middle'
+          });
+      });
+      drawTextCanvas(ctx, centreX, H - pad.bottom + 36, 'Frequency offset from carrier (1550 nm = 193 THz)', {
+        fontSize: 10, color: '#666', baseline: 'middle', weight: '500'
+      });
+
+      // Spectrum: transmit signal (always centred) as a tall blue spike
+      var spikeH = plotH * 0.55;
+      ctx.save();
+      ctx.strokeStyle = '#3182ce';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(txX, H - pad.bottom);
+      ctx.lineTo(txX, H - pad.bottom - spikeH);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, txX, H - pad.bottom - spikeH - 8, 'TX (transmitted)', {
+        fontSize: 10, color: '#3182ce', weight: '600'
+      });
+
+      // Receive signal — shifted by Δf, red
+      ctx.save();
+      ctx.strokeStyle = '#dc2626';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(rxX, H - pad.bottom);
+      ctx.lineTo(rxX, H - pad.bottom - spikeH * 0.85);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, rxX, H - pad.bottom - spikeH * 0.85 - 8,
+        'RX (after Doppler)', { fontSize: 10, color: '#dc2626', weight: '600' });
+
+      // Arrow showing the shift
+      if (Math.abs(rxX - txX) > 8) {
+        ctx.save();
+        ctx.strokeStyle = '#666';
+        ctx.fillStyle = '#666';
+        ctx.lineWidth = 1.5;
+        var arrowY = H - pad.bottom - 18;
+        ctx.beginPath();
+        ctx.moveTo(txX, arrowY);
+        ctx.lineTo(rxX, arrowY);
+        ctx.stroke();
+        // arrowhead
+        var dir = rxX > txX ? 1 : -1;
+        ctx.beginPath();
+        ctx.moveTo(rxX, arrowY);
+        ctx.lineTo(rxX - 6 * dir, arrowY - 4);
+        ctx.lineTo(rxX - 6 * dir, arrowY + 4);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+        drawTextCanvas(ctx, (txX + rxX) / 2, arrowY - 8,
+          'Δf = ' + (r.df_ghz >= 0 ? '+' : '') + r.df_ghz.toFixed(2) + ' GHz',
+          { fontSize: 10, color: '#666', weight: '600' });
+      }
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 14,
+        'Optical carrier spectrum: TX vs Doppler-shifted RX', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      var direction = state.v_kms > 0 ? '(receding — redshift)' :
+                      state.v_kms < 0 ? '(approaching — blueshift)' : '(no relative motion)';
+      drawTextCanvas(ctx, W / 2, 30,
+        'Relative velocity ' + (state.v_kms >= 0 ? '+' : '') + state.v_kms.toFixed(1) + ' km/s ' + direction,
+        { fontSize: 11, color: 'var(--accent)', baseline: 'top' });
+
+      // Verdict
+      var verdict;
+      var absGHz = Math.abs(r.df_ghz);
+      if (absGHz < 0.5) verdict = 'Trivial — no compensation needed';
+      else if (absGHz < 3) verdict = 'Tractable — DSP track only';
+      else if (absGHz < 10) verdict = 'Large — ephemeris pre-comp required';
+      else verdict = 'Extreme — multi-stage compensation';
+
+      // Readouts
+      document.getElementById('w3-df').textContent =
+        (r.df_ghz >= 0 ? '+' : '') + r.df_ghz.toFixed(2) + ' GHz';
+      document.getElementById('w3-dlambda').textContent =
+        (r.dlambda_pm >= 0 ? '+' : '') + r.dlambda_pm.toFixed(1) + ' pm';
+      document.getElementById('w3-verdict').textContent = verdict;
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-v'),      label: document.getElementById('w3-v-val'),
+        format: v => (v >= 0 ? '+' : '') + v.toFixed(1) + ' km/s' },
+      { el: document.getElementById('w3-lambda'), label: document.getElementById('w3-lambda-val'),
+        format: v => v.toFixed(0) + ' nm' }
+    ], function(vals) {
+      state.v_kms = vals['w3-v'];
+      state.lambda_nm = vals['w3-lambda'];
+      render();
+    });
+  })();
+  </script>
+
+</body>
+</html>

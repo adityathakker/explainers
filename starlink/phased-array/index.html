@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phased Arrays — How Starlink Points Without Moving</title>
+  <meta name="description" content="A flat antenna can point its beam anywhere in the sky by adjusting the phase of signals at each element — no moving parts, electronically steered in microseconds.">
+  <meta name="author" content="Starlink Explainers">
+
+  <meta property="og:title" content="Phased Arrays — How Starlink Points Without Moving">
+  <meta property="og:description" content="A flat antenna steers its beam in microseconds by phase, not motion.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #1a202c;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%); }
+
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .readout-sub {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Starlink Explainers
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Phased Arrays</h1>
+      <p class="hero__subtitle">A flat antenna with no moving parts points its beam anywhere in the sky by adjusting the phase of signals at each element &mdash; electronically steered in microseconds, the only way to track a satellite moving at 27,000 km/h.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 22 min read</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-puzzle">Why can't a normal dish track a fast LEO satellite?</a></li>
+        <li><a href="#ii-phase">What does "phase" mean for a radio wave?</a></li>
+        <li><a href="#iii-two-element">Why does adding two phased signals make a beam?</a></li>
+        <li><a href="#iv-n-element">How does an N-element array sharpen the beam?</a></li>
+        <li><a href="#v-steering">How do you steer the beam without moving the antenna?</a></li>
+        <li><a href="#vi-grating">What is a grating lobe, and why does element spacing matter?</a></li>
+        <li><a href="#vii-squint">What is the price you pay for steering off-boresight?</a></li>
+        <li><a href="#viii-silicon">How does Starlink's terminal actually do this in silicon?</a></li>
+        <li><a href="#ix-synthesis">The full beam-steering synthesis</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <!-- ============================================================
+         I. The puzzle
+         ============================================================ -->
+    <section class="reveal" id="i-puzzle">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why can't a normal dish track a fast LEO satellite?</h2>
+      </div>
+      <div class="section-content">
+        <p>A Starlink satellite at 550 km altitude moves across the sky at about 7.6 km/s. From the ground, that translates to an angular velocity of roughly 0.7&deg; per second when it passes near zenith, and more at the horizon. A single satellite is in view of any given terminal for 4 to 7 minutes. During that pass, the terminal has to keep its beam locked on the satellite to within a fraction of a degree, then hand off to the next satellite cleanly. Then the next. All day. Forever.</p>
+
+        <p>A traditional parabolic dish points by physically rotating. A residential DirecTV dish weighs a few kilograms; a VSAT dish weighs tens. To track Starlink, a mechanical mount would need to slew at 0.7&deg;/s smoothly, settle in milliseconds during handoff, and survive thousands of full-sky sweeps per day for a decade. The motors, gearboxes, and bearings would be expensive, audible, and the first thing to fail. None of this is hypothetical &mdash; the Iridium gateways from the 1990s used motor-driven tracking dishes, and they were the most expensive single component on the ground.</p>
+
+        <p>So Starlink does something different. The "Dishy McFlatface" terminal on your roof has <strong>no moving parts</strong> for beam steering. (The motorised tilt at install is just to orient the flat panel toward the right patch of sky; once positioned, it never moves during tracking.) The beam itself is steered electronically &mdash; pointed by computation, not by motion. The trick is a 1905-vintage idea called a <em>phased array</em>: many small antenna elements, each radiating the same signal but with a deliberately offset <em>phase</em>, so that their combined wavefronts add up constructively in one specific direction and cancel everywhere else.</p>
+
+        <p>This article works through the math from first principles. Two antennas first. Then N. Then how a phase delay relates to a steering angle. Then the trap (grating lobes) and the cost (beam squint). At the end, you should be able to look at a Starlink terminal and say exactly what each of its ~1,280 elements is doing at any moment &mdash; and what it would cost, in dB and in degrees, to point somewhere else.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Phase
+         ============================================================ -->
+    <section class="reveal" id="ii-phase">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What does "phase" mean for a radio wave?</h2>
+      </div>
+      <div class="section-content">
+        <p>A monochromatic radio wave at frequency <span class="math">f</span> is a sinusoid: <span class="math">E(t) = A&middot;cos(2&pi;ft + &phi;)</span>. The <strong>phase</strong> &phi; is just an offset along the time axis &mdash; it tells you where in its cycle the wave is at <span class="math">t = 0</span>. Two waves with the same frequency but different phases are the same shape, slid sideways.</p>
+
+        <p>For Starlink's Ku-band downlink at roughly 12 GHz, the period of one cycle is <span class="math">1/f = 83 picoseconds</span>. A full 2&pi; phase shift corresponds to delaying the signal by exactly 83 ps. A &pi;/2 (90&deg;) shift is 21 ps. These are absurdly short intervals &mdash; about the time it takes light to travel 6 mm. That fact is the entire reason phased arrays work: the physical spacing between antenna elements (a few millimetres at 12 GHz) is comparable to the wavelength, so small differences in path length translate directly to controllable phase differences.</p>
+
+        <p>The wavelength is the conversion factor. Light covers one wavelength in one period:</p>
+
+        <div class="math-block">
+          &lambda; = c / f
+          <span class="math-where">c = speed of light, f = frequency. At 12 GHz, &lambda; &asymp; 25 mm; at 30 GHz, &lambda; &asymp; 10 mm.</span>
+        </div>
+
+        <p>So a 25 mm path difference between two signals at 12 GHz is exactly one full wavelength &mdash; they arrive in phase. A 12.5 mm path difference is half a wavelength &mdash; they arrive exactly out of phase, and a coherent receiver sees them cancel. This is the entire phenomenon. Phased arrays are not exotic; they are bookkeeping for path-length differences measured in millimetres.</p>
+
+        <p>Two more things to fix in mind before we start adding signals. First, the wavenumber: <span class="math">k = 2&pi;/&lambda;</span>. It's just a units-of-radians-per-metre conversion that shows up everywhere. Multiply a distance by <span class="math">k</span> and you get the phase shift over that distance. Second, complex notation: a wave <span class="math">cos(2&pi;ft + &phi;)</span> is the real part of <span class="math">e<sup>j(2&pi;ft + &phi;)</sup></span>. Engineers carry the <span class="math">e<sup>j&phi;</sup></span> term and add them; the time-dependent <span class="math">e<sup>j2&pi;ft</sup></span> factors out cleanly because every element runs at the same frequency.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Two-element interference
+         ============================================================ -->
+    <section class="reveal" id="iii-two-element">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>Why does adding two phased signals make a beam?</h2>
+      </div>
+      <div class="section-content">
+        <p>Put two identical antennas a distance <span class="math">d</span> apart along a line. Each radiates the same sinusoid. A receiver far away at angle &theta; from the array's broadside sees the two signals arriving with a <em>path-length difference</em> of <span class="math">d&middot;sin(&theta;)</span>. That extra path adds a phase shift of <span class="math">k&middot;d&middot;sin(&theta;) = (2&pi;d/&lambda;)&middot;sin(&theta;)</span> to the signal from the farther antenna.</p>
+
+        <p>If we also impose a deliberate transmit phase shift &phi; on the second element, the total phase difference at the receiver is:</p>
+
+        <div class="math-block">
+          &psi; = k&middot;d&middot;sin(&theta;) + &phi;
+          <span class="math-where">geometric path-length phase + electronic phase shift we apply at the element</span>
+        </div>
+
+        <p>Two equal-amplitude sinusoids with a phase difference &psi; sum to <span class="math">|2&middot;cos(&psi;/2)|</span> in amplitude. So the field strength radiated by the two-element array, as a function of angle, is:</p>
+
+        <div class="math-block">
+          |E(&theta;)| &prop; |2&middot;cos(&psi;/2)| = 2&middot;|cos[ &frac12;(k&middot;d&middot;sin&theta; + &phi;) ]|
+          <span class="math-where">"array factor" for a 2-element uniform array, normalised. Doubles when in phase, vanishes when 180&deg; apart.</span>
+        </div>
+
+        <p>Where &psi; = 0 (signals in phase), the amplitude is 2 &mdash; constructive interference, the beam. Where &psi; = &plusmn;&pi; (signals exactly out of phase), the amplitude is 0 &mdash; a perfect null. Two antennas, by themselves, sketch a pattern of alternating beams and nulls across the sky.</p>
+
+        <p>Now the key move. If we set &phi; = &minus;k&middot;d&middot;sin(&theta;<sub>0</sub>) for some chosen angle &theta;<sub>0</sub>, then at &theta; = &theta;<sub>0</sub> the geometric phase exactly cancels the electronic phase: &psi; = 0, and we get full constructive interference in <em>that</em> direction. We have <strong>steered the beam to &theta;<sub>0</sub> by changing one number</strong>: the electronic phase shift &phi;. No motors, no motion. Play with the widget.</p>
+
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Two-Element Interference Pattern</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Element spacing d/&lambda;</span><span class="slider-value" id="w1-d-val">0.50</span></div>
+              <input type="range" id="w1-d" min="0.5" max="5.0" value="0.5" step="0.05">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Phase shift &phi; (deg)</span><span class="slider-value" id="w1-phi-val">0&deg;</span></div>
+              <input type="range" id="w1-phi" min="-180" max="180" value="0" step="5">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Main beam angle</div><div class="readout-value" id="w1-beam">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">First null</div><div class="readout-value" id="w1-null">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Lobes in &plusmn;90&deg;</div><div class="readout-value" id="w1-lobes">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Polar plot of |E(&theta;)| for two elements spaced d apart. Move &phi; from 0 (beam straight up) to &plusmn;180&deg; (beam pulled sideways). Increase d/&lambda; past 0.5: extra lobes pop up, the pattern fragments. This is the entire engineering problem of phased arrays in two sliders.</p>
+        </div>
+
+        <p>Two elements is the toy model. The beam is wide (the half-power beamwidth is around 60&deg; for d = &lambda;/2), the side lobes are tall, and steering accuracy is mediocre. But the principle is exposed: <em>phase at transmit becomes angle at receive</em>. Add more elements and the beam sharpens.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. N-element array
+         ============================================================ -->
+    <section class="reveal" id="iv-n-element">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>How does an N-element array sharpen the beam?</h2>
+      </div>
+      <div class="section-content">
+        <p>Generalise. Put <span class="math">N</span> identical antennas in a row, uniformly spaced by <span class="math">d</span>. Apply phase shifts <span class="math">&phi;<sub>n</sub> = n&middot;&phi;</span> (linear progression: element 0 gets 0, element 1 gets &phi;, element 2 gets 2&phi;, etc.). The total field at angle &theta; is the sum of N complex exponentials:</p>
+
+        <div class="math-block">
+          E(&theta;) = &Sigma;<sub>n=0..N&minus;1</sub> e<sup>j&middot;n&middot;(k&middot;d&middot;sin&theta; + &phi;)</sup> = &Sigma;<sub>n=0..N&minus;1</sub> e<sup>j&middot;n&middot;&psi;</sup>
+          <span class="math-where">where &psi; = k&middot;d&middot;sin&theta; + &phi;. This is a geometric series in e<sup>j&psi;</sup>.</span>
+        </div>
+
+        <p>Geometric series sum:  closed form. Take the magnitude and you get the <strong>array factor</strong> for a uniform linear array:</p>
+
+        <div class="math-block">
+          |AF(&theta;)| = | sin(N&psi;/2) / sin(&psi;/2) |
+          <span class="math-where">&psi; = (2&pi;d/&lambda;)&middot;sin&theta; + &phi;. Peak value = N when &psi; = 0. Nulls when N&psi;/2 = m&pi; for integer m &ne; 0 mod N.</span>
+        </div>
+
+        <p>This is the central formula of array theory. Three things drop out of it:</p>
+
+        <ul>
+          <li><strong>Peak gain</strong> at &psi; = 0 is N. Twice the elements, twice the field amplitude, four times the radiated power per unit solid angle. Coherent combining is the whole point.</li>
+          <li><strong>Beamwidth</strong> shrinks as 1/N. The angular distance from peak to first null is approximately <span class="math">2/(Nd/&lambda;)</span> radians for a broadside beam &mdash; in degrees, roughly <span class="math">102/(Nd/&lambda;)&deg;</span>. A 32-element array with d = &lambda;/2 has a beamwidth around 6&deg;. Starlink's 1,280-element square array, if treated as roughly 36 elements per side, has a beamwidth around 3&deg;.</li>
+          <li><strong>Side lobes</strong> appear at every secondary peak of <span class="math">|sin(N&psi;/2)|</span>. The first side lobe of a uniform array sits 13.3 dB below the main beam &mdash; meaning ~5% of peak power leaks into the wrong direction. That's the price of using uniform amplitudes; tapering the amplitudes across the array trades main-beam gain for lower side lobes (Taylor, Chebyshev, Hamming windows &mdash; the same DSP toolbox as filter design).</li>
+        </ul>
+
+        <p>The widget below evaluates the array factor for variable N, spacing, and steering angle. Push N from 2 to 32 and watch the beam tighten from a fan into a pencil.</p>
+
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; N-Element Linear Array Factor</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Elements N</span><span class="slider-value" id="w2-n-val">8</span></div>
+              <input type="range" id="w2-n" min="2" max="32" value="8" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Spacing d/&lambda;</span><span class="slider-value" id="w2-d-val">0.50</span></div>
+              <input type="range" id="w2-d" min="0.3" max="1.0" value="0.5" step="0.02">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Steer angle &theta;<sub>0</sub></span><span class="slider-value" id="w2-th-val">0&deg;</span></div>
+              <input type="range" id="w2-th" min="-60" max="60" value="0" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Peak gain</div><div class="readout-value" id="w2-gain">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Beamwidth (3 dB)</div><div class="readout-value" id="w2-bw">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">First sidelobe</div><div class="readout-value" id="w2-sl">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Cartesian gain pattern, in dB, of |sin(N&psi;/2) / sin(&psi;/2)|. Push N up: the beam narrows and gain climbs by 10&middot;log<sub>10</sub>(N) dB. Drag &theta;<sub>0</sub>: the main beam slides across the sky. The phase progression needed to point at &theta;<sub>0</sub> is computed automatically (next section).</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the element pattern matters</summary>
+          <p>The array factor above assumes ideal isotropic radiators &mdash; antennas that emit equally in every direction. Real antenna elements have their own radiation pattern <span class="math">g<sub>e</sub>(&theta;)</span>: a microstrip patch element, for instance, has a roughly cosine-shaped pattern that peaks at broadside and falls off toward the array's horizon. The total pattern is the product:</p>
+          <div class="math-block">
+            G(&theta;) = g<sub>e</sub>(&theta;) &times; |AF(&theta;)|<sup>2</sup>
+            <span class="math-where">"pattern multiplication" theorem &mdash; valid only for identical, identically-oriented elements</span>
+          </div>
+          <p>Practically: even a perfectly steered array factor at &theta; = 60&deg; gets attenuated by the element pattern, which can drop another 3 to 6 dB at that angle. The "you can steer to 60&deg;" claim has a footnote: the gain falls off, and at some angle the link budget breaks. We'll quantify this in section VII.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Beam steering
+         ============================================================ -->
+    <section class="reveal" id="v-steering">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>How do you steer the beam without moving the antenna?</h2>
+      </div>
+      <div class="section-content">
+        <p>The steering rule is the headline equation of phased-array theory. Set the per-element phase to cancel the geometric path-difference phase at the desired angle &theta;<sub>0</sub>. The peak of <span class="math">|AF|</span> occurs at <span class="math">&psi; = 0</span>, i.e., when:</p>
+
+        <div class="math-block">
+          k&middot;d&middot;sin(&theta;<sub>0</sub>) + &phi; = 0  &nbsp;&nbsp;&hArr;&nbsp;&nbsp;  &phi; = &minus;k&middot;d&middot;sin(&theta;<sub>0</sub>)
+          <span class="math-where">phase shift per element to steer the main beam to angle &theta;<sub>0</sub> from broadside</span>
+        </div>
+
+        <p>Or, written for the full linear array with elements indexed n = 0, 1, ..., N&minus;1:</p>
+
+        <div class="math-block">
+          &phi;<sub>n</sub> = &minus;n&middot;k&middot;d&middot;sin(&theta;<sub>0</sub>) = &minus;n&middot;(2&pi;d/&lambda;)&middot;sin(&theta;<sub>0</sub>)
+          <span class="math-where">linear phase progression. Each element is phase-delayed by an integer multiple of the base shift.</span>
+        </div>
+
+        <p>That's it. Plug in &theta;<sub>0</sub> = 0&deg; (boresight, straight ahead): &phi;<sub>n</sub> = 0 for every element, all signals in phase, beam straight ahead. Plug in &theta;<sub>0</sub> = 30&deg;: each element n needs to delay its signal by <span class="math">n&middot;&pi;&middot;sin(30&deg;) = n&middot;&pi;/2</span> radians (assuming d = &lambda;/2). Element 0 gets 0, element 1 gets &pi;/2, element 2 gets &pi;, element 3 gets 3&pi;/2, and so on, wrapping modulo 2&pi;.</p>
+
+        <p>A concrete example, all numbers worked. Starlink uses d &asymp; &lambda;/2 = 12.5 mm at 12 GHz. To steer to &theta;<sub>0</sub> = 45&deg;:</p>
+
+        <ul>
+          <li>Required phase per element: <span class="math">&phi; = &minus;&pi;&middot;sin(45&deg;) = &minus;2.22 rad = &minus;127&deg;</span></li>
+          <li>Equivalent path-length offset: <span class="math">&phi;&middot;&lambda;/(2&pi;) = &minus;8.8 mm</span></li>
+          <li>Equivalent time delay: <span class="math">&minus;8.8 mm / c = &minus;29.4 picoseconds</span></li>
+        </ul>
+
+        <p>Each successive element transmits 29 picoseconds earlier than the previous one. That's the entire steering action: a programmable time delay (or, equivalently, a phase shift) on each element. Implemented in silicon, it's a few extra gates per channel. Implemented in 1965 with vacuum tubes and ferrite phase shifters, it was the entire AN/FPS-85 SLBM warning radar &mdash; the size of a building, costing $440 million in 1969 dollars.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; "phase delay" vs "true time delay"</summary>
+          <p>The steering rule above uses a <em>phase</em> shift, which is frequency-dependent. If you transmit a wideband signal (say 250 MHz of bandwidth around a 12 GHz carrier), the steering angle drifts slightly across the band &mdash; a phenomenon called <em>beam squint with frequency</em>. For narrow-band Starlink channels this is small enough to ignore. For very wideband radars (chirp pulses, multi-GHz signals), a true time delay (TTD) is needed, which steers identically at every frequency. TTDs are implemented as switched lengths of transmission line, not phase shifters, and are bulkier &mdash; a real cost in radar design.</p>
+        </details>
+
+        <p>The remarkable thing is the steering speed. A microwave phase shifter in modern silicon switches in <em>nanoseconds</em>. A whole beam can be repointed across the sky in less time than a router takes to look up an IP address. This is why a single Starlink terminal can multiplex across several visible satellites at once and seamlessly hand off &mdash; the beam can <em>jump</em> 30&deg; in a microsecond, sample a new satellite, jump back. No mechanical system can compete.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Grating lobes
+         ============================================================ -->
+    <section class="reveal" id="vi-grating">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What is a grating lobe, and why does element spacing matter?</h2>
+      </div>
+      <div class="section-content">
+        <p>The array factor <span class="math">|sin(N&psi;/2)/sin(&psi;/2)|</span> peaks not only at &psi; = 0 but at every &psi; = 2&pi;m for integer m. That's the periodicity of the sine in the denominator. We want only the &psi; = 0 peak (the main beam) to fall in real angles &minus;90&deg; &le; &theta; &le; +90&deg;. The other peaks &mdash; called <strong>grating lobes</strong> &mdash; should fall in the "invisible region" where <span class="math">|sin&theta;| > 1</span>.</p>
+
+        <p>Work it out. The next peak occurs at &psi; = &plusmn;2&pi;, which means:</p>
+
+        <div class="math-block">
+          (2&pi;d/&lambda;)&middot;sin(&theta;<sub>g</sub>) + &phi; = &plusmn;2&pi;
+          <br>
+          sin(&theta;<sub>g</sub>) = &plusmn;&lambda;/d &minus; &phi;/(2&pi;d/&lambda;) &nbsp;&nbsp;&hArr;&nbsp;&nbsp; sin(&theta;<sub>g</sub>) = sin(&theta;<sub>0</sub>) &plusmn; &lambda;/d
+          <span class="math-where">where &theta;<sub>0</sub> is the desired steer angle (using &phi; = &minus;k&middot;d&middot;sin&theta;<sub>0</sub>)</span>
+        </div>
+
+        <p>For a grating lobe to <em>not</em> exist (no second peak in visible space), we need <span class="math">|sin&theta;<sub>0</sub> &plusmn; &lambda;/d| > 1</span> for both signs. This collapses to the grating-lobe condition:</p>
+
+        <div class="math-block">
+          d / &lambda; &le; 1 / (1 + |sin&theta;<sub>max</sub>|)
+          <span class="math-where">where &theta;<sub>max</sub> is the maximum steering angle the array must support</span>
+        </div>
+
+        <p>Check the corners. If you only ever point at broadside (&theta;<sub>max</sub> = 0), then <span class="math">d/&lambda; &le; 1</span> &mdash; spacing up to one full wavelength is safe. If you need to steer to &theta;<sub>max</sub> = 60&deg;, then <span class="math">d/&lambda; &le; 1/(1 + 0.866) = 0.536</span> &mdash; about half a wavelength. The classical "rule of thumb" of <strong>d = &lambda;/2</strong> is the conservative limit that allows steering all the way to &theta;<sub>max</sub> = 90&deg; with no grating lobes ever appearing. This is the antenna world's Nyquist criterion: it's the same logic as sampling a signal &mdash; you must spatially sample fast enough (small enough spacing) to avoid aliasing.</p>
+
+        <p>Why does this matter? A grating lobe is a full-power beam pointed in the wrong direction. If you're trying to talk to one satellite, a grating lobe means you're also blasting another patch of sky with the same signal &mdash; wasted power, plus interference into whoever lives there. For receive arrays, it's even worse: a grating lobe is an additional sensitivity peak, so noise and interference from an unintended direction get amplified along with the wanted signal.</p>
+
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Grating Lobe Visualizer</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Element spacing d/&lambda;</span><span class="slider-value" id="w3-d-val">0.50</span></div>
+              <input type="range" id="w3-d" min="0.1" max="2.0" value="0.5" step="0.02">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Steer angle &theta;<sub>0</sub></span><span class="slider-value" id="w3-th-val">30&deg;</span></div>
+              <input type="range" id="w3-th" min="-80" max="80" value="30" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Max safe d/&lambda;</div><div class="readout-value" id="w3-safe">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Grating lobe at</div><div class="readout-value" id="w3-gl">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Verdict</div><div class="readout-value" id="w3-verdict" style="font-size: 13px;">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">N = 16 elements. Start at d = 0.5&lambda;: one clean beam at any steer angle. Push d past 1&lambda;: a phantom beam (the grating lobe) materialises on the other side of the sky and grows. The red shaded zone marks where the array spec says "you've broken Nyquist."</p>
+        </div>
+
+        <p>This is why Starlink's elements are spaced at <em>roughly</em> half-wavelength in both x and y on the panel face. At &lambda; &asymp; 25 mm, spacing &asymp; 12.5 mm. The terminal's overall aperture is ~60 cm; 60 / 1.25 &asymp; 48 elements per side; 48&sup2; &asymp; 2,300 cells. Public reverse-engineering of the v2 terminal counts roughly 1,280 active elements in a hexagonal lattice &mdash; the hex layout buys you a slightly larger d/&lambda; for the same grating-lobe protection (the geometry of the second-nearest-neighbour spacing is different), which trims element count by ~15%.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Off-boresight cost
+         ============================================================ -->
+    <section class="reveal" id="vii-squint">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>What is the price you pay for steering off-boresight?</h2>
+      </div>
+      <div class="section-content">
+        <p>The array factor at the steered angle &theta;<sub>0</sub> has peak amplitude N regardless of &theta;<sub>0</sub> &mdash; the formula seems to promise free steering. It doesn't. Three physical effects bite the gain as you point further from broadside.</p>
+
+        <p><strong>1. Projected aperture.</strong> An array of physical aperture A, viewed at angle &theta;<sub>0</sub> from broadside, presents a projected aperture of <span class="math">A&middot;cos(&theta;<sub>0</sub>)</span>. Antenna directivity scales with aperture; so directivity falls by a factor of <span class="math">cos&theta;<sub>0</sub></span> just from geometry. At &theta;<sub>0</sub> = 60&deg;, you lose 3 dB &mdash; half your gain &mdash; before any other effect kicks in.</p>
+
+        <div class="math-block">
+          G(&theta;<sub>0</sub>) / G(0) = cos(&theta;<sub>0</sub>)  &nbsp;&nbsp;&rarr;&nbsp;&nbsp;  loss(dB) = &minus;10&middot;log<sub>10</sub>(cos&theta;<sub>0</sub>)
+          <span class="math-where">aperture-projection loss. 30&deg;: &minus;0.6 dB; 45&deg;: &minus;1.5 dB; 60&deg;: &minus;3.0 dB; 75&deg;: &minus;5.9 dB</span>
+        </div>
+
+        <p><strong>2. Element pattern.</strong> As the sidenote in section IV noted, each element has its own radiation pattern, typically with a <span class="math">cos<sup>q</sup>(&theta;)</span> shape for some q between 1 and 1.5. Multiply that into the array factor and you lose another 1 to 3 dB at 60&deg;. The element pattern is the floor: even with infinite array factor, you cannot exceed what one element radiates in that direction.</p>
+
+        <p><strong>3. Beam broadening.</strong> The half-power beamwidth grows as <span class="math">1/cos&theta;<sub>0</sub></span>. At 60&deg; the beam is twice as wide as at broadside &mdash; meaning less spatial selectivity, more interference from neighbouring sky, and lower tolerance to pointing error.</p>
+
+        <p>Stack the three. From boresight to 60&deg; off-boresight, a typical Starlink-class array loses around 6 dB of total gain (3 from aperture, 2-3 from element pattern, plus some from amplitude tapering effects). 6 dB is a factor of 4 in power. The link budget needs that margin built in &mdash; or the system has to refuse satellites below a certain elevation.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Steer angle &theta;<sub>0</sub></th><th>Aperture loss</th><th>Element pattern loss</th><th>Total typical</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">0&deg; (boresight)</td><td class="num">0 dB</td><td class="num">0 dB</td><td class="num">0 dB</td></tr>
+            <tr><td class="num">30&deg;</td><td class="num">&minus;0.6 dB</td><td class="num">&minus;0.7 dB</td><td class="num">&minus;1.3 dB</td></tr>
+            <tr><td class="num">45&deg;</td><td class="num">&minus;1.5 dB</td><td class="num">&minus;1.5 dB</td><td class="num">&minus;3.0 dB</td></tr>
+            <tr><td class="num">60&deg;</td><td class="num">&minus;3.0 dB</td><td class="num">&minus;3.0 dB</td><td class="num">&minus;6.0 dB</td></tr>
+            <tr><td class="num">75&deg;</td><td class="num">&minus;5.9 dB</td><td class="num">&minus;6.0 dB</td><td class="num">&minus;11.9 dB</td></tr>
+          </tbody>
+        </table>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; why the Starlink dish has a slight install tilt</summary>
+          <p>A 2D phased array on a flat panel mounted exactly horizontally has its boresight pointing straight up &mdash; great for satellites at zenith, terrible for satellites approaching the horizon. If the satellite is at 30&deg; elevation (60&deg; from boresight), you've already paid 6 dB of gain loss before any rain or pointing error.</p>
+          <p>Hence the small motorised tilt at install. The Gen2 Dishy auto-orients its panel to point at the <em>centre of the most useful patch of sky</em> for your latitude, biased slightly toward the equator (where the satellite passes are more frequent at favourable elevations). This isn't beam-steering &mdash; it's a one-time mechanical optimisation of the boresight, so the array spends most of its time steering &plusmn;30&deg; rather than &plusmn;60&deg;. It's the cheap mid-tier fix between "fully mechanical" and "no movement at all," and it buys back 3 dB of usable link margin for the cost of one stepper motor that runs once.</p>
+        </details>
+
+        <p>This is why the &theta;<sub>max</sub> = 60&deg; limit shows up in every commercial phased-array spec. Beyond that, the combined gain loss makes the link uneconomic to close. Mid-tier optimisations (the install tilt, hexagonal lattices, amplitude tapering) buy you a couple of dB; beyond that you need a fundamentally different antenna or a closer satellite.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIII. Silicon
+         ============================================================ -->
+    <section class="reveal" id="viii-silicon">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>How does Starlink's terminal actually do this in silicon?</h2>
+      </div>
+      <div class="section-content">
+        <p>The math is the same as it was in 1958. What changed is the implementation cost.</p>
+
+        <p>Each element in the Starlink array needs four things behind it: (1) an RF amplifier for transmit/receive, (2) a phase shifter, (3) a digital control line to set the phase, (4) DC power. In a 1965 radar, each of those was a discrete vacuum-tube or ferrite component bolted to a chassis. For a 1,280-element array, the bill of materials would have been astronomical &mdash; the entire AN/FPS-85 had only 5,184 elements and cost $440 million to build.</p>
+
+        <p>The Starlink terminal achieves this with <strong>beamforming integrated circuits</strong> (BFICs). A single BFIC drives 4 to 16 elements: each channel contains an RF front-end (LNA on receive, PA on transmit), a 6-bit digital phase shifter, and a 6-bit digital attenuator (for amplitude tapering). Modern BFICs come from companies like Anokiwave, Renesas, and (rumoured for Starlink's v2) custom SpaceX silicon. Each BFIC is a few square millimetres of die, costs under $10 in volume, and dissipates around 1 W per channel.</p>
+
+        <p>The phase shifter is the heart of the chip. There are two main architectures:</p>
+
+        <ul>
+          <li><strong>Passive vector-modulator</strong>: combine an in-phase (I) signal and a quadrature (Q) signal with variable weights. By choosing I, Q amplitudes you synthesise any phase 0 to 360&deg; with arbitrary resolution. Low loss, but requires an active mixer-style topology with linearity constraints.</li>
+          <li><strong>Switched-line / loaded-line</strong>: switch in pieces of transmission line of specific length, giving discrete phase steps (typically 5.625&deg; per LSB for a 6-bit shifter). Glassy in implementation, simple to characterise, but quantises phase.</li>
+        </ul>
+
+        <p>A 6-bit phase shifter resolves <span class="math">2&pi;/64 = 5.625&deg;</span>. At 12 GHz, that corresponds to ~1.3 ps of resolution &mdash; about the time light takes to travel 0.4 mm. The quantisation introduces small pointing errors and slightly elevated near-in side lobes, but the practical effect is below 0.5 dB.</p>
+
+        <p>The whole beamforming computation &mdash; figure out <span class="math">&phi;<sub>n</sub></span> for each of 1,280 elements, send the bits to the BFICs &mdash; runs on a microcontroller on the terminal's main board. The math is trivial: <span class="math">&phi;<sub>n,m</sub> = &minus;(2&pi;d/&lambda;)&middot;(n&middot;sin&theta;<sub>0</sub>&middot;cos&phi;<sub>0</sub> + m&middot;sin&theta;<sub>0</sub>&middot;sin&phi;<sub>0</sub>)</span> for element at lattice position (n, m), beam steered to (&theta;<sub>0</sub>, &phi;<sub>0</sub>) in spherical coords. The terminal can recompute every element's phase a thousand times per second; the bottleneck is the satellite handoff scheduler, not the trigonometry.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the 2D array is just the 1D array twice</summary>
+          <p>Everything in sections III through VI was a 1D linear array. A 2D rectangular array of M&times;N elements has an array factor that is the product of the 1D factors in each axis:</p>
+          <div class="math-block">
+            AF<sub>2D</sub>(&theta;, &phi;) = AF<sub>x</sub>(&theta;, &phi;) &times; AF<sub>y</sub>(&theta;, &phi;)
+            <span class="math-where">"separable" array. Beam shape is a pencil; steering is independent in each axis.</span>
+          </div>
+          <p>For the Starlink hexagonal lattice, it's slightly different (the factor depends on the lattice vectors), but conceptually the same: the array sums coherently across both dimensions, the beam is a 2D pencil pointing at (&theta;<sub>0</sub>, &phi;<sub>0</sub>), and steering is just a 2D version of the 1D rule. Everything in this article generalises cleanly; we just stuck to 1D to keep the equations one-line.</p>
+        </details>
+
+        <p>The economics that made this possible track Moore's Law plus mmWave silicon plus 5G investment. A 2010 phased array was a $50,000 defence-industry curio. A 2024 phased array sits on a roof in rural Wyoming serving Netflix at 200 Mbps for $349. The math didn't change. The silicon got cheap.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IX. Synthesis
+         ============================================================ -->
+    <section class="reveal" id="ix-synthesis">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>The full beam-steering synthesis</h2>
+      </div>
+      <div class="section-content">
+        <p>Put every piece on one page. Here is the full operational logic of a phased-array terminal:</p>
+
+        <ol>
+          <li><strong>Wavelength</strong>: <span class="math">&lambda; = c/f &asymp; 25 mm</span> at the 12 GHz Ku-band downlink. <span class="math">k = 2&pi;/&lambda;</span>.</li>
+          <li><strong>Layout</strong>: <span class="math">N</span> elements per axis, spacing <span class="math">d &asymp; &lambda;/2</span> (so grating lobes never reach the visible region). Total elements: <span class="math">N&sup2;</span>, around 1,280 for Starlink.</li>
+          <li><strong>Steering rule</strong>: to point at <span class="math">(&theta;<sub>0</sub>, &phi;<sub>0</sub>)</span>, set element (n, m) to phase <span class="math">&phi;<sub>n,m</sub> = &minus;k&middot;d&middot;(n&middot;sin&theta;<sub>0</sub>&middot;cos&phi;<sub>0</sub> + m&middot;sin&theta;<sub>0</sub>&middot;sin&phi;<sub>0</sub>)</span>.</li>
+          <li><strong>Beamwidth</strong>: roughly <span class="math">&lambda;/(N&middot;d)</span> radians; for a 60 cm aperture at 12 GHz, ~3&deg;.</li>
+          <li><strong>Side lobes</strong>: first sidelobe of a uniform array is 13.3 dB down. Tapering reduces it but costs gain.</li>
+          <li><strong>Grating-lobe constraint</strong>: <span class="math">d/&lambda; &le; 1/(1 + |sin&theta;<sub>max</sub>|)</span>. Starlink picks <span class="math">d &asymp; &lambda;/2</span> and accepts <span class="math">|&theta;<sub>max</sub>| &le; 60&deg;</span>.</li>
+          <li><strong>Scan loss</strong>: pointing at <span class="math">&theta;<sub>0</sub></span> costs <span class="math">&minus;10&middot;log<sub>10</sub>(cos&theta;<sub>0</sub>)</span> dB from aperture projection, plus 1&ndash;3 dB from element pattern, plus broadening of the beam.</li>
+          <li><strong>Update rate</strong>: phase shifters switch in ns. The terminal can re-steer the beam thousands of times per second. Satellite handoffs (every ~4 minutes) are imperceptible.</li>
+        </ol>
+
+        <p>That's the entire stack from Maxwell's equations to a roof in Wyoming. The phased-array idea is sixty-five years old. The reason it took until the 2020s to put one on a residential rooftop is not that someone discovered a new equation &mdash; it's that the implementation finally became cheaper than a single rotating dish.</p>
+
+        <div class="callout">
+          <div class="callout-title">The one thing</div>
+          <p><strong>A flat antenna with no moving parts steers its beam anywhere in the sky by setting one phase shift per element, computed from the simple rule <span class="math">&phi;<sub>n</sub> = &minus;n&middot;k&middot;d&middot;sin&theta;<sub>0</sub></span>.</strong> Wave interference does the rest: signals add up where you want them, cancel everywhere else, all in less time than your CPU takes to handle an interrupt. Mechanical pointing is dead for fast satellites; phase arithmetic is the future, and the future runs on silicon you can buy for ten dollars per channel.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">Speed of light <span class="math">c = 299,792,458 m/s</span> exactly. At Starlink's Ku-band downlink centre frequency of ~11.7 GHz, <span class="math">&lambda; = c/f = 25.6 mm</span>. For Ka-band uplink at ~30 GHz, <span class="math">&lambda; = 10.0 mm</span>. The element spacing chosen for the Starlink terminal sits at roughly &lambda;/2 of the highest active band &mdash; this is the worst-case (smallest-wavelength) constraint that prevents grating lobes. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The closed-form array factor <span class="math">|sin(N&psi;/2)/sin(&psi;/2)|</span> follows from summing the geometric series <span class="math">&sum;<sub>n=0</sub><sup>N&minus;1</sup> e<sup>jn&psi;</sup> = (1 &minus; e<sup>jN&psi;</sup>)/(1 &minus; e<sup>j&psi;</sup>)</span>. Multiply numerator and denominator by <span class="math">e<sup>&minus;j&psi;/2</sup></span> to get <span class="math">e<sup>j(N&minus;1)&psi;/2</sup> &middot; sin(N&psi;/2)/sin(&psi;/2)</span>. The phase factor disappears in the magnitude. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">The active-element count for the Starlink user terminal has not been formally published by SpaceX, but reverse-engineering teardowns (Kenneth Keiter's 2021 disassembly; subsequent X-rays by Ken Shirriff) settle on roughly 1,280 elements in the Gen2 round terminal, arranged on a hexagonal lattice. The Gen3 "Mini" terminal uses ~640. Anokiwave-class BFICs drive 4 to 8 elements each. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts
+       ============================================================ -->
+  <script>
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var t = document.getElementById(this.getAttribute('href').slice(1));
+        if (t) {
+          e.preventDefault();
+          var navH = document.querySelector('.nav').offsetHeight;
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - navH - 20, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       WIDGET 1 — Two-Element Interference (polar pattern)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 420 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { d: 0.5, phi: 0 };
+
+    // Array factor for 2 elements at spacing d (in wavelengths), phase shift phi (rad).
+    // Pattern as function of theta (rad from broadside, i.e. perpendicular to array axis).
+    function af2(theta, dLambda, phi) {
+      var psi = 2 * Math.PI * dLambda * Math.sin(theta) + phi;
+      return Math.abs(2 * Math.cos(psi / 2));
+    }
+
+    function compute() {
+      // Sample the pattern across -90..+90 deg in 1-degree steps
+      var samples = [];
+      var peakV = 0, peakAng = 0;
+      var nullAng = null;
+      var lobeCount = 0;
+      var prev = 0, prev2 = 0;
+      for (var deg = -90; deg <= 90; deg += 0.5) {
+        var th = deg * Math.PI / 180;
+        var v = af2(th, state.d, state.phi * Math.PI / 180);
+        samples.push({ deg: deg, v: v });
+        if (v > peakV) { peakV = v; peakAng = deg; }
+      }
+      // Find local maxima of v (lobes) and minima below 0.1 (nulls)
+      for (var i = 2; i < samples.length - 2; i++) {
+        var s = samples[i];
+        // local max
+        if (s.v > samples[i-1].v && s.v > samples[i+1].v && s.v > 0.5) lobeCount++;
+        // first null near zero
+        if (s.v < 0.05 && nullAng === null && Math.abs(s.deg) > 1) nullAng = s.deg;
+      }
+      return { samples: samples, peakV: peakV, peakAng: peakAng, nullAng: nullAng, lobeCount: lobeCount };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+
+      // Polar plot: centre at top of canvas, half-disc downward removed -- but here we
+      // want to show the antenna at bottom-centre and the pattern as upper semicircle.
+      // Antennas point "up" toward the sky; theta=0 is straight up.
+      var cx = W / 2;
+      var cy = H - 50;
+      var radius = Math.min(W * 0.40, H * 0.78);
+
+      // Polar grid: concentric arcs
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--border)');
+      ctx.lineWidth = 1;
+      ctx.setLineDash([2, 3]);
+      for (var rr = 1; rr <= 4; rr++) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius * rr / 4, Math.PI, 2 * Math.PI);
+        ctx.stroke();
+      }
+      // radial angle lines at every 30 deg
+      for (var aDeg = -90; aDeg <= 90; aDeg += 30) {
+        var a = (aDeg - 90) * Math.PI / 180; // -90 = left, 0 = up, +90 = right
+        // theta = 0 should point up, so rotate by -PI/2
+        var px = cx + Math.cos(a) * radius;
+        var py = cy + Math.sin(a) * radius;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(px, py);
+        ctx.stroke();
+        // angle labels
+        ctx.setLineDash([]);
+        drawTextCanvas(ctx, cx + Math.cos(a) * (radius + 14), cy + Math.sin(a) * (radius + 14),
+          aDeg + '°', { fontSize: 10, color: 'var(--text-secondary)' });
+        ctx.setLineDash([2, 3]);
+      }
+      ctx.restore();
+
+      // Plot pattern
+      var maxV = 2.0; // theoretical peak for 2 elements
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--accent)');
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      r.samples.forEach(function(s, i) {
+        var rNorm = s.v / maxV;
+        // theta=0 → up. screen angle = -90 deg from "right" = (s.deg - 90) deg
+        var a = (s.deg - 90) * Math.PI / 180;
+        var px = cx + Math.cos(a) * radius * rNorm;
+        var py = cy + Math.sin(a) * radius * rNorm;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+      ctx.restore();
+
+      // Filled translucent
+      ctx.save();
+      ctx.fillStyle = resolveCSSColor('var(--accent)');
+      ctx.globalAlpha = 0.10;
+      ctx.beginPath();
+      r.samples.forEach(function(s, i) {
+        var rNorm = s.v / maxV;
+        var a = (s.deg - 90) * Math.PI / 180;
+        var px = cx + Math.cos(a) * radius * rNorm;
+        var py = cy + Math.sin(a) * radius * rNorm;
+        if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      });
+      ctx.lineTo(cx, cy);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // Mark the main beam direction with a heavy line
+      var beamA = (r.peakAng - 90) * Math.PI / 180;
+      ctx.save();
+      ctx.strokeStyle = '#c53030';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(beamA) * radius * 0.95, cy + Math.sin(beamA) * radius * 0.95);
+      ctx.stroke();
+      ctx.restore();
+
+      // Draw the two antenna elements at the bottom
+      var halfSep = state.d * 18; // visual scale
+      drawPointCanvas(ctx, cx - halfSep, cy, 6, '#1a202c', '#fff');
+      drawPointCanvas(ctx, cx + halfSep, cy, 6, '#1a202c', '#fff');
+      ctx.save();
+      ctx.strokeStyle = '#1a202c';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(cx - halfSep, cy);
+      ctx.lineTo(cx + halfSep, cy);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, cx, cy + 22, 'Element 0', { fontSize: 10, color: 'var(--text-secondary)', align: 'right' });
+      drawTextCanvas(ctx, cx + halfSep + 30, cy + 22, '+ phase ' + state.phi.toFixed(0) + '°', { fontSize: 10, color: 'var(--text-secondary)', align: 'left' });
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 16, 'Radiation pattern |E(θ)| — polar', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      drawTextCanvas(ctx, W / 2, 32, 'Sky is up; θ = 0° is straight up (broadside)', {
+        fontSize: 10, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Readouts
+      document.getElementById('w1-beam').textContent = r.peakAng.toFixed(0) + '°';
+      document.getElementById('w1-null').textContent = (r.nullAng === null ? 'none' : r.nullAng.toFixed(0) + '°');
+      document.getElementById('w1-lobes').textContent = r.lobeCount.toString();
+    }
+
+    attachSliders([
+      { el: document.getElementById('w1-d'),   label: document.getElementById('w1-d-val'),   format: function(v) { return v.toFixed(2); } },
+      { el: document.getElementById('w1-phi'), label: document.getElementById('w1-phi-val'), format: function(v) { return v.toFixed(0) + '°'; } }
+    ], function(vals) {
+      state.d = vals['w1-d']; state.phi = vals['w1-phi'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — N-Element Linear Array Factor (Cartesian, dB)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 420 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { n: 8, d: 0.5, th0: 0 };
+
+    // Array factor magnitude for uniform linear array, normalised to N.
+    function afN(theta, N, dLambda, th0) {
+      var phi = -2 * Math.PI * dLambda * Math.sin(th0); // steering phase per element
+      var psi = 2 * Math.PI * dLambda * Math.sin(theta) + phi;
+      var num = Math.sin(N * psi / 2);
+      var den = Math.sin(psi / 2);
+      if (Math.abs(den) < 1e-9) return N; // L'Hopital
+      return Math.abs(num / den);
+    }
+
+    function compute() {
+      var N = state.n, dL = state.d, th0 = state.th0 * Math.PI / 180;
+      var samples = [];
+      var peakV = 0;
+      var maxDB = 10 * Math.log10(N * N); // peak gain in dB (relative to single element)
+      for (var deg = -90; deg <= 90; deg += 0.25) {
+        var th = deg * Math.PI / 180;
+        var v = afN(th, N, dL, th0);
+        if (v > peakV) peakV = v;
+        samples.push({ deg: deg, v: v });
+      }
+      // Compute dB relative to peak (so peak = 0 dB)
+      samples.forEach(function(s) {
+        s.dB = (s.v < 1e-9) ? -60 : 20 * Math.log10(s.v / N);
+        if (s.dB < -60) s.dB = -60;
+      });
+      // Find first sidelobe level (the highest local max NOT at the main beam)
+      var slLevel = -60;
+      for (var i = 2; i < samples.length - 2; i++) {
+        var s = samples[i];
+        if (s.dB > samples[i-1].dB && s.dB > samples[i+1].dB && Math.abs(s.deg - state.th0) > 3) {
+          if (s.dB > slLevel) slLevel = s.dB;
+        }
+      }
+      // 3 dB beamwidth: find points where dB == -3 around main beam
+      var bw = null;
+      var leftI = null, rightI = null;
+      for (var j = 0; j < samples.length; j++) {
+        if (samples[j].deg < state.th0 && samples[j].dB >= -3) {
+          if (leftI === null) leftI = samples[j].deg;
+        }
+      }
+      for (var k = samples.length - 1; k >= 0; k--) {
+        if (samples[k].deg > state.th0 && samples[k].dB >= -3) {
+          if (rightI === null) rightI = samples[k].deg;
+        }
+      }
+      if (leftI !== null && rightI !== null) bw = rightI - leftI;
+      return { samples: samples, maxDB: maxDB, slLevel: slLevel, bw: bw };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+
+      var pad = { top: 36, right: 24, bottom: 44, left: 56 };
+      // Axes: x = theta (deg), y = dB (-40 to 0)
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['-90°', '-60°', '-30°', '0°', '30°', '60°', '90°'],
+        yMin: -40, yMax: 0, ySteps: 4,
+        yFmt: function(v) { return v.toFixed(0) + ' dB'; }
+      });
+
+      // Plot the pattern
+      var pts = r.samples.map(function(s) {
+        return { x: mapX(s.deg, -90, 90, W, pad), y: mapY(s.dB, -40, 0, H, pad) };
+      });
+      drawLineCanvas(ctx, pts, { color: 'var(--accent)', width: 2 });
+
+      // Fill below
+      ctx.save();
+      ctx.fillStyle = resolveCSSColor('var(--accent)');
+      ctx.globalAlpha = 0.12;
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, mapY(-40, -40, 0, H, pad));
+      pts.forEach(function(p) { ctx.lineTo(p.x, p.y); });
+      ctx.lineTo(pts[pts.length-1].x, mapY(-40, -40, 0, H, pad));
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // Mark main beam steering angle with a vertical dashed line
+      var sx = mapX(state.th0, -90, 90, W, pad);
+      ctx.save();
+      ctx.strokeStyle = '#c53030';
+      ctx.setLineDash([5, 4]);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sx, pad.top);
+      ctx.lineTo(sx, H - pad.bottom);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, sx, pad.top - 8, 'θ₀ = ' + state.th0 + '°',
+        { fontSize: 11, color: '#c53030', weight: '600', baseline: 'bottom' });
+
+      // -3 dB reference line
+      var y3 = mapY(-3, -40, 0, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#888';
+      ctx.setLineDash([2, 3]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y3);
+      ctx.lineTo(W - pad.right, y3);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, W - pad.right - 6, y3 - 8, '−3 dB',
+        { fontSize: 9, color: '#888', align: 'right', baseline: 'bottom' });
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 14, 'Array factor |AF(θ)|, normalised to peak', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      drawTextCanvas(ctx, W / 2, 30, 'N = ' + state.n + ', d/λ = ' + state.d.toFixed(2) + ', θ₀ = ' + state.th0 + '°', {
+        fontSize: 10, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Readouts
+      document.getElementById('w2-gain').textContent = r.maxDB.toFixed(1) + ' dBi';
+      document.getElementById('w2-bw').textContent = (r.bw === null ? '—' : r.bw.toFixed(1) + '°');
+      document.getElementById('w2-sl').textContent = r.slLevel > -1 ? '—' : r.slLevel.toFixed(1) + ' dB';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-n'),  label: document.getElementById('w2-n-val'),  format: function(v) { return v.toFixed(0); } },
+      { el: document.getElementById('w2-d'),  label: document.getElementById('w2-d-val'),  format: function(v) { return v.toFixed(2); } },
+      { el: document.getElementById('w2-th'), label: document.getElementById('w2-th-val'), format: function(v) { return v.toFixed(0) + '°'; } }
+    ], function(vals) {
+      state.n = Math.round(vals['w2-n']); state.d = vals['w2-d']; state.th0 = vals['w2-th'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Grating Lobe Visualizer
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 420 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { d: 0.5, th0: 30 };
+    var N_FIXED = 16;
+
+    function afN(theta, N, dLambda, th0) {
+      var phi = -2 * Math.PI * dLambda * Math.sin(th0);
+      var psi = 2 * Math.PI * dLambda * Math.sin(theta) + phi;
+      var num = Math.sin(N * psi / 2);
+      var den = Math.sin(psi / 2);
+      if (Math.abs(den) < 1e-9) return N;
+      return Math.abs(num / den);
+    }
+
+    function compute() {
+      var dL = state.d, th0Rad = state.th0 * Math.PI / 180;
+      var samples = [];
+      for (var deg = -90; deg <= 90; deg += 0.25) {
+        var th = deg * Math.PI / 180;
+        var v = afN(th, N_FIXED, dL, th0Rad);
+        samples.push({ deg: deg, v: v });
+      }
+      samples.forEach(function(s) {
+        s.dB = (s.v < 1e-9) ? -60 : 20 * Math.log10(s.v / N_FIXED);
+        if (s.dB < -60) s.dB = -60;
+      });
+      // Safe spacing limit
+      var safeMax = 1 / (1 + Math.abs(Math.sin(th0Rad)));
+      // Detect grating lobe: a second peak with high gain not near the main beam
+      var glAngle = null;
+      var glGain = -60;
+      // The grating-lobe condition: sin(theta_g) = sin(theta0) ± λ/d
+      var sg1 = Math.sin(th0Rad) + 1 / dL;
+      var sg2 = Math.sin(th0Rad) - 1 / dL;
+      if (Math.abs(sg1) <= 1) {
+        var ang1 = Math.asin(sg1) * 180 / Math.PI;
+        if (Math.abs(ang1 - state.th0) > 5) {
+          glAngle = ang1;
+        }
+      }
+      if (Math.abs(sg2) <= 1) {
+        var ang2 = Math.asin(sg2) * 180 / Math.PI;
+        if (Math.abs(ang2 - state.th0) > 5) {
+          if (glAngle === null || Math.abs(ang2 - state.th0) > Math.abs(glAngle - state.th0)) {
+            glAngle = ang2;
+          }
+        }
+      }
+      return { samples: samples, safeMax: safeMax, glAngle: glAngle };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+
+      var pad = { top: 40, right: 24, bottom: 44, left: 56 };
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['-90°', '-60°', '-30°', '0°', '30°', '60°', '90°'],
+        yMin: -40, yMax: 0, ySteps: 4,
+        yFmt: function(v) { return v.toFixed(0) + ' dB'; }
+      });
+
+      // Plot
+      var pts = r.samples.map(function(s) {
+        return { x: mapX(s.deg, -90, 90, W, pad), y: mapY(s.dB, -40, 0, H, pad) };
+      });
+
+      // Highlight zone if d > safe (grating lobe visible)
+      var dangerous = state.d > r.safeMax;
+      var lineColor = dangerous ? '#c53030' : resolveCSSColor('var(--accent)');
+      drawLineCanvas(ctx, pts, { color: dangerous ? '#c53030' : 'var(--accent)', width: 2 });
+
+      // Fill under curve
+      ctx.save();
+      ctx.fillStyle = lineColor;
+      ctx.globalAlpha = 0.10;
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, mapY(-40, -40, 0, H, pad));
+      pts.forEach(function(p) { ctx.lineTo(p.x, p.y); });
+      ctx.lineTo(pts[pts.length-1].x, mapY(-40, -40, 0, H, pad));
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // Mark main beam
+      var sx = mapX(state.th0, -90, 90, W, pad);
+      ctx.save();
+      ctx.strokeStyle = '#1a202c';
+      ctx.setLineDash([5, 4]);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(sx, pad.top);
+      ctx.lineTo(sx, H - pad.bottom);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, sx, pad.top - 8, 'main beam: ' + state.th0 + '°',
+        { fontSize: 11, color: '#1a202c', weight: '600', baseline: 'bottom' });
+
+      // Mark grating lobe if visible
+      if (r.glAngle !== null) {
+        var gx = mapX(r.glAngle, -90, 90, W, pad);
+        ctx.save();
+        ctx.strokeStyle = '#c53030';
+        ctx.setLineDash([3, 3]);
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(gx, pad.top);
+        ctx.lineTo(gx, H - pad.bottom);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, gx, pad.top + 10, 'grating lobe!',
+          { fontSize: 11, color: '#c53030', weight: '600', baseline: 'top' });
+      }
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 14, 'Array factor (N=16) showing main lobe + grating lobes', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      drawTextCanvas(ctx, W / 2, 30, 'd/λ = ' + state.d.toFixed(2) + ', steer to ' + state.th0 + '°  ·  safe d/λ ≤ ' + r.safeMax.toFixed(2), {
+        fontSize: 10, color: dangerous ? '#c53030' : 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Readouts
+      document.getElementById('w3-safe').textContent = r.safeMax.toFixed(2);
+      document.getElementById('w3-gl').textContent = (r.glAngle === null ? 'none' : r.glAngle.toFixed(0) + '°');
+      document.getElementById('w3-verdict').textContent = dangerous ? 'Grating lobe present' : 'Clean — one beam';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-d'),  label: document.getElementById('w3-d-val'),  format: function(v) { return v.toFixed(2); } },
+      { el: document.getElementById('w3-th'), label: document.getElementById('w3-th-val'), format: function(v) { return v.toFixed(0) + '°'; } }
+    ], function(vals) {
+      state.d = vals['w3-d']; state.th0 = vals['w3-th'];
+      render();
+    });
+  })();
+  </script>
+
+</body>
+</html>

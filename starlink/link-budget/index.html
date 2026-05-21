@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Link Budget &mdash; Starlink Explainers</title>
+  <meta name="description" content="Every RF link is a single ledger in decibels: gains add, losses subtract, the bottom line says works or doesn't. 6 losses, 4 gains, one threshold.">
+  <meta name="author" content="Starlink Explainers">
+
+  <meta property="og:title" content="The Link Budget">
+  <meta property="og:description" content="Every RF link is a ledger in decibels. 6 losses, 4 gains, one threshold.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #1a202c;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%); }
+
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .readout-sub {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .ledger {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.85;
+    }
+    .ledger .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px dashed var(--border);
+      padding: 2px 0;
+    }
+    .ledger .row:last-child { border-bottom: none; }
+    .ledger .row.total {
+      font-weight: 600;
+      border-top: 2px solid var(--text);
+      border-bottom: none;
+      padding-top: 6px;
+      margin-top: 4px;
+    }
+    .ledger .gain { color: #2f855a; }
+    .ledger .loss { color: #c53030; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Starlink Explainers
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">The Link Budget</h1>
+      <p class="hero__subtitle">Every RF link is a single ledger in decibels &mdash; gains add, losses subtract, the bottom line says &ldquo;works&rdquo; or &ldquo;doesn't.&rdquo; 6 losses, 4 gains, one threshold.</p>
+      <p class="hero__meta">9 chapters &middot; 3 calculators &middot; 28 min read</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-decibels">Why do RF engineers count in decibels?</a></li>
+        <li><a href="#ii-equation">What does the link budget actually compute?</a></li>
+        <li><a href="#iii-fspl">What is free-space path loss?</a></li>
+        <li><a href="#iv-gain">How does antenna gain rescue the link?</a></li>
+        <li><a href="#v-rain">What does rain do to the link?</a></li>
+        <li><a href="#vi-noise">What does the receiver actually need?</a></li>
+        <li><a href="#vii-margin">How much margin should you design for?</a></li>
+        <li><a href="#viii-compare">How does Starlink compare to GEO and 5G?</a></li>
+        <li><a href="#ix-framework">The full framework, on one page</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <!-- ============================================================
+         I. Decibels
+         ============================================================ -->
+    <section class="reveal" id="i-decibels">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why do RF engineers count in decibels?</h2>
+      </div>
+      <div class="section-content">
+        <p>An RF link starts at the transmitter with maybe 20 watts of power and ends at the receiver with around 0.000&thinsp;000&thinsp;000&thinsp;000&thinsp;1 watts &mdash; <span class="math">10<sup>&minus;13</sup>&nbsp;W</span>. That's 14 orders of magnitude of decay. Nobody can multiply 14-zero numbers in their head, so radio engineers do something elegant: they take the logarithm. Once everything is a logarithm, gains and losses don't multiply &mdash; they add. The entire link from transmitter to receiver becomes a single column of additions and subtractions on the back of an envelope.</p>
+
+        <p>That column is the <strong>link budget</strong>. It is the most reused tool in radio engineering. Every system &mdash; Starlink, your phone, your WiFi router, GPS, deep-space probes &mdash; passes the same audit. <em>Take the transmitter's output power. Add the gains. Subtract the losses. Compare the answer to what the receiver needs.</em> If you're above the threshold, the link works. If you're below it, no amount of clever modulation will save you. That's the entire framework.</p>
+
+        <p>The decibel itself is just a ratio in log scale. The bel<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a> is <span class="math">log<sub>10</sub></span> of a power ratio; the decibel is one tenth of a bel. So gain in dB = <span class="math">10&middot;log<sub>10</sub>(P<sub>out</sub>/P<sub>in</sub>)</span>. A 10&times; gain is +10&nbsp;dB. A 100&times; loss is &minus;20&nbsp;dB. A 4,000&times; loss (the GEO vs LEO path-loss penalty from the last explainer) is &minus;36&nbsp;dB. Once you've internalised that map, everything in the link becomes a small integer.</p>
+
+        <div class="math-block">
+          dB = 10 &middot; log<sub>10</sub>(P<sub>out</sub> / P<sub>in</sub>)
+          <br>
+          dBm = 10 &middot; log<sub>10</sub>(P / 1 mW)
+          <br>
+          dBi = gain relative to an isotropic (omnidirectional) antenna
+          <span class="math-where">dBm is absolute power referenced to 1 milliwatt; dBi is relative antenna gain</span>
+        </div>
+
+        <p>Three suffixes carry meaning. <strong>dB</strong> is dimensionless &mdash; a ratio. <strong>dBm</strong> is absolute power referenced to 1&nbsp;mW (so 0&nbsp;dBm = 1&nbsp;mW, 30&nbsp;dBm = 1&nbsp;W). <strong>dBi</strong> is antenna gain relative to a perfectly omnidirectional emitter. If you don't keep the suffixes straight, your link budget is just numerology. Watch the units. Always.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Ratio</th><th>dB</th><th>Mental model</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">2&times;</td><td class="num">+3 dB</td><td>Doubled power. Memorise this one.</td></tr>
+            <tr><td class="num">10&times;</td><td class="num">+10 dB</td><td>One order of magnitude.</td></tr>
+            <tr><td class="num">100&times;</td><td class="num">+20 dB</td><td>Two orders.</td></tr>
+            <tr><td class="num">1000&times;</td><td class="num">+30 dB</td><td>Three orders. A typical receiver dish on a deep-space probe is +30 to +60 dBi.</td></tr>
+            <tr><td class="num">&#189;</td><td class="num">&minus;3 dB</td><td>Halved power. Pair with +3 to swap quickly.</td></tr>
+            <tr><td class="num">10<sup>&minus;13</sup></td><td class="num">&minus;130 dB</td><td>Roughly Starlink's path loss from satellite to dish.</td></tr>
+          </tbody>
+        </table>
+
+        <p>That last row is worth pausing on. A 20-watt transmitter on a Starlink satellite radiates into space and the dish on your roof catches a tenth-trillionth of a milliwatt. The system works because every dB of gain on either end &mdash; antenna gain, receiver sensitivity, coding efficiency &mdash; pays compound interest. Engineers get religion about dB because they have to.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. The equation
+         ============================================================ -->
+    <section class="reveal" id="ii-equation">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What does the link budget actually compute?</h2>
+      </div>
+      <div class="section-content">
+        <p>The framework, in one line:</p>
+
+        <div class="math-block">
+          P<sub>received</sub> = P<sub>transmit</sub> + G<sub>tx</sub> + G<sub>rx</sub> &minus; L<sub>path</sub> &minus; L<sub>atmosphere</sub> &minus; L<sub>rain</sub> &minus; L<sub>misc</sub>
+          <span class="math-where">all terms in dB or dBm; everything you give the receiver, minus everything spacetime took from you</span>
+        </div>
+
+        <p>Read it left to right. You start with whatever power the transmitter pumps into its antenna. The transmit antenna doesn't radiate evenly &mdash; it focuses energy into a narrow cone, so we add <span class="math">G<sub>tx</sub></span>, the gain in the desired direction. The signal then travels through space, where <em>spreading loss</em> &mdash; the inverse-square law &mdash; subtracts <span class="math">L<sub>path</sub></span>. Add the atmosphere (water vapour, oxygen, rain) and miscellaneous losses (pointing error, polarization mismatch, feeder cables). At the far end, the receive antenna catches a tiny fraction and concentrates it via <span class="math">G<sub>rx</sub></span>. What's left is <span class="math">P<sub>received</sub></span>, in dBm.</p>
+
+        <p>That number alone isn't enough. The receiver also has to beat its own noise floor by a comfortable margin &mdash; the <strong>signal-to-noise ratio</strong>. So the second half of the budget computes the noise floor and the required SNR, then asks whether <span class="math">P<sub>received</sub> &minus; N &geq; SNR<sub>required</sub></span>.</p>
+
+        <p>For a Starlink Ku-band downlink from 550 km altitude, the typical column looks like this:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Line item</th><th>Value</th><th>Sign</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tx power (20 W satellite amplifier)</td><td class="num">+43 dBm</td><td class="gain">gain</td></tr>
+            <tr><td>Tx antenna gain (phased array, ~30 dBi)</td><td class="num">+30 dB</td><td class="gain">gain</td></tr>
+            <tr><td>EIRP (Tx power &times; Tx gain)</td><td class="num">+73 dBm</td><td>&nbsp;</td></tr>
+            <tr><td>Free-space path loss @ 12 GHz, 550 km</td><td class="num">&minus;169 dB</td><td class="loss">loss</td></tr>
+            <tr><td>Atmospheric absorption (clear sky)</td><td class="num">&minus;0.5 dB</td><td class="loss">loss</td></tr>
+            <tr><td>Rain attenuation (light rain budget)</td><td class="num">&minus;2 dB</td><td class="loss">loss</td></tr>
+            <tr><td>Pointing / polarization / misc losses</td><td class="num">&minus;2 dB</td><td class="loss">loss</td></tr>
+            <tr><td>Rx antenna gain (60 cm phased array, ~33 dBi)</td><td class="num">+33 dB</td><td class="gain">gain</td></tr>
+            <tr><td><strong>Received power</strong></td><td class="num"><strong>&minus;67.5 dBm</strong></td><td>&nbsp;</td></tr>
+            <tr><td>Noise floor (kTB with 250 MHz bandwidth, NF=2 dB)</td><td class="num">&minus;84 dBm</td><td>&nbsp;</td></tr>
+            <tr><td><strong>SNR available</strong></td><td class="num"><strong>+16.5 dB</strong></td><td>&nbsp;</td></tr>
+            <tr><td>SNR required for 64-QAM (3/4 coding)</td><td class="num">&asymp; 14 dB</td><td>&nbsp;</td></tr>
+            <tr><td><strong>Link margin</strong></td><td class="num"><strong>+2.5 dB</strong></td><td class="gain">positive &rArr; works</td></tr>
+          </tbody>
+        </table>
+
+        <p>Every line item has a derivation. Every one is forced by physics or by hardware. The interactive widget below lets you push each slider and watch the bottom line move &mdash; that's the calculator engineers actually keep on their desk.</p>
+
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; The Full Link Budget Calculator</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 460px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Tx power</span><span class="slider-value" id="w1-pt-val">20 W</span></div>
+              <input type="range" id="w1-pt" min="5" max="50" value="20" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Tx antenna gain</span><span class="slider-value" id="w1-gt-val">30 dBi</span></div>
+              <input type="range" id="w1-gt" min="0" max="50" value="30" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Rx antenna gain</span><span class="slider-value" id="w1-gr-val">33 dBi</span></div>
+              <input type="range" id="w1-gr" min="0" max="50" value="33" step="1">
+            </div>
+          </div>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Frequency</span><span class="slider-value" id="w1-f-val">12 GHz</span></div>
+              <input type="range" id="w1-f" min="1" max="50" value="12" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Distance</span><span class="slider-value" id="w1-d-val">550 km</span></div>
+              <input type="range" id="w1-d" min="100" max="40000" value="550" step="50">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Rain rate</span><span class="slider-value" id="w1-r-val">0 mm/hr</span></div>
+              <input type="range" id="w1-r" min="0" max="50" value="0" step="1">
+            </div>
+          </div>
+          <div class="ledger" id="w1-ledger"></div>
+          <p class="widget-hint">Each bar is one line of the budget. Green = gain (adds to received power), red = loss (subtracts). The horizontal dashed line is the noise floor + required SNR &mdash; the threshold you have to beat. Push rain rate up at 30 GHz to watch the link collapse; pull frequency down to L-band to watch path loss melt away.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Friis equation, decibel form</summary>
+          <p>The continuous-form version of the link equation is named after Harald Friis (Bell Labs, 1946)<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>:</p>
+          <div class="math-block">
+            P<sub>r</sub> = P<sub>t</sub> &middot; G<sub>t</sub> &middot; G<sub>r</sub> &middot; (&lambda; / 4&pi;d)<sup>2</sup>
+            <span class="math-where">all terms are <em>linear</em> (watts, dimensionless gain), &lambda; is wavelength, d is distance</span>
+          </div>
+          <p>Take 10&middot;log<sub>10</sub> of both sides and you get the decibel version we used above &mdash; identical equation, friendlier audience. The <span class="math">(&lambda;/4&pi;d)<sup>2</sup></span> term is sometimes called the <em>spreading factor</em>; <span class="math">&lambda;<sup>2</sup>/(4&pi;)</span> is the effective aperture of an isotropic antenna. So Friis says: take the transmit power, focus it (Gt), spread it over a sphere of area 4&pi;d², catch what hits the receive aperture (the geometric area times Gr). Physics is geometry; geometry is just trigonometry with extra steps.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Free-space path loss
+         ============================================================ -->
+    <section class="reveal" id="iii-fspl">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>What is free-space path loss?</h2>
+      </div>
+      <div class="section-content">
+        <p>Imagine a perfectly omnidirectional transmitter, radiating <span class="math">P<sub>t</sub></span> watts isotropically into space. At distance <span class="math">d</span>, that power has spread uniformly over the surface of a sphere of area <span class="math">4&pi;d<sup>2</sup></span>. So the <em>power density</em> at the receiver is:</p>
+
+        <div class="math-block">
+          S = P<sub>t</sub> / (4&pi;d<sup>2</sup>)   &nbsp;&nbsp;[W/m²]
+          <span class="math-where">power per unit area on the sphere of radius d &mdash; the inverse-square law</span>
+        </div>
+
+        <p>The receive antenna captures whatever flux falls inside its <em>effective aperture</em> <span class="math">A<sub>e</sub></span>. For any antenna, the relationship between gain and aperture is:</p>
+
+        <div class="math-block">
+          A<sub>e</sub> = G<sub>r</sub> &middot; &lambda;<sup>2</sup> / (4&pi;)
+          <span class="math-where">where &lambda; = c/f is wavelength &mdash; bigger antennas have more gain at lower frequencies</span>
+        </div>
+
+        <p>Multiply the power density by the effective aperture and you get the received power:</p>
+
+        <div class="math-block">
+          P<sub>r</sub> = S &middot; A<sub>e</sub> = P<sub>t</sub> &middot; G<sub>r</sub> &middot; &lambda;<sup>2</sup> / (4&pi;d)<sup>2</sup>
+          <span class="math-where">isotropic transmit, gain-G<sub>r</sub> receive &mdash; with G<sub>t</sub> too, multiply by it</span>
+        </div>
+
+        <p>Pull out the path-loss term &mdash; the part that's pure geometry, not antenna design:</p>
+
+        <div class="math-block">
+          FSPL = (4&pi;d / &lambda;)<sup>2</sup> = (4&pi;d&middot;f / c)<sup>2</sup>
+          <br>
+          FSPL (dB) = 20 log<sub>10</sub>(d) + 20 log<sub>10</sub>(f) + 20 log<sub>10</sub>(4&pi;/c)
+          <br>
+          FSPL (dB) &asymp; 20 log<sub>10</sub>(d<sub>km</sub>) + 20 log<sub>10</sub>(f<sub>MHz</sub>) + 32.45
+          <span class="math-where">the +32.45 absorbs unit conversions from m to km and Hz to MHz</span>
+        </div>
+
+        <p>Two things to notice. First, path loss grows as the <em>square</em> of distance &mdash; doubling distance costs you 6 dB (4&times; the signal goes away). Second, it grows as the square of frequency for a fixed antenna gain &mdash; doubling frequency also costs you 6 dB. <em>This is the dominant term in any space link.</em> For Starlink at 12 GHz and 550 km, it's 169 dB &mdash; a factor of 10<sup>16.9</sup>. The 20-W transmitter delivers picowatts to the dish.</p>
+
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; FSPL Across Frequency and Distance</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="slider-group" style="margin-top: 14px;">
+            <div class="slider-label"><span>Frequency</span><span class="slider-value" id="w2-f-val">12 GHz</span></div>
+            <input type="range" id="w2-f" min="0.5" max="50" value="12" step="0.5">
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">FSPL @ LEO 550 km</div><div class="readout-value" id="w2-leo">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">FSPL @ MEO 20.2k km</div><div class="readout-value" id="w2-meo">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">FSPL @ GEO 35.8k km</div><div class="readout-value" id="w2-geo">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Three log-scale curves: FSPL vs distance at LEO/MEO/GEO altitudes, with the band markers (L, S, C, Ku, Ka, V) above. The horizontal red band marks ~200 dB &mdash; the practical wall for consumer-power links. Above that line, you need a deep-space-probe-class antenna to close the link.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; why are uplink and downlink on different frequencies?</summary>
+          <p>Starlink's downlink (satellite&rarr;dish) is Ku-band, around 11&ndash;12&nbsp;GHz. The uplink (dish&rarr;satellite) is Ka-band, around 27&ndash;30&nbsp;GHz. Why the asymmetry?</p>
+          <p>Three reasons. (1) Spectrum allocation: ITU divided the bands long ago and the satellite community got specific slices for each direction. (2) Power asymmetry: the satellite has a small solar array and tight thermal limits, so its downlink runs at the lower-loss frequency to maximise efficiency. The dish on the ground has effectively unlimited power and a bigger thermal envelope, so it can absorb the extra Ka-band path loss on the way up. (3) Rain asymmetry: rain attenuation grows steeply with frequency, so the more critical direction (downlink, since it carries Netflix back to you) gets the more robust frequency. The Ka-band uplink degrades first when it rains; the Ku-band downlink holds longer.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Antenna gain
+         ============================================================ -->
+    <section class="reveal" id="iv-gain">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>How does antenna gain rescue the link?</h2>
+      </div>
+      <div class="section-content">
+        <p>FSPL is brutal. The only thing strong enough to fight it is <strong>antenna gain</strong>. A directional antenna doesn't create energy &mdash; it just redirects what the transmitter sent, focusing it into a narrower beam. Same total power; concentrated in a smaller cone. From the receiver's perspective, signal in the beam is amplified by the gain; signal outside is suppressed.</p>
+
+        <p>For a parabolic dish or a uniformly illuminated aperture of area <span class="math">A</span>, the peak gain is:</p>
+
+        <div class="math-block">
+          G = &eta; &middot; (4&pi;A) / &lambda;<sup>2</sup>
+          <br>
+          G (dBi) = 10 log<sub>10</sub>(G)
+          <span class="math-where">&eta; is aperture efficiency (typically 0.55&ndash;0.70 for a real dish, 0.4&ndash;0.55 for phased arrays)</span>
+        </div>
+
+        <p>Three corollaries fall out. <strong>Bigger antennas mean more gain</strong> &mdash; doubling the aperture diameter quadruples the gain (+6 dB). <strong>Higher frequencies mean more gain for the same physical size</strong>, because gain scales with <span class="math">A/&lambda;<sup>2</sup></span>. <strong>Beamwidth narrows as gain grows</strong> &mdash; a 30 dBi antenna has roughly a 6&deg; half-power beamwidth; a 50 dBi antenna has roughly 0.6&deg;.</p>
+
+        <p>Canonical numbers to keep in your head:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Antenna</th><th>Aperture</th><th>Frequency</th><th>Gain</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>WiFi dipole</td><td class="num">~6 cm</td><td class="num">2.4 GHz</td><td class="num">2 dBi</td></tr>
+            <tr><td>Cell tower (sector)</td><td class="num">~30 cm &times; 1 m</td><td class="num">2&ndash;3 GHz</td><td class="num">15 dBi</td></tr>
+            <tr><td>Starlink user terminal</td><td class="num">~60 cm round</td><td class="num">12 GHz</td><td class="num">33&ndash;36 dBi</td></tr>
+            <tr><td>HughesNet residential dish</td><td class="num">~74 cm</td><td class="num">20 GHz</td><td class="num">40 dBi</td></tr>
+            <tr><td>Deep-space probe dish</td><td class="num">3&ndash;5 m</td><td class="num">8 GHz</td><td class="num">48&ndash;55 dBi</td></tr>
+            <tr><td>DSN ground station (Goldstone)</td><td class="num">70 m</td><td class="num">8 GHz</td><td class="num">74 dBi</td></tr>
+          </tbody>
+        </table>
+
+        <p>Add transmit gain and receive gain into a single &ldquo;antenna budget&rdquo; and the picture sharpens. Starlink contributes ~30 dBi (satellite) + ~33 dBi (dish) = +63 dB of pure antenna concentration. That's a factor of two million &mdash; without it, the 20-W transmitter would be lost in noise long before reaching your dish. The dish is doing as much work as the rocket.</p>
+
+        <p>The product of transmit power and transmit antenna gain has its own name and its own units:</p>
+
+        <div class="math-block">
+          EIRP = P<sub>t</sub> &middot; G<sub>t</sub>   (in linear)
+          <br>
+          EIRP (dBW) = 10 log<sub>10</sub>(P<sub>t</sub> [W]) + G<sub>t</sub> [dBi]
+          <span class="math-where">Effective Isotropic Radiated Power &mdash; what an omnidirectional source would need to transmit to match the directional one in the beam</span>
+        </div>
+
+        <p>EIRP is the single number that matters most for whether your signal punches through. The FCC and ITU regulate it, satellite operators publish it, and link budgets always factor it. A Starlink satellite's per-beam EIRP is around +73 dBm (or +43 dBW). A 5-watt cell tower at 15 dBi gain is +52 dBm. A deep-space probe with 100 W and 50 dBi is +100 dBm. Different scales; same calculation.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Rain
+         ============================================================ -->
+    <section class="reveal" id="v-rain">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>What does rain do to the link?</h2>
+      </div>
+      <div class="section-content">
+        <p>Water absorbs and scatters microwaves. Below ~5 GHz, raindrops are much smaller than the wavelength and the attenuation is negligible. Above ~10 GHz, the wavelength shrinks into the raindrop regime (1&ndash;3 mm) and the loss climbs steeply. Above 20 GHz, a heavy thunderstorm can outright kill a satellite link. The technical name for this is <em>hydrometeor attenuation</em>; engineers just call it <strong>rain fade</strong>.</p>
+
+        <p>The standard model is <strong>ITU-R&nbsp;P.838</strong>, an empirical power law calibrated against decades of measurement<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>:</p>
+
+        <div class="math-block">
+          A = k &middot; R<sup>&alpha;</sup>   [dB/km]
+          <span class="math-where">A = specific attenuation, R = rain rate in mm/hr, k and &alpha; depend on frequency and polarization</span>
+        </div>
+
+        <p>The coefficients <span class="math">k</span> and <span class="math">&alpha;</span> are tabulated in the ITU recommendation. Here are the headline values for vertical polarization (Starlink uses circular, which is roughly an average of horizontal and vertical):</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Frequency</th><th>k</th><th>&alpha;</th><th>Band</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">4 GHz</td><td class="num">0.000591</td><td class="num">1.075</td><td>C-band</td></tr>
+            <tr><td class="num">12 GHz</td><td class="num">0.0168</td><td class="num">1.200</td><td>Ku-band (Starlink down)</td></tr>
+            <tr><td class="num">20 GHz</td><td class="num">0.0691</td><td class="num">1.065</td><td>Ka-band</td></tr>
+            <tr><td class="num">30 GHz</td><td class="num">0.167</td><td class="num">1.000</td><td>Ka-band (Starlink up)</td></tr>
+            <tr><td class="num">40 GHz</td><td class="num">0.350</td><td class="num">0.939</td><td>Q/V-band</td></tr>
+            <tr><td class="num">50 GHz</td><td class="num">0.536</td><td class="num">0.873</td><td>V-band</td></tr>
+          </tbody>
+        </table>
+
+        <p>The total path attenuation depends on how much rain the signal actually travels through. For a satellite link, that's the <em>slant path</em> through the &ldquo;rain layer&rdquo; &mdash; the troposphere up to the freezing level, typically the first 3&ndash;5 km of altitude. At elevation angle <span class="math">&epsilon;</span>:</p>
+
+        <div class="math-block">
+          L<sub>s</sub> = (h<sub>rain</sub> &minus; h<sub>station</sub>) / sin(&epsilon;)
+          <br>
+          A<sub>total</sub> = A &middot; L<sub>s</sub>   [dB]
+          <span class="math-where">h<sub>rain</sub> &asymp; 4 km, h<sub>station</sub> &asymp; 0.1 km, &epsilon; = elevation angle of satellite</span>
+        </div>
+
+        <p>This is why elevation angle matters so much. A satellite at zenith (&epsilon; = 90&deg;) travels through 4&nbsp;km of rain. A satellite at &epsilon; = 25&deg; (Starlink's minimum) travels through 4/sin(25&deg;) &asymp; 9.5&nbsp;km of rain. <em>Low-elevation links eat more rain &mdash; over double the attenuation for the same storm.</em></p>
+
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Rain Attenuation by Frequency and Rain Rate</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Rain rate</span><span class="slider-value" id="w3-r-val">10 mm/hr</span></div>
+              <input type="range" id="w3-r" min="0" max="50" value="10" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Elevation angle</span><span class="slider-value" id="w3-e-val">40&deg;</span></div>
+              <input type="range" id="w3-e" min="10" max="90" value="40" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Frequency</span><span class="slider-value" id="w3-f-val">12 GHz</span></div>
+              <input type="range" id="w3-f" min="4" max="50" value="12" step="0.5">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Specific attenuation</div><div class="readout-value" id="w3-a">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Slant path length</div><div class="readout-value" id="w3-ls">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Total attenuation</div><div class="readout-value" id="w3-at">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">The chart traces total rain attenuation vs rain rate at each band marker (12, 20, 30, 40, 50 GHz). Push frequency up: the curve gets steeper. Push elevation down: the slant path grows and every band loses more. At 50 GHz in a downpour, you can lose 30+ dB &mdash; enough to extinguish almost any consumer link.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; adaptive coding and modulation</summary>
+          <p>Modern satellite links don't just sit at one bitrate and pray it rains less than the budget assumes. They use <strong>Adaptive Coding and Modulation</strong> (ACM): when the SNR drops, the system automatically downshifts to a more robust (and slower) modulation. Starlink uses the DVB-S2X standard, which has a ladder of about 30 modes from QPSK with rate-1/4 coding (works at SNR &asymp; &minus;2&nbsp;dB) up to 256-APSK with rate-9/10 coding (needs SNR &asymp; +18&nbsp;dB).</p>
+          <p>In practice this means your Starlink stays connected through light to moderate rain but the throughput drops &mdash; you don't notice when the latency-sensitive game keeps working, but you do notice when 200&nbsp;Mbps becomes 25&nbsp;Mbps in a thunderstorm. The ACM ladder is what turns &ldquo;link broken&rdquo; into &ldquo;link degraded.&rdquo; Without it, the system would have to design for the worst-case rainstorm at every moment, leaving most clear-sky bandwidth on the table.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Noise / sensitivity
+         ============================================================ -->
+    <section class="reveal" id="vi-noise">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What does the receiver actually need?</h2>
+      </div>
+      <div class="section-content">
+        <p>You can't compare received power to zero. You compare it to <strong>noise</strong>. Every receiver has a noise floor &mdash; the random thermal jiggling of electrons in its front-end electronics, plus the cosmic and atmospheric noise that leaks in through the antenna. Signals below the noise floor are undetectable; signals just above it are recoverable only with heavy error-correction.</p>
+
+        <p>The thermal noise floor is set by physics, not by engineering. From Johnson&ndash;Nyquist<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>:</p>
+
+        <div class="math-block">
+          N = k &middot; T &middot; B
+          <br>
+          N (dBm) = &minus;174 + 10 log<sub>10</sub>(B [Hz]) + NF
+          <span class="math-where">k = Boltzmann's constant, T &asymp; 290 K (&ldquo;room temperature&rdquo;), B = bandwidth, NF = receiver noise figure in dB</span>
+        </div>
+
+        <p>The constant &minus;174 dBm/Hz is the thermal noise floor at room temperature, per hertz of bandwidth. Wider channels collect more noise &mdash; a 1 MHz channel has &minus;114 dBm of noise, a 250 MHz Starlink channel has about &minus;90 dBm before the noise figure penalty. The <strong>noise figure</strong> NF is how much your receiver's own electronics add on top &mdash; a good low-noise amplifier (LNA) hits 1.5&ndash;2.5 dB; a cheap one might add 6 dB.</p>
+
+        <p>The <strong>signal-to-noise ratio</strong> is the headline. In dB:</p>
+
+        <div class="math-block">
+          SNR = P<sub>received</sub> &minus; N &minus; L<sub>impl</sub>
+          <span class="math-where">L<sub>impl</sub> is implementation loss &mdash; the gap between theoretical and real-world demodulator performance, typically 1&ndash;2 dB</span>
+        </div>
+
+        <p>Different modulations need different SNR. The map below is the Shannon-Hartley horizon &mdash; it's how much SNR each scheme needs to hit a 10<sup>&minus;6</sup> bit error rate with realistic forward error correction:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Modulation</th><th>Bits/symbol</th><th>Required SNR</th><th>Use case</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>BPSK (rate-1/2)</td><td class="num">0.5</td><td class="num">&asymp; 0 dB</td><td>Deep space, last-ditch fallback</td></tr>
+            <tr><td>QPSK (rate-1/2)</td><td class="num">1.0</td><td class="num">&asymp; 3 dB</td><td>Satellite reliable mode</td></tr>
+            <tr><td>QPSK (rate-3/4)</td><td class="num">1.5</td><td class="num">&asymp; 6 dB</td><td>Light rain fallback</td></tr>
+            <tr><td>8-PSK (rate-3/4)</td><td class="num">2.25</td><td class="num">&asymp; 10 dB</td><td>Standard DVB-S2</td></tr>
+            <tr><td>16-APSK</td><td class="num">3.5</td><td class="num">&asymp; 13 dB</td><td>Modern satellite TV</td></tr>
+            <tr><td>32-APSK</td><td class="num">4.5</td><td class="num">&asymp; 16 dB</td><td>High-rate satellite</td></tr>
+            <tr><td>64-QAM (high-rate)</td><td class="num">5.5</td><td class="num">&asymp; 22 dB</td><td>Best clear-sky Starlink mode</td></tr>
+            <tr><td>256-QAM</td><td class="num">7.0</td><td class="num">&asymp; 28 dB</td><td>Microwave backhaul, 5G mmWave</td></tr>
+          </tbody>
+        </table>
+
+        <p>Each step up the modulation ladder costs about 3 dB but buys you ~25% more bits per second. ACM picks the highest rung that fits the current SNR. In clear sky, Starlink runs at 32-APSK or 64-QAM; in heavy rain, it slides down to QPSK and accepts the throughput hit.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Margin
+         ============================================================ -->
+    <section class="reveal" id="vii-margin">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>How much margin should you design for?</h2>
+      </div>
+      <div class="section-content">
+        <p>A link that just barely closes in nominal conditions doesn't close at all in the real world. Antennas point slightly off-axis. Rain happens. Components age and drift. Sun-noise events temporarily blind the receiver. The link budget reserves a few extra dB on top of the minimum &mdash; the <strong>link margin</strong> &mdash; to absorb these.</p>
+
+        <div class="math-block">
+          M = SNR<sub>available</sub> &minus; SNR<sub>required</sub>
+          <span class="math-where">positive margin means the link works; negative means it doesn't</span>
+        </div>
+
+        <p>How big should M be? Depends on the application. The industry conventions:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>System</th><th>Typical margin</th><th>Why</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Deep-space probe (Voyager, JWST)</td><td class="num">3 dB</td><td>Every dB costs a kg of antenna; design tight, eat outages</td></tr>
+            <tr><td>GEO broadcast TV</td><td class="num">3&ndash;5 dB</td><td>Rain outages tolerated for minutes/year</td></tr>
+            <tr><td>Starlink (consumer broadband)</td><td class="num">6&ndash;10 dB</td><td>Survives moderate rain via ACM</td></tr>
+            <tr><td>Cellular handset</td><td class="num">8&ndash;15 dB</td><td>Multipath fading, building penetration, body absorption</td></tr>
+            <tr><td>Mission-critical (aviation, military)</td><td class="num">15&ndash;25 dB</td><td>Has to keep working in the worst minute of the worst year</td></tr>
+          </tbody>
+        </table>
+
+        <p>Margin is bought with antenna area, transmit power, or modulation conservatism. Each is expensive in its own way. Engineers spend their careers arguing about which knob to turn. The honest answer is usually &ldquo;all of them, slightly,&rdquo; because every dB of margin is one less complaint when the system inevitably encounters its worst-case operating environment.</p>
+
+        <p>The other reason margin matters: availability. RF systems quote &ldquo;link availability&rdquo; as the percent of time the link closes. 99% availability sounds high but is 3.65 days of outage per year &mdash; broken. 99.9% is 8.8 hours. 99.99% is 53 minutes. The link budget has to close not at the mean rain rate but at the rain rate exceeded only X% of the year, for your target X. The ITU publishes rain rate exceedance tables by climate zone (ITU-R P.837) and you pick your design point off them.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIII. Comparisons
+         ============================================================ -->
+    <section class="reveal" id="viii-compare">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>How does Starlink compare to GEO and 5G?</h2>
+      </div>
+      <div class="section-content">
+        <p>The link budget framework is universal &mdash; the line items don't change. Only the values do. Three radio systems, side by side:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Line item</th><th>Starlink Ku DL</th><th>HughesNet Ka DL</th><th>5G mmWave (28 GHz)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tx power</td><td class="num">+43 dBm (20 W)</td><td class="num">+50 dBm (100 W)</td><td class="num">+33 dBm (2 W)</td></tr>
+            <tr><td>Tx antenna gain</td><td class="num">+30 dBi</td><td class="num">+52 dBi</td><td class="num">+24 dBi</td></tr>
+            <tr><td>EIRP</td><td class="num">+73 dBm</td><td class="num">+102 dBm</td><td class="num">+57 dBm</td></tr>
+            <tr><td>Distance</td><td class="num">550 km</td><td class="num">35,786 km</td><td class="num">0.3 km</td></tr>
+            <tr><td>Frequency</td><td class="num">12 GHz</td><td class="num">20 GHz</td><td class="num">28 GHz</td></tr>
+            <tr><td>FSPL</td><td class="num">&minus;169 dB</td><td class="num">&minus;209 dB</td><td class="num">&minus;111 dB</td></tr>
+            <tr><td>Rx antenna gain</td><td class="num">+33 dBi</td><td class="num">+40 dBi</td><td class="num">+5 dBi</td></tr>
+            <tr><td>Rx power (clear sky)</td><td class="num">&minus;67 dBm</td><td class="num">&minus;69 dBm</td><td class="num">&minus;55 dBm</td></tr>
+            <tr><td>Noise floor (250 MHz, NF=2)</td><td class="num">&minus;84 dBm</td><td class="num">&minus;84 dBm</td><td class="num">&minus;82 dBm</td></tr>
+            <tr><td>SNR clear sky</td><td class="num">+17 dB</td><td class="num">+15 dB</td><td class="num">+27 dB</td></tr>
+            <tr><td>Mode</td><td>32-APSK</td><td>16-APSK</td><td>256-QAM</td></tr>
+          </tbody>
+        </table>
+
+        <p>Notice the symmetry. GEO compensates for 40 extra dB of path loss with ~30 dB of extra antenna gain (big dish on the ground) and ~7 dB of extra transmit power. It's tight; HughesNet's link margin is structurally lower than Starlink's, which is why GEO broadband caps out at lower bitrates with higher outage. The 5G mmWave story is the opposite extreme &mdash; the transmitter is close enough (300 m) that FSPL is trivial, so the budget is dominated by handheld-antenna constraints and walking-through-walls fading, not space-link physics.</p>
+
+        <p>Same framework. Different numbers. Every radio engineer alive reads these tables the same way.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IX. Framework synthesis
+         ============================================================ -->
+    <section class="reveal" id="ix-framework">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>The full framework, on one page</h2>
+      </div>
+      <div class="section-content">
+        <p>Memorise this. Print it. Tape it above your desk. It is the most reusable engineering tool you'll ever own.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>#</th><th>Line item</th><th>Symbol</th><th>Typical sign</th><th>Source of the value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">1</td><td>Transmit power</td><td class="num">P<sub>t</sub></td><td class="gain">+ gain</td><td>Hardware spec (Tx PA output)</td></tr>
+            <tr><td class="num">2</td><td>Transmit antenna gain</td><td class="num">G<sub>t</sub></td><td class="gain">+ gain</td><td>Antenna design (size, freq, &eta;)</td></tr>
+            <tr><td class="num">3</td><td>Free-space path loss</td><td class="num">FSPL</td><td class="loss">&minus; loss</td><td>20log d + 20log f + 32.45</td></tr>
+            <tr><td class="num">4</td><td>Atmospheric absorption</td><td class="num">L<sub>atm</sub></td><td class="loss">&minus; loss</td><td>ITU-R P.676 (gases)</td></tr>
+            <tr><td class="num">5</td><td>Rain attenuation</td><td class="num">L<sub>rain</sub></td><td class="loss">&minus; loss</td><td>ITU-R P.838 (k&middot;R<sup>&alpha;</sup>)</td></tr>
+            <tr><td class="num">6</td><td>Pointing/polarization loss</td><td class="num">L<sub>p</sub></td><td class="loss">&minus; loss</td><td>Antenna pattern, alignment budget</td></tr>
+            <tr><td class="num">7</td><td>Feeder/cable loss</td><td class="num">L<sub>f</sub></td><td class="loss">&minus; loss</td><td>Coax + connector spec</td></tr>
+            <tr><td class="num">8</td><td>Implementation loss</td><td class="num">L<sub>impl</sub></td><td class="loss">&minus; loss</td><td>Modem &Delta; from theoretical limit</td></tr>
+            <tr><td class="num">9</td><td>Receive antenna gain</td><td class="num">G<sub>r</sub></td><td class="gain">+ gain</td><td>Antenna design (size, freq, &eta;)</td></tr>
+            <tr><td class="num">10</td><td>Noise floor</td><td class="num">N</td><td class="loss">&minus; loss</td><td>&minus;174 + 10log B + NF</td></tr>
+            <tr><td class="num">11</td><td>Required SNR</td><td class="num">SNR<sub>req</sub></td><td class="loss">threshold</td><td>Modulation + FEC + BER target</td></tr>
+            <tr><td class="num">&Sigma;</td><td><strong>Link margin</strong></td><td class="num">M</td><td><strong>&geq; 0</strong></td><td>The bottom line: works or not</td></tr>
+          </tbody>
+        </table>
+
+        <p>That's it. Ten line items, one threshold, one verdict. Every radio system you'll encounter &mdash; satellite, cellular, WiFi, microwave backhaul, deep-space &mdash; reduces to those rows. Once you can fill them in, you can debug any link, predict any outage, and call out any vendor whose published specs don't close on paper.</p>
+
+        <div class="callout">
+          <div class="callout-title">What you can now teach</div>
+          <p><strong>The link budget is the engineer's universal RF ledger:</strong> transmit power and antenna gain (+) on the left, path loss / atmosphere / rain / pointing / feeder / implementation (&minus;) in the middle, receive antenna gain (+) at the end, and a noise-floor + required-SNR threshold the bottom line has to clear. Six standard losses, four standard gains, one threshold &mdash; every radio link you'll ever debug fits into that framework, and Starlink's 12 GHz downlink closes with about 2.5 dB of margin in moderate rain.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">The decibel was originally one tenth of a <em>bel</em>, named after Alexander Graham Bell by Bell Labs engineers in the 1920s. The bel itself proved too coarse a unit for most applications, so the decibel (one tenth) is the practical version. Both the unit and the convention of logarithmic engineering trace to telephony &mdash; long-distance phone-line attenuation was the original problem the bel was invented to describe. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The Friis transmission equation (Harald T. Friis, &ldquo;A Note on a Simple Transmission Formula,&rdquo; Proc. IRE, May 1946) is the canonical reference. It assumes perfectly matched, polarization-aligned, far-field antennas in free space &mdash; conditions that real terrestrial links violate, hence the additional loss line items in any real budget. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">ITU-R P.838 is the current recommendation (latest revision P.838-3, 2005) for specific attenuation of microwave signals by rain. The coefficients are derived from drop-size-distribution measurements integrated against the Mie scattering solution for water spheres. P.839 gives the rain layer height by latitude; P.837 gives rain rate exceedance statistics by climate zone. The trio is what every satellite link designer cites. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">The Johnson&ndash;Nyquist noise floor formula <span class="math">N = kTB</span> was derived independently by John Johnson (Bell Labs, 1928, experimental) and Harry Nyquist (Bell Labs, 1928, theoretical). It is the absolute floor &mdash; you can lower T (cryogenically cooled LNAs in deep-space ground stations operate at 15 K, ~13 dB below room-temperature) but you cannot go below it without violating the second law of thermodynamics. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+        </ol>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var t = document.getElementById(this.getAttribute('href').slice(1));
+        if (t) {
+          e.preventDefault();
+          var navH = document.querySelector('.nav').offsetHeight;
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - navH - 20, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- Constants and helpers used by widgets -->
+  <script>
+    var C_LIGHT_MS = 299792458; // m/s
+
+    // FSPL in dB given distance km and frequency GHz
+    function fspl_dB(d_km, f_GHz) {
+      // 20log10(d_km) + 20log10(f_MHz) + 32.45
+      // f_MHz = f_GHz * 1000
+      return 20 * Math.log10(d_km) + 20 * Math.log10(f_GHz * 1000) + 32.45;
+    }
+
+    // Watts to dBm
+    function W_to_dBm(W) { return 10 * Math.log10(W * 1000); }
+
+    // ITU-R P.838 coefficients (vertical polarization, approximate)
+    // Interpolated table {freq_GHz: [k, alpha]}
+    var ITU_P838 = [
+      { f: 1,   k: 0.0000308, a: 0.8592 },
+      { f: 2,   k: 0.0000998, a: 0.9490 },
+      { f: 4,   k: 0.000591,  a: 1.075  },
+      { f: 6,   k: 0.00175,   a: 1.308  },
+      { f: 8,   k: 0.00454,   a: 1.327  },
+      { f: 10,  k: 0.0101,    a: 1.276  },
+      { f: 12,  k: 0.0168,    a: 1.200  },
+      { f: 15,  k: 0.0335,    a: 1.128  },
+      { f: 20,  k: 0.0691,    a: 1.065  },
+      { f: 25,  k: 0.113,     a: 1.030  },
+      { f: 30,  k: 0.167,     a: 1.000  },
+      { f: 35,  k: 0.233,     a: 0.963  },
+      { f: 40,  k: 0.310,     a: 0.929  },
+      { f: 45,  k: 0.393,     a: 0.897  },
+      { f: 50,  k: 0.479,     a: 0.873  }
+    ];
+    function rainCoeffs(f_GHz) {
+      // Linear interpolation across the table for k and alpha
+      if (f_GHz <= ITU_P838[0].f) return { k: ITU_P838[0].k, a: ITU_P838[0].a };
+      if (f_GHz >= ITU_P838[ITU_P838.length - 1].f)
+        return { k: ITU_P838[ITU_P838.length - 1].k, a: ITU_P838[ITU_P838.length - 1].a };
+      for (var i = 0; i < ITU_P838.length - 1; i++) {
+        if (f_GHz >= ITU_P838[i].f && f_GHz <= ITU_P838[i+1].f) {
+          var t = (f_GHz - ITU_P838[i].f) / (ITU_P838[i+1].f - ITU_P838[i].f);
+          return {
+            k: ITU_P838[i].k + t * (ITU_P838[i+1].k - ITU_P838[i].k),
+            a: ITU_P838[i].a + t * (ITU_P838[i+1].a - ITU_P838[i].a)
+          };
+        }
+      }
+      return { k: 0.0168, a: 1.2 };
+    }
+
+    // Atmospheric absorption (clear-sky gas attenuation) — very rough fit
+    // Returns dB/km for slant path, integrated to about 1 km equivalent at zenith
+    // We use this as a small fixed dB number that grows with frequency.
+    function atmosphericLoss_dB(f_GHz) {
+      // Crude fit: ~0.05 dB below 5 GHz, ~0.5 dB at 12, ~1.5 dB at 22 (water peak),
+      // ~5 dB at 60 (oxygen peak). Capture the rough shape.
+      var f = f_GHz;
+      var base = 0.05;
+      // 22 GHz water vapour line
+      base += 0.7 * Math.exp(-Math.pow((f - 22) / 4, 2));
+      // 60 GHz O2 line
+      base += 5 * Math.exp(-Math.pow((f - 60) / 5, 2));
+      // Background rise
+      base += 0.02 * f;
+      return base;
+    }
+  </script>
+
+  <!-- ============================================================
+       WIDGET 1 — Full Link Budget Calculator (waterfall)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 460 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { pt: 20, gt: 30, gr: 33, f: 12, d: 550, r: 0 };
+
+    // Implementation losses + atmospheric pointing assumptions kept constant
+    var POINTING_LOSS = 2;     // dB
+    var IMPL_LOSS = 1.5;       // dB
+    var BANDWIDTH_HZ = 250e6;  // 250 MHz Starlink channel
+    var NOISE_FIG = 2;         // dB
+    var ELEV = 40;             // assumed elevation for atmospheric/rain slant
+
+    function compute() {
+      var pt_dBm = W_to_dBm(state.pt);                  // dBm
+      var gt = state.gt, gr = state.gr;
+      var eirp_dBm = pt_dBm + gt;
+      var fspl = fspl_dB(state.d, state.f);
+      var Latm = atmosphericLoss_dB(state.f) / Math.max(Math.sin(ELEV * Math.PI/180), 0.05);
+      var rc = rainCoeffs(state.f);
+      var specA = rc.k * Math.pow(Math.max(state.r, 0), rc.a); // dB/km
+      var rainSlant = (4 - 0.1) / Math.sin(ELEV * Math.PI/180); // km
+      var Lrain = specA * rainSlant;
+      var Lmisc = POINTING_LOSS;
+      // Final received
+      var pr_dBm = pt_dBm + gt - fspl - Latm - Lrain - Lmisc + gr;
+      // Noise
+      var N_dBm = -174 + 10 * Math.log10(BANDWIDTH_HZ) + NOISE_FIG;
+      var snr = pr_dBm - N_dBm - IMPL_LOSS;
+      // Required SNR: pick highest mode and report it
+      var modes = [
+        { name: 'BPSK 1/2', snr: 0 },
+        { name: 'QPSK 1/2', snr: 3 },
+        { name: 'QPSK 3/4', snr: 6 },
+        { name: '8-PSK 3/4', snr: 10 },
+        { name: '16-APSK', snr: 13 },
+        { name: '32-APSK', snr: 16 },
+        { name: '64-QAM', snr: 22 },
+        { name: '256-QAM', snr: 28 }
+      ];
+      var chosen = modes[0];
+      for (var i = 0; i < modes.length; i++) {
+        if (snr >= modes[i].snr) chosen = modes[i];
+      }
+      var works = snr >= 3; // can at least run QPSK
+      return {
+        pt_dBm: pt_dBm, gt: gt, eirp: eirp_dBm,
+        fspl: fspl, Latm: Latm, Lrain: Lrain, Lmisc: Lmisc, gr: gr,
+        pr_dBm: pr_dBm, N_dBm: N_dBm, snr: snr,
+        chosen: chosen, works: works,
+        margin: snr - chosen.snr
+      };
+    }
+
+    function renderLedger(r) {
+      var html = '';
+      function row(label, val, cls) {
+        var sign = val >= 0 ? '+' : '';
+        html += '<div class="row"><span>' + label + '</span><span class="' + cls + '">' +
+          sign + val.toFixed(1) + ' ' + (label === 'Tx power' ? 'dBm' : 'dB') + '</span></div>';
+      }
+      html += '<div class="row"><span>Tx power</span><span class="gain">+' + r.pt_dBm.toFixed(1) + ' dBm</span></div>';
+      html += '<div class="row"><span>Tx antenna gain</span><span class="gain">+' + r.gt.toFixed(0) + ' dB</span></div>';
+      html += '<div class="row"><span><em>EIRP</em></span><span><em>+' + r.eirp.toFixed(1) + ' dBm</em></span></div>';
+      html += '<div class="row"><span>Free-space path loss</span><span class="loss">&minus;' + r.fspl.toFixed(1) + ' dB</span></div>';
+      html += '<div class="row"><span>Atmospheric absorption</span><span class="loss">&minus;' + r.Latm.toFixed(2) + ' dB</span></div>';
+      html += '<div class="row"><span>Rain attenuation</span><span class="loss">&minus;' + r.Lrain.toFixed(2) + ' dB</span></div>';
+      html += '<div class="row"><span>Pointing/polarization/misc</span><span class="loss">&minus;' + r.Lmisc.toFixed(1) + ' dB</span></div>';
+      html += '<div class="row"><span>Rx antenna gain</span><span class="gain">+' + r.gr.toFixed(0) + ' dB</span></div>';
+      html += '<div class="row total"><span>Received power</span><span>' + r.pr_dBm.toFixed(1) + ' dBm</span></div>';
+      html += '<div class="row"><span>Noise floor (kTB + NF)</span><span class="loss">' + r.N_dBm.toFixed(1) + ' dBm</span></div>';
+      html += '<div class="row"><span>SNR available</span><span>' + r.snr.toFixed(1) + ' dB</span></div>';
+      html += '<div class="row"><span>Required SNR (' + r.chosen.name + ')</span><span>' + r.chosen.snr.toFixed(0) + ' dB</span></div>';
+      var color = r.margin >= 3 ? 'gain' : (r.margin >= 0 ? '' : 'loss');
+      var verdict = r.margin >= 3 ? 'works (comfortable)' : (r.margin >= 0 ? 'works (tight)' : 'BROKEN');
+      html += '<div class="row total"><span>Link margin</span><span class="' + color + '">' +
+        (r.margin >= 0 ? '+' : '') + r.margin.toFixed(1) + ' dB &nbsp; &mdash; ' + verdict + '</span></div>';
+      document.getElementById('w1-ledger').innerHTML = html;
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+
+      // Waterfall: each bar represents a gain (green, up) or loss (red, down)
+      // We accumulate from EIRP down to received power.
+      var pad = { top: 36, right: 18, bottom: 60, left: 70 };
+      var items = [
+        { label: 'Tx pwr',  val: r.pt_dBm,  sign: 'gain',   abs: false },
+        { label: '+Gt',     val: r.gt,      sign: 'gain' },
+        { label: '−FSPL',  val: -r.fspl, sign: 'loss' },
+        { label: '−Atm',   val: -r.Latm, sign: 'loss' },
+        { label: '−Rain',  val: -r.Lrain, sign: 'loss' },
+        { label: '−Misc',  val: -r.Lmisc, sign: 'loss' },
+        { label: '+Gr',     val: r.gr,      sign: 'gain' },
+        { label: 'Rx pwr',  val: r.pr_dBm,  sign: 'total', abs: true }
+      ];
+
+      // Determine plot range
+      var minVal = Math.min(r.N_dBm - 15, r.pr_dBm - 5, -180);
+      var maxVal = Math.max(r.eirp + 5, 80);
+      // Snap to nice numbers
+      minVal = Math.floor(minVal / 20) * 20;
+      maxVal = Math.ceil(maxVal / 20) * 20;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: items.map(it => it.label),
+        yMin: minVal, yMax: maxVal, ySteps: 6,
+        yFmt: function(v) { return v.toFixed(0) + ' dBm'; }
+      });
+
+      var plotW = W - pad.left - pad.right;
+      var barW = plotW / items.length * 0.55;
+      var running = 0;
+      items.forEach(function(it, i) {
+        var bx = pad.left + (i + 0.5) * (plotW / items.length);
+        var prev = running;
+        if (it.abs) {
+          running = it.val;
+        } else {
+          running = running + it.val;
+        }
+        var top, bot, color;
+        if (i === 0) {
+          // First bar: from 0 up to pt_dBm
+          top = running;
+          bot = 0;
+          color = '#2f855a';
+        } else if (it.sign === 'total') {
+          // Total received power: from running back to 0 (or value to 0 for visualisation)
+          top = it.val;
+          bot = 0;
+          color = '#1a202c';
+        } else if (it.sign === 'gain') {
+          top = running;
+          bot = prev;
+          color = '#2f855a';
+        } else {
+          top = prev;
+          bot = running;
+          color = '#c53030';
+        }
+        var yTop = mapY(Math.max(top, bot), minVal, maxVal, H, pad);
+        var yBot = mapY(Math.min(top, bot), minVal, maxVal, H, pad);
+        drawRectCanvas(ctx, bx - barW/2, yTop, barW, yBot - yTop, color, 3);
+        // Value label
+        var labelVal = (it.val >= 0 ? '+' : '') + it.val.toFixed(1);
+        drawTextCanvas(ctx, bx, yTop - 8, labelVal, {
+          fontSize: 10, color: 'var(--text)', weight: '600'
+        });
+      });
+
+      // Threshold line: noise floor + required SNR for chosen mode
+      var threshold = r.N_dBm + r.chosen.snr + IMPL_LOSS;
+      var threshY = mapY(threshold, minVal, maxVal, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#3182ce';
+      ctx.setLineDash([6, 4]);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, threshY);
+      ctx.lineTo(W - pad.right, threshY);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, W - pad.right - 6, threshY - 9,
+        'Threshold (' + r.chosen.name + '): ' + threshold.toFixed(1) + ' dBm',
+        { fontSize: 10, color: '#3182ce', align: 'right' });
+
+      // Noise floor line
+      var noiseY = mapY(r.N_dBm, minVal, maxVal, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#999';
+      ctx.setLineDash([3, 3]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, noiseY);
+      ctx.lineTo(W - pad.right, noiseY);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, pad.left + 4, noiseY + 9,
+        'Noise floor: ' + r.N_dBm.toFixed(1) + ' dBm',
+        { fontSize: 10, color: '#666', align: 'left' });
+
+      // Title
+      drawTextCanvas(ctx, W/2, 14,
+        'Link budget waterfall (dBm)', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      renderLedger(r);
+    }
+
+    attachSliders([
+      { el: document.getElementById('w1-pt'), label: document.getElementById('w1-pt-val'), format: function(v){ return v.toFixed(0) + ' W'; } },
+      { el: document.getElementById('w1-gt'), label: document.getElementById('w1-gt-val'), format: function(v){ return v.toFixed(0) + ' dBi'; } },
+      { el: document.getElementById('w1-gr'), label: document.getElementById('w1-gr-val'), format: function(v){ return v.toFixed(0) + ' dBi'; } },
+      { el: document.getElementById('w1-f'),  label: document.getElementById('w1-f-val'),  format: function(v){ return v.toFixed(1) + ' GHz'; } },
+      { el: document.getElementById('w1-d'),  label: document.getElementById('w1-d-val'),  format: function(v){ return v.toFixed(0) + ' km'; } },
+      { el: document.getElementById('w1-r'),  label: document.getElementById('w1-r-val'),  format: function(v){ return v.toFixed(0) + ' mm/hr'; } }
+    ], function(vals) {
+      state.pt = vals['w1-pt'];
+      state.gt = vals['w1-gt'];
+      state.gr = vals['w1-gr'];
+      state.f  = vals['w1-f'];
+      state.d  = vals['w1-d'];
+      state.r  = vals['w1-r'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — FSPL vs distance, with LEO/MEO/GEO and band markers
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { f: 12 };
+
+    // Canonical bands and altitudes
+    var bands = [
+      { name: 'L', range: [1, 2], color: '#888' },
+      { name: 'S', range: [2, 4], color: '#888' },
+      { name: 'C', range: [4, 8], color: '#888' },
+      { name: 'Ku', range: [10.7, 14.5], color: 'var(--accent)' },
+      { name: 'Ka', range: [17.7, 31], color: '#3182ce' },
+      { name: 'V', range: [40, 50], color: '#c53030' }
+    ];
+    var orbits = [
+      { name: 'LEO 550', d: 550, color: 'var(--accent)' },
+      { name: 'MEO 20.2k', d: 20200, color: '#3182ce' },
+      { name: 'GEO 35.8k', d: 35786, color: '#c53030' }
+    ];
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 60, right: 18, bottom: 52, left: 56 };
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+
+      // X axis: log frequency from 0.5 to 50 GHz
+      var xMinLog = Math.log10(0.5);
+      var xMaxLog = Math.log10(50);
+      // Y axis: FSPL from 90 to 230 dB
+      var yMin = 90, yMax = 230;
+
+      // Draw axes manually because x is log
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, pad.top);
+      ctx.lineTo(pad.left, H - pad.bottom);
+      ctx.lineTo(W - pad.right, H - pad.bottom);
+      ctx.stroke();
+      ctx.restore();
+
+      // Y gridlines
+      var ySteps = 7;
+      for (var i = 0; i <= ySteps; i++) {
+        var yVal = yMin + (yMax - yMin) * (i / ySteps);
+        var yPos = H - pad.bottom - (i / ySteps) * plotH;
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--border)');
+        ctx.setLineDash([3, 4]);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, yPos);
+        ctx.lineTo(W - pad.right, yPos);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, pad.left - 8, yPos, yVal.toFixed(0) + ' dB',
+          { fontSize: 10, align: 'right', color: 'var(--text-secondary)' });
+      }
+
+      // X log gridlines and labels
+      var xTicks = [0.5, 1, 2, 5, 10, 20, 50];
+      xTicks.forEach(function(xv) {
+        var xPos = pad.left + (Math.log10(xv) - xMinLog) / (xMaxLog - xMinLog) * plotW;
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--border)');
+        ctx.setLineDash([2, 3]);
+        ctx.beginPath();
+        ctx.moveTo(xPos, pad.top);
+        ctx.lineTo(xPos, H - pad.bottom);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, xPos, H - pad.bottom + 14, xv + ' GHz',
+          { fontSize: 10, color: 'var(--text-secondary)' });
+      });
+
+      // Band shading at top
+      bands.forEach(function(b) {
+        var x1 = pad.left + (Math.log10(b.range[0]) - xMinLog) / (xMaxLog - xMinLog) * plotW;
+        var x2 = pad.left + (Math.log10(b.range[1]) - xMinLog) / (xMaxLog - xMinLog) * plotW;
+        x1 = Math.max(pad.left, x1); x2 = Math.min(W - pad.right, x2);
+        ctx.save();
+        ctx.fillStyle = b.color;
+        ctx.globalAlpha = 0.12;
+        ctx.fillRect(x1, pad.top - 30, x2 - x1, 18);
+        ctx.restore();
+        drawTextCanvas(ctx, (x1 + x2) / 2, pad.top - 21, b.name + '-band',
+          { fontSize: 10, color: b.color, weight: '600' });
+      });
+
+      // 200 dB practical wall
+      var wallY = H - pad.bottom - ((200 - yMin) / (yMax - yMin)) * plotH;
+      ctx.save();
+      ctx.strokeStyle = '#c53030';
+      ctx.setLineDash([6, 4]);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, wallY);
+      ctx.lineTo(W - pad.right, wallY);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, W - pad.right - 6, wallY - 9,
+        '200 dB — consumer-power wall',
+        { fontSize: 10, color: '#c53030', align: 'right' });
+
+      // FSPL curves for each orbit
+      orbits.forEach(function(o) {
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor(o.color);
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        var first = true;
+        for (var x = 0.5; x <= 50.01; x += 0.5) {
+          var fspl = fspl_dB(o.d, x);
+          var xp = pad.left + (Math.log10(x) - xMinLog) / (xMaxLog - xMinLog) * plotW;
+          var yp = H - pad.bottom - ((fspl - yMin) / (yMax - yMin)) * plotH;
+          if (first) { ctx.moveTo(xp, yp); first = false; }
+          else ctx.lineTo(xp, yp);
+        }
+        ctx.stroke();
+        ctx.restore();
+
+        // Label at right edge
+        var fsplEnd = fspl_dB(o.d, 50);
+        var yEnd = H - pad.bottom - ((fsplEnd - yMin) / (yMax - yMin)) * plotH;
+        drawTextCanvas(ctx, W - pad.right - 4, yEnd - 8, o.name,
+          { fontSize: 11, color: o.color, weight: '600', align: 'right' });
+      });
+
+      // Current slider crosshair
+      var xCur = pad.left + (Math.log10(state.f) - xMinLog) / (xMaxLog - xMinLog) * plotW;
+      ctx.save();
+      ctx.strokeStyle = '#1a202c';
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(xCur, pad.top);
+      ctx.lineTo(xCur, H - pad.bottom);
+      ctx.stroke();
+      ctx.restore();
+      // Mark FSPL points at slider frequency
+      orbits.forEach(function(o) {
+        var fspl = fspl_dB(o.d, state.f);
+        var yp = H - pad.bottom - ((fspl - yMin) / (yMax - yMin)) * plotH;
+        drawPointCanvas(ctx, xCur, yp, 5, o.color, '#fff');
+      });
+
+      // Title
+      drawTextCanvas(ctx, W/2, 14, 'Free-space path loss vs frequency (log–linear)',
+        { fontSize: 12, color: 'var(--text-secondary)', baseline: 'top' });
+      drawTextCanvas(ctx, W/2, H - 6, 'Frequency (GHz)',
+        { fontSize: 11, color: 'var(--text-secondary)' });
+
+      // Readouts
+      document.getElementById('w2-leo').textContent = fspl_dB(550, state.f).toFixed(1) + ' dB';
+      document.getElementById('w2-meo').textContent = fspl_dB(20200, state.f).toFixed(1) + ' dB';
+      document.getElementById('w2-geo').textContent = fspl_dB(35786, state.f).toFixed(1) + ' dB';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-f'), label: document.getElementById('w2-f-val'),
+        format: function(v){ return v.toFixed(1) + ' GHz'; } }
+    ], function(vals) {
+      state.f = vals['w2-f'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Rain Attenuation Calculator
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { r: 10, e: 40, f: 12 };
+    var H_RAIN_KM = 4.0;
+    var H_STATION_KM = 0.1;
+
+    function slantLen(elev_deg) {
+      var elev = elev_deg * Math.PI / 180;
+      return (H_RAIN_KM - H_STATION_KM) / Math.max(Math.sin(elev), 0.05);
+    }
+
+    function compute(f, R, elev) {
+      var c = rainCoeffs(f);
+      var A = c.k * Math.pow(Math.max(R, 0), c.a); // dB/km
+      var Ls = slantLen(elev);
+      return { specA: A, Ls: Ls, total: A * Ls };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 36, right: 18, bottom: 50, left: 58 };
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+
+      // X axis: rain rate 0..50 mm/hr (linear)
+      // Y axis: total attenuation, log scale from 0.05 to 100 dB
+      var yMinLog = Math.log10(0.05), yMaxLog = Math.log10(100);
+      var xMin = 0, xMax = 50;
+
+      // Axes baselines
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, H - pad.bottom);
+      ctx.lineTo(W - pad.right, H - pad.bottom);
+      ctx.stroke();
+      ctx.restore();
+
+      // Y log gridlines
+      var yTicks = [0.05, 0.1, 0.5, 1, 5, 10, 50, 100];
+      yTicks.forEach(function(yv) {
+        var yPos = H - pad.bottom - (Math.log10(yv) - yMinLog) / (yMaxLog - yMinLog) * plotH;
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--border)');
+        ctx.setLineDash([3, 4]);
+        ctx.beginPath();
+        ctx.moveTo(pad.left, yPos); ctx.lineTo(W - pad.right, yPos);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, pad.left - 8, yPos, yv + ' dB',
+          { fontSize: 10, align: 'right', color: 'var(--text-secondary)' });
+      });
+
+      // X gridlines
+      var xTicks = [0, 5, 10, 20, 30, 40, 50];
+      xTicks.forEach(function(xv) {
+        var xPos = pad.left + (xv - xMin) / (xMax - xMin) * plotW;
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--border)');
+        ctx.setLineDash([2, 3]);
+        ctx.beginPath();
+        ctx.moveTo(xPos, pad.top); ctx.lineTo(xPos, H - pad.bottom);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, xPos, H - pad.bottom + 14, xv + '',
+          { fontSize: 10, color: 'var(--text-secondary)' });
+      });
+      drawTextCanvas(ctx, W/2, H - 6, 'Rain rate (mm/hr)',
+        { fontSize: 11, color: 'var(--text-secondary)' });
+
+      // Band reference curves at the current elevation
+      var refBands = [
+        { f: 12, label: 'Ku 12 GHz', color: 'var(--accent)' },
+        { f: 20, label: 'Ka 20 GHz', color: '#3182ce' },
+        { f: 30, label: 'Ka 30 GHz', color: '#805ad5' },
+        { f: 40, label: 'Q 40 GHz',  color: '#c05621' },
+        { f: 50, label: 'V 50 GHz',  color: '#c53030' }
+      ];
+      refBands.forEach(function(b) {
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor(b.color);
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        var first = true;
+        for (var r = 0; r <= 50.01; r += 0.5) {
+          var c = compute(b.f, r, state.e);
+          var x = pad.left + (r - xMin) / (xMax - xMin) * plotW;
+          var aClip = Math.max(c.total, 0.05);
+          var y = H - pad.bottom - (Math.log10(aClip) - yMinLog) / (yMaxLog - yMinLog) * plotH;
+          y = Math.max(pad.top, Math.min(H - pad.bottom, y));
+          if (first) { ctx.moveTo(x, y); first = false; }
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.restore();
+
+        // Label at right edge
+        var cEnd = compute(b.f, 50, state.e);
+        var aEnd = Math.max(cEnd.total, 0.05);
+        var yEnd = H - pad.bottom - (Math.log10(aEnd) - yMinLog) / (yMaxLog - yMinLog) * plotH;
+        yEnd = Math.max(pad.top + 4, Math.min(H - pad.bottom - 4, yEnd));
+        drawTextCanvas(ctx, W - pad.right - 4, yEnd - 8, b.label,
+          { fontSize: 10, color: b.color, weight: '600', align: 'right' });
+      });
+
+      // 3 dB and 10 dB threshold lines
+      [
+        { v: 3, label: '3 dB — clear-sky margin' },
+        { v: 10, label: '10 dB — link starts failing' }
+      ].forEach(function(t) {
+        var y = H - pad.bottom - (Math.log10(t.v) - yMinLog) / (yMaxLog - yMinLog) * plotH;
+        ctx.save();
+        ctx.strokeStyle = '#666';
+        ctx.setLineDash([5, 4]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, pad.left + 6, y - 8, t.label,
+          { fontSize: 9, color: '#666', align: 'left' });
+      });
+
+      // Current slider point — actual line item value
+      var cur = compute(state.f, state.r, state.e);
+      var xCur = pad.left + (state.r - xMin) / (xMax - xMin) * plotW;
+      var aCur = Math.max(cur.total, 0.05);
+      var yCur = H - pad.bottom - (Math.log10(aCur) - yMinLog) / (yMaxLog - yMinLog) * plotH;
+      yCur = Math.max(pad.top, Math.min(H - pad.bottom, yCur));
+      drawPointCanvas(ctx, xCur, yCur, 6, '#1a202c', '#fff');
+      drawTextCanvas(ctx, xCur, yCur - 14,
+        cur.total.toFixed(1) + ' dB',
+        { fontSize: 11, color: '#1a202c', weight: '600' });
+
+      drawTextCanvas(ctx, W/2, 14, 'Total rain attenuation vs rain rate (log y)',
+        { fontSize: 12, color: 'var(--text-secondary)', baseline: 'top' });
+
+      // Readouts
+      document.getElementById('w3-a').textContent = cur.specA.toFixed(2) + ' dB/km';
+      document.getElementById('w3-ls').textContent = cur.Ls.toFixed(2) + ' km';
+      document.getElementById('w3-at').textContent = cur.total.toFixed(2) + ' dB';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-r'), label: document.getElementById('w3-r-val'),
+        format: function(v){ return v.toFixed(0) + ' mm/hr'; } },
+      { el: document.getElementById('w3-e'), label: document.getElementById('w3-e-val'),
+        format: function(v){ return v.toFixed(0) + '°'; } },
+      { el: document.getElementById('w3-f'), label: document.getElementById('w3-f-val'),
+        format: function(v){ return v.toFixed(1) + ' GHz'; } }
+    ], function(vals) {
+      state.r = vals['w3-r'];
+      state.e = vals['w3-e'];
+      state.f = vals['w3-f'];
+      render();
+    });
+  })();
+  </script>
+
+</body>
+</html>

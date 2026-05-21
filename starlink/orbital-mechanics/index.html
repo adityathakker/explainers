@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orbital Mechanics, From First Principles &mdash; Starlink Explainers</title>
+  <meta name="description" content="An orbit is a balance: gravity pulling down, tangential velocity carrying sideways. Falling forever, missing the Earth. Derived from F=ma, no shortcuts.">
+  <meta name="author" content="Starlink Explainers">
+
+  <meta property="og:title" content="Orbital Mechanics, From First Principles">
+  <meta property="og:description" content="An orbit is gravity vs tangential velocity. Falling forever, missing the Earth.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #1a202c;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%); }
+
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .readout-sub {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Starlink Explainers
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Orbital Mechanics, From First Principles</h1>
+      <p class="hero__subtitle">An orbit is a balance: gravity pulling down, tangential velocity carrying sideways. The satellite is in free fall &mdash; it just keeps missing the Earth.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 28 min read</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-falling">Why doesn't a satellite just fall down?</a></li>
+        <li><a href="#ii-derive">What is orbital velocity, derived from F=ma?</a></li>
+        <li><a href="#iii-altitude">Why is orbital velocity slower at higher altitudes?</a></li>
+        <li><a href="#iv-starlink">How fast is Starlink actually moving?</a></li>
+        <li><a href="#v-escape">What is escape velocity, and why is it &radic;2 times orbital?</a></li>
+        <li><a href="#vi-vis-viva">What does Vis-viva tell us about elliptical orbits?</a></li>
+        <li><a href="#vii-drag">Why do LEO satellites only last ~5 years?</a></li>
+        <li><a href="#viii-deorbit">How do satellites deorbit safely?</a></li>
+        <li><a href="#ix-synthesis">The Newton-Kepler synthesis</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <!-- ============================================================
+         I. Why doesn't a satellite just fall down?
+         ============================================================ -->
+    <section class="reveal" id="i-falling">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why doesn't a satellite just fall down?</h2>
+      </div>
+      <div class="section-content">
+        <p>It does fall down. That is the entire trick. A satellite in orbit is in <strong>free fall</strong>, accelerating toward Earth's centre at roughly 8.4 m/s² (at Starlink's 550 km altitude). It just happens to be moving sideways fast enough that the Earth's surface curves away beneath it at exactly the rate it falls. The satellite is forever falling and forever missing the ground. Newton's <em>Principia</em> spells this out in 1687 with the famous thought experiment of a cannon on a mountain: fire the ball slowly, it lands; fire it faster, it lands further; fire it fast enough, it falls all the way around the planet and comes back to hit you in the back of the head.</p>
+
+        <p>That speed &mdash; the muzzle velocity at which the projectile keeps missing the ground &mdash; is what we call <strong>orbital velocity</strong>. At Starlink's altitude it works out to about 7.6 km/s, or roughly 27,400 km/h. There is no engine running. The satellites do not burn propellant to stay in orbit. They burn propellant only to <em>change</em> orbits or fight tiny drag forces. The thing that keeps Starlink up is geometry and inertia, not thrust.</p>
+
+        <p>This article derives orbital velocity from F = ma, shows why higher orbits are slower (counter-intuitively), explains why escape velocity is exactly &radic;2 times orbital, and walks through why a 550-km satellite reliably deorbits in about five years &mdash; the design lifetime SpaceX engineered around. The math is shown in full. The numbers use real Starlink figures. The one thing to leave with: <em>orbit is the equilibrium between gravity and tangential motion; everything else &mdash; period, altitude, drag, lifetime &mdash; falls out of that single balance.</em></p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Orbital velocity from F=ma
+         ============================================================ -->
+    <section class="reveal" id="ii-derive">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What is orbital velocity, derived from F=ma?</h2>
+      </div>
+      <div class="section-content">
+        <p>For a circular orbit, exactly one force acts on the satellite: gravity. Newton's law of universal gravitation gives its magnitude at orbital radius <span class="math">r</span> (measured from Earth's centre, not from the surface):</p>
+
+        <div class="math-block">
+          F<sub>g</sub> = GMm / r²
+          <span class="math-where">G = 6.674 &times; 10⁻¹¹ m³/(kg&middot;s²); M = Earth's mass = 5.972 &times; 10²⁴ kg; m = satellite mass; r = distance from Earth's centre.</span>
+        </div>
+
+        <p>This force points radially inward, toward Earth's centre. For the satellite to move in a circle at constant speed, that force must equal the <strong>centripetal force</strong> required to keep something of mass <span class="math">m</span> moving in a circle of radius <span class="math">r</span> at tangential speed <span class="math">v</span>:</p>
+
+        <div class="math-block">
+          F<sub>c</sub> = mv² / r
+          <span class="math-where">centripetal force pointing toward the centre of the circle. Derives from a = v²/r for uniform circular motion.</span>
+        </div>
+
+        <p>For a stable circular orbit, gravity supplies exactly the centripetal force needed. No more, no less. So we set them equal:</p>
+
+        <div class="math-block">
+          GMm / r² = mv² / r
+          <br>
+          GM / r = v²
+          <br>
+          v<sub>orb</sub> = &radic;( GM / r )
+          <span class="math-where">divide both sides by m, multiply both sides by r, take the square root. The satellite's own mass cancels out.</span>
+        </div>
+
+        <p>The satellite's mass cancelled. A 260-kg Starlink and a 6-ton GPS satellite orbiting at the same altitude would have <em>identical</em> orbital velocities. This is the same insight that lets Galileo's feather and hammer fall together on the Moon &mdash; gravity is an acceleration, not a force-per-unit-mass-that-depends-on-mass.</p>
+
+        <p>The combined product <span class="math">GM</span> is called the <strong>gravitational parameter</strong>, denoted &mu; (mu) in orbital mechanics. For Earth, &mu; = 3.986 &times; 10¹⁴ m³/s², measured directly from satellite tracking with far better precision than G and M individually. Whenever you see "&mu;" in an orbital-mechanics formula, that's what it means.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; real orbits are ellipses, not circles</summary>
+          <p>Kepler's first law (1609) states planets &mdash; and by extension all satellites &mdash; move on elliptical orbits, with the central body at one focus. Circular orbit is just the special case where eccentricity <span class="math">e = 0</span>. Everything in this article assumes a circular orbit for clarity, which is a fine approximation for Starlink: the Starlink v1 shells have eccentricities below 0.001, meaning the orbital radius varies by less than 7 km between the closest (perigee) and furthest (apogee) point. A 7-km wobble on a 6,928-km radius is a rounding error.</p>
+          <p>For more elliptical orbits &mdash; Molniya at e &asymp; 0.74, or a comet at e &asymp; 0.99 &mdash; the circular formula breaks. The general energy equation that handles ellipses (the Vis-viva equation) comes back in Section VI.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Slower at higher altitudes
+         ============================================================ -->
+    <section class="reveal" id="iii-altitude">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>Why is orbital velocity slower at higher altitudes?</h2>
+      </div>
+      <div class="section-content">
+        <p>Most people guess the opposite. Geostationary satellites are "way up there," surely they have to move very fast to keep up? They don't &mdash; they move at less than half Starlink's speed. The intuition reverses once you stare at the formula:</p>
+
+        <div class="math-block">
+          v<sub>orb</sub> = &radic;( &mu; / r )
+          <span class="math-where">v drops as r grows. Doubling r drops v by a factor of &radic;2; quadrupling r halves v.</span>
+        </div>
+
+        <p>Higher altitude = larger <span class="math">r</span> = smaller <span class="math">v</span>. The reason is that gravity itself weakens with the square of distance. To balance a weaker pull, you need less centripetal acceleration, which means less speed. The satellite is in a wider, slower waltz with Earth.</p>
+
+        <p>Run the numbers across the orbits that matter:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Orbit</th><th>Altitude h</th><th>Radius r = R + h</th><th>v<sub>orb</sub></th><th>Period T</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>ISS</td><td class="num">400 km</td><td class="num">6,778 km</td><td class="num">7.67 km/s</td><td class="num">92.7 min</td></tr>
+            <tr><td>Starlink</td><td class="num">550 km</td><td class="num">6,928 km</td><td class="num">7.59 km/s</td><td class="num">95.6 min</td></tr>
+            <tr><td>OneWeb</td><td class="num">1,200 km</td><td class="num">7,578 km</td><td class="num">7.25 km/s</td><td class="num">109.5 min</td></tr>
+            <tr><td>GPS (MEO)</td><td class="num">20,200 km</td><td class="num">26,578 km</td><td class="num">3.87 km/s</td><td class="num">11h 58m</td></tr>
+            <tr><td>GEO</td><td class="num">35,786 km</td><td class="num">42,164 km</td><td class="num">3.07 km/s</td><td class="num">23h 56m</td></tr>
+          </tbody>
+        </table>
+
+        <p>GEO's period is exactly one sidereal day (23 hours 56 minutes 4 seconds) by definition &mdash; that's the altitude at which the satellite's orbital period matches the Earth's rotation, so it appears stationary from the ground. Solve <span class="math">T = 2&pi;&radic;(r³/&mu;) = 86,164 s</span> for r, and you get 42,164 km. Subtract Earth's 6,378-km radius, and the famous 35,786-km altitude pops out. That number isn't chosen, it's solved for.</p>
+
+        <p>The orbital period itself comes from circumference / speed, but algebraically it's cleaner to derive directly from the centripetal balance, which gives us <strong>Kepler's third law</strong> as a freebie:</p>
+
+        <div class="math-block">
+          T = 2&pi;r / v = 2&pi;r / &radic;(&mu;/r) = 2&pi;&radic;( r³ / &mu; )
+          <br>
+          T² = (4&pi;²/&mu;) &middot; r³
+          <span class="math-where">Period-squared is proportional to radius-cubed. Kepler observed this in 1619 from planetary data; Newton derived it in 1687 from inverse-square gravity.</span>
+        </div>
+
+        <p>Kepler had the law without knowing why. Newton showed it falls out of <span class="math">F &prop; 1/r²</span> in three lines of algebra. That's the moment celestial mechanics becomes physics.</p>
+
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 1 &mdash; Orbital velocity and period across altitudes</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="slider-group" style="margin-top: 14px;">
+            <div class="slider-label"><span>Altitude above ground</span><span class="slider-value" id="w2-h-val">550 km</span></div>
+            <input type="range" id="w2-h" min="200" max="40000" value="550" step="50">
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Orbital velocity</div><div class="readout-value" id="w2-vel">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Orbital period</div><div class="readout-value" id="w2-per">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Local gravity g(r)</div><div class="readout-value" id="w2-grav">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Sweep altitude from ISS to GEO. The curve is v = &radic;(&mu;/r). Markers flag canonical orbits. Notice GEO is roughly 40% of Starlink's speed &mdash; higher orbit, slower motion, longer period.</p>
+        </div>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Starlink-specific numbers
+         ============================================================ -->
+    <section class="reveal" id="iv-starlink">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>How fast is Starlink actually moving?</h2>
+      </div>
+      <div class="section-content">
+        <p>Plug Starlink's altitude into the formula and watch real numbers fall out. Starlink's v1.5 shell sits at 550 km altitude, so:</p>
+
+        <div class="math-block">
+          r = R<sub>Earth</sub> + h = 6,378 km + 550 km = 6,928 km = 6.928 &times; 10⁶ m
+          <br>
+          v<sub>orb</sub> = &radic;( 3.986 &times; 10¹⁴ / 6.928 &times; 10⁶ )
+          <br>
+          v<sub>orb</sub> = &radic;( 5.752 &times; 10⁷ )
+          <br>
+          v<sub>orb</sub> &asymp; 7,584 m/s &asymp; 7.58 km/s &asymp; 27,300 km/h
+        </div>
+
+        <p>27,300 km/h. Roughly Mach 22 if we abused the term in vacuum. A Starlink satellite crosses the contiguous United States in about three minutes. From your front porch, a single satellite is visible above the 25&deg; elevation horizon for about <strong>4 to 7 minutes</strong> per pass &mdash; which is why the constellation needs thousands of satellites and the user terminal needs to electronically hand off mid-conversation. There is no time to slew a physical dish.</p>
+
+        <p>For period, plug into Kepler's third law:</p>
+
+        <div class="math-block">
+          T = 2&pi;&radic;( r³ / &mu; ) = 2&pi;&radic;( (6.928&times;10⁶)³ / 3.986&times;10¹⁴ )
+          <br>
+          T = 2&pi;&radic;( 3.327&times;10²⁰ / 3.986&times;10¹⁴ )
+          <br>
+          T = 2&pi;&radic;( 8.346&times;10⁵ )
+          <br>
+          T &asymp; 5,738 s &asymp; <strong>95.6 minutes</strong>
+        </div>
+
+        <p>Roughly 15 orbits per day. Multiply 7,000 satellites &times; 15 passes &times; ~5 minutes per pass and you get a system where every populated point on Earth typically has dozens of Starlink satellites overhead at any moment &mdash; the redundancy that makes the user terminal's life easy.</p>
+
+        <p>One more pleasing consistency check. The acceleration of gravity at Starlink's altitude is:</p>
+
+        <div class="math-block">
+          g(r) = &mu; / r² = 3.986&times;10¹⁴ / (6.928&times;10⁶)² &asymp; 8.31 m/s²
+          <span class="math-where">vs 9.81 m/s² at sea level &mdash; only 15% less at 550 km. Gravity does not "switch off" in low orbit; it is nearly as strong as on the ground.</span>
+        </div>
+
+        <p>This is the part of orbit-mechanics that surprises every first-time student. Astronauts on the ISS feel weightless not because gravity is absent, but because they are <em>falling</em> &mdash; just like the satellite they live inside. Cut the orbital velocity to zero and they would drop straight down at 8.3 m/s² and die.</p>
+
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 2 &mdash; Gravity vs tangential velocity balance</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Altitude</span><span class="slider-value" id="w1-h-val">550 km</span></div>
+              <input type="range" id="w1-h" min="200" max="3000" value="550" step="50">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Tangential velocity</span><span class="slider-value" id="w1-v-val">7.60 km/s</span></div>
+              <input type="range" id="w1-v" min="3000" max="14000" value="7600" step="100">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">F<sub>g</sub> needed (mv²/r)</div><div class="readout-value" id="w1-fc" style="font-size:14px;">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">F<sub>g</sub> actual (GMm/r²)</div><div class="readout-value" id="w1-fg" style="font-size:14px;">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Outcome</div><div class="readout-value" id="w1-verdict" style="font-size:13px;">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Tune altitude and tangential velocity. At a given altitude there is exactly one velocity that puts gravity and centripetal force in balance &mdash; that's the orbit. Too slow and the satellite spirals in. Too fast and it climbs away (and at v &geq; &radic;2 &middot; v<sub>orb</sub>, it escapes Earth's pull entirely).</p>
+        </div>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Escape velocity
+         ============================================================ -->
+    <section class="reveal" id="v-escape">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>What is escape velocity, and why is it &radic;2 times orbital?</h2>
+      </div>
+      <div class="section-content">
+        <p>An orbiting satellite is bound to Earth: its total mechanical energy is negative. Fire it faster, and at some critical speed the total energy crosses zero and the satellite leaves on a parabolic trajectory, never returning. That speed is <strong>escape velocity</strong>.</p>
+
+        <p>The derivation is one conservation-of-energy line. Take an object with kinetic energy <span class="math">&frac12;mv²</span> at radius <span class="math">r</span>, with gravitational potential energy <span class="math">U = &minus;&mu;m/r</span> (the standard convention has U &rarr; 0 at infinity, negative everywhere closer). For the object to "just barely" escape, its total energy at infinity must be zero:</p>
+
+        <div class="math-block">
+          &frac12;mv<sub>esc</sub>² + (&minus;&mu;m/r) = 0
+          <br>
+          &frac12;v<sub>esc</sub>² = &mu;/r
+          <br>
+          v<sub>esc</sub> = &radic;( 2&mu;/r )
+          <span class="math-where">Set total energy = 0 (just enough to reach infinity with zero kinetic energy left over). Object's mass cancels again.</span>
+        </div>
+
+        <p>Compare with the orbital velocity formula from Section II:</p>
+
+        <div class="math-block">
+          v<sub>orb</sub> = &radic;( &mu;/r ) &nbsp;&nbsp;vs&nbsp;&nbsp; v<sub>esc</sub> = &radic;( 2&mu;/r )
+          <br>
+          v<sub>esc</sub> / v<sub>orb</sub> = &radic;2 &asymp; 1.414
+        </div>
+
+        <p>At any altitude, escape velocity is exactly &radic;2 times orbital velocity. Always. A satellite in circular orbit needs only a 41.4% velocity increase to leave Earth forever. At Starlink's 550 km:</p>
+
+        <ul>
+          <li>v<sub>orb</sub> = 7.58 km/s (the orbit)</li>
+          <li>v<sub>esc</sub> = 10.73 km/s (the escape threshold)</li>
+          <li>&Delta;v required to escape from circular orbit = <strong>3.14 km/s</strong></li>
+        </ul>
+
+        <p>This is the &Delta;v budget for interplanetary missions. New Horizons (Pluto) and Voyager (interstellar) each spent roughly that much extra velocity above LEO orbital speed to break Earth's grip and start heading outward. Once you are at low orbit you are <em>halfway to anywhere in the solar system, energy-wise</em> &mdash; an aphorism Robert Heinlein gets credit for. The energy from ground to LEO is comparable to the energy from LEO to escape; once you're in orbit, the solar system is open.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Earth's oblateness perturbs everything (the J2 effect)</summary>
+          <p>The derivations above assume Earth is a perfect sphere with all its mass at the centre. It isn't. The Earth is an <em>oblate spheroid</em> &mdash; about 43 km wider at the equator than from pole to pole, because the planet's rotation has bulged the equatorial mass outward. This bulge contains roughly 0.1% of Earth's mass and produces the second-order gravitational moment called <strong>J2</strong>.</p>
+          <p>J2 makes orbits precess. The plane of an inclined orbit rotates slowly about Earth's polar axis &mdash; westward for prograde orbits, eastward for retrograde &mdash; at a rate proportional to cos(i)/(1&minus;e²)² &middot; (R/a)³&middot;½. For Starlink at 53&deg; inclination and 550 km, the orbital plane precesses by about &minus;5&deg; per day. Constellation designers exploit this by choosing sun-synchronous inclinations where precession exactly compensates Earth's orbit around the Sun, so the satellite always passes overhead at the same local solar time. For Starlink, J2 is just a constant correction the station-keeping system tracks.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Vis-viva
+         ============================================================ -->
+    <section class="reveal" id="vi-vis-viva">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What does Vis-viva tell us about elliptical orbits?</h2>
+      </div>
+      <div class="section-content">
+        <p>Once you accept that real orbits are elliptical, you need a formula that doesn't assume constant <span class="math">r</span>. The <strong>Vis-viva equation</strong> (Latin for "living force," what Leibniz called kinetic energy in 1695) gives the velocity of any object on a Keplerian orbit at any point, in terms of the current radius <span class="math">r</span> and the orbit's semi-major axis <span class="math">a</span>:</p>
+
+        <div class="math-block">
+          v² = &mu; &middot; ( 2/r &minus; 1/a )
+          <span class="math-where">r = current distance from Earth's centre; a = semi-major axis (half the long diameter of the ellipse). For a circle, r = a, giving v² = &mu;/r &mdash; the formula from Section II.</span>
+        </div>
+
+        <p>The derivation comes from setting total orbital energy equal to <span class="math">E = &minus;&mu;m/(2a)</span> &mdash; a result that itself falls out of integrating the gravitational force around the ellipse. Two limits make Vis-viva memorable:</p>
+
+        <ul>
+          <li><strong>Circular orbit</strong> (a = r): v² = &mu;(2/r &minus; 1/r) = &mu;/r. Recovers Section II.</li>
+          <li><strong>Parabolic escape</strong> (a &rarr; &infin;): v² = 2&mu;/r. Recovers Section V.</li>
+          <li><strong>Elliptical orbit at perigee</strong> (r = a(1&minus;e)): v² = &mu;(2/(a(1&minus;e)) &minus; 1/a) = (&mu;/a) &middot; (1+e)/(1&minus;e). Faster than circular &mdash; the satellite swings through perigee.</li>
+          <li><strong>Elliptical orbit at apogee</strong> (r = a(1+e)): v² = (&mu;/a) &middot; (1&minus;e)/(1+e). Slower than circular &mdash; the satellite hangs near apogee, the regime exploited by Molniya orbits to dwell over high latitudes.</li>
+        </ul>
+
+        <p>A worked example. A satellite is launched into a <strong>Hohmann transfer ellipse</strong> from a 550-km circular orbit up to a higher 1,200-km circular orbit. The transfer ellipse has perigee at 550 km (r<sub>p</sub> = 6,928 km) and apogee at 1,200 km (r<sub>a</sub> = 7,578 km), so its semi-major axis is a = (r<sub>p</sub> + r<sub>a</sub>) / 2 = 7,253 km. Vis-viva gives the velocity at each end:</p>
+
+        <div class="math-block">
+          v<sub>p</sub> = &radic;( &mu; &middot; (2/6,928 &minus; 1/7,253) ) &times; 10³ &asymp; 7.760 km/s
+          <br>
+          v<sub>a</sub> = &radic;( &mu; &middot; (2/7,578 &minus; 1/7,253) ) &times; 10³ &asymp; 7.094 km/s
+          <br>
+          v<sub>circ</sub>(550 km) = 7.585 km/s; v<sub>circ</sub>(1,200 km) = 7.252 km/s
+          <br>
+          Burn 1 at perigee: 7.760 &minus; 7.585 = +0.175 km/s
+          <br>
+          Burn 2 at apogee: 7.252 &minus; 7.094 = +0.158 km/s
+          <span class="math-where">Total &Delta;v &asymp; 0.333 km/s &mdash; surprisingly small. Hohmann transfer is the cheapest way to move between two circular orbits.</span>
+        </div>
+
+        <p>This is how every Starlink satellite gets from its Falcon 9 drop-off orbit (often around 300 km) up to operational altitude. The on-board Hall-effect thrusters fire a tiny perigee burn, drift up to apogee over half an orbit, then fire a tiny apogee burn to circularise. Total propellant: a few kilograms of krypton. Total time: weeks, because the thrusters are low-thrust electric, not chemical. Vis-viva tells them exactly how much &Delta;v to plan for.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Atmospheric drag
+         ============================================================ -->
+    <section class="reveal" id="vii-drag">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>Why do LEO satellites only last ~5 years?</h2>
+      </div>
+      <div class="section-content">
+        <p>An orbit is a balance. The balance is held only as long as no other force interferes. At Starlink's altitude there is one force that does interfere: residual atmospheric drag.</p>
+
+        <p>The atmosphere does not have a hard edge. Air density falls roughly exponentially with altitude. The standard fit is:</p>
+
+        <div class="math-block">
+          &rho;(h) &asymp; &rho;<sub>0</sub> &middot; exp( &minus;(h &minus; h<sub>0</sub>) / H )
+          <span class="math-where">H = scale height, roughly 7 km at sea level, rising to 30&ndash;60 km in the thermosphere. At 550 km, &rho; &asymp; 10⁻¹³ kg/m³ &mdash; a hundred-trillionth of sea-level density.</span>
+        </div>
+
+        <p>That's tiny &mdash; air at 550 km is so thin that a one-cubic-metre box contains roughly 10⁹ molecules, compared to 2.5&times;10²⁵ at sea level. But the satellite is sweeping through it at 7.6 km/s. Drag force on the satellite is:</p>
+
+        <div class="math-block">
+          F<sub>drag</sub> = &frac12; &middot; &rho; &middot; v² &middot; C<sub>D</sub> &middot; A
+          <span class="math-where">&rho; = local density; v = velocity; C<sub>D</sub> = drag coefficient (~2.2 for satellites in free molecular flow); A = cross-sectional area.</span>
+        </div>
+
+        <p>For a 260-kg Starlink with A &asymp; 10 m² (including the solar panel when not edge-on), at 550 km the drag force is on the order of 10 microNewtons &mdash; a millionth of the satellite's weight on the ground. That sounds negligible. But it acts continuously, in the direction opposite the velocity, draining orbital energy. Over thousands of orbits, microNewtons add up to kilometres of altitude loss.</p>
+
+        <p>The satellite engineer's shorthand for "how much drag a given satellite experiences" is the <strong>ballistic coefficient</strong>:</p>
+
+        <div class="math-block">
+          B<sub>c</sub> = m / (C<sub>D</sub> &middot; A)
+          <span class="math-where">High B<sub>c</sub> = dense, streamlined satellite that resists drag; low B<sub>c</sub> = light, large surface area that slows down quickly. Starlink v1.5 B<sub>c</sub> &asymp; 12 kg/m². CubeSats &asymp; 30. ISS &asymp; 100. A briefcase tossed out the airlock &asymp; 80.</span>
+        </div>
+
+        <p>A satellite with low ballistic coefficient (large area-to-mass ratio) deorbits faster. This is why Starlink's design choice of a flat panel that can edge-on into the airstream during reboost burns is so important &mdash; minimising A when you want to stay up, maximising it when you want to come down.</p>
+
+        <p>The atmosphere is also <em>not constant</em>. Solar activity, especially the 11-year sunspot cycle, can puff up the thermosphere by 10&times; in density during solar maximum. The February 2022 storm that took down 38 newly-launched Starlinks &mdash; before they could raise to operational altitude &mdash; was a direct consequence of this. The satellites were at 210 km, climbing; a geomagnetic storm increased the density up there by ~50%, drag exceeded their tiny thruster authority, and they re-entered.</p>
+
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Deorbit time vs altitude and ballistic coefficient</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Initial altitude</span><span class="slider-value" id="w3-h-val">550 km</span></div>
+              <input type="range" id="w3-h" min="200" max="1200" value="550" step="10">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Ballistic coefficient B<sub>c</sub></span><span class="slider-value" id="w3-bc-val">12 kg/m²</span></div>
+              <input type="range" id="w3-bc" min="3" max="100" value="12" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Air density &rho;(h)</div><div class="readout-value" id="w3-rho" style="font-size:13px;">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Deorbit time</div><div class="readout-value" id="w3-time">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Verdict</div><div class="readout-value" id="w3-verdict" style="font-size:13px;">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Slide altitude down from 1,200 km to 200 km. Below 400 km, the curve goes vertical &mdash; weeks instead of years. At Starlink's 550 km with B<sub>c</sub> = 12, expect ~5 years to natural reentry, exactly matching the design lifetime SpaceX engineered around.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; drag is not the only deorbit mechanism</summary>
+          <p>At LEO altitudes, atmospheric drag dominates the orbital decay budget by orders of magnitude. But it isn't the only force perturbing satellite orbits:</p>
+          <ul>
+            <li><strong>Solar radiation pressure (SRP):</strong> sunlight carries momentum. For a flat satellite with large area-to-mass ratio, photon pressure produces a continuous tiny force &mdash; about 4.5 &mu;N/m² at Earth's distance from the Sun. Negligible at LEO compared to drag, but dominant for GEO satellites and the only orbital perturbation that matters for interplanetary probes.</li>
+            <li><strong>Third-body perturbations:</strong> the Moon and Sun's gravity tug on satellites, slowly altering their orbits. At GEO this nudges the satellite ~0.8&deg; per year in inclination &mdash; station-keeping fuel goes mostly to fighting this, not drag.</li>
+            <li><strong>Tidal effects:</strong> Earth itself flexes under tidal forces, and the resulting mass redistribution adds tiny higher-order gravity harmonics.</li>
+            <li><strong>Charged-particle drag and Lorentz forces:</strong> the ionosphere and Earth's magnetic field exert measurable forces on charged spacecraft &mdash; small but non-zero for long-duration LEO missions.</li>
+          </ul>
+          <p>For Starlink at 550 km, atmospheric drag accounts for ~99% of orbital decay; everything else is in the noise. For GEO, drag is essentially zero and SRP + third-body dominate.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIII. How satellites deorbit safely
+         ============================================================ -->
+    <section class="reveal" id="viii-deorbit">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>How do satellites deorbit safely?</h2>
+      </div>
+      <div class="section-content">
+        <p>A failed satellite at 550 km left to itself comes down in ~5 years. A working satellite at 550 km does its job and then is <em>actively pushed</em> down at end-of-life, in 2 to 6 months. The reason is debris policy. The U.S. FCC's 25-year rule (now tightening to 5 years for new constellations) requires every satellite operator to ensure end-of-life satellites re-enter within a fixed window &mdash; otherwise dead satellites accumulate and the orbital environment becomes unusable. Kessler syndrome (a future explainer in this set) is the catastrophic-cascade scenario the rule is designed to prevent.</p>
+
+        <p>Starlink's deorbit procedure:</p>
+
+        <ol>
+          <li><strong>Lower perigee.</strong> The satellite fires its krypton Hall-effect thrusters retrograde at apogee, dropping perigee from ~550 km to ~300 km. This puts it in a phasing ellipse where it dips into thicker air on every orbit.</li>
+          <li><strong>Let drag do the work.</strong> Below 300 km, atmospheric density is high enough that drag rapidly circularises and lowers the orbit. The satellite spends a few weeks spiralling down through the thermosphere.</li>
+          <li><strong>Atmospheric breakup at ~80 km.</strong> Aerothermal heating cracks the satellite apart. Most components &mdash; aluminium structure, solar panels &mdash; vapourise. Designed-to-demise (DtD) engineering ensures no piece reaches the ground; Starlink achieves "fully demisable" status. Earlier-generation satellites used heavier titanium and tungsten components that survived re-entry as molten chunks landing in the ocean.</li>
+        </ol>
+
+        <p>The energy released during re-entry is enormous. At 7.6 km/s the satellite's kinetic energy is &frac12;mv² = &frac12; &middot; 260 &middot; (7,600)² &asymp; 7.5 &times; 10⁹ J &mdash; equivalent to about 1.8 tonnes of TNT. All of that has to be dissipated as heat as the satellite slows from orbital velocity to terminal velocity. For Starlink, that's roughly 20 MJ/kg, which is comfortably more than the latent heat of vaporisation for aluminium (~10 MJ/kg). Hence "designed to demise."</p>
+
+        <p>The cadence of deorbits is significant. SpaceX has deorbited <strong>over 1,000 satellites</strong> since 2020 &mdash; an average of one every few days. By the time the constellation reaches steady-state at ~12,000 satellites with ~5-year lifetimes, the system will need to deorbit roughly 6 satellites per day, every day, forever. The active satellite count looks stable. The throughput is enormous.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IX. The synthesis
+         ============================================================ -->
+    <section class="reveal" id="ix-synthesis">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>The Newton-Kepler synthesis</h2>
+      </div>
+      <div class="section-content">
+        <p>Pull the threads together. Everything in this article followed from one equation:</p>
+
+        <div class="math-block">
+          F = ma
+          <span class="math-where">applied to a satellite where the only force is gravity F<sub>g</sub> = GMm/r² and the only acceleration is centripetal a = v²/r.</span>
+        </div>
+
+        <p>From that single balance, with no other physics, we got:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Quantity</th><th>Formula</th><th>Section</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Orbital velocity</td><td class="num">v = &radic;(&mu;/r)</td><td>II</td></tr>
+            <tr><td>Orbital period</td><td class="num">T = 2&pi;&radic;(r³/&mu;)</td><td>III</td></tr>
+            <tr><td>Kepler's third law</td><td class="num">T² &prop; r³</td><td>III</td></tr>
+            <tr><td>Escape velocity</td><td class="num">v<sub>esc</sub> = &radic;(2&mu;/r) = &radic;2 &middot; v<sub>orb</sub></td><td>V</td></tr>
+            <tr><td>Vis-viva (elliptical)</td><td class="num">v² = &mu;(2/r &minus; 1/a)</td><td>VI</td></tr>
+            <tr><td>Orbital energy</td><td class="num">E = &minus;&mu;m/(2a)</td><td>VI</td></tr>
+            <tr><td>Drag force</td><td class="num">F<sub>d</sub> = &frac12;&rho;v²C<sub>D</sub>A</td><td>VII</td></tr>
+          </tbody>
+        </table>
+
+        <p>Three things follow about Starlink specifically. First, the satellite's <strong>speed</strong> is 7.58 km/s &mdash; not a choice, but the speed at which gravity exactly supplies the needed centripetal force at 550 km. Second, its <strong>period</strong> is 95.6 minutes &mdash; not picked, but solved from r³/&mu;. Third, its <strong>lifetime without reboost</strong> is roughly five years &mdash; not arbitrary, but the consequence of the residual air density at 550 km integrated over a Starlink-shaped object. Every operationally meaningful number about a satellite in low Earth orbit traces back to F = ma and a 550-km radius.</p>
+
+        <p>This is the deep elegance of orbital mechanics. There is nothing to memorise. There are no constants to look up beyond &mu; and Earth's radius. From two equations and one balance, the entire system &mdash; from why GEO satellites are slower than LEO satellites, to why Starlink needs 5-year replacement cycles, to why escape velocity is &radic;2 of orbital &mdash; falls out in algebra. Kepler observed the patterns over decades from telescope data. Newton showed they were three lines of math.</p>
+
+        <div class="callout">
+          <div class="callout-title">What you can now teach</div>
+          <p><strong>An orbit is the balance between gravity pulling the satellite down and tangential velocity carrying it sideways &mdash; the satellite is in free fall, forever missing the Earth.</strong> Set GMm/r² equal to mv²/r and everything else falls out: orbital velocity is &radic;(&mu;/r), orbital period is 2&pi;&radic;(r³/&mu;), escape velocity is exactly &radic;2 times orbital, and atmospheric drag at 550 km gives Starlink a 5-year decay lifetime that the constellation is designed around. Two equations. One balance. Every satellite that exists.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">Earth's gravitational parameter &mu; = GM = 3.986004418 &times; 10¹⁴ m³/s² is measured to roughly nine significant figures from laser-ranging to satellites and lunar reflectors. The factors G (Newton's constant) and M (Earth's mass) are each known to about four significant figures &mdash; their product is known better than either alone, which is why orbital mechanics always uses &mu; directly. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The "satellites are in free fall" framing comes from Einstein's equivalence principle (1907): inside a sealed elevator, you cannot tell whether you're in free fall in a gravitational field or floating in deep space. ISS astronauts experience this directly. The colloquial term "zero gravity" is misleading &mdash; gravity at 400 km is 88% of its surface value. What's missing is not gravity but the normal force from a floor pushing up against it. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Atmospheric density at altitude is modelled with substantially more nuance than the simple exponential here. NRLMSISE-00 (Naval Research Lab Mass Spectrometer Incoherent Scatter Extended) is the operational standard, accounting for solar EUV flux, geomagnetic activity (Kp index), local time, latitude, and season. The exponential approximation is fine for back-of-envelope deorbit estimates; for actual mission planning, atmospheric models are tabulated and updated nightly from solar observatory data. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts
+       ============================================================ -->
+  <script>
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var t = document.getElementById(this.getAttribute('href').slice(1));
+        if (t) {
+          e.preventDefault();
+          var navH = document.querySelector('.nav').offsetHeight;
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - navH - 20, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- Constants used by widgets -->
+  <script>
+    var MU_EARTH = 3.986e14;          // m³/s², Earth's gravitational parameter
+    var EARTH_RADIUS_KM = 6378.0;     // km
+    var EARTH_RADIUS_M = 6378000.0;   // m
+    var deg2rad = function(d) { return d * Math.PI / 180; };
+    var rad2deg = function(r) { return r * 180 / Math.PI; };
+
+    // Orbital velocity helper: v_orb in m/s at altitude h (km)
+    function vOrbMS(h_km) {
+      var r_m = EARTH_RADIUS_M + h_km * 1000;
+      return Math.sqrt(MU_EARTH / r_m);
+    }
+    // Period in seconds at altitude h (km)
+    function periodS(h_km) {
+      var r_m = EARTH_RADIUS_M + h_km * 1000;
+      return 2 * Math.PI * Math.sqrt((r_m * r_m * r_m) / MU_EARTH);
+    }
+    // Local gravity g(r) in m/s²
+    function gravAt(h_km) {
+      var r_m = EARTH_RADIUS_M + h_km * 1000;
+      return MU_EARTH / (r_m * r_m);
+    }
+    // Format period nicely
+    function formatPeriod(s) {
+      if (s < 3600) return (s / 60).toFixed(1) + ' min';
+      var h = Math.floor(s / 3600);
+      var m = Math.round((s - h * 3600) / 60);
+      return h + 'h ' + (m < 10 ? '0' : '') + m + 'm';
+    }
+  </script>
+
+  <!-- ============================================================
+       WIDGET 1 (rendered second on page) — Gravity vs tangential velocity balance
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 420 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // Initialize state BEFORE attaching sliders
+    var state = { h: 550, v: 7600, m: 260 };
+
+    function compute() {
+      var r_m = EARTH_RADIUS_M + state.h * 1000;
+      var fG = MU_EARTH * state.m / (r_m * r_m);     // gravity force (N)
+      var fC = state.m * state.v * state.v / r_m;    // required centripetal (N)
+      var v_orb = Math.sqrt(MU_EARTH / r_m);
+      var v_esc = Math.sqrt(2 * MU_EARTH / r_m);
+      var ratio = state.v / v_orb;
+      var verdict, color;
+      if (state.v >= v_esc) {
+        verdict = 'Escapes';
+        color = '#c53030';
+      } else if (ratio > 1.05) {
+        verdict = 'Climbs out';
+        color = '#dd6b20';
+      } else if (ratio < 0.95) {
+        verdict = 'Spirals in';
+        color = '#dd6b20';
+      } else if (Math.abs(ratio - 1) < 0.01) {
+        verdict = 'Stable orbit';
+        color = '#38a169';
+      } else {
+        verdict = 'Near orbit';
+        color = '#38a169';
+      }
+      return { fG: fG, fC: fC, v_orb: v_orb, v_esc: v_esc, ratio: ratio, verdict: verdict, color: color };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+
+      // Display layout: Earth in middle-left, trajectory sketch right
+      var cx = W * 0.42, cy = H / 2 + 10;
+      // Scale: 1 unit = ~1000 km in display
+      var earthDisplayR = Math.min(W, H) * 0.13;
+      var scale = earthDisplayR / EARTH_RADIUS_KM;
+
+      // Earth
+      ctx.save();
+      ctx.fillStyle = '#cbd5e0';
+      ctx.beginPath(); ctx.arc(cx, cy, earthDisplayR, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+      drawTextCanvas(ctx, cx, cy, 'Earth', { fontSize: 11, color: '#fff', weight: '600' });
+
+      // Satellite circular reference orbit (where v_orb would be)
+      var satR_display = (EARTH_RADIUS_KM + state.h) * scale;
+      ctx.save();
+      ctx.strokeStyle = '#999';
+      ctx.setLineDash([3, 4]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, satR_display, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Satellite position (right of Earth, at orbit height)
+      var satX = cx + satR_display;
+      var satY = cy;
+      drawPointCanvas(ctx, satX, satY, 6, resolveCSSColor('var(--accent)'), '#fff');
+
+      // Trajectory based on outcome
+      var ratio = r.ratio;
+      var v_esc_ratio = r.v_esc / r.v_orb; // = sqrt(2)
+      ctx.save();
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = r.color;
+      ctx.beginPath();
+      if (state.v >= r.v_esc) {
+        // Hyperbolic escape — sweeping curve upward and out
+        ctx.moveTo(satX, satY);
+        var n = 40;
+        for (var i = 1; i <= n; i++) {
+          var t = i / n;
+          var ang = -Math.PI/2 * t * 0.7;
+          var rad = satR_display + t * satR_display * 2.0;
+          var px = cx + Math.cos(ang) * rad * 0.8 + (1 - Math.cos(ang)) * satR_display * 0.2;
+          var py = cy + Math.sin(ang) * rad;
+          ctx.lineTo(px, py);
+        }
+      } else if (Math.abs(ratio - 1) < 0.03) {
+        // Stable circular — full orbit
+        ctx.arc(cx, cy, satR_display, 0, Math.PI * 2);
+      } else if (ratio > 1) {
+        // Elliptical, higher apogee — partial ellipse outward then return
+        ctx.moveTo(satX, satY);
+        var n2 = 80;
+        var aMaj = satR_display * (1 + (ratio - 1) * 1.5);
+        for (var j = 1; j <= n2; j++) {
+          var ang2 = Math.PI * 2 * j / n2;
+          var rr = (satR_display * aMaj) / Math.sqrt(
+            Math.pow(aMaj * Math.cos(ang2), 2) + Math.pow(satR_display * Math.sin(ang2), 2)
+          );
+          var px2 = cx + Math.cos(ang2) * rr * (aMaj / satR_display);
+          var py2 = cy + Math.sin(ang2) * rr;
+          // Simpler: just an offset ellipse
+          ctx.lineTo(cx + Math.cos(ang2) * aMaj, cy + Math.sin(ang2) * satR_display);
+        }
+      } else {
+        // Spiraling in
+        ctx.moveTo(satX, satY);
+        var n3 = 100;
+        for (var k = 1; k <= n3; k++) {
+          var t3 = k / n3;
+          var ang3 = Math.PI * 2 * t3 * 1.2;
+          var rad3 = satR_display * (1 - t3 * (1 - ratio) * 1.5);
+          if (rad3 < earthDisplayR) rad3 = earthDisplayR;
+          var px3 = cx + Math.cos(ang3) * rad3;
+          var py3 = cy + Math.sin(ang3) * rad3;
+          ctx.lineTo(px3, py3);
+        }
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Force arrows from satellite: gravity (down to Earth) and velocity (tangential)
+      ctx.save();
+      // Gravity arrow — pointing toward Earth
+      var gravLen = Math.min(60, 30 + 4 * Math.log(r.fG + 1));
+      ctx.strokeStyle = '#c53030';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(satX - gravLen, satY);
+      ctx.stroke();
+      // arrowhead
+      ctx.beginPath();
+      ctx.moveTo(satX - gravLen, satY);
+      ctx.lineTo(satX - gravLen + 6, satY - 4);
+      ctx.lineTo(satX - gravLen + 6, satY + 4);
+      ctx.closePath();
+      ctx.fillStyle = '#c53030';
+      ctx.fill();
+      drawTextCanvas(ctx, satX - gravLen - 10, satY, 'F_g', { fontSize: 11, align: 'right', color: '#c53030', weight: '600' });
+
+      // Velocity arrow — tangential (perpendicular), upward in this layout
+      var velLen = Math.min(80, 20 + state.v / 200);
+      ctx.strokeStyle = '#3182ce';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(satX, satY - velLen);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(satX, satY - velLen);
+      ctx.lineTo(satX - 4, satY - velLen + 6);
+      ctx.lineTo(satX + 4, satY - velLen + 6);
+      ctx.closePath();
+      ctx.fillStyle = '#3182ce';
+      ctx.fill();
+      drawTextCanvas(ctx, satX + 8, satY - velLen + 4, 'v', { fontSize: 11, align: 'left', color: '#3182ce', weight: '600' });
+      ctx.restore();
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 12, 'Satellite trajectory at current velocity', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Subtitle / ratio
+      drawTextCanvas(ctx, W / 2, 30, 'v / v_orb = ' + r.ratio.toFixed(3) + '   |   v_esc ratio = ' + (r.v_esc / r.v_orb).toFixed(3), {
+        fontSize: 11, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Readouts
+      document.getElementById('w1-fc').textContent = (r.fC).toExponential(2) + ' N';
+      document.getElementById('w1-fg').textContent = (r.fG).toExponential(2) + ' N';
+      document.getElementById('w1-verdict').textContent = r.verdict;
+      document.getElementById('w1-verdict').style.color = r.color;
+    }
+
+    attachSliders([
+      { el: document.getElementById('w1-h'), label: document.getElementById('w1-h-val'),
+        format: function(v) { return v.toFixed(0) + ' km'; } },
+      { el: document.getElementById('w1-v'), label: document.getElementById('w1-v-val'),
+        format: function(v) { return (v / 1000).toFixed(2) + ' km/s'; } }
+    ], function(vals) {
+      state.h = vals['w1-h']; state.v = vals['w1-v'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 (rendered first on page) — Orbital velocity & period vs altitude
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    var state = { h: 550 };
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 40, right: 70, bottom: 44, left: 60 };
+
+      var hMin = 200, hMax = 40000;
+      var vMin = 2.5, vMax = 8.5; // km/s
+
+      // Build curve points
+      var points = [];
+      var samples = 200;
+      for (var i = 0; i <= samples; i++) {
+        var t = i / samples;
+        // log-spaced for visual clarity
+        var h_km = hMin * Math.pow(hMax / hMin, t);
+        var v_kms = vOrbMS(h_km) / 1000;
+        points.push({ h: h_km, v: v_kms });
+      }
+
+      // Use log-x axis labels
+      var xLabels = ['200', '500', '1k', '2k', '5k', '10k', '20k', '40k'];
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: xLabels,
+        yMin: vMin, yMax: vMax, ySteps: 6,
+        yFmt: function(v) { return v.toFixed(1) + ' km/s'; }
+      });
+
+      function xPos(h_km) {
+        var t = Math.log(h_km / hMin) / Math.log(hMax / hMin);
+        return pad.left + t * (W - pad.left - pad.right);
+      }
+      function yPos(v_kms) {
+        return mapY(v_kms, vMin, vMax, H, pad);
+      }
+
+      // Plot v curve
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--accent)');
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      points.forEach(function(p, i) {
+        var x = xPos(p.h), y = yPos(p.v);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.restore();
+
+      // Mark canonical orbits
+      var markers = [
+        { name: 'ISS', h: 400, color: '#888' },
+        { name: 'Starlink', h: 550, color: 'var(--accent)' },
+        { name: 'OneWeb', h: 1200, color: '#888' },
+        { name: 'GPS', h: 20200, color: '#888' },
+        { name: 'GEO', h: 35786, color: '#c53030' }
+      ];
+      markers.forEach(function(m) {
+        var v_kms = vOrbMS(m.h) / 1000;
+        var x = xPos(m.h), y = yPos(v_kms);
+        drawPointCanvas(ctx, x, y, 5, m.color, '#fff');
+        // Stagger labels vertically to avoid collision
+        var labelOffsetY;
+        var labelOffsetX = 8;
+        var align = 'left';
+        if (m.name === 'ISS') { labelOffsetY = 14; }
+        else if (m.name === 'Starlink') { labelOffsetY = -12; }
+        else if (m.name === 'OneWeb') { labelOffsetY = 14; }
+        else if (m.name === 'GPS') { labelOffsetY = -12; }
+        else { labelOffsetY = -12; labelOffsetX = -8; align = 'right'; }
+        drawTextCanvas(ctx, x + labelOffsetX, y + labelOffsetY,
+          m.name + ' (' + v_kms.toFixed(2) + ')',
+          { fontSize: 10, color: m.color, align: align, weight: '600' });
+      });
+
+      // Highlight current slider position
+      var v_user = vOrbMS(state.h) / 1000;
+      var ux = xPos(state.h), uy = yPos(v_user);
+      ctx.save();
+      ctx.strokeStyle = '#3182ce';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(ux, H - pad.bottom);
+      ctx.lineTo(ux, uy);
+      ctx.lineTo(pad.left, uy);
+      ctx.stroke();
+      ctx.restore();
+      drawPointCanvas(ctx, ux, uy, 6, '#3182ce', '#fff');
+
+      // Title (top of canvas, above plot area)
+      drawTextCanvas(ctx, W / 2, 14, 'Orbital velocity v(r) = √(μ/r), altitude on log scale', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Update readouts
+      var v_kms_user = vOrbMS(state.h) / 1000;
+      var T_s = periodS(state.h);
+      var g = gravAt(state.h);
+      document.getElementById('w2-vel').textContent = v_kms_user.toFixed(2) + ' km/s';
+      document.getElementById('w2-per').textContent = formatPeriod(T_s);
+      document.getElementById('w2-grav').textContent = g.toFixed(2) + ' m/s²';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-h'), label: document.getElementById('w2-h-val'),
+        format: function(v) { return v.toFixed(0) + ' km'; } }
+    ], function(vals) {
+      state.h = vals['w2-h'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Deorbit time vs altitude & ballistic coefficient
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    var state = { h: 550, bc: 12 };
+
+    // Piecewise exponential atmosphere — approximates US Std Atmosphere thermosphere
+    // Returns density in kg/m³ at altitude h (km)
+    function airDensity(h_km) {
+      // Anchor points (h_km, rho kg/m³, scale height H_km):
+      // Based on NRLMSISE-00 mean solar activity, rounded for explainer use
+      var bands = [
+        { h0: 200, rho0: 2.5e-10, H: 37 },
+        { h0: 300, rho0: 2.0e-11, H: 45 },
+        { h0: 400, rho0: 3.0e-12, H: 56 },
+        { h0: 500, rho0: 5.0e-13, H: 65 },
+        { h0: 600, rho0: 1.0e-13, H: 75 },
+        { h0: 700, rho0: 3.0e-14, H: 85 },
+        { h0: 800, rho0: 1.0e-14, H: 100 },
+        { h0: 1000, rho0: 3.0e-15, H: 120 },
+        { h0: 1200, rho0: 1.0e-15, H: 150 }
+      ];
+      // Find band
+      var band = bands[0];
+      for (var i = 0; i < bands.length; i++) {
+        if (h_km >= bands[i].h0) band = bands[i];
+      }
+      return band.rho0 * Math.exp(-(h_km - band.h0) / band.H);
+    }
+
+    // Approximate decay time (years) from altitude h_km with ballistic coefficient Bc kg/m²
+    // Uses dh/dt = -2 * rho * v * a / Bc, where a = semi-major axis ~ R+h, v = v_orb
+    // Integrate from h down to 100 km (re-entry)
+    function deorbitYears(h0_km, bc) {
+      var t_s = 0;
+      var h = h0_km;
+      var dh = -1; // 1 km steps
+      while (h > 100) {
+        var rho = airDensity(h);
+        var v = vOrbMS(h);
+        var r = EARTH_RADIUS_M + h * 1000;
+        // dh/dt = -2 * rho * v * r / Bc  (m/s)  — standard "drag scaling" approximation
+        var dhdt_ms = -2 * rho * v * r / bc;  // m/s of altitude loss
+        // Step downward by 1000 m and accumulate dt
+        var dt_s = -1000 / dhdt_ms;
+        if (!isFinite(dt_s) || dt_s < 0) dt_s = 0;
+        t_s += dt_s;
+        h -= 1;
+        // Guard against runaway loops at high altitude
+        if (t_s > 1e12) return Infinity;
+      }
+      return t_s / (365.25 * 86400);
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 40, right: 24, bottom: 44, left: 70 };
+
+      var hMin = 200, hMax = 1200;
+      var tMin = 0, tMax = 4; // log10(years) — 0 = 1y, 1 = 10y, 2 = 100y, etc.
+
+      // Compute curve for current Bc
+      var points = [];
+      var samples = 100;
+      for (var i = 0; i <= samples; i++) {
+        var t = i / samples;
+        var h_km = hMin + (hMax - hMin) * t;
+        var years = deorbitYears(h_km, state.bc);
+        var logY = years > 0 && isFinite(years) ? Math.log10(years) : tMax;
+        if (logY < tMin) logY = tMin;
+        if (logY > tMax) logY = tMax;
+        points.push({ h: h_km, ly: logY });
+      }
+
+      var xLabels = [];
+      for (var lh = hMin; lh <= hMax; lh += 200) xLabels.push(lh + '');
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: xLabels,
+        yMin: tMin, yMax: tMax, ySteps: 4,
+        yFmt: function(v) {
+          var n = Math.pow(10, v);
+          if (n < 1) return (n * 12).toFixed(0) + ' mo';
+          if (n >= 100) return n.toFixed(0) + ' yr';
+          return n.toFixed(0) + ' yr';
+        }
+      });
+
+      function xPos(h_km) {
+        return mapX(h_km, hMin, hMax, W, pad);
+      }
+      function yPos(logY) {
+        return mapY(logY, tMin, tMax, H, pad);
+      }
+
+      // Plot curve
+      ctx.save();
+      ctx.strokeStyle = resolveCSSColor('var(--accent)');
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      points.forEach(function(p, i) {
+        var x = xPos(p.h), y = yPos(p.ly);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.restore();
+
+      // 5-year reference line
+      var ref5 = yPos(Math.log10(5));
+      ctx.save();
+      ctx.strokeStyle = '#999';
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, ref5);
+      ctx.lineTo(W - pad.right, ref5);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, W - pad.right - 4, ref5 - 6, '5 yr (FCC target)', {
+        fontSize: 10, color: '#999', align: 'right'
+      });
+
+      // 25-year reference line (old FCC rule)
+      var ref25 = yPos(Math.log10(25));
+      if (ref25 > pad.top && ref25 < H - pad.bottom) {
+        ctx.save();
+        ctx.strokeStyle = '#999';
+        ctx.setLineDash([2, 5]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, ref25);
+        ctx.lineTo(W - pad.right, ref25);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, W - pad.right - 4, ref25 - 6, '25 yr (old rule)', {
+          fontSize: 10, color: '#999', align: 'right'
+        });
+      }
+
+      // Highlight Starlink altitude with vertical line
+      var slX = xPos(550);
+      if (slX >= pad.left && slX <= W - pad.right) {
+        ctx.save();
+        ctx.strokeStyle = '#888';
+        ctx.setLineDash([2, 3]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(slX, pad.top);
+        ctx.lineTo(slX, H - pad.bottom);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, slX, pad.top - 4, 'Starlink 550', {
+          fontSize: 10, color: '#888', align: 'center', baseline: 'bottom'
+        });
+      }
+
+      // Current slider point
+      var yearsNow = deorbitYears(state.h, state.bc);
+      var logNow = yearsNow > 0 && isFinite(yearsNow) ? Math.log10(yearsNow) : tMax;
+      if (logNow > tMax) logNow = tMax;
+      if (logNow < tMin) logNow = tMin;
+      var ux = xPos(state.h), uy = yPos(logNow);
+      ctx.save();
+      ctx.strokeStyle = '#3182ce';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(ux, H - pad.bottom);
+      ctx.lineTo(ux, uy);
+      ctx.lineTo(pad.left, uy);
+      ctx.stroke();
+      ctx.restore();
+      drawPointCanvas(ctx, ux, uy, 6, '#3182ce', '#fff');
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 14, 'Natural deorbit time vs altitude (log y, exponential atmosphere)', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Readouts
+      var rho = airDensity(state.h);
+      document.getElementById('w3-rho').textContent = rho.toExponential(2) + ' kg/m³';
+      var timeStr, verdict, vcolor;
+      if (!isFinite(yearsNow) || yearsNow > 1000) {
+        timeStr = '> 1000 yr';
+        verdict = 'Effectively stable';
+        vcolor = '#c53030';
+      } else if (yearsNow > 25) {
+        timeStr = yearsNow.toFixed(0) + ' yr';
+        verdict = 'Violates 25-yr rule';
+        vcolor = '#c53030';
+      } else if (yearsNow > 5) {
+        timeStr = yearsNow.toFixed(1) + ' yr';
+        verdict = 'Needs active deorbit';
+        vcolor = '#dd6b20';
+      } else if (yearsNow > 1) {
+        timeStr = yearsNow.toFixed(1) + ' yr';
+        verdict = 'Compliant';
+        vcolor = '#38a169';
+      } else if (yearsNow > 1/12) {
+        timeStr = (yearsNow * 12).toFixed(1) + ' mo';
+        verdict = 'Rapid decay';
+        vcolor = '#dd6b20';
+      } else {
+        timeStr = (yearsNow * 365).toFixed(0) + ' days';
+        verdict = 'Cannot maintain';
+        vcolor = '#c53030';
+      }
+      document.getElementById('w3-time').textContent = timeStr;
+      document.getElementById('w3-verdict').textContent = verdict;
+      document.getElementById('w3-verdict').style.color = vcolor;
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-h'), label: document.getElementById('w3-h-val'),
+        format: function(v) { return v.toFixed(0) + ' km'; } },
+      { el: document.getElementById('w3-bc'), label: document.getElementById('w3-bc-val'),
+        format: function(v) { return v.toFixed(0) + ' kg/m²'; } }
+    ], function(vals) {
+      state.h = vals['w3-h']; state.bc = vals['w3-bc'];
+      render();
+    });
+  })();
+  </script>
+
+</body>
+</html>

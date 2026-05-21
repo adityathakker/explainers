@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Launch Economics — Starlink Explainers</title>
+  <meta name="description" content="Falcon 9 reuse didn't just cut rocket costs — it cut the cost of every satellite constellation that depends on launch. At $20,000/kg, Starlink is impossible. At $1,500/kg, it ships.">
+  <meta name="author" content="Starlink Explainers">
+
+  <meta property="og:title" content="Launch Economics">
+  <meta property="og:description" content="Falcon 9 reuse changed the satellite-cost equation, not just the rocket-cost equation.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #1a202c;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%); }
+
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .widget-row.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three, .widget-row.four { grid-template-columns: 1fr; }
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .readout-grid.four { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 540px) {
+      .readout-grid, .readout-grid.four { grid-template-columns: repeat(2, 1fr); }
+    }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .readout-sub {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .toggle-group {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      margin: 8px 0 14px;
+      flex-wrap: wrap;
+    }
+    .toggle-group button {
+      background: none;
+      border: none;
+      padding: 7px 14px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+    }
+    .toggle-group button:last-child { border-right: none; }
+    .toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Starlink Explainers
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Launch Economics</h1>
+      <p class="hero__subtitle">Falcon 9 reuse didn't just cut the cost of rockets &mdash; it cut the cost of every satellite constellation that depends on launch. At $20,000/kg-to-LEO, no constellation pencils. At $1,500/kg, Starlink ships.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 28 min read</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-rocket-equation">Why is launch so expensive?</a></li>
+        <li><a href="#ii-expendable">What did expendable launch actually cost?</a></li>
+        <li><a href="#iii-reuse">How does reuse change the calculus?</a></li>
+        <li><a href="#iv-marginal">What is the marginal cost of a Falcon 9 launch?</a></li>
+        <li><a href="#v-starship">How much could Starship change this number?</a></li>
+        <li><a href="#vi-geo">Why doesn't reuse work as well for higher orbits?</a></li>
+        <li><a href="#vii-cadence">How many satellites can SpaceX launch per week?</a></li>
+        <li><a href="#viii-enables">What does cheap launch enable &mdash; beyond Starlink?</a></li>
+        <li><a href="#ix-synthesis">The full economics synthesis</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <!-- ============================================================
+         I. The rocket equation
+         ============================================================ -->
+    <section class="reveal" id="i-rocket-equation">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why is launch so expensive &mdash; derived from the rocket equation?</h2>
+      </div>
+      <div class="section-content">
+        <p>Here's the claim worth absorbing before anything else: <strong>Falcon 9 reuse changed the satellite-cost equation, not just the rocket-cost equation</strong>. At $20,000/kg-to-LEO &mdash; the cost in the Shuttle era &mdash; no satellite constellation of any meaningful size pencils. At $1,500/kg, which is roughly where Falcon 9 reused sits in 2025, a 4,400-satellite Starlink shell becomes a budgetable line item. At $200/kg, the target Starship eventually wants to hit, putting things in orbit becomes banal &mdash; the cost dimension flips from "the dominant constraint" to "a rounding error." Starlink does not exist because someone had a clever business plan. It exists because the dollars-per-kilogram fell.</p>
+
+        <p>To see why launch is hard at all, you have to start with the only equation that matters: the <strong>Tsiolkovsky rocket equation</strong>, derived by Konstantin Tsiolkovsky in 1903. It tells you the velocity change a rocket can achieve as a function of how much propellant it carries and how fast that propellant leaves the nozzle.</p>
+
+        <div class="math-block">
+          &Delta;v = v<sub>e</sub> &middot; ln(m<sub>0</sub> / m<sub>f</sub>)
+          <span class="math-where">&Delta;v = velocity change (m/s); v<sub>e</sub> = effective exhaust velocity (m/s); m<sub>0</sub> = initial mass (full); m<sub>f</sub> = final mass (empty, payload + structure)</span>
+        </div>
+
+        <p>The right-hand side has a logarithm in it, and that log is the entire reason rockets are hard. To go faster you need more propellant. But more propellant means more mass to accelerate. Which needs more propellant. The exponential blows up. To reach low Earth orbit you need roughly <span class="math">&Delta;v &asymp; 9.4 km/s</span> &mdash; not the 7.8 km/s orbital velocity, but that plus gravity losses (about 1.5&nbsp;km/s) and drag losses (about 100&nbsp;m/s).</p>
+
+        <p>For a kerosene/LOX first stage like Falcon 9, the exhaust velocity is roughly <span class="math">v<sub>e</sub> &asymp; 3,050&ndash;3,420 m/s</span> depending on whether you're at sea level (Isp ~311 s) or vacuum (Isp ~348 s). Plug 9,400 / 3,200 into the rocket equation:</p>
+
+        <div class="math-block">
+          m<sub>0</sub> / m<sub>f</sub> = e<sup>&Delta;v / v<sub>e</sub></sup> = e<sup>9400/3200</sup> &asymp; e<sup>2.94</sup> &asymp; 18.9&times;
+          <span class="math-where">mass ratio: full rocket is 18.9&times; the mass of the empty rocket plus payload</span>
+        </div>
+
+        <p>The empty mass is <em>everything</em> &mdash; engines, tanks, fairing, plumbing, avionics, recovery hardware, plus the payload itself. To put 1&nbsp;kg into LEO with a single-stage rocket, you'd need roughly 19&nbsp;kg of fully-fuelled rocket. Of that 19&nbsp;kg, only about 6% can be empty structure plus payload &mdash; the rest is propellant. And the structure has to be strong enough to hold all the propellant, withstand 3-G acceleration, and survive Max-Q aerodynamic pressure. The reason real rockets are multi-stage (Falcon 9 has two, Starship has two) is that staging lets you throw away dry mass mid-flight, easing the geometry. But the underlying tyranny is the same.</p>
+
+        <p>This is why every kilogram of payload to orbit has historically cost thousands of dollars. The vehicle itself is mostly propellant tanks; the part you care about &mdash; the satellite &mdash; is a tiny fraction of liftoff mass. A Falcon 9 lifts about 549 tonnes at liftoff and delivers about 22.8 tonnes to LEO. That's a payload-mass fraction of <strong>4.2%</strong>. The other 95.8% is propellant, tankage, and engines that have to be paid for somehow.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the rocket equation hides a lot</summary>
+          <p>The Tsiolkovsky equation ignores gravity losses (the propellant you burn just holding the rocket up while it accelerates), drag losses, and finite burn time. It also assumes constant <span class="math">v<sub>e</sub></span>, which is false &mdash; specific impulse changes with altitude as ambient pressure drops. For ballpark sizing, engineers use the <em>delta-V budget</em>: 9.4&nbsp;km/s to LEO is the canonical number for low-Earth ascent, but the real burn is split across two stages with different <span class="math">v<sub>e</sub></span> values. Falcon 9 first stage burns ~7&nbsp;km/s with sea-level Merlins, then the second stage adds ~2.4&nbsp;km/s with a vacuum Merlin (Isp ~348&nbsp;s, <span class="math">v<sub>e</sub></span> ~3,420&nbsp;m/s). The rocket equation is correct; it just doesn't capture how engineers actually divide the work.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Expendable cost
+         ============================================================ -->
+    <section class="reveal" id="ii-expendable">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What did expendable launch actually cost &mdash; and why?</h2>
+      </div>
+      <div class="section-content">
+        <p>For sixty years &mdash; from Sputnik in 1957 until Falcon 9 first re-flew a recovered booster in 2017 &mdash; rockets were expendable. You built a Saturn V, you flew it once, you watched the most expensive piece of hardware ever manufactured by humans burn up in the atmosphere or sink into the ocean. There were exceptions (Space Shuttle, sort of) but the rule held.</p>
+
+        <p>Expendable launch costs are dominated by manufacturing. You amortise the entire vehicle &mdash; engines, tankage, avionics, fairing &mdash; over a single flight. The numbers, normalised to dollars-per-kilogram-to-LEO in inflation-adjusted 2024 dollars:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Vehicle</th><th>Era</th><th>$/kg to LEO</th><th>LEO payload</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Saturn V</td><td class="num">1967&ndash;1973</td><td class="num">$5,500</td><td class="num">~140 t</td><td>Retired</td></tr>
+            <tr><td>Space Shuttle</td><td class="num">1981&ndash;2011</td><td class="num">$65,000</td><td class="num">~24 t</td><td>Retired</td></tr>
+            <tr><td>Soyuz</td><td class="num">1966&rarr;</td><td class="num">$18,000</td><td class="num">~7 t</td><td>Active</td></tr>
+            <tr><td>Ariane 5</td><td class="num">1996&ndash;2023</td><td class="num">$14,000</td><td class="num">~20 t</td><td>Retired</td></tr>
+            <tr><td>Atlas V</td><td class="num">2002&rarr;</td><td class="num">$14,000</td><td class="num">~18 t</td><td>Retiring</td></tr>
+            <tr><td>Falcon 9 expendable</td><td class="num">2010&rarr;</td><td class="num">$2,700</td><td class="num">22.8 t</td><td>Active</td></tr>
+          </tbody>
+        </table>
+
+        <p>Two things jump out. First, the Shuttle was supposed to be the breakthrough &mdash; partially reusable, weekly cadence, $100/kg target. It came in at $65,000/kg, the <em>most expensive</em> launcher in the table. The orbiter was technically reusable, but refurbishment between flights involved tearing down and re-certifying 24,000 thermal tiles, three RS-25 engines, and the boosters retrieved from the ocean. Refurbishment cost <em>more</em> per flight than building a fresh expendable vehicle would have. The Shuttle is the cautionary tale that convinced an entire generation of engineers that reuse was a trap.</p>
+
+        <p>Second, even the original Falcon 9 in expendable mode &mdash; before recovery &mdash; was 5&ndash;6&times; cheaper than the contemporary expendables. SpaceX did this by building everything in-house (no aerospace cost-plus contractors), using kerosene instead of solid boosters or hydrogen, and standardising on one engine (Merlin) used in both stages. The expendable Falcon 9 was already an outlier. Reuse made the gap historically enormous.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; why expendable was the default for sixty years</summary>
+          <p>The orthodox view, drilled into aerospace engineers from the 1960s through the early 2010s, was that refurbishment cost more than building new. Two pieces of evidence kept this view dominant: the Shuttle (refurbishment ran into the hundreds of millions per flight) and the unspoken fact that the U.S. military, which dominated launch demand, didn't actually want low costs &mdash; they wanted reliability and on-time delivery, and cost-plus contractors had no incentive to drive costs down. SpaceX's contribution was not inventing reuse (the concept dates to the 1960s); it was proving that <em>booster refurbishment cost can be lower than booster manufacturing cost</em>, by an order of magnitude, if you design the booster around reuse from day one rather than bolting it on. The retrofit-vs-clean-sheet distinction is the whole game.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. The Falcon 9 inflection — Widget 1
+         ============================================================ -->
+    <section class="reveal" id="iii-reuse">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>How does reuse change the calculus?</h2>
+      </div>
+      <div class="section-content">
+        <p>If you plot dollars-per-kilogram-to-LEO over time on a log scale, the picture from 1957 through 2015 looks like a noisy band between $10,000 and $100,000/kg. Mostly flat, with the Shuttle as an upward outlier and Soyuz as the steady cheapest option. Then 2017 happens. The first Falcon 9 booster re-flight knocks the dot to $1,500/kg. Falcon Heavy reused, in some configurations, comes in below $1,000/kg. The Starship target is $200/kg. The chart drops two orders of magnitude in less than a decade.</p>
+
+        <p>This is the chart that explains Starlink. Above $5,000/kg, no broadband mega-constellation closes its business case. Below it, the constellation cost becomes a tractable line item (single-digit billions for launch). Starlink crossed the threshold at exactly the moment Falcon 9 reuse matured. The question isn't whether Starlink is a clever idea; it's whether anyone could have built it before this cost line was crossed. They couldn't &mdash; Teledesic and Iridium and Globalstar all tried in the 1990s, all at $20,000+/kg launch costs, and all imploded.</p>
+
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Cost-per-kg-to-LEO over time (log scale, 1957&ndash;2026)</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="toggle-group" id="w1-toggle">
+            <button data-mode="off" class="active">Hide Starlink threshold</button>
+            <button data-mode="on">Show $5,000/kg threshold</button>
+          </div>
+          <p class="widget-hint">Each dot is a named vehicle plotted at its first-flight year against its inflation-adjusted $/kg-to-LEO. The y-axis is logarithmic &mdash; each grid line is 10&times;. Notice the band stays around $10k&ndash;$70k from 1960 to 2015, then collapses. The dashed line at $5,000/kg is roughly the threshold below which mega-constellations become economically possible &mdash; the Falcon 9 reuse data point in 2017 is the first vehicle to cross it.</p>
+        </div>
+
+        <p>The 1,000&times; range of vehicles on this chart is real. Saturn V was, in inflation-adjusted terms, surprisingly cheap per kilogram &mdash; about $5,500/kg &mdash; because it was huge (140 tonnes to LEO) and the per-kg-amortisation is good when the numerator gets divided by a big denominator. Saturn V's problem wasn't cost-per-kg; it was that it cost $1.5&nbsp;billion to fly (in 2024 dollars), nobody had 140 tonnes worth of payload to lift, and the per-launch cost was untouchable.</p>
+
+        <p>The Shuttle inverted the geometry. Smaller per-flight payload (~24 tonnes) and gigantic refurbishment cost gave the highest $/kg in the entire table. Reuse, badly executed, is more expensive than expendable. The Shuttle's biggest contribution to launch economics may have been convincing everyone that reuse couldn't work &mdash; an assumption that held until Falcon 9 disproved it.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Marginal cost — Widget 2
+         ============================================================ -->
+    <section class="reveal" id="iv-marginal">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>What is the marginal cost of a Falcon 9 launch?</h2>
+      </div>
+      <div class="section-content">
+        <p>Marginal cost is the right number to think about, not list price. SpaceX charges customers around $67&nbsp;million for a Falcon 9 launch, but that's the <em>price</em>, not the <em>cost</em>. For internal Starlink missions &mdash; which is roughly two-thirds of all Falcon 9 flights in 2024 &mdash; SpaceX pays itself the marginal cost, not the list price. And the marginal cost is the relevant number for asking whether Starlink can launch its own constellation profitably.</p>
+
+        <p>The marginal cost of one additional Falcon 9 flight, given a fleet of existing boosters, decomposes into four pieces:</p>
+
+        <ul>
+          <li><strong>Refurbishment of the recovered booster</strong>: ~$250k. Inspection, replacement of consumables (composite overwrap pressure vessels, soot-stained components), engine checkout. The booster itself is amortised across its flight count.</li>
+          <li><strong>New expendable second stage</strong>: ~$10&nbsp;million. The second stage is thrown away on every flight; this is the largest single line item by far.</li>
+          <li><strong>Propellant</strong>: ~$500k. RP-1 (kerosene) and liquid oxygen for both stages. Cheap.</li>
+          <li><strong>Operations</strong>: ~$3&nbsp;million. Range fees, recovery ships, pad crews, mission control, integration labour.</li>
+        </ul>
+
+        <p>Add them up: about $14&ndash;15&nbsp;million marginal cost per Falcon 9 launch. Divide by ~22 tonnes of LEO payload (reusable mode) and you get roughly <strong>$680/kg</strong>. SpaceX charges customers $3,000/kg-equivalent for that capacity. The margin is what funds Starship development and the broader business.</p>
+
+        <p>The amortisation arithmetic is worth doing yourself. If a Falcon 9 booster costs <span class="math">C</span> dollars to manufacture, the refurbishment costs <span class="math">r</span> dollars per flight, the second stage costs <span class="math">S</span> dollars per flight (expendable), and the booster flies <span class="math">n</span> times before retirement, then the per-flight cost of that booster is:</p>
+
+        <div class="math-block">
+          cost per flight = (C / n) + r + S + ops
+          <br>
+          $/kg = [(C / n) + r + S + ops] / payload<sub>kg</sub>
+          <span class="math-where">marginal cost converges to (r + S + ops) / payload as n grows large</span>
+        </div>
+
+        <p>With <span class="math">C</span> = $30M, <span class="math">r</span> = $0.25M, <span class="math">S</span> = $10M, ops = $3M, and 22 tonnes payload, here's how the per-kg cost falls with reuse count:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Reuses</th><th>Booster amort.</th><th>Per-flight cost</th><th>$/kg to LEO</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">1 (expendable)</td><td class="num">$30M</td><td class="num">$43.25M</td><td class="num">$1,966</td></tr>
+            <tr><td class="num">2</td><td class="num">$15M</td><td class="num">$28.25M</td><td class="num">$1,284</td></tr>
+            <tr><td class="num">5</td><td class="num">$6M</td><td class="num">$19.25M</td><td class="num">$875</td></tr>
+            <tr><td class="num">10</td><td class="num">$3M</td><td class="num">$16.25M</td><td class="num">$739</td></tr>
+            <tr><td class="num">20</td><td class="num">$1.5M</td><td class="num">$14.75M</td><td class="num">$670</td></tr>
+            <tr><td class="num">&infin; (asymptote)</td><td class="num">$0</td><td class="num">$13.25M</td><td class="num">$602</td></tr>
+          </tbody>
+        </table>
+
+        <p>The big number is the asymptote: even with infinite reuses, the second-stage cost ($10M) plus refurbishment and ops sets a floor at roughly $600/kg. To get below that, you have to either reuse the second stage (Starship's whole plan) or radically cheapen second-stage manufacturing.</p>
+
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Reuse Savings Calculator</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row four">
+            <div class="slider-group">
+              <div class="slider-label"><span>Reuses per booster</span><span class="slider-value" id="w2-n-val">15</span></div>
+              <input type="range" id="w2-n" min="1" max="30" value="15" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Refurb cost/flight</span><span class="slider-value" id="w2-r-val">$0.25M</span></div>
+              <input type="range" id="w2-r" min="0.1" max="5" value="0.25" step="0.05">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>2nd stage cost</span><span class="slider-value" id="w2-s-val">$10M</span></div>
+              <input type="range" id="w2-s" min="2" max="20" value="10" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>LEO payload</span><span class="slider-value" id="w2-p-val">22,000 kg</span></div>
+              <input type="range" id="w2-p" min="5000" max="30000" value="22000" step="500">
+            </div>
+          </div>
+          <div class="readout-grid four">
+            <div class="readout-cell"><div class="readout-label">Marginal cost</div><div class="readout-value" id="w2-mc">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">$/kg to LEO</div><div class="readout-value" id="w2-perkg">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">vs expendable</div><div class="readout-value" id="w2-vs">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Asymptote</div><div class="readout-value" id="w2-asym">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Push reuses-per-booster up: the booster-amortisation term collapses fast (it's <span class="math">C/n</span>). Notice the curve flattens out &mdash; past 10 reuses, additional flights barely help. The bottleneck becomes the expendable second stage. Try dropping second-stage cost to $2M (Starship territory) to see the floor shift.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Falcon 9 booster B1062 flew 23 times</summary>
+          <p>The first reused booster, B1021, flew twice (2016 launch, 2017 re-flight). SpaceX initially projected 10 reuses per booster as a stretch goal. By 2024, Booster B1058 flew 19 times before being lost. Booster B1062 has flown 23 times and is still active. Refurbishment cost per flight is now believed to be in the $250k&ndash;$500k range &mdash; far below the initial estimate of $1&nbsp;million. The "reuse won't pay off" orthodoxy missed by a factor of 4&ndash;10 in both directions: more flights per booster, and cheaper refurbishment per flight. The exponential reuse-economics curve in the calculator above is not a SpaceX projection; it is the empirical fleet behaviour.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Starship comparison — Widget 3
+         ============================================================ -->
+    <section class="reveal" id="v-starship">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>How much could Starship change this number?</h2>
+      </div>
+      <div class="section-content">
+        <p>Falcon 9 reuse drops $/kg from $20,000 (Shuttle era) to about $1,500 (current commercial price) to about $700 (internal marginal). Starship is designed to drop it another order of magnitude. The trick is that Starship reuses <em>both</em> stages, eliminating the $10M expendable second-stage line item that bottlenecks Falcon 9's marginal cost.</p>
+
+        <p>Starship's design parameters, where they're public:</p>
+
+        <ul>
+          <li><strong>Payload to LEO</strong>: 100&ndash;150 tonnes (Block 1), 150&ndash;200 tonnes target (Block 2&ndash;3). For comparison, Falcon 9 carries 22 tonnes; Falcon Heavy carries 64 tonnes expendable.</li>
+          <li><strong>Reuse target</strong>: both stages, with first-stage rapid reuse (turnaround hours, not weeks). Second-stage (ship) reuse is the harder problem because of thermal protection on re-entry &mdash; Starship uses a stainless-steel hull plus replaceable tile shielding, designed for tens to hundreds of flights.</li>
+          <li><strong>Propellant</strong>: methane/liquid oxygen (methalox). Cheaper than kerosene, cleaner burn, easier to recondense for on-orbit refilling.</li>
+          <li><strong>Target marginal cost</strong>: SpaceX's stated long-run goal is ~$10M per fully-reusable flight, or roughly $100&ndash;200/kg at 100&ndash;150 tonnes payload. Current actual cost is still in the $50&ndash;100M range during the test campaign.</li>
+        </ul>
+
+        <p>The headline difference is payload size. A Starlink V2 satellite weighs about 1,250&nbsp;kg. A Falcon 9 launch can carry roughly 22 satellites (mass-limited, not volume-limited &mdash; the actual current launches carry 21&ndash;24). At 100 Falcon 9 launches per year (the 2024 cadence), that's roughly <strong>2,200 satellites per year</strong> assuming all flights went to Starlink (in reality ~60% do). At Starship's target payload, one flight could carry 120 satellites &mdash; <strong>15&times; the per-flight density</strong>. At 100 Starship flights per year, that's 12,000 satellites per year &mdash; enough to build an entire Starlink shell in 12 months.</p>
+
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Falcon 9 vs Starship: constellation buildup</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 400px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Launches per year</span><span class="slider-value" id="w3-cad-val">100</span></div>
+              <input type="range" id="w3-cad" min="10" max="200" value="100" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Years operated</span><span class="slider-value" id="w3-yrs-val">5</span></div>
+              <input type="range" id="w3-yrs" min="1" max="15" value="5" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Sat mass (kg each)</span><span class="slider-value" id="w3-mass-val">1,250 kg</span></div>
+              <input type="range" id="w3-mass" min="200" max="2000" value="1250" step="50">
+            </div>
+          </div>
+          <div class="readout-grid four">
+            <div class="readout-cell"><div class="readout-label">F9: sats/yr</div><div class="readout-value" id="w3-f9-sy">&mdash;</div><div class="readout-sub" id="w3-f9-tot">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Starship: sats/yr</div><div class="readout-value" id="w3-ss-sy">&mdash;</div><div class="readout-sub" id="w3-ss-tot">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">F9 blended $/kg</div><div class="readout-value" id="w3-f9-perkg">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Starship $/kg target</div><div class="readout-value" id="w3-ss-perkg">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">The two columns are scaled to launch-cadence and payload. F9 = 22 tonnes per launch; Starship = 150 tonnes per launch (target). Push cadence up: total mass to LEO scales linearly, but Starship's slope is ~7&times; steeper. At Falcon 9 cadence today (100/yr), the constellation builds at ~2,200 satellites/yr. At Starship cadence (100/yr at full capacity), it builds at ~12,000+ satellites/yr &mdash; an entire shell per year.</p>
+        </div>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Why reuse doesn't help higher orbits
+         ============================================================ -->
+    <section class="reveal" id="vi-geo">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>Why doesn't reuse work as well for higher orbits?</h2>
+      </div>
+      <div class="section-content">
+        <p>One subtle point worth landing: Falcon 9 reuse helps LEO disproportionately. It helps GTO (geostationary transfer orbit) less. It barely helps escape trajectories at all. The reason comes from the rocket equation again &mdash; specifically the mass-ratio math.</p>
+
+        <p>The delta-V required to reach various destinations:</p>
+
+        <ul>
+          <li><strong>LEO</strong>: ~9.4 km/s</li>
+          <li><strong>GTO</strong>: ~11.7 km/s (LEO + transfer burn)</li>
+          <li><strong>GEO</strong> (after circularisation): ~13.2 km/s</li>
+          <li><strong>Earth escape (TLI to Moon)</strong>: ~12.4 km/s from Earth surface</li>
+          <li><strong>Mars transfer</strong>: ~13.5&ndash;14 km/s depending on launch window</li>
+        </ul>
+
+        <p>Plug these into the rocket equation with <span class="math">v<sub>e</sub></span> ~ 3,200 m/s:</p>
+
+        <div class="math-block">
+          mass ratio = e<sup>&Delta;v / v<sub>e</sub></sup>
+          <br>
+          LEO: e<sup>9400/3200</sup> &asymp; 18.9&times;
+          <br>
+          GTO: e<sup>11700/3200</sup> &asymp; 39.0&times;
+          <br>
+          GEO: e<sup>13200/3200</sup> &asymp; 60.4&times;
+          <span class="math-where">payload mass drops with the inverse of mass ratio for fixed liftoff mass</span>
+        </div>
+
+        <p>Now here's the key. For Falcon 9 to recover its first stage, the booster has to reserve propellant for the boostback burn (turn around), re-entry burn (slow down through the atmosphere), and landing burn (touchdown). That reserved propellant reduces what's available for the actual mission. Recovery costs roughly 30% of the booster's total delta-V.</p>
+
+        <p>For a LEO mission, where total delta-V is 9.4 km/s, the booster does roughly the first 7 km/s of that. Recovery costs maybe 2 km/s of booster delta-V &mdash; manageable, because the booster has thrust to spare at separation. Falcon 9's reusable-mode LEO payload (17.4 tonnes) is about 76% of its expendable-mode LEO payload (22.8 tonnes). You give up 24% of payload for full first-stage recovery.</p>
+
+        <p>For GTO, the booster has to fly faster at separation to feed the second stage's longer burn. Now recovery propellant eats further into a higher-energy trajectory. Falcon 9's reusable GTO payload is about 5.5 tonnes; expendable GTO is 8.3 tonnes. The recovery penalty is 33%, not 24%. The boost-back becomes infeasible &mdash; Falcon 9 GTO missions have to land downrange on a drone ship, and some GTO missions go expendable to get the payload margin.</p>
+
+        <p>For direct GEO insertion, the penalty is worse. For Mars or escape, the booster either has to be expendable or you need orbital refilling to recover the energy. This is why Starship's architecture includes <strong>in-orbit refilling</strong>: a Starship sent to LEO with no payload tops up a payload Starship's propellant in orbit, effectively resetting the rocket equation for the second leg.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the recovery profile differs by mission</summary>
+          <p>Falcon 9 has three recovery modes. <em>Return-to-launch-site (RTLS)</em>: the booster does a boostback burn, returns to the launch site, lands at LZ-1/LZ-2 a few km away. Used for low-energy LEO missions where there's propellant to spare. Costs ~30% of usable booster delta-V. <em>Drone-ship downrange (ASDS)</em>: the booster doesn't turn around; it flies a normal ballistic arc and lands on a barge 600&ndash;900 km downrange. Costs ~20% of delta-V. Used for higher-energy LEO and GTO. <em>Expendable</em>: no recovery hardware, no landing burn, full payload. Reserved for missions where even ASDS recovery costs too much. The fraction of Falcon 9 missions going expendable has dropped from ~15% in 2017&ndash;2019 to under 5% by 2024, as Block 5 boosters improved their margin.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Cadence
+         ============================================================ -->
+    <section class="reveal" id="vii-cadence">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>How many satellites can SpaceX launch per week today?</h2>
+      </div>
+      <div class="section-content">
+        <p>The actual 2024 numbers are worth pinning down, because they're moving fast and the public discourse lags by 12&ndash;24 months. SpaceX flew <strong>134 Falcon 9 missions in 2024</strong>, up from 96 in 2023 and 61 in 2022. That's 2.6 launches per week on average, with a peak of 3 in some weeks. Roughly 60% of those flights were Starlink missions, ~25% commercial customers, ~10% NASA/military, and a handful expendable for high-energy trajectories.</p>
+
+        <p>Of the ~80 Starlink missions in 2024, each launched 21&ndash;24 satellites (Starlink V2 Mini, ~800&nbsp;kg each). That's roughly <strong>1,800&ndash;1,900 satellites delivered to orbit in 2024</strong>. The total Starlink constellation grew from ~5,000 to ~7,000 satellites over the year. The rest is accounted for by deorbits (Starlink satellites are designed to deorbit themselves at end of life, ~5-year design lifetime).</p>
+
+        <p>The constraint, oddly, is not booster availability. SpaceX has roughly 12&ndash;15 active boosters in the fleet at any time, each flying every 2&ndash;4 weeks. The constraint is the second stage, which is built fresh for every flight. Second-stage production has been scaled aggressively &mdash; the McGregor, Texas facility builds about 2 per week &mdash; but that's also the practical cadence ceiling. At one launch per work day, you'd need ~5 second stages per week, and the factory isn't there yet.</p>
+
+        <p>The other constraint is range scheduling. The Eastern Range (Cape Canaveral) and the Western Range (Vandenberg) have shared resources &mdash; tracking radars, downrange recovery infrastructure, restricted airspace coordination. SpaceX accounted for ~80% of all U.S. orbital launches in 2024, and the ranges are now operating closer to their physical limits than they have in any previous era.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Year</th><th>F9 launches</th><th>Starlink sats launched</th><th>Total Starlink in orbit (year-end)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">2019</td><td class="num">13</td><td class="num">120</td><td class="num">~120</td></tr>
+            <tr><td class="num">2020</td><td class="num">26</td><td class="num">~775</td><td class="num">~895</td></tr>
+            <tr><td class="num">2021</td><td class="num">31</td><td class="num">~990</td><td class="num">~1,900</td></tr>
+            <tr><td class="num">2022</td><td class="num">61</td><td class="num">~1,720</td><td class="num">~3,600</td></tr>
+            <tr><td class="num">2023</td><td class="num">96</td><td class="num">~1,980</td><td class="num">~5,300</td></tr>
+            <tr><td class="num">2024</td><td class="num">134</td><td class="num">~1,890</td><td class="num">~7,000</td></tr>
+          </tbody>
+        </table>
+
+        <p>To complete the licensed v1 + v2 shell (~12,000 satellites) at current cadence, SpaceX needs about 3 more years. To get to the full 42,000-satellite FCC-filed expansion, they need Starship.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIII. What else does cheap launch enable
+         ============================================================ -->
+    <section class="reveal" id="viii-enables">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>What does cheap launch enable &mdash; beyond Starlink itself?</h2>
+      </div>
+      <div class="section-content">
+        <p>This is the question that matters strategically. If you think the only consequence of Falcon 9 reuse is "Starlink exists," you've understood about a quarter of the picture. The other 75% is the second-order effects of putting mass into orbit at $1,500/kg falling toward $200/kg.</p>
+
+        <p>What was infeasible at $20,000/kg that becomes feasible at $200/kg:</p>
+
+        <ul>
+          <li><strong>Megaconstellations</strong>: Starlink, Kuiper (Amazon, ~3,200 planned), OneWeb v2, the Chinese Guowang (~13,000 planned) and Qianfan (~14,000 planned). Total LEO satellite count projected to exceed 50,000 by 2030, up from ~9,000 in 2024. The launch market they require &mdash; ~10,000 tonnes to LEO per year &mdash; existed nowhere on Earth in 2015.</li>
+          <li><strong>Earth observation at high revisit cadence</strong>: Planet Labs, BlackSky, Iceye and similar operate hundreds of small satellites that image the entire Earth multiple times per day. Impossible at expendable launch prices because the per-satellite economics demanded multi-year missions on $100M satellites; achievable at $1,500/kg because you can fly $1M satellites that last 3 years.</li>
+          <li><strong>On-orbit refilling</strong>: tankers carrying methalox to LEO for Mars-bound or lunar Starships. Refilling architectures need 5&ndash;10 tanker flights per Mars mission. At $1B/launch that's a non-starter; at $10M/launch that's two months of operations cost.</li>
+          <li><strong>Space-based solar power</strong>: 1 GW of orbital solar requires ~10,000 tonnes of hardware to GEO. At $20k/kg that's $200B in launch alone. At $200/kg it's $2B &mdash; comparable to a terrestrial 1-GW nuclear plant.</li>
+          <li><strong>Orbital servicing and debris removal</strong>: services that go pick up, refuel, or deorbit existing satellites. The economics work only when launch is cheap enough that the service vehicle itself doesn't dominate cost.</li>
+          <li><strong>Lunar and Mars logistics</strong>: cargo missions to the Moon's surface at scale. Required for any sustainable settlement; impossible at Apollo-era launch costs (~$150,000/kg-to-lunar-surface in 2024 dollars).</li>
+        </ul>
+
+        <p>There's a useful analogy to airline economics. The cost of moving one passenger one mile in a Boeing 747 is roughly $0.10 &mdash; cheap enough that intercontinental travel became routine for a middle-class family. The cost per passenger-mile in a 1950s DC-7 was about $0.50 in 2024 dollars &mdash; expensive enough that flying across an ocean was a once-in-a-lifetime expense. The 5&times; drop, achieved over thirty years, didn't just make 747s cheaper to operate &mdash; it created the entire modern tourism industry, the global shipping economy, and the airline-route network. The Falcon 9 cost drop is structurally similar, just compressed into a decade and operating in a different domain. We are at the equivalent moment of "the jumbo jet just entered service" &mdash; the platform exists; the industries that will be built on top of it are still being imagined.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Starship has to fly hundreds of times per year to amortise development</summary>
+          <p>SpaceX has spent roughly $10B on Starship development through 2025, with another $5&ndash;10B forecast before the system reaches steady-state operations. To amortise even half of that against flights, Starship needs to fly hundreds of times. At the Block 1 target of $10M marginal cost per flight and 100&ndash;150 tonnes payload, that's $5&ndash;10B in revenue&mdash;but only if there's demand for that many flights, at those prices. The chicken-and-egg problem: Starlink itself supplies ~50% of that demand by being SpaceX's own customer. The rest has to come from new industries that don't yet exist. This is why SpaceX has been so aggressive about staking out new use cases (lunar Starship for NASA Artemis, point-to-point Earth transport, on-orbit refilling) &mdash; they need to seed demand for the platform they're building. The same flywheel that made airliners cheap (cheaper planes drove demand, which drove more flights, which made planes cheaper) is what Starship is betting on.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IX. Synthesis
+         ============================================================ -->
+    <section class="reveal" id="ix-synthesis">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>The full economics synthesis</h2>
+      </div>
+      <div class="section-content">
+        <p>Pull everything together:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Era</th><th>$/kg to LEO</th><th>Constellation cost (4,400 sats @ 800 kg)</th><th>Feasible?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Shuttle era (1990s)</td><td class="num">$30,000&ndash;65,000</td><td class="num">$106&ndash;229 billion</td><td>No &mdash; Teledesic, Iridium failed</td></tr>
+            <tr><td>Atlas/Ariane (2000s)</td><td class="num">$14,000&ndash;18,000</td><td class="num">$49&ndash;63 billion</td><td>No &mdash; close but uneconomic</td></tr>
+            <tr><td>F9 expendable (2010s)</td><td class="num">$2,700</td><td class="num">$9.5 billion</td><td>Borderline &mdash; risky business case</td></tr>
+            <tr><td>F9 reused (2020s)</td><td class="num">$1,500 (price), $700 (marginal)</td><td class="num">$5.3B price, $2.5B marginal</td><td>Yes &mdash; Starlink ships</td></tr>
+            <tr><td>Starship target</td><td class="num">$200</td><td class="num">$700 million</td><td>Banal &mdash; constellation costs less than one geo-comsat</td></tr>
+          </tbody>
+        </table>
+
+        <p>The same satellite, the same constellation design, the same physics &mdash; just by changing one column (dollars per kilogram), the whole picture flips. At $20,000/kg, no broadband constellation closes. At $1,500/kg, Starlink ships, OneWeb ships at lower density, Kuiper ships eventually. At $200/kg, the constellation is so cheap that the satellite hardware becomes the dominant cost &mdash; and Starlink V2 satellites cost roughly $1M each, so a full shell is more like $4&ndash;5B in satellites and $700M in launch. Cost composition flips.</p>
+
+        <p>None of this is about SpaceX being clever. SpaceX <em>is</em> clever, but Falcon 9 reuse is engineering, not magic &mdash; the booster design choices that made it possible (kerosene/LOX, throttleable Merlins, grid fins, propulsive landing) are now well-understood. They will be replicated. Blue Origin's New Glenn is broadly similar in approach. China's Long March 8 and Long March 9 reusable variants are in development. The cost line will keep dropping because the underlying physics permits it, not because one company has a moat.</p>
+
+        <p>The thing to absorb is that <em>the entire space economy is downstream of $/kg-to-LEO</em>. Latency, link budget, terminal cost, constellation size, replacement cadence &mdash; everything we discussed in <a href="../why-leo/">Why LEO, Not GEO</a> &mdash; all of it derives from the assumption that you can put 22 tonnes in orbit for $15M. Take that assumption away, and Starlink is impossible. Granted that assumption, and Starlink is not just possible but inevitable. Someone was going to build it.</p>
+
+        <div class="callout">
+          <div class="callout-title">What you can now teach</div>
+          <p><strong>Falcon 9 reuse didn't just change rocket costs &mdash; it changed the entire satellite-constellation cost equation.</strong> At $20,000/kg-to-LEO no constellation pencils; at $1,500/kg Starlink ships; at $200/kg orbital infrastructure becomes banal. Starlink exists because dollars-per-kilogram fell, and every other space business that emerges in the next decade will exist for the same reason.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">The Tsiolkovsky rocket equation, <span class="math">&Delta;v = v<sub>e</sub> ln(m<sub>0</sub>/m<sub>f</sub>)</span>, was published by Konstantin Tsiolkovsky in 1903 in &ldquo;Issledovanie mirovykh prostranstv reaktivnymi priborami&rdquo; (&ldquo;The Exploration of Cosmic Space by Means of Reaction Devices&rdquo;). It assumes constant exhaust velocity, no external forces (no gravity, no drag), and instantaneous propellant consumption. Real-world rocket sizing uses delta-V budgets that account for gravity losses, drag, finite burn time, and steering losses. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Inflation adjustments use BLS CPI to convert historical launch prices to 2024 dollars. Saturn V's per-flight cost is contested in the literature; estimates range from $1.2B to $1.9B per flight in 2024 dollars depending on whether you amortise development costs. The $5,500/kg figure uses the $1.5B mid-point divided by the 140-tonne LEO payload. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Falcon 9 marginal cost decomposition is reconstructed from SpaceX public statements (Elon Musk has cited "well under $20M" for marginal cost) and industry analysis (Casey Handmer, Eric Berger, Quilty Analytics). The exact internal accounting is not public; figures here are best-available estimates and should be treated as accurate to within ~30%. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">Booster reuse counts cited (B1058 at 19 flights before loss; B1062 at 23+ flights and still active) are accurate as of late 2024 per SpaceX launch manifests and amateur-tracker databases like Jonathan McDowell's space report. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+        </ol>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts
+       ============================================================ -->
+  <script>
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var t = document.getElementById(this.getAttribute('href').slice(1));
+        if (t) {
+          e.preventDefault();
+          var navH = document.querySelector('.nav').offsetHeight;
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - navH - 20, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       WIDGET 1 — Cost-per-kg-to-LEO over time (log scale)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // Data: vehicle name, first flight year, $/kg to LEO (2024 USD), color
+    var vehicles = [
+      { name: 'Vanguard',         year: 1958, cost: 80000, color: '#888' },
+      { name: 'Saturn V',         year: 1967, cost: 5500,  color: '#888' },
+      { name: 'Space Shuttle',    year: 1981, cost: 65000, color: '#c53030' },
+      { name: 'Soyuz',            year: 1966, cost: 18000, color: '#888' },
+      { name: 'Ariane 5',         year: 1996, cost: 14000, color: '#888' },
+      { name: 'Atlas V',          year: 2002, cost: 14000, color: '#888' },
+      { name: 'Delta IV Heavy',   year: 2004, cost: 16000, color: '#888' },
+      { name: 'F9 expendable',    year: 2010, cost: 2700,  color: '#3182ce' },
+      { name: 'F9 reused',        year: 2017, cost: 1500,  color: 'var(--accent)' },
+      { name: 'Falcon Heavy',     year: 2018, cost: 1000,  color: 'var(--accent)' },
+      { name: 'Starship (current)', year: 2024, cost: 2000, color: '#d69e2e' },
+      { name: 'Starship (target)',  year: 2026, cost: 200,  color: '#38a169' }
+    ];
+
+    var state = { showThreshold: false };
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 32, right: 18, bottom: 44, left: 64 };
+
+      // X: year 1957 to 2030
+      var yearMin = 1957, yearMax = 2030;
+      // Y: log10($100) to log10($100000)
+      var logMin = 2, logMax = 5;
+
+      // Axes
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        yMin: logMin, yMax: logMax, ySteps: 3,
+        yFmt: function(v) {
+          var n = Math.pow(10, v);
+          if (n >= 1000) return '$' + (n/1000).toFixed(0) + 'k';
+          return '$' + n.toFixed(0);
+        }
+      });
+
+      // X axis labels - decade markers
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+      var years = [1960, 1970, 1980, 1990, 2000, 2010, 2020, 2030];
+      years.forEach(function(yr) {
+        var x = pad.left + ((yr - yearMin) / (yearMax - yearMin)) * plotW;
+        drawTextCanvas(ctx, x, H - pad.bottom + 14, yr.toString(), {
+          fontSize: 10, color: 'var(--text-secondary)', align: 'center'
+        });
+      });
+
+      // Starlink threshold line
+      if (state.showThreshold) {
+        var thresholdY = mapY(Math.log10(5000), logMin, logMax, H, pad);
+        ctx.save();
+        ctx.strokeStyle = '#d69e2e'; ctx.setLineDash([6, 4]); ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, thresholdY);
+        ctx.lineTo(W - pad.right, thresholdY);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, pad.left + 6, thresholdY - 8,
+          'Starlink-feasibility threshold (~$5,000/kg)', {
+          fontSize: 10, color: '#b7791f', align: 'left', weight: '600'
+        });
+      }
+
+      // The Falcon 9 inflection - draw a guide arrow
+      var inflectionX = pad.left + ((2017 - yearMin) / (yearMax - yearMin)) * plotW;
+      ctx.save();
+      ctx.strokeStyle = '#aaa'; ctx.lineWidth = 1; ctx.setLineDash([2, 4]);
+      ctx.beginPath();
+      ctx.moveTo(inflectionX, pad.top);
+      ctx.lineTo(inflectionX, H - pad.bottom);
+      ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, inflectionX, pad.top - 6, 'F9 reuse: 2017', {
+        fontSize: 10, color: '#666', align: 'center', baseline: 'bottom', weight: '600'
+      });
+
+      // Pre-Falcon trend band (shaded)
+      ctx.save();
+      ctx.fillStyle = 'rgba(160, 160, 160, 0.12)';
+      var bandTop = mapY(Math.log10(70000), logMin, logMax, H, pad);
+      var bandBot = mapY(Math.log10(10000), logMin, logMax, H, pad);
+      var bandRight = pad.left + ((2015 - yearMin) / (yearMax - yearMin)) * plotW;
+      ctx.fillRect(pad.left, bandTop, bandRight - pad.left, bandBot - bandTop);
+      ctx.restore();
+
+      // Plot vehicles
+      vehicles.forEach(function(v) {
+        var x = pad.left + ((v.year - yearMin) / (yearMax - yearMin)) * plotW;
+        var y = mapY(Math.log10(v.cost), logMin, logMax, H, pad);
+        drawPointCanvas(ctx, x, y, 5, v.color, '#fff');
+
+        // Smart label placement to avoid major collisions
+        var labelOffsetX = 8, labelOffsetY = 0, align = 'left';
+        if (v.name === 'Space Shuttle') { labelOffsetY = -10; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'Saturn V') { labelOffsetY = 12; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'Ariane 5') { labelOffsetY = -10; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'Atlas V') { labelOffsetY = 10; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'Delta IV Heavy') { labelOffsetY = -10; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'F9 expendable') { labelOffsetY = -10; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'F9 reused') { labelOffsetX = -8; align = 'right'; }
+        if (v.name === 'Falcon Heavy') { labelOffsetY = 12; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'Starship (current)') { labelOffsetY = -10; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'Starship (target)') { labelOffsetX = -8; align = 'right'; }
+        if (v.name === 'Vanguard') { labelOffsetY = -10; labelOffsetX = 0; align = 'center'; }
+        if (v.name === 'Soyuz') { labelOffsetX = -8; align = 'right'; }
+
+        drawTextCanvas(ctx, x + labelOffsetX, y + labelOffsetY, v.name, {
+          fontSize: 10, color: 'var(--text)', align: align, baseline: 'middle', weight: '500'
+        });
+      });
+
+      // Title
+      drawTextCanvas(ctx, W/2, 12, '$/kg to LEO, 1957–2030 (log scale, 2024 dollars)', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+    }
+
+    // Toggle buttons
+    var toggleButtons = document.querySelectorAll('#w1-toggle button');
+    toggleButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        toggleButtons.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        state.showThreshold = (btn.getAttribute('data-mode') === 'on');
+        render();
+      });
+    });
+
+    render();
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Reuse savings calculator
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // Constants
+    var BOOSTER_BUILD_COST_M = 30;       // $M to build a new booster
+    var OPS_COST_M = 3;                  // $M ops per flight
+    var EXPENDABLE_BASELINE_PER_KG = 1966; // $/kg at n=1 with above defaults
+
+    var state = { n: 15, r: 0.25, s: 10, p: 22000 };
+
+    function perFlightCost(n, r, s) {
+      return (BOOSTER_BUILD_COST_M / n) + r + s + OPS_COST_M;
+    }
+    function perKg(n, r, s, p) {
+      return perFlightCost(n, r, s) * 1e6 / p;
+    }
+    function asymptote(r, s, p) {
+      return (r + s + OPS_COST_M) * 1e6 / p;
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 32, right: 56, bottom: 42, left: 64 };
+
+      // Curve: $/kg as function of n (1 to 30)
+      var nMin = 1, nMax = 30;
+      // Y: 0 to ~$2500 for normal case
+      var maxKg = Math.max(2500, perKg(1, state.r, state.s, state.p) * 1.05);
+      var minKg = Math.min(asymptote(state.r, state.s, state.p) * 0.7, 200);
+
+      // Axes
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        yMin: minKg, yMax: maxKg, ySteps: 5,
+        yFmt: function(v) { return '$' + v.toFixed(0); }
+      });
+
+      // X labels
+      var plotW = W - pad.left - pad.right;
+      [1, 5, 10, 15, 20, 25, 30].forEach(function(nv) {
+        var x = pad.left + ((nv - nMin) / (nMax - nMin)) * plotW;
+        drawTextCanvas(ctx, x, H - pad.bottom + 14, nv.toString(), {
+          fontSize: 10, color: 'var(--text-secondary)', align: 'center'
+        });
+      });
+      drawTextCanvas(ctx, W/2, H - 6, 'Reuses per booster (n)', {
+        fontSize: 11, color: 'var(--text-secondary)', baseline: 'bottom'
+      });
+
+      // Curve
+      var pts = [];
+      for (var nv = 1; nv <= 30; nv += 0.25) {
+        var y = perKg(nv, state.r, state.s, state.p);
+        var px = pad.left + ((nv - nMin) / (nMax - nMin)) * plotW;
+        var py = mapY(y, minKg, maxKg, H, pad);
+        pts.push({ x: px, y: py });
+      }
+      drawLineCanvas(ctx, pts, { color: 'var(--accent)', width: 2.5 });
+
+      // Asymptote line
+      var asym = asymptote(state.r, state.s, state.p);
+      if (asym > minKg && asym < maxKg) {
+        var ay = mapY(asym, minKg, maxKg, H, pad);
+        ctx.save();
+        ctx.strokeStyle = '#888'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, ay); ctx.lineTo(W - pad.right, ay);
+        ctx.stroke();
+        ctx.restore();
+        drawTextCanvas(ctx, W - pad.right - 4, ay - 6,
+          'asymptote: $' + asym.toFixed(0) + '/kg', {
+          fontSize: 10, color: '#666', align: 'right', baseline: 'bottom'
+        });
+      }
+
+      // Current point
+      var curX = pad.left + ((state.n - nMin) / (nMax - nMin)) * plotW;
+      var curY = mapY(perKg(state.n, state.r, state.s, state.p), minKg, maxKg, H, pad);
+      drawPointCanvas(ctx, curX, curY, 6, '#3182ce', '#fff');
+
+      // Title
+      drawTextCanvas(ctx, W/2, 12, 'Per-kg cost as a function of booster reuses', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Update readouts
+      var mc = perFlightCost(state.n, state.r, state.s);
+      var pk = perKg(state.n, state.r, state.s, state.p);
+      document.getElementById('w2-mc').textContent = '$' + mc.toFixed(1) + 'M';
+      document.getElementById('w2-perkg').textContent = '$' + pk.toFixed(0) + '/kg';
+      var expendablePerKg = perKg(1, state.r, state.s, state.p);
+      var savings = (1 - pk / expendablePerKg) * 100;
+      document.getElementById('w2-vs').textContent = '-' + savings.toFixed(0) + '%';
+      document.getElementById('w2-asym').textContent = '$' + asym.toFixed(0) + '/kg';
+    }
+
+    // Initialize state from sliders before attaching
+    state.n = parseFloat(document.getElementById('w2-n').value);
+    state.r = parseFloat(document.getElementById('w2-r').value);
+    state.s = parseFloat(document.getElementById('w2-s').value);
+    state.p = parseFloat(document.getElementById('w2-p').value);
+
+    attachSliders([
+      { el: document.getElementById('w2-n'), label: document.getElementById('w2-n-val'),
+        format: function(v) { return v.toFixed(0); } },
+      { el: document.getElementById('w2-r'), label: document.getElementById('w2-r-val'),
+        format: function(v) { return '$' + v.toFixed(2) + 'M'; } },
+      { el: document.getElementById('w2-s'), label: document.getElementById('w2-s-val'),
+        format: function(v) { return '$' + v.toFixed(1) + 'M'; } },
+      { el: document.getElementById('w2-p'), label: document.getElementById('w2-p-val'),
+        format: function(v) { return v.toLocaleString() + ' kg'; } }
+    ], function(vals) {
+      state.n = vals['w2-n'];
+      state.r = vals['w2-r'];
+      state.s = vals['w2-s'];
+      state.p = vals['w2-p'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — F9 vs Starship comparison
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 400 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // Constants
+    var F9_PAYLOAD_KG = 22000;        // F9 reusable mode
+    var STARSHIP_PAYLOAD_KG = 150000; // Block 1-2 target
+    var F9_COST_M = 15;               // F9 marginal cost
+    var STARSHIP_COST_M = 30;         // Starship near-term steady-state
+    var STARSHIP_TARGET_COST_M = 10;  // Starship long-run target
+
+    var state = { cadence: 100, years: 5, mass: 1250 };
+
+    function compute() {
+      var f9_kgYr = F9_PAYLOAD_KG * state.cadence;
+      var ss_kgYr = STARSHIP_PAYLOAD_KG * state.cadence;
+      var f9_sats_yr = Math.floor(f9_kgYr / state.mass);
+      var ss_sats_yr = Math.floor(ss_kgYr / state.mass);
+      var f9_total_sats = f9_sats_yr * state.years;
+      var ss_total_sats = ss_sats_yr * state.years;
+      var f9_cost_yr_M = F9_COST_M * state.cadence;
+      var ss_cost_yr_M = STARSHIP_COST_M * state.cadence;
+      var f9_perkg = (f9_cost_yr_M * 1e6) / f9_kgYr;
+      var ss_perkg = (STARSHIP_TARGET_COST_M * 1e6) / STARSHIP_PAYLOAD_KG;
+      return {
+        f9_sats_yr: f9_sats_yr, ss_sats_yr: ss_sats_yr,
+        f9_total: f9_total_sats, ss_total: ss_total_sats,
+        f9_kg_yr: f9_kgYr, ss_kg_yr: ss_kgYr,
+        f9_perkg: f9_perkg, ss_perkg: ss_perkg
+      };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+      var pad = { top: 38, right: 18, bottom: 42, left: 18 };
+
+      // Two columns: F9 left, Starship right
+      var plotW = W - pad.left - pad.right;
+      var plotH = H - pad.top - pad.bottom;
+      var colW = plotW / 2;
+      var leftX = pad.left + colW * 0.25;
+      var rightX = pad.left + colW * 1.25;
+      var topY = pad.top + 20;
+      var bottomY = H - pad.bottom;
+
+      // Title
+      drawTextCanvas(ctx, W/2, 12, 'Falcon 9 vs Starship — payload per flight & constellation rate', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Scale: rocket size representation
+      // F9: ~70m tall, 22t LEO; Starship: ~120m tall, 150t LEO
+      var maxRocketH = plotH * 0.60;
+      var f9RocketH = maxRocketH * (22 / 150);
+      var ssRocketH = maxRocketH;
+      var rocketW = 26;
+
+      // F9 rocket silhouette (gray, narrow)
+      ctx.save();
+      ctx.fillStyle = 'var(--accent)';
+      ctx.fillRect(leftX - rocketW/2, bottomY - f9RocketH, rocketW, f9RocketH);
+      // F9 tip
+      ctx.beginPath();
+      ctx.moveTo(leftX - rocketW/2, bottomY - f9RocketH);
+      ctx.lineTo(leftX, bottomY - f9RocketH - 14);
+      ctx.lineTo(leftX + rocketW/2, bottomY - f9RocketH);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // Starship silhouette (wider, taller)
+      var ssW = 44;
+      ctx.save();
+      ctx.fillStyle = '#d69e2e';
+      ctx.fillRect(rightX - ssW/2, bottomY - ssRocketH, ssW, ssRocketH);
+      ctx.beginPath();
+      ctx.moveTo(rightX - ssW/2, bottomY - ssRocketH);
+      ctx.lineTo(rightX, bottomY - ssRocketH - 20);
+      ctx.lineTo(rightX + ssW/2, bottomY - ssRocketH);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // Ground line
+      ctx.save();
+      ctx.strokeStyle = '#666'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, bottomY);
+      ctx.lineTo(W - pad.right, bottomY);
+      ctx.stroke();
+      ctx.restore();
+
+      // Labels
+      drawTextCanvas(ctx, leftX, bottomY + 16, 'Falcon 9', {
+        fontSize: 13, weight: '600', color: 'var(--text)', baseline: 'top'
+      });
+      drawTextCanvas(ctx, leftX, bottomY + 30, '22 t / launch', {
+        fontSize: 11, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      drawTextCanvas(ctx, rightX, bottomY + 16, 'Starship', {
+        fontSize: 13, weight: '600', color: 'var(--text)', baseline: 'top'
+      });
+      drawTextCanvas(ctx, rightX, bottomY + 30, '150 t / launch', {
+        fontSize: 11, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Numeric badges above the rockets
+      var f9Sats = r.f9_sats_yr;
+      var ssSats = r.ss_sats_yr;
+
+      // F9 badge
+      ctx.save();
+      ctx.fillStyle = '#fff';
+      var badgeY = bottomY - f9RocketH - 50;
+      drawRectCanvas(ctx, leftX - 70, badgeY - 20, 140, 38, '#fff', 6, 'var(--border)');
+      drawTextCanvas(ctx, leftX, badgeY - 8, f9Sats.toLocaleString() + ' sats/yr', {
+        fontSize: 13, color: 'var(--accent)', weight: '600'
+      });
+      drawTextCanvas(ctx, leftX, badgeY + 8,
+        '= ' + r.f9_total.toLocaleString() + ' over ' + state.years + ' yr', {
+        fontSize: 10, color: 'var(--text-secondary)'
+      });
+      ctx.restore();
+
+      // Starship badge
+      ctx.save();
+      var ssBadgeY = bottomY - ssRocketH - 50;
+      drawRectCanvas(ctx, rightX - 75, ssBadgeY - 20, 150, 38, '#fff', 6, 'var(--border)');
+      drawTextCanvas(ctx, rightX, ssBadgeY - 8, ssSats.toLocaleString() + ' sats/yr', {
+        fontSize: 13, color: '#b7791f', weight: '600'
+      });
+      drawTextCanvas(ctx, rightX, ssBadgeY + 8,
+        '= ' + r.ss_total.toLocaleString() + ' over ' + state.years + ' yr', {
+        fontSize: 10, color: 'var(--text-secondary)'
+      });
+      ctx.restore();
+
+      // Total mass annotation between rockets
+      var midX = W / 2;
+      drawTextCanvas(ctx, midX, bottomY - maxRocketH * 0.35,
+        Math.round(r.ss_sats_yr / Math.max(1, r.f9_sats_yr)) + '×', {
+        fontSize: 22, color: '#b7791f', weight: '600'
+      });
+      drawTextCanvas(ctx, midX, bottomY - maxRocketH * 0.35 + 22,
+        'satellites/yr', {
+        fontSize: 10, color: 'var(--text-secondary)'
+      });
+
+      // Update readouts
+      document.getElementById('w3-f9-sy').textContent = r.f9_sats_yr.toLocaleString();
+      document.getElementById('w3-f9-tot').textContent = '= ' + r.f9_total.toLocaleString() + ' total';
+      document.getElementById('w3-ss-sy').textContent = r.ss_sats_yr.toLocaleString();
+      document.getElementById('w3-ss-tot').textContent = '= ' + r.ss_total.toLocaleString() + ' total';
+      document.getElementById('w3-f9-perkg').textContent = '$' + Math.round(r.f9_perkg) + '/kg';
+      document.getElementById('w3-ss-perkg').textContent = '$' + Math.round(r.ss_perkg) + '/kg';
+    }
+
+    // Initialize state from sliders before attaching
+    state.cadence = parseFloat(document.getElementById('w3-cad').value);
+    state.years = parseFloat(document.getElementById('w3-yrs').value);
+    state.mass = parseFloat(document.getElementById('w3-mass').value);
+
+    attachSliders([
+      { el: document.getElementById('w3-cad'), label: document.getElementById('w3-cad-val'),
+        format: function(v) { return v.toFixed(0); } },
+      { el: document.getElementById('w3-yrs'), label: document.getElementById('w3-yrs-val'),
+        format: function(v) { return v.toFixed(0); } },
+      { el: document.getElementById('w3-mass'), label: document.getElementById('w3-mass-val'),
+        format: function(v) { return v.toLocaleString() + ' kg'; } }
+    ], function(vals) {
+      state.cadence = vals['w3-cad'];
+      state.years = vals['w3-yrs'];
+      state.mass = vals['w3-mass'];
+      render();
+    });
+  })();
+  </script>
+
+</body>
+</html>

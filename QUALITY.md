@@ -107,7 +107,7 @@ python3 validate-explainers.py
 | H3 | No external JS libraries (only Google Fonts CSS allowed) |
 | H4 | `setupHiDPICanvas` is never called with an explicit `width` |
 | H5 | Hero meta does not contain "Synthesized from 0 posts" |
-| H6 | Every `<a class="footnote-ref">` has a matching `<li id="fn-N">` in a `.footnotes` block |
+| H6 | Every inline `<a class="footnote-ref">` resolves to a matching `<li id="fn-N">` target (broken anchors fail). An `<ol class="footnotes">` block with reference-only entries (no inline anchors) is permitted — that's a "References" section, valid for engineering-style articles. |
 | H7 | Every `<canvas>` widget is followed by a `.widget-hint` within the same `.demo` container |
 
 ### Soft checks (warnings only)
