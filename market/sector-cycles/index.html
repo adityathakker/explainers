@@ -942,6 +942,10 @@
       draw();
     }
 
+    // Populate data BEFORE attachSliders — the slider callback fires immediately
+    // with initial values and would call draw() with data === null otherwise.
+    regen();
+
     attachButton('#w2-play', startAnim);
     attachButton('#w2-step', stepOne);
     attachButton('#w2-reset', resetAnim);
@@ -957,9 +961,6 @@
       if (newSeed !== state.seed) { state.seed = newSeed; regen(); }
       draw();
     });
-
-    regen();
-    draw();
   })();
   </script>
 
