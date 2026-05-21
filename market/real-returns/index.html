@@ -100,7 +100,7 @@
       <div class="section-content">
         <p>The term <strong>real returns</strong> gets thrown around loosely in finance, but it has a precise and layered meaning that most retail investors never fully unpack. Real returns are what remains after you subtract three distinct forces that eat into your gains: taxes, inflation, and currency depreciation.</p>
 <p>Each of these operates independently, and each one compounds against you over time.</p>
-<p><strong>Layer 1: Taxes.</strong> India&rsquo;s LTCG tax on equities has followed a clear upward trajectory. Before 2018, long-term capital gains on equities were taxed at 0%. Then it moved to 10%. Then to 12.5%. The direction is obvious, and if you are planning to invest for 20 years, you should be asking yourself where LTCG will be in 2045. There is no reason to believe it will stay at 12.5%. The government&rsquo;s pattern is unmistakable: cultivate an asset class first, then tax it once adoption is high enough. On a portfolio returning 12.5% nominal, LTCG at 12.5% on the gains takes your effective return down to roughly 10.5%.</p>
+<p><strong>Layer 1: Taxes.</strong> India&rsquo;s LTCG tax on equities has followed a clear upward trajectory. Before 2018, long-term capital gains on equities were taxed at 0%<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. Then it moved to 10%. Then to 12.5%. The direction is obvious, and if you are planning to invest for 20 years, you should be asking yourself where LTCG will be in 2045. There is no reason to believe it will stay at 12.5%. The government&rsquo;s pattern is unmistakable: cultivate an asset class first, then tax it once adoption is high enough. On a portfolio returning 12.5% nominal, LTCG at 12.5% on the gains takes your effective return down to roughly 10.5%.</p>
 <p><strong>Layer 2: Currency depreciation.</strong> The Indian rupee has depreciated against the US dollar at a fairly consistent rate of 3-4% per year over long periods. In October 2024, the INR was at 84 to the dollar. By early 2025, it had hit 87.03. That is a 3.5% depreciation in just a few months. This is not a temporary phenomenon &ndash; it is structural. India runs persistent current account deficits, has higher inflation than the US, and the RBI can only slow the depreciation, not prevent it. For any investor thinking about wealth in global terms &ndash; and you should be, because we live in a connected world where supply chain efficiencies ensure that comparable-quality goods cost roughly the same across nations &ndash; currency depreciation is a direct subtraction from your returns.</p>
 <p><strong>Layer 3: Inflation.</strong> This is the most insidious layer because it is the one governments work hardest to obscure. Official CPI numbers in India might show 5-6% inflation, but the actual cost-of-living increase for the investing class &ndash; housing, education, healthcare, travel, dining &ndash; runs at 9-12% depending on your segment. Governments worldwide are redesigning their inflation baskets, underreporting inflation numbers, and manipulating the measurement to keep the headline figure low while people experience a cost-of-living crisis that the numbers fail to capture.</p>
 <p>When you stack these three layers together, the arithmetic becomes sobering:</p>
@@ -111,7 +111,20 @@
 <li>After real global inflation (7-8%): <strong>-1% to +0%</strong></li>
 </ul>
 <p>You did not build wealth. You ran on a treadmill.</p>
+
+<div class="math-block">
+  r<sub>real</sub> = (1 + r<sub>nominal</sub>) &divide; (1 + &pi;) &minus; 1
+  <span class="math-where">where &pi; is the realised inflation rate over the same period</span>
+</div>
+
+<details class="sidenote">
+  <summary>Well, actually 🧐 — the approximation people use is wrong on purpose</summary>
+  <p>Most retail explainers shortcut this to <span class="math">r<sub>real</sub> &asymp; r<sub>nominal</sub> &minus; &pi;</span>. That subtraction is only a first-order Taylor approximation of the Fisher equation above. It&rsquo;s fine when both rates are small, but breaks down precisely when it matters most &mdash; in high-inflation regimes.</p>
+  <p>Example: at 12.5% nominal and 10% inflation, the approximation says 2.5% real. The exact Fisher answer is <span class="math">(1.125 &divide; 1.10) &minus; 1 = 2.27%</span>. A 10% gap in the result. Stack that across two decades and you&rsquo;ve lied to yourself about the terminal wealth.</p>
+</details>
+
 <div class="demo reveal" id="chart-1"></div>
+<p class="widget-hint">Drag the scrubber to see how the gap between nominal and real opens up year by year.</p>
 
 <hr />
       </div>
@@ -152,7 +165,7 @@
 <li>This creates a massive breakdown in the bond market.</li>
 <li>The traditional inverse relationship between equities and bonds &ndash; where one acted as a hedge against the other &ndash; is now broken. Both can fall simultaneously.</li>
 </ul>
-<p>The old portfolio construction playbook of 60% equities and 40% bonds no longer provides the safety it once did.</p>
+<p>The old portfolio construction playbook of 60% equities and 40% bonds no longer provides the safety it once did<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
 <p>The practical implications hit you directly. Governments worldwide are pursuing &ldquo;growth&rdquo; through easy money, but this growth is not real &ndash; it is liquidity-driven. Assets go up 10-15% per year in nominal terms, but inflation in countries like India runs at 9-10% for the investing class. The real growth of wealth is 2-3% for people who invest, and outright negative for those who do not. People who put their money in PF, PPF, and EPF &ndash; instruments that were designed as long-term savings vehicles &ndash; will suffer badly due to super-high inflation and long lock-in periods that prevent them from redeploying capital.</p>
 <p>The cost-of-living crisis is already here. People are witnessing it in every area of their lives &ndash; housing, food, services, transportation. But the official inflation numbers do not capture it because governments are redesigning their inflation baskets and underreporting the true figures. The gap between measured inflation and experienced inflation is itself a form of hidden taxation.</p>
 <blockquote>
@@ -316,6 +329,11 @@
 <p>All you need to do is target a 15% CAGR by going to assets like equity, BTC, or whatever you like in a sensible way. Control your cost of living &ndash; fix your housing, have the option to migrate to different low-cost-of-living cities or economies. If possible, optimise for taxes. The rest will follow.</p>
 <p>I am not writing all this to scare you. I am writing this so that you see the writing on the wall. And start making financially savvy moves. These are not the things people even have the guts to talk about. And I am not trying to push you in any direction. You do whatever you feel is right. My job is to present fact-driven analysis, which most people will not.</p>
 <p>To see all this, you need to look at things independently, study finance like a nerd, and act before others do. If you study complicated things, you get a knowledge alpha. And in a world where real returns are thin, that knowledge alpha is the only edge that truly compounds.</p>
+
+<ol class="footnotes">
+  <li id="fn-1">Equity LTCG was introduced at 10% (without indexation) on long-term gains over &#8377;1 lakh in Budget 2018 &mdash; before that, long-term equity gains were genuinely tax-free for individual investors. The rate moved to 12.5% (with the exemption threshold raised to &#8377;1.25 lakh) in Budget 2024. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+  <li id="fn-2">The classic 60/40 relied on equity-bond correlation being reliably negative. From 2022 onward that correlation flipped positive in most of the developed world &mdash; rising rates hit bonds and stretched equity multiples simultaneously. AQR, BlackRock, and the BIS have all documented the regime change. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+</ol>
       </div>
     </section>
   </article>

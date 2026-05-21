@@ -161,7 +161,7 @@
     .toc-wrapper {
       margin: 48px auto;
       max-width: var(--max-w);
-      padding: 28px 32px;
+      padding: 32px 36px;
       background: #fff;
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -227,8 +227,8 @@
       align-items: baseline;
       gap: 12px;
       border-top: 1px solid var(--border);
-      padding-top: 32px;
-      margin-top: 48px;
+      padding-top: 40px;
+      margin-top: 56px;
       margin-bottom: 24px;
     }
 
@@ -264,8 +264,8 @@
 
     .section-content p {
       font-family: var(--font-serif);
-      font-size: 17.5px;
-      line-height: 1.75;
+      font-size: 18.5px;
+      line-height: 1.7;
       color: var(--text);
       margin-bottom: 20px;
     }
@@ -286,8 +286,8 @@
     .section-content ul,
     .section-content ol {
       font-family: var(--font-serif);
-      font-size: 17.5px;
-      line-height: 1.75;
+      font-size: 18.5px;
+      line-height: 1.7;
       margin-bottom: 20px;
       padding-left: 24px;
     }
@@ -349,7 +349,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 28px;
-      margin: 32px 0;
+      margin: 40px 0;
     }
 
     .demo-title {
@@ -654,6 +654,252 @@
       transform: translateY(0);
     }
 
+    /* =====================================================================
+       Extended Components (added Phase 1)
+       =====================================================================
+       Usage cheatsheet:
+
+       SIDENOTE — collapsible "well, actually" depth box.
+         <details class="sidenote">
+           <summary>Well, actually 🧐</summary>
+           <p>The nuance the main prose skipped...</p>
+         </details>
+
+       FOOTNOTES — superscript in prose + numbered list at article end.
+         Inline: <a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>
+         Bottom of article (before .footer):
+           <ol class="footnotes">
+             <li id="fn-1">The footnote body. <a class="footnote-back" href="#fnref-1">↩</a></li>
+           </ol>
+
+       MATH — for formulas. .math inline, .math-block centered.
+         Inline: The <span class="math">σ²</span> of returns...
+         Block:  <div class="math-block">r_real = (1 + r_nom) / (1 + π) − 1</div>
+
+       WIDGET-HINT — small italic helper under interactive widgets.
+         <p class="widget-hint">← drag the slider to change strike</p>
+
+       FIGURE — image or canvas with a caption.
+         <figure class="figure">
+           <img src="..." alt="...">
+           <figcaption class="figure__caption">Caption text.</figcaption>
+         </figure>
+       ===================================================================== */
+
+    /* ----- Sidenote (collapsible "well, actually") ----- */
+    .sidenote {
+      background: var(--demo-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--text-secondary);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      margin: 28px 0;
+      font-family: var(--font-serif);
+      font-size: 15.5px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .sidenote > summary {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+
+    .sidenote > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .sidenote > summary::before {
+      content: '+';
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--text-secondary);
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: var(--font-mono);
+      line-height: 1;
+      transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .sidenote[open] > summary::before {
+      content: '−';
+      transform: rotate(0deg);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .sidenote[open] > summary {
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .sidenote > summary:hover {
+      color: var(--text);
+    }
+
+    .sidenote p,
+    .sidenote ul,
+    .sidenote ol {
+      font-family: var(--font-serif);
+      font-size: 15.5px;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+
+    .sidenote p:last-child,
+    .sidenote ul:last-child,
+    .sidenote ol:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ----- Footnote ref (superscript inline) ----- */
+    .footnote-ref {
+      font-family: var(--font-sans);
+      font-size: 0.72em;
+      font-weight: 600;
+      vertical-align: super;
+      line-height: 0;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 0 2px;
+      border-radius: 3px;
+      transition: background 0.15s ease;
+    }
+
+    .footnote-ref:hover {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .footnote-ref:target {
+      background: var(--accent-light);
+    }
+
+    /* ----- Footnotes list (end of article) ----- */
+    .footnotes {
+      margin: 56px 0 0;
+      padding: 28px 0 0;
+      border-top: 1px solid var(--border);
+      list-style: decimal;
+      padding-left: 24px;
+      counter-reset: footnote-counter;
+    }
+
+    .footnotes li {
+      font-family: var(--font-serif);
+      font-size: 15.5px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .footnotes li:target {
+      background: var(--accent-light);
+      border-radius: 6px;
+      padding: 4px 10px;
+      margin-left: -10px;
+    }
+
+    .footnotes li:last-child {
+      margin-bottom: 0;
+    }
+
+    .footnote-back {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: none;
+      margin-left: 6px;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .footnote-back:hover {
+      opacity: 1;
+    }
+
+    /* ----- Math (inline + block) ----- */
+    .math {
+      font-family: var(--font-mono);
+      font-size: 0.94em;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .math-block {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      line-height: 1.7;
+      text-align: center;
+      background: var(--demo-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 24px;
+      margin: 28px 0;
+      color: var(--accent);
+      overflow-x: auto;
+    }
+
+    .math-block .math-where {
+      display: block;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 10px;
+    }
+
+    /* ----- Widget hint (small italic helper under interactive widgets) ----- */
+    .widget-hint {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* ----- Figure + caption ----- */
+    .figure {
+      margin: 32px 0;
+    }
+
+    .figure img,
+    .figure canvas,
+    .figure svg {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .figure__caption {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
     /* ===== Responsive: Tablet (768px) ===== */
     @media (max-width: 768px) {
       .hero {
@@ -680,7 +926,7 @@
       .section-content p,
       .section-content ul,
       .section-content ol {
-        font-size: 16.5px;
+        font-size: 17px;
       }
 
       .toc-wrapper {
@@ -807,6 +1053,33 @@
       .data-table thead th,
       .data-table tbody td {
         padding: 8px 8px;
+      }
+
+      .sidenote {
+        padding: 12px 16px;
+        margin: 22px 0;
+        font-size: 15px;
+      }
+
+      .sidenote p,
+      .sidenote ul,
+      .sidenote ol {
+        font-size: 15px;
+      }
+
+      .math-block {
+        font-size: 14px;
+        padding: 14px 16px;
+        margin: 22px 0;
+      }
+
+      .footnotes {
+        margin-top: 40px;
+        padding-top: 22px;
+      }
+
+      .footnotes li {
+        font-size: 15px;
       }
     }
 
