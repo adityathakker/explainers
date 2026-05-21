@@ -1,6 +1,6 @@
 # Explainer Quality Rulebook
 
-This is the editorial standard for everything in this repo — `market/`, `insurance/`, and any future vertical. It overrides `market/STYLE-GUIDE.md` where they conflict. STYLE-GUIDE is *how* to author; this is *whether something is worth shipping*.
+This is the editorial standard for everything in this repo — `market/`, `insurance/`, and any future vertical. It overrides `shared/STYLE-GUIDE.md` where they conflict. STYLE-GUIDE is *how* to author; this is *whether something is worth shipping*.
 
 ## The mission
 
@@ -86,7 +86,7 @@ Ship when the friend can teach the *one-thing* back to you in two sentences with
 
 For agents or collaborators writing a new article, the entire brief should be:
 
-> *Prove this one thing: **\<X\>**. The reader will be able to **\<Y\>** when they finish. Build the widgets needed to land that. Stop when it's landed. The pilot at `market/options-insurance/` is your scope reference; `market/STYLE-GUIDE.md` is your component reference; this file is your editorial standard; everything else is your call.*
+> *Prove this one thing: **\<X\>**. The reader will be able to **\<Y\>** when they finish. Build the widgets needed to land that. Stop when it's landed. The pilot at `market/options-insurance/` is your scope reference; `shared/STYLE-GUIDE.md` is your component reference; this file is your editorial standard; everything else is your call.*
 
 That's it. No line counts. No widget counts. No mandatory sections.
 

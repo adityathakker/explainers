@@ -13,7 +13,7 @@ market/
     index.html             ← one file per article
 ```
 
-For articles outside `market/` (e.g. `insurance/<topic>/`), link to `../../market/explainer.css` and helpers.
+For articles outside `market/` (e.g. `insurance/<topic>/`), link to `../../shared/explainer.css` and helpers.
 
 ## Required `<head>` boilerplate
 
@@ -30,7 +30,7 @@ For articles outside `market/` (e.g. `insurance/<topic>/`), link to `../../marke
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../explainer.css">
+  <link rel="stylesheet" href="../../shared/explainer.css">
   <style>
     :root {
       --accent: #1a365d;
@@ -157,7 +157,7 @@ The `.demo` container holds canvas/SVG sims. Pair every widget with a `.widget-h
 ## Canvas widget skeleton
 
 ```html
-<script src="../chart-canvas-helpers.js"></script>
+<script src="../../shared/chart-canvas-helpers.js"></script>
 <script>
 (function() {
   const canvas = document.getElementById('canvas-1');
