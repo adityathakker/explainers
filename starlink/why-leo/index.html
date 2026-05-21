@@ -193,22 +193,16 @@
         <div class="demo reveal" id="widget-1">
           <div class="demo-title">Widget 1 &mdash; Altitude &rarr; Round-Trip Latency</div>
           <canvas id="w1-canvas" style="width: 100%; height: 340px;"></canvas>
-          <div class="widget-row">
-            <div class="slider-group">
-              <div class="slider-label"><span>Orbital altitude</span><span class="slider-value" id="w1-h-val">550 km</span></div>
-              <input type="range" id="w1-h" min="200" max="40000" value="550" step="50">
-            </div>
-            <div class="slider-group">
-              <div class="slider-label"><span>Slant range factor</span><span class="slider-value" id="w1-slant-val">1.0&times;</span></div>
-              <input type="range" id="w1-slant" min="1.0" max="2.5" value="1.0" step="0.05">
-            </div>
+          <div class="slider-group" style="margin-top: 14px;">
+            <div class="slider-label"><span>Orbital altitude</span><span class="slider-value" id="w1-h-val">550 km</span></div>
+            <input type="range" id="w1-h" min="200" max="40000" value="550" step="50">
           </div>
           <div class="readout-grid">
             <div class="readout-cell"><div class="readout-label">One-way</div><div class="readout-value" id="w1-oneway">&mdash;</div></div>
             <div class="readout-cell"><div class="readout-label">RTT</div><div class="readout-value" id="w1-rtt">&mdash;</div></div>
             <div class="readout-cell"><div class="readout-label">Verdict</div><div class="readout-value" id="w1-verdict" style="font-size:13px;">&mdash;</div></div>
           </div>
-          <p class="widget-hint">Drag altitude from LEO (550 km) all the way to GEO (35,786 km). Notice the verdict flip from "real-time" to "broken for voice" around 1,500 km &mdash; that's the latency wall. Slant-range factor adjusts for satellites not directly overhead (a satellite at the horizon is &radic;2&times; farther than one at zenith).</p>
+          <p class="widget-hint">Drag altitude from LEO (550 km) all the way to GEO (35,786 km). Notice the verdict flip from "real-time" to "broken for voice" around 1,500 km &mdash; that's the latency wall. The bars use satellites directly overhead; the sidenote below explains what changes when they're not.</p>
         </div>
 
         <details class="sidenote">
@@ -621,10 +615,10 @@
     if (!canvas) return;
     var setup = setupHiDPICanvas(canvas, { height: 340 });
     var ctx = setup.ctx, W = setup.w, H = setup.h;
-    var state = { h: 550, slant: 1.0 };
+    var state = { h: 550 };
 
     function compute() {
-      var d = state.h * state.slant; // effective distance (km)
+      var d = state.h; // assume satellite directly overhead (zenith)
       var oneway_ms = (2 * d / C_LIGHT_KMS) * 1000; // ms — round-trip through satellite
       var rtt_ms = 2 * oneway_ms; // user → sat → ground → sat → user
       var verdict;
@@ -697,10 +691,9 @@
     }
 
     attachSliders([
-      { el: document.getElementById('w1-h'),     label: document.getElementById('w1-h-val'),     format: v => v.toFixed(0) + ' km' },
-      { el: document.getElementById('w1-slant'), label: document.getElementById('w1-slant-val'), format: v => v.toFixed(2) + '×' }
+      { el: document.getElementById('w1-h'), label: document.getElementById('w1-h-val'), format: v => v.toFixed(0) + ' km' }
     ], function(vals) {
-      state.h = vals['w1-h']; state.slant = vals['w1-slant'];
+      state.h = vals['w1-h'];
       render();
     });
   })();
