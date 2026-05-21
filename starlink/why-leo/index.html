@@ -206,9 +206,20 @@
         </div>
 
         <details class="sidenote">
-          <summary>Well, actually 🧐 &mdash; the slant range matters more than you'd think</summary>
-          <p>The latency math above assumes the satellite is directly overhead. In practice the user terminal sees the satellite at some elevation angle &epsilon;, and the actual line-of-sight distance (slant range) is longer than the orbital altitude.</p>
-          <p>For a satellite at zenith, slant range = altitude. For a satellite at the horizon (&epsilon; = 0&deg;), slant range can be 1.6&ndash;2&times; the altitude for LEO orbits, because the geometry is now a long chord rather than a straight up-and-down. Starlink's user terminals are designed to refuse satellites below ~25&deg; elevation, partly to keep slant range bounded and partly to avoid blocking by trees and buildings. That elevation-floor decision flows directly from this geometry.</p>
+          <summary>Well, actually 🧐 &mdash; the satellite is rarely directly overhead</summary>
+          <p>The bars above assume the satellite is at zenith (straight up). In practice the user terminal sees the satellite at some elevation angle &epsilon; above the horizon, and the actual line-of-sight distance &mdash; the <em>slant range</em> &mdash; is longer than the orbital altitude. Law of cosines applied to the Earth-centre / ground-station / satellite triangle gives:</p>
+          <div class="math-block">
+            d = &minus;R&middot;sin(&epsilon;) + &radic;( R²&middot;sin²(&epsilon;) + 2Rh + h² )
+            <span class="math-where">d = slant range, R = Earth radius (6,378 km), h = orbital altitude, &epsilon; = elevation angle at ground station</span>
+          </div>
+          <p>For LEO at h = 550 km, run the numbers across canonical elevations:</p>
+          <ul>
+            <li>&epsilon; = 90&deg; (zenith): d = 550 km. Slant = altitude. The optimistic case in the chart above.</li>
+            <li>&epsilon; = 25&deg; (Starlink's minimum): d &asymp; 1,124 km. Slant is <strong>2.0&times;</strong> the altitude.</li>
+            <li>&epsilon; = 10&deg;: d &asymp; 1,815 km. Slant is <strong>3.3&times;</strong> the altitude.</li>
+            <li>&epsilon; = 0&deg; (true horizon): d &asymp; 2,705 km. Slant is <strong>4.9&times;</strong> the altitude.</li>
+          </ul>
+          <p>That is why Starlink's user terminals are configured to refuse satellites below ~25&deg; elevation. Below that, slant range balloons, latency grows with it, and the dish has to push through several extra atmospheres of slant-path air. The 25&deg; floor is not arbitrary &mdash; it is the elevation at which slant range stays inside 2&times; altitude, holding round-trip latency under ~15 ms even at the geometric edge of coverage.</p>
         </details>
 
         <p>The latency gap is not just "GEO is slower." For interactive use, GEO is broken. You can stream Netflix over GEO because Netflix is one-way and pre-buffered &mdash; the protocol hides the round-trip. You cannot Zoom over GEO. You cannot play any real-time game. You cannot do TLS in any reasonable time. Any product that needs to be interactive is structurally excluded from the GEO satellite market, no matter how cheap the bandwidth gets.</p>
