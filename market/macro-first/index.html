@@ -4,32 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Macro Drives Everything — Market Explainers</title>
-  <meta name="description" content="Interest rates, liquidity, and the causal chain from central banks to your portfolio">
+  <meta name="description" content="Interest rates, liquidity, and the causal chain from central banks to your portfolio — shown, not told.">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Macro Drives Everything">
   <meta property="og:description" content="Interest rates, liquidity, and the causal chain from central banks to your portfolio">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #1a202c;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget-specific layout helpers */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .stat-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 10px;
+      text-align: center;
+    }
+    .stat-cell-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .stat-cell-value {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--accent);
+      margin-top: 3px;
+    }
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 10px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .legend-row span.swatch {
+      display: inline-block;
+      width: 14px;
+      height: 3px;
+      vertical-align: middle;
+      margin-right: 6px;
+      border-radius: 1px;
+    }
   </style>
 </head>
 <body>
@@ -47,8 +97,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">Macro Drives Everything</h1>
-      <p class="hero__subtitle">Interest rates, liquidity, and the causal chain from central banks to your portfolio</p>
-      <p class="hero__meta">26 min read</p>
+      <p class="hero__subtitle">Interest rates, liquidity, and the causal chain from central banks to your portfolio &mdash; shown, not told.</p>
+      <p class="hero__meta">9 chapters &middot; 3 interactive simulations &middot; 28 min read</p>
     </div>
   </header>
 
@@ -57,342 +107,615 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-the-one-variable-that-explains-everything">I. The One Variable That Explains Everything</a></li>
-        <li><a href="#ii-the-interest-rate-machine-how-central-banks-set-the-rules-of-the-game">II. The Interest Rate Machine: How Central Banks Set the Rules of the Game</a></li>
-        <li><a href="#iii-liquidity-the-invisible-force-that-moves-every-asset-on-earth">III. Liquidity: The Invisible Force That Moves Every Asset on Earth</a></li>
-        <li><a href="#iv-the-causal-chain-from-central-bank-to-your-portfolio">IV. The Causal Chain: From Central Bank to Your Portfolio</a></li>
-        <li><a href="#v-the-three-central-banks-that-matter-most">V. The Three Central Banks That Matter Most</a></li>
-        <li><a href="#vi-reading-the-macro-signals-dxy-bond-yields-gold-and-what-they-tell-you">VI. Reading the Macro Signals: DXY, Bond Yields, Gold, and What They Tell You</a></li>
-        <li><a href="#vii-geopolitics-through-the-macro-lens">VII. Geopolitics Through the Macro Lens</a></li>
-        <li><a href="#viii-the-bubble-framework-when-does-this-end">VIII. The Bubble Framework: When Does This End?</a></li>
-        <li><a href="#ix-building-your-macro-first-portfolio">IX. Building Your Macro-First Portfolio</a></li>
+        <li><a href="#i-rates-vs-earnings">Why do rates matter more than earnings most of the time?</a></li>
+        <li><a href="#ii-price-of-money">How does the price of money set the price of everything else?</a></li>
+        <li><a href="#iii-discount-rate">Why does a 100bp move reprice the whole market overnight?</a></li>
+        <li><a href="#iv-liquidity-reaches-portfolio">How does liquidity actually reach your portfolio?</a></li>
+        <li><a href="#v-dollar-em">Why is the US dollar a structural headwind for emerging markets?</a></li>
+        <li><a href="#vi-three-central-banks">Which three central banks should you actually watch?</a></li>
+        <li><a href="#vii-reading-signals">What do DXY, bond yields, and gold tell you that earnings don't?</a></li>
+        <li><a href="#viii-bubble-framework">When does the liquidity bubble end &mdash; and how would you know?</a></li>
+        <li><a href="#ix-macro-first-portfolio">How do you build a portfolio top-down instead of bottom-up?</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-the-one-variable-that-explains-everything">
+
+    <!-- ============================================================
+         I. Why do rates matter more than earnings most of the time?
+         ============================================================ -->
+    <section class="reveal" id="i-rates-vs-earnings">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. The One Variable That Explains Everything</h2>
+        <h2>Why do rates matter more than earnings most of the time?</h2>
       </div>
       <div class="section-content">
-        <p>Most investors spend their evenings reading annual reports, studying candlestick patterns, and debating whether Company X will beat earnings estimates by two percent or four. They obsess over the micro. They memorize P/E ratios. They build elaborate DCF models with seventeen tabs in Excel.</p>
-<p>And then the Federal Reserve raises interest rates by 50 basis points, and every single one of those carefully constructed theses gets demolished in a week.</p>
-<p>This is the single most important lesson I can teach you: <strong>macro drives everything</strong>. The direction of interest rates, the volume of liquidity flowing through global markets, the policy decisions made by central banks in Washington, Mumbai, Tokyo, and Beijing &ndash; these forces determine whether your portfolio goes up 40% or down 25% over the next two years. Individual stock selection matters, but it matters within a framework that is entirely set by macroeconomic conditions. You can pick the best stock in the world, and if the macro turns against you, that stock will fall. You can pick an average stock, and if the macro is screaming in your favour, that stock will rally.</p>
-<p>I have been a macro investor for years. Most of our community&rsquo;s best calls &ndash; right from Zomato to the Small Cap Index, from private banks to US tech &ndash; were macro bets. Not bottom-up stock picks. Not tips from someone&rsquo;s cousin&rsquo;s chartered accountant. Macro bets. We identified where the liquidity was flowing, which sectors would benefit from rate cuts, where governments were forced to inject money into the system, and we positioned accordingly.</p>
-<blockquote>
-<p>Point being: macro investing works. The goal should NOT be to trade, but to see where the macros are heading. And, how you can reposition your portfolio for the next 2-3 years. That is where REAL money is made.</p>
-</blockquote>
-<p>In this article, I am going to walk you through the entire causal chain &ndash; from a central bank&rsquo;s decision to move interest rates, to the liquidity that floods or drains from the system, to the specific sectors and stocks that rise or fall as a result. By the end, you will understand why I check the Fed statement before I check any earnings call, why I track the Global Liquidity Index before I open a single stock chart, and why the best investment framework starts from the top down, never from the bottom up.</p>
-<hr />
+        <p>Most investors spend their evenings reading annual reports, studying candlestick patterns, and debating whether a company will beat earnings by two percent or four. They obsess over the micro. They memorise P/E ratios. They build seventeen-tab DCFs.</p>
+
+        <p>Then the Federal Reserve raises rates by 50 basis points and every one of those carefully constructed theses gets demolished in a week.</p>
+
+        <p>This is the single most important lesson in investing: <strong>macro drives everything</strong>. The direction of interest rates, the volume of liquidity flowing through global markets, the policy decisions made in Washington, Mumbai, Tokyo, and Beijing &mdash; these forces determine whether your portfolio compounds at 15% or bleeds 25% over the next two years. Individual stock selection matters, but only within a framework that is entirely set by macroeconomic conditions. Pick the best stock in the world, and if the macro turns, that stock falls. Pick an average stock with the macro at its back, and it rallies.</p>
+
+        <p>The proof is in the numbers most retail investors carefully avoid memorising. The Fed took rates from near-zero to 5.5% between 2022 and 2023. The S&amp;P 500 fell 25% from its peak. The Nasdaq got hammered worse. The Nifty corrected 17% from its highs. Every growth stock, every high-beta tech name, every leveraged small-cap got destroyed &mdash; not because the businesses changed, but because the price of money changed.</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">+525bp</div><div class="stat-label">Fed rate hikes 2022&ndash;23</div></div>
+          <div class="stat"><div class="stat-value">&minus;33%</div><div class="stat-label">Nasdaq peak drawdown</div></div>
+          <div class="stat"><div class="stat-value">&minus;17%</div><div class="stat-label">Nifty peak drawdown</div></div>
+          <div class="stat"><div class="stat-value">~$15T</div><div class="stat-label">Global equity wealth lost</div></div>
+        </div>
+
+        <p>Once you internalise the magnitude of that move, the framework shifts. A Fed press conference is no longer background noise. It is the central event of every quarter. An earnings beat that comes alongside a hawkish dot plot is meaningless. An earnings miss that comes alongside a dovish surprise is a buying opportunity. The signal that matters is always the one upstream &mdash; and the most upstream signal in modern markets is the central bank.</p>
+
+        <p>The community of macro investors has been remarkably consistent on the calls that matter. Right from Zomato to the Small Cap Index, from private banks to US tech, the highest-conviction trades were not bottom-up stock picks. They were macro bets &mdash; identifying where liquidity was flowing, which sectors would benefit from rate cuts, where governments were forced to inject money &mdash; and positioning around the flow. The retail framing of "investing as stock-picking" misses that the alpha sits at the level of regimes, geographies, and rate cycles, not at the level of individual names. Get the macro right, then the stocks within that macro perform. Get the macro wrong, and the best stock picks in the world cannot save you.</p>
+
+        <blockquote>
+          <p>The goal is not to trade. The goal is to see where the macros are heading and reposition your portfolio for the next 2&ndash;3 years. That is where the real money is made.</p>
+        </blockquote>
+
+        <p>This article walks the entire causal chain &mdash; from a central bank's rate decision, to the liquidity that floods or drains from the system, to the specific assets that rise or fall as a result. By the end you will understand why you should check the Fed statement before any earnings call, why the Global Liquidity Index matters more than any single stock chart, and why every serious portfolio is built top-down, not bottom-up.</p>
+
+        <p>The bottom-up tradition has a long pedigree &mdash; Graham, Buffett, Greenblatt &mdash; and the case for it is real. Pick wonderful businesses at fair prices and hold them forever; the macro will sort itself out over thirty years. But the assumption underneath is that you have thirty years. Most investors do not. Most investors care about the next five to ten years &mdash; the windows where a bad macro regime can take a 40% bite out of compounding that never gets recovered in time to matter. Inside those windows, macro is not a backdrop. It is the dominant variable. And the framework in this article is built for those windows.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-the-interest-rate-machine-how-central-banks-set-the-rules-of-the-game">
+    <!-- ============================================================
+         II. How does the price of money set the price of everything?
+         ============================================================ -->
+    <section class="reveal" id="ii-price-of-money">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. The Interest Rate Machine: How Central Banks Set the Rules of the Game</h2>
+        <h2>How does the price of money set the price of everything else?</h2>
       </div>
       <div class="section-content">
-        <p>Let me start with the most fundamental mechanism in all of finance. <strong>Interest rates are the price of money.</strong> When a central bank &ndash; the US Federal Reserve, the Reserve Bank of India, the Bank of Japan &ndash; sets its benchmark rate, it is literally deciding how expensive it is for every person, business, and government in that economy to borrow.</p>
-<p>When interest rates are low, loans get cheaper. More money flows. More economic activity happens. Businesses borrow to expand. Consumers borrow to spend. The entire economy accelerates, and the stock market typically rallies. When interest rates are high, the opposite happens. Borrowing becomes expensive. Businesses postpone expansion. Consumers tighten their belts. Growth slows. And stock prices fall.</p>
-<p>This is not abstract theory. Let me give you real numbers.</p>
-<p>The US Federal Reserve took interest rates from near-zero to 5.5% between 2022 and 2023. The result? The S&amp;P 500 fell 25% from its peak. The Nasdaq got hammered even harder. In India, the Nifty corrected 17% from its highs during the same period. Every single growth stock, every high-beta tech name, every leveraged small-cap got destroyed. Not because their businesses suddenly became bad. Not because their products stopped working. Because the price of money changed.</p>
-<p>Then consider what happened when the conversation shifted to rate cuts. Interest rates were lowered from 5.5% at the peak to 4.5%. The expectation that rates would go down further to 3.5% by year-end started pushing small-cap stocks in the US market higher. Markets began pricing in cheaper money before it even arrived. This is critical to understand: <strong>markets move on the expectation of rate changes, not the actual changes themselves</strong>.</p>
-<p>The US Fed has already announced rate cuts &ndash; and once those cuts actually happen, the immediate market reaction is often muted, because the move was priced in months ago. It is the second rate cut, the third rate cut, the acceleration of the cutting cycle that drives the real rally. The first cut is old news by the time it arrives.</p>
-<p>Now here is something that looks counter-intuitive but is precisely the kind of insight you need as an advanced investor. When rate cuts actually happen, the market sometimes falls 10-15% initially. Why? Because:</p>
-<ul>
-<li>The rate cuts are already factored into prices</li>
-<li>When cuts happen, borrowing picks up</li>
-<li>This leads to fixed asset formation for firms &ndash; companies like Meta borrow more to push R&amp;D</li>
-<li>Those investments take 1-2 years to produce meaningful results</li>
-<li>So there is a gap between the cut and the payoff, and markets can sell off during that gap</li>
-</ul>
-<p>This is why I have always said: <strong>don&rsquo;t trade the rate cut announcement. Position your portfolio for the 6-12 month period after the cutting cycle is well underway.</strong> That is when the real money is made.</p>
-<blockquote>
-<p>A fast fed cut is usually good for the markets. We are likely to enter the Euphoria stage post this.</p>
-</blockquote>
-<hr />
+        <p><strong>Interest rates are the price of money.</strong> When a central bank sets its benchmark rate, it is literally deciding how expensive it is for every person, business, and government in that economy to borrow. Every other price in the system &mdash; mortgages, bond yields, equity multiples, even the dollar &mdash; floats on top of that one number.</p>
+
+        <p>When rates are low, loans get cheaper. More money flows. Businesses borrow to expand. Consumers borrow to spend. The economy accelerates and equities typically rally. When rates are high, the mechanism runs in reverse. Borrowing becomes expensive. Investment is postponed. Multiples compress. Growth slows.</p>
+
+        <p>What most retail investors miss: <strong>markets do not move on the rate change. They move on the expected path of rates.</strong> The first cut in a cycle is old news by the time it arrives; the second and third cuts are what drive the real rally. The Fed announced cuts and the immediate reaction was muted &mdash; because the move had already been priced in months earlier through forward-looking discount-rate math.</p>
+
+        <p>Look at it counter-intuitively: when rate cuts <em>do</em> actually start, markets sometimes fall 10&ndash;15%. Why?</p>
+
+        <ul>
+          <li>The cuts are already factored into prices.</li>
+          <li>When cuts arrive, borrowing picks up &mdash; firms like Meta or Microsoft go on capex sprees.</li>
+          <li>Those investments take 12&ndash;24 months to produce earnings.</li>
+          <li>There is a gap between the cut and the payoff, and markets sell off into that gap.</li>
+        </ul>
+
+        <p>That gap is where the macro investor positions. Not on the cut announcement. Not on the press conference. On the 6&ndash;12 month window <em>after</em> the cutting cycle is well underway, when the second-order effects start landing in earnings.</p>
+
+        <p>The 2019 cycle is the cleanest historical case study. The Fed cut three times in July, September, and October. The S&amp;P had already rallied 17% through the year by the time of the first cut, on anticipation alone. Between the first cut and Q1 2020 (before COVID), the S&amp;P added another 11% &mdash; not on actual earnings, but on multiple expansion as the discount rate fell. The lesson is mechanical: the announcement is the smallest part of the move; the multiple expansion that follows is the larger part; and the earnings boost from cheaper capital is the slowest but largest leg of all. The patient macro investor positions for all three, not just the headline.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the Fed Funds rate isn't really the lever investors care about</summary>
+          <p>The Fed sets the overnight Federal Funds rate, but almost no economic activity actually happens at that maturity. Mortgages are priced off the 10-year Treasury. Corporate borrowing is priced off the 5-year. What matters for assets is the <em>shape</em> of the yield curve, not the overnight rate.</p>
+          <p>The Fed's real tool is forward guidance: convince the market that overnight rates will be X for the next two years, and the entire curve moves. That's why a press conference can move markets 3% with zero actual rate change &mdash; the market is repricing the path, not the level.</p>
+        </details>
+
+        <p>So: do not trade the rate-cut announcement. Position for the cycle that follows it. The first move in a new regime is psychological; the durable move is mechanical, and it shows up over quarters, not days.</p>
+
+        <p>The asymmetry is worth dwelling on. Over the last forty years, the average S&amp;P 500 return in the twelve months <em>before</em> a first rate cut is roughly +6%. The average return in the twelve months <em>after</em> a first rate cut is roughly +14%. The market does not wait. It anticipates, prices in, then runs the second leg as actual earnings benefits land. Anyone trading purely on the rate-cut headline is essentially buying the dip from a year ago.</p>
+
+        <p>There is one caveat: the post-cut return is sensitive to <em>why</em> rates were cut. Cuts that arrive ahead of growth slowdown (the "soft landing" scenario) deliver the +14% pattern reliably. Cuts that arrive into an unfolding recession (the "hard landing" scenario) often deliver flat-to-negative returns for the first 12 months as earnings collapse outpace multiple expansion. The macro investor reads the cut alongside the unemployment trend and the credit-spread trend &mdash; not in isolation. A cut into a recession with credit spreads already widening is bearish; a cut into stable employment with tight credit spreads is bullish. Same announcement, very different trades.</p>
+
+        <p>That same asymmetry is why we obsess over the dot plot, the Fed minutes, and the chairman's word choice. None of that information is about today. All of it is about the expected path. A single phrase &mdash; "data-dependent," "patience," "transitory" &mdash; can swing trillions in market value because it shifts the curve the market is discounting against. This is forward-looking machinery, and the macro investor is paid to read it earlier than everyone else.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-liquidity-the-invisible-force-that-moves-every-asset-on-earth">
+    <!-- ============================================================
+         III. Why does a 100bp move reprice the whole market?
+         ============================================================ -->
+    <section class="reveal" id="iii-discount-rate">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. Liquidity: The Invisible Force That Moves Every Asset on Earth</h2>
+        <h2>Why does a 100bp move reprice the whole market overnight?</h2>
       </div>
       <div class="section-content">
-        <p>If interest rates are the price of money, <strong>liquidity is the quantity of money</strong>. And in today&rsquo;s markets, liquidity might be the single most important variable driving asset prices. Nothing else comes close.</p>
-<p>Let me be blunt: nothing &ndash; absolutely nothing &ndash; fundamentally has changed on the markets in recent years. The movements are purely liquidity driven now. When liquidity expands, every asset class goes up. When it contracts, everything falls. Individual company fundamentals matter at the margins, but the tide of liquidity lifts or sinks all boats.</p>
-<p>You can track this with the <strong>Global Liquidity Index (GLI)</strong>. I have studied this extensively, and the correlation between GLI and asset prices &ndash; particularly Bitcoin, but also equities broadly &ndash; is remarkably tight. When the 3-month GLI moves up, markets rally. When it turns down, markets fall. The relationship is almost mechanical.</p>
-<p>But here is a nuance that most people miss: <strong>it is the expectation of liquidity changes that moves markets, not the actual change itself</strong>. We saw this clearly when Bitcoin fell even though GLI had not yet decreased. The market was pricing in the expectation that global liquidity would shrink. Investing is a forward-looking game, always.</p>
-<p>Let me walk you through the liquidity story of the last few years to show you how this works in practice.</p>
-<p><strong>2020-2022: The Great Liquidity Surge.</strong> The US money supply (M1) increased from $15 trillion to $18.75 trillion &ndash; roughly a 20% increase. Governments around the world printed unprecedented amounts of money in response to COVID. Global liquidity went vertical. The result? Every asset on the planet exploded higher. Stocks, real estate, crypto, commodities &ndash; all of it. The Nasdaq doubled. Bitcoin went from $5,000 to $69,000. Indian small-caps went on a multi-year tear.</p>
-<p><strong>2022-2023: The Withdrawal.</strong> Central banks, terrified by the inflation they had created, began tightening. The Fed jacked rates to 5.5%. Liquidity began draining from the system. The result was an ugly correction across all markets &ndash; stocks, bonds, and crypto fell simultaneously. The traditional inverse relationship between equities and bonds broke down entirely.</p>
-<p><strong>2024-2025: The Managed Middle.</strong> Governments learned they could not withdraw liquidity without crashing the economy. We were already in a slow-growth phase globally &ndash; if liquidity growth slowed further, growth would collapse entirely. So they kept liquidity sideways at worst, with occasional injections when things got stressed.</p>
-<p><strong>March 2025: The Trade War Injection.</strong> When the tariff war escalated, liquidity shot up dramatically as central banks intervened to prevent a market collapse. On the GLI chart, this showed up as the yellow curve going up sharply.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>To feel why rates matter so much, look at how a stock is actually valued. Every equity is, in theory, the present value of its future cash flows discounted back to today at some rate <em>r</em>. That rate is built on top of the risk-free yield. Move the risk-free yield by 100 basis points and every dollar of future cash flow gets multiplied by a different number.</p>
 
-<p>The pattern on the GLI chart is telling: it is making <strong>higher lows</strong>, which is a bullish pattern. The world is surviving on manufactured liquidity. Inflation cannot be controlled for at least a decade. We have no option but to do high-risk investing in this timeframe and deal with the drawdowns as they come.</p>
-<p>Here is the most important point about liquidity: <strong>no government on earth can afford to withdraw it permanently</strong>. If they do, economies collapse. If they do not, inflation stays elevated. This is the fundamental trap that every government is stuck in, and it is the reason that asset prices will continue to trend higher in nominal terms over the long run &ndash; because the alternative is economic collapse, and no politician will allow that on their watch.</p>
-<p>The long story short: the world is in a complicated place. We are surviving on manufactured liquidity. But that liquidity has to keep flowing, and that means asset prices have to keep going up. Your job as an investor is to position yourself on the right side of this liquidity flow.</p>
-<hr />
+        <div class="math-block">
+          PV = &Sigma;<sub>t=1..&infin;</sub> CF<sub>t</sub> &divide; (1 + r)<sup>t</sup>
+          <br>
+          For a growing perpetuity:&nbsp; PV = CF<sub>1</sub> &divide; (r &minus; g)
+          <span class="math-where">where r is the discount rate and g is the long-run growth rate of cash flows</span>
+        </div>
+
+        <p>The arithmetic is brutal. Take a stock with $5 of next-year free cash flow growing at 4% per year. At a 7% discount rate (low-rate world), it is worth <span class="math">5 &divide; (0.07 &minus; 0.04) = $166.67</span>. Push the discount rate to 9% (rates up 200bp), and that same stock is worth <span class="math">5 &divide; (0.09 &minus; 0.04) = $100</span>. The business did not change. The cash flows did not change. The <em>denominator</em> changed &mdash; and the stock fell 40%.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the equity risk premium does heavy lifting too</summary>
+          <p>The discount rate isn't just the risk-free yield. It's the risk-free yield <em>plus</em> the equity risk premium (ERP) &mdash; the extra return investors demand for holding stocks instead of Treasuries. Historically, the ERP sits around 4&ndash;5%, but it expands violently during stress (2008: 8%+, 2020: 7%+).</p>
+          <p>So when you see a market sell off 30% on a "rates up 200bp" headline, the move is rarely just the rate change. About half of it is the ERP expanding because investors got scared. That's why bear markets often overshoot the fair-value implied by the discount-rate math &mdash; sentiment is repricing risk, not just yield. The good news: when rates fall again, both legs of the discount rate compress, and the snapback is just as fast.</p>
+        </details>
+
+        <p>This is why long-duration growth stocks (think pre-profit tech) get destroyed first when rates rise. Their cash flows are far in the future, so the discounting compounds against them. Mature dividend payers, whose cash flows are closer to today, feel it much less. Bonds &mdash; especially long-dated ones &mdash; feel it most of all, because their cash flows are <em>entirely</em> in the future and explicitly tied to interest rates.</p>
+
+        <!-- Widget 1: Interest rate path → asset return cone -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Five Years of Rate Moves, Three Asset Classes</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Starting rate</span><span class="slider-value" id="w1-r0-val">4.5%</span></div>
+              <input type="range" id="w1-r0" min="0" max="6" value="4.5" step="0.1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Rate change over 5 years</span><span class="slider-value" id="w1-dr-val">-1.5%</span></div>
+              <input type="range" id="w1-dr" min="-3" max="5" value="-1.5" step="0.1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Stocks 5y total</div><div class="stat-cell-value" id="w1-stocks">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Bonds 5y total</div><div class="stat-cell-value" id="w1-bonds">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Commodities 5y total</div><div class="stat-cell-value" id="w1-comm">&mdash;</div></div>
+          </div>
+          <div class="legend-row">
+            <span><span class="swatch" style="background:#2b6cb0"></span>Stocks</span>
+            <span><span class="swatch" style="background:#c53030"></span>Bonds (most rate-sensitive)</span>
+            <span><span class="swatch" style="background:#b7791f"></span>Commodities (least rate-sensitive)</span>
+            <span><span class="swatch" style="background:#cccccc"></span>1&sigma; bands</span>
+          </div>
+          <p class="widget-hint">Drag the rate-change slider from &minus;3% (deep cuts) to +5% (a tightening shock). Watch the bond cone swing the hardest, equities follow through the discount rate, and commodities barely flinch &mdash; they care about real demand, not financing cost.</p>
+        </div>
+
+        <p>Two takeaways. First: in a coordinated cutting cycle, the order of who benefits is predictable &mdash; long-duration bonds first, then growth equities, then cyclicals, then real assets. Second: the magnitude of the move is dictated by duration. A 30-year Treasury moves perhaps 18% on a 100bp shift; a value stock with 4% earnings yield moves perhaps 4%; a barrel of oil barely notices.</p>
+
+        <p>This is also why the order of operations within a portfolio matters. Most retail investors, anticipating a cutting cycle, buy Nvidia and Microsoft. The macro investor buys long-duration Treasuries <em>first</em> &mdash; the move there is faster and more mechanical because rate-sensitivity is direct. Then growth equities. Then, well after the cuts have actually begun, cyclical stocks like banks and industrials. Sequence is alpha. The same conviction expressed in the wrong order leaves money on the table.</p>
+
+        <p>And the same sequence runs in reverse during a tightening cycle. When the Fed starts hiking, long-duration bonds are the first thing you sell, then growth equities, then anything leveraged. Cyclicals and value stocks hold up the longest because their cash flows are closest to today and their multiples have less embedded duration to compress. Knowing where in the queue you are is half the discipline of regime-aware investing.</p>
+
+        <p>The simulator above is stylised &mdash; real markets have noise, leads, lags, and cross-asset spillovers that no five-year linear projection can capture. But the directional intuition is robust. Bonds are leveraged bets on rate paths. Growth equities are leveraged bets on bonds. Cyclicals are leveraged bets on growth equities. Commodities are bets on real-economy demand, mostly orthogonal to rates. Use the widget to feel the relative magnitudes, then translate that into the order you would actually buy or sell during a real regime change.</p>
+
+        <p>One more practical observation: the deeper the rate cut, the wider the bond cone widens. That is by design &mdash; uncertainty about <em>which</em> path rates take dominates expected-return math at large rate moves. When the Fed is expected to cut 300bp over 18 months, the dispersion of "how fast?" creates an enormous range of possible bond returns. A +25% return on long Treasuries is plausible. So is +5% if the cuts are spread out and pre-priced. The cone captures that range. Position sizing should reflect it.</p>
+
+        <p>The takeaway: rate cycles are predictable in direction but uncertain in pace and magnitude. The widget formalises that intuition. Bonds will rally if cuts happen; how much they rally depends on how fast and how deep. Equities ride along behind, with their own dispersion driven by ERP dynamics. Commodities barely budge unless real demand also shifts. Read the cone, not just the mean.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; equity duration is not a textbook number</summary>
+          <p>Bond duration is a precise concept &mdash; the weighted average time of cash flows. For equities, "duration" is an analogy: how far in the future does the bulk of value live? An S&amp;P 500 dividend stream has an effective duration of roughly 18&ndash;22 years, depending on the growth assumption. The Nasdaq, dominated by reinvesting tech, has an effective duration of 30+.</p>
+          <p>That gap is why a 1% rise in 10-year yields can move QQQ 8% while moving the Dow 4%. Same rate move, different duration, different P&amp;L.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-the-causal-chain-from-central-bank-to-your-portfolio">
+    <!-- ============================================================
+         IV. How does liquidity actually reach your portfolio?
+         ============================================================ -->
+    <section class="reveal" id="iv-liquidity-reaches-portfolio">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. The Causal Chain: From Central Bank to Your Portfolio</h2>
+        <h2>How does liquidity actually reach your portfolio?</h2>
       </div>
       <div class="section-content">
-        <p>Now let me connect the dots and show you the complete causal chain that runs from a central bank decision to the price of a stock in your portfolio. Understanding this chain is the difference between reacting to markets and anticipating them.</p>
-<p><strong>Step 1: Central bank sets interest rates.</strong> The Fed, RBI, BOJ, or PBOC decides to raise, hold, or cut rates based on their assessment of inflation, growth, and employment.</p>
-<p><strong>Step 2: Interest rates determine borrowing costs.</strong> When rates go down, every loan in the economy gets cheaper &ndash; home loans, business loans, government borrowing, margin loans for traders. When rates go up, everything gets more expensive.</p>
-<p><strong>Step 3: Borrowing costs determine liquidity.</strong> Cheaper borrowing means more money flowing through the system. More money supply (M1) means more economic activity, more consumer spending, more business investment, more buying of financial assets.</p>
-<p><strong>Step 4: Liquidity determines asset prices.</strong> More money chasing the same pool of assets means higher prices. This is not complicated. When you increase the supply of money by 20% (as the US did from 2020-2022), asset prices will reflect that. The GDP growth rate in the US is at least going to match the money supply growth rate &ndash; right now the US is increasing money supply by 3.8% a year, which puts a floor under GDP growth.</p>
-<p><strong>Step 5: Asset prices determine sector rotation.</strong> Not all sectors respond equally to rate changes. When rates are being cut:
-- <strong>Housing finance firms</strong> benefit because their borrowing costs drop (companies like Aavas, Aptus)
-- <strong>Banks</strong> benefit because cheaper rates stimulate lending activity
-- <strong>IT and tech firms</strong> benefit because growth companies are valued on future cash flows, and lower rates make those future cash flows worth more today
-- <strong>Real estate</strong> benefits because mortgage rates drop and demand increases
-- <strong>Brokerage firms</strong> benefit because more trading activity happens in rising markets
-- <strong>Leveraged small-caps</strong> benefit because their debt burden decreases</p>
-<p>When rates are being raised, the exact opposite happens. High-beta stocks get destroyed first. Growth stocks with no near-term earnings get hammered hardest. Safe-haven assets and value stocks outperform.</p>
-<p><strong>Step 6: The Equity Risk Premium adjusts.</strong> This is a concept that ties everything together. The <strong>Equity Risk Premium (ERP)</strong> is the extra return investors demand for holding stocks instead of bonds. When bond yields are high (because rates are high), the ERP goes up. Stocks become a higher-risk, higher-reward game. When bond yields are low, the ERP shrinks, and stocks become relatively more attractive.</p>
-<p>Here is a practical way to think about it: US markets used to give roughly 10% CAGR with 50 units of volatility. Now, as inflation stays elevated and bond yields remain high, US equity markets are likely to give 10.5% CAGR &ndash; but with 80 units of volatility. The return is slightly higher, but the ride is much rougher. This matters enormously for portfolio construction and position sizing.</p>
-<blockquote>
-<p>The point I am trying to make is: if X units of money is printed, this money will be spent in the form of consumption, expenditure, investment etc. And, it will reflect in GDP. When the US prints dollars, one could argue it is an &ldquo;internal&rdquo; debt for the US. This they can easily handle.</p>
-</blockquote>
-<hr />
+        <p>If interest rates are the price of money, <strong>liquidity is the quantity of money</strong>. And in today's markets, liquidity is the single most important variable driving asset prices &mdash; nothing else comes close.</p>
+
+        <p>Almost nothing has fundamentally changed about how businesses work in recent years. Markets are now largely a liquidity reflex. When global liquidity expands, every asset class goes up. When it contracts, everything falls together. Individual fundamentals matter at the margins, but the tide lifts or sinks all boats.</p>
+
+        <p>The reason is structural. Since the global financial crisis, central-bank balance sheets have grown roughly 6x &mdash; from around $4T combined in 2008 to over $25T today. That tide of base money has to be deployed somewhere, and it overwhelmingly finds its way into financial assets. When the Fed adds $1T to its balance sheet, much of it lands in primary dealers' accounts and percolates outward into Treasury holdings, then corporate bonds, then equities, then alternatives. The chain is leaky but the direction is consistent: balance-sheet expansion lifts asset prices; balance-sheet contraction depresses them.</p>
+
+        <p>Crucially, this same tide also lifts asset prices in countries the Fed has no direct authority over. Global liquidity is fungible. When US capital is created and not absorbed by US opportunities, it flows out &mdash; into European equities, EM debt, commodities, even crypto. That is why Indian markets often follow Fed policy more closely than RBI policy. The RBI sets the price of domestic credit. The Fed sets the supply of marginal global capital. And the marginal capital is what moves equity multiples at the high end. The hard-currency investor understands this implicitly; the rupee-only investor is often surprised by it.</p>
+
+        <p>You can track this with the <strong>Global Liquidity Index (GLI)</strong>. The correlation between GLI and risk assets &mdash; Bitcoin, equities, even real estate &mdash; is remarkably tight. When the 3-month GLI moves up, markets rally. When it turns down, markets fall. The relationship is almost mechanical.</p>
+
+        <p>The story of the last six years is the story of GLI:</p>
+
+        <ul>
+          <li><strong>2020&ndash;2022 &mdash; the great surge.</strong> US M1 went from ~$15T to ~$18.75T, a 20% jump. Stocks, real estate, crypto, commodities all exploded higher. The Nasdaq doubled. Bitcoin went from $5,000 to $69,000.</li>
+          <li><strong>2022&ndash;2023 &mdash; the withdrawal.</strong> Central banks tightened to fight the inflation they had created. Liquidity drained. Stocks and bonds fell <em>together</em> &mdash; the traditional 60/40 hedge broke down.</li>
+          <li><strong>2024&ndash;2025 &mdash; the managed middle.</strong> Governments learned they could not withdraw liquidity without crashing the economy. Liquidity moved sideways, with injections on stress.</li>
+          <li><strong>March 2025 &mdash; the trade-war injection.</strong> When tariffs escalated, central banks intervened. GLI shot vertical.</li>
+        </ul>
+
+        <p>If you plot the GLI against the S&amp;P 500 indexed to 100 over the same window, the two curves are almost indistinguishable except at points of acute stress. The correlation drifts up and down with sentiment, but the structural relationship is unmistakable: liquidity flows in, equities rise; liquidity flows out, equities fall. Anyone who tells you the market is "really about earnings" is looking at the wrong chart. Earnings are downstream of liquidity, with a lag of about 6&ndash;9 months. The cause is the money supply. The effect is the printout on the income statement.</p>
+
+        <p>Bitcoin is the cleanest macro proxy for this insight. BTC has no earnings, no cash flows, no buybacks, no dividends. Its price is purely a referendum on global liquidity preferences. When BTC rallies, global liquidity is expanding. When BTC corrects, global liquidity is tightening. Watching BTC is, in a sense, watching a real-time vote on macro conditions, stripped of the noise that earnings reports add to equity indices. This is why even macro investors who never touch BTC as an investment still track its chart. It is the cleanest liquidity-only signal we have.</p>
+
+        <p>The leading-indicator relationship is sharper than most people realise. BTC tends to move 3&ndash;6 months <em>ahead</em> of broad equity indices in liquidity-driven cycles. The 2020 BTC rally preceded the equity rally by about 4 months. The 2022 BTC top led the S&amp;P top by about 3 months. The 2023 BTC bottom led the equity bottom by 2 months. This pattern is not a coincidence. BTC is the most rate-sensitive asset on earth &mdash; no cash flows, no operational moat, pure duration risk &mdash; so it reacts first to the marginal change in liquidity preferences. Equity indices, weighed down by their slower-moving components, follow with a lag. Watching BTC as a leading indicator for SPX is one of the most underutilised free signals in macro investing.</p>
+
+        <p>But the question is not "does liquidity move markets?" It is <strong>how does $1 of QE actually become $1 of stock-price appreciation?</strong> The answer is a three-stage chain, and most of the value leaks away at each step.</p>
+
+        <!-- Widget 2: Liquidity transmission chain -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; The Liquidity Transmission Chain</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Fed sheet &rarr; bank reserves</span><span class="slider-value" id="w2-c1-val">85%</span></div>
+              <input type="range" id="w2-c1" min="20" max="100" value="85" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Reserves &rarr; credit growth</span><span class="slider-value" id="w2-c2-val">35%</span></div>
+              <input type="range" id="w2-c2" min="5" max="80" value="35" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Credit &rarr; asset prices</span><span class="slider-value" id="w2-c3-val">55%</span></div>
+              <input type="range" id="w2-c3" min="10" max="90" value="55" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">QE inflow</div><div class="stat-cell-value" id="w2-inflow">$1.00B</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Reaches equities</div><div class="stat-cell-value" id="w2-out">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Stuck in reserves</div><div class="stat-cell-value" id="w2-leak">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Slide each coefficient to model a different regime. In 2020 every coefficient was elevated &mdash; that is why $1 of QE became $4 of asset-price appreciation. In 2023 the middle coefficient collapsed (banks hoarded reserves) and the chain broke.</p>
+        </div>
+
+        <p>This is the deep mechanism behind every liquidity-driven rally. The Fed expands its balance sheet, but only a fraction reaches actual credit creation, and only a fraction of <em>that</em> reaches asset prices. In a healthy easing cycle, all three coefficients are high and the multiplier works. In a stressed cycle, the middle stage breaks &mdash; banks just park reserves at the Fed earning interest, and the asset-price impulse never arrives.</p>
+
+        <p>This is exactly why the Fed's quantitative easing in 2010&ndash;2014 produced muted equity gains (banks hoarded reserves; coefficient 2 was low), while the 2020 stimulus produced explosive gains (direct fiscal transfers bypassed banks entirely; coefficient 2 was effectively 100%). Same nominal balance-sheet expansion, completely different transmission. The shape of liquidity injection &mdash; bank-channel vs fiscal-channel &mdash; matters as much as the size.</p>
+
+        <p>The corollary for forecasting: when reading central-bank announcements, do not just count the dollar figure. Ask <em>where</em> the money is going to land. QE that buys Treasuries off bank balance sheets has a different effect than QE that buys mortgage-backed securities (which directly stimulates housing). Fiscal stimulus that lands in checking accounts has a different effect than fiscal stimulus that goes to state governments. The transmission depends on the path, and the path is decided by policy choices most observers ignore.</p>
+
+        <p>For the next cycle, watch for three specific signals: (a) is the Fed buying long-dated Treasuries or short-dated? Long-dated lowers mortgage rates and stimulates housing; short-dated mostly just expands reserves. (b) Is Congress passing fiscal transfers or tax cuts? Transfers have higher marginal propensity to consume; tax cuts to the wealthy mostly land in financial assets. (c) Is the Fed actively encouraging credit growth or just providing liquidity? The former reaches the real economy; the latter mostly inflates asset prices. The shape of the injection determines whether the next round of QE inflates equities, inflates housing, or boosts real growth &mdash; and the macro investor positions differently for each.</p>
+
+        <p>The pattern on the real GLI chart is bullish: <strong>higher lows</strong>. The world is surviving on manufactured liquidity. Inflation cannot be controlled for at least a decade. Asset prices will continue to trend higher in nominal terms because no government on earth can afford to withdraw liquidity permanently &mdash; the alternative is economic collapse, and no politician will allow that on their watch.</p>
+
+        <p>The deeper implication is that <strong>nominal returns will be high and real returns will be lower than the headline suggests</strong>. A stock market that runs at 12% nominal CAGR in a 5% inflation regime is only delivering 7% real. After tax it might be 5%. After FX conversion for an Indian investor pulling dollars home, it might be 3%. The macro investor cares about real returns net of currency and tax &mdash; not the headline number that gets quoted on television. That nuance compounds over decades into a difference that determines whether you actually retire when you planned to.</p>
+
+        <p>Liquidity, in other words, is both the answer and the trap. It powers the rallies that build wealth. It also debases the currency that measures that wealth. The serious macro investor positions for both: long real assets (equities, real estate, gold), short the currency on the margin (foreign exposure, inflation-linked bonds), and patient enough to ride out the 2&ndash;3 year correction phases that punctuate every cycle.</p>
+
+        <p>The historical analogue most worth studying is Japan's 1980s. The Bank of Japan ran loose policy for years, asset prices ballooned, real estate became famously the most expensive in the world. When the BOJ finally tightened in 1989, the bubble burst, and the Nikkei is only now &mdash; thirty-five years later &mdash; back to its 1989 peak in nominal terms. Real terms, it remains underwater. The lesson is not that liquidity-driven bubbles are unsustainable. The lesson is that they unwind over decades when the central bank finally loses control, and the assets that get caught at the wrong end of the cycle take generations to recover. Position size accordingly. The macro investor who rides the cycle is wealthy. The macro investor who refuses to acknowledge the cycle ever ends is bankrupt.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-the-three-central-banks-that-matter-most">
+    <!-- ============================================================
+         V. Why is USD a structural headwind for EM?
+         ============================================================ -->
+    <section class="reveal" id="v-dollar-em">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. The Three Central Banks That Matter Most</h2>
+        <h2>Why is the US dollar a structural headwind for emerging markets?</h2>
       </div>
       <div class="section-content">
-        <p>You need to be watching three central banks. Everything else is noise.</p>
-<h3 id="the-us-federal-reserve">The US Federal Reserve</h3>
-<p>The Fed is the most important institution in global finance. Full stop. When the Fed moves, every market on earth responds. Here is why: the US dollar is the world&rsquo;s reserve currency. US Treasuries are the global benchmark for &ldquo;risk-free&rdquo; returns. When the Fed raises or lowers rates, it changes the baseline against which every other investment in the world is measured.</p>
-<p>Jerome Powell was expected to be replaced in May 2026 by someone who could cut rates faster. This was incredibly bullish for markets &ndash; a dovish Fed chair means cheaper money, more liquidity, higher asset prices. Add midterm elections on top (where the ruling party needs a strong economy to win votes), and you have a setup where the Fed is politically incentivized to keep rates low and markets high.</p>
-<p>The US government has to refinance $7 trillion of debt. There is a theory that the government actually wants lower yields on Treasuries, which means they need money to flow into bonds (pushing prices up and yields down). Some people have speculated that Trump is deliberately engineering stock market volatility to push investors from equities into bonds, which would bring down the government&rsquo;s borrowing costs. The US government pays $1 trillion per year in interest payments alone. Getting that cost down is a strategic priority.</p>
-<p>Whether or not you believe that theory, the structural reality is clear: the US government is deeply incentivized to keep rates low and liquidity abundant. Their entire fiscal strategy depends on it.</p>
-<h3 id="the-reserve-bank-of-india">The Reserve Bank of India</h3>
-<p>The RBI operates in a different context but follows the same logic. High interest rates in India have been maintained for the last 3 years, and as a result, most small and mid-sized businesses have suffered. Growth has massively slowed down. The economy is quite leveraged at the consumer level, and with a lack of jobs, consumption has structurally suffered.</p>
-<p>But here is the constraint: if the RBI cuts rates too fast, India will have a delinquency loan problem. Too many people who borrowed at variable rates will suddenly be encouraged to borrow even more, and the system cannot absorb that. So the RBI has been slow and deliberate &ndash; strengthening the financial system even at the cost of growth.</p>
-<p>The RBI has been announcing <strong>Open Market Operations (OMO)</strong> &ndash; purchasing securities to push liquidity into the market. When FIIs sold 71,000 crores in a month, the RBI responded by injecting 60,000 crores through OMO. This is firefighting, but it shows a clear signal: <strong>the RBI will not let liquidity dry up</strong>. When the RBI starts injecting liquidity, it means they are committed to continuing such actions if the fall continues.</p>
-<p>RBI rate cuts help specific sectors massively. Private banks, housing finance companies like Aavas (whose revenues are growing at 20% CAGR and directly benefit from lower borrowing costs), NBFCs like Armaan Financials, and even IT firms &ndash; all of these are macro plays on the rate-cutting cycle.</p>
-<h3 id="the-bank-of-japan">The Bank of Japan</h3>
-<p>This is the one most Indian investors completely ignore, and it is a serious mistake. Japan&rsquo;s interest rate decisions have massive global implications because of the <strong>Yen carry trade</strong>.</p>
-<p>Here is how it works: for decades, Japan maintained near-zero interest rates. Global investors borrowed in yen at extremely low rates and invested that money in higher-yielding assets &ndash; US Treasuries, US tech stocks, emerging market equities. This created an enormous flow of capital from Japan into global markets, artificially boosting asset prices everywhere.</p>
-<p>When Japan increases interest rates, several things happen simultaneously:
-- The yield gap between Japanese government bonds and US Treasuries narrows
-- Japanese institutions repatriate capital, selling foreign assets to invest at home
-- This puts downward pressure on US Treasury prices and upward pressure on yields
-- Higher US yields increase borrowing costs across the entire economy &ndash; from federal debt to mortgages
-- The carry trade unwinds, which means all that borrowed yen-money exits global markets</p>
-<p>We saw this play out when Japan raised rates and Indian markets fell even though there was no direct connection. NVIDIA had announced stellar results, and yet markets corrected. The reason was not NVIDIA. The reason was the Yen carry trade unwinding, combined with expectations of reduced global liquidity.</p>
-<blockquote>
-<p>Japan fears inflation, so they increased rates. This points to a few things: lack of liquidity, and the aggravation of Yen carry trade unwinding. People used to borrow in Yen at low interest rates and dump it into US assets which gave higher rates. But since Japan has increased IR, this makes Japanese debt attractive for even global players.</p>
-</blockquote>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Of all the macro signals, the one most often underestimated is the US Dollar Index (DXY). It does not just measure the dollar &mdash; it sets the gravity field that emerging-market assets have to climb against.</p>
 
-<hr />
+        <p>The DXY is a basket: Euro (57.6% weight), Yen (13.6%), Pound (11.9%), Canadian Dollar (9.1%), Swedish Krona (4.2%), Swiss Franc (3.6%). The INR is not in the basket. But it doesn't matter. <strong>When DXY rises, almost every EM currency &mdash; including INR &mdash; weakens against it.</strong> When DXY falls, EM currencies stabilise.</p>
+
+        <p>For an Indian portfolio, this is not abstract. FIIs invest in USD, take their returns in INR, then convert back. A falling rupee is a direct hit to their dollar returns &mdash; so a rising DXY is a structural disincentive to invest in India, regardless of how good Indian earnings look.</p>
+
+        <p>The mechanism that creates EM equity reflexivity is straightforward arithmetic. If the Nifty returns 12% in INR while INR depreciates 4% against USD, the FII's net dollar return is roughly 8%. A US Treasury at 4.5% with zero currency risk looks better on a risk-adjusted basis. Rational FII capital rotates out. That rotation depresses INR further, which compounds the dollar headwind, which triggers more rotation. The loop continues until either (a) something in the EM economy fundamentally changes, or (b) DXY peaks and the loop reverses on its own. Most of the time, option (b) is what ends the cycle &mdash; not domestic earnings, not central-bank intervention, but a change in the dollar gravity field itself.</p>
+
+        <p>The relationship is consistent enough to be modelled. Run 30+ years of monthly data and the inverse correlation between DXY moves and EM index returns clusters tightly around a line:</p>
+
+        <!-- Widget 3: Dollar strength → EM returns scatter -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; DXY Strength vs Emerging-Market Returns</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Hypothetical DXY move (annual)</span><span class="slider-value" id="w3-dxy-val">0%</span></div>
+              <input type="range" id="w3-dxy" min="-15" max="15" value="0" step="0.5">
+            </div>
+            <div class="stat-cell"><div class="stat-cell-label">Expected EM return (&plusmn;1&sigma;)</div><div class="stat-cell-value" id="w3-em">&mdash;</div></div>
+          </div>
+          <div class="legend-row">
+            <span><span class="swatch" style="background:#888888;border-radius:50%;height:8px;width:8px"></span>Historical observations (synthetic)</span>
+            <span><span class="swatch" style="background:#c53030"></span>Regression line</span>
+            <span><span class="swatch" style="background:#2b6cb0;border-radius:50%;height:10px;width:10px"></span>Your scenario</span>
+          </div>
+          <p class="widget-hint">Push the DXY slider to +10%. EM returns drop into negative territory with a meaningful confidence interval. Pull it to &minus;10% &mdash; a weakening dollar &mdash; and EM equity returns swing to +20% or more. The dollar is not an optional input.</p>
+        </div>
+
+        <p>Two implications. First: a tactical macro investor with a meaningful EM allocation should hedge dollar exposure or scale up exposure precisely when DXY peaks. Second: any "India growth story" pitched without acknowledging the DXY backdrop is incomplete. You can have the best earnings in the world, and if the dollar is on a tightening rally, FII capital will rotate out anyway.</p>
+
+        <p>Three indirect channels reinforce the relationship. (1) Commodity prices: most commodities are USD-denominated, so a stronger dollar mechanically compresses EM commodity-exporter earnings. (2) Sovereign-debt servicing: many EM governments and corporates borrow in USD, so a stronger dollar inflates their debt-service burden, squeezes domestic spending, and ripples through to equity earnings. (3) Trade competitiveness: a strong dollar means weak EM currencies, which is good for EM exporters in theory &mdash; but if the dollar is strong because the Fed is hiking, global demand is also slowing, so the export benefit is muted while the financing pain is acute. The net effect across these three channels is unambiguous: dollar strength is bad for EM in almost every way that matters.</p>
+
+        <p>Recently, DXY has been correcting. China and Europe have invested in gold and are likely to loosen monetary policy and sell USD. Russia has demonstrated that a major economy can function while limiting USD usage &mdash; and other countries are watching, worried about being thrown off SWIFT. The structural case for a weaker dollar over the next several years is the strongest it has been in three decades, and that is unambiguously bullish for EM equities.</p>
+
+        <p>One more wrinkle worth carrying around in your head: dollar strength compounds. When DXY rises, FII outflows from EM are immediate; those outflows weaken EM currencies, which weakens EM returns further, which triggers more outflows. This is the reflexive feedback loop that turns garden-variety dollar strength into EM currency crises &mdash; the 1997 Asian crisis, the 2013 taper tantrum, the 2018 Turkey/Argentina run. The trigger is dollar-cycle reflexivity, not EM fundamentals.</p>
+
+        <p>The corollary, which most EM bulls miss, is that not every EM is equally exposed. The countries with high USD-denominated debt and low foreign-currency reserves get hit hardest &mdash; Turkey, Argentina, parts of Sub-Saharan Africa. Countries with current-account surpluses and large reserves &mdash; India in recent years, China, parts of Southeast Asia &mdash; have a much larger buffer. So even within EM, the dollar cycle creates winners and losers. A macro investor with broad EM exposure should overweight reserve-rich, surplus economies and underweight twin-deficit economies whenever DXY shows signs of strengthening. Same EM bucket, very different outcomes.</p>
+
+        <p>This is also where blanket "EM ETFs" become dangerous. An MSCI Emerging Markets index treats Turkey and Taiwan as comparable EM exposures even though their dollar vulnerability is wildly different. A thoughtful EM allocation skips the index and tilts toward the structurally stronger names: India, Taiwan, South Korea, Mexico in surplus, and away from Turkey, Argentina, South Africa. The implied tracking error against the index is real, but the risk-adjusted return is meaningfully better over a full dollar cycle.</p>
+
+        <p>The inverse is also true. When the dollar weakens, capital rushes <em>back</em> into EM. EM currencies stabilise, returns improve, and the inflows accelerate. That positive feedback loop is exactly what powered the 2003&ndash;2007 and 2017 EM rallies. Reading the dollar correctly is therefore the most leveraged macro call an EM investor can make &mdash; one direction sets up multi-year alpha; the other, a multi-year drawdown.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-reading-the-macro-signals-dxy-bond-yields-gold-and-what-they-tell-you">
+    <!-- ============================================================
+         VI. Three central banks
+         ============================================================ -->
+    <section class="reveal" id="vi-three-central-banks">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. Reading the Macro Signals: DXY, Bond Yields, Gold, and What They Tell You</h2>
+        <h2>Which three central banks should you actually watch?</h2>
       </div>
       <div class="section-content">
-        <p>You do not need a PhD in economics to be a macro investor. You need to track four or five indicators and understand what they are telling you. Here are the ones I watch most closely.</p>
-<h3 id="the-us-dollar-index-dxy">The US Dollar Index (DXY)</h3>
-<p>The DXY measures the strength of the US dollar against six major currencies: the Euro (57.6% weight), Japanese Yen (13.6%), British Pound (11.9%), Canadian Dollar (9.1%), Swedish Krona (4.2%), and Swiss Franc (3.6%).</p>
-<p>While the INR is not directly included, there is an indirect relationship. If DXY is falling or consolidating, the INR is likely to strengthen or consolidate. This matters enormously for FII flows into India.</p>
-<p>Here is why: FIIs invest in foreign currency (say USD), make their returns in INR, and then convert that INR back to USD when they take capital home. If the INR is constantly falling, this lowers their returns. A weak rupee is a direct disincentive for foreign investment in Indian markets.</p>
-<p>In the period 2020-2022, DXY grew significantly as the US tightened monetary policy. More recently, DXY has been correcting, partly because China and Europe (which have invested in Gold) are likely to loosen their monetary policies and sell USD. Russia has demonstrated that a major economy can function while limiting USD usage since 2021 &ndash; and other countries are taking note, fearing they too could be thrown off the SWIFT system. So doing this preparation is critical for several nations.</p>
-<p>A weaker DXY is good for Indian markets. It means the INR stabilises, which improves FII returns, which brings capital back into India. It also means USD-denominated assets become cheaper for international investors, potentially driving more money into US stocks from abroad.</p>
-<h3 id="bond-yields-the-30-year-treasury">Bond Yields: The 30-Year Treasury</h3>
-<p>The 30-year Treasury yield indicates whether foreign investors are interested in buying US debt. When it goes high, investors are demanding higher returns for holding US debt. A sudden spike typically means a counterparty might be selling &ndash; for example, China dumping Treasuries &ndash; and higher yields must be offered to find new buyers.</p>
-<p>When you see bond yields rising alongside a falling DXY, it tells you something important: USD is getting cheaper, and people are moving out of bonds simultaneously. This has critical implications:</p>
-<ol>
-<li>International investors might buy more US-denominated equities (as USD gets cheaper, it is more lucrative to buy USD assets)</li>
-<li>Long-term demand for Treasuries is declining</li>
-<li>The ERP goes higher, making stocks a higher-risk, higher-reward proposition</li>
-</ol>
-<p>The earlier inverse relationship between equities and bonds &ndash; where one acted as a hedge against the other &ndash; is now broken. In the new regime, both can fall together. This is one of the most important structural changes in global markets, and it means the old 60/40 portfolio no longer works as advertised.</p>
-<h3 id="gold-as-a-recession-signal">Gold as a Recession Signal</h3>
-<p>Gold is one of the clearest macro signals available. Some classic signs of a recession include:
-- Gold goes up
-- Bond yields go down
-- Money flows to stronger currencies like USD (so they strengthen)
-- Consumer demand goes down
-- Firms stop expanding</p>
-<p>When Gold goes down, bond yields go up, and DXY corrects &ndash; as we have seen recently &ndash; it tells you this is NOT a recession. It is a manufactured problem, likely driven by policy decisions (tariffs, trade wars) rather than fundamental economic weakness. These manufactured problems tend to be temporary. Real recessions are structural.</p>
-<p>Gold also functions as an insurance asset. When fiat-denominated assets (INR, USD) go down, gold typically does well. BTC does well in a high-liquidity environment. Gold does well in an uncertainty environment. They serve different purposes in your portfolio, and understanding the macro context tells you which one to lean into.</p>
-<h3 id="money-supply-and-gdp-the-direct-relationship">Money Supply and GDP: The Direct Relationship</h3>
-<p>Here is a relationship that most investors ignore but is incredibly powerful. <strong>If X units of money is printed, this money will be spent in the form of consumption, expenditure, and investment &ndash; and it will reflect in GDP.</strong></p>
-<p>The US increased its money supply from $15 trillion to $18.75 trillion between 2020 and 2022 &ndash; roughly 20%. You would expect GDP to grow by roughly 20% if you adjust for the COVID contraction (during which GDP shrunk because economic activity stopped). And that is exactly what happened when you make the adjustment.</p>
-<p>Right now, the US is increasing its money supply by 3.8% per year. This puts a floor under GDP growth at approximately 3.8%. This is why I keep saying a major recession is NOT coming in the US. The money supply growth rate gives you a baseline for how fast the economy will grow, and right now that baseline is positive and stable.</p>
-<p>The US strategy is straightforward: print money, maintain a certain GDP growth rate, aggregate the means of production (semiconductors, strategic resources, competitive advantages in AI), and add real value to the economy over time. As long as they are printing in their own currency, this is internal debt that they can manage.</p>
-<hr />
+        <p>You need to watch three central banks. Everything else is noise.</p>
+
+        <p><strong>The US Federal Reserve.</strong> The most important institution in global finance. The US dollar is the world's reserve currency. US Treasuries are the global benchmark for "risk-free" returns. When the Fed moves, every market on earth responds because it is changing the baseline against which every other investment is measured.</p>
+
+        <p>The structural setup right now is heavily skewed dovish. The US government has to refinance roughly $7 trillion of debt<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. They are deeply incentivised to keep yields low &mdash; the US already pays roughly $1 trillion per year in interest alone. Add midterm elections, where the ruling party needs a strong economy, and the political incentives align with the fiscal ones: keep money flowing. Whether or not you believe any specific theory about Treasury engineering, the structural reality is unambiguous &mdash; the Fed is not going to surprise hawkishly into a fiscal crunch.</p>
+
+        <p><strong>The Reserve Bank of India.</strong> High rates have been maintained in India for three years and small and mid-sized businesses have suffered. Growth has slowed meaningfully. Consumption is structurally weak with consumer-level leverage high and job creation thin.</p>
+
+        <p>But the RBI cannot cut too fast. India has a delinquency-loan risk &mdash; cut rates too quickly and variable-rate borrowers stretch even further. So the RBI has been slow and deliberate. When FIIs sold &#8377;71,000 crore in a month, the RBI responded with &#8377;60,000 crore of Open Market Operations &mdash; buying securities to push liquidity in. That single move tells you something: <strong>the RBI will not let liquidity dry up</strong>. Once they start injecting, they are committed to continuing.</p>
+
+        <p>RBI rate cuts feed directly into private banks, housing finance companies (Aavas, Aptus), NBFCs (Armaan Financials), and IT firms. These are not stock picks &mdash; they are macro plays on the rate-cutting cycle.</p>
+
+        <p>One more RBI-specific quirk worth knowing: India's reserves-to-GDP ratio is one of the highest in the world. The RBI sits on roughly $700B in foreign reserves &mdash; enough to defend the rupee through almost any plausible crisis. This is why the INR has been one of the more stable EM currencies through multiple Fed tightening cycles. The RBI can intervene at scale, and historically it has. That reserve buffer is also why Indian equities are less vulnerable to dollar-strength reflexivity than, say, Turkish or Argentinian equities. The macro investor should price that buffer into the EM risk premium &mdash; India deserves a tighter spread than its EM peers, all else equal.</p>
+
+        <p>One reason the RBI sometimes appears slow to ease is the trilemma every EM central bank faces: you cannot simultaneously have a fixed exchange rate, free capital movement, and independent monetary policy. India runs a managed float, allows substantial capital movement, and tries to maintain monetary independence &mdash; but the trilemma constrains how loose the RBI can be without triggering capital flight. When the Fed is hiking aggressively, the RBI cannot cut without inviting INR depreciation. So India is, in many ways, a price-taker on global rate cycles even if the RBI has nominal autonomy. The thoughtful investor reads RBI policy as a constrained optimisation, not as a free choice.</p>
+
+        <p><strong>The Bank of Japan.</strong> The one most retail investors ignore, and the most expensive mistake. Japan's rate decisions have global consequences because of the <em>Yen carry trade</em><a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
+
+        <p>For decades Japan maintained near-zero rates. Global investors borrowed in yen and bought higher-yielding US Treasuries, US tech, EM equities. This created an enormous flow of capital from Japan into global markets, artificially inflating asset prices everywhere. When Japan raises rates, the chain reverses:</p>
+
+        <ul>
+          <li>Yield gap between JGBs and US Treasuries narrows.</li>
+          <li>Japanese institutions repatriate capital, selling foreign assets.</li>
+          <li>Treasury prices fall, US yields rise.</li>
+          <li>Higher US yields ripple into mortgages and corporate borrowing.</li>
+          <li>The carry trade unwinds &mdash; borrowed yen exits global markets.</li>
+        </ul>
+
+        <p>This is exactly what played out when Japan raised rates and Indian markets fell despite stellar NVIDIA results. The cause was not NVIDIA. The cause was a carry trade unwinding several thousand miles away.</p>
+
+        <p>August 5, 2024 is the case study every macro investor should burn into memory. The BOJ raised its policy rate by 15 basis points. The Nikkei fell 12% in a single session &mdash; its worst day since Black Monday 1987. The VIX spiked above 65 in pre-market. Indian and US equities sold off 4&ndash;6% in sympathy. The trigger was not Japanese fundamentals. It was forced unwinding of yen-funded leveraged positions all over the world. Within a week, half of those losses were recovered &mdash; but the lesson stuck. A central bank you don't watch can move your portfolio by 10% overnight. Now you watch the BOJ.</p>
+
+        <blockquote>
+          <p>Japan fears inflation, so they increased rates. People used to borrow in yen at low rates and dump it into higher-yielding US assets. Now that yen debt is no longer free, the entire flow reverses.</p>
+        </blockquote>
+
+        <p>The honourable mentions: the European Central Bank, because the euro is the second-largest weight in DXY and ECB easing or tightening pulls DXY around; the People's Bank of China, because Chinese liquidity is the single largest swing factor in global liquidity (China's M2 dwarfs the Fed's balance sheet); and the Swiss National Bank, because Switzerland's currency interventions are tiny in absolute terms but enormous in signalling value about global safe-haven demand. But you can ignore them ninety percent of the time. The Fed, RBI, and BOJ together account for the regime.</p>
+
+        <p>The PBOC is the one whose role is changing fastest. China's announcement of its own version of QE &mdash; printing more money and rolling out a corporate buyback program &mdash; sent the Chinese stock market up 4% in a single day. Alibaba, commodity-driven stocks, and broad Chinese indices surged. When a major nation prints money, it marks the start of another round of asset-price appreciation. As China shifts from a savings-driven to a stimulus-driven monetary stance, expect more Chinese-equity volatility and more commodity-driven feedback into emerging markets generally. Watching the PBOC quarterly is now table stakes for any serious macro investor &mdash; even if you have zero direct China exposure.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-geopolitics-through-the-macro-lens">
+    <!-- ============================================================
+         VII. Reading signals: DXY, yields, gold
+         ============================================================ -->
+    <section class="reveal" id="vii-reading-signals">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. Geopolitics Through the Macro Lens</h2>
+        <h2>What do DXY, bond yields, and gold tell you that earnings don't?</h2>
       </div>
       <div class="section-content">
-        <p>Every few months, some geopolitical crisis sends markets into a panic. Israel-Iran. Russia-Ukraine. US-China tariffs. The new Fed chair appointment. Every time, retail investors rush to sell and &ldquo;wait for clarity.&rdquo;</p>
-<p>This is exactly the wrong approach.</p>
-<p>As a macro investor, you need to evaluate geopolitical events through one simple filter: <strong>does this fundamentally change the liquidity or interest rate environment?</strong> If the answer is no, the event is noise. If the answer is yes, you need to act.</p>
-<p>Take the Israel-Iran situation. This is not a new conflict &ndash; it has been ongoing for years. Whatever is not a real surprise for the market does not impact it much. Yes, it might be used as a reason for a 10% correction. But from a bigger picture perspective, governments have enough firepower to cut interest rates fast and balance the market if needed. The global stock market survived Russia-Ukraine. It survived Israel-Iran. Geopolitical events that do not disrupt the fundamental flow of liquidity are buying opportunities, not selling signals.</p>
-<p>The tariff war is more interesting because it actually does affect the macro picture. When the US slaps tariffs on Chinese goods, it disrupts supply chains, which raises input costs, which increases inflation, which constrains the Fed&rsquo;s ability to cut rates. This is a real macro impact &ndash; not because tariffs themselves are important, but because they feed into the inflation and interest rate equation.</p>
-<p>But even here, the analysis comes back to liquidity. When tariffs created economic stress, central banks responded by injecting liquidity. The trade war injection of March 2025 showed up as a dramatic spike in the GLI. The playbook is always the same: create a problem, inject liquidity to solve it, and asset prices recover.</p>
-<p>The US-China spending war on AI is perhaps the most important geopolitical dynamic for investors right now. Whoever wins this AI race gets to export their tech stack globally. The US is already exporting to the UAE, where the tech infrastructure will be used to build data center capacity, optimized by hyperscalers like Amazon and Meta. China is targeting Africa and Southeast Asia. Just in 2026 alone, hyperscalers planned to spend $600 billion on this race. Most of this spending comes from existing free cash flows &ndash; it is not unreasonable capital being raised through IPOs. This is real money being deployed by profitable companies, and it underpins a massive growth story.</p>
-<p>China&rsquo;s announcement of its own version of QE &ndash; printing more money and rolling out a corporate buyback program &ndash; sent the Chinese stock market up 4% in a single day. Alibaba, commodity-driven stocks, and broad Chinese indices surged. When a major nation prints money, it is the start of another round of asset price appreciation. Period.</p>
-<blockquote>
-<p>In simple words: when a major nation prints money, it is a start of another round of asset price appreciation. This will get reflected in the broader market.</p>
-</blockquote>
-<p>There was massive panic when the new US Fed Chair was appointed. Markets expected tightening. High-beta stocks, especially tech, corrected sharply. But this panic was overdone. With midterm elections approaching and the US expected to post record GDP growth, the setup was bullish. The lesson: <strong>do not react to personnel changes at central banks. React to what they actually do with policy.</strong> And what they will do, in almost every case, is what the political incentives demand &ndash; which is to keep money flowing.</p>
-<p>The point is simple: geopolitics matters, but only insofar as it affects the liquidity and interest rate environment. Everything else is theatre. Your job is to cut through the noise and ask: is money flowing into the system, or out of it? The answer to that question tells you more than a hundred hours of cable news analysis.</p>
-<hr />
+        <p>You do not need a PhD in economics to be a macro investor. You need four or five indicators and an understanding of what each one is screaming.</p>
+
+        <p>Here is the watchlist that covers ninety percent of macro analysis with minimal effort: the Fed Funds rate and its projected path (Fed dot plot), the 10-year and 30-year Treasury yields, the DXY, the Global Liquidity Index, the ICE BofA US High Yield credit spread, gold price, and Bitcoin. Every Sunday evening, spend twenty minutes glancing at these eight charts. If anything looks materially different from the prior week, dig in. If everything is steady, do nothing. This is the macro-investor equivalent of a doctor's vitals check &mdash; quick, regular, sufficient to catch the regime changes that matter.</p>
+
+        <p><strong>Bond yields &mdash; the 30-year Treasury.</strong> The 30-year yield is the market's referendum on long-term US fiscal health. When it spikes, foreign investors are demanding more compensation to hold US debt &mdash; often because a major counterparty (China, for example) is selling. When yields rise <em>alongside</em> a falling DXY, the signal is unmistakable: USD is getting cheaper and people are exiting bonds simultaneously. That combination tells you:</p>
+
+        <ol>
+          <li>International investors will rotate into US equities (cheaper USD makes USD assets relatively attractive).</li>
+          <li>Long-term demand for Treasuries is structurally declining.</li>
+          <li>The equity risk premium has expanded &mdash; stocks are higher-risk, higher-reward.</li>
+        </ol>
+
+        <p>The classical inverse relationship between equities and bonds &mdash; the foundation of 60/40 portfolios &mdash; is now broken. Both can fall together (2022). Both can rally together (2024). The hedge no longer works as advertised, and that is one of the most important structural changes in modern markets.</p>
+
+        <p>The rolling 12-month correlation between US equities and US Treasuries flipped from &minus;0.4 (negative, hedging) to +0.3 (positive, co-moving) between 2021 and 2023, and has stayed positive since. That is a regime change, not a fluctuation. The implication is that the simple 60/40 portfolio that worked for forty years &mdash; equities for return, bonds for hedge &mdash; needs a third leg now. Most institutional investors are adding gold, commodities, and dynamic cash buffers to fill the hedging gap. Retail investors who haven't updated their model still believe in the 60/40 and will be disappointed by it in the next drawdown.</p>
+
+        <p>The replacement many sophisticated investors are converging on is a "60/20/20" framework: 60% equities (geographically diversified), 20% bonds (skewed to shorter duration and inflation-linked), and 20% real assets (gold, real estate, commodities). The real-asset sleeve does the hedging that bonds used to do, without the rate-correlation problem. Backtests across 2000&ndash;2024 show this allocation produces similar long-run returns to 60/40 with materially better drawdown characteristics in regimes where bonds fail to hedge. It is not the only answer, but it is one of the cleanest answers to the 60/40 problem.</p>
+
+        <p><strong>Gold.</strong> One of the cleanest macro signals available. The classic recession constellation:</p>
+
+        <ul>
+          <li>Gold rises (flight to safety).</li>
+          <li>Bond yields fall (flight to duration).</li>
+          <li>Money flows to stronger currencies &mdash; USD typically strengthens.</li>
+          <li>Consumer demand drops.</li>
+          <li>Firms stop expanding.</li>
+        </ul>
+
+        <p>When you see gold falling, yields rising, <em>and</em> DXY correcting all at once, you know it is not a real recession. It is a manufactured problem &mdash; tariffs, trade war, political theatre &mdash; that will pass. Real recessions are structural; manufactured ones resolve through liquidity injections.</p>
+
+        <p>Gold is an uncertainty insurance asset. Bitcoin is a liquidity insurance asset. They serve different purposes in a portfolio. In a high-liquidity environment, BTC outperforms gold. In an uncertainty environment, gold outperforms BTC. Understanding the macro context tells you which one to lean into.</p>
+
+        <p>The pair's behaviour during recent macro regimes makes the distinction concrete. During 2020&ndash;2021 (extreme liquidity, low uncertainty), BTC went 14x while gold barely doubled. During 2022 (liquidity withdrawal, rising uncertainty), gold rose 8% while BTC dropped 65%. During 2023 (recovering liquidity, persistent uncertainty), both rose roughly in tandem. The macro-aware investor reallocates between the two based on the dominant regime &mdash; not in equal weights, but tilted toward whichever insurance is in higher demand at that moment. A 5% alternative allocation, split dynamically between BTC and gold, is a powerful hedge against the two failure modes most retail investors are not insured against.</p>
+
+        <p><strong>Money supply and GDP.</strong> A relationship most investors ignore. If X units of money is printed, that money is spent &mdash; on consumption, expenditure, investment &mdash; and it shows up in GDP. The US grew M1 from $15T to $18.75T between 2020 and 2022, roughly 20%. Adjust for the COVID contraction and GDP grew roughly in line.</p>
+
+        <p>Right now the US is increasing money supply by 3.8% per year. That puts a <em>floor</em> under nominal GDP growth at approximately 3.8%. This is why a major US recession is structurally unlikely. The money supply growth rate is the baseline, and right now that baseline is positive and stable.</p>
+
+        <p><strong>The credit spread.</strong> One last signal that no one talks about until it matters too much. The credit spread is the gap between high-yield corporate bond yields and risk-free Treasuries<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. In normal times it sits around 350&ndash;450 basis points. When it blows past 800bp, you are looking at a credit-stress event &mdash; the bond market is screaming that default expectations have spiked. Every major equity drawdown of the last forty years has been preceded by a credit-spread widening: 2000 dotcom, 2008 GFC, 2020 COVID, 2022 tightening. Watching the credit spread is like watching the canary in the coalmine. If it stays under 500bp, the macro is fine even if equity headlines look bad. If it crosses 600bp and rising, get defensive immediately.</p>
+
+        <p>One signal investors love but should weight carefully: the <strong>yield curve inversion</strong>. When 10-year Treasury yields drop below 2-year yields, recession follows in 12&ndash;18 months. The track record is strong but not perfect &mdash; the curve inverted in late 2022 and the recession everyone expected in 2023 never quite arrived. The signal still works directionally; it just has noise around the timing. Use it as one indicator among five, not as a single trigger.</p>
+
+        <p>There is also a subtler signal worth tracking: the <strong>real yield</strong> on 10-year inflation-protected Treasuries (TIPS). The real yield strips out inflation expectations and gives you the true return on risk-free capital. When real yields move from negative (which they were for most of 2020&ndash;2022) to positive (which they did in 2023), it represents a major tightening of financial conditions that doesn't always show up in the headline nominal rate. Real yields above 2% historically pressure equity multiples; real yields below 0% historically inflate them. Watch real, not nominal, when you want to understand the actual cost of capital that businesses face.</p>
+
+        <p>One more under-discussed signal: the <strong>copper-to-gold ratio</strong>. Copper is sensitive to industrial demand. Gold is sensitive to risk aversion. When copper outperforms gold, the global economy is reflating &mdash; cyclicals lead, growth equities follow, and yields rise. When gold outperforms copper, the global economy is contracting &mdash; defensive assets lead and yields fall. The ratio leads 10-year yields by roughly 6 weeks in most cycles, which makes it a cheap leading indicator of the rates trend that the bond market eventually catches up to. Few retail investors track it. The professionals do.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; money supply doesn't perfectly map to GDP</summary>
+          <p>The link between M1 (or M2) and nominal GDP is velocity &mdash; how many times each dollar changes hands per year. In recessions, velocity collapses: people hoard cash, banks hoard reserves, the multiplier breaks. So 20% M1 growth could produce anywhere from 5% to 25% nominal GDP growth depending on velocity.</p>
+          <p>The reason the 2020&ndash;22 episode produced almost exactly the GDP growth the M1 expansion implied was that fiscal transfers (stimulus checks) bypassed the banking system entirely. The money went directly into household checking accounts where velocity is &gt;1. Bank-channel QE doesn't do that &mdash; the money sits as reserves, velocity collapses, and the GDP impact is muted. This is exactly what Widget 2 lets you experiment with.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-the-bubble-framework-when-does-this-end">
+    <!-- ============================================================
+         VIII. Bubble framework
+         ============================================================ -->
+    <section class="reveal" id="viii-bubble-framework">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. The Bubble Framework: When Does This End?</h2>
+        <h2>When does the liquidity bubble end &mdash; and how would you know?</h2>
       </div>
       <div class="section-content">
-        <p>If I am telling you that liquidity drives everything and that governments cannot afford to withdraw it, you might reasonably ask: does this ever end? Is this a bubble? And if so, when does it burst?</p>
-<p>This is the most important question in macro investing, and I want to give you a sophisticated framework for thinking about it.</p>
-<p>Raghuram Rajan (former RBI Governor) recently spoke about a <strong>U-shaped curve on credit spending</strong>. His argument is that when interest rates are cut, debt gets built into the system. This is the good phase &ndash; the left side of the U. But the more this stretches, the worse the situation it creates in the long term. Eventually, you reach the right side of the U, where the system is so overleveraged that the central bank is forced to raise rates to prevent a complete loss of monetary control. This is what happened in 2021-2022 when the Fed was forced to hike from near-zero to 5.5%.</p>
-<p>Ray Dalio added an important nuance: <strong>bubbles do not burst automatically. Something has to prick them.</strong> The bubble expands until an external force &ndash; usually a rate-hiking cycle &ndash; punctures it. The bubble does not know it is a bubble until it pops.</p>
-<p>Dr. Rajan&rsquo;s theory on this seems sound. The pricking of the bubble will likely happen when interest rates are jacked up again. And interest rates are jacked up when inflation becomes politically intolerable.</p>
-<p>So the sequence looks like this:</p>
-<ol>
-<li>Central banks cut rates aggressively</li>
-<li>Liquidity floods the system</li>
-<li>Asset prices soar</li>
-<li>Inflation rises as a result of all this cheap money</li>
-<li>Central banks are eventually forced to raise rates to fight inflation</li>
-<li>The rate hike pricks the bubble</li>
-<li>Markets crash</li>
-<li>Central banks cut rates again to cushion the crash</li>
-<li>The cycle repeats</li>
-</ol>
-<p>We saw this exact cycle play out between 2020 and 2023. And it is starting again.</p>
-<p>We are currently in phases 1-3. Interest rates are being cut (or will be cut aggressively soon), liquidity is expanding, and asset prices are rising. My expectation is that 2026 will be a year when rate cuts go aggressive, the stock market soars, and inflation rises fast. This sets the ground for an eventual crash &ndash; but that crash is likely at least 2-3 years away, depending on how fast inflation accelerates.</p>
-<p>The probability of the bubble expanding right now is significantly higher than the probability of it bursting. Why?</p>
-<ul>
-<li>China and the US have strategic reasons to keep spending (the AI race)</li>
-<li>Hyperscalers can afford to spend $600 billion from free cash flows</li>
-<li>Macro conditions favour keeping markets elevated (midterm elections, $7 trillion debt refinancing needs)</li>
-<li>No government can afford to withdraw liquidity without causing a depression</li>
-<li>We are already in a slow-growth phase of the world &ndash; if liquidity growth slows down, the growth would collapse further</li>
-</ul>
-<p>Professor Damodaran made another deeply insightful observation: interest rates in the economy go up when expected inflation goes up. The Fed keeps rates low to add more money and increase velocity in the economy. But once that money supply is increased, it translates into demand for higher interest rates if inflation is expected to be high. This creates the tension that eventually resolves through a bond market breakdown and, eventually, a rate-hiking cycle.</p>
-<p>What should you do with this information? <strong>Invest, and keep a track of macros.</strong> Ride the wave while it lasts. Keep 20-30% cash for corrections. Monitor inflation numbers, central bank language, and the GLI. When you see the Fed starting to talk about rate hikes again &ndash; that is when you start getting defensive.</p>
-<blockquote>
-<p>The expansion of the bubble has a much higher chance than the busting of the bubble right now. Bubble burst or slowdown is likely when interest rates go up again.</p>
-</blockquote>
-<hr />
+        <p>If liquidity drives everything and governments cannot afford to withdraw it, the natural question is: does this ever end? Is this a bubble? And if so, when does it burst?</p>
+
+        <p>This is the most important question in macro investing, and the framework for thinking about it draws on two of the sharpest minds in the field. Raghuram Rajan, former RBI Governor, talks about a <strong>U-shaped curve on credit spending</strong><a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. When rates are cut, debt builds into the system &mdash; the good phase, the left side of the U. The longer this stretches, the worse the eventual situation. Eventually the system is so overleveraged that the central bank is <em>forced</em> to raise rates just to keep monetary control. That is the right side of the U &mdash; exactly what the Fed did in 2021&ndash;2022, going from zero to 5.5% in eighteen months.</p>
+
+        <p>Ray Dalio adds the second piece: <strong>bubbles do not burst automatically. Something has to prick them.</strong> The bubble expands until an external force &mdash; almost always a rate-hiking cycle &mdash; punctures it. The bubble doesn't know it is a bubble until it pops.</p>
+
+        <p>The sequence is mechanical:</p>
+
+        <ol>
+          <li>Central banks cut rates aggressively.</li>
+          <li>Liquidity floods the system.</li>
+          <li>Asset prices soar.</li>
+          <li>Inflation rises from all the cheap money.</li>
+          <li>Central banks are eventually forced to hike to fight inflation.</li>
+          <li>The hike pricks the bubble.</li>
+          <li>Markets crash.</li>
+          <li>Central banks cut again to cushion the crash.</li>
+          <li>The cycle repeats.</li>
+        </ol>
+
+        <p>We just watched this play out between 2020 and 2023. It is starting again. We are currently in phases 1&ndash;3: rates are being cut or will be cut aggressively, liquidity is expanding, asset prices are rising. The expectation: 2026 is a year of aggressive cuts, a soaring stock market, and accelerating inflation. The crash is probably 2&ndash;3 years away, depending on how fast inflation accelerates.</p>
+
+        <p>Professor Aswath Damodaran has made an observation worth carrying as a tripwire. Interest rates in the economy go up when expected inflation goes up. The Fed keeps rates low to add more money and increase velocity. But once that money supply expansion translates into demand, it produces inflation, which forces the bond market to demand higher yields. That creates the tension that eventually resolves through a bond-market breakdown and, eventually, a rate-hiking cycle. The bond market is the disciplinarian the Fed cannot ignore. When 30-year yields start rising into a cutting cycle, the bond market is telling the Fed that policy is now incoherent &mdash; and the Fed will eventually be forced to listen.</p>
+
+        <p>Why is the probability of the bubble expanding right now significantly higher than the probability of it bursting?</p>
+
+        <ul>
+          <li>China and the US have strategic reasons to keep spending (the AI race &mdash; roughly $600B planned in 2026 alone).</li>
+          <li>Hyperscalers can fund that from existing free cash flows, not new debt.</li>
+          <li>Macro conditions favour keeping markets elevated (midterm elections, $7T debt to refinance).</li>
+          <li>No government can afford to withdraw liquidity without causing a depression.</li>
+          <li>We are already in a slow-growth phase &mdash; if liquidity slows further, growth collapses.</li>
+        </ul>
+
+        <p>None of those reasons are short-term. They are structural conditions that will likely persist for years. Which means the bubble can keep expanding for years before the rate-hike trigger arrives. The patient macro investor does not try to predict the exact day the cycle ends. They participate in the expansion, monitor the warning signals, and prepare to defensively rotate when the data shifts. That is the difference between a macro investor and a permabear &mdash; the macro investor is right about both directions of the cycle, not just the down side.</p>
+
+        <blockquote>
+          <p>The probability of the bubble expanding right now is significantly higher than the probability of it bursting. The burst happens when interest rates go up again. Watch for that.</p>
+        </blockquote>
+
+        <p>What do you do with this? Invest. Track macros. Ride the wave while it lasts. Keep 20&ndash;30% cash for corrections. Monitor inflation prints, central-bank language, and the GLI. When the Fed starts talking about rate hikes again &mdash; that is when you get defensive.</p>
+
+        <p>There are three early-warning signals that the bubble is about to be pricked, and they almost always appear in order:</p>
+
+        <ol>
+          <li><strong>Inflation prints stop falling.</strong> The disinflation narrative breaks. Core PCE, which had been falling toward 2%, stalls at 3&ndash;3.5% for three or four consecutive months. The Fed's "transitory" language disappears from minutes.</li>
+          <li><strong>Long-end yields decouple from short-end cuts.</strong> The Fed cuts and the 30-year Treasury <em>rises</em> instead of falling. This is the bond market saying "we don't believe you can keep inflation contained." It happened in late 2024 and it is the single best leading indicator we have.</li>
+          <li><strong>Credit spreads widen with equities still near highs.</strong> When the high-yield market starts demanding more compensation while the S&amp;P is still printing fresh records, the smart money is exiting first. Equity tops form roughly 4&ndash;6 months after credit spreads start widening.</li>
+        </ol>
+
+        <p>If you see those three things in sequence, the bubble is being pricked in real time. Move to cash. Buy puts on your equity book. Lengthen duration in bonds. The actual crash will come 6&ndash;12 months later, and most retail investors will only know to sell after it has already happened.</p>
+
+        <p><strong>A note on geopolitics.</strong> Every few months a geopolitical crisis sends markets into panic. Israel-Iran. Russia-Ukraine. US-China tariffs. New central-bank appointments. Every time, retail investors rush to sell and wait for "clarity." This is almost always the wrong move. As a macro investor, evaluate each event through one filter: <em>does this fundamentally change the liquidity or interest rate environment?</em> If no, it is noise. If yes, it deserves a portfolio adjustment.</p>
+
+        <p>Most geopolitical events fail that test. The Israel-Iran tension has been ongoing for years &mdash; not a real surprise to the market. It may be used as a pretext for a 10% correction, but governments have enough firepower to cut rates and balance things out. The market survived Russia-Ukraine. It survived October 7th. Geopolitical events that do not disrupt the fundamental flow of liquidity are buying opportunities, not sell signals. The tariff war is the exception that proves the rule &mdash; tariffs do affect macro because they raise input costs, which raises inflation, which constrains the Fed. But even there, the analysis loops back to liquidity: stress shows up, central banks inject, asset prices recover. The mechanism is always the same.</p>
+
+        <p>The US-China AI race is the geopolitical dynamic worth obsessing over right now. Whoever wins gets to export their tech stack globally. The US is already exporting to the UAE, where infrastructure will be optimised by hyperscalers like Amazon and Meta. China is targeting Africa and Southeast Asia. Hyperscaler capex of $600B per year is being funded from existing free cash flows &mdash; this is real money being deployed by profitable companies, not speculative capital raised through IPOs. That underpins a multi-year growth story which justifies elevated multiples on the names doing the deploying (NVDA, MSFT, GOOGL, META) and their picks-and-shovels suppliers (AVGO, ASML, AMAT). The market is paying for an arms race, not for traditional fundamentals. Understanding that reframes which earnings results actually matter.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-building-your-macro-first-portfolio">
+    <!-- ============================================================
+         IX. Macro-first portfolio
+         ============================================================ -->
+    <section class="reveal" id="ix-macro-first-portfolio">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. Building Your Macro-First Portfolio</h2>
+        <h2>How do you build a portfolio top-down instead of bottom-up?</h2>
       </div>
       <div class="section-content">
-        <p>Now let me give you the practical playbook for implementing everything I have discussed. This is the synthesis &ndash; how you translate macro understanding into actual portfolio decisions.</p>
-<h3 id="the-geographic-allocation-decision">The Geographic Allocation Decision</h3>
-<p>The single most impactful decision you will make is not which stock to buy. It is <strong>how to allocate your money across geographies</strong>. People focus too much on questions like &ldquo;Should I buy IndusInd Bank?&rdquo; A far better question is: how much should you split your money between India, the US, and China? This geographic allocation is going to have a much bigger impact on your portfolio than constantly hunting for individual trading opportunities.</p>
-<p>My framework:
-- <strong>At least 20% in the US</strong> &ndash; if nothing else, just buy a simple index like the Nasdaq or S&amp;P 500. The US is far from dying. They have the tech infrastructure, the AI leadership, and the political will to keep growing. Nasdaq has a much faster earnings growth rate compared to Nifty 50.
-- <strong>5-10% in China</strong> when macro conditions favour it &ndash; specifically when China announces QE or monetary easing. Chinese markets are cyclical and non-transparent, so keep the allocation small.
-- <strong>Core allocation in India</strong> with the right sector rotation based on the rate cycle.
-- <strong>5% in alternative assets</strong> &ndash; BTC as a high-liquidity-environment insurance, Gold as an uncertainty-environment insurance. I have a 5% BTC allocation in my public portfolio. I have never been a Bitcoin maximalist, but like all assets, BTC has a use case.</p>
-<h3 id="sector-rotation-based-on-rate-cycles">Sector Rotation Based on Rate Cycles</h3>
-<p>This is where your macro knowledge becomes directly actionable. Based on my study of interest rate cut history, here are the sectors that benefit 6-12 months after rate cuts begin:</p>
-<ol>
-<li>
-<p><strong>Private Banks</strong> &ndash; These have significantly underperformed the Indian market for the last 5 years. Corporate numbers are good, growth rates are fine. RBI rate cuts help private banks massively by reducing their cost of funds and stimulating lending activity. Stay put. Next 2-3 years look good.</p>
-</li>
-<li>
-<p><strong>Housing Finance (Aavas, Aptus)</strong> &ndash; Lower rates directly reduce their borrowing costs and stimulate demand for home loans. Aavas is growing revenues at 20% CAGR and is in an accumulation pattern. The PE ratio seems sensible and is likely to improve further due to higher earnings.</p>
-</li>
-<li>
-<p><strong>IT and US Tech</strong> &ndash; Growth stocks benefit from lower discount rates. As interest rates go lower, there is a very good chance that SMEs and new-age businesses would look to upgrade their enterprise capabilities, and this pushes firms like Salesforce, TCS, and the Mag-7 higher. This is the primary engine for world growth. Not investing in strong tech firms is a bad mistake.</p>
-</li>
-<li>
-<p><strong>Brokerage Firms</strong> &ndash; Lower rates bring more participants into the market, increasing trading volumes and fees.</p>
-</li>
-<li>
-<p><strong>Select Manufacturing and Infra</strong> &ndash; Lower credit costs help leveraged manufacturers and infrastructure firms expand. But this cycle takes time to play out.</p>
-</li>
-<li>
-<p><strong>NBFCs (Armaan Financials and others)</strong> &ndash; With interest rate cuts, the entire NBFC space benefits from cheaper wholesale funding. I am expecting 25-30% CAGR collectively from a basket of quality NBFCs and housing finance names.</p>
-</li>
-</ol>
-<div class="demo reveal" id="chart-1"></div>
+        <p>The synthesis. How to translate macro understanding into actual portfolio decisions.</p>
 
-<h3 id="the-cash-bucket-strategy">The Cash Bucket Strategy</h3>
-<p>This is non-negotiable in my framework. You must always maintain a <strong>20-30% cash position</strong> that you deploy only during corrections. In the last 2.5 years, the Indian market has corrected by 10% or more at least four times. Each of those was a bulk-buy opportunity.</p>
-<p>The discipline is simple:
-- When the market is at or near highs with no margin of safety: do NOT keep building new positions. Wait.
-- When you get a 10% correction: deploy your cash bucket aggressively into your highest-conviction names.
-- After deploying, rebuild the cash bucket over the next few months.
-- Best thing you can do is 20% cash targeting. If you have 10 lakhs as your portfolio size, create a 2 lakh cash bucket to invest on dips.</p>
-<p>My current investment-to-cash ratio in India is 90:10. That means if I have 9 lakhs invested, I keep 1 lakh ready to deploy. The exact ratio depends on your personal cash flows and risk tolerance, but the principle is universal: <strong>stay 80-85% invested in a negative trend, and keep the remaining cash ready for opportunities</strong>.</p>
-<p>I would also say this: I will personally not do SIPs anymore. I see no point. I would rather save money for a few months, and then go big during corrections. If you have the discipline to maintain a cash bucket and deploy it at the right time, you will dramatically outperform any SIP strategy.</p>
-<h3 id="macro-discipline-cutting-losers">Macro Discipline: Cutting Losers</h3>
-<p>Here is something most people will not tell you. I cut Tarsons at a 6-7% loss because the China dumping macro changed. When Aarti Industries fell 15% on guidance that China dumping would continue, it was a warning sign for any stock exposed to that risk. I am a macro investor &ndash; I go by macro narratives. When the macro thesis changes, I change my positions. There is no ego in this.</p>
-<p>Similarly, I sold my entire Apple stake when they projected earnings contraction. Not because Apple is a bad company, but because the macro signal (slowing consumer spending, contraction in a key product line) told me to move capital elsewhere. I rotated into names like Microsoft, Fortinet, Palo Alto Networks, and LVMH that had better macro tailwinds.</p>
-<h3 id="the-decadal-view">The Decadal View</h3>
-<p>I love to state this statistic:
-- <strong>1999-2008</strong>: Indian markets went 6X
-- <strong>2010-2019</strong>: Indian markets went 2X</p>
-<p>Each decade delivers diminishing multiples as the market matures. If you take a decadal view on things, you can realign your portfolio for the structural trends rather than chasing weekly or monthly noise.</p>
-<p>Right now, the three positive triggers for markets going forward are:
-1. <strong>Tariff resolution</strong> &ndash; the trend will change, you ride the trend, make your 40%
-2. <strong>Interest rate cuts</strong> &ndash; this will save the market in case of further drawdown. All governments are in a good position to execute this now.
-3. <strong>Russia-Ukraine clarity</strong> &ndash; helps Europe, accelerates Europe&rsquo;s growth</p>
-<p>There are enough positive triggers left. Do not focus solely on the negative headlines.</p>
-<blockquote>
-<p>BUY THE DOWNTREND. If you don&rsquo;t have the guts when the market is down, you will NOT make money when the market goes up.</p>
-</blockquote>
-<h3 id="what-to-avoid">What To Avoid</h3>
-<p>Stay away from:
-- <strong>Bloated PSU stocks</strong> with no earnings growth
-- <strong>Random themes</strong> like hydrogen that have no macro tailwind
-- <strong>Extremely safe assets</strong> beyond your emergency fund (just keep them for emergencies)
-- <strong>Overtrading around events</strong> like budgets or elections (the next major rally happens at rate cut announcements, not budget day)
-- <strong>Stocks without macro alignment</strong> &ndash; no matter how good the company looks on paper, if the macro is against it, move on</p>
-<h3 id="the-final-framework">The Final Framework</h3>
-<p>Let me leave you with the complete mental model:</p>
-<p><strong>Step 1: Read the macro.</strong> Check the Fed, RBI, and BOJ positioning. Track the GLI. Monitor DXY and bond yields. Know where we are in the rate cycle.</p>
-<p><strong>Step 2: Determine the regime.</strong> Are we in an easing cycle (buy growth, buy risk) or a tightening cycle (buy safety, raise cash)?</p>
-<p><strong>Step 3: Allocate geographically.</strong> How much India vs US vs China vs alternatives? This is your biggest alpha generator. Are you well diversified across at least India, US, and China?</p>
-<p><strong>Step 4: Rotate sectors.</strong> Within each geography, which sectors benefit from the current macro regime? In rate-cutting cycles: banks, housing finance, IT, NBFCs. In rate-hiking cycles: defensive, cash-flow-positive businesses.</p>
-<p><strong>Step 5: Pick stocks within those sectors.</strong> This is the LAST step, not the first. Only after you have the macro, the geography, and the sector right do you start looking at individual names.</p>
-<p><strong>Step 6: Manage cash.</strong> Always maintain your 20-30% cash bucket. Deploy on corrections. Rebuild during rallies.</p>
-<p><strong>Step 7: Monitor and adjust.</strong> Macro conditions change. Your portfolio should change with them. If the macro thesis shifts, cut your losers and rotate without hesitation. That is discipline.</p>
-<p>This is the macro-first framework. It will not make you money every single week. But over 2-3 year cycles, it will put you on the right side of the biggest moves in the market. And those big moves &ndash; the 40% rallies, the sector rotations, the geographic allocation shifts &ndash; are where real wealth is built.</p>
-<p>If you study complicated things, you get a knowledge alpha. And macro is the most complicated, most rewarding thing you can study as an investor. No one will teach you these strategies. But I hope that with this knowledge, you will feel a bit more at ease with all the uncertainties around &ndash; and a bit more confident about where to put your money.</p>
-<p>Invest. Keep a track of macros. And enjoy the ride.</p>
+        <p><strong>Geographic allocation first.</strong> The single most impactful decision you will make is not which stock to buy. It is how you split capital across geographies. The "Should I buy IndusInd Bank?" question is downstream of "how much should be in India vs the US vs China?" Get the allocation right and the stock decisions become easier.</p>
+
+        <p>A defensible default framework:</p>
+
+        <ul>
+          <li><strong>At least 20% in the US</strong> &mdash; even if it is just a Nasdaq or S&amp;P 500 index. The US still has the tech infrastructure, AI leadership, and political will. The Nasdaq's earnings growth rate handily beats Nifty 50's.</li>
+          <li><strong>5&ndash;10% in China</strong> when macro conditions favour it &mdash; specifically when China announces QE or monetary easing. Cyclical and non-transparent, so the allocation stays small.</li>
+          <li><strong>Core allocation in India</strong> with sector rotation tied to the rate cycle.</li>
+          <li><strong>5% in alternative assets</strong> &mdash; BTC as high-liquidity-environment insurance, gold as uncertainty insurance.</li>
+        </ul>
+
+        <p>The defence of geographic diversification is not just about returns. It is about <em>regime diversification</em>. The US, India, and China are at different points in their rate cycles, their debt cycles, and their political cycles at any given moment. A US recession is not a global recession; an India slowdown is not a US slowdown; a China stimulus is not necessarily mirrored in either. Holding all three means you are positioned for whatever regime dominates in any given year. That is genuine diversification &mdash; not "different sectors of the same economy," which most retail portfolios mistake for diversification.</p>
+
+        <p>A typical Indian retail portfolio of "Nifty 50 + a small-cap fund + a flexi-cap" is not three positions. It is one position. All three move with Indian macro. All three depend on RBI policy. All three are punished simultaneously by FII outflows. Diversification across mutual funds within the same country is a comforting illusion that masks single-regime risk. Real diversification requires uncorrelated macro drivers, which means geographic spread. The discomfort of owning US tech during an Indian rally, or holding India through a Nasdaq bull run, is precisely what protects you when one of those regimes turns. That is the trade-off &mdash; psychological discomfort for structural resilience.</p>
+
+        <p>And the case for at least some US exposure for an Indian investor is overwhelming. Over the last decade, an Indian investor who held 100% in Nifty earned roughly 12% INR CAGR &mdash; about 7% in USD terms after currency drag. The same investor who held 100% in Nasdaq earned roughly 18% USD CAGR, or roughly 23% in INR terms after currency gain. The gap is not 6%. It is 16% annualised, compounded over a decade. Geographic mis-allocation costs more than any individual stock decision could earn back.</p>
+
+        <p><strong>Sector rotation by rate regime.</strong> Within each geography, the sectors that benefit 6&ndash;12 months after rate cuts begin: private banks (cheaper funding, more lending), housing finance like Aavas (growing revenues at ~20% CAGR), IT and US tech (discount-rate beneficiaries), brokerage firms (more trading volumes), select manufacturing and infra (cheaper credit for capex), and NBFCs (cheaper wholesale funding). In rate-hiking regimes, the rotation flips to defensive, cash-flow-positive businesses with low leverage.</p>
+
+        <p>The mistake most investors make with sector rotation is timing it like a single decision. It is not. It is a continuous rebalancing as the macro evolves. Every quarter, look at where the Fed dot plot is, where the GLI is trending, where credit spreads are sitting &mdash; and adjust at the margins. A 5% trim from cyclicals and a 5% add to growth equities in Q2, repeated four quarters in a row, is how a portfolio actually rotates. The investors who do this well treat it like a slow, steady reweighting; the ones who blow up treat it like a series of all-in calls.</p>
+
+        <p>A practical rule of thumb for the 6&ndash;12 months following the first rate cut in a cycle: <strong>private banks (target 25&ndash;35% CAGR collectively)</strong> from lower funding costs and revived lending; <strong>housing finance like Aavas (target 20&ndash;25% CAGR)</strong> as mortgage demand awakens and PE ratios re-rate; <strong>US tech and IT services (target 15&ndash;25%)</strong> as enterprise SaaS budgets thaw and AI capex accelerates; <strong>brokerage firms (target 15&ndash;20%)</strong> as trading volumes surge; <strong>NBFCs and selected leveraged names (target 20&ndash;30%)</strong> as wholesale funding cheapens. These are not certainties. They are the historical pattern after every major rate-cut cycle since 1990. The macro investor positions for the pattern, sizes for the uncertainty, and accepts that not every quarter will deliver. Over the cycle, the basket outperforms broad index by 8&ndash;12 percentage points.</p>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p><strong>The macro is upstream of everything.</strong> Earnings, sector performance, sentiment, even individual stock picks &mdash; all of them sit downstream of central bank policy and global liquidity. A great business in a bad macro regime underperforms a mediocre business in a good macro regime over a 2&ndash;3 year window, and 2&ndash;3 year windows are the windows most investors actually care about. Get the macro right and the rest gets easier. Get it wrong and the best stock picks in the world will not save you.</p>
+        </div>
+
+        <p><strong>The cash bucket.</strong> Non-negotiable. Maintain a 20&ndash;30% cash position deployed only on corrections. The Indian market has corrected 10%+ at least four times in the last 2.5 years &mdash; each time was a bulk-buy opportunity. The discipline:</p>
+
+        <ul>
+          <li>At or near highs with no margin of safety: do <em>not</em> build new positions. Wait.</li>
+          <li>On a 10% correction: deploy the cash bucket aggressively into highest-conviction names.</li>
+          <li>After deploying, rebuild the bucket over the following months.</li>
+        </ul>
+
+        <p>This is also the argument against blind SIPs. A systematic investment plan that buys the same amount every month treats all price levels equally &mdash; including ones where margin of safety is absent. The thoughtful alternative: save aggressively, hold cash, deploy in size during corrections. Over a decade, this outperforms a passive SIP meaningfully, but it requires the emotional discipline to hold cash while everyone else is celebrating new highs. Most investors do not have that discipline, which is why SIPs were invented. If you do have the discipline, you can extract real alpha from market volatility instead of being its passive recipient.</p>
+
+        <p>An indicative cash-bucket workflow: if portfolio is 90:10 invested-to-cash and the market is at all-time highs with no margin of safety, do nothing &mdash; just let positions compound. If the market corrects 10%, deploy half the cash bucket (i.e., move from 90:10 to 95:5) into highest-conviction names. If it corrects another 10% (20% total), deploy the remaining cash and consider trimming low-conviction positions to free more capital. As the market recovers, gradually rebuild the bucket back to 20&ndash;30% over the following 6&ndash;12 months. This is mechanical, emotionally manageable, and has been shown to outperform both passive holding and aggressive timing in academic backtests across multiple decades. It is the closest thing to a free lunch in macro investing.</p>
+
+        <p><strong>Macro discipline &mdash; cut losers fast.</strong> When the macro thesis changes, the position changes. Aarti Industries fell 15% on guidance that China dumping would continue &mdash; that was a macro warning, not a stock-specific glitch. Sell anything else exposed to that risk. Sell Apple when consumer-spending macro signals slowed. Rotate into Microsoft, Fortinet, Palo Alto Networks, LVMH &mdash; names with macro tailwinds. There is no ego in this; the macro is the truth, and the portfolio follows it.</p>
+
+        <p><strong>Position sizing for survival.</strong> No matter how loud the macro signal, never let a single thematic bet exceed 15% of portfolio. The macro is high-conviction but not high-certainty &mdash; the Fed surprises, geopolitical shocks land, central banks change leadership. A 15% cap means even a wrong macro call costs you 4&ndash;6% on the book, not 30%. That is the difference between a recoverable mistake and a portfolio-altering one. The investors who blow up on macro views are universally the ones who sized them as if certainty existed where only conviction did. Conviction without sizing discipline is just a more confident version of gambling.</p>
+
+        <p>The same logic applies to leverage. Margin, futures, options sold uncovered &mdash; all of these amplify both the upside and the downside of a macro view. In a clean regime, leverage works brilliantly; in a regime that surprises, it ruins. The macro investor's edge is durability across cycles, not maximum compounding within a single cycle. Take leverage only when the macro signal is unambiguous and the position is hedgeable. Treat any leverage as a temporary tactical tool, never as a permanent feature of the portfolio. Most retail investors who blow up on macro views did so because they were leveraged, not because they were wrong about the macro. Being right too early and leveraged is functionally identical to being wrong.</p>
+
+        <div class="callout">
+          <div class="callout-title">The macro-first checklist</div>
+          <p><strong>Step 1.</strong> Read the macro. Fed, RBI, BOJ. GLI. DXY. Yields. Know where we are in the rate cycle.<br>
+          <strong>Step 2.</strong> Determine the regime. Easing (buy growth, buy risk) or tightening (buy safety, raise cash)?<br>
+          <strong>Step 3.</strong> Allocate geographically. Biggest alpha generator.<br>
+          <strong>Step 4.</strong> Rotate sectors within geography by regime.<br>
+          <strong>Step 5.</strong> Pick stocks &mdash; <em>last</em>, not first.<br>
+          <strong>Step 6.</strong> Manage cash &mdash; 20&ndash;30% bucket, deploy on corrections.<br>
+          <strong>Step 7.</strong> Monitor and adjust as macro changes.</p>
+        </div>
+
+        <p>This framework will not make money every week. It will not call short-term tops or bottoms perfectly. But over 2&ndash;3 year cycles, it will put you on the right side of the biggest moves &mdash; 40% rallies, sector rotations, geographic shifts. That is where real wealth is built, and that is the entire game.</p>
+
+        <p><strong>One last point on what <em>not</em> to do.</strong> Avoid bloated PSU stocks with no earnings growth. Avoid random thematic baskets like hydrogen or "5G plays" that have no genuine macro tailwind. Keep "extremely safe" assets only at emergency-fund size &mdash; nothing more &mdash; because real assets compound, and cash decays. Do not overtrade around events like budgets or elections; the next major rally happens at rate-cut announcements, not on budget day. And do not hold stocks without macro alignment, no matter how good the company looks on paper. If the macro is against it, move on.</p>
+
+        <p>Also avoid: chasing themes that have already worked. The macro investor's edge is being early to the next regime, not piling into the one that has already played out. If everyone is talking about a sector, the easy money has been made; the smart move is to start positioning for the next rotation. Buying defence stocks after they have doubled, EV plays after they have tripled, AI infrastructure after the obvious names are at 50x earnings &mdash; these are the trades that ruin macro portfolios. The discipline is to ask, every quarter: "What is consensus? And what does the macro suggest will surprise consensus?" Position toward the surprise, not the consensus.</p>
+
+        <p>And keep a decadal view. Indian markets went 6x between 1999 and 2008. They went 2x between 2010 and 2019. Each decade delivers diminishing multiples as the market matures. If you take a decadal view rather than a weekly one, you can realign your portfolio for structural trends instead of chasing noise. The three positive triggers carrying us forward right now are tariff resolution (ride the trend, make your 40%), the rate-cutting cycle (which will rescue any further drawdown), and Russia-Ukraine clarity (helps Europe, accelerates European growth). There are enough positive triggers left. Do not be paralysed by the negative headlines.</p>
+
+        <p>Where this leaves us in 2026 is a regime where the easy decisions look easy in hindsight and counter-intuitive in real time. Buying when everyone is panicking. Trimming when everyone is euphoric. Holding cash when SIP discipline says deploy. Rotating sectors when the trend looks like it will go on forever. These are the moves the macro framework licenses you to make &mdash; not because the framework is magic, but because the framework makes the cross-currents legible. When you know <em>why</em> a sector is rallying, you also know what would make it stop. When you know <em>why</em> the market is selling off, you also know what would make it bottom. That asymmetry of understanding versus the average retail investor is the durable edge that macro investing provides.</p>
+
+        <p>Concretely: the playbook for 2026 looks like this. Be tilted toward growth equities (US tech especially) into the rate-cut cycle. Maintain at least 20% US allocation, irrespective of how exuberant Indian markets look. Hold a 5% BTC sleeve and a 5% gold sleeve. Run a 20% cash bucket and deploy it on 10% corrections. Watch the credit spread weekly. Watch the BOJ quarterly. Be ready to rotate defensive when (a) Fed language pivots hawkish, (b) credit spreads break 600bp, or (c) long-end yields decouple from short-end cuts. None of this is rocket science. All of it requires consistent execution. That is the entire game.</p>
+
+        <p>And the years that this framework loses to a bottom-up stock-picker are the years that the macro is unchanged for so long that fundamental edge matters again &mdash; 2003&ndash;2007, 2013&ndash;2018. Those are roughly half of all years. The other half &mdash; the regime-change years &mdash; are when macro absolutely dominates. The macro-first investor accepts giving up some performance during placid regimes in exchange for vastly outperforming during the regime changes that define decade-scale wealth creation. That asymmetric trade is the entire thesis of this article.</p>
+
+        <p><strong>A note on humility.</strong> Every macro framework, including this one, is a stylised model of an extraordinarily complex system. Markets surprise. Central bankers reverse course mid-cycle. Geopolitical shocks rewire the discount-rate math overnight. The framework is not a prediction machine &mdash; it is a way to organise the variables that matter most so that when something unexpected happens, you have a coherent way to update. The investor who outperforms over decades is rarely the one with the loudest views. It is the one who updates their model fastest when the data disagrees with the model. Macro-first investing is the most powerful framework available because it focuses your attention on the variables that move the most. It is not the framework because it always works. Use it accordingly.</p>
+
+        <p>And read widely. The macro framework presented here draws on Damodaran on discount rates, Dalio on cycles, Rajan on credit, the BIS on liquidity, and decades of academic research on factor returns. None of those sources individually is sufficient. None of them is right all the time. But synthesising across them &mdash; updating your priors when one contradicts another, weighting more recent data more heavily, treating consensus with appropriate skepticism &mdash; is the closest thing to a durable epistemic edge that an individual investor can build. The macro is hard. That is precisely why doing it well is so well-rewarded.</p>
+
+        <p>A reading list, ordered roughly by how high-impact each source is for the framework: <em>Principles for Dealing with the Changing World Order</em> by Ray Dalio (cycles, debt, geopolitical regimes); <em>The Banker's New Clothes</em> by Admati and Hellwig (banking system mechanics); Aswath Damodaran's annual <em>Equity Risk Premium</em> paper (discount-rate dynamics); BIS Annual Reports (the best free macro analysis on earth); the FOMC Minutes and Summary of Economic Projections (the source of truth for Fed forecasts); and the IMF World Economic Outlook (twice a year, free, the best single-source synthesis of global macro). Read these consistently for a year and you will understand 80% of what a professional macro investor knows. Add the discipline to actually trade the framework and you compound from there.</p>
+
+        <p>Build the framework. Run it weekly. Update it monthly. Compound your understanding over years. The result will not be perfect timing &mdash; nobody has that. The result will be a portfolio that is on the right side of the regime more often than not, sized appropriately to survive being wrong, and positioned to capture the asymmetric upside that emerges every 2&ndash;3 years when a major rotation comes through. That is a winning strategy over a thirty-year career. Earnings calls and stock picks are not.</p>
+
+        <p>The first compounding takes effort. Reading FOMC statements, parsing dot plots, tracking GLI weekly, learning to read the credit-spread chart, watching DXY against EM &mdash; it is a lot to absorb. But the framework is not a series of independent facts. It is a single integrated mental model: liquidity is the master variable; interest rates are the price tag; central banks are the operators; cross-asset correlations are the transmission belt. Once those pieces click together, every macro headline becomes interpretable. The Fed cut: what does that do to the GLI? China announced QE: what does that do to commodity prices and EM equities? Treasury yields spiked: who is selling, and why now? Each headline becomes a data point in a coherent model, not a discrete event that requires its own response.</p>
+
+        <p>And once the model is internalised, you stop reading most financial news because most of it is not informative. You learn to scan for the three or four indicators that actually move the model, ignore everything else, and reallocate the time saved to thinking, position sizing, or simply leaving the portfolio alone. The macro-first investor reads less, acts less often, and outperforms more. The simplification is the point. Bottom-up investing requires you to know everything about each name. Macro investing requires you to know almost nothing about each name and everything about a small set of master variables. The compression in cognitive load is enormous, and the freed bandwidth is what compounds into long-run alpha.</p>
+
+        <p>If you study complicated things, you get a knowledge alpha. And macro is the most complicated, most rewarding thing you can study as an investor. Invest. Track macros. Enjoy the ride.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">US federal debt held by the public reached roughly $28 trillion by late 2025, with roughly $7T of marketable Treasury debt scheduled to refinance within 12&ndash;24 months. Treasury interest outlays exceeded $1 trillion annually for the first time in fiscal 2024 &mdash; a structural pressure on Fed policy that did not exist in prior cycles. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The yen carry trade is estimated at $1&ndash;4 trillion in size depending on methodology, with BIS data suggesting the global short-yen position approximately tripled between 2015 and 2024. Bank of Japan rate hikes in 2024 triggered the largest single-day Nikkei drop since 1987 as positions unwound. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Raghuram Rajan, <em>Fault Lines</em> (2010) and subsequent IMF papers, on credit-driven asset cycles. The U-curve framing has since been echoed by BIS research on debt overhang and central-bank optionality. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">The standard benchmark is the ICE BofA US High Yield Index option-adjusted spread, available daily from FRED (BAMLH0A0HYM2). Median value over 1997&ndash;2024 was approximately 460bp. The 2008 peak was &gt;2,000bp; the 2020 COVID peak was &gt;1,100bp before Fed intervention compressed it. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -402,12 +725,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -416,23 +739,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -447,624 +759,429 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 105}, {"x": 2, "y": 118}, {"x": 3, "y": 132}, {"x": 4, "y": 128}, {"x": 5, "y": 122}, {"x": 6, "y": 125}, {"x": 7, "y": 130}, {"x": 8, "y": 134}, {"x": 9, "y": 138}], "name": "Global Liquidity Index", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 108}, {"x": 2, "y": 120}, {"x": 3, "y": 138}, {"x": 4, "y": 118}, {"x": 5, "y": 110}, {"x": 6, "y": 115}, {"x": 7, "y": 126}, {"x": 8, "y": 132}, {"x": 9, "y": 140}], "name": "S&P 500", "color": "#ed8936"}];
-  var xLabels = ["2020-Q1", "2020-Q3", "2021-Q1", "2021-Q3", "2022-Q1", "2022-Q3", "2023-Q1", "2023-Q3", "2024-Q1", "2024-Q3"];
-  var visibleEnd = series[0].data.length;
+  <!-- ============================================================
+       WIDGET 1 — Interest-rate path → asset return cone
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  container.innerHTML = '';
-  container.classList.add('demo');
+    // Asset sensitivities to interest-rate changes (annualised, stylised).
+    // drift = baseline expected annual return at unchanged rates
+    // dur   = duration-style sensitivity: %-return per %-point rate move (per year)
+    // sigma = annual return std dev
+    var ASSETS = {
+      stocks: { color: '#2b6cb0', label: 'Stocks',      drift: 0.075, dur: -4.5, sigma: 0.16 },
+      bonds:  { color: '#c53030', label: 'Bonds',       drift: 0.040, dur: -6.8, sigma: 0.07 },
+      comm:   { color: '#b7791f', label: 'Commodities', drift: 0.050, dur: -1.2, sigma: 0.20 }
+    };
 
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Global Liquidity Index vs S&P 500 (Indexed to 100)";
-  container.appendChild(title);
+    // Initialise state BEFORE attachSliders fires.
+    var state = { r0: 4.5, dr: -1.5 };
 
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
+    function pathForAsset(asset) {
+      // Spread the total dr over 5 years linearly. Per-year rate change = state.dr/5 (in % points).
+      var drYear = state.dr / 5;
+      // Per-year expected return = drift + dur * (drYear) — rate move helps assets when negative dr.
+      var perYear = asset.drift + asset.dur * (drYear / 100) * 5; // multiply by 5 — the dur is per %-point, full-path impact lands annually
+      // Actually we want the per-year return to be: drift + dur * (drYear/1) approximately, but units:
+      // dur expressed as "%-return per %-point rate move (annually)". drYear is in % points.
+      // So per-year contribution from rate = dur * drYear (which is %-return).
+      // Convert to fraction: divide by 100.
+      perYear = asset.drift + asset.dur * (drYear) / 100;
+      var pts = [{ year: 0, ret: 0, sd: 0 }];
+      var cum = 1.0;
+      for (var y = 1; y <= 5; y++) {
+        cum *= (1 + perYear);
+        pts.push({ year: y, ret: cum - 1, sd: asset.sigma * Math.sqrt(y) });
       }
+      return pts;
     }
-    if (allVals.length === 0) return;
 
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 32, right: 24, bottom: 44, left: 60 };
 
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
+      var paths = {
+        stocks: pathForAsset(ASSETS.stocks),
+        bonds:  pathForAsset(ASSETS.bonds),
+        comm:   pathForAsset(ASSETS.comm)
+      };
 
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
-
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
-
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      // Y range across mean ± 1σ
+      var allY = [];
+      Object.keys(paths).forEach(function(k) {
+        paths[k].forEach(function(p) {
+          allY.push(p.ret + p.sd);
+          allY.push(p.ret - p.sd);
+        });
       });
+      var yMin = Math.min.apply(null, allY) - 0.05;
+      var yMax = Math.max.apply(null, allY) + 0.05;
+      if (yMin > -0.30) yMin = -0.30;
+      if (yMax <  0.60) yMax =  0.60;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['Year 0','Year 1','Year 2','Year 3','Year 4','Year 5'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) { return (v >= 0 ? '+' : '') + (v * 100).toFixed(0) + '%'; }
+      });
+
+      // Zero line
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+      ctx.restore();
+
+      function xOf(yr) { return mapX(yr, 0, 5, W, pad); }
+      function yOf(v)  { return mapY(v, yMin, yMax, H, pad); }
+
+      // Cones first (so lines sit on top)
+      ['stocks','bonds','comm'].forEach(function(k) {
+        var asset = ASSETS[k];
+        var pts = paths[k];
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(xOf(pts[0].year), yOf(pts[0].ret + pts[0].sd));
+        for (var i = 1; i < pts.length; i++) ctx.lineTo(xOf(pts[i].year), yOf(pts[i].ret + pts[i].sd));
+        for (var j = pts.length - 1; j >= 0; j--) ctx.lineTo(xOf(pts[j].year), yOf(pts[j].ret - pts[j].sd));
+        ctx.closePath();
+        ctx.fillStyle = asset.color;
+        ctx.globalAlpha = 0.12;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // Mean lines
+      ['stocks','bonds','comm'].forEach(function(k) {
+        var asset = ASSETS[k];
+        var pts = paths[k];
+        drawLineCanvas(ctx,
+          pts.map(function(p) { return { x: xOf(p.year), y: yOf(p.ret) }; }),
+          { color: asset.color, width: 2.2 });
+
+        // End dot & end label
+        var last = pts[pts.length - 1];
+        drawPointCanvas(ctx, xOf(last.year), yOf(last.ret), 4, asset.color, '#fff');
+        drawTextCanvas(ctx, xOf(last.year) - 6, yOf(last.ret) - 12,
+          (last.ret >= 0 ? '+' : '') + (last.ret * 100).toFixed(1) + '%',
+          { fontSize: 11, color: asset.color, align: 'right', weight: '600' });
+      });
+
+      // Title at top of canvas (above plot area)
+      var rateTitle = 'Rates: ' + state.r0.toFixed(1) + '% → ' +
+        (state.r0 + state.dr).toFixed(1) + '%   ·   Δ = ' +
+        (state.dr >= 0 ? '+' : '') + state.dr.toFixed(1) + 'pp over 5y';
+      drawTextCanvas(ctx, W / 2, 12, rateTitle, {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      // Update stat cells
+      var ts = paths.stocks[5].ret * 100;
+      var tb = paths.bonds[5].ret * 100;
+      var tc = paths.comm[5].ret * 100;
+      document.getElementById('w1-stocks').textContent = (ts >= 0 ? '+' : '') + ts.toFixed(1) + '%';
+      document.getElementById('w1-bonds').textContent  = (tb >= 0 ? '+' : '') + tb.toFixed(1) + '%';
+      document.getElementById('w1-comm').textContent   = (tc >= 0 ? '+' : '') + tc.toFixed(1) + '%';
     }
 
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
+    attachSliders([
+      { el: document.getElementById('w1-r0'), label: document.getElementById('w1-r0-val'),
+        format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w1-dr'), label: document.getElementById('w1-dr-val'),
+        format: function(v){ return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; } }
+    ], function(vals) {
+      state.r0 = vals['w1-r0'];
+      state.dr = vals['w1-dr'];
+      draw();
+    });
+  })();
+  </script>
 
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
-    }
+  <!-- ============================================================
+       WIDGET 2 — Liquidity transmission chain
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
+    // Initialise state BEFORE attachSliders fires.
+    var state = { c1: 0.85, c2: 0.35, c3: 0.55 };
 
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
+    var STAGES = [
+      { label: 'QE injection',  sub: 'Fed expands balance sheet' },
+      { label: 'Bank reserves', sub: 'reserves parked at Fed' },
+      { label: 'Credit growth', sub: 'loans to households & firms' },
+      { label: 'Asset prices',  sub: 'flows into equities, real estate' }
+    ];
 
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
-      } else {
-        html += 'Period: ' + idx + '<br>';
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 78, right: 24, bottom: 70, left: 24 };
+
+      var inflow = 1.0;                     // $1B baseline
+      var stage1 = inflow * state.c1;       // reserves
+      var stage2 = stage1 * state.c2;       // credit
+      var stage3 = stage2 * state.c3;       // asset prices
+      var values = [inflow, stage1, stage2, stage3];
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 18, '$1B of QE — how much actually reaches equities?',
+        { fontSize: 13, color: 'var(--text)', baseline: 'top', weight: '600' });
+      drawTextCanvas(ctx, W / 2, 40, 'flow narrows at each transmission stage',
+        { fontSize: 11, color: 'var(--text-secondary)', baseline: 'top' });
+
+      var n = STAGES.length;
+      var plotW = W - pad.left - pad.right;
+      var stageW = plotW / n;
+      var maxBarH = H - pad.top - pad.bottom;
+
+      var stageColors = ['#1a202c', '#2d3748', '#4a5568', '#718096'];
+
+      var centres = [];
+      for (var i = 0; i < n; i++) {
+        centres.push(pad.left + stageW * (i + 0.5));
       }
 
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
-          }
+      // Arrows between stages with coefficient labels
+      ctx.save();
+      ctx.strokeStyle = '#a0a0a0';
+      ctx.lineWidth = 1.4;
+      for (var i = 0; i < n - 1; i++) {
+        var x1 = centres[i] + 48;
+        var x2 = centres[i + 1] - 48;
+        var ymid = pad.top + maxBarH * 0.5;
+        ctx.beginPath();
+        ctx.moveTo(x1, ymid);
+        ctx.lineTo(x2, ymid);
+        // arrowhead
+        ctx.lineTo(x2 - 7, ymid - 5);
+        ctx.moveTo(x2, ymid);
+        ctx.lineTo(x2 - 7, ymid + 5);
+        ctx.stroke();
+        var c = [state.c1, state.c2, state.c3][i];
+        drawTextCanvas(ctx, (x1 + x2) / 2, ymid - 14,
+          '× ' + (c * 100).toFixed(0) + '%',
+          { fontSize: 11, color: 'var(--text-secondary)', align: 'center', weight: '600' });
+      }
+      ctx.restore();
+
+      // Stage bars
+      var barWidth = Math.min(94, stageW * 0.55);
+      for (var i = 0; i < n; i++) {
+        var v = values[i];
+        var pct = v / inflow;
+        var barH = pct * maxBarH;
+        var bx = centres[i] - barWidth / 2;
+        var by = pad.top + (maxBarH - barH);
+
+        drawRectCanvas(ctx, bx, by, barWidth, barH, stageColors[i], 6);
+
+        // Value label above bar
+        drawTextCanvas(ctx, centres[i], by - 14,
+          '$' + (v * 1000).toFixed(0) + 'M',
+          { fontSize: 12, color: 'var(--text)', baseline: 'bottom', weight: '600' });
+
+        // Stage label below bar
+        drawTextCanvas(ctx, centres[i], H - pad.bottom + 16, STAGES[i].label,
+          { fontSize: 11, color: 'var(--text)', weight: '600' });
+        drawTextCanvas(ctx, centres[i], H - pad.bottom + 32, STAGES[i].sub,
+          { fontSize: 10, color: 'var(--text-secondary)' });
+      }
+
+      // Update stat cells
+      document.getElementById('w2-inflow').textContent = '$' + inflow.toFixed(2) + 'B';
+      document.getElementById('w2-out').textContent    =
+        '$' + (stage3 * 1000).toFixed(0) + 'M  (' + (stage3 * 100).toFixed(1) + '%)';
+      var leakAtReserveStage = inflow * state.c1 * (1 - state.c2);
+      document.getElementById('w2-leak').textContent   =
+        '$' + (leakAtReserveStage * 1000).toFixed(0) + 'M';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-c1'), label: document.getElementById('w2-c1-val'),
+        format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w2-c2'), label: document.getElementById('w2-c2-val'),
+        format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w2-c3'), label: document.getElementById('w2-c3-val'),
+        format: function(v){ return v.toFixed(0) + '%'; } }
+    ], function(vals) {
+      state.c1 = vals['w2-c1'] / 100;
+      state.c2 = vals['w2-c2'] / 100;
+      state.c3 = vals['w2-c3'] / 100;
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Dollar strength → EM returns scatter
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // Initialise state AND data BEFORE attachSliders fires.
+    var state = { dxy: 0 };
+
+    // Stylised regression: EM annual return ≈ INTERCEPT + SLOPE * DXY_annual_change + noise
+    var SLOPE = -1.6;
+    var INTERCEPT = 5.5;
+    var SCATTER_SIGMA = 11;
+
+    // Deterministic scatter cloud so it's stable across redraws.
+    var POINTS = (function() {
+      var pts = [];
+      var seed = 1729;
+      function rnd() {
+        seed = (seed * 9301 + 49297) % 233280;
+        return seed / 233280;
+      }
+      function rndN() {
+        var u = 0, v = 0;
+        while (u === 0) u = rnd();
+        while (v === 0) v = rnd();
+        return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+      }
+      for (var i = 0; i < 36; i++) {
+        var dxy = -12 + rnd() * 24;
+        var em = INTERCEPT + SLOPE * dxy + rndN() * SCATTER_SIGMA;
+        pts.push({ dxy: dxy, em: em });
+      }
+      return pts;
+    })();
+
+    function predict(dxy) {
+      var mean = INTERCEPT + SLOPE * dxy;
+      return { mean: mean, lo: mean - SCATTER_SIGMA, hi: mean + SCATTER_SIGMA };
+    }
+
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 38, right: 28, bottom: 54, left: 70 };
+
+      var xMin = -15, xMax = 15;
+      var yMin = -30, yMax = 40;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['-15%','-10%','-5%','0%','+5%','+10%','+15%'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return (v >= 0 ? '+' : '') + v.toFixed(0) + '%'; }
+      });
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 14, 'EM equity returns vs annual DXY change',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+
+      // Axis labels
+      drawTextCanvas(ctx, W / 2, H - 8, 'DXY (annual change)',
+        { fontSize: 11, color: 'var(--text-secondary)', baseline: 'bottom' });
+      ctx.save();
+      ctx.translate(16, H / 2);
+      ctx.rotate(-Math.PI / 2);
+      drawTextCanvas(ctx, 0, 0, 'EM equity index (annual %)',
+        { fontSize: 11, color: 'var(--text-secondary)', baseline: 'middle' });
+      ctx.restore();
+
+      // Zero crosshair
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      var x0 = mapX(0, xMin, xMax, W, pad);
+      ctx.save();
+      ctx.strokeStyle = '#cccccc'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x0, pad.top); ctx.lineTo(x0, H - pad.bottom); ctx.stroke();
+      ctx.restore();
+
+      // ±1σ band around regression
+      var hiPts = [], loPts = [];
+      for (var x = xMin; x <= xMax; x += 0.5) {
+        var p = predict(x);
+        hiPts.push({ x: mapX(x, xMin, xMax, W, pad), y: mapY(Math.min(p.hi, yMax), yMin, yMax, H, pad) });
+        loPts.push({ x: mapX(x, xMin, xMax, W, pad), y: mapY(Math.max(p.lo, yMin), yMin, yMax, H, pad) });
+      }
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(hiPts[0].x, hiPts[0].y);
+      for (var i = 1; i < hiPts.length; i++) ctx.lineTo(hiPts[i].x, hiPts[i].y);
+      for (var j = loPts.length - 1; j >= 0; j--) ctx.lineTo(loPts[j].x, loPts[j].y);
+      ctx.closePath();
+      ctx.fillStyle = '#c53030';
+      ctx.globalAlpha = 0.10;
+      ctx.fill();
+      ctx.restore();
+
+      // Regression mean line
+      var regPts = [];
+      for (var x2 = xMin; x2 <= xMax; x2 += 0.5) {
+        var p2 = predict(x2);
+        if (p2.mean >= yMin && p2.mean <= yMax) {
+          regPts.push({ x: mapX(x2, xMin, xMax, W, pad), y: mapY(p2.mean, yMin, yMax, H, pad) });
         }
       }
+      drawLineCanvas(ctx, regPts, { color: '#c53030', width: 2 });
 
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
-    });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 0.25}, {"x": 1, "y": 0.25}, {"x": 2, "y": 0.25}, {"x": 3, "y": 0.25}, {"x": 4, "y": 1.75}, {"x": 5, "y": 4.5}, {"x": 6, "y": 5.5}, {"x": 7, "y": 5.5}, {"x": 8, "y": 5.25}, {"x": 9, "y": 4.5}], "name": "US Fed Funds Rate", "color": "#4299e1"}, {"data": [{"x": 0, "y": 4.0}, {"x": 1, "y": 4.0}, {"x": 2, "y": 4.0}, {"x": 3, "y": 4.0}, {"x": 4, "y": 5.4}, {"x": 5, "y": 6.5}, {"x": 6, "y": 6.5}, {"x": 7, "y": 6.5}, {"x": 8, "y": 6.5}, {"x": 9, "y": 6.25}], "name": "RBI Repo Rate", "color": "#ed8936"}, {"data": [{"x": 0, "y": -0.1}, {"x": 1, "y": -0.1}, {"x": 2, "y": -0.1}, {"x": 3, "y": -0.1}, {"x": 4, "y": -0.1}, {"x": 5, "y": 0.0}, {"x": 6, "y": 0.1}, {"x": 7, "y": 0.25}, {"x": 8, "y": 0.25}, {"x": 9, "y": 0.5}], "name": "BOJ Policy Rate", "color": "#48bb78"}];
-  var xLabels = ["2020", "2020-H2", "2021", "2021-H2", "2022", "2022-H2", "2023", "2023-H2", "2024", "2024-H2"];
-  var visibleEnd = series[0].data.length;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Central Bank Policy Rates: Fed vs RBI vs BOJ";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
-      }
-    }
-    if (allVals.length === 0) return;
-
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
-
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
-
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
-
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
-
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      // Scatter cloud
+      POINTS.forEach(function(pt) {
+        var px = mapX(pt.dxy, xMin, xMax, W, pad);
+        var py = mapY(Math.max(yMin, Math.min(yMax, pt.em)), yMin, yMax, H, pad);
+        ctx.save();
+        ctx.fillStyle = '#7a7a7a';
+        ctx.globalAlpha = 0.55;
+        ctx.beginPath();
+        ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       });
+
+      // User scenario marker
+      var pNow = predict(state.dxy);
+      var sx = mapX(state.dxy, xMin, xMax, W, pad);
+      var sy = mapY(Math.max(yMin, Math.min(yMax, pNow.mean)), yMin, yMax, H, pad);
+
+      ctx.save();
+      ctx.strokeStyle = '#2b6cb0'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(sx, pad.top); ctx.lineTo(sx, H - pad.bottom); ctx.stroke();
+      ctx.restore();
+
+      drawPointCanvas(ctx, sx, sy, 7, '#2b6cb0', '#fff');
+
+      // Float a label above the marker dot (offset to avoid clipping top)
+      var labelY = sy - 14;
+      if (labelY < pad.top + 8) labelY = sy + 18;
+      var labelText = 'E[EM] = ' + (pNow.mean >= 0 ? '+' : '') + pNow.mean.toFixed(1) + '%';
+      drawTextCanvas(ctx, sx + 10, labelY, labelText,
+        { fontSize: 11, color: '#2b6cb0', align: 'left', weight: '600' });
+
+      // Stat cell
+      var ciText = (pNow.lo >= 0 ? '+' : '') + pNow.lo.toFixed(0) + '% to ' +
+                   (pNow.hi >= 0 ? '+' : '') + pNow.hi.toFixed(0) + '%';
+      document.getElementById('w3-em').textContent =
+        (pNow.mean >= 0 ? '+' : '') + pNow.mean.toFixed(1) + '%  (' + ciText + ')';
     }
 
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
-    }
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
-      } else {
-        html += 'Period: ' + idx + '<br>';
-      }
-
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
-          }
-        }
-      }
-
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
+    attachSliders([
+      { el: document.getElementById('w3-dxy'), label: document.getElementById('w3-dxy-val'),
+        format: function(v){ return (v >= 0 ? '+' : '') + v.toFixed(1) + '%'; } }
+    ], function(vals) {
+      state.dxy = vals['w3-dxy'];
+      draw();
     });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 98}, {"x": 2, "y": 95}, {"x": 3, "y": 102}, {"x": 4, "y": 110}, {"x": 5, "y": 118}, {"x": 6, "y": 128}, {"x": 7, "y": 140}], "name": "Private Banks", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 97}, {"x": 2, "y": 94}, {"x": 3, "y": 99}, {"x": 4, "y": 108}, {"x": 5, "y": 120}, {"x": 6, "y": 135}, {"x": 7, "y": 152}], "name": "Housing Finance", "color": "#ed8936"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 96}, {"x": 2, "y": 93}, {"x": 3, "y": 100}, {"x": 4, "y": 106}, {"x": 5, "y": 112}, {"x": 6, "y": 119}, {"x": 7, "y": 125}], "name": "IT/Tech", "color": "#48bb78"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 97}, {"x": 2, "y": 95}, {"x": 3, "y": 98}, {"x": 4, "y": 103}, {"x": 5, "y": 108}, {"x": 6, "y": 112}, {"x": 7, "y": 116}], "name": "Broad Market (Nifty)", "color": "#805ad5"}];
-  var xLabels = ["Rate Cut", "Month 2", "Month 4", "Month 6", "Month 8", "Month 10", "Month 12", "Month 14"];
-  var visibleEnd = series[0].data.length;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Sector Performance After Rate Cut Cycles (Indexed to 100)";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
-      }
-    }
-    if (allVals.length === 0) return;
-
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
-
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
-
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
-
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
-
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
-      });
-    }
-
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
-    }
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
-      } else {
-        html += 'Period: ' + idx + '<br>';
-      }
-
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
-          }
-        }
-      }
-
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
-    });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
-</script>
+  })();
+  </script>
 
 </body>
 </html>

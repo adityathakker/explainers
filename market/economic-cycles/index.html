@@ -4,32 +4,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reading the Economic Cycle — Market Explainers</title>
-  <meta name="description" content="Five stages of markets and three types of falls">
+  <meta name="description" content="Five stages of markets, three types of falls, and a portfolio that survives all of them — shown, not told">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Reading the Economic Cycle">
-  <meta property="og:description" content="Five stages of markets and three types of falls">
+  <meta property="og:description" content="Five stages of markets, three types of falls, and a portfolio that survives all of them — shown with simulations">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #63171b;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget layout helpers (mirrors options-insurance pilot) */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .widget-row.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three, .widget-row.four { grid-template-columns: 1fr; }
+    }
+
+    .toggle-group {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      margin: 8px 0 14px;
+      flex-wrap: wrap;
+    }
+    .toggle-group button {
+      background: none;
+      border: none;
+      padding: 7px 14px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+    }
+    .toggle-group button:last-child { border-right: none; }
+    .toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .phase-summary {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 14px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .phase-summary strong { color: var(--accent); }
   </style>
 </head>
 <body>
@@ -47,8 +122,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">Reading the Economic Cycle</h1>
-      <p class="hero__subtitle">Five stages of markets and three types of falls</p>
-      <p class="hero__meta">25 min read</p>
+      <p class="hero__subtitle">Five stages of markets, three types of falls, and a portfolio that survives all of them.</p>
+      <p class="hero__meta">9 chapters &middot; 3 interactive simulations &middot; 25 min read</p>
     </div>
   </header>
 
@@ -57,269 +132,498 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-the-five-stages-nobody-teaches-you">I. The Five Stages Nobody Teaches You</a></li>
-        <li><a href="#ii-three-types-of-falls-and-why-confusing-them-will-cost-you">II. Three Types of Falls -- And Why Confusing Them Will Cost You</a></li>
-        <li><a href="#iii-recession-is-not-what-you-think-it-is">III. Recession Is Not What You Think It Is</a></li>
-        <li><a href="#iv-the-liquidity-engine-how-money-printing-drives-everything">IV. The Liquidity Engine: How Money Printing Drives Everything</a></li>
-        <li><a href="#v-reading-the-room-where-are-we-right-now">V. Reading the Room: Where Are We Right Now?</a></li>
-        <li><a href="#vi-the-sideways-market-playbook">VI. The Sideways Market Playbook</a></li>
-        <li><a href="#vii-the-insider-signal-and-other-leading-indicators">VII. The Insider Signal and Other Leading Indicators</a></li>
-        <li><a href="#viii-how-to-actually-buy-the-dip-without-losing-your-mind">VIII. How to Actually Buy the Dip Without Losing Your Mind</a></li>
-        <li><a href="#ix-building-your-cycle-proof-portfolio">IX. Building Your Cycle-Proof Portfolio</a></li>
+        <li><a href="#i-five-stages">What are the five stages every economy walks through?</a></li>
+        <li><a href="#ii-where-are-we">Where are we in the cycle right now?</a></li>
+        <li><a href="#iii-fall-types">What's the difference between a correction, a bear, and a regime break?</a></li>
+        <li><a href="#iv-recession-myth">Is the recession everyone is talking about even a real recession?</a></li>
+        <li><a href="#v-liquidity-engine">How does money printing drive every asset price you own?</a></li>
+        <li><a href="#vi-recession-dashboard">How do you read leading indicators without spinning out on every headline?</a></li>
+        <li><a href="#vii-sideways-playbook">How do you make money when the market goes nowhere for two years?</a></li>
+        <li><a href="#viii-buy-the-dip">How do you actually buy the dip without losing your mind?</a></li>
+        <li><a href="#ix-cycle-proof">What does a cycle-proof portfolio look like?</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-the-five-stages-nobody-teaches-you">
+
+    <!-- ============================================================
+         I. What are the five stages?
+         ============================================================ -->
+    <section class="reveal" id="i-five-stages">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. The Five Stages Nobody Teaches You</h2>
+        <h2>What are the five stages every economy walks through?</h2>
       </div>
       <div class="section-content">
-        <p>Every economy on the planet runs through the same five stages. Over and over. Without exception. And yet, most investors &ndash; including people who have been putting money into markets for a decade or more &ndash; cannot name them. They cannot tell you where we are in the cycle. They cannot tell you what comes next. And because they cannot do this, they keep making the same mistake: buying when they should be rotating, holding when they should be hedging, and panicking when they should be loading up.</p>
-<p>Here are the five stages:</p>
-<ol>
-<li><strong>Crash</strong> (example: 2020 COVID, 2008 financial crisis)</li>
-<li><strong>Liquidity injection</strong> &ndash; more money printing, more government spending (2021-2022)</li>
-<li><strong>Consolidation</strong> &ndash; debt repayment, sideways movement, reduced spending</li>
-<li><strong>Euphoria / Run-up</strong> &ndash; markets overshoot on sentiment</li>
-<li><strong>Crash</strong> &ndash; and the cycle resets</li>
-</ol>
-<p>This is not theory. This is the observable, repeatable pattern that has played out in every major economy for over a century. The specifics change &ndash; the trigger for each crash is different, the duration of each phase varies, the exact magnitude of each rally differs &ndash; but the sequence does not change. Crash, liquidity, consolidation, euphoria, crash.</p>
-<blockquote>
-<p>The single most valuable skill you can develop as an investor is the ability to identify which stage we are in right now. Everything else &ndash; stock selection, position sizing, asset allocation &ndash; flows from that one determination.</p>
-</blockquote>
-<p>Let me walk you through each stage using real examples, so this becomes something you can actually use rather than just another framework you nod at and forget.</p>
-<p><strong>Stage 1: The Crash.</strong> In 2020, COVID hit. Markets around the world collapsed. The Nifty fell from about 12,400 to 7,500 &ndash; a 40% drawdown in roughly one month. The NASDAQ fell over 30%. Nobody saw it coming. Nobody could have seen it coming. That is the nature of crashes &ndash; they are triggered by genuinely unexpected events. The 2008 crisis was a banking system failure that most retail investors did not understand until it was far too late. These events are sharp, parabolic, and terrifying.</p>
-<p><strong>Stage 2: Liquidity injection.</strong> Governments respond to crashes the same way every time: they print money. From 2020 to 2022, the total US money supply increased from $15 trillion to $18.75 trillion &ndash; roughly a 20% increase. India&rsquo;s RBI cut rates aggressively. Central banks globally flooded their economies with cheap capital. This money has to go somewhere, and it flows into assets &ndash; stocks, real estate, crypto, commodities. This is when the V-shaped recovery happens. This is when the people who bought during Stage 1 start looking like geniuses.</p>
-<p><strong>Stage 3: Consolidation.</strong> After the money is printed and the debt is accumulated, someone has to pay for it. The US will be repaying $1 trillion in debt interest payments this year alone. If they borrow more, their yearly payments go up further. How do you control this? You borrow less. That means you either tax more or spend less. Both reduce liquidity. Both slow the economy. Both create what looks like a sideways market with wide swings. This is where most investors get crushed &ndash; not by losses, but by boredom and frustration. The market goes up 8%, then falls 6%, then goes up 5%, then falls 7%. Over 18 months, you have made almost nothing. People lose patience. They sell. They make emotional decisions. This is the trap.</p>
-<p><strong>Stage 4: Euphoria.</strong> When a Yamaha showroom in NCR files for an SME IPO seeking to raise 12 crores and receives bids worth 4,700 crores, you are in euphoria. When MamaEarth announces a merger of its own subsidiaries and its market cap jumps by 2,000 crores despite no change in the underlying business, you are in euphoria. Signs of pure madness become evident. Markets can stay irrational longer than you can stay solvent &ndash; which is precisely why your cash position and cash flows are king during this phase.</p>
-<p><strong>Stage 5: Crash.</strong> And it begins again.</p>
-<p>The people who understand these five stages do not need 50 different trading strategies. They need three or four good cycles. That is it. Three or four cycles executed properly can generate enough wealth to change your life permanently. But to run those cycles, you need extreme preparation. And you will not get there by simply SIP-ing your way through, regardless of what investment pundits tell you.</p>
-<hr />
+        <p>Every economy on the planet runs through the same five stages. Over and over. Without exception. And yet, most investors &mdash; including people who have been buying mutual funds for a decade or more &mdash; cannot name them. They cannot tell you where we are in the cycle. They cannot tell you what comes next. So they keep making the same mistake: buying when they should be rotating, holding when they should be hedging, panicking when they should be loading up.</p>
+
+        <p>The sequence is always the same. The trigger changes, the duration changes, the magnitude changes. The order does not.</p>
+
+        <ol>
+          <li><strong>Crash.</strong> An unexpected event takes 20&ndash;40% off the index in weeks. 2008. March 2020. The character is speed.</li>
+          <li><strong>Liquidity injection.</strong> Central banks cut rates and print. From 2020 to 2022 the US money supply went from $15T to $18.75T &mdash; a 20% expansion in two years<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. The V-shape recovery starts here.</li>
+          <li><strong>Consolidation.</strong> Debt has to be repaid. Spending slows. The market grinds sideways with wide swings &mdash; up 8%, down 6%, up 5%, down 7% &mdash; for 18&ndash;24 months. The phase that bores most investors into surrendering.</li>
+          <li><strong>Euphoria.</strong> A Yamaha showroom raises SME IPO bids worth 4,700 crores against a 12-crore ask. A holding company "merger" of its own subsidiaries adds 2,000 crores in market cap with zero change to the business. The phase where price detaches from value.</li>
+          <li><strong>Crash.</strong> And the cycle resets.</li>
+        </ol>
+
+        <blockquote>
+          <p>The single most valuable skill you can develop as an investor is the ability to identify which stage we are in right now. Stock selection, position sizing, asset allocation &mdash; all of it flows from that one determination.</p>
+        </blockquote>
+
+        <p>The widget below is the entire article in miniature. It is a radial gauge of the cycle, and a bar chart of what wins at each position. Drag the dial slowly around the clock. Watch the bar chart redraw. Notice that the leader rotates predictably from cash → bonds → equities → REITs → gold → cash. The question is never "which asset class is best." The question is only "where on the dial are we right now?"</p>
+
+        <!-- Widget 1: Cycle Position Picker -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 — Where on the dial are we, and what wins there?</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Position on dial</span><span class="slider-value" id="w1-pos-val">25% &middot; early expansion</span></div>
+              <input type="range" id="w1-pos" min="0" max="1000" value="250" step="1">
+            </div>
+          </div>
+          <div class="phase-summary" id="w1-summary">&nbsp;</div>
+          <p class="widget-hint">Drag through the four quadrants. Recovery is bond-heavy. Early expansion turns to equities. Late expansion brings gold and REITs back. Contraction sends everything to cash. The winners rotate predictably &mdash; that's why knowing the phase matters more than picking stocks.</p>
+        </div>
+
+        <p>This is not theory. This is the observable, repeatable pattern that has played out in every major economy for over a century. Three or four cycles, executed properly, will generate enough wealth to change a life permanently. But you have to recognise the cycle to play it &mdash; and you will not get there by SIP-ing your way through with your eyes closed.</p>
+
+        <p>A short tour through each stage with real examples makes this concrete rather than abstract.</p>
+
+        <p><strong>Stage 1 in practice.</strong> In March 2020 the Nifty fell from 12,400 to 7,500 &mdash; a 40% drawdown in roughly one month. The NASDAQ fell over 30% in the same window. Nobody saw it coming. Nobody could have. That is the defining feature of a crash &mdash; the trigger is genuinely unexpected and the unwind is faster than anyone's reaction time. By the time most retail investors processed the headlines, the bulk of the damage had already been priced in.</p>
+
+        <p><strong>Stage 2 in practice.</strong> Through 2020 and 2021 the Fed dropped rates to zero, expanded its balance sheet by trillions, and the US Treasury cut $5 trillion of fiscal cheques. The RBI followed with aggressive cuts and OMOs. The money had to land somewhere and it landed in financial assets &mdash; equities first, then housing, then crypto, then long-dated growth. This is the phase where the people who bought during Stage 1 start looking like geniuses, and the people who sat out start chasing.</p>
+
+        <p><strong>Stage 3 in practice.</strong> After the money was printed and the debt was issued, someone had to pay for the carry. The US is now spending more than $1T per year on debt interest alone. The only way that stops is by borrowing less &mdash; which means either taxing more or spending less. Either of those slows the economy. The market goes sideways with wide swings: up 8%, down 6%, up 5%, down 7%. Eighteen months of motion, zero net return. This is where most investors get crushed &mdash; not by losses, but by boredom and frustration. It is also the trap that this article exists to help you avoid.</p>
+
+        <p><strong>Stage 4 in practice.</strong> When a Yamaha showroom files an SME IPO for 12 crores and receives bids worth 4,700 crores, that is euphoria. When a holding company merges its own subsidiaries and its market cap jumps by 2,000 crores despite zero change in the underlying business, that is euphoria. The signs are loud, and they accumulate fast. Markets can stay irrational longer than you can stay solvent &mdash; which is precisely why a cash position and steady cash flow become king during this phase.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-three-types-of-falls-and-why-confusing-them-will-cost-you">
+    <!-- ============================================================
+         II. Where are we now?
+         ============================================================ -->
+    <section class="reveal" id="ii-where-are-we">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. Three Types of Falls -- And Why Confusing Them Will Cost You</h2>
+        <h2>Where are we in the cycle right now?</h2>
       </div>
       <div class="section-content">
-        <p>Not all market declines are created equal. This is one of the most critical distinctions you can make as an investor, and almost nobody makes it. People see red on their screens and react the same way regardless of whether the market is down 5% because of a tariff announcement or down 40% because of a systemic banking failure. These require completely different responses.</p>
-<p>There are three types of falls:</p>
-<p><strong>Type 1: Sharp parabolic fall.</strong> This happens in situations like COVID or the 2008 financial crisis. It is completely unexpected. Nobody can predict it. The market drops 20-40% in a matter of weeks. The characteristic feature of a parabolic fall is speed &ndash; the decline is so fast that by the time you process what is happening, a significant portion of the damage is already done.</p>
-<p>Here is what most people miss about parabolic falls: in the modern era, they exhibit V-shaped recoveries. Markets these days recover in a V-shape rather than the slow decay that characterised 2008. The 2020 crash recovered almost entirely within six months. This changes the calculus dramatically. If you know that the recovery will be fast, the correct response to a parabolic fall is not to run &ndash; it is to buy aggressively. This is what Adani, Ambani, and Zuckerberg did during the 2020 crash. They went leverage. Not because they are reckless, but because they understood the type of fall they were witnessing.</p>
-<p><strong>Type 2: Valuation correction.</strong> This is what mid and small caps experienced in 2024-2025, with 40-50% drawdowns that wiped years of hard-earned returns for many investors. Valuation corrections happen when stocks are priced at PEs that the earnings cannot justify. The correction continues until prices come down to sensible value levels. This can easily last 2-3 years. The last significant valuation correction in the Indian market ran from roughly October 2021 to May 2023.</p>
-<p>The critical difference between a valuation correction and a parabolic crash is duration. A parabolic crash is violent but brief. A valuation correction is slow, grinding, and psychologically devastating. You wake up each morning hoping for recovery, and instead you get another 2% decline. Then a small bounce that gives you hope. Then another decline. This goes on for months, sometimes years. The stocks that experience valuation corrections are typically those that had their PEs inflated during the euphoria phase &ndash; the exact stocks that everyone was excited about six months ago.</p>
-<p><strong>Type 3: Slow decay.</strong> This is the most misunderstood type of fall, and it is the one I believe we have been in recently. Slow decay is an economic growth forecast problem. It happens because there is too much debt in the system and it needs to be reduced. Governments spend less. Corporate growth slows. The market does not crash dramatically &ndash; it just bleeds, slowly, for an extended period.</p>
-<p>The practical manifestation of slow decay is a sideways market with wide range volatility &ndash; meaning swings of 20% up and down within a broader range that goes nowhere over 18-24 months. This is the type of market that destroys buy-and-hold investors, because they sit through 18 months of volatility and end up with 0% returns. Meanwhile, traders who understand capital rotation capture those 20% swings and do extremely well.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>The honest answer in 2025&ndash;2026: late consolidation, with the first credible whiff of an early-expansion turn. Not euphoria. Not a crash. The phase where most investors give up &mdash; right before the phase where most wealth is made.</p>
 
-<blockquote>
-<p>Understanding which type of fall you are in determines your entire strategy. In a parabolic crash, you buy aggressively. In a valuation correction, you wait for sensible value to emerge. In a slow decay, you rotate capital. Applying the wrong strategy to the wrong type of fall is how serious money gets destroyed.</p>
-</blockquote>
-<hr />
+        <p>The evidence, market by market:</p>
+
+        <p><strong>In the US:</strong> The policy rate has been walked down from 5.5% at the peak to 4.5%, with another 100 bps of cuts priced in by year end. Growth forecast around 1.7% &mdash; slow by US standards but positive. The Fed has slowed its balance-sheet runoff, which is a deliberate signal that it wants liquidity to come back. Tariffs are now in the prices. The market grinds in a range.</p>
+
+        <p><strong>In India:</strong> Negative real returns over the last 1.5&ndash;2 years once you adjust for INR depreciation. Small and mid caps have done 40&ndash;50% drawdowns. The Nifty oscillates between roughly 21,000 and 25,000. Large caps are at a discount; SIP flows put a floor under the index; the broader direction is sideways<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
+
+        <p><strong>Globally:</strong> Risk-off. Capital wants the safety of US treasuries, gold (until recently), and the dollar. A company like MercadoLibre &mdash; 30%+ revenue CAGR for thirty consecutive quarters, the only listed business on earth to manage that &mdash; has a stock that goes nowhere. Not because the business is broken. Because global capital does not want to bet on Latin America during a risk-off phase regardless of fundamentals.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually &#129488; &mdash; "risk-off" isn't just a mood</summary>
+          <p>Risk-off is a measurable rotation: gold/USD/treasuries up, EM equities and high-yield credit down. The cleanest single proxy is the MOVE index (Treasury vol) divided by the VIX (equity vol). When MOVE/VIX rises, bond markets are pricing in policy uncertainty faster than stock markets &mdash; classic late-cycle risk-off behaviour. As of late 2025 the ratio is still elevated, but coming off the highs.</p>
+          <p>The shift from risk-off to risk-on is what triggers the next bull run in EM. The stocks that were beaten down hardest during risk-off rally hardest when the rotation completes. That is why you accumulate quality assets <em>during</em> the unloved phase &mdash; and why MELI, an obvious 5-year compounder, is on every smart desk's quiet buy list right now.</p>
+        </details>
+
+        <p>What this is <em>not</em>: it is not a 2022-style correction. In 2022, inflation was running 9% and rates were going up. Today inflation is at 3% and rates are coming down. When rates go down, firms borrow more, fresh capex starts, and the cycle moves forward. We are nowhere near a bubble. We are well past the bottom. The textbook answer is to accumulate.</p>
+
+        <p>The asymmetry is the point. A correct call here &mdash; that we are exiting consolidation toward early expansion &mdash; with appropriate sizing nets +20&ndash;40% over the next 18 months. A wrong call &mdash; that we are still in consolidation when we are actually entering euphoria &mdash; nets you missing out on the upside but not losing capital. The downside is opportunity cost. The upside is the next cycle's wealth. When the risk-reward is that lopsided, the discipline is to bias toward action.</p>
+
+        <p>The Fed is expected to cut into year-end and through 2026. Midterm-election dynamics in the US almost always pull policy toward growth-friendly stances regardless of the party in power. There is real headroom for quality compounders &mdash; Amazon, Microsoft, Meta, and a handful of Indian financials &mdash; to re-rate from here. Cheap is not the same as good, but quality at a fair price is the textbook signal to scale in.</p>
+
+        <blockquote>
+          <p>There is massive panic in the market &mdash; gold off 10%, silver off 30%, Palantir and SoFi off 30%, Bitcoin off 40&ndash;45%. These are exactly the conditions where the next leg of wealth is set up. Bull markets are not loud.</p>
+        </blockquote>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-recession-is-not-what-you-think-it-is">
+    <!-- ============================================================
+         III. Three types of falls
+         ============================================================ -->
+    <section class="reveal" id="iii-fall-types">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. Recession Is Not What You Think It Is</h2>
+        <h2>What's the difference between a correction, a bear, and a regime break?</h2>
       </div>
       <div class="section-content">
-        <p>Every time the word &ldquo;recession&rdquo; appears in the news, retail investors panic. Goldman Sachs raises the probability of a US recession from 20% to 35%, and suddenly your WhatsApp groups are flooded with messages about the end of the world. Media channels run recession segments around the clock. Podcasters who have never invested a single rupee in their lives start telling you that the US is going bankrupt.</p>
-<p>Stop. Take a breath. And understand what a recession actually is.</p>
-<p>A recession is two consecutive quarters of GDP slowdown or negative growth in GDP. Let me give you a simple example to make this precise. If GDP goes from 100 to 110, that is 10% growth. If GDP then goes from 110 to 120, that is approximately 9% growth. The GDP grew. But the rate of growth slowed. This slowdown &ndash; this deceleration in growth &ndash; is what constitutes a recession. A recession is NOT necessarily negative GDP. This is what most people confuse.</p>
-<p>Now here is the part that matters for your money: recession is a <strong>lagging indicator</strong>. It is backward-looking. By the time the official recession announcement comes, the economic contraction has already happened. Stock market prices, on the other hand, are <strong>leading indicators</strong>. They try to predict what will happen 6-12 months from now. This creates a paradox that most people cannot wrap their heads around: the stock market often bottoms before the recession is officially declared, and by the time the recession announcement hits the news, markets are already recovering.</p>
-<p>This is why the people who wait for the recession to be &ldquo;confirmed&rdquo; before adjusting their portfolios are always too late. The market has already priced it in. The opportunity has already passed.</p>
-<p>Look at the actual data. The last two significant recessions were in 2008 and 2020. In both cases, if you had bought the dip during these phases, you would have made extraordinary money. The 2020 recession lasted exactly two months. Two months! The market recovered in a V-shape and went on to new highs within the year. People who sold in panic during March 2020 locked in their losses. People who bought in panic &ndash; who had the courage and the cash to buy when everyone was running &ndash; made generational wealth.</p>
-<p>The current environment in 2025-2026 is instructive. The US is growing at approximately 3.8% money supply expansion per year, which means GDP growth of at least 3.8%. There are recessionary concerns being discussed constantly in the media. But look at the actual recession indicators:</p>
-<ul>
-<li>Gold has gone down recently (in a real recession, gold goes up)</li>
-<li>Bond yields have gone up (in a real recession, bond yields go down)</li>
-<li>The DXY dollar index has corrected (in a real recession, the dollar strengthens)</li>
-<li>Consumer demand is still up (in a real recession, consumer demand falls)</li>
-</ul>
-<p>The only recession signal that checks out is that firms are not expanding as aggressively &ndash; but that is because they are being forced to restructure contracts due to tariff uncertainty, not because of fundamental demand collapse.</p>
-<p>This is NOT a recession. This is a manufactured problem. It is an ego war over tariffs that can be solved with a stroke of a pen. And these manufactured crises are precisely the buying opportunities that build real wealth over time.</p>
-<blockquote>
-<p>Recession these days simply means a sideways market. Which is already happening. So ignore the noise, learn to invest in a sideways market, and stop reading headlines from people who have no stake in the game.</p>
-</blockquote>
-<hr />
+        <p>Not all market declines are equal. This is one of the most expensive distinctions retail investors fail to make. People see red on a screen and react identically whether the index is down 5% on a tariff headline or down 40% on a systemic banking failure. The two situations require opposite trades.</p>
+
+        <p>There are three types of falls, and they map cleanly onto depth, duration, and recovery.</p>
+
+        <p><strong>Type 1 &mdash; the normal correction.</strong> A 10&ndash;15% drawdown. Driven by sentiment, positioning, or a manageable shock. Recovers in weeks to a few months. Examples are dime-a-dozen: the 2018 Q4 wobble, summer-2024 yen carry unwind, every tariff-headline-driven pullback of the last two years. The right move is almost always to do nothing, or to add a tiny bit at the lows.</p>
+
+        <p><strong>Type 2 &mdash; the bear market.</strong> A 20&ndash;35% drawdown. Driven by a real economic deceleration or a valuation reset. Takes 12&ndash;18 months to recover. 2022 (Fed-tightening bear) is the canonical recent example: NASDAQ down 33%, Bitcoin down 65%, growth stocks gutted. The right move is to deploy cash into quality at the second and third support levels. Patience, not heroism.</p>
+
+        <p><strong>Type 3 &mdash; the structural break.</strong> A 40%+ drawdown driven by a regime change &mdash; a banking crisis, a war, a pandemic. The depth alone doesn't characterise it; the <em>recovery time</em> does. The post-2008 recovery to a new high took almost 6 years for the S&amp;P 500. The Nikkei from its 1989 peak took 34 years. The COVID drawdown was structurally unusual &mdash; same depth (-34% on the S&amp;P), but the policy response was so aggressive it compressed the recovery into 5 months, the only V-shape in this category since the Second World War.</p>
+
+        <p>Run the widget. Switch between the three. Notice that the y-axis depth and the x-axis duration scale together, but non-linearly. A 40% fall does not take 4x as long to recover as a 10% fall. It takes 30x.</p>
+
+        <!-- Widget 2: Fall Type Classifier -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Three falls on the same axis</div>
+          <div class="toggle-group" id="w2-toggle">
+            <button data-kind="correction" class="active">Show correction (10–15%)</button>
+            <button data-kind="bear">Show bear (20–35%)</button>
+            <button data-kind="break">Show structural break (40%+)</button>
+            <button data-kind="all">All three</button>
+          </div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="phase-summary" id="w2-summary">&nbsp;</div>
+          <p class="widget-hint">The dot on each path marks the trough. The path beyond it is the recovery to a fresh high. Time is logarithmic in calendar months &mdash; that is why the structural break looks "only" twice as long as the bear when in reality it is six times.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually &#129488; &mdash; why recovery scales non-linearly with depth</summary>
+          <p>If a stock falls 50%, it needs to rise 100% to get back to where it was. If it falls 80%, it needs to rise 400%. The arithmetic asymmetry of percentage returns is brutal: <span class="math">recovery = 1 / (1 &minus; drawdown) &minus; 1</span>. A 10% fall needs an 11% gain. A 40% fall needs a 67% gain. A 67% fall needs a 200% gain.</p>
+          <p>That is the mechanical part. The behavioural part &mdash; that deep drawdowns shake out forced sellers and re-price risk for years &mdash; layers on top. Both effects compound. This is why "buy and hold" sounds simple and is actually punishing in regimes when the rare 40%+ event lands on your account.</p>
+        </details>
+
+        <p>The clearest historical evidence for non-linear recovery is the cluster of 40%+ drawdowns the S&amp;P 500 has experienced since 1929. The 1929 crash took 25 years to recover in nominal terms. The 1973&ndash;74 oil shock took 7 years. The 2000 dot-com unwind took 7 years. The 2008 financial crisis took ~5.5 years. The 2020 COVID drawdown took 5 <em>months</em>. Same depth class &mdash; vastly different recoveries &mdash; because the policy response differed by orders of magnitude. The depth alone tells you about the danger; the policy response tells you about the duration.</p>
+
+        <blockquote>
+          <p>Understanding which type of fall you are in determines your entire strategy. Correction: do nothing. Bear: deploy in thirds at support. Break: the only fall where leverage and aggression are arguably correct &mdash; but only if you are early enough to ride the policy response.</p>
+        </blockquote>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-the-liquidity-engine-how-money-printing-drives-everything">
+    <!-- ============================================================
+         IV. Recession is not what you think
+         ============================================================ -->
+    <section class="reveal" id="iv-recession-myth">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. The Liquidity Engine: How Money Printing Drives Everything</h2>
+        <h2>Is the recession everyone is talking about even a real recession?</h2>
       </div>
       <div class="section-content">
-        <p>If there is one mechanism that every investor needs to understand at a deep level, it is the relationship between money supply, interest rates, and asset prices. This is the engine that drives the entire economic cycle, and once you see it clearly, a lot of market behaviour that seems random or irrational starts making perfect sense.</p>
-<p>Here is the basic chain:</p>
-<ol>
-<li>A crisis happens (crash)</li>
-<li>Central banks respond by cutting interest rates and printing money</li>
-<li>Cheap money floods into the economy &ndash; firms borrow more, consumers spend more, a fresh CAPEX cycle starts</li>
-<li>Asset prices rise because all that liquidity needs somewhere to go</li>
-<li>Eventually, the debt accumulated during the spending spree becomes unsustainable</li>
-<li>Central banks raise rates or reduce spending to control the debt</li>
-<li>Liquidity decreases, growth slows, markets consolidate or correct</li>
-<li>And the cycle repeats</li>
-</ol>
-<p>From 2020 to 2022, the US increased its money supply from $15 trillion to $18.75 trillion. That is a 20% increase in roughly two years. Now, you might ask: if money supply increased by 20%, why didn&rsquo;t GDP also increase by 20%? The answer is simple &ndash; GDP shrunk during COVID because things stopped moving. But if you adjust for that contraction, the money supply expansion did indeed flow through into economic activity.</p>
-<p>The US plan is straightforward: print money, maintain a certain growth rate in GDP, aggregate the means of production &ndash; semiconductors, land, strategic resources like ports &ndash; to gain competitive advantage, and add real value to the economy over time. When the US prints dollars, it is essentially creating internal debt that it can easily handle because the dollar is the global reserve currency.</p>
-<p>Currently, the US is increasing its money supply by approximately 3.8% per year. This means baseline GDP growth of at least 3.8%. It also means that asset prices will continue to appreciate &ndash; maybe 10-15% per year in nominal terms. After taxes, currency depreciation, and real inflation, the actual wealth growth for people who invest will be 2-3%. For people who do not invest, the cost-of-living crisis will be devastating.</p>
-<p><strong>Interest rate cuts are the trigger for the next phase.</strong> When the FED cuts rates, it signals that they are trying to accelerate the economy by increasing liquidity. The nature of the market does not change &ndash; we remain in a liquidity-driven rally. The good part is that stocks and investments continue to behave the way they have for the last several years: they go up, but with significant volatility.</p>
-<p>When the FED cut rates by 0.5% instead of the expected 0.25%, it indicated that the US government was worried about growth and wanted to accelerate the recovery fast. A fast FED cut is typically very good for markets. We enter the euphoria stage after such cuts.</p>
-<p>But here is the deeper point that most people miss: this liquidity-driven growth fundamentally weakens the economy long term. It will burst at some point. The question is not whether it will burst &ndash; it is when, how, and who precisely will suffer. The US will successfully export inflation to the world because there is no currency that can replace the dollar right now. We will witness recurring cost-of-living crises. Inflation might spike 7-8% for 2-3 years, then settle, then spike again. The cycle gets faster each time.</p>
-<p>People who wait for asset prices to correct significantly before buying will keep waiting. The surprise will be that asset prices keep going up, and people keep paying higher and higher prices driven by this manufactured growth. The window to buy at &ldquo;sensible&rdquo; prices is during the consolidation and early correction phases &ndash; exactly when the headlines are most terrifying and the urge to stay on the sidelines is strongest.</p>
-<hr />
+        <p>Every time the word "recession" appears on a finance channel, retail investors panic. Goldman raises the US recession probability from 20% to 35% and the WhatsApp groups light up. Channels run recession segments around the clock. Podcasters who have never invested a single rupee start explaining that the US is going bankrupt.</p>
+
+        <p>Stop. Breathe. Understand what the word actually means.</p>
+
+        <p>Two technical definitions are in play. The textbook one: <strong>two consecutive quarters of negative real GDP growth</strong>. The NBER one (the body that actually dates US recessions): <strong>a significant decline in economic activity spread across the economy, lasting more than a few months</strong>. Neither matches the panic-headline version. Neither requires "negative GDP" in the sense most people picture.</p>
+
+        <p>If GDP goes from 100 to 110, that is 10% growth. If GDP then goes from 110 to 120, that is roughly 9% growth. GDP grew. The <em>rate</em> of growth slowed. That deceleration is what gets called a recession when it persists. Negative numbers are not required &mdash; only a sustained loss of velocity.</p>
+
+        <div class="math-block">
+          NBER recession &approx; (&minus;) &Delta;(employment) &cup; (&minus;) &Delta;(real income) &cup; (&minus;) &Delta;(industrial production) &cup; ... for &gt; ~6 months
+          <span class="math-where">a basket of monthly series, not a single quarterly GDP number</span>
+        </div>
+
+        <p>Now the part that matters for money: <strong>recession is a lagging indicator</strong>. By the time the official announcement lands, the contraction has already played out. Stock prices, meanwhile, are <em>leading</em> indicators &mdash; they try to price in what happens 6&ndash;12 months from now. So markets routinely bottom before the recession is even declared, and by the time the headline hits, the cycle is already turning.</p>
+
+        <p>That is why the people who wait for the "official" recession to adjust their portfolios are always too late. The market has already priced it in. The opportunity has already passed.</p>
+
+        <p>Look at the actual data. The last two significant US recessions were 2008 and 2020. In both cases, if you bought during the pain, you made extraordinary money. The 2020 recession lasted exactly two months &mdash; the shortest on record. The market recovered in a V and hit new highs within the year. People who sold in panic in March 2020 locked in losses. People who bought made generational wealth.</p>
+
+        <p>The current 2025&ndash;2026 noise is louder than it deserves to be. The US is growing money supply at 3.8% a year, which floors nominal GDP growth at roughly that. Most of the classic recession indicators are not even pointing the same direction:</p>
+
+        <ul>
+          <li>Gold has corrected (a real recession sends gold up).</li>
+          <li>Bond yields are up (a real recession pulls yields down).</li>
+          <li>The DXY has weakened (a real recession strengthens the dollar).</li>
+          <li>Consumer demand is still positive (a real recession crushes it).</li>
+        </ul>
+
+        <p>The only signal that checks out is that firms have slowed capex &mdash; and that is a tariff-uncertainty story, not a fundamental demand collapse. This is not a recession. It is a manufactured slowdown that can be undone with a stroke of a pen. These are exactly the manufactured crises that build real wealth for the people who refuse to panic.</p>
+
+        <blockquote>
+          <p>"Recession" in the modern press is closer to a vibe than a definition. The technical version &mdash; sustained, broad-based decline in activity &mdash; is rare, dated in retrospect, and almost always already priced in by the time it makes the front page. The vibe version is loud, frequent, and routinely wrong. Calibrate accordingly.</p>
+        </blockquote>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-reading-the-room-where-are-we-right-now">
+    <!-- ============================================================
+         V. Liquidity engine
+         ============================================================ -->
+    <section class="reveal" id="v-liquidity-engine">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. Reading the Room: Where Are We Right Now?</h2>
+        <h2>How does money printing drive every asset price you own?</h2>
       </div>
       <div class="section-content">
-        <p>This is the question that matters more than any individual stock pick or trading strategy. Where are we in the cycle? Everything you should be doing with your money depends on the answer.</p>
-<p>As of the current market environment, here is my assessment. We are in the <strong>consolidation phase</strong> of the economy, with characteristics of a slow-decay correction playing out simultaneously across multiple geographies.</p>
-<p>The evidence:</p>
-<p><strong>In the US:</strong> Interest rates have been lowered from 5.5% at their peak to 4.5%, with expectations of further cuts to 3.5% by year end. The overall growth forecast is slow &ndash; 1.7% growth rate, which qualifies as slow growth by American standards. The FED is slowing its selling of securities, indicating it wants to maintain liquidity. Bad news like tariffs has been factored in. We are in a situation where the market is going sideways and consolidating in a range.</p>
-<p><strong>In India:</strong> The markets have given negative returns over the last 1.5-2 years when adjusted for INR depreciation. Small and mid caps have exhibited corrections of 40-50%. The Nifty is in a range-bound market with the possibility of moving between 21,000 and 25,000. Large caps are at a discount. SIP-driven flows provide a floor, but the broader direction is sideways.</p>
-<p><strong>Globally:</strong> We are in a &ldquo;risk-off&rdquo; phase. People want to bet on certain assets, low-risk economies, and low-risk segments. This is why gold and metals have been relatively stable while stocks worldwide have corrected. The correction is particularly severe in emerging markets. A firm like MercadoLibre has grown revenues at 30%+ CAGR for the last 30 quarters &ndash; the only listed company in the world to achieve this &ndash; yet the stock has not rallied. Why? Because we are in a risk-off phase, and people do not want to bet on Latin America right now regardless of fundamentals.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>If there is a single mechanism every investor needs to internalise, it is the relationship between money supply, interest rates, and asset prices. Once you see it cleanly, half of what looks like random market behaviour starts to make sense.</p>
 
-<p>Here is what this phase looks like practically:</p>
-<ul>
-<li>Almost all high-growth assets are declining in value: Gold down 10%, Silver down 30%, stocks like Palantir and SoFi down 30%, Bitcoin down 40-45%</li>
-<li>We are NOT in euphoria yet</li>
-<li>The 2025 tariff war is NOT a crisis like COVID or the 2008 bank crisis &ndash; it is an ego war that can be resolved with negotiations</li>
-<li>The current crash is NOT like the 2022 crash, where valuations were bloated and interest rates were expected to rise. Now, inflation is already low and rates are expected to be cut. When rates go down, firms borrow more, and a fresh CAPEX cycle starts.</li>
-</ul>
-<p>My assessment is that interest rates in the US will be cut soon. And due to the midterm elections, Trump will institute more market-friendly policies. We might see euphoria by the end of the year. There is significant headroom for quality assets like Amazon, Microsoft, and Meta to grow from here.</p>
-<blockquote>
-<p>We are nowhere close to a bubble. In fact, there is massive panic in the market. These are exactly the times you invest more.</p>
-</blockquote>
-<hr />
+        <p>The simplest way to see it is to follow a single rupee or dollar of newly created money through the system. The central bank credits a bank's reserves. The bank, holding more reserves than it needs, lends to a firm. The firm uses the loan to fund payroll, capex, or to buy back its own stock. The recipient of the cash (employee, supplier, shareholder) spends some and saves the rest. The saved portion lands in someone else's bank account. That bank, again, has more reserves than it needs &mdash; and the cycle of fractional lending repeats. By the time the original unit of newly created money is exhausted, it has touched five or six balance sheets. Each one moved the corresponding asset prices.</p>
+
+        <p>The chain in compressed form:</p>
+
+        <ol>
+          <li>A crisis hits. Markets crash.</li>
+          <li>Central banks cut rates and create reserves. Cheap money floods the economy.</li>
+          <li>Firms borrow more. Consumers spend more. Capex restarts. Asset prices rise because the liquidity has to go somewhere.</li>
+          <li>Debt accumulates. At some point the carrying cost becomes uncomfortable.</li>
+          <li>Central banks raise rates or shrink the balance sheet. Liquidity drains.</li>
+          <li>Growth slows. Markets consolidate or correct.</li>
+          <li>Repeat.</li>
+        </ol>
+
+        <p>From 2020 to 2022 the US grew M2 from $15T to $18.75T &mdash; a 20% expansion in two years. "Why didn't GDP grow 20% then?" Because GDP shrank in 2020 when activity froze. If you re-base for the COVID contraction, the money expansion did flow through into nominal activity. It just got delivered as asset-price inflation first, then goods inflation, then a slow normalisation. Always in that order.</p>
+
+        <p>The US plan, stripped of euphemism, is straightforward: print enough to keep nominal GDP growing, aggregate the strategically important means of production (semiconductors, land, ports, energy), and add enough real value to absorb the dollar dilution. Internal debt in the world's reserve currency is the cheapest possible way to fund a hegemon's transition.</p>
+
+        <p>Right now the US is growing money supply at 3.8% per year. That floors nominal GDP at roughly 3.8%. It also floors nominal asset-price appreciation at 10&ndash;15% per year in the major US indices. After tax, currency depreciation, and real inflation, that is 2&ndash;3% of real wealth growth for people who invest. For people who don't, it is a deepening cost-of-living crisis<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>.</p>
+
+        <p><strong>Rate cuts are the trigger for the next phase.</strong> A Fed cut signals an intent to accelerate liquidity. The character of the market doesn't change &mdash; we remain in a liquidity-driven cycle &mdash; but the velocity does. When the Fed cut by 50 bps in September 2024 instead of the expected 25 bps, that was a deliberate signal that growth concerns outweighed inflation concerns. Markets re-priced for euphoria the same week.</p>
+
+        <p>The deeper problem nobody on financial TV says out loud: this kind of liquidity-driven growth structurally weakens the long-run economy. It will burst. The question is just when, how, and who exactly gets hurt. The US will export inflation to the world because no currency can replace the dollar today. Cost-of-living crises will recur. Inflation will spike 7&ndash;8% for 2&ndash;3 years, settle, then spike again. The amplitude grows. The cycle gets faster.</p>
+
+        <p>People waiting for prices to "correct meaningfully" before they buy will wait forever. The surprise of the next decade is that asset prices keep climbing because the denominator (money) keeps debasing. The window for sensible entries is during consolidations and early corrections &mdash; exactly when the headlines are most terrifying and the urge to sit on cash is strongest.</p>
+
+        <div class="callout">
+          <div class="callout-title">The transmission mechanism, in one line</div>
+          <p>Central bank prints &rarr; reserves up &rarr; bond yields down &rarr; equity discount rate down &rarr; long-duration assets up &rarr; real estate up &rarr; goods inflation up (12&ndash;24 months later) &rarr; rates raised &rarr; reverse. Every step is mechanical. The only judgement call is figuring out which step the chain is on right now &mdash; which is exactly what the dashboard in the next section is built to help with.</p>
+        </div>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-the-sideways-market-playbook">
+    <!-- ============================================================
+         VI. Recession indicator dashboard
+         ============================================================ -->
+    <section class="reveal" id="vi-recession-dashboard">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. The Sideways Market Playbook</h2>
+        <h2>How do you read leading indicators without spinning out on every headline?</h2>
       </div>
       <div class="section-content">
-        <p>Most investing education assumes a bull market. Buy great companies. Hold forever. Watch your wealth compound. The entire SIP narrative is built on the assumption that markets trend upward over long periods.</p>
-<p>But what happens when the market goes sideways for 1.5 to 2 years? What happens when the Nifty oscillates between 21,000 and 25,000, making 20% swings up and down but ending up roughly where it started? This is the environment that destroys the buy-and-hold strategy, and it is the environment we find ourselves in today.</p>
-<p>In the last valuation correction, which ran from October 2021 to roughly May 2023, rotating capital between corrections and rallies was the only way to make sensible returns. I do not see value in buy-and-forget strategies right now unless there is a clear bull run. The next 2-3 years are going to be volatile, and capital rotation is not just a nice-to-have &ndash; it is the only strategy that works.</p>
-<p>Here is how I am approaching it:</p>
-<p><strong>Step 1: Maintain a cash bucket.</strong> I keep 15-20% of my portfolio in cash at all times during a sideways market. This cash is not idle money &ndash; it is ammunition. When the market falls 10% (which has happened at least four times in the Indian market in the last 2.5 years), that cash gets deployed aggressively. When the market bounces back to resistance levels, I book 15-20% of the position and replenish the cash bucket.</p>
-<p>Take a specific example. I had invested close to 5 crores. The Nifty hit first resistance, and I was up 37-40 lakhs (roughly 6% in a month). I booked those profits and went 15% cash. Why? Because in a sideways market, money does not come when things are fairly priced. It comes when things are discounted. Keeping 15% cash ensures I am ready for the next discount.</p>
-<p><strong>Step 2: Buy at supports, sell at resistances.</strong> This sounds simple. It is not. It requires you to have a clear view of where the technical support and resistance levels are, and it requires the discipline to actually sell when things are going up (which feels terrible) and buy when things are going down (which feels even worse).</p>
-<p>The framework I use is thirds. If I want to invest 10 lakhs in an asset, I invest 3.3 lakhs at the first support level. If the market falls to the second support, I invest another 3.3 lakhs. If it falls to the third support, I deploy the remainder. This way, I cannot time the bottom perfectly &ndash; nobody can &ndash; but I am averaging into the position at progressively lower prices.</p>
-<p><strong>Step 3: Never stop investing.</strong> If your cash bucket is full (say, 20 lakhs sitting aside for a 1 crore portfolio) and you earn more money, that new money should go into the market at minor dips. Do not let your cash position grow beyond 20%. The risk of a sideways market is not that you lose money &ndash; it is that you waste time. Time correction is the real enemy.</p>
-<p><strong>Step 4: Know when to shift gears.</strong> The only scenario where this strategy changes is when the market moves to euphoria. Then we become net sellers. And the only scenario where we go all-in with leverage is a genuine parabolic crash &ndash; a 20%+ fall driven by a truly unexpected event, not a tariff announcement.</p>
-<p>For context, here is my actual allocation during this phase: India portfolio is 95% invested in safe instruments &ndash; index funds, private banks, healthcare stocks. US portfolio is being built up, currently at around 30-55% depending on the month, with the rest in cash waiting for better entry points. I do zero SIPs. I rotate capital instead.</p>
-<p><strong>Step 5: Accept the volatility.</strong> Here is what nobody tells you about sideways markets: the daily experience is miserable. You buy something, it drops 3% the next day. You hold through the drop, it recovers, then drops again. Your WhatsApp groups are full of panic. The headlines are terrible. You feel like an idiot for buying.</p>
-<p>This is normal. This is what it feels like to be positioned correctly during consolidation. The pain is the price of admission. If you go out and stop investing, you lose the game. The biggest loss in this market is not a price loss &ndash; it is a time loss. And I am trying to help you avoid that.</p>
-<hr />
+        <p>If recession is a lagging indicator, what are the <em>leading</em> ones &mdash; and how do you put them together without becoming a slave to every Goldman PDF?</p>
+
+        <p>Four signals do most of the work. They are not perfect individually. As a basket they have historically led every US recession of the last 40 years by 6&ndash;18 months.</p>
+
+        <ul>
+          <li><strong>Inverted yield curve</strong> &mdash; when the 10y treasury yields less than the 3-month bill, the bond market is forecasting a slowdown. Inverted since mid-2022; un-inverted in late 2024. That un-inversion is, paradoxically, when recessions historically <em>start</em>.</li>
+          <li><strong>Unemployment trend</strong> &mdash; the Sahm Rule fires when the 3-month average jobless rate rises 0.5pp above its 12-month low<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. Triggered briefly in summer 2024, has since cooled.</li>
+          <li><strong>ISM manufacturing PMI</strong> &mdash; sub-50 means contraction in the goods economy. Sub-45 historically aligns with recession. Currently mid-40s &mdash; cautionary, not catastrophic.</li>
+          <li><strong>Credit spreads</strong> &mdash; the gap between high-yield bond yields and treasuries. Above 600 bps means the market is pricing in defaults. Currently around 300 bps &mdash; benign.</li>
+        </ul>
+
+        <p>The dashboard below combines them into a single composite risk score. Move each slider. Watch which indicator moves the score most. Watch how a "moderate" reading on all four lands you in a different regime than "extreme" on one.</p>
+
+        <!-- Widget 3: Recession Indicator Dashboard -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Composite recession-risk dashboard</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="widget-row four">
+            <div class="slider-group">
+              <div class="slider-label"><span>Yield curve (10y &minus; 3m)</span><span class="slider-value" id="w3-yc-val">+0.30%</span></div>
+              <input type="range" id="w3-yc" min="-200" max="300" value="30" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Sahm Rule (unemp. &Delta;)</span><span class="slider-value" id="w3-sahm-val">+0.20pp</span></div>
+              <input type="range" id="w3-sahm" min="-50" max="150" value="20" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>ISM PMI</span><span class="slider-value" id="w3-pmi-val">46</span></div>
+              <input type="range" id="w3-pmi" min="35" max="60" value="46" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>HY credit spread (bps)</span><span class="slider-value" id="w3-cs-val">300 bps</span></div>
+              <input type="range" id="w3-cs" min="200" max="1200" value="300" step="10">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Composite score</div><div class="readout-value" id="w3-score">—</div></div>
+            <div class="readout-cell"><div class="readout-label">Regime</div><div class="readout-value" id="w3-regime">—</div></div>
+            <div class="readout-cell"><div class="readout-label">Closest analogue</div><div class="readout-value" id="w3-analogue">—</div></div>
+            <div class="readout-cell"><div class="readout-label">12-mo equity bias</div><div class="readout-value" id="w3-bias">—</div></div>
+          </div>
+          <p class="widget-hint">Default sliders reflect the late-2025 reading. Push them all to "extreme" to see what 2008 looked like. Push them all to "benign" to see 2017. The composite is a weighted average; weights are derived from how often each indicator leads vs. coincides with NBER-dated recessions.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually &#129488; &mdash; why no single indicator works alone</summary>
+          <p>The inverted yield curve has predicted 11 of the last 7 recessions (with apologies to Paul Samuelson). The Sahm Rule fired in 2024 and we still have not had a recession. ISM was below 50 for most of 2023 with the economy growing 2.5%. Credit spreads stay benign right until they don't.</p>
+          <p>Each indicator has a different failure mode, which is why you weight them together. The composite reduces the false-positive rate dramatically &mdash; if 3 of 4 signals are in the same colour zone, the historical hit rate jumps from ~60% (any one indicator) to over 85%.</p>
+        </details>
+
+        <p>The other useful signal is the <strong>Insider Sell-to-Buy Ratio</strong> &mdash; how aggressively insiders (CEOs, founders, promoters) are selling at an aggregate level. It peaked before the 2008 crash. It peaked before the 2020 crash. It peaked again recently. Timing has been off by months; direction has been remarkably consistent. When the people who know the most about their own companies are selling aggressively, it pays to listen &mdash; even if the price keeps going up for another quarter.</p>
+
+        <p>The classic five signs of recession, viewed simultaneously, also still pay rent. Gold rising. Bond yields falling. Money flowing to stronger currencies (dollar strengthening). Consumer demand falling. Firms stopping expansion. When all five fire at once, the probability of an imminent recession is high. When only one or two are firing, the press will scream "recession" but the probability is low. Right now four of the five point the wrong direction. The headlines do not.</p>
+
+        <p>One more useful framing: the <strong>risk-on / risk-off cycle</strong> itself is a leading indicator. In risk-off, capital flows out of EM (India, Latin America, SE Asia) and into safe havens (US treasuries, gold, the dollar). EM equities can correct severely even when the underlying businesses are growing rapidly &mdash; MELI is the textbook case. The shift back from risk-off to risk-on is the trigger for the next EM bull run, and the stocks that were beaten down hardest during risk-off rally hardest when the rotation flips. The buying opportunity is when nobody wants to touch EM &mdash; by the time the risk-on narrative returns to the press, prices are already 30&ndash;40% higher.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-the-insider-signal-and-other-leading-indicators">
+    <!-- ============================================================
+         VII. Sideways playbook
+         ============================================================ -->
+    <section class="reveal" id="vii-sideways-playbook">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. The Insider Signal and Other Leading Indicators</h2>
+        <h2>How do you make money when the market goes nowhere for two years?</h2>
       </div>
       <div class="section-content">
-        <p>One of the most reliable signals for reading the economic cycle is something called the <strong>Insider Sell-to-Buy Ratio (STB)</strong>. In simple words, it tells you how much the insiders &ndash; CEOs, founders, promoters of companies &ndash; are selling at an aggregate level.</p>
-<p>If you backtest the data, it works out quite accurately. The STB ratio peaked before the 2008 crash. It peaked before the 2020 crash. Each time the red line spikes, the market eventually corrects. The signal is not perfect &ndash; the timing can be off by months &ndash; but the direction is remarkably consistent. When the people who know the most about their own companies are selling aggressively, you should be paying attention.</p>
-<p>The STB ratio peaked again recently. Now, the counter-argument is that due to US elections and Chinese quantitative easing, the market has not crashed but instead gone sideways. This is an important nuance. People backtest indicators and assume the future will work exactly like the past. It rarely does. The market does one unpredictable thing every decade, and guessing that one thing right is where the real money is made.</p>
-<p><strong>Recession indicators are another useful framework.</strong> There are five classic signs of a recession:</p>
-<ol>
-<li>Gold goes up</li>
-<li>Bond yields go down</li>
-<li>Money flows to stronger currencies like USD (so they strengthen)</li>
-<li>Consumer demand goes down</li>
-<li>Firms stop expanding</li>
-</ol>
-<p>When these five conditions are present simultaneously, you are either in a recession or heading into one. When only one or two are present, the media will still scream &ldquo;recession&rdquo; but the probability is low. As of right now, most of these indicators are not flashing red. Gold has gone down. Bond yields have gone up. The dollar index has corrected. Consumer demand is still holding. Only the firm expansion indicator is negative, and that is driven by tariff-related restructuring rather than fundamental demand weakness.</p>
-<p><strong>The risk-on / risk-off cycle</strong> is another leading indicator. When we are in a risk-off phase, capital flows out of emerging markets (India, Latin America, Southeast Asia) and into safe havens (US treasuries, gold, the dollar). Stocks in emerging markets can correct severely even when the underlying businesses are growing rapidly. This is what happened to MELI &ndash; 30% CAGR revenue growth for 30 consecutive quarters, and the stock went nowhere, because global capital was in risk-off mode.</p>
-<p>The shift from risk-off to risk-on is what triggers the next bull run in emerging markets. When that shift happens, the stocks that were beaten down during the risk-off phase rally hardest. This is why you accumulate quality assets during risk-off phases rather than selling them. The buying opportunity is when nobody wants to touch emerging markets. By the time the risk-on narrative returns, prices will be 30-40% higher than where they are today.</p>
-<p><strong>PE re-rating is the mechanism through which individual stocks participate in the cycle.</strong> When a stock&rsquo;s PE gets positively re-rated, the stock price moves up &ndash; this is what happened to railway stocks in India during the infrastructure theme, or IT stocks post-COVID. When PE gets negatively re-rated, the stock moves down even if earnings are stable. Understanding whether a stock is going through PE compression or PE expansion tells you whether you are early, on time, or late to the trade.</p>
-<hr />
+        <p>Most investing education assumes a bull market. Buy great companies. Hold forever. Watch the wealth compound. The SIP industry is built entirely on the assumption that markets trend upward over long enough periods.</p>
+
+        <p>That assumption breaks during consolidation. When the Nifty oscillates between 21,000 and 25,000 for 24 months &mdash; making 20% swings up and down but ending where it started &mdash; buy-and-hold delivers zero. The October 2021 to May 2023 valuation correction was exactly this. Passive investors made nothing. Rotators captured 10&ndash;15% per leg.</p>
+
+        <p>Here is the practical playbook.</p>
+
+        <p><strong>Step 1: Keep a real cash bucket.</strong> 15&ndash;20% of the portfolio in cash during consolidation. Not idle &mdash; ammunition. When the market falls 10% (which the Indian market did four times in the last 2.5 years), the cash gets deployed. When the market bounces back to resistance, 15&ndash;20% of the position gets booked and the cash bucket replenished.</p>
+
+        <p><strong>Step 2: Buy at supports, sell at resistances.</strong> Simple to say, brutal to execute. You have to sell when things are going up (which feels terrible) and buy when things are going down (which feels worse). The framework I use is thirds. To invest 10 lakhs, deploy 3.3 lakhs at the first support, 3.3 lakhs at the second, the remainder at the third. You cannot time the bottom. Nobody can. But you average in at progressively lower prices.</p>
+
+        <p><strong>Step 3: Never stop investing.</strong> If your cash bucket is already at 20% and fresh income arrives, that money goes in at minor dips. Do not let cash drift above 20%. The real risk in a sideways market is not capital loss. It is time loss. The market may not fall &mdash; it may simply go nowhere for 18 months &mdash; and a portfolio that earns 0% for 18 months has lost real purchasing power.</p>
+
+        <p><strong>Step 4: Know when to shift gears.</strong> The only scenarios where this playbook changes:</p>
+
+        <ul>
+          <li><em>Euphoria signals firing</em> (insider STB peak, SME IPO mania, holding-co mergers) &mdash; become a net seller. Book aggressively. Build cash.</li>
+          <li><em>Type-1 parabolic crash</em> (20%+ in weeks, unexpected trigger, policy response visible within days) &mdash; deploy aggressively, consider modest leverage on quality.</li>
+        </ul>
+
+        <p><strong>Step 5: Accept the daily misery.</strong> Nobody tells you that being positioned correctly during consolidation feels awful. You buy something, it drops 3% the next day. Headlines are catastrophic. Your WhatsApp groups are full of panic. You feel like an idiot. This is what being early to the right trade looks like. The pain is the price of admission. The investors who quit here are the ones who do not see the eventual leg up.</p>
+
+        <p>A concrete example of the rotation in action. A 5-crore Indian portfolio. Nifty hits first resistance after a 6% rally in a month &mdash; that is roughly 30 lakhs of unrealised gain. The book-and-rotate rule fires: sell ~15% of the position, lock in the 30 lakhs, redirect the cash to the bucket. Two months later the Nifty corrects 8% on a tariff headline. The cash bucket is fully topped up; the next 25% of cash deploys at the first support level. Six weeks later the position is back to the previous high, and the lower entry price means an additional 5&ndash;7 lakhs of profit captured purely from the rotation. Over a 24-month consolidation, four such rotations stack to 25&ndash;30% on the rotating capital &mdash; while the buy-and-hold neighbour is still sitting at zero net return.</p>
+
+        <blockquote>
+          <p>The biggest loss in a sideways market is not a price loss. It is a time loss. And the cure for time loss is structured capital rotation &mdash; not a SIP.</p>
+        </blockquote>
+
+        <p>A useful behavioural tool to fight the urge to hold winners through resistance: tag every buy at support with a pre-decided sell level (e.g. "sell 25% at +12%, 25% at +20%, hold the rest"). The decision is then mechanical, not emotional. The instant the price prints the level, the order fires. Removing the decision is the entire game in a sideways market &mdash; because the moment you make the call by feel, the disposition effect (selling winners too early, holding losers too long) takes over and the rotation breaks down.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-how-to-actually-buy-the-dip-without-losing-your-mind">
+    <!-- ============================================================
+         VIII. Buying the dip
+         ============================================================ -->
+    <section class="reveal" id="viii-buy-the-dip">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. How to Actually Buy the Dip Without Losing Your Mind</h2>
+        <h2>How do you actually buy the dip without losing your mind?</h2>
       </div>
       <div class="section-content">
-        <p>Everyone talks about buying the dip. Almost nobody does it correctly. The reason is psychological: when markets are falling, every instinct in your body tells you to run. The headlines are catastrophic. Your portfolio is deep red. Your friends and family are telling you to sell before it gets worse. Buying more in this environment requires a specific mindset and a specific process.</p>
-<p>Let me give you the process I use.</p>
-<p><strong>First, determine the type of fall.</strong> Is this a parabolic crash (Type 1), a valuation correction (Type 2), or slow decay (Type 3)? Each requires different position sizing and different time horizons. In a parabolic crash, you can be very aggressive because the recovery will be fast &ndash; V-shaped and sharp. In a valuation correction, you need patience measured in years, not months. In slow decay, you need capital rotation skills.</p>
-<p><strong>Second, identify the support levels.</strong> For the Nifty, I typically work with three levels. The first support is a 5% correction from the peak &ndash; this is where I deploy 25% of my cash bucket. The second support is a 10% correction &ndash; this is where I deploy another 35%. The third support is a 15-20% correction (bear market territory) &ndash; this is where I go all in and potentially add leverage.</p>
-<p>Take a concrete example. When the NASDAQ fell 20% from its peak, that was the start of a US bear market. At that point, I said: invest at least 50% of your intended US capital. Not because I knew the bottom was in &ndash; nobody knows that &ndash; but because a 20% discount on the world&rsquo;s strongest equity market is a statistically excellent entry point over a 3-5 year horizon.</p>
-<p>For individual stocks, the 200-day moving average (200DMA) is my primary reference. I buy stocks when they are trading below their 200DMA. When a stock goes 10-15% above its 200DMA, I book at least 50% profits.</p>
-<p><strong>Third, size your positions deliberately.</strong> If you want to invest 1 lakh in a stock, do not put 1 lakh in on day one. Put in 20,000 when the stock hits first support. If it falls to 200DMA, put in another 30,000. If it falls further, add more. The maximum exposure to any single stock should be 5% of your total portfolio. This is non-negotiable. I have seen people put 25% of their portfolio in a single small-cap stock and lose half their net worth in a valuation correction. Do not be that person.</p>
-<p><strong>Fourth, understand the Meta example.</strong> In February 2021, Meta had significant issues. Revenues were declining, valuations were extremely high, ad spend from clients was declining because interest rates were rising, and there was a broad tech correction in the US market. Meta dropped from a stock price of roughly $400 to $80. An 80% drawdown.</p>
-<p>Now, the remarkable part: if you had done absolutely nothing &ndash; held the stock at $400, endured the correction, and simply waited until 2025 &ndash; the stock went to $800. That is a 19% CAGR despite riding through an 80% drawdown. If someone had bought the dip, traded along the way, added options, the CAGR would have been 25-30% easily.</p>
-<p>When you see golden stocks fall, buy. Do not hesitate. And be okay with the correction. The current 2025 drop in Meta does not even have shrinking revenues or financial stress. The firm is set to expand capacity. The fundamentals are better than they were in 2021, and the stock is more reasonably priced.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Everyone talks about buying the dip. Almost nobody does it. The reason is biological: when markets fall, every instinct says run. Headlines are catastrophic. Your portfolio is red. Friends are telling you to sell before it gets worse. To buy in that environment requires a specific process, not willpower.</p>
 
-<p><strong>Fifth, use the leverage window wisely.</strong> Leverage is not bad. You need to know WHEN to take it. The when is very specific: only during a genuine 20%+ crash (Type 1 fall) where the market exhibits V-shaped recovery characteristics. During a valuation correction or slow decay, leverage will destroy you because the timeline to recovery is too long and the carrying cost of the leverage will eat into your returns.</p>
-<p>Why does leverage make sense during crashes? Because markets these days exhibit V-shaped recoveries rather than the slow decay of 2008. As long as you are playing within your limits and not taking leverage too early, you will do exceptionally well. This is exactly what the wealthy do &ndash; Adani, Ambani, Zuckerberg all leveraged up during the 2020 crash. They understood the type of fall, they understood the likely recovery pattern, and they acted while everyone else froze.</p>
-<p><strong>Sixth, do NOT chase rallies.</strong> This is the flip side of buying dips, and it is equally important. People who chased the Bitcoin rally are suffering now. People who chased the small and mid cap rally are suffering now. People who will chase the metals rally will eventually suffer as well. The rule is simple: buy more when panic is more. If you have cash to buy when the market is in panic, do it. And stop tracking your portfolio every day.</p>
-<hr />
+        <p><strong>First, classify the fall.</strong> Use Widget 2 from Section III. Is this a correction, a bear, or a structural break? Each has a different optimal response.</p>
+
+        <ul>
+          <li><em>Correction.</em> Do nothing meaningful. Maybe add 10% of cash bucket at the lows. Most of these reverse within weeks.</li>
+          <li><em>Bear.</em> Deploy in thirds at &minus;10%, &minus;15%, &minus;20%. Patience measured in quarters.</li>
+          <li><em>Structural break.</em> If the policy response is visible and aggressive (2020), buy aggressively &mdash; the V-shape is faster than headlines say. If it is not (2008, Japan 1990), wait for credit conditions to stabilise first.</li>
+        </ul>
+
+        <p><strong>Second, define the support levels in advance.</strong> For the Nifty I work with three: &minus;5% (deploy 25% of cash bucket), &minus;10% (deploy another 35%), &minus;15&ndash;20% (deploy the rest, consider leverage). For individual stocks, the 200-day moving average is the primary anchor. Buy below 200DMA. Book 50% of the position when price runs 10&ndash;15% above 200DMA.</p>
+
+        <p><strong>Third, size positions deliberately.</strong> To invest 1 lakh in a single stock, deploy 20k at first support, 30k at 200DMA, 50k if it falls further. Max exposure to any one name: 5% of portfolio. Non-negotiable. The people who blow up on options or single-stock concentration are universally the ones who held 25% positions and prayed.</p>
+
+        <p><strong>Fourth, the Meta case study.</strong> February 2022 to October 2022 &mdash; Meta dropped from $384 to $88. An 80% drawdown. Revenues were genuinely declining. Ad spend was contracting. Tech was in a Fed-tightening bear. If you held through and did nothing &mdash; just sat on shares bought at the top &mdash; by 2024 Meta was at $600. That is a 13% CAGR despite riding through an 80% drawdown. If you bought the dip in thirds, the same period returned 35&ndash;40% CAGR. Same underlying. Same time window. Different process.</p>
+
+        <p>The Meta example is instructive because the fundamentals genuinely did get worse during the drawdown. Reality Labs was burning $10B+ annually with no revenue. Ad spend was contracting. The market was not punishing a healthy business unfairly. It was correctly re-pricing a business that had become less valuable. <em>And yet</em> the stock recovered, because (a) the secular ad business was structurally intact, (b) management cut costs aggressively, and (c) the AI capex story added a new growth vector. The lesson is not "buy any drawdown." It is "buy quality drawdowns where the underlying franchise survives the shock." The two look identical for a few quarters and diverge dramatically thereafter.</p>
+
+        <p><strong>Fifth, leverage has exactly one window.</strong> Only during a Type-1 parabolic crash with a visible policy response. Not during a valuation correction. Not during a slow decay. The carrying cost of leverage will eat you alive over a multi-quarter bear. The wealthy who used leverage in March 2020 (Adani, Ambani, Zuckerberg all on the record) understood the type of fall and the recovery pattern. They moved while everyone else froze. That is the whole game.</p>
+
+        <p><strong>Sixth, do not chase rallies.</strong> The flip side. The people chasing Bitcoin at $69k in late 2021 suffered for two years. The people chasing Indian small caps in late 2024 are suffering now. The rule, stated as flatly as possible: <em>buy when panic is loudest, sell when celebration is loudest, and check your portfolio less often than you check the weather.</em></p>
+
+        <p>One closing note on the 200DMA reference above. There is nothing special about 200 days as a window &mdash; a 150-day or 250-day average performs almost identically across long backtests. The 200DMA is just the convention &mdash; widely watched, widely used, and therefore self-reinforcing when institutional players adjust positioning around it. The deeper signal it captures is mean-reversion at the multi-quarter horizon. Stocks that drift far above their long-term moving average are usually rich relative to their own history. Stocks that drift far below are usually cheap. Neither relationship is exact; both have been statistically reliable over decades, which is enough to anchor a process around.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-building-your-cycle-proof-portfolio">
+    <!-- ============================================================
+         IX. Cycle-proof portfolio
+         ============================================================ -->
+    <section class="reveal" id="ix-cycle-proof">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. Building Your Cycle-Proof Portfolio</h2>
+        <h2>What does a cycle-proof portfolio look like?</h2>
       </div>
       <div class="section-content">
-        <p>Let me pull everything together into a practical framework. The goal is not to predict the future &ndash; it is to build a portfolio that performs well regardless of which phase of the cycle we are in, and that is positioned to capture the maximum upside when the next phase transition happens.</p>
-<p><strong>Principle 1: Geographic diversification is more important than stock selection.</strong></p>
-<p>Most Indian investors spend enormous amounts of time debating whether to buy IndusInd Bank or Kotak Bank. A far more impactful question is: how much should you allocate between India, the US, and China? Your geographic allocation will have a bigger impact on your portfolio than constantly hunting for trading opportunities within a single market.</p>
-<p>The US is structurally the strongest economy in the world and is far from dying. Having at least 20% of your portfolio in the US &ndash; if nothing else, a simple index fund &ndash; is a basic requirement. AI is the trade of the decade, and most of the AI value creation is happening in US growth stocks like Amazon, Microsoft, and Meta. If you miss this, you might pay a heavy price.</p>
-<p>India has pockets of over and undervaluation. IT is undervalued. Healthcare and hospitals are undergoing valuation corrections but remain fundamentally sound. Quick-commerce and delivery seem hyped. Banks have not moved correspondingly with the Nifty and represent the last segment likely to move before euphoria.</p>
-<p><strong>Principle 2: Match your strategy to the cycle phase.</strong></p>
-<ul>
-<li><strong>During consolidation (now):</strong> Rotate capital. Keep 15-20% cash. Buy supports. Sell resistances. Focus on safe assets &ndash; Nifty 50, private banks, healthcare. No small/mid cap aggression until the valuations reset.</li>
-<li><strong>During early euphoria:</strong> Start becoming a net seller. Book 20-50% of profits on positions that have run up. Increase cash allocation. Do not chase momentum.</li>
-<li><strong>During crashes:</strong> Deploy aggressively. Use the cash bucket built during consolidation and euphoria. Consider leverage for Type 1 parabolic falls. Buy the strongest assets &ndash; not speculative names, but market leaders that will recover fastest.</li>
-<li><strong>During liquidity injection phase:</strong> Stay fully invested. Ride the wave. This is when buy-and-hold works perfectly, and the SIP narrative is actually correct.</li>
-</ul>
-<p><strong>Principle 3: Understand price correction vs. time correction.</strong></p>
-<p>Price correction is when the price of a stock falls. Time correction is when the stock does not lose much value but moves sideways for a long period. Both cost you money &ndash; price correction costs you capital, time correction costs you opportunity.</p>
-<p>In the current environment, time correction is the bigger risk. The market may not fall dramatically &ndash; but it may go nowhere for 18 months. The people who sat through the October 2021 to May 2023 valuation correction with fully invested buy-and-hold portfolios made zero returns over that period. The people who rotated capital captured 10-15% gains each rotation.</p>
-<p>HDFC Bank is an instructive example. When it fell 4% in a single day, people panicked. But HDFC does not have a business problem (price correction risk) or a valuation problem (PE compression risk). In fact, the chance of PE re-rating to the higher side is significant. It will happen &ndash; we just do not know when. For stocks like this, the strategy is simple: hold, buy more during dips, and wait for the re-rating.</p>
-<p><strong>Principle 4: Build your portfolio in layers.</strong></p>
-<p>Layer 1 is your <strong>core</strong> &ndash; 60-70% of your portfolio in high-conviction, geographically diversified large-cap positions. Index funds, top private banks, US tech leaders. These are the positions you do not touch through a cycle.</p>
-<p>Layer 2 is your <strong>rotation capital</strong> &ndash; 15-20% that you actively trade between support and resistance levels. This is where your sideways-market returns come from.</p>
-<p>Layer 3 is your <strong>cash bucket</strong> &ndash; 15-20% that sits on the sidelines waiting for the next 10%+ correction. This is your ammunition, and it is the single most important tool for outperformance in a volatile market.</p>
-<p>Layer 4 is your <strong>opportunistic allocation</strong> &ndash; 5-10% for contrarian bets, small and mid caps that have been beaten down to aggregation zones, and new themes like robotics, autonomous vehicles, data centres, biotherapeutics, and space exploration. These are 3-5 year bets that you put into a separate brokerage account and do not check frequently.</p>
-<p><strong>Principle 5: You only need 3-4 good cycles.</strong></p>
-<p>This is the most important principle, and it is the one that should give you patience and perspective when the market feels terrible. You do not need to be right every day, every week, or even every quarter. You need 3-4 cycles executed correctly to build generational wealth. One crash where you had the courage and cash to buy aggressively. One euphoria phase where you had the discipline to take profits. One consolidation period where you rotated capital instead of sitting idle. One liquidity injection phase where you stayed fully invested and rode the wave.</p>
-<p>Three or four of these sequences, executed with discipline, will outperform 95% of fund managers. This is not hypothetical &ndash; it is exactly what our community has done over the last three years.</p>
-<p>The preparation for each cycle happens during the boring periods. Right now, when the market is going sideways and nothing exciting is happening, is when you should be studying interest rate cycles, understanding PE re-rating dynamics, learning options strategies for generating income in sideways markets, and building the analytical frameworks that will help you recognise the next phase transition before it is obvious to everyone else.</p>
-<p>Investing is a skill. The last 1.5 years, people have made 0% returns &ndash; negative when adjusted for INR depreciation. If you believe in simple narratives like &ldquo;buy and hold forever&rdquo; or &ldquo;buy quality monopoly stocks,&rdquo; those narratives have been run by SIP advocates whose funds are now suffering at scale. God has given you a brain. Do not give up on your critical thinking skills. Analyse, build different strategies, and improve each day as an investor.</p>
-<p>The cycle always turns. The question is whether you will be ready when it does.</p>
-<blockquote>
-<p>Buy when panic is high. Sell when euphoria takes over. Rotate when the market goes sideways. And never, ever stop learning. That is the entire game.</p>
-</blockquote>
+        <p>Pulling everything together. The goal is not to predict the next move &mdash; it is to build a portfolio that performs reasonably in every phase and is positioned to capture the maximum upside at every phase transition.</p>
+
+        <p><strong>Principle 1: Geographic mix dominates stock selection.</strong> Most Indian investors burn hours debating IndusInd vs. Kotak. The decision that actually matters is how much sits in India vs. the US vs. China vs. cash. Geographic allocation outweighs single-stock picking by an order of magnitude. The US is the strongest economy in the world and is not dying. At least 20% in US large-cap, even via a plain index fund, is a baseline requirement, not an aggressive call. AI is the trade of the decade and the bulk of AI value creation is in US growth stocks.</p>
+
+        <p>India itself has pockets of mispricing within the market. IT services are undervalued after two years of compression. Healthcare and hospitals are mid-correction but fundamentally sound. Quick-commerce and delivery look hyped. Private banks have not yet moved in line with the Nifty and are likely the last segment to participate in any euphoria phase. The decision of <em>which</em> India to own &mdash; not whether to own India &mdash; is where the next two years of relative returns will be made.</p>
+
+        <p><strong>Principle 2: Match strategy to phase.</strong></p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Phase</th><th>What works</th><th>What kills</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Crash (Type 1)</td><td>Aggressive buying. Leverage if policy is visible.</td><td>Selling. Cash on the sidelines.</td></tr>
+            <tr><td>Liquidity injection</td><td>Stay fully invested. Ride the wave.</td><td>Trying to time the local tops.</td></tr>
+            <tr><td>Consolidation (now)</td><td>Capital rotation. 15&ndash;20% cash. Buy supports, sell resistances.</td><td>Buy-and-hold passivity. Daily portfolio checking.</td></tr>
+            <tr><td>Euphoria</td><td>Become a net seller. Book 20&ndash;50% on names that ran.</td><td>Chasing breakouts. New money into hot themes.</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>Principle 3: Price correction vs. time correction.</strong> Price correction takes your capital. Time correction takes your opportunity. Both cost real money. In the current environment, time correction is the bigger risk. The market may not fall meaningfully &mdash; it may simply do nothing for 18 months. A fully-invested buy-and-hold portfolio through Oct 2021&ndash;May 2023 made zero. The rotators made 10&ndash;15% per leg.</p>
+
+        <p><strong>Principle 4: Build the portfolio in layers.</strong></p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">60–70%</div><div class="stat-label">Core: large-cap, indices, US tech</div></div>
+          <div class="stat"><div class="stat-value">15–20%</div><div class="stat-label">Rotation capital: trade supports/resistances</div></div>
+          <div class="stat"><div class="stat-value">15–20%</div><div class="stat-label">Cash bucket: ammunition for the next dip</div></div>
+          <div class="stat"><div class="stat-value">5–10%</div><div class="stat-label">Opportunistic: contrarian / new themes</div></div>
+        </div>
+
+        <p>The Core layer is high-conviction and geographically diversified &mdash; index funds, top private banks, US tech leaders. Positions you do not touch through a cycle. The Rotation layer is what you actively trade. The Cash bucket is your single most important tool for outperformance in a volatile decade. The Opportunistic layer is for contrarian bets and emerging themes &mdash; robotics, autonomous vehicles, data centres, biotherapeutics, space &mdash; held in a separate brokerage you check quarterly, not daily.</p>
+
+        <p><strong>Principle 5: You only need three or four good cycles.</strong> This is the most important framing in the entire article. You do not need to be right every day, every week, every quarter. You need three or four cycles executed correctly to build generational wealth. One crash where you had the cash and the nerve to buy. One euphoria where you had the discipline to sell. One consolidation where you rotated instead of sitting idle. One liquidity-injection phase where you stayed invested and let it run.</p>
+
+        <p>Three or four such sequences, run with discipline, will out-perform 95% of fund managers. The preparation for each cycle happens during the boring periods &mdash; right now &mdash; when nothing exciting is happening and the temptation to disengage is highest. Study interest-rate cycles. Understand PE re-rating. Learn the option strategies in the <a href="../options-insurance/">Options as Insurance</a> explainer for generating income while you wait. Build the analytical frameworks now, so that when the next phase transition arrives you recognise it before it becomes obvious.</p>
+
+        <p>If a typical investor's career spans 30 years of active accumulation, the math works out to roughly one full economic cycle every 7&ndash;10 years &mdash; so three or four cycles is, in fact, the entire investing lifetime. You do not have unlimited attempts. You have a handful. Each one matters. The good news is that the framework is mechanical: identify the phase, match the strategy, execute the rotation, repeat. The investors who do this well are not smarter than the median. They are simply more patient and less reactive to noise.</p>
+
+        <div class="callout">
+          <div class="callout-title">The whole article in one sentence</div>
+          <p>Buy when panic is loudest, sell when celebration is loudest, rotate when the market goes nowhere, never stop learning, and remember that three or four good cycles &mdash; not three or four hundred good trades &mdash; is what builds the wealth.</p>
+        </div>
+
+        <p>The cycle always turns. The only question is whether you are awake when it does.</p>
+
+        <p>Read the related explainers in this series for the layers that sit on top of this framework. <a href="../options-insurance/">Options as Insurance</a> shows how to hedge the downside and harvest sideways-market premium with covered calls and cash-secured puts. <a href="../real-returns/">Real Returns</a> shows why nominal returns are an illusion once you adjust for INR depreciation and real-dollar inflation. <a href="../actuarial-pricing/">Actuarial Pricing</a> shows how to think about the tail risks the rest of the framework deliberately under-counts.</p>
+
+        <p>The cycle framework in this article is the chassis. The options layer is the suspension. The real-returns lens is the dashboard. The actuarial lens is the airbag. All four are required if the goal is a portfolio that survives a multi-decade investing career through three or four full cycles. None of them are optional. None of them are sufficient on their own.</p>
+
+        <p>Investing is a skill. The last 1.5 years, the median investor has made roughly 0% real return &mdash; deeply negative once adjusted for currency depreciation. The narratives that brought everyone here &mdash; "buy and hold forever", "buy quality monopoly stocks", "SIP your way to wealth" &mdash; are exactly the narratives that broke during this consolidation. The fund managers selling those narratives are now quietly underperforming their own benchmarks. Critical thinking is the moat. Analyse. Stress-test. Build frameworks rather than memorising lists. Improve every quarter.</p>
+
+        <blockquote>
+          <p>Buy when panic is high. Sell when euphoria takes over. Rotate when the market goes sideways. And never, ever stop learning. That is the entire game.</p>
+        </blockquote>
+
+        <p>The widget at the top of this article is now also the widget at the bottom of it. Drag the dial back to where you think we are. Read the bar chart. Compare it to what you actually own. That gap &mdash; between what the cycle says wins next and what is currently in your portfolio &mdash; is your roadmap for the next four quarters.</p>
+
+        <p>If your portfolio is 80% in Indian small-caps and the dial says contraction, you have a problem the next two years will solve for you whether you cooperate or not. If your portfolio is 80% in cash and the dial says recovery, you have a different problem &mdash; opportunity cost &mdash; that compounds quietly into a far larger lifetime loss than any drawdown would have caused. Both are correctable. Neither corrects itself without action.</p>
+
+        <p>Pick up the framework. Apply it. Iterate. The next cycle will look slightly different from this one in the details, but the shape will be the same. It always is.</p>
+
+        <p>That is what reading the cycle is for. Not prediction. Not certainty. Just orientation &mdash; enough orientation to act when most people are frozen, and to wait when most people are chasing.</p>
+
+        <p>Three or four cycles. That is the whole game. The rest is patience.</p>
+
+        <p>Most investors will read this article, nod at the widgets, and continue exactly what they were doing the day before they opened it. That is the median outcome for any framework.</p>
+
+        <p>The 5% who actually adjust position sizing, build the cash bucket, and execute the first rotation will outperform the rest by orders of magnitude over the next decade. The framework is not the bottleneck. The behaviour is.</p>
+
+        <p>Get the orientation right. Match the strategy to the phase. Rotate when the framework says rotate. Hold when it says hold. Buy when it says buy. The mechanics are knowable. The execution is hard only because the emotional pull in the opposite direction is loud. Quieten the noise. Trust the framework. The next phase transition is closer than the headlines suggest.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">US M2 money supply data from the Federal Reserve's H.6 release. Jan 2020 M2 was ~$15.4T; the seasonally-adjusted peak in April 2022 was ~$22.0T including reverse repo facility usage, although the conventional M2 measure peaked closer to $18.75T. The 2022&ndash;2023 contraction in M2 was the first sustained YoY decline in the series' 60-year history. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Indian small-cap drawdowns measured by the BSE Smallcap Index from its January 2024 peak; the index lost ~25% in nominal INR by April 2025, with individual names down 40&ndash;50%. INR depreciation against USD over the same period added another ~6&ndash;8% of real-terms loss for any USD-denominated investor. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">"Asset inflation" and "goods inflation" are usually the same money expansion delivered at different speeds. The 2020&ndash;2021 money expansion showed up first as a 60% S&amp;P rally in 18 months, then as a 9% CPI print in mid-2022. The lag is roughly 12&ndash;24 months &mdash; consistent with Milton Friedman's "long and variable lags" formulation, and useful as a rough rule of thumb when reading current money-supply data. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">Sahm Rule from Claudia Sahm's 2019 paper on real-time recession indicators; the 0.5pp threshold has correctly flagged every NBER-dated US recession since 1970 without a false positive &mdash; until the brief summer-2024 fire which has not (yet) been followed by a dated recession. The post-COVID labour market is unusual enough that several traditional indicators may have a higher false-positive rate than their historical track records suggest. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+        </ol>
+
       </div>
     </section>
   </article>
@@ -329,12 +633,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -343,23 +647,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -374,429 +667,534 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "COVID Crash (2020)", "start_value": 10000, "end_value": 6200, "recovery_months": 5}, {"name": "2022 US Tech Correction", "start_value": 10000, "end_value": 7500, "recovery_months": 14}, {"name": "India Mid/Small Cap (2024-25)", "start_value": 10000, "end_value": 5500, "recovery_months": 24}, {"name": "2008 Financial Crisis", "start_value": 10000, "end_value": 4500, "recovery_months": 48}, {"name": "Tariff-Driven Slow Decay (2025)", "start_value": 10000, "end_value": 8300, "recovery_months": 12}];
+  <!-- ============================================================
+       WIDGET 1 — Cycle position picker (radial gauge + bar chart)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
+    // Four phases, each occupying a quarter of the clock face.
+    // Position is 0..1, mapped clockwise starting at 12 o'clock = 0.
+    // Quadrants: 0–0.25 Recovery, 0.25–0.5 Early Expansion,
+    //            0.5–0.75 Late Expansion, 0.75–1.0 Contraction.
+    var PHASES = [
+      { key: 'recovery',   label: 'Recovery',         range: [0.00, 0.25], color: '#2c7a7b',
+        blurb: 'Rates falling fast. Risk-on capital begins to flow back. Bonds and high-quality equities lead. Insider buying picks up. The phase nobody is talking about because the press is still writing about the last crash.',
+        // expected real returns (annualised %) at the midpoint, smoothly interpolated
+        eq:  10, bd: 12, gd:  3, re:  6, cs:  3 },
+      { key: 'early',      label: 'Early Expansion',  range: [0.25, 0.50], color: '#38a169',
+        blurb: 'Cheap money in the system, capex restarting, earnings rebounding. Equities lead by a wide margin. Bonds give back some of the recovery gains. Cyclicals beat defensives.',
+        eq:  16, bd:  4, gd:  2, re:  9, cs:  2 },
+      { key: 'late',       label: 'Late Expansion',   range: [0.50, 0.75], color: '#ecc94b',
+        blurb: 'Growth still positive but slowing. Inflation pressures emerge. Central banks begin tightening. Real assets (gold, REITs, commodities) start outperforming financial assets.',
+        eq:   7, bd:  1, gd:  9, re: 10, cs:  3 },
+      { key: 'contraction',label: 'Contraction',      range: [0.75, 1.00], color: '#c53030',
+        blurb: 'Tight policy bites. Earnings revisions turn negative. Cash and treasuries beat everything. Equity drawdowns concentrate in late-cycle leaders. The phase where defensive positioning pays.',
+        eq: -10, bd:  5, gd:  6, re: -5, cs:  4 }
+    ];
 
-  container.innerHTML = '';
-  container.classList.add('demo');
+    var state = { pos: 0.25 };
 
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Three Types of Market Falls: Depth vs. Duration";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var n = corrections.length;
-    if (n === 0) return;
-
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
-    });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
-
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
-
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
-
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
-
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
-
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
-
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
-
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
-        });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
-        });
+    function phaseAt(pos) {
+      for (var i = 0; i < PHASES.length; i++) {
+        var r = PHASES[i].range;
+        if (pos >= r[0] && pos < r[1]) return PHASES[i];
       }
-
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-      });
-
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
-
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
-        });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
+      return PHASES[PHASES.length - 1];
+    }
+    // Smoothly interpolate the 5 asset returns around the dial.
+    // Build a periodic series from each phase's midpoint values, then
+    // cosine-blend between the two nearest phase centres.
+    function returnsAt(pos) {
+      var centres = PHASES.map(function(p,i){ return (p.range[0]+p.range[1])/2; });
+      // Find the two phases whose centres bracket pos (with wrap-around).
+      var ext = centres.slice();
+      ext.unshift(centres[centres.length-1] - 1);
+      ext.push(centres[0] + 1);
+      var phasesExt = [PHASES[PHASES.length-1]].concat(PHASES).concat([PHASES[0]]);
+      var posAdj = pos;
+      var i = 0;
+      while (i < ext.length - 1 && !(posAdj >= ext[i] && posAdj < ext[i+1])) i++;
+      var a = phasesExt[i], b = phasesExt[i+1];
+      var t = (posAdj - ext[i]) / (ext[i+1] - ext[i]);
+      var s = 0.5 - 0.5 * Math.cos(Math.PI * t); // cosine ease
+      function lerp2(x, y) { return x + (y - x) * s; }
+      return {
+        eq: lerp2(a.eq, b.eq),
+        bd: lerp2(a.bd, b.bd),
+        gd: lerp2(a.gd, b.gd),
+        re: lerp2(a.re, b.re),
+        cs: lerp2(a.cs, b.cs)
+      };
     }
 
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
-    });
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      // Left: dial (square area), Right: bar chart
+      var dialSize = Math.min(H - 20, W * 0.46);
+      var dialCx = dialSize/2 + 14;
+      var dialCy = H/2;
+      var dialR = dialSize/2 - 26;
 
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
+      // Quadrant arcs (colored backgrounds)
+      ctx.save();
+      for (var i = 0; i < PHASES.length; i++) {
+        var p = PHASES[i];
+        var a0 = -Math.PI/2 + p.range[0] * Math.PI * 2;
+        var a1 = -Math.PI/2 + p.range[1] * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(dialCx, dialCy);
+        ctx.arc(dialCx, dialCy, dialR, a0, a1);
+        ctx.closePath();
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = 0.18;
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      // Dial outer ring
+      ctx.beginPath();
+      ctx.arc(dialCx, dialCy, dialR, 0, Math.PI * 2);
+      ctx.strokeStyle = '#999';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // Inner ring
+      ctx.beginPath();
+      ctx.arc(dialCx, dialCy, dialR * 0.55, 0, Math.PI * 2);
+      ctx.strokeStyle = '#bbb';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
 
-  draw();
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "India Small/Mid Caps", "start_value": 10000, "end_value": 5500, "recovery_months": 6}, {"name": "Bitcoin", "start_value": 10000, "end_value": 5800, "recovery_months": 6}, {"name": "Silver", "start_value": 10000, "end_value": 7000, "recovery_months": 6}, {"name": "Palantir/SoFi (US Growth)", "start_value": 10000, "end_value": 7000, "recovery_months": 6}, {"name": "Nifty 50 (Large Cap)", "start_value": 10000, "end_value": 8600, "recovery_months": 6}, {"name": "Gold", "start_value": 10000, "end_value": 9000, "recovery_months": 2}];
-
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Current Cycle: Peak-to-Trough Across Asset Classes (2024-2026)";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var n = corrections.length;
-    if (n === 0) return;
-
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
-    });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
-
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
-
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
-
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
-
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
-
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
-
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
-
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
-        });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
-        });
+      // Quadrant labels (just outside the inner ring, oriented along the bisector)
+      for (var i = 0; i < PHASES.length; i++) {
+        var p = PHASES[i];
+        var mid = (p.range[0] + p.range[1]) / 2;
+        var theta = -Math.PI/2 + mid * Math.PI * 2;
+        var lx = dialCx + Math.cos(theta) * dialR * 0.78;
+        var ly = dialCy + Math.sin(theta) * dialR * 0.78;
+        drawTextCanvas(ctx, lx, ly, p.label, { fontSize: 11, weight: '600', color: p.color });
       }
 
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
+      // Pointer (clock hand)
+      var theta = -Math.PI/2 + state.pos * Math.PI * 2;
+      var px = dialCx + Math.cos(theta) * dialR * 0.93;
+      var py = dialCy + Math.sin(theta) * dialR * 0.93;
+      var cur = phaseAt(state.pos);
+      ctx.save();
+      ctx.strokeStyle = cur.color;
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(dialCx, dialCy);
+      ctx.lineTo(px, py);
+      ctx.stroke();
+      ctx.restore();
+      drawPointCanvas(ctx, dialCx, dialCy, 5, cur.color, '#fff');
+      drawPointCanvas(ctx, px, py, 6, cur.color, '#fff');
+
+      // Title above dial
+      drawTextCanvas(ctx, dialCx, 14, 'Cycle clock', { fontSize: 12, color: 'var(--text)', weight: '600', baseline: 'top' });
+
+      // ===== Bar chart of expected asset returns =====
+      var chartX = dialSize + 38;
+      var pad = { top: 30, right: 16, bottom: 40, left: chartX + 36 };
+      var ret = returnsAt(state.pos);
+      var labels = ['Equities', 'Bonds', 'Gold', 'REITs', 'Cash'];
+      var keys   = ['eq', 'bd', 'gd', 're', 'cs'];
+      var vals = keys.map(function(k){ return ret[k]; });
+      var yMin = -15, yMax = 20;
+
+      // Axes
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: labels,
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return (v>=0?'+':'') + v.toFixed(0) + '%'; }
       });
 
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
+      // Zero line
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y0);
+      ctx.lineTo(W - pad.right, y0);
+      ctx.stroke();
+      ctx.restore();
 
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
-        });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
+      var plotW = W - pad.left - pad.right;
+      var slotW = plotW / vals.length;
+      var barW  = Math.min(46, slotW * 0.55);
+      for (var i = 0; i < vals.length; i++) {
+        var bx = pad.left + slotW * (i + 0.5) - barW/2;
+        var v = vals[i];
+        var by1 = mapY(Math.max(v, 0), yMin, yMax, H, pad);
+        var by2 = mapY(Math.min(v, 0), yMin, yMax, H, pad);
+        var color = v >= 0 ? (i === 0 ? cur.color : '#4a5568') : '#c53030';
+        drawRectCanvas(ctx, bx, Math.min(by1, by2), barW, Math.abs(by2 - by1), color, 4);
+        // Label above/below bar
+        drawTextCanvas(ctx, bx + barW/2, (v >= 0 ? by1 - 12 : by2 + 12),
+          (v>=0?'+':'') + v.toFixed(0) + '%',
+          { fontSize: 11, color: 'var(--text)', weight: '600' });
+      }
+      // Chart title
+      drawTextCanvas(ctx, (pad.left + W - pad.right)/2, 14, 'Expected one-year real return by asset class',
+        { fontSize: 12, color: 'var(--text)', weight: '600', baseline: 'top' });
     }
 
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
+    function updateLabels() {
+      var p = phaseAt(state.pos);
+      var pct = Math.round(state.pos * 100);
+      document.getElementById('w1-pos-val').textContent = pct + '% · ' + p.label.toLowerCase();
+      var box = document.getElementById('w1-summary');
+      box.innerHTML = '<strong>' + p.label + ':</strong> ' + p.blurb;
+    }
+
+    // Initialise state BEFORE attachSliders fires its synchronous callback.
+    state.pos = parseFloat(document.getElementById('w1-pos').value) / 1000;
+    updateLabels();
+    draw();
+
+    attachSliders([
+      { el: document.getElementById('w1-pos'), label: null }
+    ], function(vals) {
+      state.pos = vals['w1-pos'] / 1000;
+      updateLabels();
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Fall type classifier
+       Three pre-computed paths animated onto the canvas.
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // Each fall is a synthetic price path: start at 100, fall to trough,
+    // then recover back over (recovMonths). Total horizon is fixed at 72 months
+    // so the three paths are commensurate; longer recoveries simply level
+    // out further to the right.
+    var TOTAL_MONTHS = 72;
+
+    function buildPath(troughPct, troughMonth, recovMonths) {
+      // troughPct is negative (e.g. -0.12 for a 12% fall)
+      var pts = [];
+      var trough = 100 * (1 + troughPct);
+      var recoveryEnd = troughMonth + recovMonths;
+      for (var m = 0; m <= TOTAL_MONTHS; m++) {
+        var v;
+        if (m <= troughMonth) {
+          // ease-in cubic to the trough
+          var t = m / troughMonth;
+          var eased = t * t * (3 - 2 * t);
+          v = 100 + (trough - 100) * eased;
+        } else if (m <= recoveryEnd) {
+          // ease-out to par
+          var t = (m - troughMonth) / Math.max(1e-6, (recoveryEnd - troughMonth));
+          var eased = 1 - Math.pow(1 - t, 2);
+          v = trough + (100 - trough) * eased;
+        } else {
+          // post-recovery drift: small upward grind to a new high
+          var t = (m - recoveryEnd) / Math.max(1, TOTAL_MONTHS - recoveryEnd);
+          v = 100 + (TOTAL_MONTHS - recoveryEnd) * 0.15 * t;
+        }
+        pts.push({ m: m, v: v });
+      }
+      return pts;
+    }
+
+    var FALLS = {
+      correction: {
+        label: 'Normal correction',
+        color: '#2c7a7b',
+        path: buildPath(-0.13, 3, 4),
+        depth: '-13%',
+        recovery: '4 months',
+        analogues: 'Aug 2024 yen carry, Q4 2018 wobble, every tariff headline of 2025',
+        message: 'Normal correction (10–15%) — usually a sentiment or positioning unwind. Recovers in weeks to a few months. The right move is almost always to do nothing.'
+      },
+      bear: {
+        label: 'Bear market',
+        color: '#dd6b20',
+        path: buildPath(-0.30, 9, 14),
+        depth: '-30%',
+        recovery: '14 months',
+        analogues: '2022 Fed-tightening bear, 2000–2002 dot-com unwind',
+        message: 'Bear market (20–35%) — driven by a genuine deceleration or valuation reset. Recovers in 12–18 months. Deploy in thirds at the second and third support levels.'
+      },
+      'break': {
+        label: 'Structural break',
+        color: '#c53030',
+        path: buildPath(-0.50, 15, 48),
+        depth: '-50%',
+        recovery: '48 months',
+        analogues: '2008 financial crisis, 1973–74 oil shock, Japan post-1989',
+        message: 'Structural break (40%+) — regime change. Recovery measured in years, not months. The only window leverage is arguably right, but only with visible aggressive policy response (e.g. March 2020).'
+      }
+    };
+
+    var state = { mode: 'correction' };
+
+    document.querySelectorAll('#w2-toggle button').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#w2-toggle button').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        state.mode = btn.dataset.kind;
+        updateSummary();
+        draw();
+      });
     });
 
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 30, right: 28, bottom: 44, left: 56 };
+      var yMin = 40, yMax = 130;
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['M 0', 'M 12', 'M 24', 'M 36', 'M 48', 'M 60', 'M 72'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return v.toFixed(0); }
+      });
 
-  draw();
-})();
+      // 100 baseline
+      var y100 = mapY(100, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#bbb';
+      ctx.setLineDash([4,4]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y100);
+      ctx.lineTo(W - pad.right, y100);
+      ctx.stroke();
+      ctx.restore();
 
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "Meta (2021-2023)", "start_value": 10000, "end_value": 2400, "recovery_months": 12}, {"name": "Amazon (2022)", "start_value": 10000, "end_value": 5000, "recovery_months": 15}, {"name": "NASDAQ Composite (2022)", "start_value": 10000, "end_value": 6700, "recovery_months": 14}, {"name": "Nifty 50 (Oct 2021-May 2023)", "start_value": 10000, "end_value": 8300, "recovery_months": 5}, {"name": "Bajaj Auto (2024-25)", "start_value": 10000, "end_value": 8000, "recovery_months": 6}];
-
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Buying Golden Stocks on Dips: Drawdown to Recovery";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var n = corrections.length;
-    if (n === 0) return;
-
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
-    });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
-
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
-
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
-
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
-
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
-
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
-
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
-
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
+      function plotOne(key, withTroughDot) {
+        var f = FALLS[key];
+        var pts = f.path.map(function(p){
+          return {
+            x: mapX(p.m, 0, TOTAL_MONTHS, W, pad),
+            y: mapY(p.v, yMin, yMax, H, pad)
+          };
         });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
-        });
+        drawLineCanvas(ctx, pts, { color: f.color, width: 2.4 });
+        if (withTroughDot) {
+          // find trough
+          var minIdx = 0, minV = Infinity;
+          for (var i = 0; i < f.path.length; i++) if (f.path[i].v < minV) { minV = f.path[i].v; minIdx = i; }
+          drawPointCanvas(ctx, pts[minIdx].x, pts[minIdx].y, 6, f.color, '#fff');
+          drawTextCanvas(ctx, pts[minIdx].x, pts[minIdx].y + 18,
+            f.depth + ' · ' + f.recovery,
+            { fontSize: 11, color: f.color, weight: '600' });
+        }
       }
 
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-      });
-
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
-
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
+      if (state.mode === 'all') {
+        plotOne('correction', true);
+        plotOne('bear', true);
+        plotOne('break', true);
+        // Tiny legend (top-right)
+        var lx = W - pad.right - 130;
+        var ly = pad.top + 4;
+        ['correction','bear','break'].forEach(function(k, i) {
+          var f = FALLS[k];
+          ctx.fillStyle = f.color;
+          ctx.fillRect(lx, ly + i*16, 12, 4);
+          drawTextCanvas(ctx, lx + 18, ly + i*16 + 2, f.label, { fontSize: 11, color: 'var(--text)', align: 'left', baseline: 'middle' });
         });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
+      } else {
+        plotOne(state.mode, true);
+      }
+
+      drawTextCanvas(ctx, W/2, 14,
+        state.mode === 'all' ? 'All three falls on the same axis' : FALLS[state.mode].label + ' — drawdown and recovery',
+        { fontSize: 12, color: 'var(--text)', weight: '600', baseline: 'top' });
     }
 
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
+    function updateSummary() {
+      var box = document.getElementById('w2-summary');
+      if (state.mode === 'all') {
+        box.innerHTML = '<strong>Compare the three.</strong> The correction barely registers on this axis. The bear is meaningful but recovers. The structural break sits below par for years — the chart cuts off before it returns. That non-linear scaling is the entire point of classifying the fall before reacting to it.';
+      } else {
+        var f = FALLS[state.mode];
+        box.innerHTML = '<strong>' + f.label + ' · depth ' + f.depth + ' · recovery ' + f.recovery + '.</strong> ' +
+          f.message + ' <em>Historical analogues:</em> ' + f.analogues + '.';
+      }
+    }
+
+    updateSummary();
+    draw();
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Composite recession-risk dashboard
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 340 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // State holds raw indicator values in their native units.
+    // yc:   yield curve (10y - 3m), in basis points; negative = inverted = risk.
+    // sahm: change in 3-month-avg unemp vs 12-month low, in basis points (pp*100).
+    // pmi:  ISM manufacturing PMI, in points; sub-50 = risk.
+    // cs:   high-yield credit spread, in basis points; higher = risk.
+    var state = { yc: 30, sahm: 20, pmi: 46, cs: 300 };
+
+    // Score each indicator 0..1 where 1 = max risk.
+    function scoreYC(bps)   { return clamp((100 - bps) / 250, 0, 1); }   // +150 = 0; -100 = 1
+    function scoreSahm(bps) { return clamp((bps + 25) / 100, 0, 1); }     // -25 = 0; +75 = 1
+    function scorePMI(pmi)  { return clamp((55 - pmi) / 15, 0, 1); }      // 55 = 0; 40 = 1
+    function scoreCS(bps)   { return clamp((bps - 250) / 700, 0, 1); }    // 250 = 0; 950 = 1
+
+    function composite() {
+      var s = [scoreYC(state.yc), scoreSahm(state.sahm), scorePMI(state.pmi), scoreCS(state.cs)];
+      // Weighted: yield curve and credit spread historically lead; Sahm and PMI coincide.
+      var w = [0.30, 0.25, 0.20, 0.25];
+      var sum = 0;
+      for (var i = 0; i < 4; i++) sum += s[i] * w[i];
+      return { score: Math.round(sum * 100), parts: s, weights: w };
+    }
+
+    function regimeFor(score) {
+      if (score < 25) return { name: 'Benign',     color: '#2c7a7b', analogue: '2017',     bias: 'Risk-on'    };
+      if (score < 45) return { name: 'Cautionary', color: '#ecc94b', analogue: 'late 2025',bias: 'Neutral'    };
+      if (score < 65) return { name: 'Elevated',   color: '#dd6b20', analogue: 'mid 2008', bias: 'Defensive'  };
+      return                  { name: 'Severe',    color: '#c53030', analogue: '2008 Q4',  bias: 'Cash/bonds' };
+    }
+
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+
+      var comp = composite();
+      var labels = ['Yield curve', 'Sahm Rule', 'ISM PMI', 'HY spreads'];
+
+      // ===== Left half: stacked-style indicator bars =====
+      var pad = { top: 36, right: W * 0.42 + 14, bottom: 50, left: 60 };
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: labels,
+        yMin: 0, yMax: 100, ySteps: 4,
+        yFmt: function(v){ return v.toFixed(0); }
+      });
+      drawTextCanvas(ctx, (pad.left + W - pad.right)/2, 14,
+        'Indicator risk score (0 = benign, 100 = recession-territory)',
+        { fontSize: 12, color: 'var(--text)', weight: '600', baseline: 'top' });
+
+      var plotW = W - pad.left - pad.right;
+      var slotW = plotW / labels.length;
+      var barW = Math.min(50, slotW * 0.55);
+      for (var i = 0; i < 4; i++) {
+        var bx = pad.left + slotW * (i + 0.5) - barW/2;
+        var score100 = comp.parts[i] * 100;
+        var by = mapY(score100, 0, 100, H, pad);
+        var by0 = mapY(0, 0, 100, H, pad);
+        var color = score100 < 33 ? '#2c7a7b'
+                  : score100 < 66 ? '#dd6b20'
+                  : '#c53030';
+        drawRectCanvas(ctx, bx, by, barW, by0 - by, color, 4);
+        drawTextCanvas(ctx, bx + barW/2, by - 10, score100.toFixed(0),
+          { fontSize: 11, color: 'var(--text)', weight: '600' });
+        // weight label below
+        drawTextCanvas(ctx, bx + barW/2, H - pad.bottom + 26,
+          'w=' + (comp.weights[i] * 100).toFixed(0) + '%',
+          { fontSize: 9, color: 'var(--text-secondary)' });
+      }
+
+      // ===== Right half: composite dial =====
+      var dialCx = W - W * 0.21;
+      var dialCy = H / 2 + 6;
+      var dialR  = Math.min(H * 0.36, W * 0.16);
+      // Background arc (semi-circle)
+      ctx.save();
+      ctx.lineWidth = 18;
+      ctx.lineCap = 'butt';
+      // Quartile arcs
+      var arcs = [
+        { from: -Math.PI, to: -Math.PI + 0.25 * Math.PI, color: '#2c7a7b' },
+        { from: -Math.PI + 0.25 * Math.PI, to: -Math.PI + 0.50 * Math.PI, color: '#ecc94b' },
+        { from: -Math.PI + 0.50 * Math.PI, to: -Math.PI + 0.75 * Math.PI, color: '#dd6b20' },
+        { from: -Math.PI + 0.75 * Math.PI, to: 0, color: '#c53030' }
+      ];
+      arcs.forEach(function(a) {
+        ctx.beginPath();
+        ctx.strokeStyle = a.color;
+        ctx.globalAlpha = 0.35;
+        ctx.arc(dialCx, dialCy, dialR, a.from, a.to);
+        ctx.stroke();
+      });
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      // Pointer
+      var pct = comp.score / 100;
+      var theta = -Math.PI + pct * Math.PI;
+      var px = dialCx + Math.cos(theta) * (dialR - 4);
+      var py = dialCy + Math.sin(theta) * (dialR - 4);
+      var reg = regimeFor(comp.score);
+      ctx.save();
+      ctx.strokeStyle = reg.color;
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(dialCx, dialCy);
+      ctx.lineTo(px, py);
+      ctx.stroke();
+      ctx.restore();
+      drawPointCanvas(ctx, dialCx, dialCy, 5, reg.color, '#fff');
+
+      // Big score number
+      drawTextCanvas(ctx, dialCx, dialCy + dialR * 0.55, String(comp.score),
+        { fontSize: 30, weight: '700', color: reg.color, baseline: 'top' });
+      drawTextCanvas(ctx, dialCx, dialCy + dialR * 0.95, reg.name,
+        { fontSize: 12, weight: '600', color: reg.color, baseline: 'top' });
+      drawTextCanvas(ctx, dialCx, 16, 'Composite risk',
+        { fontSize: 12, weight: '600', color: 'var(--text)', baseline: 'top' });
+
+      // Update readout cells
+      document.getElementById('w3-score').textContent    = comp.score + ' / 100';
+      document.getElementById('w3-regime').textContent   = reg.name;
+      document.getElementById('w3-analogue').textContent = reg.analogue;
+      document.getElementById('w3-bias').textContent     = reg.bias;
+    }
+
+    function fmtBps(v) { return (v >= 0 ? '+' : '') + (v / 100).toFixed(2) + '%'; }
+    function fmtPP(v)  { return (v >= 0 ? '+' : '') + (v / 100).toFixed(2) + 'pp'; }
+
+    // Initialise state from current slider values BEFORE attachSliders.
+    state.yc   = parseFloat(document.getElementById('w3-yc').value);
+    state.sahm = parseFloat(document.getElementById('w3-sahm').value);
+    state.pmi  = parseFloat(document.getElementById('w3-pmi').value);
+    state.cs   = parseFloat(document.getElementById('w3-cs').value);
+
+    attachSliders([
+      { el: document.getElementById('w3-yc'),   label: document.getElementById('w3-yc-val'),   format: fmtBps },
+      { el: document.getElementById('w3-sahm'), label: document.getElementById('w3-sahm-val'), format: fmtPP },
+      { el: document.getElementById('w3-pmi'),  label: document.getElementById('w3-pmi-val'),  format: function(v){ return v.toFixed(0); } },
+      { el: document.getElementById('w3-cs'),   label: document.getElementById('w3-cs-val'),   format: function(v){ return v.toFixed(0) + ' bps'; } }
+    ], function(vals) {
+      state.yc   = vals['w3-yc'];
+      state.sahm = vals['w3-sahm'];
+      state.pmi  = vals['w3-pmi'];
+      state.cs   = vals['w3-cs'];
+      draw();
     });
-
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
-
-  draw();
-})();
-</script>
+  })();
+  </script>
 
 </body>
 </html>

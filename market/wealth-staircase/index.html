@@ -4,32 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Wealth Staircase — Market Explainers</title>
-  <meta name="description" content="From 20 lakhs to 5 crore: the multi-year system for building real wealth">
+  <meta name="description" content="From 20 lakhs to 5 crore — the multi-year staircase of compounding tiers, lifestyle ratchets, and fat-tail outcomes.">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="The Wealth Staircase">
-  <meta property="og:description" content="From 20 lakhs to 5 crore: the multi-year system for building real wealth">
+  <meta property="og:description" content="From 20 lakhs to 5 crore — the multi-year staircase of compounding tiers, lifestyle ratchets, and fat-tail outcomes.">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #1a365d;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget-specific layout helpers — mirrors options-insurance pilot */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stat-cell .stat-name {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .stat-cell .stat-num {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
   </style>
 </head>
 <body>
@@ -47,8 +81,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">The Wealth Staircase</h1>
-      <p class="hero__subtitle">From 20 lakhs to 5 crore: the multi-year system for building real wealth</p>
-      <p class="hero__meta">25 min read</p>
+      <p class="hero__subtitle">From 20 lakhs to 5 crore — the multi-year system, with the tiers, ratchets, and tails shown rather than told.</p>
+      <p class="hero__meta">9 chapters &middot; 3 interactive simulations &middot; 28 min read</p>
     </div>
   </header>
 
@@ -57,369 +91,443 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#from-20-lakhs-to-5-crore-the-multi-year-system-for-building-real-wealth">From 20 lakhs to 5 crore: the multi-year system for building real wealth</a></li>
-        <li><a href="#i-the-wealth-equation-most-people-get-wrong">I. The Wealth Equation Most People Get Wrong</a></li>
-        <li><a href="#ii-stage-one-the-sip-foundation-0-to-20-lakhs">II. Stage One: The SIP Foundation (0 to 20 Lakhs)</a></li>
-        <li><a href="#iii-stage-two-the-direct-stock-investor-20-lakhs-to-1-crore">III. Stage Two: The Direct Stock Investor (20 Lakhs to 1 Crore)</a></li>
-        <li><a href="#iv-the-cash-weapon-and-the-art-of-waiting">IV. The Cash Weapon and the Art of Waiting</a></li>
-        <li><a href="#v-stage-three-the-multi-asset-allocator-1-crore-to-3-crores">V. Stage Three: The Multi-Asset Allocator (1 Crore to 3 Crores)</a></li>
-        <li><a href="#vi-when-to-use-leverage-and-when-it-will-destroy-you">VI. When to Use Leverage (And When It Will Destroy You)</a></li>
-        <li><a href="#vii-the-tax-game-why-after-tax-returns-are-the-only-returns-that-matter">VII. The Tax Game: Why After-Tax Returns Are the Only Returns That Matter</a></li>
-        <li><a href="#viii-stage-four-the-options-layer-and-income-generation-3-crore-to-5-crore">VIII. Stage Four: The Options Layer and Income Generation (3 Crore to 5 Crore+)</a></li>
-        <li><a href="#ix-the-complete-system-your-wealth-staircase-playbook">IX. The Complete System: Your Wealth Staircase Playbook</a></li>
+        <li><a href="#i-equation">Why is capital, not growth rate, the variable that matters?</a></li>
+        <li><a href="#ii-journey">What does the 20L &rarr; 5Cr journey actually look like?</a></li>
+        <li><a href="#iii-sip-foundation">Stage one: what should you do with your first 20 lakhs?</a></li>
+        <li><a href="#iv-direct-stocks">Stage two: why does buy-and-hold fail at 20L &rarr; 1Cr?</a></li>
+        <li><a href="#v-cash-weapon">Why is cash a weapon, not dead money?</a></li>
+        <li><a href="#vi-ratchet">Why does a 3% lifestyle creep eat half your terminal wealth?</a></li>
+        <li><a href="#vii-fat-tails">If the &ldquo;average&rdquo; return is 12%, what will you actually get?</a></li>
+        <li><a href="#viii-tax-options">Stage four: tax residency and the options layer</a></li>
+        <li><a href="#ix-playbook">The complete playbook and what to do tomorrow</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="from-20-lakhs-to-5-crore-the-multi-year-system-for-building-real-wealth">
+
+    <!-- ============================================================
+         I. The wealth equation
+         ============================================================ -->
+    <section class="reveal" id="i-equation">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>From 20 lakhs to 5 crore: the multi-year system for building real wealth</h2>
+        <h2>Why is capital, not growth rate, the variable that matters?</h2>
       </div>
       <div class="section-content">
-        <p>Most people think building wealth is about picking the right stock at the right time. They read one hot tip, throw money at it, and wait for the magic to happen. When it does not happen &ndash; and for most, it never does &ndash; they conclude that &ldquo;the market is rigged&rdquo; or &ldquo;only the rich get richer.&rdquo;</p>
-<p>They are half right. The rich do get richer. But not because the system is rigged. It is because the rich follow a system. A progression. A staircase. They start at one level, build the skills and capital required for that level, and then climb to the next. They do not try to jump from the ground floor to the penthouse. They do not skip steps. And at each step, the rules of the game change.</p>
-<p>I know this because I have climbed this staircase myself. I started with no family wealth, no inheritance, no insider connections. I worked in management consulting, left a 50-lakh-per-year salary, built a business, and systematically constructed a portfolio that now operates across multiple asset classes, multiple geographies, and multiple tax jurisdictions. Every step was deliberate. Every step was learnable. And every step is available to you &ndash; if you stop looking for shortcuts and start building a system.</p>
-<p>This article is that system. It is the complete progression from your first SIP to a multi-crore, tax-optimized, options-layered portfolio. It will take you years to execute. That is the point. The wealth staircase is not a hack. It is a career.</p>
-<hr />
+        <p>Most people think building wealth is about picking the right stock at the right time. They read one hot tip, throw money at it, and wait for the magic. When it does not happen &mdash; and for most, it never does &mdash; they conclude the system is rigged. They are half right. The rich do get richer. But not because the system is rigged. It is because the rich follow a <em>system</em>. A staircase.</p>
+
+        <p>They start at one level, build the skills and capital required for that level, and then climb to the next. They do not try to jump from the ground floor to the penthouse. They do not skip steps. At each step, the rules of the game change. This article is that staircase &mdash; the complete progression from a first SIP to a multi-crore, tax-optimised, options-layered portfolio. It will take years to execute. That is the point.</p>
+
+        <p>Here is the concept that reframes everything:</p>
+
+        <div class="math-block">
+          Wealth = Capital &times; Growth Rate &times; Time
+          <span class="math-where">all three matter, but they are not equally controllable</span>
+        </div>
+
+        <p>Which of these three matters the most? Beginners obsess over <em>growth rate</em>. They want 50% returns, multi-baggers, 1 lakh into 10 lakhs in a year. And because they obsess over growth rate, they take insane risks, buy garbage on tips, and end up with negative returns.</p>
+
+        <p>The real answer is <strong>capital</strong>. If you double 1 lakh &mdash; a 100% return, extraordinary &mdash; you have 2 lakhs. Congratulations; you cannot buy a decent used car with that return. But grow 50 lakhs at 15% for five years and you end up at roughly 1 crore. Same skill, same growth rate, same time. The difference is entirely capital.</p>
+
+        <p>That is why the first rung of the staircase is not about investing at all. It is about capital accumulation &mdash; your income, your savings rate, your ability to <em>concentrate</em> capital before deploying it.</p>
+
+        <blockquote>
+          <p>You start by selling your time. Then you sell your expertise. Then you build systems that generate income without your time. Finally, you deploy capital that compounds while you sleep. Each step increases your hourly rate by an order of magnitude.<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a></p>
+        </blockquote>
+
+        <p>Most readers will be somewhere in the first two stages. That is fine. But your investing strategy must match your stage. A person with 5 lakhs has a fundamentally different optimal strategy than one with 2 crores. Pretending otherwise is the fastest way to destroy wealth.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="i-the-wealth-equation-most-people-get-wrong">
+    <!-- ============================================================
+         II. What does the 20L → 5Cr journey actually look like?
+         ============================================================ -->
+    <section class="reveal" id="ii-journey">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>I. The Wealth Equation Most People Get Wrong</h2>
+        <h2>What does the 20L &rarr; 5Cr journey actually look like?</h2>
       </div>
       <div class="section-content">
-        <p>Let me share a concept that will reframe how you think about money forever.</p>
-<p><strong>Wealth = Capital x Growth Rate x Time</strong></p>
-<p>Now here is the question: which of these three variables matters the most?</p>
-<p>Most beginners obsess over growth rate. They want 50% returns. They want multi-baggers. They want to turn 1 lakh into 10 lakhs in a year. And because they obsess over growth rate, they take insane risks, buy garbage stocks on tips, and end up with negative returns.</p>
-<p>The real answer is <strong>capital</strong>. Capital is the most important variable in the wealth equation, and it is the one nobody wants to talk about.</p>
-<p>Here is why. If you have 1 lakh and you double it &ndash; a 100% return, which is extraordinary &ndash; you have 2 lakhs. Congratulations. You cannot buy a decent used car with that return.</p>
-<p>But if you have 10 lakhs and you grow it by 20% &ndash; a far more achievable and sustainable number &ndash; you make 2 lakhs. Same absolute return, one-fifth the growth rate, ten times the starting capital.</p>
-<p>Now extend this to real numbers. If you have 50 lakhs and grow it at 15% CAGR for 5 years, you end up with roughly 1 crore. If you have 5 lakhs and grow it at 15% CAGR for 5 years, you end up with roughly 10 lakhs. Same skill, same growth rate, same time period. The difference is entirely capital.</p>
-<p>This is why the first rung of the wealth staircase is not about investing at all. It is about capital accumulation. It is about your income, your savings rate, and your ability to concentrate capital before you start deploying it.</p>
-<blockquote>
-<p>The system could be teaching GMAT or doing investment banking or pursuing entrepreneurship. The system is to optimize your hourly price. If you help people save time, the hourly is low. If you help folks save money, the hourly is low. If you help folks make money, the hourly is extremely high. If you use money to make money, there is no hourly &ndash; because money can work 24 hours a day, 7 days a week.</p>
-</blockquote>
-<p>That is the progression. You start by selling your time. Then you sell your expertise. Then you build systems that generate income without your time. And finally, you deploy capital that compounds while you sleep. Each step up this ladder increases your hourly rate by an order of magnitude. And each step feeds the wealth equation by increasing the capital variable.</p>
-<p>Most people reading this will be somewhere in the first two stages. That is fine. But understand that your investing strategy must match your stage. A person with 5 lakhs to invest has a fundamentally different optimal strategy than a person with 2 crores. Pretending otherwise is the fastest way to destroy wealth.</p>
-<hr />
+        <p>Before we walk the tiers individually, look at all of them at once. The journey is not a straight line at constant slope. It is a series of plateaus and inflection points, and the time between adjacent tiers shrinks as you go up &mdash; because the same percentage growth applied to a bigger base traverses more rupees per year.</p>
+
+        <p>Stop reading and play with the simulator. Set your starting capital, monthly contribution, and expected return. Watch the wealth curve cross the tier markers. Pay attention to one specific thing: <strong>the time between &#8377;1Cr and &#8377;3Cr is usually shorter than the time it took to reach &#8377;1Cr</strong>. That gap is the compounding-tier accelerator. It is also the reason most people give up too early.</p>
+
+        <!-- Widget 1: Compounding Tiers Visualizer -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; The Compounding Tiers Visualizer</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Starting capital</span><span class="slider-value" id="w1-cap-val">&#8377;20L</span></div>
+              <input type="range" id="w1-cap" min="5" max="50" value="20" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Monthly contribution</span><span class="slider-value" id="w1-mon-val">&#8377;50K</span></div>
+              <input type="range" id="w1-mon" min="10" max="200" value="50" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Expected return</span><span class="slider-value" id="w1-ret-val">14%</span></div>
+              <input type="range" id="w1-ret" min="8" max="25" value="14" step="0.5">
+            </div>
+          </div>
+          <div class="stat-grid" id="w1-stats">
+            <div class="stat-cell"><div class="stat-name">Years to &#8377;50L</div><div class="stat-num" id="w1-t50">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Years to &#8377;1Cr</div><div class="stat-num" id="w1-t1c">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Years to &#8377;3Cr</div><div class="stat-num" id="w1-t3c">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Years to &#8377;5Cr</div><div class="stat-num" id="w1-t5c">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Final corpus</div><div class="stat-num" id="w1-final">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Total contributed</div><div class="stat-num" id="w1-contrib">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Returns earned</div><div class="stat-num" id="w1-gains">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Returns / final</div><div class="stat-num" id="w1-gainpct">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Drag the return slider from 8% to 14% and watch the tier-crossing times collapse. Then hold return fixed and bump the monthly slider &mdash; see how a &#8377;50K contribution beats a &#8377;20K + higher-return combination over 20 years.</p>
+        </div>
+
+        <p>Two things to notice. First: the curve is exponential, not linear, so the visual gap between &#8377;50L and &#8377;1Cr looks much smaller than the gap between &#8377;3Cr and &#8377;5Cr &mdash; even though the rupee distance is much bigger. Your eye lies to you about compounding; the table of years-to-tier underneath is the honest version. Second: at horizons above 15 years, the <em>returns earned</em> stat overtakes <em>total contributed</em>. That crossover is the moment the portfolio starts earning more than you put in. From that point onward, the system runs you.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the &ldquo;Rule of 72&rdquo; explains the tier compression</summary>
+          <p>At 12% annual return, money doubles every 72 &divide; 12 = 6 years. So the time from &#8377;50L to &#8377;1Cr is roughly the same as &#8377;1Cr to &#8377;2Cr is roughly the same as &#8377;2Cr to &#8377;4Cr &mdash; in <em>years</em>. But the rupee jumps are &#8377;50L, &#8377;1Cr, &#8377;2Cr. The doubling-time stays constant; the rupee per doubling explodes. That is why the staircase appears to &ldquo;skip&rdquo; the upper tiers faster than the lower ones, even though arithmetically nothing is being skipped.</p>
+        </details>
+
+        <p>The arc you just saw has four named stages, each with its own optimal strategy. The next four sections walk them in order. But first, a useful sanity check: at default settings (&#8377;20L start, &#8377;50K/mo, 14% return), the simulator predicts &#8377;5Cr in roughly 15 years. Drop the return to 10% and the same target slips past year 20. Drop it to 8% and you do not reach &#8377;5Cr inside the simulator&rsquo;s horizon at all. The difference between &ldquo;an excellent active strategy&rdquo; and &ldquo;a passive index fund&rdquo; is not 6 percentage points of CAGR &mdash; it is whether the staircase finishes in your working lifetime.</p>
+
+        <p>That single fact is why this article cares so much about the strategies in Stages Two through Four. Compounding alone is not enough; the rate of compounding is what determines whether you cross the upper tiers at all.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-stage-one-the-sip-foundation-0-to-20-lakhs">
+    <!-- ============================================================
+         III. Stage One: SIP Foundation
+         ============================================================ -->
+    <section class="reveal" id="iii-sip-foundation">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>II. Stage One: The SIP Foundation (0 to 20 Lakhs)</h2>
+        <h2>Stage one: what should you do with your first 20 lakhs?</h2>
       </div>
       <div class="section-content">
-        <p>If you are starting out with less than 20 lakhs in investable capital, your primary job is simple: build the base. This means consistent investing in high-quality assets through systematic plans, while aggressively growing your income on the side.</p>
-<p>Let me be direct about SIPs. I do not do SIPs myself. But that does not mean SIPs are useless &ndash; it means they are a tool for a specific stage, and most people never graduate beyond that stage.</p>
-<p>SIPs worked spectacularly well over the last two decades because of three structural tailwinds:</p>
-<ul>
-<li>The ease of investing was not there earlier, so few people participated</li>
-<li>Awareness was extremely low</li>
-<li>Rich folks who had traditionally invested in gold and real estate migrated to stocks, 10X-ing the market size for mutual funds</li>
-</ul>
-<p>These tailwinds are fading. When everyone is doing SIPs, the strategy becomes crowded. And crowded strategies produce average returns by definition. If you do what most people are doing, you get the results most people are getting.</p>
-<p><strong>But here is the thing</strong>: at the 0-to-20-lakh stage, you do not have enough capital for the returns to matter dramatically in absolute terms. What matters is the habit, the discipline, and the accumulation.</p>
-<p>Here is what your Stage One portfolio should look like:</p>
-<p><strong>70% in large-cap, high-growth equities.</strong> Pick mega companies in sectors with structural tailwinds &ndash; technology, healthcare, financials. Not 50 stocks. Not a mutual fund with 100 holdings. A focused portfolio of 10-15 names where no single stock exceeds 5% of your total portfolio.</p>
-<p><strong>20% in US equities or US index funds.</strong> This is not optional. This is your first step toward currency diversification. The rupee has depreciated from 84 to 87 against the dollar in just a few months. That is a 3.5% erosion of your purchasing power on top of whatever the stock market does. Investing in dollar-denominated assets is not speculation &ndash; it is self-defense.</p>
-<p><strong>10% in cash or risk-free assets.</strong> You will need this when opportunity strikes.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>If you are starting out with less than 20 lakhs in investable capital, your primary job is simple: <strong>build the base</strong>. This means consistent investing in high-quality assets through systematic plans, while aggressively growing your income on the side.</p>
 
-<p>The chart above illustrates a fundamental truth: consistent SIPs of 25,000 per month at 12% CAGR will get you to meaningful capital over a decade. But if you also deploy lump sums during market corrections &ndash; buying when others are scared &ndash; your portfolio accelerates dramatically. The SIP builds the floor. The opportunistic lump sums build the ceiling.</p>
-<p><strong>Five rules for SIP-stage investors:</strong></p>
-<ol>
-<li><strong>Industry must be stable.</strong> No major regulatory or existential risks.</li>
-<li><strong>Stocks must be profit-generating.</strong> No narrative-driven, pre-revenue bets.</li>
-<li><strong>The business must survive 4-5 years minimum.</strong> You need time for compounding to work.</li>
-<li><strong>Avoid very high PE stocks.</strong> Trent at 130 PE going up 11% in a day is not an investment. It is a lottery ticket.</li>
-<li><strong>Avoid slow-growth industries.</strong> Over a 5-year basis, if the sector grows slower than Nifty 50, you are wasting time. Infrastructure, sugar, ports &ndash; these have their cycles, but they are not where you build your base.</li>
-</ol>
-<p>The goal of Stage One is not to get rich. The goal is to build a base of 20 lakhs while developing the analytical skills you will need for Stage Two. Every month, make it a mission to learn something new about investing. Study interest rate cycles. Understand how central bank policy impacts stock prices. Learn what happens to lending stocks when rates get cut. Build the knowledge now, because you will need it when the capital grows.</p>
-<hr />
+        <p>I do not run SIPs myself. But that does not mean SIPs are useless &mdash; it means they are a tool for a specific stage, and most people never graduate beyond that stage. SIPs worked spectacularly well over the last two decades because of three structural tailwinds: ease of investing was poor before the smartphone era, awareness was extremely low, and traditionally gold-and-real-estate-rich families migrated to stocks, 10X-ing the mutual-fund market size.</p>
+
+        <p>Those tailwinds are fading. When everyone is doing SIPs, the strategy becomes crowded. Crowded strategies produce average returns by definition. If you do what most people are doing, you get the results most people are getting.</p>
+
+        <p><strong>But here is the thing</strong>: at the 0-to-20-lakh stage, you do not have enough capital for the returns to matter dramatically in absolute terms. What matters is the habit, the discipline, and the accumulation. Your Stage One portfolio should look like this:</p>
+
+        <ul>
+          <li><strong>70% in large-cap, high-growth equities</strong> &mdash; mega companies in sectors with structural tailwinds (technology, healthcare, financials). A focused 10-15 names where no single stock exceeds 5%.</li>
+          <li><strong>20% in US equities or US index funds</strong> &mdash; not optional. The rupee has depreciated meaningfully against the dollar over almost every five-year window since 2000. Dollar exposure is self-defense, not speculation.</li>
+          <li><strong>10% in cash or risk-free assets</strong> &mdash; you will need this when opportunity strikes.</li>
+        </ul>
+
+        <p>Five rules for SIP-stage investors: the industry must be stable; the stocks must be profit-generating; the business must survive 4-5 years minimum; avoid very high PE narratives; avoid slow-growth sectors that lag Nifty 50 over rolling five-year windows.</p>
+
+        <p>The goal of Stage One is not to get rich. The goal is to build a base of 20 lakhs while developing the analytical skills you will need for Stage Two. Every month, study something new &mdash; interest rate cycles, central bank policy, what happens to lending stocks when rates get cut. Build the knowledge now, because you will need it when the capital grows.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; why &ldquo;crowded&rdquo; strategies underperform</summary>
+          <p>It is a mathematical identity that the average dollar invested in the market earns the market&rsquo;s average return, minus fees and frictions. So if SIP money becomes a large fraction of total flow, it cannot, by definition, do meaningfully better than the broad market. The historical SIP outperformance over 2005-2020 was substantially an entry-timing illusion: SIPs began when valuations were modest, accumulated through the deepest discount window (2008-09), and rode the index expansion. Replay the experiment starting in 2017 and the outperformance evaporates.</p>
+          <p>None of this argues against the SIP <em>habit</em>. The habit is invaluable. The argument is against treating SIPs as a sufficient strategy past the 20L threshold &mdash; at that point your portfolio is large enough to deserve active capital rotation, not autopilot.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-stage-two-the-direct-stock-investor-20-lakhs-to-1-crore">
+    <!-- ============================================================
+         IV. Stage Two: Direct Stocks (20L → 1Cr)
+         ============================================================ -->
+    <section class="reveal" id="iv-direct-stocks">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>III. Stage Two: The Direct Stock Investor (20 Lakhs to 1 Crore)</h2>
+        <h2>Stage two: why does buy-and-hold fail at 20L &rarr; 1Cr?</h2>
       </div>
       <div class="section-content">
-        <p>At 20 lakhs, the game changes. You now have enough capital that your returns start to matter in absolute terms. A 20% return on 20 lakhs is 4 lakhs &ndash; real money. This is where you transition from a passive SIP investor to an active, direct stock investor.</p>
-<p>The core strategy at this stage is <strong>value buying</strong>: investing in undervalued stocks with high growth rates.</p>
-<p>Here is the framework:</p>
-<ol>
-<li><strong>Screen for growth rate above 15% CAGR.</strong> You want compounders, not value traps.</li>
-<li><strong>Buy when the stock is trading below its 200-day moving average (200DMA).</strong> This is your margin of safety. If a high-growth stock is temporarily below its long-term trend, the market is giving you a discount.</li>
-<li><strong>Maximum 5% portfolio exposure to any single stock.</strong> This is non-negotiable. Position sizing is what keeps you in the game when individual bets go wrong.</li>
-<li><strong>If the stock goes 10-15% above the 200DMA, book at least 50% profits.</strong> Take the cash. Redeploy it into the next undervalued opportunity.</li>
-</ol>
-<p>This is not buy-and-hold. This is systematic capital rotation. You buy discounted high-growth stocks, hold them until they are fairly valued, book partial profits, and rotate into the next opportunity. Rinse and repeat.</p>
-<p><strong>Why buy-and-hold fails at this stage in India.</strong> People love narratives. &ldquo;Buy quality and hold forever.&rdquo; &ldquo;Buy monopoly stocks.&rdquo; These are super-simple narratives pushed by the SIP industry. And their funds are now suffering at scale. Over the last 1.5 years, most investors have made 0% returns &ndash; and if you adjust for INR depreciation, the returns are negative.</p>
-<p>The Indian market is fundamentally a trading market. Unlike the US, where you have mega-cap tech companies with global monopolies that compound for decades, Indian markets are cyclical. Sectors rotate. What works for three years dies for the next three. If you are holding a stock that grows slower than Nifty 50 over a 5-year basis &ndash; think infrastructure, sugar, ports in the wrong cycle &ndash; you are losing to the index while taking more risk.</p>
-<p>The direct stock investor who rotates capital between undervalued sectors will outperform the buy-and-hold investor in Indian markets nearly every time over a 5-10 year period. The data supports this. The logic supports this. And the people who have actually built multi-crore portfolios in India all practice some version of this rotation framework.</p>
-<p><strong>The concept of stock buybacks &ndash; an advanced edge.</strong> One thing you should understand as you graduate to direct stock investing is how buybacks work. When a company like Apple or Google buys back its own shares from the open market, it creates a counter-buyer position. This effectively puts a floor under the stock price. Cash-rich firms that actively repurchase shares are structurally safer holdings because the company itself is acting as a buyer when the price dips. This is an oversimplified explanation, but it is important: when screening for your core holdings, favor companies with active buyback programs and strong cash positions.</p>
-<p>Let me give you the categorization framework for how to think about your holdings:</p>
-<ul>
-<li><strong>15% compounders</strong>: HDFC Bank, IDFC First, Kotak, Asian Paints. These are your core holdings. Low risk, steady returns, they form the foundation.</li>
-<li><strong>2X bets</strong>: PVR Inox, Aavas, housing finance companies, brokerages. Medium risk, higher return potential over 3-5 years.</li>
-<li><strong>5X bets</strong>: High-growth, high-risk names in emerging sectors. These are small positions &ndash; maybe 3-5% of your portfolio each &ndash; where the payoff is asymmetric.</li>
-</ul>
-<p>You cannot buy things at HDFC Bank-level risk and expect 300% gains. That math does not work. If you want outsized returns, you must accept outsized risk &ndash; but you manage it through position sizing. Your 15% compounders should be 50-60% of the portfolio. Your 2X bets, 25-30%. Your 5X bets, 10-15% at most.</p>
-<blockquote>
-<p>If you are a beginner: pick large-cap mega companies, pick tech. If you are intermediate: rotate capital on Indian stocks, invest for long-term in US stocks. If you are advanced: layer your core portfolio with options.</p>
-</blockquote>
-<p>At Stage Two, you are the intermediate investor. You are rotating Indian stocks actively while building a long-term US position that you do not touch. The Indian portion generates active returns through rotation. The US portion builds dollar-denominated wealth and protects against INR depreciation.</p>
-<p><strong>Why the US market specifically?</strong> During Trump&rsquo;s first term, the Nasdaq gave 22-23% CAGR returns compared to its historical average of 16-17%. The US has a market-friendly policy environment, an AI-driven technology boom, and the world&rsquo;s deepest and most liquid capital markets. If you tie your fortunes to the richest ecosystem on the planet, the chances of getting richer go up structurally. Start buying clean US firms &ndash; the Magnificent 7, US index funds, tech, healthcare. This is not just investing. It is also investing in US dollars legally, which saves you from constant INR depreciation. Think of your US portfolio as the long-term anchor that you build for decades, while your Indian portfolio is the active engine that generates near-term returns.</p>
-<p><strong>The contrarian muscle.</strong> This is also where you start developing the most valuable investing skill there is: contrarian thinking. You invest when others are scared. You invest in assets others are not picking up. You stick with your analysis. And when things change, you update your thesis.</p>
-<p>Two weeks ago, everyone was telling you not to buy. Today, they tell you the stock market is a great instrument for building wealth. If you follow the crowd, you buy at the top and sell at the bottom. If you develop the contrarian muscle, you do the opposite. And the wealth difference compounds over decades.</p>
-<hr />
+        <p>At 20 lakhs, the game changes. You now have enough capital that your returns start to matter in absolute terms. A 20% return on 20 lakhs is 4 lakhs &mdash; real money. This is where you transition from a passive SIP investor to an active, direct stock investor.</p>
+
+        <p>The core strategy at this stage is <strong>value buying</strong>: investing in undervalued stocks with high growth rates. The framework has four moving parts:</p>
+
+        <ol>
+          <li>Screen for growth rate above 15% CAGR. You want compounders, not value traps.</li>
+          <li>Buy when the stock is trading below its 200-day moving average. This is your margin of safety.</li>
+          <li>Maximum 5% portfolio exposure to any single stock. Non-negotiable.</li>
+          <li>If a stock runs 10-15% above its 200DMA, book at least 50% profits. Redeploy into the next undervalued opportunity.</li>
+        </ol>
+
+        <p>This is not buy-and-hold. This is systematic capital rotation. You buy discounted high-growth stocks, hold them until they are fairly valued, book partial profits, and rotate. Rinse and repeat.</p>
+
+        <p><strong>Why does buy-and-hold fail at this stage in India?</strong> People love narratives. &ldquo;Buy quality and hold forever.&rdquo; &ldquo;Buy monopoly stocks.&rdquo; These are super-simple narratives pushed by an industry whose funds are now suffering at scale. Over many recent windows, most investors have made 0% real return &mdash; and adjusted for INR depreciation, the picture is worse.</p>
+
+        <p>The Indian market is fundamentally a trading market. Unlike the US, where mega-cap tech compounds for decades, Indian markets are cyclical. Sectors rotate. What works for three years dies for the next three. If you are holding a stock that grows slower than Nifty 50 over a five-year basis &mdash; infrastructure, sugar, the wrong cycle for ports &mdash; you are losing to the index while taking more risk.</p>
+
+        <p>Categorise your holdings:</p>
+
+        <ul>
+          <li><strong>15% compounders</strong> (50-60% of portfolio): HDFC Bank, Kotak, Asian Paints. Low risk, steady returns, the foundation.</li>
+          <li><strong>2X bets</strong> (25-30%): PVR Inox, housing finance companies, mid-cap rotations. Medium risk, higher return potential over 3-5 years.</li>
+          <li><strong>5X bets</strong> (10-15% max): high-growth, high-risk names in emerging sectors. Small positions where the payoff is asymmetric.</li>
+        </ul>
+
+        <blockquote>
+          <p>If you are a beginner: pick large-cap mega companies, pick tech. If you are intermediate: rotate capital on Indian stocks, invest for the long term in US stocks. If you are advanced: layer your core portfolio with options.</p>
+        </blockquote>
+
+        <p>At Stage Two, you are the intermediate. You rotate Indian stocks actively while building a long-term US position that you do not touch. The Indian portion generates active returns; the US portion builds dollar-denominated wealth and protects against INR depreciation.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; why the 200DMA specifically?</summary>
+          <p>The 200-day moving average is roughly the price level a stock has traded around over the last calendar year of business days. It is the cleanest single-number summary of &ldquo;fair value implied by the market.&rdquo; Above 200DMA, the market is excited. Below, the market is bored or scared. For a fundamentally strong growth stock, &ldquo;bored or scared&rdquo; is the discount you want.</p>
+          <p>You can run the same framework with the 100DMA (more sensitive, more whipsaws) or the 50-week MA (slower, fewer signals). The 200DMA is the institutional default because it is what trend-following hedge funds and dealing desks watch. When a stock crosses below its 200DMA, real systematic flow gets triggered. That is why the discount exists.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-the-cash-weapon-and-the-art-of-waiting">
+    <!-- ============================================================
+         V. Cash weapon
+         ============================================================ -->
+    <section class="reveal" id="v-cash-weapon">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>IV. The Cash Weapon and the Art of Waiting</h2>
+        <h2>Why is cash a weapon, not dead money?</h2>
       </div>
       <div class="section-content">
-        <p>Here is something most investors get wrong: they think being fully invested at all times is a virtue. It is not. Cash is a position. Cash is a weapon. And knowing when to hold cash is as important as knowing what to buy.</p>
-<p>I personally sit on 20-30% cash relative to my portfolio at certain stages of the market cycle. If my portfolio is 10 crores, that means 2-3 crores locked in risk-free assets, waiting for deployment. This might seem like dead money. It is not. It is ammunition.</p>
-<p>Why? Because the biggest wealth-building opportunities come during market crashes. And you cannot buy the crash if you have no cash.</p>
-<p><strong>The V-shaped recovery insight.</strong> Markets these days exhibit V-shaped recoveries rather than slow decays like 2008. The 2020 crash-and-recovery proved this definitively. This changes the leverage calculus entirely, which we will discuss later. But first, understand what it means for cash management.</p>
-<p>If crashes are sharp but recoveries are quick, the investor who has cash during the crash and deploys it aggressively will capture 30-50% returns in a matter of months. The investor who was fully invested watches their portfolio crash, panics, sells at the bottom, and misses the recovery. I have seen this happen to thousands of people.</p>
-<p><strong>When to build cash:</strong></p>
-<ul>
-<li>When the market has run up significantly and valuations look stretched</li>
-<li>When you have booked 50% profits on positions that have exceeded their 200DMA</li>
-<li>When macro indicators suggest a correction is coming (rising rates, FII outflows, global uncertainty)</li>
-<li>When short-term trading becomes pointless due to tax inefficiency &ndash; paying 20% tax plus charges on short-term gains makes holding cash look very attractive by comparison</li>
-</ul>
-<p><strong>When to deploy cash:</strong></p>
-<ul>
-<li>When the market corrects 10-15% from recent highs</li>
-<li>When high-quality stocks fall below their 200DMA</li>
-<li>When the RBI or Fed signals rate cuts (this is the starting gun for the next leg up)</li>
-<li>When FII outflows reverse and foreign capital starts returning</li>
-</ul>
-<p><strong>The interest rate connection.</strong> Understanding why cash deployment timing matters requires understanding the rate cycle. High interest rates cannot be retained for multiple years because governments themselves are over-leveraged &ndash; the more rates stay elevated, the more the government has to repay on its own debt. So rates have to structurally come down. When the RBI begins cutting rates, it sets off a chain reaction: borrowing gets cheaper, business activity picks up, consumer spending recovers, and stock prices rise. This is the trigger that transforms your cash pile from dead weight into rocket fuel.</p>
-<p>The last 3 years of high rates have caused real pain for small and mid-sized businesses in India. Growth has massively slowed down. Consumer-level leverage is high. But the hope &ndash; and this is a high-probability hope based on structural macro forces &ndash; is that rate cuts are coming. When they arrive, lending firms like Aavas and Aptus benefit directly. Banks see improved margins. Real estate demand surges as mortgages get cheaper. The investor who is sitting on 20-30% cash when this cycle turns will deploy at the bottom and ride the next wave up.</p>
-<p>You do not need more than 3-4 good cycles to build crazy wealth. But to capitalize on those cycles, you need extreme preparation. And preparation means having cash when others are scrambling, having a list of stocks you want to buy at specific prices, and having the conviction to act when everyone is telling you to run.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Most investors think being fully invested at all times is a virtue. It is not. Cash is a position. Cash is a weapon. And knowing when to hold cash is as important as knowing what to buy.</p>
 
-<p>Look at the numbers. A disciplined investor who maintains a SIP of 50,000 per month and deploys lump sums of 10 lakhs during corrections (at a blended 14% CAGR) will dramatically outperform someone who just keeps the SIP running at the same rate. The lump sum deployments during fear-driven dips are where the real wealth gap opens up.</p>
-<hr />
+        <p>I personally sit on 20-30% cash relative to portfolio at certain points of the cycle. If the portfolio is 10 crores, that means 2-3 crores parked in risk-free assets, waiting for deployment. This might look like dead money. It is not. It is ammunition. Because the biggest wealth-building opportunities come during market crashes &mdash; and you cannot buy the crash if you have no cash.</p>
+
+        <p><strong>The V-shaped recovery insight.</strong> Markets today exhibit V-shaped recoveries rather than the slow decays of 2008. The 2020 COVID crash-and-recovery proved this definitively<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. This changes the leverage and cash-management calculus entirely.</p>
+
+        <p>If crashes are sharp but recoveries are quick, the investor who has cash during the crash and deploys it aggressively captures 30-50% returns in months. The investor who was fully invested watches the portfolio crash, panics, sells at the bottom, and misses the recovery. I have seen this happen to thousands of people.</p>
+
+        <p><strong>When to build cash:</strong> when the market has run up and valuations look stretched; when you have booked profits on positions above their 200DMA; when macro indicators (rising rates, FII outflows, global uncertainty) signal correction risk; when short-term trading is being killed by tax inefficiency.</p>
+
+        <p><strong>When to deploy cash:</strong> when the market corrects 10-15% from highs; when high-quality stocks fall below their 200DMA; when the RBI or Fed signals rate cuts (the starting gun for the next leg up); when FII outflows reverse.</p>
+
+        <p>High interest rates cannot be sustained for multiple years because governments themselves are over-leveraged &mdash; the longer rates stay elevated, the more the sovereign has to pay on its own debt. So rates have to structurally come down. When rate cuts arrive, lending firms benefit directly, banks see improved margins, real estate demand surges as mortgages cheapen. The investor sitting on 20-30% cash when this cycle turns deploys at the bottom and rides the next wave up.</p>
+
+        <div class="callout">
+          <div class="callout-title">The asymmetry</div>
+          <p>You do not need more than <strong>3-4 good cycles</strong> in a lifetime to build crazy wealth. But to capitalise, you need extreme preparation. Preparation means having cash when others are scrambling, having a list of stocks at specific buy prices, and having the conviction to act when everyone is telling you to run.</p>
+        </div>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-stage-three-the-multi-asset-allocator-1-crore-to-3-crores">
+    <!-- ============================================================
+         VI. Lifestyle ratchet
+         ============================================================ -->
+    <section class="reveal" id="vi-ratchet">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>V. Stage Three: The Multi-Asset Allocator (1 Crore to 3 Crores)</h2>
+        <h2>Why does a 3% lifestyle creep eat half your terminal wealth?</h2>
       </div>
       <div class="section-content">
-        <p>When your portfolio crosses 1 crore, congratulations &ndash; you have entered a different league. But this is also where the stakes get higher. A 15% drawdown on 1 crore is 15 lakhs. That is more than most people earn in a year. You can no longer afford to treat investing as a single-asset-class, single-geography game.</p>
-<p>This is where <strong>multi-asset diversification</strong> becomes critical.</p>
-<p>Here is my framework, adjusted for where I see the world today:</p>
-<ul>
-<li><strong>50-60% in equities</strong> (split between Indian direct stocks and US stocks)</li>
-<li><strong>20-25% in real estate</strong> (investment-grade property, not speculative plots)</li>
-<li><strong>5-10% in crypto</strong> (purely Bitcoin, not altcoins)</li>
-<li><strong>5-10% in gold</strong></li>
-<li><strong>Remaining in cash or risk-free assets</strong></li>
-</ul>
-<p>Let me explain the logic behind each allocation.</p>
-<p><strong>Equities remain the growth engine.</strong> But at this portfolio size, you shift from pure growth investing to a blend of value buying and capital protection. I am roughly a 50% stock investor at this stage, doing value buying only &ndash; buying discounted stocks with strong fundamentals. Not buying &ldquo;quality at any price,&rdquo; which is the mantra of the SIP industry that has destroyed returns over the last 1.5 years.</p>
-<p><strong>Real estate provides safety and income.</strong> When your portfolio goes above 2 crores, the framework says to withdraw 30% and buy a hard asset. Real estate gives you something no financial asset can: physical security, rental income, and a hedge against inflation that is directly tied to the cost of living. If you own your house, you control 30-40% of your cost of living forever. That is structural freedom.</p>
-<p><strong>Bitcoin is a currency devaluation hedge.</strong> I was never a crypto maximalist. But the fundamental thesis is simple: every government in the world is devaluing its currency through deficit spending and money printing. Bitcoin has a fixed supply. In a world of infinite money printing and finite Bitcoin, the math favors Bitcoin over long timeframes. My allocation is purely BTC &ndash; not altcoins, not meme coins, not DeFi tokens. Bitcoin is digital gold with a verifiable supply cap. Everything else in crypto is speculation until proven otherwise.</p>
-<p><strong>Gold is the ancient hedge.</strong> I was never a gold buyer either. But the excess devaluation of currency globally is not going to stop. Gold has preserved purchasing power for 5,000 years. At this portfolio size, a 5-10% allocation to gold is simply prudent.</p>
-<p><strong>International real estate for the adventurous.</strong> At the 1-3 crore level, you should at minimum be studying international real estate markets, even if you do not buy immediately. I am personally studying Dubai real estate, Istanbul real estate, Thai real estate, and business setups in Dubai. Will I buy in all of these? Probably not. But I study them like a nerd because when the opportunity comes, I want to be ready to act. Learning is a habit. Unless you learn, you cannot act. Unless you act, it will not translate into any benefits. The best way to start is to get involved at a small scale. Buy one stock of Amazon. Buy 1,000 rupees of BTC. Buy one unlisted stock. When you own something, you track it. When you track it, you gain experience. When you gain experience, it converts to knowledge that generates results.</p>
-<blockquote>
-<p>We focus quite a lot on growth rate and not enough on where our wealth will get protected. Your wealth erodes due to escalation of prices and your inability to protect it. If inflation is 10-12% for you and your ability to generate returns is 5% after tax, you are losing 5-7% a year. At 7% erosion, your wealth halves in 10 years.</p>
-</blockquote>
-<p>That quote should terrify you. If you are sitting on 1 crore in FDs earning 5% after tax while inflation in your segment is 11-12%, you are not being conservative. You are destroying wealth at a rate of 6-7% per year. Multi-asset allocation is not about chasing returns. It is about survival.</p>
-<p><strong>The broker diversification rule.</strong> If your portfolio is above 10 lakhs, use multiple brokers and DMAT accounts. I used to believe all brokers are clean. They are not. Diversify even here. I will leave this conversation here without adding more fuel to the fire.</p>
-<hr />
+        <p>Here is the brutal arithmetic almost no investing book covers: the staircase is not threatened most by bad stock picks. It is threatened by the <em>lifestyle ratchet</em> &mdash; the steady upgrade of your monthly spending whenever your income goes up.</p>
+
+        <p>The mechanism is simple. You earn &#8377;2L/month, save 30%, invest &#8377;60K. You get a raise to &#8377;2.5L. A &ldquo;responsible&rdquo; version of you saves 30% of the new total &mdash; but a more honest version absorbs most of the raise into lifestyle. Bigger flat, better car, more travel, a maid, a driver. The 30% savings rate slowly drifts to 22%, then 18%, then 15%. The contribution to the wealth machine quietly stops growing &mdash; sometimes it falls.</p>
+
+        <p>Over a 20-year arc, a 3-4% per year lifestyle creep wipes out more than half of your terminal wealth versus the &ldquo;disciplined&rdquo; version of the same career. The headline returns of your portfolio are nearly irrelevant compared to this.</p>
+
+        <p>The simulator below makes the magnitude visceral. Two wealth curves, same returns, same starting capital. The only difference is whether spending is held flat in real terms or allowed to ratchet up with income.</p>
+
+        <!-- Widget 2: Lifestyle Ratchet Simulator -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; The Lifestyle Ratchet Simulator</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Income growth /yr</span><span class="slider-value" id="w2-inc-val">10%</span></div>
+              <input type="range" id="w2-inc" min="5" max="20" value="10" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Lifestyle creep /yr</span><span class="slider-value" id="w2-life-val">3%</span></div>
+              <input type="range" id="w2-life" min="0" max="15" value="3" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Starting savings rate</span><span class="slider-value" id="w2-sav-val">30%</span></div>
+              <input type="range" id="w2-sav" min="10" max="50" value="30" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-name">Disciplined corpus</div><div class="stat-num" id="w2-discip">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Ratcheted corpus</div><div class="stat-num" id="w2-ratch">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">Wealth lost to creep</div><div class="stat-num" id="w2-lost">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">% of disciplined lost</div><div class="stat-num" id="w2-lostpct">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Set lifestyle creep to 0% &mdash; the two lines should overlap. Push it to 3% &mdash; the ratcheted line falls noticeably below. At 6%+, the ratcheted investor never reaches &#8377;1Cr while the disciplined one comfortably crosses &#8377;3Cr.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the ratchet is asymmetric</summary>
+          <p>Lifestyle inflation is unusually hard to reverse. You can downgrade from business class to economy on paper, but few people actually do it. The brain has a stable hedonic baseline that drifts <em>up</em> easily and refuses to drift <em>down</em>. That asymmetry is why the cleanest defence is to never let the ratchet click in the first place &mdash; pre-commit a fixed percentage of every raise straight into a separate investing account before lifestyle has the chance to absorb it.</p>
+          <p>The behavioural finance literature calls this <em>Save More Tomorrow</em>: when you negotiate a raise, instruct payroll that X% of the increase routes into your investment account on day one. You never see it, so you never miss it. The decision is made once, off-cycle, instead of being negotiated against your appetite every month.</p>
+        </details>
+
+        <p>The mathematics of the ratchet is the mirror image of the mathematics of compounding. Spending grows on a compounded base. So does saving. The two are racing each other on exponential curves, and small differences in the slope explode over decades.</p>
+
+        <div class="math-block">
+          Lost wealth &asymp; Disciplined corpus &times; (1 &minus; (1 &minus; r)<sup>T</sup>)
+          <span class="math-where">where r is the ratchet rate per year and T is the horizon; for r = 3%, T = 20 the loss is ~46%</span>
+        </div>
+
+        <p>This is also why the high earner who never saves often ends up financially worse off than the modest earner who saves religiously. The math does not care about the absolute income level. It cares about the gap between income and spending, compounded.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-when-to-use-leverage-and-when-it-will-destroy-you">
+    <!-- ============================================================
+         VII. Fat tails / Monte Carlo
+         ============================================================ -->
+    <section class="reveal" id="vii-fat-tails">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VI. When to Use Leverage (And When It Will Destroy You)</h2>
+        <h2>If the &ldquo;average&rdquo; return is 12%, what will you actually get?</h2>
       </div>
       <div class="section-content">
-        <p>This is the most controversial section of this article. Leverage. The word that makes responsible financial advisors shudder. The tool that has bankrupted more retail investors than any other.</p>
-<p>And yet. Leverage is not bad. You need to know WHEN to take it.</p>
-<p>Let me be precise about this. I am not telling you to go take margin loans and buy speculative stocks. That is suicide. I am telling you that there is a specific, well-defined window in the market cycle where leverage is the rational choice &ndash; and that every wealthy person you admire uses leverage in that window.</p>
-<p><strong>The window: when markets crash 20%+ from recent highs.</strong></p>
-<p>Check what Adani, Ambani, and Zuckerberg did during the 2020 crash. They leveraged up. They borrowed money to buy assets at distressed prices. And within 12-18 months, they had doubled or tripled their wealth. This is not a coincidence. This is a strategy.</p>
-<p>Why does leverage make sense specifically during 20%+ crashes? Because of the V-shaped recovery phenomenon. Markets these days do not decay slowly like they did in 2008. They crash sharply and recover sharply. If you deploy leverage at the bottom of a 20-30% crash, the V-shaped recovery means you could be up 40-60% on leveraged capital within a year.</p>
-<p><strong>The rules for leverage:</strong></p>
-<ol>
-<li><strong>Never use leverage in a normal or elevated market.</strong> Only after a 20%+ broad market decline.</li>
-<li><strong>Only leverage into assets you already understand deeply.</strong> This is not the time to experiment with new sectors.</li>
-<li><strong>Keep leverage within limits you can survive if the recovery takes longer than expected.</strong> If you use 2X leverage and the market drops another 15% before recovering, you must be able to absorb that drawdown.</li>
-<li><strong>Use leverage on index-level bets, not individual stocks.</strong> A single stock can go to zero. An index cannot.</li>
-<li><strong>Have a clear exit plan.</strong> When your leveraged position is up 30-40%, take profits. Do not get greedy.</li>
-</ol>
-<p>The mistake most people make is taking leverage too early. They see a 5-10% dip and think it is the bottom. They borrow money, the market falls another 15%, and they get margin called. Game over. Patience is the difference between leverage as a wealth-building tool and leverage as a wealth-destroying trap.</p>
-<blockquote>
-<p>Leverage is what rich folks do. The challenge is that most people take leverage too early or in the wrong conditions. So as long as you are playing within your limits and not taking leverage too early, you would do exceptionally well.</p>
-</blockquote>
-<p>If you are not comfortable with leverage &ndash; and most people should not be until their portfolio crosses 2-3 crores and they have survived at least two full market cycles &ndash; then simply ignore this section. It is better to avoid leverage entirely than to use it incorrectly. The wealth staircase does not require leverage. Leverage just accelerates the climb for those who have the experience and temperament to use it.</p>
-<hr />
+        <p>So far every projection in this article &mdash; including the ones you just played with &mdash; assumes returns are smooth. Annual return enters; corpus comes out. Real markets are not smooth. They have years like 2008, March 2020, August 2024. They have decades like the 2000s in the US (-1% real total return). The honest version of a wealth projection is not a single line. It is a cloud.</p>
+
+        <p>The simulator below runs 200 fresh Monte Carlo paths of your portfolio, each one a different random sequence of monthly returns drawn from a normal distribution with the mean and standard deviation you set. The thin grey lines are all 200 outcomes. The three bold lines are the 5th, 50th, and 95th percentile.</p>
+
+        <!-- Widget 3: Fat-tail Scenario Planner -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Fat-Tail Scenario Planner (200 Monte Carlo paths)</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="btn-group">
+            <button class="btn-primary" id="w3-run">Run new paths</button>
+          </div>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Expected return (&mu;)</span><span class="slider-value" id="w3-mu-val">12%</span></div>
+              <input type="range" id="w3-mu" min="6" max="20" value="12" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Volatility (&sigma;)</span><span class="slider-value" id="w3-sig-val">18%</span></div>
+              <input type="range" id="w3-sig" min="5" max="40" value="18" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Horizon</span><span class="slider-value" id="w3-yrs-val">20 yrs</span></div>
+              <input type="range" id="w3-yrs" min="5" max="30" value="20" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-name">P5 (unlucky)</div><div class="stat-num" id="w3-p5">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">P50 (median)</div><div class="stat-num" id="w3-p50">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">P95 (lucky)</div><div class="stat-num" id="w3-p95">&mdash;</div></div>
+            <div class="stat-cell"><div class="stat-name">P95 / P5 ratio</div><div class="stat-num" id="w3-spread">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Set &sigma; to 5% &mdash; the cloud is thin, the percentiles are close. Push &sigma; to 30% &mdash; the same average return produces a P95/P5 spread of 6-10&times;. The &ldquo;average&rdquo; return is not what any one investor experiences; it is the centre of a fan that gets wider every year.</p>
+        </div>
+
+        <p>The spread between the lucky and unlucky percentiles is staggering even at modest volatility. At &sigma; = 18% (roughly equity-index realised vol over the last two decades) and a 20-year horizon, the unlucky 5th-percentile investor and the lucky 95th-percentile investor end up <em>five to seven times apart</em> &mdash; with identical strategy, identical contributions, identical &ldquo;expected return.&rdquo; The only difference is the sequence of returns.</p>
+
+        <p>This is why <strong>sequence-of-returns risk</strong> matters more than headline CAGR, especially in the decade closest to retirement. Two investors with identical 20-year average returns can end up in totally different places if one of them had the bad luck of two big drawdowns in years 18 and 19. There is no skill that fixes this. There is only:</p>
+
+        <ol>
+          <li>A cash buffer that lets you avoid selling during a crash.</li>
+          <li>Diversification across asset classes whose worst years do not coincide.</li>
+          <li>Starting earlier &mdash; because more years of compounding both raises the median <em>and</em> compresses the relative spread.</li>
+        </ol>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; real markets have fatter tails than normal</summary>
+          <p>The Monte Carlo above samples from a normal distribution. Real markets do not: they have <em>fat tails</em> &mdash; extreme moves happen more often than the bell curve predicts. The 1987 crash, 2008 collapse, March 2020 &mdash; each was a &ldquo;10-sigma event&rdquo; under normal assumptions, which under a true normal distribution would occur once every 10<sup>23</sup> years. They actually occur once a decade.</p>
+          <p>The practical correction: when you read this widget&rsquo;s P5, mentally shift it further down. The realised worst case is meaningfully worse than the normal-distribution P5. This is why &ldquo;having cash&rdquo; and &ldquo;having insurance&rdquo; (in the options sense covered in the <a href="../options-insurance/">options-as-insurance explainer</a>) are not paranoia. They are calibration to a world that does not follow textbooks.</p>
+        </details>
+
+        <p>The takeaway is not &ldquo;stop investing because outcomes are random.&rdquo; It is <strong>stop modelling yourself as the average</strong>. Plan for the unlucky percentile and let the lucky percentile be a bonus. That is what professionals do.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-the-tax-game-why-after-tax-returns-are-the-only-returns-that-matter">
+    <!-- ============================================================
+         VIII. Stage Four — Tax + Options Layer
+         ============================================================ -->
+    <section class="reveal" id="viii-tax-options">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VII. The Tax Game: Why After-Tax Returns Are the Only Returns That Matter</h2>
+        <h2>Stage four: tax residency and the options layer (3Cr+)</h2>
       </div>
       <div class="section-content">
-        <p>Here is a number that should make you angry: LTCG in India has gone from 10% to 12.5%. Combined with short-term capital gains taxes, STT, and brokerage charges, the effective tax drag on active Indian investors is enormous.</p>
-<p>Let me do the math that nobody wants to do.</p>
-<p>If you invest 100 and it grows to 150, you pay 12.5% on the 50 gain. That is 6.25, leaving you with 143.75. Not great, but tolerable.</p>
-<p>But if your 100 goes to 110 &ndash; which is far more realistic in a sideways or slow-growth market &ndash; you pay 12.5% on the 10 gain. That is 1.25. Your total return is 8.75%. But adjust for INR depreciation of 3-5% per year and segmental inflation of 10-12%, and your real, after-tax, after-inflation return is <strong>negative</strong>.</p>
-<p>You worked, saved, invested, took risk, and ended up poorer in real terms. This is the reality for most Indian investors right now.</p>
-<p>This is why tax optimization is not an advanced topic you can deal with &ldquo;later.&rdquo; It is central to whether your wealth-building plan actually works.</p>
-<p><strong>Tax strategies at each stage:</strong></p>
-<p><strong>Stage One (0-20 lakhs):</strong> Focus on long-term holdings. Holding for more than a year cuts your tax rate significantly. Avoid short-term trading entirely &ndash; paying 20% on short-term gains plus charges makes it nearly impossible to outperform after tax.</p>
-<p><strong>Stage Two (20 lakhs - 1 crore):</strong> Start investing in US markets through proper channels. This gives you USD exposure and, depending on tax treaties, potentially more efficient tax treatment. Begin studying tax residency options &ndash; not because you need to act now, but because learning is a habit. I studied Dubai tax residency and firm setup in 2021. I took action in late 2023. Now it is paying benefits.</p>
-<p><strong>Stage Three (1 crore - 3 crores):</strong> International diversification becomes a tax strategy, not just a risk management strategy. Own assets in multiple jurisdictions. Understand how different countries tax capital gains, dividends, and rental income. Build optionality.</p>
-<p><strong>Stage Four (3 crores+):</strong> This is where the serious tax optimization begins. If you are a NRI investor, you pay 0% tax on mutual fund capital gains. This is not a loophole. This is the law. But to benefit from it, you need to have planned years in advance.</p>
-<p>The endgame looks like this: build a portfolio above 3 crores. Change your tax residency legally. Book 0% capital gains legally. Generate options income. Pay 0% tax legally. This is not theory. This is what I have done.</p>
-<blockquote>
-<p>Will anyone tell you this? No. Because if an Indian SIP guy tells you this, you will stop your SIP. How do I know all this? Because I have done it.</p>
-</blockquote>
-<p>I am not telling you to evade taxes. I am telling you to understand the global tax landscape and position yourself to pay the legal minimum. Every sensible large-ticket investor does this. Every FII that invests in India is structured for tax efficiency. The only people who do not optimize taxes are retail investors who have been told that tax planning is somehow unethical. It is not. It is math.</p>
-<p><strong>The FII exodus is proof.</strong> The move to increase LTCG from 10% to 12.5% has already backfired. FIIs have been leaving India in record numbers. When the economy is already struggling fundamentally, higher taxes on capital make the situation worse. FIIs who have the option to invest in more tax-efficient markets simply move their money. They are not anti-India. They are investors who follow after-tax returns.</p>
-<p>I feel the same way. I want India to progress, the economy to thrive, everyone to get rich. But I am not going to burn my money in the name of nationalism. If after-tax returns in India do not make sense, I will go to markets where they do. This is not a threat. It is arithmetic.</p>
-<p><strong>The practical impact on your strategy.</strong> Short-term trading in India is now essentially pointless. Paying 20% short-term capital gains tax plus STT plus brokerage charges means you need to generate 25-30% gross returns just to match what a long-term holder earns with a 12.5% tax rate. Buying stocks for less than one year is a really bad strategy in the current tax regime. Structure everything for long-term holding periods. And when your portfolio is large enough, structure for international diversification that legally minimizes your total tax burden.</p>
-<hr />
+        <p>Here is a number that should make you angry: LTCG in India has moved from 10% to 12.5%. Combined with STCG, STT, and brokerage charges, the effective tax drag on active Indian investors is enormous. Tax optimisation is not an advanced topic you can deal with &ldquo;later.&rdquo; It is central to whether your wealth-building plan actually works.</p>
+
+        <p>If your 100 grows to 110 in a sideways year &mdash; far more realistic than 50% gains &mdash; you pay 12.5% on the 10. That is 1.25. Your post-tax return is 8.75%. Adjust for INR depreciation of 3-5%/year and segmental inflation of 10-12%, and your real, after-tax, after-inflation return is <strong>negative</strong>. You worked, saved, invested, took risk, and ended up poorer in real terms.</p>
+
+        <p><strong>Stage-by-stage tax strategy.</strong> At Stage One (0-20L), focus on long-term holdings &mdash; holding for more than a year cuts the tax rate. Avoid short-term trading entirely. At Stage Two (20L-1Cr), start investing in US markets through proper channels for USD exposure and treaty efficiency; begin studying tax residency options. At Stage Three (1Cr-3Cr), international diversification becomes a tax strategy in itself. At Stage Four (3Cr+), the serious optimisation begins &mdash; NRI investors pay 0% tax on mutual fund capital gains in many cases. This is not a loophole. This is the law<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>.</p>
+
+        <p>The endgame: build a portfolio above 3 crores, change tax residency legally, book 0% capital gains legally, layer options income on top, pay 0% tax legally. This is not theory. It is what serious large-ticket investors do.</p>
+
+        <p>On top of the residency optimisation sits the <strong>options layer</strong>. When the portfolio crosses 3 crores, a new dimension opens up. Options are not gambling &mdash; they are an income-generation and risk-management tool. On a 3-crore US-equity portfolio, the canonical strategy is selling cash-secured puts on quality names: you choose the strike where you would already be a buyer, collect premium upfront, and either keep the premium or buy the stock you wanted at the price you wanted. We dedicate a separate explainer to the mechanics &mdash; see <a href="../options-insurance/">Options Are Insurance, Not Gambling</a>.</p>
+
+        <p>Integrated with the Stage-Two rotation: identify high-growth stocks trading near their 200DMA, sell cash-secured puts at or below 200DMA (collect premium), get assigned and hold, sell covered calls when the stock runs 10-15% above 200DMA (collect more premium), let the stock get called away at profit, restart. Every leg of the trade now carries an income tag.</p>
+
+        <blockquote>
+          <p>Will an Indian SIP salesman tell you any of this? No. Because if they did, you would stop your SIP. The system that profits from your treadmill has no incentive to show you the staircase.</p>
+        </blockquote>
+
+        <p>I am not telling you to evade taxes. I am telling you to understand the global tax landscape and position yourself to pay the legal minimum. Every sensible large-ticket investor does this. Every FII that invests in India is structured for tax efficiency. The only people who do not optimise are retail investors who have been told that tax planning is somehow unethical. It is not. It is math.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-stage-four-the-options-layer-and-income-generation-3-crore-to-5-crore">
+    <!-- ============================================================
+         IX. Complete playbook
+         ============================================================ -->
+    <section class="reveal" id="ix-playbook">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>VIII. Stage Four: The Options Layer and Income Generation (3 Crore to 5 Crore+)</h2>
+        <h2>The complete playbook and what to do tomorrow</h2>
       </div>
       <div class="section-content">
-        <p>When your portfolio crosses 3 crores, a new dimension opens up: options.</p>
-<p>Options are not gambling. Options, when used correctly on a large portfolio, are an income generation and risk management tool. They are the layer that transforms a portfolio from a passive vehicle into an active wealth machine.</p>
-<p>The strategy I use and recommend at this stage is <strong>selling cash-secured puts (CSPs)</strong> on high-quality stocks, primarily in the US market.</p>
-<p>Here is how it works in practice:</p>
-<ol>
-<li>You identify a stock you want to own &ndash; say, one of the Magnificent 7 US tech companies.</li>
-<li>Instead of buying the stock outright, you sell a put option at a strike price 5-10% below the current market price.</li>
-<li>You collect a premium upfront. This is immediate income.</li>
-<li>If the stock stays above your strike price, the option expires worthless. You keep the premium. You repeat.</li>
-<li>If the stock drops below your strike price, you get assigned &ndash; meaning you are forced to buy the stock at your chosen price. But you wanted to buy it anyway, and you are buying it at a discount plus you already collected the premium.</li>
-</ol>
-<p>This is the wheel strategy. You sell puts to collect premium and get assigned good stocks at good prices. Then you hold those stocks, sell covered calls to collect more premium, and wait for the stock to be called away at a profit. Then you sell puts again.</p>
-<p>The income from this strategy on a 3-crore portfolio can be substantial. And if you are doing this from a tax-efficient jurisdiction, the income compounds without drag.</p>
-<p><strong>The integration with the rotation strategy:</strong></p>
-<p>Remember the Stage Two framework? Buy undervalued stocks below their 200DMA, sell when they go 10-15% above? Now add the options layer:</p>
-<ol>
-<li>Identify high-growth stocks trading near their 200DMA.</li>
-<li>Sell cash-secured puts at or below the 200DMA level. Collect premium.</li>
-<li>If assigned, you now own the stock at a great price. Hold it.</li>
-<li>When the stock goes 10-15% above the 200DMA, instead of just selling, sell covered calls at that level. Collect more premium.</li>
-<li>If the stock gets called away, you have booked your profit plus collected premium on both legs.</li>
-<li>Take the cash and start the cycle again with the next opportunity.</li>
-</ol>
-<p>This is what I mean when I say &ldquo;layer your core portfolio with options.&rdquo; The underlying strategy does not change. You are still buying undervalued stocks and selling at fair value. But the options layer adds income on every leg of the trade, accelerating your compounding.</p>
-<p><strong>The prerequisites.</strong> Do not attempt this before your portfolio is large enough and you have completed at least 2-3 full market cycles as a direct stock investor. Options can amplify losses just as they amplify gains. You need the experience, the capital base, and the emotional discipline to handle assignment, to manage positions when they go against you, and to resist the temptation to sell puts on stocks you would not want to own.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Bring it together. Here is the complete progression, stage by stage, with the specific actions and milestones at each level.</p>
 
-<p>This chart shows the long-game. An investor doing 75,000 per month in SIPs with periodic lump sum deployments of 20 lakhs during corrections &ndash; representing the full wealth staircase approach at maturity &ndash; builds dramatically more wealth than a pure SIP investor over 15 years. The gap widens exponentially in the later years as compounding works on a larger and larger base. This is the staircase in action.</p>
-<hr />
-      </div>
-    </section>
+        <table class="data-table">
+          <thead>
+            <tr><th>Level / Corpus</th><th>Focus</th><th>Strategy</th><th>Key metric</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>L1 &middot; 0-20L</strong></td><td>Income growth, savings habit</td><td>SIPs in large-cap + US index; &#8377;25K+/mo</td><td>Savings rate (target 40%+)</td></tr>
+            <tr><td><strong>L2 &middot; 20L-1Cr</strong></td><td>Active stock rotation</td><td>Buy &lt;200DMA, sell &gt;200DMA + 10-15%, max 5%/stock</td><td>Annual return vs Nifty +5%</td></tr>
+            <tr><td><strong>L3 &middot; 1Cr-3Cr</strong></td><td>Multi-asset diversification</td><td>50% equity, 25% RE, 5-10% BTC, 5-10% gold, rest cash</td><td>Real post-tax return &gt;8%</td></tr>
+            <tr><td><strong>L4 &middot; 3Cr-5Cr</strong></td><td>Tax + options layer</td><td>CSPs and covered calls on US mega-caps; NRI residency</td><td>Options income replaces active income</td></tr>
+            <tr><td><strong>L5 &middot; 5Cr+</strong></td><td>Endgame</td><td>0% CGT residency; diversified across geos and currencies</td><td>You stop working for money</td></tr>
+          </tbody>
+        </table>
 
-    <section class="reveal" id="ix-the-complete-system-your-wealth-staircase-playbook">
-      <div class="section-heading">
-        <div class="section-number">X.</div>
-        <h2>IX. The Complete System: Your Wealth Staircase Playbook</h2>
-      </div>
-      <div class="section-content">
-        <p>Let me bring it all together. Here is the complete progression, stage by stage, with the specific actions and milestones for each level.</p>
-<p><strong>Level 1: Capital Accumulation (Portfolio 0-20 Lakhs)</strong></p>
-<ul>
-<li>Primary focus: grow income, save aggressively, build investing habits</li>
-<li>Strategy: SIPs in large-cap and US index funds, 25,000+ per month</li>
-<li>Learn: interest rate cycles, basic stock analysis, macro fundamentals</li>
-<li>Key metric: savings rate (target 40%+ of income)</li>
-<li>Time horizon: 3-5 years</li>
-<li>Do not: trade actively, use leverage, buy speculative stocks</li>
-</ul>
-<p><strong>Level 2: Active Stock Investing (Portfolio 20 Lakhs - 1 Crore)</strong></p>
-<ul>
-<li>Primary focus: direct stock investing with value-buying framework</li>
-<li>Strategy: buy growth stocks below 200DMA, sell at 10-15% above, rotate</li>
-<li>Portfolio: 70% Indian equities (direct), 20% US equities, 10% cash</li>
-<li>Position sizing: max 5% per stock, buy in 3 tranches</li>
-<li>Categorize holdings: 15% compounders (60%), 2X bets (30%), 5X bets (10%)</li>
-<li>Learn: technical analysis, options basics, tax optimization</li>
-<li>Key metric: annual return vs Nifty 50 (target: outperform by 5%+)</li>
-<li>Time horizon: 3-5 years</li>
-<li>Do not: abandon the system during sideways markets</li>
-</ul>
-<p><strong>Level 3: Multi-Asset Diversification (Portfolio 1 Crore - 3 Crores)</strong></p>
-<ul>
-<li>Primary focus: capital protection + growth across asset classes</li>
-<li>Strategy: multi-asset allocation with active rotation in equities</li>
-<li>Portfolio: 50-60% equities, 20-25% real estate, 5-10% crypto (BTC), 5-10% gold, rest cash</li>
-<li>Buy a hard asset when portfolio crosses 2 crores &ndash; real estate, land, or villa</li>
-<li>Begin serious international diversification &ndash; US stocks, potentially Dubai RE</li>
-<li>Start using multiple brokers and DMAT accounts</li>
-<li>Learn: options strategies (CSPs, covered calls), tax residency options, international markets</li>
-<li>Key metric: after-tax, after-inflation real returns (target: 8%+ real)</li>
-<li>Time horizon: 3-5 years</li>
-<li>Do not: concentrate too heavily in one asset class or geography</li>
-</ul>
-<p><strong>Level 4: Tax Optimization + Options Income (Portfolio 3 Crore+)</strong></p>
-<ul>
-<li>Primary focus: tax optimization and income generation through options</li>
-<li>Strategy: sell CSPs and covered calls on US mega-cap stocks, build concentrated contrarian positions</li>
-<li>Setup a tax base &ndash; explore tax residency changes that legally reduce capital gains to 0%</li>
-<li>Generate options income that compounds tax-free</li>
-<li>30% of portfolio in concentrated contrarian &ldquo;arbitrage&rdquo; positions</li>
-<li>70% well-diversified across asset classes and geographies</li>
-<li>Learn: advanced tax structures, golden visa options, international business setup</li>
-<li>Key metric: after-tax income from portfolio (target: replace active income entirely)</li>
-<li>Time horizon: ongoing</li>
-</ul>
-<p><strong>Level 5: The Endgame</strong></p>
-<ul>
-<li>Portfolio above 5 crores, tax residency optimized</li>
-<li>0% capital gains, legally</li>
-<li>Options income generating consistent cash flow</li>
-<li>Wealth diversified across geographies, asset classes, and currencies</li>
-<li>You are no longer working for money. Money is working for you.</li>
-</ul>
-<hr />
-<p><strong>The mindset that makes the staircase work.</strong></p>
-<p>Every level requires you to learn something new. Every level requires you to shed a belief that served you at the previous level. SIPs are great at Level 1 but insufficient at Level 2. Buy-and-hold works at Level 2 but must be supplemented with multi-asset allocation at Level 3. Domestic-only investing is fine at Level 2 but dangerously concentrated at Level 3.</p>
-<p>The biggest obstacle is not knowledge. Knowledge is freely available. The biggest obstacle is the pain of learning new things and the greater pain of doing them consistently. Most people will simply read this post and move on. They will continue doing SIPs and hoping for the best. They will never study options, never explore international markets, never think about tax residency.</p>
-<p><strong>The 8 types of rich.</strong> Before you dismiss the staircase as being only about money, understand that wealth has many dimensions. There is money-rich (temporary, like winning a lottery). There is wealth-rich (multiple cash flows, well diversified, sustainable). There is time-rich, health-rich, socially rich, rich in the depth of your relationships, rich in mindset, and rich in skills. The staircase I have described builds the financial foundation. But the ultimate goal is to become rich in all these dimensions. Financial freedom gives you the time, health, and mental space to cultivate everything else.</p>
-<p><strong>The arbitrage mindset.</strong> Money making depends on exploring arbitrages &ndash; seeing things that most people do not see. Taking an oversimplistic view like &ldquo;stocks are risky&rdquo; or &ldquo;crypto is always bad&rdquo; is analysis done by beginners. You will build wealth if you are in the top 5-10% of investors in any asset class. The key is looking past your biases and building genuine insights. Whether it is real estate, stocks, crypto, or international markets &ndash; the top performers in every asset class share one trait: they learned deeply, built systems, and executed consistently while others were debating on social media.</p>
-<p>That is fine. The wealth staircase is not for most people. It is for the 5-10% who are willing to treat investing as a skill, improve every day, and build better systems for themselves.</p>
-<blockquote>
-<p>You do NOT need more than 3-4 good cycles to make crazy wealth. To run those cycles, you need extreme preparations. And you won&rsquo;t get there simply by SIP-ing.</p>
-</blockquote>
-<p>You have the system now. The question is: will you climb?</p>
-<p>Money making and investing is a skill. God has given you a brain. Do not give up on your critical thinking. Analyze, build different strategies, and improve each day as an investor. The staircase is waiting. Start wherever you are. And keep climbing.</p>
+        <p>Every level requires you to learn something new. Every level requires you to shed a belief that served you at the previous level. SIPs are great at L1, insufficient at L2. Buy-and-hold works at L2 but must be supplemented with multi-asset allocation at L3. Domestic-only is fine at L2 but dangerously concentrated at L3.</p>
+
+        <p>The biggest obstacle is not knowledge. Knowledge is freely available. The biggest obstacle is the pain of learning new things and the greater pain of doing them consistently. Most people will read this and continue doing SIPs and hoping for the best. They will never study options, never explore international markets, never think about tax residency.</p>
+
+        <p>So &mdash; concretely &mdash; what do you do tomorrow?</p>
+
+        <ol>
+          <li><strong>Identify your current level.</strong> Look at your investable corpus today. That tells you which row of the table above is your starting line.</li>
+          <li><strong>Pre-commit a percentage of your next raise.</strong> Before the salary hits. Route X% of every increment straight into a separate investment account. Lock the ratchet before it clicks.</li>
+          <li><strong>Build a cash buffer.</strong> Whatever your level, target 20-30% of liquid corpus in risk-free assets. Not as drag &mdash; as ammunition for the next crash.</li>
+          <li><strong>Study one level above where you are.</strong> If you are at L2, read about multi-asset allocation. If you are at L3, study options and tax residency. Learning runs ahead of capital by 18-24 months.</li>
+          <li><strong>Run the simulators in this article quarterly.</strong> Plug in your real numbers. The widgets compute the years-to-tier; the ratchet calculator shows what your spending is costing you; the Monte Carlo tells you the spread you should plan for, not the average you wish for.</li>
+        </ol>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p>You do not need more than <strong>3-4 good cycles</strong> to make crazy wealth. To run those cycles, you need extreme preparation: cash, a watchlist, the contrarian muscle, and a tax structure that does not bleed you on the way up. The staircase is not a hack. It is a career. Start wherever you are. And keep climbing.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">The &ldquo;hourly price&rdquo; framing &mdash; selling time, then expertise, then systems, then capital &mdash; tracks closely with classic agency-vs-leverage decompositions in management literature (Naval Ravikant&rsquo;s &ldquo;How to Get Rich&rdquo; and Geoff Smart&rsquo;s <em>Who</em> both make the same progression in different vocabulary). The point is structural: each step uncouples your income from your physical presence by another factor. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The March 2020 COVID drawdown saw Nifty fall ~38% from peak; full recovery to prior highs took 8 months. Compare to 2008-09, where Nifty fell ~60% and took 22 months to fully recover. The V-shape vs U-shape distinction reflects modern central-bank reaction functions &mdash; coordinated rate cuts and liquidity injection within weeks, not quarters. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">NRI taxation on Indian mutual funds depends on fund type, holding period, and tax-residence-country DTAA. The cleanest case is an NRI tax-resident in a jurisdiction like the UAE with 0% personal capital-gains tax, holding equity-oriented mutual funds long-term &mdash; the Indian LTCG rate is the only tax, and even that has special concessional treatment for some categories. Consult a qualified cross-border tax advisor before restructuring. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -429,12 +537,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -443,23 +551,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -474,741 +571,563 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 620, H = 400;
-  var pad = { top: 30, right: 30, bottom: 55, left: 70 };
-  var monthlySip = 25000;
-  var lumpSum = 300000;
-  var annualReturn = 12;
-  var maxYears = 10;
-  var currentYear = maxYears;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "SIP vs Lump Sum: Building Your First 20 Lakhs";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var yearLabel = document.createElement('label');
-  yearLabel.textContent = 'Years: ';
-  var yearVal = document.createElement('span');
-  yearVal.style.fontWeight = '600';
-  yearVal.textContent = currentYear;
-  yearLabel.appendChild(yearVal);
-  ctrl.appendChild(yearLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = maxYears;
-  slider.value = currentYear;
-  slider.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Info panel
-  var info = document.createElement('div');
-  info.style.cssText = 'display:flex;gap:20px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(info);
-
-  function computeData(years) {
-    var monthlyRate = annualReturn / 100 / 12;
-    var sipData = [];
-    var lumpData = [];
-
-    for (var m = 0; m <= years * 12; m++) {
-      // SIP: sum of each monthly investment compounded
-      var sipVal = 0;
-      for (var k = 0; k < m; k++) {
-        sipVal += monthlySip * Math.pow(1 + monthlyRate, m - k);
-      }
-
-      // Lump sum: simple compound growth
-      var lumpVal = lumpSum * Math.pow(1 + monthlyRate, m);
-
-      sipData.push({ x: m / 12, y: sipVal });
-      lumpData.push({ x: m / 12, y: lumpVal });
+  <!-- ============================================================
+       Currency helpers shared across widgets
+       ============================================================ -->
+  <script>
+    // Convert a rupee amount into compact Indian notation.
+    function fmtINR(v) {
+      if (!isFinite(v)) return '—';
+      if (Math.abs(v) >= 1e7) return '₹' + (v / 1e7).toFixed(2) + 'Cr';
+      if (Math.abs(v) >= 1e5) return '₹' + (v / 1e5).toFixed(1) + 'L';
+      if (Math.abs(v) >= 1e3) return '₹' + (v / 1e3).toFixed(0) + 'K';
+      return '₹' + Math.round(v).toString();
     }
-    return { sip: sipData, lump: lumpData };
-  }
+    function fmtINRshort(v) {
+      if (!isFinite(v)) return '—';
+      if (Math.abs(v) >= 1e7) return (v / 1e7).toFixed(1) + 'Cr';
+      if (Math.abs(v) >= 1e5) return (v / 1e5).toFixed(0) + 'L';
+      if (Math.abs(v) >= 1e3) return (v / 1e3).toFixed(0) + 'K';
+      return Math.round(v).toString();
+    }
+  </script>
 
-  function formatCurrency(val) {
-    if (val >= 1e7) return (val / 1e7).toFixed(2) + ' Cr';
-    if (val >= 1e5) return (val / 1e5).toFixed(2) + ' L';
-    if (val >= 1e3) return (val / 1e3).toFixed(1) + 'K';
-    return val.toFixed(0);
-  }
+  <!-- ============================================================
+       WIDGET 1 — Compounding Tiers Visualizer
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    // Tier markers (in rupees)
+    var TIERS = [
+      { v: 50e5,  label: '₹50L' },
+      { v: 1e7,   label: '₹1Cr' },
+      { v: 3e7,   label: '₹3Cr' },
+      { v: 5e7,   label: '₹5Cr' },
+      { v: 10e7,  label: '₹10Cr' }
+    ];
+    var YEARS = 20;
 
-    var result = computeData(currentYear);
-    var sipData = result.sip;
-    var lumpData = result.lump;
+    // Initialize state BEFORE attachSliders fires its initial paint
+    var state = {
+      capLakhs: 20,     // starting capital in lakhs
+      monthlyK: 50,     // monthly contribution in thousands
+      retPct: 14        // annual return %
+    };
 
-    // Find value ranges
-    var allVals = sipData.map(function(d) { return d.y; }).concat(lumpData.map(function(d) { return d.y; }));
-    var minV = 0;
-    var maxV = Math.max.apply(null, allVals);
-    var margin = maxV * 0.08;
-    maxV += margin;
-
-    var minX = 0, maxX = currentYear;
-
-    // Axes
-    drawYAxis(svg, minV, maxV, 5, W, H, pad);
-    var xLabels = [];
-    var xStep = Math.max(1, Math.ceil(currentYear / 8));
-    for (var i = 0; i <= currentYear; i += xStep) xLabels.push('Y' + i);
-    drawXAxis(svg, xLabels, W, H, pad);
-
-    // Find crossover point (where SIP overtakes lump sum)
-    var crossoverIdx = -1;
-    for (var i = 1; i < sipData.length; i++) {
-      if (sipData[i].y >= lumpData[i].y && sipData[i - 1].y < lumpData[i - 1].y) {
-        crossoverIdx = i;
-        break;
+    function simulate() {
+      var monthlyRate = state.retPct / 100 / 12;
+      var monthlyContrib = state.monthlyK * 1000;
+      var v = state.capLakhs * 1e5;
+      var totalContrib = v; // starting capital counts as contributed
+      var path = [{ year: 0, value: v, contrib: totalContrib }];
+      for (var m = 1; m <= YEARS * 12; m++) {
+        v = v * (1 + monthlyRate) + monthlyContrib;
+        totalContrib += monthlyContrib;
+        if (m % 3 === 0) path.push({ year: m / 12, value: v, contrib: totalContrib });
       }
+      return path;
     }
 
-    // Shade area where SIP > Lump Sum
-    if (crossoverIdx > 0) {
-      var shadeD = '';
-      for (var i = crossoverIdx; i < sipData.length; i++) {
-        var sx = scaleX(sipData[i].x, minX, maxX, W, pad);
-        var sy = scaleY(sipData[i].y, minV, maxV, H, pad);
-        shadeD += (i === crossoverIdx ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+    function yearsToTier(path, tierV) {
+      for (var i = 1; i < path.length; i++) {
+        if (path[i].value >= tierV) {
+          var a = path[i-1], b = path[i];
+          if (b.value === a.value) return b.year;
+          var t = (tierV - a.value) / (b.value - a.value);
+          return a.year + t * (b.year - a.year);
+        }
       }
-      for (var i = lumpData.length - 1; i >= crossoverIdx; i--) {
-        var sx = scaleX(lumpData[i].x, minX, maxX, W, pad);
-        var sy = scaleY(lumpData[i].y, minV, maxV, H, pad);
-        shadeD += 'L' + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      shadeD += 'Z';
-      drawPath(svg, shadeD, 'none', 0, hexToRGBA('#48bb78', 0.1), 1);
+      return null; // not reached within horizon
+    }
 
-      // Crossover marker
-      var cx = scaleX(sipData[crossoverIdx].x, minX, maxX, W, pad);
-      var cy = scaleY(sipData[crossoverIdx].y, minV, maxV, H, pad);
-      drawCircle(svg, cx, cy, 5, '#48bb78', '#fff');
-      drawText(svg, cx, cy - 12, 'SIP overtakes at Y' + (crossoverIdx / 12).toFixed(1), {
-        fontSize: 10, fill: '#48bb78', anchor: 'middle', fontWeight: 'bold'
+    function fmtYears(y) {
+      if (y === null) return '>20y';
+      if (y < 1) return (y * 12).toFixed(0) + 'mo';
+      return y.toFixed(1) + 'y';
+    }
+
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 30, right: 72, bottom: 46, left: 64 };
+      var path = simulate();
+
+      var maxVal = Math.max(path[path.length-1].value, 1e7);
+      var yMax = maxVal * 1.1;
+      if (yMax < 5.5e7) yMax = 5.5e7;  // always show at least up to ₹5Cr tier
+      var yMin = 0;
+
+      var xLabels = [];
+      for (var i = 0; i <= YEARS; i++) xLabels.push(i % 5 === 0 ? i.toString() + 'y' : '');
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: xLabels,
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) { return fmtINRshort(v); }
       });
-    }
 
-    // Lump sum curve (smooth)
-    var lumpD = '';
-    // Sample every 3 months for smoother line
-    for (var i = 0; i < lumpData.length; i += 3) {
-      var sx = scaleX(lumpData[i].x, minX, maxX, W, pad);
-      var sy = scaleY(lumpData[i].y, minV, maxV, H, pad);
-      lumpD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-    }
-    // Ensure last point
-    var lastL = lumpData[lumpData.length - 1];
-    lumpD += 'L' + scaleX(lastL.x, minX, maxX, W, pad).toFixed(2) + ',' + scaleY(lastL.y, minV, maxV, H, pad).toFixed(2);
-    drawPath(svg, lumpD, '#ed8936', 2.5, 'none', 1);
-
-    // SIP curve (staircase-ish with monthly steps, but draw every 3 months for performance)
-    var sipD = '';
-    for (var i = 0; i < sipData.length; i += 3) {
-      var sx = scaleX(sipData[i].x, minX, maxX, W, pad);
-      var sy = scaleY(sipData[i].y, minV, maxV, H, pad);
-      sipD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-    }
-    var lastS = sipData[sipData.length - 1];
-    sipD += 'L' + scaleX(lastS.x, minX, maxX, W, pad).toFixed(2) + ',' + scaleY(lastS.y, minV, maxV, H, pad).toFixed(2);
-    drawPath(svg, sipD, '#4299e1', 2.5, 'none', 1);
-
-    // End value labels
-    var sipEnd = sipData[sipData.length - 1];
-    var lumpEnd = lumpData[lumpData.length - 1];
-    var sipEndX = scaleX(sipEnd.x, minX, maxX, W, pad);
-    var sipEndY = scaleY(sipEnd.y, minV, maxV, H, pad);
-    var lumpEndX = scaleX(lumpEnd.x, minX, maxX, W, pad);
-    var lumpEndY = scaleY(lumpEnd.y, minV, maxV, H, pad);
-
-    drawCircle(svg, sipEndX, sipEndY, 4, '#4299e1', '#fff');
-    drawCircle(svg, lumpEndX, lumpEndY, 4, '#ed8936', '#fff');
-
-    // Info panel
-    var totalInvested = monthlySip * currentYear * 12;
-    info.innerHTML = '<span><strong style="color:#4299e1">SIP:</strong> ' + formatCurrency(sipEnd.y) + ' (invested ' + formatCurrency(totalInvested) + ')</span>'
-      + '<span><strong style="color:#ed8936">Lump Sum:</strong> ' + formatCurrency(lumpEnd.y) + ' (invested ' + formatCurrency(lumpSum) + ')</span>';
-    if (sipEnd.y > lumpEnd.y) {
-      info.innerHTML += '<span style="color:#48bb78;font-weight:600">SIP wins by ' + formatCurrency(sipEnd.y - lumpEnd.y) + '</span>';
-    } else {
-      info.innerHTML += '<span style="color:#ed8936;font-weight:600">Lump Sum leads by ' + formatCurrency(lumpEnd.y - sipEnd.y) + '</span>';
-    }
-
-    // Hover
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var yearFloat = minX + ((mx - pad.left) / (W - pad.left - pad.right)) * (maxX - minX);
-      yearFloat = Math.max(minX, Math.min(maxX, yearFloat));
-      var monthIdx = Math.round(yearFloat * 12);
-      monthIdx = Math.max(0, Math.min(sipData.length - 1, monthIdx));
-      var sx = scaleX(sipData[monthIdx].x, minX, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = '<strong>Year ' + (monthIdx / 12).toFixed(1) + '</strong><br>'
-        + '<span style="color:#4299e1">SIP: ' + formatCurrency(sipData[monthIdx].y) + '</span><br>'
-        + '<span style="color:#ed8936">Lump Sum: ' + formatCurrency(lumpData[monthIdx].y) + '</span>';
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
-    });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:6px;font-size:12px;color:var(--text);';
-  legend.innerHTML = '<span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:3px;background:#4299e1;display:inline-block;"></span>SIP (' + monthlySip.toLocaleString() + '/mo)</span>'
-    + '<span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:3px;background:#ed8936;display:inline-block;"></span>Lump Sum (' + lumpSum.toLocaleString() + ')</span>';
-  container.appendChild(legend);
-
-  slider.addEventListener('input', function() {
-    currentYear = parseInt(this.value);
-    yearVal.textContent = currentYear;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 400;
-  var pad = { top: 30, right: 30, bottom: 55, left: 70 };
-  var monthlySip = 50000;
-  var lumpSum = 1000000;
-  var annualReturn = 14;
-  var maxYears = 12;
-  var currentYear = maxYears;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Deploying Lump Sum During Corrections vs Steady SIP";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var yearLabel = document.createElement('label');
-  yearLabel.textContent = 'Years: ';
-  var yearVal = document.createElement('span');
-  yearVal.style.fontWeight = '600';
-  yearVal.textContent = currentYear;
-  yearLabel.appendChild(yearVal);
-  ctrl.appendChild(yearLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = maxYears;
-  slider.value = currentYear;
-  slider.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Info panel
-  var info = document.createElement('div');
-  info.style.cssText = 'display:flex;gap:20px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(info);
-
-  function computeData(years) {
-    var monthlyRate = annualReturn / 100 / 12;
-    var sipData = [];
-    var lumpData = [];
-
-    for (var m = 0; m <= years * 12; m++) {
-      // SIP: sum of each monthly investment compounded
-      var sipVal = 0;
-      for (var k = 0; k < m; k++) {
-        sipVal += monthlySip * Math.pow(1 + monthlyRate, m - k);
-      }
-
-      // Lump sum: simple compound growth
-      var lumpVal = lumpSum * Math.pow(1 + monthlyRate, m);
-
-      sipData.push({ x: m / 12, y: sipVal });
-      lumpData.push({ x: m / 12, y: lumpVal });
-    }
-    return { sip: sipData, lump: lumpData };
-  }
-
-  function formatCurrency(val) {
-    if (val >= 1e7) return (val / 1e7).toFixed(2) + ' Cr';
-    if (val >= 1e5) return (val / 1e5).toFixed(2) + ' L';
-    if (val >= 1e3) return (val / 1e3).toFixed(1) + 'K';
-    return val.toFixed(0);
-  }
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var result = computeData(currentYear);
-    var sipData = result.sip;
-    var lumpData = result.lump;
-
-    // Find value ranges
-    var allVals = sipData.map(function(d) { return d.y; }).concat(lumpData.map(function(d) { return d.y; }));
-    var minV = 0;
-    var maxV = Math.max.apply(null, allVals);
-    var margin = maxV * 0.08;
-    maxV += margin;
-
-    var minX = 0, maxX = currentYear;
-
-    // Axes
-    drawYAxis(svg, minV, maxV, 5, W, H, pad);
-    var xLabels = [];
-    var xStep = Math.max(1, Math.ceil(currentYear / 8));
-    for (var i = 0; i <= currentYear; i += xStep) xLabels.push('Y' + i);
-    drawXAxis(svg, xLabels, W, H, pad);
-
-    // Find crossover point (where SIP overtakes lump sum)
-    var crossoverIdx = -1;
-    for (var i = 1; i < sipData.length; i++) {
-      if (sipData[i].y >= lumpData[i].y && sipData[i - 1].y < lumpData[i - 1].y) {
-        crossoverIdx = i;
-        break;
-      }
-    }
-
-    // Shade area where SIP > Lump Sum
-    if (crossoverIdx > 0) {
-      var shadeD = '';
-      for (var i = crossoverIdx; i < sipData.length; i++) {
-        var sx = scaleX(sipData[i].x, minX, maxX, W, pad);
-        var sy = scaleY(sipData[i].y, minV, maxV, H, pad);
-        shadeD += (i === crossoverIdx ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      for (var i = lumpData.length - 1; i >= crossoverIdx; i--) {
-        var sx = scaleX(lumpData[i].x, minX, maxX, W, pad);
-        var sy = scaleY(lumpData[i].y, minV, maxV, H, pad);
-        shadeD += 'L' + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      shadeD += 'Z';
-      drawPath(svg, shadeD, 'none', 0, hexToRGBA('#48bb78', 0.1), 1);
-
-      // Crossover marker
-      var cx = scaleX(sipData[crossoverIdx].x, minX, maxX, W, pad);
-      var cy = scaleY(sipData[crossoverIdx].y, minV, maxV, H, pad);
-      drawCircle(svg, cx, cy, 5, '#48bb78', '#fff');
-      drawText(svg, cx, cy - 12, 'SIP overtakes at Y' + (crossoverIdx / 12).toFixed(1), {
-        fontSize: 10, fill: '#48bb78', anchor: 'middle', fontWeight: 'bold'
+      // Tier markers — dashed horizontal lines with labels on the right
+      ctx.save();
+      TIERS.forEach(function(t) {
+        if (t.v > yMax) return;
+        var y = mapY(t.v, yMin, yMax, H, pad);
+        ctx.strokeStyle = 'rgba(26, 54, 93, 0.25)';
+        ctx.setLineDash([3, 5]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(W - pad.right, y);
+        ctx.stroke();
       });
-    }
-
-    // Lump sum curve (smooth)
-    var lumpD = '';
-    // Sample every 3 months for smoother line
-    for (var i = 0; i < lumpData.length; i += 3) {
-      var sx = scaleX(lumpData[i].x, minX, maxX, W, pad);
-      var sy = scaleY(lumpData[i].y, minV, maxV, H, pad);
-      lumpD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-    }
-    // Ensure last point
-    var lastL = lumpData[lumpData.length - 1];
-    lumpD += 'L' + scaleX(lastL.x, minX, maxX, W, pad).toFixed(2) + ',' + scaleY(lastL.y, minV, maxV, H, pad).toFixed(2);
-    drawPath(svg, lumpD, '#ed8936', 2.5, 'none', 1);
-
-    // SIP curve (staircase-ish with monthly steps, but draw every 3 months for performance)
-    var sipD = '';
-    for (var i = 0; i < sipData.length; i += 3) {
-      var sx = scaleX(sipData[i].x, minX, maxX, W, pad);
-      var sy = scaleY(sipData[i].y, minV, maxV, H, pad);
-      sipD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-    }
-    var lastS = sipData[sipData.length - 1];
-    sipD += 'L' + scaleX(lastS.x, minX, maxX, W, pad).toFixed(2) + ',' + scaleY(lastS.y, minV, maxV, H, pad).toFixed(2);
-    drawPath(svg, sipD, '#4299e1', 2.5, 'none', 1);
-
-    // End value labels
-    var sipEnd = sipData[sipData.length - 1];
-    var lumpEnd = lumpData[lumpData.length - 1];
-    var sipEndX = scaleX(sipEnd.x, minX, maxX, W, pad);
-    var sipEndY = scaleY(sipEnd.y, minV, maxV, H, pad);
-    var lumpEndX = scaleX(lumpEnd.x, minX, maxX, W, pad);
-    var lumpEndY = scaleY(lumpEnd.y, minV, maxV, H, pad);
-
-    drawCircle(svg, sipEndX, sipEndY, 4, '#4299e1', '#fff');
-    drawCircle(svg, lumpEndX, lumpEndY, 4, '#ed8936', '#fff');
-
-    // Info panel
-    var totalInvested = monthlySip * currentYear * 12;
-    info.innerHTML = '<span><strong style="color:#4299e1">SIP:</strong> ' + formatCurrency(sipEnd.y) + ' (invested ' + formatCurrency(totalInvested) + ')</span>'
-      + '<span><strong style="color:#ed8936">Lump Sum:</strong> ' + formatCurrency(lumpEnd.y) + ' (invested ' + formatCurrency(lumpSum) + ')</span>';
-    if (sipEnd.y > lumpEnd.y) {
-      info.innerHTML += '<span style="color:#48bb78;font-weight:600">SIP wins by ' + formatCurrency(sipEnd.y - lumpEnd.y) + '</span>';
-    } else {
-      info.innerHTML += '<span style="color:#ed8936;font-weight:600">Lump Sum leads by ' + formatCurrency(lumpEnd.y - sipEnd.y) + '</span>';
-    }
-
-    // Hover
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var yearFloat = minX + ((mx - pad.left) / (W - pad.left - pad.right)) * (maxX - minX);
-      yearFloat = Math.max(minX, Math.min(maxX, yearFloat));
-      var monthIdx = Math.round(yearFloat * 12);
-      monthIdx = Math.max(0, Math.min(sipData.length - 1, monthIdx));
-      var sx = scaleX(sipData[monthIdx].x, minX, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = '<strong>Year ' + (monthIdx / 12).toFixed(1) + '</strong><br>'
-        + '<span style="color:#4299e1">SIP: ' + formatCurrency(sipData[monthIdx].y) + '</span><br>'
-        + '<span style="color:#ed8936">Lump Sum: ' + formatCurrency(lumpData[monthIdx].y) + '</span>';
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
-    });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:6px;font-size:12px;color:var(--text);';
-  legend.innerHTML = '<span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:3px;background:#4299e1;display:inline-block;"></span>SIP (' + monthlySip.toLocaleString() + '/mo)</span>'
-    + '<span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:3px;background:#ed8936;display:inline-block;"></span>Lump Sum (' + lumpSum.toLocaleString() + ')</span>';
-  container.appendChild(legend);
-
-  slider.addEventListener('input', function() {
-    currentYear = parseInt(this.value);
-    yearVal.textContent = currentYear;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 400;
-  var pad = { top: 30, right: 30, bottom: 55, left: 70 };
-  var monthlySip = 75000;
-  var lumpSum = 2000000;
-  var annualReturn = 15;
-  var maxYears = 15;
-  var currentYear = maxYears;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Portfolio Growth: SIP Only vs SIP + Strategic Lump Sum Deployments";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var yearLabel = document.createElement('label');
-  yearLabel.textContent = 'Years: ';
-  var yearVal = document.createElement('span');
-  yearVal.style.fontWeight = '600';
-  yearVal.textContent = currentYear;
-  yearLabel.appendChild(yearVal);
-  ctrl.appendChild(yearLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = maxYears;
-  slider.value = currentYear;
-  slider.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Info panel
-  var info = document.createElement('div');
-  info.style.cssText = 'display:flex;gap:20px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(info);
-
-  function computeData(years) {
-    var monthlyRate = annualReturn / 100 / 12;
-    var sipData = [];
-    var lumpData = [];
-
-    for (var m = 0; m <= years * 12; m++) {
-      // SIP: sum of each monthly investment compounded
-      var sipVal = 0;
-      for (var k = 0; k < m; k++) {
-        sipVal += monthlySip * Math.pow(1 + monthlyRate, m - k);
-      }
-
-      // Lump sum: simple compound growth
-      var lumpVal = lumpSum * Math.pow(1 + monthlyRate, m);
-
-      sipData.push({ x: m / 12, y: sipVal });
-      lumpData.push({ x: m / 12, y: lumpVal });
-    }
-    return { sip: sipData, lump: lumpData };
-  }
-
-  function formatCurrency(val) {
-    if (val >= 1e7) return (val / 1e7).toFixed(2) + ' Cr';
-    if (val >= 1e5) return (val / 1e5).toFixed(2) + ' L';
-    if (val >= 1e3) return (val / 1e3).toFixed(1) + 'K';
-    return val.toFixed(0);
-  }
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var result = computeData(currentYear);
-    var sipData = result.sip;
-    var lumpData = result.lump;
-
-    // Find value ranges
-    var allVals = sipData.map(function(d) { return d.y; }).concat(lumpData.map(function(d) { return d.y; }));
-    var minV = 0;
-    var maxV = Math.max.apply(null, allVals);
-    var margin = maxV * 0.08;
-    maxV += margin;
-
-    var minX = 0, maxX = currentYear;
-
-    // Axes
-    drawYAxis(svg, minV, maxV, 5, W, H, pad);
-    var xLabels = [];
-    var xStep = Math.max(1, Math.ceil(currentYear / 8));
-    for (var i = 0; i <= currentYear; i += xStep) xLabels.push('Y' + i);
-    drawXAxis(svg, xLabels, W, H, pad);
-
-    // Find crossover point (where SIP overtakes lump sum)
-    var crossoverIdx = -1;
-    for (var i = 1; i < sipData.length; i++) {
-      if (sipData[i].y >= lumpData[i].y && sipData[i - 1].y < lumpData[i - 1].y) {
-        crossoverIdx = i;
-        break;
-      }
-    }
-
-    // Shade area where SIP > Lump Sum
-    if (crossoverIdx > 0) {
-      var shadeD = '';
-      for (var i = crossoverIdx; i < sipData.length; i++) {
-        var sx = scaleX(sipData[i].x, minX, maxX, W, pad);
-        var sy = scaleY(sipData[i].y, minV, maxV, H, pad);
-        shadeD += (i === crossoverIdx ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      for (var i = lumpData.length - 1; i >= crossoverIdx; i--) {
-        var sx = scaleX(lumpData[i].x, minX, maxX, W, pad);
-        var sy = scaleY(lumpData[i].y, minV, maxV, H, pad);
-        shadeD += 'L' + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      shadeD += 'Z';
-      drawPath(svg, shadeD, 'none', 0, hexToRGBA('#48bb78', 0.1), 1);
-
-      // Crossover marker
-      var cx = scaleX(sipData[crossoverIdx].x, minX, maxX, W, pad);
-      var cy = scaleY(sipData[crossoverIdx].y, minV, maxV, H, pad);
-      drawCircle(svg, cx, cy, 5, '#48bb78', '#fff');
-      drawText(svg, cx, cy - 12, 'SIP overtakes at Y' + (crossoverIdx / 12).toFixed(1), {
-        fontSize: 10, fill: '#48bb78', anchor: 'middle', fontWeight: 'bold'
+      ctx.setLineDash([]);
+      ctx.restore();
+      // Tier labels (separate pass so the dash setting doesn't leak)
+      TIERS.forEach(function(t) {
+        if (t.v > yMax) return;
+        var y = mapY(t.v, yMin, yMax, H, pad);
+        drawTextCanvas(ctx, W - pad.right + 6, y, t.label, {
+          fontSize: 11, color: 'var(--accent)', align: 'left', baseline: 'middle', weight: '600'
+        });
       });
+
+      // Contributions shaded area
+      var contribPoly = path.map(function(p) {
+        return { x: mapX(p.year, 0, YEARS, W, pad), y: mapY(p.contrib, yMin, yMax, H, pad) };
+      });
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(contribPoly[0].x, y0);
+      for (var k = 0; k < contribPoly.length; k++) ctx.lineTo(contribPoly[k].x, contribPoly[k].y);
+      ctx.lineTo(contribPoly[contribPoly.length-1].x, y0);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(150, 150, 150, 0.18)';
+      ctx.fill();
+      ctx.restore();
+
+      // Contributions line (dashed)
+      drawLineCanvas(ctx, contribPoly, { color: '#888', width: 1.5, dashed: [4, 4] });
+
+      // Wealth curve
+      var wealthPoly = path.map(function(p) {
+        return { x: mapX(p.year, 0, YEARS, W, pad), y: mapY(p.value, yMin, yMax, H, pad) };
+      });
+      drawLineCanvas(ctx, wealthPoly, { color: 'var(--accent)', width: 2.8 });
+
+      // Mark each tier-crossing with a dot
+      TIERS.forEach(function(t) {
+        if (t.v > yMax) return;
+        var y = yearsToTier(path, t.v);
+        if (y === null) return;
+        var px = mapX(y, 0, YEARS, W, pad);
+        var py = mapY(t.v, yMin, yMax, H, pad);
+        drawPointCanvas(ctx, px, py, 4.5, 'var(--accent)', '#fff');
+      });
+
+      // Title — above the plot area, well clear of the curve
+      drawTextCanvas(ctx, W / 2, 12, 'Wealth over 20 years — tier crossings marked', {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      // Legend at the bottom (below x-axis labels)
+      drawTextCanvas(ctx, pad.left + 6, H - pad.bottom + 28,
+        'Solid = corpus  ·  Dashed = total contributed', {
+        fontSize: 10.5, color: 'var(--text-secondary)', align: 'left', baseline: 'middle'
+      });
+
+      // Update readouts
+      var finalV = path[path.length - 1].value;
+      var finalC = path[path.length - 1].contrib;
+      var gains = finalV - finalC;
+      document.getElementById('w1-t50').textContent  = fmtYears(yearsToTier(path, 50e5));
+      document.getElementById('w1-t1c').textContent  = fmtYears(yearsToTier(path, 1e7));
+      document.getElementById('w1-t3c').textContent  = fmtYears(yearsToTier(path, 3e7));
+      document.getElementById('w1-t5c').textContent  = fmtYears(yearsToTier(path, 5e7));
+      document.getElementById('w1-final').textContent   = fmtINR(finalV);
+      document.getElementById('w1-contrib').textContent = fmtINR(finalC);
+      document.getElementById('w1-gains').textContent   = fmtINR(gains);
+      document.getElementById('w1-gainpct').textContent = finalV > 0
+        ? (gains / finalV * 100).toFixed(0) + '%' : '—';
     }
 
-    // Lump sum curve (smooth)
-    var lumpD = '';
-    // Sample every 3 months for smoother line
-    for (var i = 0; i < lumpData.length; i += 3) {
-      var sx = scaleX(lumpData[i].x, minX, maxX, W, pad);
-      var sy = scaleY(lumpData[i].y, minV, maxV, H, pad);
-      lumpD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+    attachSliders([
+      { el: document.getElementById('w1-cap'), label: document.getElementById('w1-cap-val'),
+        format: function(v) { return '₹' + v.toFixed(0) + 'L'; } },
+      { el: document.getElementById('w1-mon'), label: document.getElementById('w1-mon-val'),
+        format: function(v) { return '₹' + v.toFixed(0) + 'K'; } },
+      { el: document.getElementById('w1-ret'), label: document.getElementById('w1-ret-val'),
+        format: function(v) { return v.toFixed(1) + '%'; } }
+    ], function(vals) {
+      state.capLakhs = vals['w1-cap'];
+      state.monthlyK = vals['w1-mon'];
+      state.retPct   = vals['w1-ret'];
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Lifestyle Ratchet Simulator
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    var YEARS = 20;
+    var ANNUAL_RETURN = 0.13;        // hold investment return fixed to isolate the ratchet effect
+    var STARTING_INCOME = 200000;    // ₹2L/month base income
+
+    // Initialize state BEFORE attachSliders fires
+    var state = {
+      incPct: 10,   // income growth per year %
+      lifePct: 3,   // lifestyle creep per year (extra absorption of raises)
+      savPct: 30    // starting savings rate %
+    };
+
+    function simulate() {
+      var months = YEARS * 12;
+      var monthlyRate = ANNUAL_RETURN / 12;
+      var incomeGrowthMonthly  = Math.pow(1 + state.incPct  / 100, 1 / 12) - 1;
+      var ratchetGrowthMonthly = Math.pow(1 + state.lifePct / 100, 1 / 12) - 1;
+
+      var income = STARTING_INCOME;
+      var disciplinedSpend = STARTING_INCOME * (1 - state.savPct / 100);
+      var ratchetSpend     = STARTING_INCOME * (1 - state.savPct / 100);
+
+      var corpD = 0, corpR = 0;
+      var pathD = [{ year: 0, value: 0 }];
+      var pathR = [{ year: 0, value: 0 }];
+
+      for (var m = 1; m <= months; m++) {
+        income       = income       * (1 + incomeGrowthMonthly);
+        ratchetSpend = ratchetSpend * (1 + ratchetGrowthMonthly);
+
+        // You cannot spend more than you earn (in this model) — cap ratchet spend at income
+        var rSpend = Math.min(ratchetSpend, income);
+
+        var disciplinedSave = Math.max(0, income - disciplinedSpend);
+        var ratchetSave     = Math.max(0, income - rSpend);
+
+        corpD = corpD * (1 + monthlyRate) + disciplinedSave;
+        corpR = corpR * (1 + monthlyRate) + ratchetSave;
+
+        if (m % 3 === 0) {
+          pathD.push({ year: m / 12, value: corpD });
+          pathR.push({ year: m / 12, value: corpR });
+        }
+      }
+      return { disciplined: pathD, ratcheted: pathR };
     }
-    // Ensure last point
-    var lastL = lumpData[lumpData.length - 1];
-    lumpD += 'L' + scaleX(lastL.x, minX, maxX, W, pad).toFixed(2) + ',' + scaleY(lastL.y, minV, maxV, H, pad).toFixed(2);
-    drawPath(svg, lumpD, '#ed8936', 2.5, 'none', 1);
 
-    // SIP curve (staircase-ish with monthly steps, but draw every 3 months for performance)
-    var sipD = '';
-    for (var i = 0; i < sipData.length; i += 3) {
-      var sx = scaleX(sipData[i].x, minX, maxX, W, pad);
-      var sy = scaleY(sipData[i].y, minV, maxV, H, pad);
-      sipD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 30, right: 28, bottom: 46, left: 64 };
+      var sim = simulate();
+      var fD_end = sim.disciplined[sim.disciplined.length - 1].value;
+      var fR_end = sim.ratcheted[sim.ratcheted.length - 1].value;
+      var maxVal = Math.max(fD_end, fR_end, 1e7);
+      var yMax = maxVal * 1.1;
+      var yMin = 0;
+
+      var xLabels = [];
+      for (var i = 0; i <= YEARS; i++) xLabels.push(i % 5 === 0 ? i.toString() + 'y' : '');
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: xLabels,
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) { return fmtINRshort(v); }
+      });
+
+      // Reference tier lines (₹1Cr, ₹3Cr, ₹5Cr)
+      var refs = [{ v: 1e7, label: '₹1Cr' }, { v: 3e7, label: '₹3Cr' }, { v: 5e7, label: '₹5Cr' }];
+      ctx.save();
+      refs.forEach(function(r) {
+        if (r.v > yMax) return;
+        var y = mapY(r.v, yMin, yMax, H, pad);
+        ctx.strokeStyle = 'rgba(26, 54, 93, 0.18)';
+        ctx.setLineDash([2, 5]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+      });
+      ctx.setLineDash([]);
+      ctx.restore();
+      refs.forEach(function(r) {
+        if (r.v > yMax) return;
+        var y = mapY(r.v, yMin, yMax, H, pad);
+        drawTextCanvas(ctx, pad.left + 6, y - 7, r.label, {
+          fontSize: 10, color: 'rgba(26, 54, 93, 0.6)', align: 'left', baseline: 'middle'
+        });
+      });
+
+      // Disciplined line (accent)
+      var polyD = sim.disciplined.map(function(p) {
+        return { x: mapX(p.year, 0, YEARS, W, pad), y: mapY(p.value, yMin, yMax, H, pad) };
+      });
+      drawLineCanvas(ctx, polyD, { color: 'var(--accent)', width: 2.8 });
+
+      // Ratcheted line (amber-orange, dashed)
+      var polyR = sim.ratcheted.map(function(p) {
+        return { x: mapX(p.year, 0, YEARS, W, pad), y: mapY(p.value, yMin, yMax, H, pad) };
+      });
+      drawLineCanvas(ctx, polyR, { color: '#c05621', width: 2.5, dashed: [6, 4] });
+
+      // Endpoint dots + labels
+      var endD = polyD[polyD.length - 1];
+      var endR = polyR[polyR.length - 1];
+      drawPointCanvas(ctx, endD.x, endD.y, 5, 'var(--accent)', '#fff');
+      drawPointCanvas(ctx, endR.x, endR.y, 5, '#c05621', '#fff');
+      drawTextCanvas(ctx, endD.x - 8, endD.y - 12, 'Disciplined', {
+        fontSize: 11, color: 'var(--accent)', align: 'right', baseline: 'middle', weight: '600'
+      });
+      drawTextCanvas(ctx, endR.x - 8, endR.y + 14, 'Ratcheted', {
+        fontSize: 11, color: '#c05621', align: 'right', baseline: 'middle', weight: '600'
+      });
+
+      // Title — above the plot area
+      drawTextCanvas(ctx, W / 2, 12, 'Same income, same returns — only spending discipline differs', {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      // Update readouts
+      var lost = fD_end - fR_end;
+      document.getElementById('w2-discip').textContent  = fmtINR(fD_end);
+      document.getElementById('w2-ratch').textContent   = fmtINR(fR_end);
+      document.getElementById('w2-lost').textContent    = fmtINR(lost);
+      document.getElementById('w2-lostpct').textContent = fD_end > 0
+        ? (lost / fD_end * 100).toFixed(0) + '%' : '—';
     }
-    var lastS = sipData[sipData.length - 1];
-    sipD += 'L' + scaleX(lastS.x, minX, maxX, W, pad).toFixed(2) + ',' + scaleY(lastS.y, minV, maxV, H, pad).toFixed(2);
-    drawPath(svg, sipD, '#4299e1', 2.5, 'none', 1);
 
-    // End value labels
-    var sipEnd = sipData[sipData.length - 1];
-    var lumpEnd = lumpData[lumpData.length - 1];
-    var sipEndX = scaleX(sipEnd.x, minX, maxX, W, pad);
-    var sipEndY = scaleY(sipEnd.y, minV, maxV, H, pad);
-    var lumpEndX = scaleX(lumpEnd.x, minX, maxX, W, pad);
-    var lumpEndY = scaleY(lumpEnd.y, minV, maxV, H, pad);
+    attachSliders([
+      { el: document.getElementById('w2-inc'),  label: document.getElementById('w2-inc-val'),
+        format: function(v) { return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w2-life'), label: document.getElementById('w2-life-val'),
+        format: function(v) { return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w2-sav'),  label: document.getElementById('w2-sav-val'),
+        format: function(v) { return v.toFixed(0) + '%'; } }
+    ], function(vals) {
+      state.incPct  = vals['w2-inc'];
+      state.lifePct = vals['w2-life'];
+      state.savPct  = vals['w2-sav'];
+      draw();
+    });
+  })();
+  </script>
 
-    drawCircle(svg, sipEndX, sipEndY, 4, '#4299e1', '#fff');
-    drawCircle(svg, lumpEndX, lumpEndY, 4, '#ed8936', '#fff');
+  <!-- ============================================================
+       WIDGET 3 — Fat-tail Monte Carlo Scenario Planner
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-    // Info panel
-    var totalInvested = monthlySip * currentYear * 12;
-    info.innerHTML = '<span><strong style="color:#4299e1">SIP:</strong> ' + formatCurrency(sipEnd.y) + ' (invested ' + formatCurrency(totalInvested) + ')</span>'
-      + '<span><strong style="color:#ed8936">Lump Sum:</strong> ' + formatCurrency(lumpEnd.y) + ' (invested ' + formatCurrency(lumpSum) + ')</span>';
-    if (sipEnd.y > lumpEnd.y) {
-      info.innerHTML += '<span style="color:#48bb78;font-weight:600">SIP wins by ' + formatCurrency(sipEnd.y - lumpEnd.y) + '</span>';
-    } else {
-      info.innerHTML += '<span style="color:#ed8936;font-weight:600">Lump Sum leads by ' + formatCurrency(lumpEnd.y - sipEnd.y) + '</span>';
+    var NUM_PATHS = 200;
+    var STARTING = 20e5;         // ₹20L starting capital
+    var MONTHLY_CONTRIB = 50000; // ₹50K monthly
+
+    // Initialize state BEFORE attachSliders fires its initial paint
+    var state = {
+      muPct: 12,    // expected annual return
+      sigPct: 18,   // annual volatility
+      years: 20
+    };
+
+    // Cached paths — only regenerated when config changes or user clicks "Run"
+    var cachedPaths = null;
+    var cachedConfig = null;
+
+    function configKey() {
+      return state.muPct + '_' + state.sigPct + '_' + state.years;
     }
 
-    // Hover
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
+    function generatePaths() {
+      var months = state.years * 12;
+      var muM = state.muPct / 100 / 12;
+      var sigM = state.sigPct / 100 / Math.sqrt(12);
+      var paths = [];
+      for (var i = 0; i < NUM_PATHS; i++) {
+        var v = STARTING;
+        var p = [v];
+        for (var m = 1; m <= months; m++) {
+          var z = randn(0, 1);
+          var r = muM + sigM * z;
+          v = v * (1 + r) + MONTHLY_CONTRIB;
+          if (v < 0) v = 0;
+          p.push(v);
+        }
+        paths.push(p);
+      }
+      return paths;
+    }
 
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
+    function ensurePaths() {
+      var key = configKey();
+      if (cachedConfig !== key || !cachedPaths) {
+        cachedPaths = generatePaths();
+        cachedConfig = key;
+      }
+      return cachedPaths;
+    }
 
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var yearFloat = minX + ((mx - pad.left) / (W - pad.left - pad.right)) * (maxX - minX);
-      yearFloat = Math.max(minX, Math.min(maxX, yearFloat));
-      var monthIdx = Math.round(yearFloat * 12);
-      monthIdx = Math.max(0, Math.min(sipData.length - 1, monthIdx));
-      var sx = scaleX(sipData[monthIdx].x, minX, maxX, W, pad);
+    function percentile(arr, p) {
+      var sorted = arr.slice().sort(function(a, b) { return a - b; });
+      var idx = (sorted.length - 1) * p;
+      var lo = Math.floor(idx), hi = Math.ceil(idx);
+      if (lo === hi) return sorted[lo];
+      return sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+    }
 
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
+    function computePercentileBands(paths) {
+      var months = paths[0].length;
+      var p5 = [], p50 = [], p95 = [];
+      for (var m = 0; m < months; m++) {
+        var slice = [];
+        for (var i = 0; i < paths.length; i++) slice.push(paths[i][m]);
+        p5.push(percentile(slice, 0.05));
+        p50.push(percentile(slice, 0.50));
+        p95.push(percentile(slice, 0.95));
+      }
+      return { p5: p5, p50: p50, p95: p95 };
+    }
 
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = '<strong>Year ' + (monthIdx / 12).toFixed(1) + '</strong><br>'
-        + '<span style="color:#4299e1">SIP: ' + formatCurrency(sipData[monthIdx].y) + '</span><br>'
-        + '<span style="color:#ed8936">Lump Sum: ' + formatCurrency(lumpData[monthIdx].y) + '</span>';
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 30, right: 28, bottom: 46, left: 64 };
+      var paths = ensurePaths();
+      var months = paths[0].length;
+
+      // For axis stability: cap the y-axis at the 99th percentile endpoint so a single
+      // jackpot path doesn't compress the visible range.
+      var endpoints = paths.map(function(p) { return p[months - 1]; });
+      var p99 = percentile(endpoints, 0.99);
+      var yMax = Math.max(p99 * 1.05, 1e7);
+      var yMin = 0;
+
+      var xLabels = [];
+      for (var y = 0; y <= state.years; y++) xLabels.push(y % 5 === 0 ? y.toString() + 'y' : '');
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: xLabels,
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) { return fmtINRshort(v); }
+      });
+
+      // Reference tier markers
+      var refs = [
+        { v: 1e7,  label: '₹1Cr' },
+        { v: 3e7,  label: '₹3Cr' },
+        { v: 5e7,  label: '₹5Cr' },
+        { v: 10e7, label: '₹10Cr' }
+      ];
+      ctx.save();
+      refs.forEach(function(r) {
+        if (r.v > yMax) return;
+        var yy = mapY(r.v, yMin, yMax, H, pad);
+        ctx.strokeStyle = 'rgba(26, 54, 93, 0.15)';
+        ctx.setLineDash([2, 5]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pad.left, yy); ctx.lineTo(W - pad.right, yy); ctx.stroke();
+      });
+      ctx.setLineDash([]);
+      ctx.restore();
+      refs.forEach(function(r) {
+        if (r.v > yMax) return;
+        var yy = mapY(r.v, yMin, yMax, H, pad);
+        drawTextCanvas(ctx, W - pad.right - 4, yy - 7, r.label, {
+          fontSize: 10, color: 'rgba(26, 54, 93, 0.6)', align: 'right', baseline: 'middle'
+        });
+      });
+
+      // Draw all paths as thin grey lines
+      ctx.save();
+      ctx.strokeStyle = 'rgba(120, 120, 120, 0.15)';
+      ctx.lineWidth = 0.6;
+      for (var i = 0; i < paths.length; i++) {
+        ctx.beginPath();
+        for (var m = 0; m < months; m++) {
+          var xx = mapX(m / 12, 0, state.years, W, pad);
+          var v = Math.min(paths[i][m], yMax);
+          var yy2 = mapY(v, yMin, yMax, H, pad);
+          if (m === 0) ctx.moveTo(xx, yy2); else ctx.lineTo(xx, yy2);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // Percentile bands
+      var bands = computePercentileBands(paths);
+      function toPoly(arr) {
+        var out = [];
+        for (var m = 0; m < arr.length; m++) {
+          out.push({
+            x: mapX(m / 12, 0, state.years, W, pad),
+            y: mapY(Math.min(arr[m], yMax), yMin, yMax, H, pad)
+          });
+        }
+        return out;
+      }
+      drawLineCanvas(ctx, toPoly(bands.p5),  { color: '#c53030',         width: 2.2 });
+      drawLineCanvas(ctx, toPoly(bands.p50), { color: 'var(--accent)',   width: 2.8 });
+      drawLineCanvas(ctx, toPoly(bands.p95), { color: '#2f855a',         width: 2.2 });
+
+      // Endpoint labels at the right edge — positioned to avoid overlapping each other
+      var lastIdx = months - 1;
+      var pp5  = toPoly(bands.p5)[lastIdx];
+      var pp50 = toPoly(bands.p50)[lastIdx];
+      var pp95 = toPoly(bands.p95)[lastIdx];
+      drawTextCanvas(ctx, pp5.x - 8,  pp5.y,  'P5',  { fontSize: 11, color: '#c53030',         align: 'right', baseline: 'middle', weight: '600' });
+      drawTextCanvas(ctx, pp50.x - 8, pp50.y, 'P50', { fontSize: 11, color: 'var(--accent)',   align: 'right', baseline: 'middle', weight: '600' });
+      drawTextCanvas(ctx, pp95.x - 8, pp95.y, 'P95', { fontSize: 11, color: '#2f855a',         align: 'right', baseline: 'middle', weight: '600' });
+
+      // Title
+      drawTextCanvas(ctx, W / 2, 12,
+        '₹20L + ₹50K/mo  ·  ' + NUM_PATHS + ' simulated paths  ·  μ=' + state.muPct + '%  σ=' + state.sigPct + '%',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+
+      // Update readouts
+      var endP5 = bands.p5[lastIdx], endP50 = bands.p50[lastIdx], endP95 = bands.p95[lastIdx];
+      document.getElementById('w3-p5').textContent     = fmtINR(endP5);
+      document.getElementById('w3-p50').textContent    = fmtINR(endP50);
+      document.getElementById('w3-p95').textContent    = fmtINR(endP95);
+      document.getElementById('w3-spread').textContent = endP5 > 0
+        ? (endP95 / endP5).toFixed(1) + '×' : '—';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-mu'),  label: document.getElementById('w3-mu-val'),
+        format: function(v) { return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w3-sig'), label: document.getElementById('w3-sig-val'),
+        format: function(v) { return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w3-yrs'), label: document.getElementById('w3-yrs-val'),
+        format: function(v) { return v.toFixed(0) + ' yrs'; } }
+    ], function(vals) {
+      state.muPct  = vals['w3-mu'];
+      state.sigPct = vals['w3-sig'];
+      state.years  = vals['w3-yrs'];
+      // Invalidate cache so the regenerate happens lazily inside draw()
+      cachedConfig = null;
+      draw();
     });
 
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      tooltip.style.display = 'none';
+    attachButton('#w3-run', function() {
+      cachedConfig = null;
+      cachedPaths = null;
+      draw();
     });
-  }
-
-  draw();
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:6px;font-size:12px;color:var(--text);';
-  legend.innerHTML = '<span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:3px;background:#4299e1;display:inline-block;"></span>SIP (' + monthlySip.toLocaleString() + '/mo)</span>'
-    + '<span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:3px;background:#ed8936;display:inline-block;"></span>Lump Sum (' + lumpSum.toLocaleString() + ')</span>';
-  container.appendChild(legend);
-
-  slider.addEventListener('input', function() {
-    currentYear = parseInt(this.value);
-    yearVal.textContent = currentYear;
-    draw();
-  });
-})();
-</script>
+  })();
+  </script>
 
 </body>
 </html>

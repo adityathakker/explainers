@@ -4,32 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Hardest Skill: When to Sell — Market Explainers</title>
-  <meta name="description" content="Profit booking, exit frameworks, and why buying is the easy part">
+  <meta name="description" content="Profit booking, trailing stops, tax-impact math, and why buying is the easy part — shown with bespoke simulations">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="The Hardest Skill: When to Sell">
-  <meta property="og:description" content="Profit booking, exit frameworks, and why buying is the easy part">
+  <meta property="og:description" content="Profit booking, exit frameworks, and why buying is the easy part — shown, not told">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #63171b;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .stat-grid { grid-template-columns: 1fr; } }
+    .stat-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stat-cell-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .stat-cell-value {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin: 8px 0 2px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .legend-row .swatch {
+      display: inline-block;
+      width: 14px;
+      height: 3px;
+      vertical-align: middle;
+      margin-right: 5px;
+      border-radius: 2px;
+    }
   </style>
 </head>
 <body>
@@ -47,8 +98,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">The Hardest Skill: When to Sell</h1>
-      <p class="hero__subtitle">Profit booking, exit frameworks, and why buying is the easy part</p>
-      <p class="hero__meta">22 min read</p>
+      <p class="hero__subtitle">Profit booking, exit frameworks, and why buying is the easy part &mdash; shown, not told.</p>
+      <p class="hero__meta">9 chapters &middot; 3 interactive simulations &middot; 24 min read</p>
     </div>
   </header>
 
@@ -57,298 +108,544 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-why-selling-is-the-hardest-skill-in-investing">I. Why Selling Is the Hardest Skill in Investing</a></li>
-        <li><a href="#ii-the-never-more-than-50-rule">II. The Never-More-Than-50% Rule</a></li>
-        <li><a href="#iii-the-moat-erosion-test-when-to-cut-completely">III. The MOAT Erosion Test -- When to Cut Completely</a></li>
-        <li><a href="#iv-rotate-within-themes-do-not-just-sell-into-cash">IV. Rotate Within Themes -- Do Not Just Sell Into Cash</a></li>
-        <li><a href="#v-the-covered-call-strategy-selling-without-selling">V. The Covered Call Strategy -- Selling Without Selling</a></li>
-        <li><a href="#vi-when-not-to-sell-the-discipline-of-holding">VI. When NOT to Sell -- The Discipline of Holding</a></li>
-        <li><a href="#vii-selling-losers-the-ego-problem">VII. Selling Losers -- The Ego Problem</a></li>
-        <li><a href="#viii-the-range-trading-framework-selling-in-sideways-markets">VIII. The Range-Trading Framework -- Selling in Sideways Markets</a></li>
-        <li><a href="#ix-the-complete-sell-playbook-rules-you-can-use-tomorrow">IX. The Complete Sell Playbook -- Rules You Can Use Tomorrow</a></li>
+        <li><a href="#i-why-sell-is-hard">Why is selling harder than buying?</a></li>
+        <li><a href="#ii-trailing-stop">What does a trailing stop actually do to your equity curve?</a></li>
+        <li><a href="#iii-fifty-rule">Why never sell more than half a winner at once?</a></li>
+        <li><a href="#iv-moat-erosion">When should you cut everything &mdash; not 50%, but all of it?</a></li>
+        <li><a href="#v-exit-comparison">Does any single exit strategy win across regimes?</a></li>
+        <li><a href="#vi-rotation">Why does &ldquo;sell into cash&rdquo; almost always lose to rotation?</a></li>
+        <li><a href="#vii-tax-impact">When does the tax line bend the sell decision?</a></li>
+        <li><a href="#viii-not-selling">When should you refuse to sell, even when it hurts?</a></li>
+        <li><a href="#ix-playbook">What does the complete sell playbook look like?</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-why-selling-is-the-hardest-skill-in-investing">
+
+    <!-- ============================================================
+         I. Why is selling harder than buying?
+         ============================================================ -->
+    <section class="reveal" id="i-why-sell-is-hard">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. Why Selling Is the Hardest Skill in Investing</h2>
+        <h2>Why is selling harder than buying?</h2>
       </div>
       <div class="section-content">
-        <p>Everyone talks about what to buy. Every YouTube video, every community post, every newsletter &ndash; the question is always the same: &ldquo;Which stock should I buy?&rdquo; Nobody asks the question that actually determines whether you make money: &ldquo;When should I sell?&rdquo;</p>
-<p>Here is a truth that took me years to internalize. You do not make money when you sell. You actually make money when you buy right. But buying right is only half the equation. Selling wrong can destroy everything. You can buy the perfect stock at the perfect price, watch it double, and then give back all your gains because you did not have a sell framework. I have seen this happen to hundreds of investors in our community.</p>
-<p>The problem is psychological. Buying feels like opportunity. Selling feels like loss &ndash; either the loss of future gains if you sell too early, or the locking in of actual losses if you sell too late. Both feelings are paralyzing. And so most retail investors do the worst possible thing: they do nothing. They hold everything forever, calling it &ldquo;long-term investing,&rdquo; when what they are really doing is avoiding the discomfort of making a decision.</p>
-<blockquote>
-<p>The stock market has turned from an &ldquo;investable&rdquo; asset class to a &ldquo;speculative&rdquo; asset class. And in any speculation, it is critical to book profits.</p>
-</blockquote>
-<p>Let me be direct with you. In the Indian market especially, buy-and-hold is a dangerous philosophy that has been promoted at scale by mutual fund houses because it keeps your money in their funds, generating management fees year after year. The game is not buy and forget. The game is <strong>capital rotation</strong>. And capital rotation requires you to master the one skill that nobody teaches: knowing when to walk away.</p>
-<p>This article is my attempt to give you what I have never seen anyone else provide &ndash; a complete, rule-based framework for selling. Not vague advice like &ldquo;sell when fundamentals deteriorate.&rdquo; Specific rules. Specific percentages. Specific triggers. The kind of sell discipline that separates people who build real wealth from people who just have a portfolio of stocks they are emotionally attached to.</p>
-<p>Let me give you the scorecard first, so you understand I am speaking from a position of strength, not theory. Over the last three years, our community portfolio has executed the following sells: Small Cap Index at 100%-plus profit. HDFC AMC at 100%-plus. PNB at 100%-plus. Ujjivan at 100%-plus. Zomato at 100%-plus. Bajaj Finance at 30%-plus. Max at 75%. Nuvama at 35%. IT Index at 30%. DMART at 15-16%. Swiggy at 21%. HangSeng Bees at 20% in three months. And yes, some stocks we sold at a loss &ndash; Dreamfolks, Asian Paints exit, Tarsons. Out of 10 bets, 3-4 will lose. That is the game. But the net result has beaten most mutual funds.</p>
-<p>The question is not whether these were brilliant stock picks. The question is: how did we know when to walk away? That is what this article teaches.</p>
-<hr />
+        <p>Everyone talks about what to buy. Every YouTube video, every community post, every newsletter &mdash; the question is always the same: &ldquo;Which stock should I buy?&rdquo; Almost nobody asks the question that actually determines whether you keep the money: &ldquo;When should I sell?&rdquo;</p>
+
+        <p>Here is a truth that takes years to internalise. You do not make money when you sell. You make money when you buy right. But buying right is only half the equation &mdash; selling wrong can destroy everything. You can buy the perfect stock at the perfect price, watch it double, and then give back all your gains because you did not have a sell framework. This happens to a depressing number of retail investors every cycle.</p>
+
+        <p>The problem is psychological. Buying feels like opportunity. Selling feels like loss &mdash; either the loss of future gains if you sell too early, or the locking-in of actual losses if you sell too late. Both feelings are paralysing. And so most retail investors do the worst possible thing: nothing. They hold everything forever, call it &ldquo;long-term investing,&rdquo; and what they are really doing is avoiding the discomfort of making a decision.</p>
+
+        <p>Behavioural finance has a name for the asymmetry: <em>loss aversion</em>. Kahneman and Tversky's experiments show that the psychological pain of losing a rupee is roughly twice the pleasure of gaining one. That ratio explains everything about why selling is harder than buying. Selling a winner means realising a gain &mdash; mildly pleasant. Selling a loser means realising a loss &mdash; intensely painful. The brain quietly reorganises the entire decision-making process to avoid the painful side, even when the math is unambiguous about which side is right. Sell discipline is, at its core, the practice of overruling that quiet reorganisation. It is not a market skill. It is a self-management skill.</p>
+
+        <blockquote>
+          <p>The Indian stock market has shifted from an &ldquo;investable&rdquo; asset class to a &ldquo;speculative&rdquo; one. In any speculation, it is critical to book profits.</p>
+        </blockquote>
+
+        <p>In the Indian market especially, buy-and-hold is a dangerous philosophy that has been promoted at scale by mutual-fund houses because it keeps your money in their funds, generating management fees year after year. The game is not buy and forget. The game is <strong>capital rotation</strong>. And capital rotation requires you to master the one skill nobody teaches: knowing when to walk away.</p>
+
+        <p>To be fair to the buy-and-hold camp, the philosophy is not wrong in absolute terms &mdash; it works well in markets with high secular drift and low cyclicality, like the US S&amp;P 500 over the last forty years. It works poorly in markets with strong sector rotation, decade-long flat ranges, or regulatory regimes that punish concentrated bets. India sits much closer to the second profile than the first. So &ldquo;buy and hold&rdquo; advice imported wholesale from US-market literature gives Indian retail investors a strategy calibrated for a market they don't actually trade in. The framework in this article is the version calibrated for the market you do trade in.</p>
+
+        <p>This article gives you what most don't: a complete, rule-based framework for selling. Not vague advice like &ldquo;sell when fundamentals deteriorate.&rdquo; Specific rules. Specific percentages. Specific triggers. The kind of sell discipline that separates people who build real wealth from people who own a portfolio of stocks they are emotionally attached to.</p>
+
+        <p>A scorecard first, so you know this isn't theory. Over the last three years, a real community portfolio booked: Small Cap Index, HDFC AMC, PNB, Ujjivan, Zomato &mdash; each at 100%-plus. Bajaj Finance at 30%, Max at 75%, Nuvama at 35%, IT Index at 30%, DMART at ~16%, Swiggy at 21%, HangSeng Bees at 20% in three months. And yes, losses too &mdash; Dreamfolks, Asian Paints, Tarsons. Out of 10 bets, 3-4 will lose. That is the game. The net result still beat most mutual funds<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>.</p>
+
+        <p>The question is not whether these were brilliant stock picks. The question is: <em>how do you know when to walk away?</em> That is the rest of the article.</p>
+
+        <p>One observation before we get to the mechanics. Look at the scorecard again: the winners are concentrated around 30-100%+ exits, and the losers are typically capped well under 30%. That asymmetry is not random &mdash; it is the entire game. The investor with even a coin-flip hit rate but who lets winners run to 100% and cuts losers at 20% beats the investor with 70% hit rate who cuts winners at 20% and lets losers run to 60%. Sell discipline is the lever that controls that asymmetry. Buying decides which positions go into the bucket. Selling decides how much each one contributes to the final number.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-the-never-more-than-50-rule">
+    <!-- ============================================================
+         II. What does a trailing stop actually do to your equity curve?
+         ============================================================ -->
+    <section class="reveal" id="ii-trailing-stop">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. The Never-More-Than-50% Rule</h2>
+        <h2>What does a trailing stop actually do to your equity curve?</h2>
       </div>
       <div class="section-content">
-        <p>Here is the first and most important rule I follow: <strong>never sell more than 50% of a winning position at one time.</strong></p>
-<p>Why? Because you cannot predict the future. If a stock is up 100% and you sell everything, you might feel brilliant for a week. But when it runs another 80% after your exit, you will feel sick. And that sickness will make you do something stupid &ndash; like chasing it back in at a much higher price.</p>
-<p>Let me give you a real example from our portfolio. We had a significant position in HDFC AMC that went up over 100%. The instinct is to sell everything and celebrate. But I sold roughly 50% and held the rest. Why? Because the business was still fundamentally strong. AMCs benefit from a growing market. The earnings trajectory was intact. Selling half locked in real profits &ndash; enough to redeploy into the next opportunity &ndash; while keeping skin in the game for further upside.</p>
-<p>The same logic applied to PNB, where we booked over 100% gains. To Ujjivan, where we exited at 100%-plus and then re-entered months later when the price corrected. To Angel One, CDSL, and CAMS, where we did partial profit booking of around 50% each.</p>
-<p>Here is how the 50% rule works in practice:</p>
-<ul>
-<li><strong>Stock doubles (100% gain)</strong>: Sell 50%. You have now recovered your entire original investment. The remaining position is playing with house money. Your downside risk on this position is literally zero.</li>
-<li><strong>Stock gains 30-50%</strong>: Sell 20-30%. Reduce exposure, redeploy capital to better opportunities, but do not abandon the thesis if it is still intact.</li>
-<li><strong>Stock gains 10-20% on a swing trade</strong>: This is a different animal. On swing trades with clear technical targets, you can exit fully. I bought NIFTY IT Index, made 5% in a week, and exited completely. Why? Because it was a trade, not an investment. I did not believe in Indian IT long-term; I was capturing a short-term swing.</li>
-</ul>
-<p>The percentage you sell depends on your conviction and the opportunity cost. But the ceiling &ndash; never more than 50% on a single exit &ndash; keeps you from making the catastrophic mistake of being completely out of something that keeps running.</p>
-<blockquote>
-<p>The first major selling target for NIFTY 50 is 26,650. This is a point where I would exit 50% of my NIFTY SWING trades. And, will diversify into other sectors.</p>
-</blockquote>
-<p>Notice the discipline: even on a trade with a specific target, the plan is to sell half, not all. This is not timidity. This is mathematics. The expected value of keeping half your position is positive when the trend is intact.</p>
-<hr />
+        <p>Before we get to the framework, let's break the most common confusion: people think a stop-loss <em>protects</em> gains. It does &mdash; sometimes. Mostly it just changes the shape of your return distribution: fewer big losses, fewer big wins, more whipsaws in the middle. Whether that change helps you depends entirely on how wide you set it.</p>
+
+        <p>A trailing stop is simple. Pick a percentage &mdash; call it <span class="math">x%</span>. Every day, track the highest closing price the position has ever hit. The moment price falls more than <span class="math">x%</span> below that high-water mark, you exit. The stop &ldquo;trails&rdquo; the price upward; it never moves down. The asymmetry is the entire point: gains are locked in as the price climbs; losses can only ever be the trailing percentage from whichever peak the stop last ratcheted up to.</p>
+
+        <div class="math-block">
+          stop<sub>t</sub> = max(stop<sub>t-1</sub>, &nbsp;HWM<sub>t</sub> &middot; (1 &minus; x))
+          <span class="math-where">HWM<sub>t</sub> is the running high-water mark; x is the trailing percentage</span>
+        </div>
+
+        <p>The tradeoff is intuitive. A 2% stop fires constantly &mdash; you get knocked out of nearly every position on noise alone, missing the next leg up. A 25% stop almost never fires &mdash; which is the same as not having a stop at all, except you've convinced yourself you do. Somewhere in between is a band where the average path is materially better off than buy-and-hold; outside that band, you're paying for the illusion of safety.</p>
+
+        <p>There is a second hidden cost most retail traders never price in: <strong>tax friction</strong>. Every time the stop fires, you realise a gain or loss. A 5% trailing stop on a 50-vol stock might fire eight times a year &mdash; eight realisation events, eight chances to short-circuit your LTCG eligibility (Section VII), and eight bid-ask round-trips. The strategy might still beat buy-and-hold on a pre-tax-pre-frictions basis and lose decisively after you account for both.</p>
+
+        <p>Drag the slider below and watch the equity curve change. The widget runs many simulated price paths (geometric Brownian motion &mdash; the same random-walk model that underlies Black-Scholes), applies your trailing stop to each one, and averages the final outcome. The single highlighted curve is just one draw; the stat cells underneath show the average over the bundle you've requested.</p>
+
+        <!-- Widget 1: Trailing Stop Visualizer -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Trailing Stop on a Simulated Equity Curve</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="legend-row">
+            <span><span class="swatch" style="background: #888;"></span>Price path</span>
+            <span><span class="swatch" style="background: #38a169;"></span>High-water mark</span>
+            <span><span class="swatch" style="background: var(--accent);"></span>Trailing stop level</span>
+            <span><span class="swatch" style="background: #e53e3e; border-radius: 50%; width: 8px; height: 8px;"></span>Exit point</span>
+          </div>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Trailing stop</span><span class="slider-value" id="w1-pct-val">10%</span></div>
+              <input type="range" id="w1-pct" min="1" max="25" value="10" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Paths averaged</span><span class="slider-value" id="w1-n-val">25</span></div>
+              <input type="range" id="w1-n" min="1" max="50" value="25" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Annual vol (σ)</span><span class="slider-value" id="w1-vol-val">28%</span></div>
+              <input type="range" id="w1-vol" min="10" max="60" value="28" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Avg return — buy & hold</div><div class="stat-cell-value" id="w1-bh">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Avg return — with stop</div><div class="stat-cell-value" id="w1-stop">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">% of paths stopped out</div><div class="stat-cell-value" id="w1-fired">—</div></div>
+          </div>
+          <p class="widget-hint">Push the trailing percent toward 1%: the stop fires on almost every path, and the average return collapses below buy-and-hold. Push toward 25%: the stop barely fires, but the few times it does, it caps a meaningful loss.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; why tighter stops usually lose</summary>
+          <p>The simulation uses a positive drift (annual return roughly 10%) and log-normal returns. Under those conditions, geometric Brownian motion has a well-known property: short-horizon drawdowns of <span class="math">x%</span> happen all the time even when the long-run trend is positive. A 5% stop on a 28-vol stock has roughly an 80% chance of firing within a year just from noise &mdash; before any fundamental signal arrives.</p>
+          <p>That's why professional traders use stops measured in <em>multiples of ATR</em> (average true range) or in standard deviations of the price's recent distribution, not in fixed percentages. A 2&sigma; stop on a 60-vol stock is wider than on a 15-vol stock, by design.</p>
+        </details>
+
+        <p>The simulator's headline finding lines up with what every quant desk knows: the optimal trailing stop is not the tightest one. It's the widest one that still excludes the catastrophic tail. Everything tighter just sells you noise and calls it discipline.</p>
+
+        <p>This is also why &ldquo;put a 5% stop on everything&rdquo; is such common &mdash; and bad &mdash; trading-floor advice. The same 5% rule that's wise on a low-vol index ETF is suicide on a 60-vol growth stock. Stops must scale with volatility, holding period, and conviction. The widget above isn't telling you what your stop should be; it's showing you that the relationship between stop tightness and average outcome is highly non-linear, and that the popular numbers (5%, 10%) sit on the wrong side of the curve for most equities most of the time.</p>
+
+        <p>A practical default that works across a wide range of equities: scale the stop to roughly <span class="math">2 &times; (annual &sigma;) &divide; &radic;(periods per year)</span> for the holding period you have in mind. A 28-vol stock held for a quarter has a one-quarter sigma of <span class="math">28% &divide; &radic;4 &approx; 14%</span>, so a two-sigma stop is around 28%. That sounds enormous &mdash; and it is &mdash; but it correctly reflects the natural range of noise the stock will produce inside a single quarter even with a positive long-run trend. Setting the stop tighter than this is choosing to be flushed out by noise; setting it wider is choosing to accept catastrophic risk in exchange for never being flushed at all. The right answer is almost always at the wide end of the &ldquo;sensible&rdquo; band, not the tight end.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-the-moat-erosion-test-when-to-cut-completely">
+    <!-- ============================================================
+         III. The 50% rule
+         ============================================================ -->
+    <section class="reveal" id="iii-fifty-rule">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. The MOAT Erosion Test -- When to Cut Completely</h2>
+        <h2>Why never sell more than half a winner at once?</h2>
       </div>
       <div class="section-content">
-        <p>The 50% rule is for winners. Now let us talk about when to sell everything &ndash; even at a loss.</p>
-<p><strong>You sell completely when the MOAT erodes.</strong> Not when the stock price falls. Not when the market panics. Not when your neighbor tells you the company is doomed. You sell when the fundamental reason you bought the stock no longer exists.</p>
-<p>Let me walk you through my framework with real examples:</p>
-<p><strong>Tarsons Biosystems</strong>: I was at a 6-7% loss. Not a big deal normally. But then Aarti Industries fell 15% in a single day after guidance indicated that China dumping would continue. This was not a one-stock problem; it was a macro shift that directly threatened any Indian company competing with Chinese manufacturing. Tarsons was in the crosshairs. The macro narrative that justified my position &ndash; that China dumping would slow down &ndash; had changed. So I cut the position entirely.</p>
-<p>Was I right? Partially. The stock did bounce back later. But here is the point: <strong>as a macro investor, I go by macro narratives. When the narrative breaks, the position breaks.</strong> I would rather book a 7% loss on a thesis I no longer believe in than hold on and risk a 30-50% drawdown on a thesis that might be broken.</p>
-<p><strong>DMART</strong>: I sold DMART completely. Not because the business was bad &ndash; DMART is a well-run company. I sold because I could not justify holding a large-cap firm at a PE of 100-plus. The valuation had detached from reality. When the gap between price and value becomes absurd, that is your exit signal, regardless of how much you love the brand.</p>
-<p><strong>Gensol</strong>: Some community members asked about this one. I never bought it, but my advice to those who held it was simple: it could go the R-Comm way. When a stock shows signs of serious structural distress, <strong>it is okay to book losses. Do not take it on your ego.</strong></p>
-<p>Here is the MOAT erosion checklist I use:</p>
-<ol>
-<li><strong>Has the industry thesis changed?</strong> (China dumping accelerating, regulation shifting, technology disrupting the sector)</li>
-<li><strong>Are the revenues and profits still growing?</strong> If they are declining for two or more quarters, something is wrong.</li>
-<li><strong>Is the firm&rsquo;s competitive position weakening?</strong> New entrants with better economics, losing market share, pricing power eroding.</li>
-<li><strong>Has the leverage situation worsened?</strong> Debt-to-equity climbing while growth slows is a death spiral indicator.</li>
-</ol>
-<p>If two or more of these go red simultaneously, I sell. Period. Not 50%. Not 30%. All of it. And I reinvest the capital immediately into something I believe in. The goal is not to recover the loss from the same stock. The goal is to make the best possible move for your <strong>portfolio</strong> today.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>The first and most important rule for winners: <strong>never sell more than 50% of a winning position at one time.</strong></p>
 
-<hr />
+        <p>Why? Because you cannot predict the future. If a stock is up 100% and you sell everything, you might feel brilliant for a week. But when it runs another 80% after your exit, you will feel sick &mdash; and that sickness will make you do something stupid, like chasing it back in at a much higher price. The 50% rule is engineering against your own future regret.</p>
+
+        <p>Real example: a significant position in HDFC AMC ran over 100%. The instinct is to sell everything and celebrate. Instead, sell ~50% and hold the rest. The business is still fundamentally strong. AMCs benefit from a growing market. The earnings trajectory is intact. Selling half locks in real profits &mdash; enough to redeploy into the next opportunity &mdash; while keeping skin in the game for further upside.</p>
+
+        <p>Same logic on PNB (100%-plus booked), Ujjivan (exited at 100%-plus then re-entered months later when the price corrected), Angel One, CDSL, and CAMS &mdash; partial profit booking around 50% each.</p>
+
+        <p>The Ujjivan example deserves a closer look because it illustrates the optionality the rule preserves. The first exit at 100%-plus harvested the gain. The stock then drifted lower over the following months as the small-cap segment cooled. Because only 50% had been sold, the remaining position was already small, and the watchlist was warm &mdash; when the price reset to a level that looked attractive again on the new fundamentals, a partial re-entry happened automatically. The investor who had sold 100% at the original peak would have been emotionally locked out of the re-entry, because their internal narrative was &ldquo;I already finished with Ujjivan.&rdquo; The investor who sold 50% never finished with it &mdash; the position was simply paused.</p>
+
+        <p>The rule also imposes a humility tax on your own conviction. If you were truly certain the stock was at its peak, you'd sell 100%. The 50% cap is the structural acknowledgement that you don't know &mdash; even though it feels like you do. That acknowledgement, baked into the action itself, is what keeps you honest. Every time you sell exactly 50%, you've admitted out loud that the future is uncertain. After enough cycles, the humility becomes reflexive.</p>
+
+        <p>Here is how the 50% rule works in practice:</p>
+
+        <ul>
+          <li><strong>Stock doubles (100% gain).</strong> Sell 50%. You have now recovered your entire original investment. The remaining position is playing with house money. Your downside risk on this position is literally zero.</li>
+          <li><strong>Stock gains 30-50%.</strong> Sell 20-30%. Reduce exposure, redeploy capital to better opportunities, but do not abandon the thesis if it is still intact.</li>
+          <li><strong>Stock gains 10-20% on a swing trade.</strong> This is a different animal. On swing trades with clear technical targets, you can exit fully. NIFTY IT Index made 5% in a week &mdash; full exit. Why? Because it was a trade, not an investment. There was no long-term thesis to preserve.</li>
+        </ul>
+
+        <p>The percentage you sell depends on your conviction and the opportunity cost. But the ceiling &mdash; never more than 50% on a single exit on an investment &mdash; keeps you from making the catastrophic mistake of being completely out of something that keeps running.</p>
+
+        <blockquote>
+          <p>The first major selling target for NIFTY 50 is 26,650. That is the point to exit 50% of NIFTY swing trades and diversify into other sectors.</p>
+        </blockquote>
+
+        <p>Even on a trade with a specific target, the plan is to sell half, not all. This is not timidity. This is mathematics. The expected value of keeping half your position is positive whenever the trend is intact &mdash; and a stop-loss on the remaining half (Section II) bounds the downside if the trend breaks.</p>
+
+        <p>The deeper reason this rule works is that <em>the half you keep gives you information you wouldn't have otherwise</em>. If you sell 100% and the stock keeps rising, you're emotionally locked out &mdash; you cannot honestly evaluate the next signal without your booked-profit ego in the way. If you sell 50% and the stock keeps rising, the remaining 50% is your seat at the table. You can read the next chart honestly because you're still in. The 50% rule isn't really about money. It's about preserving your ability to make the next decision without distortion.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-rotate-within-themes-do-not-just-sell-into-cash">
+    <!-- ============================================================
+         IV. MOAT Erosion
+         ============================================================ -->
+    <section class="reveal" id="iv-moat-erosion">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. Rotate Within Themes -- Do Not Just Sell Into Cash</h2>
+        <h2>When should you cut everything &mdash; not 50%, but all of it?</h2>
       </div>
       <div class="section-content">
-        <p>Here is where most investors get selling wrong. They think selling means going to cash. It does not. Selling means <strong>rotating to a better opportunity.</strong></p>
-<p>India is a capital rotation market. I keep saying this. Let me explain what it means in practice.</p>
-<p>Consider City Union Bank. The stock was in my portfolio and went up 30% in three months. A buy-and-hold investor would do nothing. An investor who &ldquo;takes profits&rdquo; would sell and sit on cash. Both are suboptimal.</p>
-<p>What I did was cut 25% of the position and reinvest immediately into beaten-down stocks like CRISIL. Why CRISIL? The PE was still high, and the growth rate was not explosive. But we were buying below the 200-day moving average, at around 10% of our intended capital, leaving significant room to downward average on a strong business that would revive as India&rsquo;s capital markets grow.</p>
-<p>This is the framework:</p>
-<ol>
-<li><strong>Sell a portion of what has run up</strong> (not all &ndash; remember the 50% rule)</li>
-<li><strong>Immediately redeploy into an undervalued asset in a related or emerging theme</strong></li>
-<li><strong>Build the new position slowly</strong> &ndash; 10% of intended capital now, more on dips</li>
-</ol>
-<p>Here is another real rotation I executed. I exited SBI Bank completely, booking 20% profits from all public sector banks. Where did the money go? Into six high-growth smaller financials: IDFC First, Armaan Financial, Aavas Financiers, 5 Paisa, Angel One, and Aptus. These were lower-risk small and midcaps likely to benefit from interest rate cuts, with 2-3x upside potential over a long-term horizon.</p>
-<p>The logic is straightforward. PSU banks had rallied. They were approaching fair value. The easy money had been made. Meanwhile, these smaller financials were still discounted, with stronger growth rates and more sensitivity to rate cuts. Same sector (finance), but a shift from large and fairly valued to small and undervalued.</p>
-<p>Another example: I booked profits on AMC firms and rotated to private banks in India, which were much cheaper. Then I took some of that capital and moved it to US stocks. The rotation was: AMCs (India) &ndash;&gt; Private Banks (India) &ndash;&gt; US Tech. Each step moved capital from something that had appreciated to something that was relatively cheaper.</p>
-<blockquote>
-<p>Point to be noted: AMC from a long-term is very good. But honestly, I am not a buy and hold type of an investor. I rotate capital where I see opportunities. If you are a buy and hold type, please stay put.</p>
-</blockquote>
-<p>This is a critical distinction. I am not telling you that AMCs are bad businesses. I am telling you that the best use of capital at that specific moment was somewhere else. Selling is not a judgment on the company. It is a judgment on <strong>opportunity cost</strong>.</p>
-<hr />
+        <p>The 50% rule is for winners with intact theses. Now the opposite case: when do you sell <em>everything</em> &mdash; even at a loss?</p>
+
+        <p><strong>You sell completely when the MOAT erodes.</strong> Not when the stock price falls. Not when the market panics. Not when your neighbour tells you the company is doomed. You sell when the fundamental reason you bought the stock no longer exists.</p>
+
+        <p><strong>Tarsons Biosystems.</strong> Sitting on a 6-7% loss &mdash; not a big deal normally. Then Aarti Industries fell 15% in a single day after guidance indicated China dumping would continue. That was a macro shift directly threatening any Indian company competing with Chinese manufacturing. Tarsons was in the crosshairs. The macro narrative that justified the position &mdash; that China dumping would slow &mdash; had changed. Position cut entirely. Was it the perfect call? Partially. The stock did bounce back later. But the principle stands: <strong>when the narrative breaks, the position breaks.</strong> A 7% booked loss on a broken thesis beats a 30-50% drawdown on a thesis you've stopped believing.</p>
+
+        <p><strong>DMART.</strong> Sold completely. Not because the business was bad &mdash; DMART is a well-run company. Sold because there is no defending a large-cap firm at a PE of 100-plus. When the gap between price and value becomes absurd, that is the exit signal, regardless of how much you love the brand.</p>
+
+        <p>A useful framing: at PE 100, the stock is pricing in 25-30 years of perfect execution at sector-leading growth. Any disappointment compresses the multiple by half. A 50% multiple compression alone takes the stock down 50%, before any earnings disappointment lands. The asymmetry from absurd valuations is brutal: 30% upside if the perfect-execution scenario plays out, 60-70% downside if anything in the next 8 quarters disappoints. No edge in the world holds up against that math.</p>
+
+        <p><strong>Gensol.</strong> A community holding showing signs of structural distress &mdash; could go the R-Comm way. The advice was simple: <strong>it is okay to book losses. Do not take it on your ego.</strong> The R-Comm reference is deliberate: stocks that look terminally distressed almost always continue to look more terminally distressed. The path from &ldquo;down 30% but interesting&rdquo; to &ldquo;down 90% and delisted&rdquo; is short and traversed by many. The first 50% of any such decline is the cheap exit. The remaining 50% is what you save by treating ego as a separate decision input that must be argued against, not deferred to.</p>
+
+        <p>The reason a single bad signal isn't enough is that any individual indicator can flash red transiently &mdash; a single weak quarter, a one-off regulation headline, a competitor's PR splash. Real moat erosion shows up as <em>multiple confirming signals</em> over a few quarters. Two reds out of four is the threshold because it lifts the signal above any one source's noise floor. If you cut on every single red, you'll cut your best compounders in their darkest hours &mdash; which is exactly when they look weakest and exactly the wrong moment to exit. The threshold is engineered against false positives, not against true negatives.</p>
+
+        <p>A few more concrete decision shapes from the live portfolio &mdash; not all of them resolved well, which is the honest part:</p>
+
+        <ul>
+          <li><strong>Rushil Decor</strong>: held through a 22-23% correction (8% on the average entry). Small-cap in a sector with strong macro tailwinds (the real-estate cycle approaching the handover stage when furniture and decor demand kicks in). Held. Revival likely post-festive season.</li>
+          <li><strong>Asian Paints</strong>: held through a 9.2% loss after a 25% top-to-bottom correction. Numbers were excellent, macro thesis intact. Held.</li>
+          <li><strong>SW Solar</strong>: held through a 35% drawdown (50% from top). Microcap, not even small. Holding, but with eyes wide open. Position size capped at 2.5% of portfolio &mdash; the cap is what makes the hold survivable.</li>
+          <li><strong>PVR</strong>: held through a 23% loss after a 50% peak-to-trough decline. Aggregation/consolidation happening at industry level. Already showing signs of slow grind back, with a 9% recovery in one month.</li>
+          <li><strong>Dreamfolks &amp; Tarsons</strong>: cut. Thesis weakened in both cases. Booked the loss and rotated.</li>
+        </ul>
+
+        <p>The pattern: drawdown size alone never determined the action. SW Solar with a 35% loss was held because the thesis was intact. Tarsons with a 7% loss was cut because the thesis broke. <strong>The action is downstream of the thesis assessment, not the price.</strong> If you can't articulate which thesis bucket your current losers are in, you don't know whether you're being patient or being stubborn. Those two postures look identical from the outside; only the future will reveal which one you were doing.</p>
+
+        <p>The MOAT erosion checklist:</p>
+
+        <ol>
+          <li><strong>Has the industry thesis changed?</strong> China dumping accelerating, regulation shifting, technology disrupting the sector.</li>
+          <li><strong>Are revenues and profits still growing?</strong> If they are declining for two or more quarters, something is wrong.</li>
+          <li><strong>Is the firm's competitive position weakening?</strong> New entrants with better economics, market share lost, pricing power eroding.</li>
+          <li><strong>Has the leverage situation worsened?</strong> Debt-to-equity climbing while growth slows is the classic death-spiral signal.</li>
+        </ol>
+
+        <p>If two or more go red simultaneously, sell. Period. Not 50%. Not 30%. All of it. And reinvest the capital immediately into something you believe in. The goal is not to recover the loss from the same stock. The goal is to make the best possible move for your <strong>portfolio</strong> today.</p>
+
+        <p>Notice how MOAT erosion is a <em>different</em> sell signal from a trailing stop. A trailing stop fires on price action; MOAT erosion fires on fundamentals. They are answers to different questions. Price action says &ldquo;the market has rejected this position&rdquo; &mdash; which might be right or might be noise. Fundamentals say &ldquo;the reason the position existed has stopped existing&rdquo; &mdash; and that is rarely noise. The discipline is to know which signal you are reacting to. Selling Tarsons on a 7% drop alone would have been wrong. Selling Tarsons because the China-dumping macro shifted &mdash; with the 7% drop merely confirming what the macro was telling you &mdash; was right.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-the-covered-call-strategy-selling-without-selling">
+    <!-- ============================================================
+         V. Exit strategy comparison
+         ============================================================ -->
+    <section class="reveal" id="v-exit-comparison">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. The Covered Call Strategy -- Selling Without Selling</h2>
+        <h2>Does any single exit strategy win across regimes?</h2>
       </div>
       <div class="section-content">
-        <p>Now let me teach you something that most people in the Indian retail investing community never touch: the <strong>covered call strategy</strong>. This is how sophisticated investors generate income from stocks they are willing to sell at a certain price.</p>
-<p>Here is how I used it on NIFTY 50:</p>
-<ol>
-<li>I bought a large block of NIFTY 50 the previous week. It was already up.</li>
-<li>I was happy to sell some of it near the all-time high of 26,200.</li>
-<li>You might say: &ldquo;You are making 1-1.5%, what is the big deal?&rdquo; The big deal is this was done in a week. If you annualize that return, the CAGR is extraordinary.</li>
-<li>On top of the capital appreciation, I sold a CALL option for NIFTY 50 at 26,200 for the October expiry.</li>
-<li>Because I was selling a call option, I received a premium upfront.</li>
-<li>If NIFTY closes below 26,200 at expiry, I keep my shares AND the premium. Free money.</li>
-<li>If NIFTY closes above 26,200, I sell my NIFTY lots at 26,200 &ndash; which I was happy to do anyway &ndash; and still keep the premium.</li>
-</ol>
-<p>This is what a covered call means. You are getting paid for agreeing to sell at a price you would have been willing to sell at anyway. It further amplifies your CAGR on positions you are planning to trim.</p>
-<p><strong>But here is the critical warning: do not do naked options.</strong> Do not simply sell a call unless you can cover it with shares you actually own. Naked options can lead to unlimited losses. Covered calls are conservative; naked calls are gambling.</p>
-<p>Should you do this? I do not know your situation. It is completely okay not to get into options. But for those who have significant holdings and are looking to sell at certain levels anyway, covered calls are one of the most elegant tools in the investor&rsquo;s toolkit. You are essentially getting paid to have a sell plan.</p>
-<p>Let me give you the math on why this matters. Suppose you own 50 lots of NIFTY 50 purchased at 25,500. NIFTY moves to 25,900 &ndash; a 1.65% gain. You are now considering your next move. If you just sell at market, you pocket 1.65%. But if you sell a covered call at 26,200 expiring in a week, you collect a premium on top of your position. If NIFTY stays below 26,200, you keep the premium and still own your shares &ndash; free money. If NIFTY crosses 26,200, you sell at a level that represents a 2.7% gain in a matter of weeks, plus the premium.</p>
-<p>The covered call transforms &ldquo;should I sell?&rdquo; from a binary, stressful decision into a mathematical one. You define the price at which you are happy to exit, collect income for being patient, and let the market decide. This is how professionals think about selling. Not as an emotional event, but as a structured, income-generating activity.</p>
-<p>One more thing on covered calls that is critical: <strong>timing matters</strong>. I sell covered calls when the contract expires quickly &ndash; days, not months. Short-duration calls give you premium income without locking you into a position for too long. If the market suddenly changes direction, you want flexibility. Weekly or bi-weekly expiry covered calls are the sweet spot for most situations.</p>
-<hr />
+        <p>You now have three plausible exit rules: buy-and-hold (let it ride), profit-target (sell at +50%), trailing stop (Section II). The natural next question: which one wins?</p>
+
+        <p>Short answer: <em>none of them, always</em>. Each strategy wins on some paths and loses on others. The widget below simulates a bull-then-bear path &mdash; the kind of regime where every retail investor swears they would have sold at the top &mdash; and runs all three exits side by side on the same realised price series. Hit &ldquo;New path&rdquo; a few times and watch the leaderboard flicker.</p>
+
+        <p>The flicker is the point. On any single path one strategy beats the others by a few percentage points, but which strategy wins is essentially random. The investor watching one outcome and concluding &ldquo;profit targets work&rdquo; (or &ldquo;trailing stops work,&rdquo; or &ldquo;buy-and-hold works&rdquo;) is fitting a narrative to a noise sample. The only honest claim you can make is the average behaviour across many paths &mdash; which is what the &ldquo;Average over 200 paths&rdquo; button surfaces. That averaged view is dramatically less flattering than any single lucky run.</p>
+
+        <!-- Widget 2: Exit Strategy Comparison -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Three Exit Strategies on the Same Path</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="legend-row">
+            <span><span class="swatch" style="background: #888;"></span>Buy &amp; hold</span>
+            <span><span class="swatch" style="background: #2b6cb0;"></span>Profit target +50%</span>
+            <span><span class="swatch" style="background: var(--accent);"></span>Trailing stop 15%</span>
+          </div>
+          <div class="btn-group">
+            <button class="btn-primary" id="w2-new">New path</button>
+            <button class="btn-secondary" id="w2-runavg">Average over 200 paths</button>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Buy &amp; hold (this path)</div><div class="stat-cell-value" id="w2-r-bh">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Profit target +50%</div><div class="stat-cell-value" id="w2-r-tgt">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Trailing stop 15%</div><div class="stat-cell-value" id="w2-r-trail">—</div></div>
+          </div>
+          <p class="widget-hint">One path tells you nothing. Click &ldquo;Average over 200 paths&rdquo; and watch the strategies converge to their true long-run returns. The differences shrink. The drawdowns don't.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the metric you care about isn't average return</summary>
+          <p>If you look only at mean return, buy-and-hold usually wins, because in a positive-drift world, time in the market beats market timing. But mean return is the wrong objective. What you actually feel is the <em>drawdown</em> &mdash; the deepest peak-to-trough loss along the way.</p>
+          <p>Trailing stops sacrifice some mean return to compress the left tail of the drawdown distribution. The Sortino ratio (return divided by <em>downside</em> deviation) captures this trade better than the Sharpe ratio. In practice, retail investors abandon a strategy after a 40% drawdown regardless of its true expected return &mdash; so the strategy with the smallest worst-case drawdown is often the one you'll actually stick with.</p>
+        </details>
+
+        <p>The honest answer: <strong>no exit strategy wins every regime.</strong> The one that wins on average has bigger drawdowns than expected. The one with the smallest drawdowns gives up real upside. What you pick depends on how much pain you can hold without selling at the bottom &mdash; which is the trait worth knowing about yourself before you build a portfolio, not after.</p>
+
+        <p>One more pattern worth flagging: the &ldquo;profit target +50%&rdquo; strategy looks great on the bull-then-bear path because it locks in gains before the bear leg destroys them. Run the same simulation on a steady bull path with no bear leg, and the strategy looks terrible &mdash; it cuts every winner at 50% just as they were starting to compound into 200%. The lesson generalises: <strong>any exit rule that looks brilliant in one regime looks foolish in another</strong>. The investor who switches between regimes &mdash; profit-target in extended bulls, trailing-stop in choppy ranges, MOAT-erosion-only in true compounders &mdash; is doing the actual work. Picking one rule and running it forever is the institutional version of buy-and-hold: lazy, sometimes lucky, and never optimal.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-when-not-to-sell-the-discipline-of-holding">
+    <!-- ============================================================
+         VI. Rotation
+         ============================================================ -->
+    <section class="reveal" id="vi-rotation">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. When NOT to Sell -- The Discipline of Holding</h2>
+        <h2>Why does &ldquo;sell into cash&rdquo; almost always lose to rotation?</h2>
       </div>
       <div class="section-content">
-        <p>Sell discipline is not just about knowing when to sell. It is equally about knowing when NOT to sell. And this is where most people fail.</p>
-<p>Here are the situations where I explicitly refused to sell, despite pressure from the community:</p>
-<p><strong>SBI Cards at 17% monthly gain</strong>: People flooded my comments asking if they should sell. My response was blunt &ndash; that is the worst way to invest. That is what noobs do. The question is not &ldquo;has the stock gone up?&rdquo; The question is &ldquo;is the firm becoming more or less valuable with time?&rdquo; If people are going to use more cards, if the business is going to expand, you stay invested. Your goal on such firms is not to sell &ndash; it is to figure out how to buy more when it dips.</p>
-<p><strong>CAMS after a run-up</strong>: Just because you are sitting on X% profits does not mean you should sell. Amateur investors sell winners too early. A smart investor asks: what is the best use of my money NOW? If you see CAMS going up further, stay invested. If you are unsure, book partial profits &ndash; 20-30%. If you are an amateur, book profits and exit. But do not sell just because the stock is green.</p>
-<p><strong>Private Banks and Private Bank ETFs after a rally</strong>: These had all run up and people wanted to book profits. But export-driven businesses were getting hit by the trade war. There were no massive reinvestment opportunities except maybe US tech. So selling private banks to hold cash made no sense. The answer was simple: <strong>I am NOT selling. But in case you wish to book 20% profits, it can be done at current technicals.</strong></p>
-<p><strong>Aavas Financiers up 4-5% in a day</strong>: Whenever a stock moves by 4-5%, people get the urge to sell. This is exactly wrong. The idea when a stock starts breaking out is to ride the wave for as long as possible. You do not sell the breakout. You sell the exhaustion.</p>
-<p>Here are the rules for when NOT to sell:</p>
-<ol>
-<li>
-<p><strong>This is NOT a seller&rsquo;s market.</strong> In a buyer&rsquo;s market, we generally do not sell. The goal is to max out positions so that later, when the market turns into a seller&rsquo;s market, we have goods to sell. I have said this many times: just max out positions now (almost 85-90%) and sit tight.</p>
-</li>
-<li>
-<p><strong>The breakout has just started.</strong> There is no point selling right now when the breakout has just begun. From a mid-term point of view, things look good unless the entire market falls.</p>
-</li>
-<li>
-<p><strong>You do not have a better reinvestment opportunity.</strong> If selling the stock means sitting on cash, and you do not have a clear next investment, do not sell. Cash sitting idle is a guaranteed loss to inflation.</p>
-</li>
-<li>
-<p><strong>The stock is down 10-11% from highs but fundamentals are intact.</strong> Selling 10-11% down from the top does not make sense in most cases. Wait for a rebound. It might take six months. But panicking out at the bottom is the single worst mistake retail investors make.</p>
-</li>
-<li>
-<p><strong>You are in a volatile market and do not have clarity.</strong> When NASDAQ moves 6-7% in a single day, when tariff announcements are flying around, when panic is everywhere &ndash; do NOT make sudden moves. Do not sell too much or buy too much. The only exception is if you are underinvested, in which case you build big positions. But selling into panic is almost always wrong.</p>
-</li>
-</ol>
-<p>There is a deeper principle here that most investors miss: <strong>you do not need to do anything most of the time</strong>. If you are not feeling the urge to act in the market right now, then you are learning well. Patience is a massive virtue when it comes to investing. And no, this is not a motivational quote. This is the simple reality. The best investors spend most of their time doing nothing. The urge to act &ndash; to sell because the stock moved, to sell because the news is scary, to sell because your WhatsApp group is panicking &ndash; is almost always wrong.</p>
-<blockquote>
-<p>The worst thing you can do is sell and go away. This way you will definitely have a loss. In case you wish to exit positions, you should always wait for a better time.</p>
-</blockquote>
-<hr />
+        <p>Most investors think selling means going to cash. It does not. Selling means <strong>rotating to a better opportunity.</strong> India in particular is a capital-rotation market &mdash; sectors lead and lag in waves of 12-36 months, and the investor who shuffles capital between them earns the rotation premium on top of the index return.</p>
+
+        <p>The mechanics are simple: capital flows from foreign institutional investors and domestic mutual funds chase whichever theme is trending; sectors at the top of the rotation cycle attract that flow and re-rate higher; sectors at the bottom get starved and de-rate. The investor who is already positioned in the bottom sector when it begins re-rating captures the move from de-rated to re-rated &mdash; which can be 40-80% in a year even with no earnings growth at all. The rotation alpha is real, persistent, and harvestable. The only requirement is the willingness to sell what's been working and buy what hasn't been &mdash; which is exactly what every behavioural-finance paper says retail investors refuse to do.</p>
+
+        <p>City Union Bank: up 30% in three months. A buy-and-hold investor does nothing. A &ldquo;takes profits&rdquo; investor sells and sits on cash. Both are suboptimal. The right move is to cut 25% of the position and immediately redeploy into something cheaper in a related theme &mdash; CRISIL, in this case. PE still high, growth not explosive, but the entry point was below the 200-day moving average at 10% of intended capital, leaving room to downward-average on a strong business that will revive as India's capital markets grow.</p>
+
+        <p>A complete rotation chain from one real cycle (names compressed for brevity):</p>
+
+        <ul>
+          <li><strong>Month 0</strong>: large position in AMC stocks (HDFC AMC, CAMS) at attractive entries.</li>
+          <li><strong>Month 8</strong>: AMC names up 60-100%. Book 50% across the basket. Capital available: roughly half the original AMC exposure.</li>
+          <li><strong>Month 8</strong>: redeploy half the freed capital into private banks (HDFC Bank, ICICI), which had de-rated relative to AMC peers. Hold the other half against opportunity.</li>
+          <li><strong>Month 14</strong>: private bank trade resolved &mdash; up 15-20%. Book 25% of that position. Capital available: 25% of the private-bank stake plus the held reserve.</li>
+          <li><strong>Month 14</strong>: redeploy into US-listed mega-cap tech &mdash; a different geography, different rate cycle, different currency exposure.</li>
+        </ul>
+
+        <p>Net result over 14 months: the same capital base produced returns in three uncorrelated themes, with no single position ever fully exiting and no idle cash. Every transaction was a partial sell paired with a partial buy. That is what rotation discipline looks like in practice &mdash; not heroic timing of tops and bottoms, but a steady drift of capital toward whichever theme currently offers the best forward expected return.</p>
+
+        <p>The rotation framework:</p>
+
+        <ol>
+          <li><strong>Sell a portion of what has run up</strong> &mdash; not all of it; remember the 50% rule.</li>
+          <li><strong>Immediately redeploy into an undervalued asset</strong> in a related or emerging theme.</li>
+          <li><strong>Build the new position slowly</strong> &mdash; 10% of intended capital now, more on dips.</li>
+        </ol>
+
+        <p>Another concrete rotation: exit SBI Bank completely, booking 20% on the PSU bank basket. Where did the money go? Six smaller financials with stronger growth rates and more sensitivity to rate cuts: IDFC First, Armaan Financial, Aavas Financiers, 5 Paisa, Angel One, Aptus. Same sector (finance), but a shift from large-and-fairly-valued to small-and-undervalued. The PSU banks had had their rally; the easy money was made.</p>
+
+        <p>Note the structure: <em>one</em> large position exited, <em>six</em> smaller ones entered. This isn't accident. Concentrated rotation into a single new name doubles your timing risk &mdash; if that one name is wrong, the rotation was wrong. Distributing the freed capital across 5-8 names within the new theme spreads the timing error across multiple entries, and lets the strongest performers in the group do the heavy lifting. The 50% rule on the way out, the 5-8% rule on the way in &mdash; this is what disciplined capital rotation actually looks like, and it is invisible in the headline of any single trade.</p>
+
+        <p>Another chain: book profits on AMC firms &rarr; rotate to private banks in India (much cheaper) &rarr; rotate a slice of that into US tech. Each step moved capital from something that had appreciated to something relatively cheaper. None of the sells were judgments that the original company had become bad. Each was a judgment on <strong>opportunity cost</strong>.</p>
+
+        <blockquote>
+          <p>AMCs are great businesses long-term. But the best use of capital at this specific moment was somewhere else. Selling is not a judgment on the company. It is a judgment on opportunity cost.</p>
+        </blockquote>
+
+        <p>This is also why &ldquo;I'll sell when I find something better&rdquo; is a fool's discipline. The cheapest moment to find &ldquo;something better&rdquo; is when the sector you already own has had its run. The discipline is to do the work of identifying the next theme <em>before</em> the current one peaks, so the rotation is ready when the sell signal fires.</p>
+
+        <p>A practical heuristic: keep a permanent watchlist of 12-15 names you'd be happy to own at the right price. Track each one's distance from a sensible entry &mdash; below the 200-day moving average, at a PE 30% below sector median, after a 25% drawdown from highs, whichever metric matches your style. When a winner in your existing portfolio fires a sell signal, you should always have at least two names on that watchlist within striking distance of entry. If you don't, the discipline isn't &ldquo;sell into cash.&rdquo; The discipline is &ldquo;hold and keep researching.&rdquo; A sell with no rotation target is half a transaction at best.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-selling-losers-the-ego-problem">
+    <!-- ============================================================
+         VII. Tax impact
+         ============================================================ -->
+    <section class="reveal" id="vii-tax-impact">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. Selling Losers -- The Ego Problem</h2>
+        <h2>When does the tax line bend the sell decision?</h2>
       </div>
       <div class="section-content">
-        <p>This is the section nobody wants to read. But it might be the most important one.</p>
-<p><strong>If you have lost 30% on stock ABC, you should NOT try to make that money back from that same stock ABC.</strong> This is the worst mistake new investors make. And it comes from ego, not logic.</p>
-<p>Here is the framework for handling losing positions:</p>
-<p><strong>Out of 10 stocks you buy, 3 will go bad.</strong> This is just the base rate of investing. Accept it. Internalize it. If you cannot handle 3 out of 10 bets going wrong, equity investing might not be for you.</p>
-<p>When a stock is in the red, you need to analyze &ndash; not panic:</p>
-<ul>
-<li>Does the stock have a chance of revival?</li>
-<li>Is the industry good?</li>
-<li>Are the firm&rsquo;s revenues and profits growing?</li>
-</ul>
-<p>If the answers are yes, you hold. If the answers are no, you sell &ndash; even at a loss &ndash; and rotate the capital to something better.</p>
-<p>Let me show you how I handled real losing positions:</p>
-<p><strong>Rushil Decor (-8%)</strong>: Corrected 22-23% from its top, but we bought in tranches so our actual loss was about 8%. Small cap stock in a small/mid index that had corrected 20%. Good profits, strong sales. The real estate cycle was approaching the handover stage, when people buy furniture and decor. Holding. Revival likely post next festive season.</p>
-<p><strong>Asian Paints (-9.2%)</strong>: Same macro thesis as Rushil Decor. Stock corrected 25% from top but the numbers were excellent. Holding.</p>
-<p><strong>SW Solar (-35%)</strong>: This was the tough one. Corrected 50% from its top. All Reliance group companies had corrected, including Reliance itself by 25-26%. SW Solar is a microcap, not even a small cap. Holding &ndash; but with eyes wide open. Anything can happen with microcap firms. Position size was capped at 2.5% of portfolio.</p>
-<p><strong>PVR (-23%)</strong>: Stock corrected 50% from its peak. Massive aggregation happening. Absolutely holding. This was already showing signs of a slow grind back, delivering 9% in a single month.</p>
-<p><strong>Dreamfolks and Tarsons</strong>: These were cut. The thesis had weakened. Dreamfolks faced uncertain business prospects. Tarsons faced the China dumping risk. I booked the losses and moved on.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>The discipline of selling isn't only psychological. There is a tax line baked into the Indian system that materially changes the post-tax return depending on which side of 12 months you exit on. If you understand the line, you can plan trades that legally surf it. If you don't, you can hand the government 10-15 percentage points of return for no reason at all<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
 
-<p>The key distinction: I held Rushil Decor, Asian Paints, SW Solar, and PVR because the businesses were still sound and the losses were within expected range for the market environment. I cut Tarsons because the macro thesis changed. <strong>Selling losers is not about the size of the loss. It is about whether the reason you bought still exists.</strong></p>
-<p>And here is one more rule that most people ignore: <strong>tax loss harvesting</strong>. I sell stocks at a loss specifically to offset capital gains from my winners. If I have made significant profits on HDFC AMC and PNB, I can sell a losing position like Tarsons, book the loss, reduce my tax liability, and buy back later if the thesis improves. This is not emotional selling. This is portfolio engineering.</p>
-<p>Let me walk through the math on tax loss harvesting because most people do not understand how powerful it is. Suppose you sold HDFC AMC at a 100% profit &ndash; a gain of, say, 5 lakhs. At the STCG rate of 20%, your tax liability is 1 lakh. Now suppose you also hold Tarsons at a 7% loss &ndash; a notional loss of, say, 35,000 rupees. If you sell Tarsons and book that 35,000 loss, your taxable gain drops from 5 lakhs to 4.65 lakhs. Your tax bill drops by 7,000 rupees. That 7,000 rupees is real money that stays in your pocket instead of going to the government.</p>
-<p>And here is the beautiful part: if you still believe in Tarsons, you can buy it back after 30 days. You get the tax benefit AND you get your position back. You have effectively been paid 7,000 rupees for the inconvenience of being out of the stock for a month.</p>
-<blockquote>
-<p>I had sold a lot of stuff on profit. I am still net profitable for this year. I will reduce my tax liabilities by selling any stocks I have in loss over the next 1 month. And will buy it back.</p>
-</blockquote>
-<p>Most retail investors hold losing stocks and sell winning stocks &ndash; the exact opposite of what the math says to do. Smart investors hold winners as long as the thesis is intact and selectively harvest losses to engineer their tax position. This is the difference between emotional selling and strategic selling.</p>
-<hr />
+        <p>India's tax regime treats stock holders strikingly differently depending on whether their position is fresh or seasoned. The threshold is calendar-precise: hold a stock 365 days, you owe one rate; hold it 366, you owe another. That cliff is the most exploitable feature of the entire tax code for an ordinary equity investor, and almost nobody plans around it.</p>
+
+        <p>The rule, current as of 2024-25:</p>
+
+        <ul>
+          <li><strong>Short-term capital gains (STCG)</strong> on listed equities held under 12 months: taxed at <strong>20%</strong>.</li>
+          <li><strong>Long-term capital gains (LTCG)</strong> on listed equities held 12 months or more: taxed at <strong>12.5%</strong>, with the first &#8377;1.25 lakh of LTCG per year exempt.</li>
+        </ul>
+
+        <p>The difference looks small &mdash; 7.5 percentage points &mdash; but on a 50% gross gain over 11 vs 13 months, the post-tax outcome is dramatically different. The widget below makes the geometry visible.</p>
+
+        <p>A worked example to anchor the intuition. Suppose you bought a stock for &#8377;10 lakh and it appreciated to &#8377;15 lakh &mdash; a &#8377;5 lakh gain. If you exit at month 11:</p>
+
+        <ul>
+          <li>Gross gain: &#8377;5,00,000</li>
+          <li>STCG tax at 20%: &#8377;1,00,000</li>
+          <li>Net in your pocket: &#8377;4,00,000</li>
+        </ul>
+
+        <p>If you instead wait until month 13 and exit at the same price:</p>
+
+        <ul>
+          <li>Gross gain: &#8377;5,00,000</li>
+          <li>LTCG taxable after &#8377;1.25 lakh exemption: &#8377;3,75,000</li>
+          <li>LTCG tax at 12.5%: &#8377;46,875</li>
+          <li>Net in your pocket: &#8377;4,53,125</li>
+        </ul>
+
+        <p>Two months of patience produced an extra &#8377;53,125 in your pocket on the same trade. The only requirement was knowing where the line was and being willing to wait. There is no investing skill in the world that pays you that consistently for that little work. Most retail investors fail to harvest this edge because they never learned it existed.</p>
+
+        <!-- Widget 3: Tax-Impact Slider -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; STCG vs LTCG: The Tax Cliff at 12 Months</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="legend-row">
+            <span><span class="swatch" style="background: #888;"></span>Pre-tax return</span>
+            <span><span class="swatch" style="background: #e53e3e;"></span>Post-tax if exited (STCG band)</span>
+            <span><span class="swatch" style="background: var(--accent);"></span>Post-tax if exited (LTCG band)</span>
+          </div>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Holding period</span><span class="slider-value" id="w3-months-val">8 mo</span></div>
+              <input type="range" id="w3-months" min="1" max="36" value="8" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Annual gross return</span><span class="slider-value" id="w3-ret-val">45%</span></div>
+              <input type="range" id="w3-ret" min="5" max="120" value="45" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Capital deployed</span><span class="slider-value" id="w3-cap-val">₹10L</span></div>
+              <input type="range" id="w3-cap" min="1" max="100" value="10" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Pre-tax gain</div><div class="stat-cell-value" id="w3-pre">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Tax owed at this holding</div><div class="stat-cell-value" id="w3-tax">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Cost of selling at 11 vs 13 mo</div><div class="stat-cell-value" id="w3-cliff">—</div></div>
+          </div>
+          <p class="widget-hint">Drag the holding period slider from left to right and watch the post-tax line jump at month 12 &mdash; that is the tax cliff. The cost of selling at month 11 vs month 13 is real money. On a sizeable gain it can be larger than the entire trailing-stop drawdown you were trying to avoid.</p>
+        </div>
+
+        <p>The practical consequence: if you are sitting on a winner at month 10 or 11 and your sell signal has fired, the right move is often to <em>wait</em>. The two months of LTCG eligibility might be worth more than the marginal price-drop risk. Conversely, a tax-loss harvesting trade at year-end can be worth thousands of rupees per lakh in real cash flow.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; tax-loss harvesting is leverage on losers</summary>
+          <p>Suppose you booked &#8377;5 lakh of STCG this year on HDFC AMC. Tax owed: &#8377;1 lakh (at 20%). You also hold Tarsons at a notional &#8377;35,000 loss. Sell Tarsons, book the loss, your taxable STCG drops from &#8377;5L to &#8377;4.65L &mdash; tax bill drops by &#8377;7,000. That is real cash.</p>
+          <p>If you still believe in Tarsons, you can buy it back later (India has no formal wash-sale rule on capital gains, unlike the US 30-day rule). You get the tax benefit and your position back. You've effectively been paid &#8377;7,000 to do nothing for a few days.</p>
+          <p>Most retail investors hold losers and sell winners &mdash; the exact opposite of what tax math says. Smart investors hold winners as long as the thesis is intact and selectively harvest losers to engineer the tax line.</p>
+        </details>
+
+        <p>None of this is sophisticated. It's grade-school arithmetic. The reason it matters is that it changes the answer to &ldquo;should I sell now?&rdquo; for any position approaching the LTCG threshold &mdash; and most retail investors have never run the calculation.</p>
+
+        <p>There is also a second-order effect that compounds across a multi-year portfolio. Every realisation event drags cash out of the compounder. If you sell at month 11 on a 50% gain in a 20% bracket, you owe 10% of capital to the government immediately. If you wait one month, you owe 6.25%. The 3.75% difference stays invested for the next decade &mdash; and at a 12% real return, that single deferred dollar compounds to roughly 3.1 dollars over twenty years. The tax line isn't just a line. It's a leverage multiplier on every future return your portfolio will earn. The investor who systematically lets winners cross 12 months ends up with a portfolio dramatically larger than the investor who treats every sell signal as urgent.</p>
+
+        <p>The caveat: this discipline applies only to <em>investments</em>, not to <em>trades</em>. A swing trade with a 4-6 week target should not wait six extra months for tax treatment that was never available to it in the first place. The question to ask before any sell is whether the position was a trade or an investment to begin with &mdash; and the answer should match the answer you wrote down at entry, not the one your loss-aversion is whispering today.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-the-range-trading-framework-selling-in-sideways-markets">
+    <!-- ============================================================
+         VIII. When not to sell
+         ============================================================ -->
+    <section class="reveal" id="viii-not-selling">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. The Range-Trading Framework -- Selling in Sideways Markets</h2>
+        <h2>When should you refuse to sell, even when it hurts?</h2>
       </div>
       <div class="section-content">
-        <p>Let me give you an advanced framework for selling in a market that is going nowhere.</p>
-<p>Shankar Sharma predicted 0% stock market returns for the next five years. Whether he is right or wrong does not matter to me. What matters is the strategy for a range-bound market. Here is how I think about it:</p>
-<ol>
-<li>The market will oscillate in a range. My estimate was 21,500 to 26,500 on the NIFTY (later revised to 23,500 to 27,500).</li>
-<li>People who buy at 26,500 will lose money.</li>
-<li>People who buy at 22,000 and sell at 26,500 will make money.</li>
-<li>When the market falls to the lower end, even good stocks get discounted.</li>
-<li>When the market rises to the upper end, it is time to sell.</li>
-</ol>
-<p>This is not day-trading. This is <strong>structural range trading</strong> on a 6-month to 2-year timeframe. And it requires you to have clear sell targets before you buy.</p>
-<p>For example, when I bought a big block of NIFTY 50 around Diwali, I immediately defined my exit plan:</p>
-<ul>
-<li><strong>Target sell zone</strong>: Around the budget rally, if tax cuts were announced.</li>
-<li><strong>CAGR target</strong>: 15%. If I could make 15% CAGR on NIFTY 50, I would be happy.</li>
-<li><strong>Stop loss</strong>: If NIFTY fell to 25,500, it became a technical sell.</li>
-<li><strong>Fallback plan</strong>: If the budget rally did not materialize, hold and wait for a revival rally.</li>
-</ul>
-<p>Notice the completeness of this plan. Before I bought, I knew exactly when I would sell, at what price, under what conditions, and what I would do if none of those conditions were met. This is what a sell framework looks like. It is not &ldquo;I will sell when I feel like it&rdquo; or &ldquo;I will sell when my portfolio is green.&rdquo; It is a specific, pre-determined set of conditions.</p>
-<p>In a sideways market, the sell framework becomes even more critical because you are not getting bailed out by a rising tide. Here is my approach:</p>
-<p><strong>During sideways consolidation:</strong>
-1. <strong>Cut bad stocks entirely</strong> &ndash; where business prospects are not great. I cut some PSU stocks during this phase.
-2. <strong>Sell overvalued stocks</strong> &ndash; I sold DMART because holding a large-cap at PE 100-plus made no sense.
-3. <strong>Build a cash bucket</strong> &ndash; and sit on it. Be patient.
-4. <strong>Deploy cash only at major support levels</strong> &ndash; if the market hits 23,500, buy the least risky assets.
-5. <strong>Repeat</strong> &ndash; buy at support, sell at resistance, rotate between sectors.</p>
-<p>If you are overinvested, exit in the upper half of the range. If you are underinvested, buy in the lower half. If you are fairly invested and already have cash positions, just relax and do nothing. The market will reward people who are deeply patient.</p>
-<p>There is also the question of what happens when the range breaks. If NIFTY breaks 25,500 to the downside, that becomes a technical sell signal for swing trades. But &ndash; and this is important &ndash; it does not mean you sell everything. You sell the swing trades. Your long-term positions, your core index holdings, your thematic bets with intact fundamentals, those you hold through the range break and use the cash you freed up from selling the swing trades to buy more.</p>
-<p>The S&amp;P 500 trade I executed illustrates this perfectly. I invested around 1 crore on a momentum trade, with the plan to make 4 lakhs in profit. If the trade worked, great. If it did not, the position became a long-term bet. But I also set a stop loss at -3.5%. If S&amp;P 500 fell by 3.5%, I would withdraw 50% of my capital at a loss, and the remaining 50% would become a long-term position. Either way, the downside was controlled because I had defined my sell triggers before entering.</p>
-<p>This is what I mean by mixing trading and investing. The entry is the same. The sell framework is what determines whether it is a trade or an investment. And in a range-bound market, every position should start as a trade with a clear sell target, with the option to convert into a long-term investment if the trade does not play out but the thesis remains intact.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Sell discipline is not only about knowing when to sell. It is equally about knowing when <em>not</em> to. This is where most people fail.</p>
 
-<hr />
+        <p>Situations where the right move is to do nothing, even under pressure:</p>
+
+        <p><strong>SBI Cards at a 17% monthly gain.</strong> The community floods with &ldquo;should I sell?&rdquo; messages. Wrong question. The question is not &ldquo;has the stock gone up?&rdquo; The question is &ldquo;is the firm becoming more or less valuable with time?&rdquo; If people are going to use more cards, if the business is going to expand, you stay invested. The goal on such firms is not to sell &mdash; it is to figure out how to buy more on the next dip.</p>
+
+        <p><strong>CAMS after a run-up.</strong> Sitting on X% profits is not a reason to sell. Amateur investors sell winners too early. The right question is &mdash; what is the best use of this money <em>now</em>? If CAMS keeps going, stay in. If unsure, book partial (20-30%). If amateur, exit fully. But never sell just because the stock is green.</p>
+
+        <p><strong>Private bank ETFs after a rally.</strong> Whole sector ran up; people wanted to book. But export-driven businesses were getting hit by the trade war. There were no obvious reinvestment opportunities except US tech. Selling private banks to hold cash made no sense. Right answer: <em>not selling.</em> If anyone insists, 20% trim at current technicals, no more.</p>
+
+        <p><strong>Aavas Financiers up 4-5% in a day.</strong> Whenever a stock moves 4-5%, retail gets the urge to sell. Exactly wrong. When a stock starts breaking out, ride the wave. <strong>You do not sell the breakout. You sell the exhaustion.</strong></p>
+
+        <p>The distinction matters because a breakout and an exhaustion look superficially similar &mdash; both produce a big up-day on heavy volume. The difference is in what comes next. After a true breakout, the stock spends weeks holding the new level, building a base, then attempting another leg up. After an exhaustion move, the stock spends days erasing the gain and ends below where it started. You cannot reliably tell which one you have in real time. But you can almost always tell which one you have after two or three weeks &mdash; and most of the time, the answer is &ldquo;breakout, hold.&rdquo; The retail urge to lock in the one-day gain is the most reliably wrong impulse in the entire amateur playbook.</p>
+
+        <p>A quick decision-tree for when the urge to sell hits and you can't tell whether to act:</p>
+
+        <ul>
+          <li><strong>Did the thesis change?</strong> If no, the urge is probably emotional. Wait 48 hours and re-evaluate.</li>
+          <li><strong>Is there a better opportunity ready to absorb the freed capital?</strong> If no, you're not selling &mdash; you're stockpiling cash, which is a different decision with a different rationale.</li>
+          <li><strong>Is this position past month 9?</strong> If yes, the marginal cost of waiting another 90 days is small relative to the LTCG benefit. Wait.</li>
+          <li><strong>Did the stock just move 4-5%?</strong> If yes, this is the most common false signal in the entire retail playbook. Do nothing.</li>
+          <li><strong>Are you in panic mode (markets down 3%+ in a day)?</strong> If yes, the worst possible time to make a sell decision. Sleep on it.</li>
+        </ul>
+
+        <p>If you make it through all five filters with a yes-to-sell answer, the trade is probably legitimate. If you fail any one, the trade is probably noise. The discipline isn't to never sell. The discipline is to make the bar for selling high enough that 80% of the urges fail to clear it.</p>
+
+        <p>Rules for when NOT to sell:</p>
+
+        <ol>
+          <li><strong>This is not a seller's market.</strong> In a buyer's market, you do not sell. The goal is to max out positions (85-90%) so that later, when the market turns into a seller's market, you have goods to sell.</li>
+          <li><strong>The breakout has just started.</strong> No point selling when the trend is fresh. From a mid-term point of view, hold unless the whole market breaks.</li>
+          <li><strong>You do not have a better reinvestment opportunity.</strong> If selling means sitting on cash with no next investment lined up, don't sell. Cash sitting idle is a guaranteed loss to inflation.</li>
+          <li><strong>The stock is 10-11% down from highs but fundamentals are intact.</strong> Selling 10-11% below the top is a classic retail blunder. Wait for a rebound. It may take six months. Panicking out at the bottom is the single worst mistake retail investors make.</li>
+          <li><strong>You are in a volatile market without clarity.</strong> When NASDAQ moves 6-7% intraday, when tariff headlines fly, when panic is everywhere &mdash; do <em>not</em> make sudden moves. The only exception is if you are underinvested, in which case you build positions. Selling into panic is almost always wrong.</li>
+        </ol>
+
+        <p>There is a deeper principle most investors miss: <strong>you do not need to do anything most of the time.</strong> If you are not feeling the urge to act right now, you are learning. Patience is a massive virtue when it comes to investing. The best investors spend most of their time doing nothing. The urge to act &mdash; to sell because the stock moved, to sell because the news is scary, to sell because your WhatsApp group is panicking &mdash; is almost always wrong<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>.</p>
+
+        <blockquote>
+          <p>The worst thing you can do is sell and go away. You will definitely have a loss. If you wish to exit positions, always wait for a better time.</p>
+        </blockquote>
+
+        <p>An adjacent failure mode worth naming: <strong>over-trading dressed up as discipline</strong>. Retail investors with new spreadsheets and freshly read books on stops will start producing 40-50 transactions a month, each one rationalised by a rule. Net result: paying brokerage and STT on every flip, realising STCG on every winner, and convincing themselves the activity is risk management. It isn't. It's churn. The right number of sell decisions a year for a 15-name portfolio is on the order of 10-20, not 200. If you're trading more than that and the rules in this article keep firing, the rules probably aren't the problem &mdash; your position-sizing or your watchlist is.</p>
+
+        <p>The simplest test: look at last year's transaction log and count how many of your sells were followed within 60 days by a buy at a meaningfully better price. If less than half, you're trading more than you should be. If most of the sells were &ldquo;right&rdquo; in the sense that the stock did drop after &mdash; but you never re-entered &mdash; you're using selling as an avoidance mechanism, not as part of a rotation. Both patterns point at the same root cause: too much activity, not enough discipline.</p>
+
+        <p>The cleanest mental check before any sell: <em>would I make this same trade if I had paid no brokerage and the tax bill were zero?</em> Most of the time, the answer is no. The remaining trades &mdash; the ones that still make sense even after you imagine the friction layer &mdash; are the ones to actually execute.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-the-complete-sell-playbook-rules-you-can-use-tomorrow">
+    <!-- ============================================================
+         IX. The complete playbook
+         ============================================================ -->
+    <section class="reveal" id="ix-playbook">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. The Complete Sell Playbook -- Rules You Can Use Tomorrow</h2>
+        <h2>What does the complete sell playbook look like?</h2>
       </div>
       <div class="section-content">
-        <p>Let me consolidate everything into a single, actionable sell playbook. Print this. Stick it on your screen. Refer to it every time you feel the urge to sell &ndash; or the urge to not sell.</p>
-<p><strong>RULE 1: Define your sell target BEFORE you buy.</strong>
-Every purchase needs an exit plan. Is this a swing trade (exit in weeks to months at a specific technical level)? Is this a mid-term investment (exit when fair value is reached or thesis plays out)? Is this a long-term hold (exit only when MOAT erodes)? If you cannot articulate when you will sell, you should not be buying.</p>
-<p><strong>RULE 2: Never sell more than 50% of a winning position at once.</strong>
-Lock in profits, but keep exposure. Selling 100% means you lose all optionality on further upside. The 50% rule ensures you are always partially right, no matter what happens next.</p>
-<p><strong>RULE 3: Sell on MOAT erosion, not on price drops.</strong>
-The stock falling 20% is not a sell signal. The thesis breaking is a sell signal. Ask: has the industry changed? Are revenues declining? Is the competitive position weakening? Two or more red flags means exit completely.</p>
-<p><strong>RULE 4: Rotate, do not go to cash.</strong>
-When you sell, have the next investment ready. Capital sitting in your savings account earning 4% while inflation runs at 6% is a guaranteed loss. Sell and redeploy. Sell and reinvest. Sell and rotate. But do not sell and sit.</p>
-<p><strong>RULE 5: In a buyer&rsquo;s market, do not sell.</strong>
-When the market is discounted, when panic is in the air, when FIIs are exiting and margin calls are forcing liquidation &ndash; this is not the time to sell. This is the time to buy with both hands. Save your selling for when the market is euphoric and everyone around you is talking about stocks.</p>
-<p><strong>RULE 6: If you are over-concentrated, sell down to safe levels.</strong>
-If any single stock is more than 5% of your total portfolio (more than 2.5% for small and microcaps), trim it. If 10% or more of your portfolio is in one stock, you should sell some and reinvest in a safer asset like NIFTY 50 or an index. Concentration kills portfolios. Position sizing is how you survive the inevitable drawdowns.</p>
-<p><strong>RULE 7: Use covered calls on positions you are willing to exit.</strong>
-If you own a large block of an index or a stock and have a price at which you would happily sell, sell covered calls at that strike. Collect premium. Either the stock stays below your target and you keep the premium as bonus income, or it rises above your target and you sell at a price you were happy with anyway. Either outcome is good.</p>
-<p><strong>RULE 8: Book losses when the thesis breaks &ndash; without ego.</strong>
-Out of 10 stocks, 3 will lose money. This is normal. What is not normal &ndash; and what destroys portfolios &ndash; is holding onto a broken thesis because you refuse to admit you were wrong. If revenues are declining, if the industry is facing structural headwinds, if management credibility is shot, sell and rotate. The goal is to optimize the portfolio, not to avenge a losing position.</p>
-<p><strong>RULE 9: Use tax loss harvesting strategically.</strong>
-If you have realized profits in the financial year, sell losing positions before year-end to offset your tax liability. Then buy back the good ones after 30 days if the thesis still holds. This is not emotional selling &ndash; this is financial engineering that puts real money back in your pocket.</p>
-<p><strong>RULE 10: Ask the reinvestment question.</strong>
-Before every sell, ask yourself: what will I do with this money if I get it today? If you have a better opportunity, sell. If you do not, hold. Whether you sell or not is ultimately a question of what your capital can do elsewhere.</p>
-<blockquote>
-<p>Whether you sell it now or not is a question of what you will do with the money if you get it today.</p>
-</blockquote>
-<hr />
-<p><strong>A final word.</strong> Selling is uncomfortable because it forces you to make a definitive statement about the future. Buying is easy &ndash; you are just &ldquo;adding a position.&rdquo; Selling requires you to say: I believe the opportunity here is exhausted, or I believe something else is better, or I believe this thesis is broken. That requires conviction, honesty, and the willingness to be wrong.</p>
-<p>Most people never develop this skill. They either sell too early out of fear, or they sell too late out of stubbornness. The framework I have laid out in this article sits between those two extremes. It is not perfect &ndash; I have sold stocks like Tarsons that later bounced, and I have held stocks like SW Solar through painful drawdowns. But over time, across hundreds of trades and investments, these rules have produced returns that beat most mutual funds and most professional money managers.</p>
-<p>The market does not care about your feelings. It does not care that you bought PVR at the top or that you were &ldquo;so close&rdquo; to selling HDFC AMC before it corrected. The market is a mechanism. And mechanisms respond to discipline, not hope.</p>
-<p>Build your sell framework. Write it down. Follow it even when it hurts. Especially when it hurts. That is how wealth is actually built &ndash; not by finding the next multibagger, but by knowing exactly when to walk away from one.</p>
+        <p>Print this. Stick it on your screen. Refer to it every time you feel the urge to sell &mdash; or the urge not to. The rules below subsume everything from the previous eight sections into one operational playbook.</p>
+
+        <p>The numbering is not in priority order &mdash; all twelve apply at once. The first three are about <em>when</em> to sell; the middle six are about <em>how</em> to sell; the last three are about <em>the friction layer</em> &mdash; tax, behaviour, and information &mdash; that turns a theoretically sound sell into an actually profitable one.</p>
+
+        <p><strong>RULE 1. Define your sell target BEFORE you buy.</strong> Every purchase needs an exit plan. Swing trade (exit in weeks to months at a specific technical level)? Mid-term investment (exit when fair value is reached or thesis plays out)? Long-term hold (exit only when MOAT erodes)? If you cannot articulate when you will sell, you should not be buying.</p>
+
+        <p><strong>RULE 2. Never sell more than 50% of a winning position at once.</strong> Lock in profits, keep exposure. Selling 100% means you lose all optionality on further upside. The 50% rule ensures you are always partially right, regardless of what happens next.</p>
+
+        <p><strong>RULE 3. Sell on MOAT erosion, not on price drops.</strong> The stock falling 20% is not a sell signal. The thesis breaking is. Industry change? Revenues declining? Competitive position weakening? Leverage worsening? Two reds = full exit.</p>
+
+        <p><strong>RULE 4. Rotate, do not go to cash.</strong> When you sell, have the next investment ready. Capital sitting in savings at 4% while inflation runs 6% is a guaranteed loss. Sell and redeploy. Sell and rotate. Do not sell and sit.</p>
+
+        <p><strong>RULE 5. In a buyer's market, do not sell.</strong> When the market is discounted, panic is in the air, FIIs are exiting and margin calls are forcing liquidation &mdash; this is the time to buy with both hands. Save your selling for when the market is euphoric and everyone around you is talking about stocks.</p>
+
+        <p><strong>RULE 6. If over-concentrated, sell down to safe levels.</strong> Any single stock more than 5% of total portfolio (2.5% for small and microcaps) &mdash; trim it. 10%+ in one stock means you must sell some and reinvest in a safer asset like NIFTY 50 or an index. Concentration kills portfolios. Position sizing is how you survive the inevitable drawdowns.</p>
+
+        <p><strong>RULE 7. Use trailing stops where the thesis is technical, not where the thesis is fundamental.</strong> A 15% trailing stop on a momentum trade makes sense (Widget 1). A 15% trailing stop on a five-year compounder is a way to get whipsawed out of your best position.</p>
+
+        <p><strong>RULE 8. Book losses when the thesis breaks &mdash; without ego.</strong> Out of 10 stocks, 3 will lose. This is normal. What is not normal &mdash; and what destroys portfolios &mdash; is holding a broken thesis because you refuse to admit you were wrong.</p>
+
+        <p><strong>RULE 9. Use tax-loss harvesting strategically.</strong> If you have realised profits this financial year, sell losing positions before year-end to offset your tax liability (Widget 3). Then buy back the good ones if the thesis still holds. This is not emotional selling. This is portfolio engineering.</p>
+
+        <p><strong>RULE 10. Ask the reinvestment question.</strong> Before every sell, ask: what will I do with this money if I get it today? If you have a better opportunity, sell. If not, hold. Whether you sell or not is ultimately a question of what your capital can do elsewhere.</p>
+
+        <p><strong>RULE 11. Respect the LTCG line.</strong> If the position is past month 9 and the sell signal is anything short of a thesis break, ask whether you can wait the extra weeks to month 12. The tax math (Widget 3) compounds across decades. Most retail sells that fire at month 10 should have been held to month 13. Most retail sells that fire at month 15 should have fired at month 9 of the <em>next</em> cycle &mdash; once the stock had already moved into the next LTCG-eligible window.</p>
+
+        <p><strong>RULE 12. Re-read your entry note before any sell.</strong> Before you click sell, open the paragraph you wrote when you bought the position. Does the sell-signal you're acting on match a trigger you anticipated, or is it something you're making up in the moment to justify a sale? If it's not in the original note, write down what changed before you transact. The act of writing slows the impulse down enough for the prefrontal cortex to catch up with the lizard brain.</p>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p><strong>Whether you sell or not is a question of what you will do with the money if you get it today.</strong> That single re-framing collapses 90% of the sell decisions retail investors agonise over.</p>
+        </div>
+
+        <p><strong>A final word.</strong> Selling is uncomfortable because it forces you to make a definitive statement about the future. Buying is easy &mdash; you are just &ldquo;adding a position.&rdquo; Selling requires you to say: I believe the opportunity here is exhausted, or I believe something else is better, or I believe this thesis is broken. That requires conviction, honesty, and the willingness to be wrong.</p>
+
+        <p>Most people never develop this skill. They either sell too early out of fear or too late out of stubbornness. The framework above sits between those two extremes. It is not perfect &mdash; some Tarsons positions bounce back after the cut, some SW Solars test your patience for years. But across hundreds of trades over time, these rules produce returns that beat most mutual funds and most professional money managers.</p>
+
+        <p>The fact that these rules can be written down and shared, and yet most retail investors won't follow them, is itself the edge. The market doesn't reward access to information; it rewards behaviour. Everything in this article is already known to every halfway-competent professional. The reason discipline still pays is not that the rules are secret, but that following them is uncomfortable enough that most people quit at the second drawdown. The investor who can hold the framework through five years of mixed results &mdash; including the ones where the rules underperform a buy-and-hold lucky run &mdash; ends up with a portfolio that compounds in the right direction, even when no single year looks heroic in isolation.</p>
+
+        <p>The market does not care about your feelings. It does not care that you bought PVR at the top or that you were &ldquo;so close&rdquo; to selling HDFC AMC before it corrected. The market is a mechanism. And mechanisms respond to discipline, not hope.</p>
+
+        <p>The compounding nature of bad sell decisions is what makes them so destructive over time. A single mistimed exit at month 11 (paying 7.5% extra tax), repeated four times across a portfolio in one year, costs roughly 0.6% of total portfolio value &mdash; gone, permanently, to friction. Across twenty years, at a 10% compounding rate, that 0.6% becomes roughly 12% of terminal wealth lost. The investor who shrugs at &ldquo;just one trade I should have held a month longer&rdquo; is shrugging at a meaningful share of their retirement. Discipline at the small scale, compounded across a career, is how the gap between mediocre and great investing actually opens up.</p>
+
+        <p>Build your sell framework. Write it down. Follow it even when it hurts. Especially when it hurts. That is how wealth is actually built &mdash; not by finding the next multibagger, but by knowing exactly when to walk away from one.</p>
+
+        <p>If you take away nothing else from this article, take this: <strong>every position in your portfolio should have a one-paragraph written exit plan before you buy it</strong>. What kind of position is it (trade vs investment vs long-term hold)? What price triggers a partial sell? What fundamental change triggers a full sell? What stop tightness is appropriate given the stock's volatility? Where does the freed capital go? If you cannot write that paragraph for a position you already own, you do not actually own that position &mdash; the position owns you, because you have no exit and the market gets to decide for you. Sit down today, with the portfolio open in one window and this article in another, and write a paragraph for every name. That single afternoon of work is worth more than the next year of stock-picking.</p>
+
+        <p>The exit paragraph for a long-term compounder might read: &ldquo;Hold until either (a) two of the MOAT checklist criteria turn red, or (b) PE expands past 60x with no commensurate earnings acceleration, or (c) position size exceeds 8% of portfolio &mdash; in which case trim to 5%.&rdquo; The paragraph for a swing trade might read: &ldquo;Target +18% within 8 weeks. Trail 12% from peak after the first +10%. Hard stop at &minus;7% from entry. If thesis is invalidated by a single news catalyst, exit at next-day open.&rdquo; The paragraphs don't need to be sophisticated. They need to exist, in writing, before the trade is placed.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">The trade-by-trade scorecard is from a live community portfolio over 2022-2025. Naming a position doesn't make it a recommendation; positions and theses change. The point is the discipline of the exits, not the specific tickers. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Indian capital-gains rates were revised in the July 2024 Union Budget: LTCG on listed equities moved from 10% to 12.5%, STCG from 15% to 20%. The LTCG exemption threshold was simultaneously raised from &#8377;1 lakh to &#8377;1.25 lakh per year. The 12-month holding period that distinguishes STCG from LTCG was retained. All figures in this article use the post-July-2024 regime. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">SEBI's own 2024 study found that 91% of individual F&amp;O traders made net losses in FY24 with average annual loss around &#8377;1.1 lakh per trader &mdash; nearly all of whom believed they were &ldquo;actively managing risk&rdquo; through stops and exits. Activity isn't discipline. Following pre-committed rules is. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -358,12 +655,12 @@ Before every sell, ask yourself: what will I do with this money if I get it toda
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -372,23 +669,12 @@ Before every sell, ask yourself: what will I do with this money if I get it toda
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -403,429 +689,512 @@ Before every sell, ask yourself: what will I do with this money if I get it toda
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "SW Solar (microcap, Reliance-backed)", "start_value": 10000, "end_value": 5000, "recovery_months": 25}, {"name": "Asian Paints (macro headwinds)", "start_value": 10000, "end_value": 7500, "recovery_months": 12}, {"name": "PVR Inox (sector downturn)", "start_value": 10000, "end_value": 5000, "recovery_months": 91}, {"name": "Tarsons (China dumping thesis)", "start_value": 10000, "end_value": 9300, "recovery_months": 6}, {"name": "Dreamfolks (smallcap volatility)", "start_value": 10000, "end_value": 6500, "recovery_months": 6}];
-
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Anatomy of MOAT Erosion: When Drawdowns Become Permanent";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var n = corrections.length;
-    if (n === 0) return;
-
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
-    });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
-
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
-
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
-
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
-
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
-
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
-
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
-
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
-        });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
-        });
+  <!-- ============================================================
+       Shared sim helpers — applyTrailingStop + bull-then-bear path
+       ============================================================ -->
+  <script>
+    // Apply a trailing-stop rule to a price path.
+    // Returns { exitIdx, exitPrice, finalReturn } where exitIdx is the index
+    // at which the stop fires; if it never fires, exitIdx === path.length-1.
+    function applyTrailingStop(path, pct) {
+      var hwm = path[0];
+      var stop = hwm * (1 - pct);
+      for (var i = 1; i < path.length; i++) {
+        if (path[i] > hwm) {
+          hwm = path[i];
+          stop = hwm * (1 - pct);
+        }
+        if (path[i] <= stop) {
+          return { exitIdx: i, exitPrice: path[i], hwmAtExit: hwm, finalReturn: (path[i] / path[0]) - 1 };
+        }
       }
-
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-      });
-
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
-
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
-        });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
+      var last = path.length - 1;
+      return { exitIdx: last, exitPrice: path[last], hwmAtExit: hwm, finalReturn: (path[last] / path[0]) - 1 };
     }
 
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
-    });
-
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
-
-  draw();
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "Rushil Decor (hold: thesis intact)", "start_value": 10000, "end_value": 9200, "recovery_months": 6}, {"name": "Asian Paints (hold: strong numbers)", "start_value": 10000, "end_value": 9100, "recovery_months": 12}, {"name": "SW Solar (hold: microcap, 2.5% max)", "start_value": 10000, "end_value": 6500, "recovery_months": 2530}, {"name": "PVR Inox (hold: aggregation phase)", "start_value": 10000, "end_value": 7700, "recovery_months": 9}, {"name": "Tarsons (CUT: thesis broken)", "start_value": 10000, "end_value": 9300, "recovery_months": 6}];
-
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Real Portfolio Drawdowns: Hold vs. Cut Decision Framework";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var n = corrections.length;
-    if (n === 0) return;
-
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
-    });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
-
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
-
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
-
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
-
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
-
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
-
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
-
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
-        });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
-        });
+    // Apply a profit target: exit first time path[i] >= entry * (1 + pct).
+    function applyProfitTarget(path, pct) {
+      var target = path[0] * (1 + pct);
+      for (var i = 1; i < path.length; i++) {
+        if (path[i] >= target) {
+          return { exitIdx: i, exitPrice: path[i], finalReturn: (path[i] / path[0]) - 1 };
+        }
       }
+      var last = path.length - 1;
+      return { exitIdx: last, exitPrice: path[last], finalReturn: (path[last] / path[0]) - 1 };
+    }
+  </script>
 
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-      });
+  <!-- ============================================================
+       WIDGET 1 — Trailing Stop Visualizer
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
+    // -------- STATE + DATA (initialized BEFORE attachSliders) --------
+    var state = { pct: 0.10, n: 25, sigma: 0.28 };
+    var samplePath = null;     // a single highlighted path for visual
+    var bundle = null;         // { paths: [...], stops: [...], bhReturns: [...], stopReturns: [...], firedCount }
 
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
-        });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
+    function genPath() {
+      // 252 trading days, mu ~ 10%, sigma from state
+      return gbmPath({ S0: 100, mu: 0.10, sigma: state.sigma, T: 1, steps: 252 });
     }
 
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
-    });
-
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
-
-  draw();
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "Buy at 24,000 (support)", "start_value": 10000, "end_value": 10000, "recovery_months": 6}, {"name": "Market dips to 22,800 (-5%)", "start_value": 10000, "end_value": 9500, "recovery_months": 6}, {"name": "Rally to 25,500 (+6.3%)", "start_value": 10000, "end_value": 10000, "recovery_months": 6}, {"name": "Hit 26,200 (sell 50% swing)", "start_value": 10000, "end_value": 10000, "recovery_months": 6}, {"name": "Correction to 23,500 (-10%)", "start_value": 10000, "end_value": 9000, "recovery_months": 6}];
-
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "NIFTY Range-Trading: Sell Discipline in a Sideways Market";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var n = corrections.length;
-    if (n === 0) return;
-
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
-    });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
-
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
-
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
-
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
-
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
-
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
-
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
-
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
-        });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
-        });
-      }
-
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-      });
-
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
-
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
-        });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
+    function regen() {
+      samplePath = genPath();
+      var paths = [samplePath];
+      for (var i = 1; i < state.n; i++) paths.push(genPath());
+      var stops = paths.map(function(p) { return applyTrailingStop(p, state.pct); });
+      var bhReturns = paths.map(function(p) { return (p[p.length-1] / p[0]) - 1; });
+      var stopReturns = stops.map(function(s) { return s.finalReturn; });
+      var firedCount = stops.filter(function(s) { return s.exitIdx < 251; }).length;
+      bundle = { paths: paths, stops: stops, bhReturns: bhReturns, stopReturns: stopReturns, firedCount: firedCount };
     }
 
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
+    function avg(arr) {
+      if (!arr.length) return 0;
+      var s = 0; for (var i = 0; i < arr.length; i++) s += arr[i]; return s / arr.length;
+    }
+
+    function draw() {
+      if (!bundle) return;
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 28, right: 18, bottom: 38, left: 52 };
+
+      // Y bounds from sample path + its HWM curve
+      var path = samplePath;
+      var hwmCurve = [];
+      var stopCurve = [];
+      var h = path[0];
+      var s = h * (1 - state.pct);
+      for (var i = 0; i < path.length; i++) {
+        if (path[i] > h) { h = path[i]; s = h * (1 - state.pct); }
+        hwmCurve.push(h);
+        stopCurve.push(s);
+      }
+      var yMin = Math.min.apply(null, path.concat(stopCurve)) * 0.96;
+      var yMax = Math.max.apply(null, path.concat(hwmCurve)) * 1.04;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['Day 0', 'Day 63', 'Day 126', 'Day 189', 'Day 252'],
+        yMin: yMin, yMax: yMax, ySteps: 4,
+        yFmt: function(v){ return '$' + v.toFixed(0); }
+      });
+
+      function pt(i, v) { return { x: mapX(i, 0, path.length-1, W, pad), y: mapY(v, yMin, yMax, H, pad) }; }
+
+      // Stop curve (dashed, accent)
+      drawLineCanvas(ctx, stopCurve.map(function(v, i){ return pt(i, v); }),
+        { color: 'var(--accent)', width: 1.5, dashed: [4,4] });
+
+      // HWM curve (dashed green)
+      drawLineCanvas(ctx, hwmCurve.map(function(v, i){ return pt(i, v); }),
+        { color: '#38a169', width: 1.5, dashed: [2,4] });
+
+      // Price path
+      drawLineCanvas(ctx, path.map(function(v, i){ return pt(i, v); }),
+        { color: '#666', width: 1.8 });
+
+      // Exit marker for the sample path
+      var sampleStop = bundle.stops[0];
+      if (sampleStop.exitIdx < path.length - 1) {
+        var ex = pt(sampleStop.exitIdx, sampleStop.exitPrice);
+        drawPointCanvas(ctx, ex.x, ex.y, 6, '#e53e3e', '#fff');
+        drawTextCanvas(ctx, ex.x + 9, ex.y - 12, 'Stop fires', {
+          fontSize: 11, color: '#e53e3e', align: 'left', weight: '600'
+        });
+      } else {
+        // mark end (no exit fired)
+        var endPt = pt(path.length - 1, path[path.length - 1]);
+        drawPointCanvas(ctx, endPt.x, endPt.y, 5, '#38a169', '#fff');
+      }
+
+      // Title
+      drawTextCanvas(ctx, W/2, 12, 'One sample path with ' + (state.pct*100).toFixed(0) + '% trailing stop (HWM dashed green, stop dashed crimson)', {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      // Update stats over the bundle of n paths
+      var bhAvg = avg(bundle.bhReturns) * 100;
+      var stopAvg = avg(bundle.stopReturns) * 100;
+      var firedPct = (bundle.firedCount / bundle.paths.length) * 100;
+      document.getElementById('w1-bh').textContent   = (bhAvg >= 0 ? '+' : '') + bhAvg.toFixed(1) + '%';
+      document.getElementById('w1-stop').textContent = (stopAvg >= 0 ? '+' : '') + stopAvg.toFixed(1) + '%';
+      document.getElementById('w1-fired').textContent = firedPct.toFixed(0) + '%';
+    }
+
+    // CRITICAL: regen() must run BEFORE attachSliders (which calls draw immediately)
+    regen();
+
+    attachSliders([
+      { el: document.getElementById('w1-pct'),  label: document.getElementById('w1-pct-val'),  format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w1-n'),    label: document.getElementById('w1-n-val'),    format: function(v){ return v.toFixed(0); } },
+      { el: document.getElementById('w1-vol'),  label: document.getElementById('w1-vol-val'),  format: function(v){ return v.toFixed(0) + '%'; } }
+    ], function(vals) {
+      state.pct = vals['w1-pct'] / 100;
+      state.n = Math.round(vals['w1-n']);
+      state.sigma = vals['w1-vol'] / 100;
+      regen();
+      draw();
     });
+  })();
+  </script>
 
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
+  <!-- ============================================================
+       WIDGET 2 — Exit Strategy Comparison
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  draw();
-})();
-</script>
+    // -------- STATE + DATA (initialized BEFORE attachSliders) --------
+    var state = { mode: 'single', avgRuns: null };
+    var samplePath = null;    // bull-then-bear single path
+    var current = null;       // { bh, tgt, trail } returns on samplePath
+
+    // Generate a bull-then-bear path: positive drift for first half, negative for second
+    function bullBearPath() {
+      var steps = 252;
+      var dt = 1 / steps;
+      var s = 100;
+      var path = [s];
+      // Phase 1: bull (mu ~ 0.35, sigma ~ 0.28)
+      for (var i = 0; i < steps / 2; i++) {
+        var z = randn();
+        s = s * Math.exp((0.35 - 0.5 * 0.28 * 0.28) * dt + 0.28 * Math.sqrt(dt) * z);
+        path.push(s);
+      }
+      // Phase 2: bear (mu ~ -0.35, sigma ~ 0.34)
+      for (var j = 0; j < steps / 2; j++) {
+        var z2 = randn();
+        s = s * Math.exp((-0.35 - 0.5 * 0.34 * 0.34) * dt + 0.34 * Math.sqrt(dt) * z2);
+        path.push(s);
+      }
+      return path;
+    }
+
+    function computeReturns(path) {
+      var bh = (path[path.length - 1] / path[0]) - 1;
+      var tgt = applyProfitTarget(path, 0.50).finalReturn;
+      var trail = applyTrailingStop(path, 0.15).finalReturn;
+      return { bh: bh, tgt: tgt, trail: trail };
+    }
+
+    function regen() {
+      samplePath = bullBearPath();
+      current = computeReturns(samplePath);
+      state.mode = 'single';
+      state.avgRuns = null;
+    }
+
+    function runAverage() {
+      var N = 200;
+      var sumBh = 0, sumTgt = 0, sumTrail = 0;
+      for (var i = 0; i < N; i++) {
+        var p = bullBearPath();
+        var r = computeReturns(p);
+        sumBh += r.bh; sumTgt += r.tgt; sumTrail += r.trail;
+      }
+      state.avgRuns = { bh: sumBh / N, tgt: sumTgt / N, trail: sumTrail / N, N: N };
+      state.mode = 'avg';
+    }
+
+    function drawSingle() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 28, right: 22, bottom: 38, left: 56 };
+
+      // Build cumulative-return series for each strategy.
+      // For buy-and-hold: it's just the path normalized.
+      // For target: tracks path until exit, then holds value flat (cash sitting at exit value).
+      // For trail: same.
+      var bhSeries = samplePath.map(function(v) { return (v / samplePath[0]) - 1; });
+      var tgtRes = applyProfitTarget(samplePath, 0.50);
+      var trailRes = applyTrailingStop(samplePath, 0.15);
+
+      function freezeSeries(exitIdx, exitPrice) {
+        var s = [];
+        for (var i = 0; i < samplePath.length; i++) {
+          if (i <= exitIdx) s.push((samplePath[i] / samplePath[0]) - 1);
+          else s.push((exitPrice / samplePath[0]) - 1);
+        }
+        return s;
+      }
+      var tgtSeries = freezeSeries(tgtRes.exitIdx, tgtRes.exitPrice);
+      var trailSeries = freezeSeries(trailRes.exitIdx, trailRes.exitPrice);
+
+      var allY = bhSeries.concat(tgtSeries).concat(trailSeries);
+      var yMin = Math.min.apply(null, allY);
+      var yMax = Math.max.apply(null, allY);
+      var span = Math.max(yMax - yMin, 0.05);
+      yMin -= span * 0.1; yMax += span * 0.1;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['Day 0', 'Day 63', 'Day 126', 'Day 189', 'Day 252'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return (v >= 0 ? '+' : '') + (v * 100).toFixed(0) + '%'; }
+      });
+
+      // Zero line
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+
+      function toPts(series) {
+        return series.map(function(v, i) {
+          return { x: mapX(i, 0, series.length - 1, W, pad), y: mapY(v, yMin, yMax, H, pad) };
+        });
+      }
+      drawLineCanvas(ctx, toPts(bhSeries),    { color: '#888',         width: 1.8 });
+      drawLineCanvas(ctx, toPts(tgtSeries),   { color: '#2b6cb0',      width: 2.2 });
+      drawLineCanvas(ctx, toPts(trailSeries), { color: 'var(--accent)', width: 2.5 });
+
+      // Exit dots
+      if (tgtRes.exitIdx < samplePath.length - 1) {
+        var tx = mapX(tgtRes.exitIdx, 0, samplePath.length - 1, W, pad);
+        var ty = mapY(tgtSeries[tgtRes.exitIdx], yMin, yMax, H, pad);
+        drawPointCanvas(ctx, tx, ty, 5, '#2b6cb0', '#fff');
+      }
+      if (trailRes.exitIdx < samplePath.length - 1) {
+        var rx = mapX(trailRes.exitIdx, 0, samplePath.length - 1, W, pad);
+        var ry = mapY(trailSeries[trailRes.exitIdx], yMin, yMax, H, pad);
+        drawPointCanvas(ctx, rx, ry, 5, 'var(--accent)', '#fff');
+      }
+
+      drawTextCanvas(ctx, W/2, 12, 'Cumulative return on a bull-then-bear path (single draw)', {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      document.getElementById('w2-r-bh').textContent    = (current.bh >= 0 ? '+' : '') + (current.bh * 100).toFixed(1) + '%';
+      document.getElementById('w2-r-tgt').textContent   = (current.tgt >= 0 ? '+' : '') + (current.tgt * 100).toFixed(1) + '%';
+      document.getElementById('w2-r-trail').textContent = (current.trail >= 0 ? '+' : '') + (current.trail * 100).toFixed(1) + '%';
+    }
+
+    function drawAverage() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 28, right: 22, bottom: 50, left: 60 };
+      var r = state.avgRuns;
+      var values = [r.bh, r.tgt, r.trail];
+      var labels = ['Buy & hold', 'Profit +50%', 'Trail 15%'];
+      var colors = ['#888', '#2b6cb0', resolveCSSColor('var(--accent)')];
+
+      var yMin = Math.min(0, Math.min.apply(null, values)) - 0.05;
+      var yMax = Math.max(0.10, Math.max.apply(null, values)) + 0.05;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: labels,
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return (v >= 0 ? '+' : '') + (v * 100).toFixed(0) + '%'; }
+      });
+
+      // Zero line
+      var y0 = mapY(0, yMin, yMax, H, pad);
+      ctx.strokeStyle = '#bbb'; ctx.beginPath();
+      ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+
+      var barW = 80;
+      var plotW = W - pad.left - pad.right;
+      for (var i = 0; i < 3; i++) {
+        var cx = pad.left + plotW * ((i + 0.5) / 3);
+        var yBar = mapY(values[i], yMin, yMax, H, pad);
+        var top = Math.min(y0, yBar);
+        var height = Math.abs(yBar - y0);
+        drawRectCanvas(ctx, cx - barW/2, top, barW, height, colors[i], 4);
+        drawTextCanvas(ctx, cx, yBar + (values[i] >= 0 ? -10 : 16),
+          (values[i] >= 0 ? '+' : '') + (values[i] * 100).toFixed(1) + '%',
+          { fontSize: 13, color: 'var(--text)', baseline: 'middle', weight: '600' });
+      }
+
+      drawTextCanvas(ctx, W/2, 12, 'Average final return across ' + r.N + ' bull-then-bear paths', {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      document.getElementById('w2-r-bh').textContent    = (r.bh >= 0 ? '+' : '') + (r.bh * 100).toFixed(1) + '%';
+      document.getElementById('w2-r-tgt').textContent   = (r.tgt >= 0 ? '+' : '') + (r.tgt * 100).toFixed(1) + '%';
+      document.getElementById('w2-r-trail').textContent = (r.trail >= 0 ? '+' : '') + (r.trail * 100).toFixed(1) + '%';
+    }
+
+    function draw() {
+      if (state.mode === 'avg' && state.avgRuns) drawAverage();
+      else drawSingle();
+    }
+
+    // Initialize data BEFORE wiring buttons (no attachSliders here, but same discipline)
+    regen();
+    draw();
+
+    attachButton('#w2-new', function() { regen(); draw(); });
+    attachButton('#w2-runavg', function() { runAverage(); draw(); });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Tax-Impact Slider (STCG vs LTCG cliff)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 340 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // -------- STATE + DATA (initialized BEFORE attachSliders) --------
+    var state = { months: 8, annualReturn: 0.45, capital: 10 };  // capital in lakhs
+    var STCG = 0.20;       // 20% STCG on listed equity (post Jul-2024 budget)
+    var LTCG = 0.125;      // 12.5% LTCG
+    var LTCG_EXEMPT = 1.25; // lakh of LTCG per year exempt
+    var THRESHOLD = 12;    // months
+
+    // Precompute lookup arrays at draw time, not at slider time
+    function returnAt(months) {
+      // Convert annual return to fraction-of-year-elapsed; assume linear in time for simplicity
+      return state.annualReturn * (months / 12);
+    }
+
+    function taxOwed(gainLakh, months) {
+      // Returns tax owed in lakh
+      if (gainLakh <= 0) return 0;
+      if (months < THRESHOLD) {
+        // STCG: flat on full gain
+        return gainLakh * STCG;
+      }
+      // LTCG: first LTCG_EXEMPT lakh exempt, rest taxed at 12.5%
+      var taxable = Math.max(0, gainLakh - LTCG_EXEMPT);
+      return taxable * LTCG;
+    }
+
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 28, right: 22, bottom: 44, left: 60 };
+
+      // Build series across 1-36 months
+      var preSeries = [];
+      var postSeries = [];
+      for (var m = 1; m <= 36; m++) {
+        var gainLakh = state.capital * returnAt(m);
+        var tax = taxOwed(gainLakh, m);
+        var post = gainLakh - tax;
+        preSeries.push({ m: m, v: gainLakh });
+        postSeries.push({ m: m, v: post, inLTCG: m >= THRESHOLD });
+      }
+
+      var allY = preSeries.map(function(p){return p.v;}).concat(postSeries.map(function(p){return p.v;}));
+      var yMin = Math.min(0, Math.min.apply(null, allY)) - state.capital * 0.02;
+      var yMax = Math.max.apply(null, allY) * 1.10;
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['1 mo', '6 mo', '12 mo', '18 mo', '24 mo', '30 mo', '36 mo'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return '₹' + v.toFixed(1) + 'L'; }
+      });
+
+      // Shade the LTCG zone (after 12 months)
+      var x12 = mapX(THRESHOLD, 1, 36, W, pad);
+      ctx.save();
+      ctx.fillStyle = 'rgba(99, 23, 27, 0.05)';
+      ctx.fillRect(x12, pad.top, W - pad.right - x12, H - pad.top - pad.bottom);
+      ctx.restore();
+
+      // 12-month vertical line
+      ctx.save();
+      ctx.strokeStyle = 'var(--accent)';
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(x12, pad.top); ctx.lineTo(x12, H - pad.bottom); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, x12 + 4, pad.top + 6, 'LTCG threshold (12 mo)', {
+        fontSize: 10, color: resolveCSSColor('var(--accent)'), align: 'left', baseline: 'top'
+      });
+
+      // Pre-tax line (gray)
+      drawLineCanvas(ctx, preSeries.map(function(p){
+        return { x: mapX(p.m, 1, 36, W, pad), y: mapY(p.v, yMin, yMax, H, pad) };
+      }), { color: '#888', width: 1.8, dashed: [4,4] });
+
+      // Post-tax STCG segment (months 1-11) in red
+      var stcgPts = postSeries.filter(function(p){ return !p.inLTCG; }).map(function(p){
+        return { x: mapX(p.m, 1, 36, W, pad), y: mapY(p.v, yMin, yMax, H, pad) };
+      });
+      drawLineCanvas(ctx, stcgPts, { color: '#e53e3e', width: 2.5 });
+
+      // Post-tax LTCG segment (months 12-36) in accent
+      var ltcgPts = postSeries.filter(function(p){ return p.inLTCG; }).map(function(p){
+        return { x: mapX(p.m, 1, 36, W, pad), y: mapY(p.v, yMin, yMax, H, pad) };
+      });
+      drawLineCanvas(ctx, ltcgPts, { color: 'var(--accent)', width: 2.5 });
+
+      // Cliff connector at month 12: draw the jump
+      var pre11 = postSeries[10]; // month 11
+      var post12 = postSeries[11]; // month 12
+      var x11 = mapX(11, 1, 36, W, pad);
+      var x12b = mapX(12, 1, 36, W, pad);
+      var y11 = mapY(pre11.v, yMin, yMax, H, pad);
+      var y12 = mapY(post12.v, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = 'rgba(99,23,27,0.5)';
+      ctx.setLineDash([2,3]);
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x11, y11); ctx.lineTo(x12b, y12); ctx.stroke();
+      ctx.restore();
+
+      // Current holding marker
+      var curMonth = Math.round(state.months);
+      var curGain = state.capital * returnAt(curMonth);
+      var curTax = taxOwed(curGain, curMonth);
+      var curPost = curGain - curTax;
+      var cx = mapX(curMonth, 1, 36, W, pad);
+      var cy = mapY(curPost, yMin, yMax, H, pad);
+      drawPointCanvas(ctx, cx, cy, 6, curMonth >= THRESHOLD ? 'var(--accent)' : '#e53e3e', '#fff');
+      drawTextCanvas(ctx, cx, cy - 14, '₹' + curPost.toFixed(2) + 'L net', {
+        fontSize: 11, color: 'var(--text)', weight: '600'
+      });
+
+      // Title
+      drawTextCanvas(ctx, W/2, 12, 'Post-tax gain on ₹' + state.capital.toFixed(0) + 'L capital at ' + (state.annualReturn*100).toFixed(0) + '% annual return', {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      // Stat cells
+      document.getElementById('w3-pre').textContent = '₹' + curGain.toFixed(2) + 'L';
+      document.getElementById('w3-tax').textContent = '₹' + curTax.toFixed(2) + 'L';
+
+      // Cliff cost = post-tax at month 13 minus post-tax at month 11
+      var gain11 = state.capital * returnAt(11);
+      var gain13 = state.capital * returnAt(13);
+      var post11 = gain11 - taxOwed(gain11, 11);
+      var post13 = gain13 - taxOwed(gain13, 13);
+      var cliff = post13 - post11;
+      document.getElementById('w3-cliff').textContent = (cliff >= 0 ? '+' : '') + '₹' + cliff.toFixed(2) + 'L';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-months'), label: document.getElementById('w3-months-val'),
+        format: function(v){ return v.toFixed(0) + ' mo'; } },
+      { el: document.getElementById('w3-ret'),    label: document.getElementById('w3-ret-val'),
+        format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w3-cap'),    label: document.getElementById('w3-cap-val'),
+        format: function(v){ return '₹' + v.toFixed(0) + 'L'; } }
+    ], function(vals) {
+      state.months = vals['w3-months'];
+      state.annualReturn = vals['w3-ret'] / 100;
+      state.capital = vals['w3-cap'];
+      draw();
+    });
+  })();
+  </script>
 
 </body>
 </html>

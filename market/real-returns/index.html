@@ -4,32 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Only Number That Matters — Market Explainers</title>
-  <meta name="description" content="Why most investors are fooling themselves with nominal returns">
+  <meta name="description" content="Why nominal returns are a lie — and how taxes, inflation, and currency depreciation quietly destroy wealth">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="The Only Number That Matters">
-  <meta property="og:description" content="Why most investors are fooling themselves with nominal returns">
+  <meta property="og:description" content="Why nominal returns are a lie — shown with three bespoke simulations">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #1a365d;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget-specific layout helpers (mirrors options-insurance pilot) */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .widget-row.four  { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    @media (max-width: 720px) {
+      .widget-row.four { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three, .widget-row.four { grid-template-columns: 1fr; }
+    }
+    .stat-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stat-cell-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .stat-cell-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
   </style>
 </head>
 <body>
@@ -47,8 +85,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">The Only Number That Matters</h1>
-      <p class="hero__subtitle">Why most investors are fooling themselves with nominal returns</p>
-      <p class="hero__meta">22 min read</p>
+      <p class="hero__subtitle">Why nominal returns are a lie — and how taxes, inflation, and currency quietly destroy wealth.</p>
+      <p class="hero__meta">9 chapters &middot; 3 interactive simulations &middot; 24 min read</p>
     </div>
   </header>
 
@@ -57,283 +95,650 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-the-illusion-of-125">I. The Illusion of 12.5%</a></li>
-        <li><a href="#ii-what-real-returns-actually-means">II. What "Real Returns" Actually Means</a></li>
-        <li><a href="#iii-the-starbucks-test-why-purchasing-power-is-the-only-benchmark">III. The Starbucks Test: Why Purchasing Power Is the Only Benchmark</a></li>
-        <li><a href="#iv-the-high-inflation-world-why-the-problem-is-getting-worse">IV. The High-Inflation World: Why the Problem Is Getting Worse</a></li>
-        <li><a href="#v-the-nifty-deceleration-why-history-will-not-repeat">V. The Nifty Deceleration: Why History Will Not Repeat</a></li>
-        <li><a href="#vi-the-fd-trap-the-uae-test-and-what-actually-beats-inflation">VI. The FD Trap, the UAE Test, and What Actually Beats Inflation</a></li>
-        <li><a href="#vii-real-returns-in-practice-how-the-math-changes-every-decision">VII. Real Returns in Practice: How the Math Changes Every Decision</a></li>
-        <li><a href="#viii-building-a-real-returns-portfolio-the-practical-framework">VIII. Building a Real-Returns Portfolio: The Practical Framework</a></li>
-        <li><a href="#ix-the-only-question-that-matters">IX. The Only Question That Matters</a></li>
+        <li><a href="#i-illusion">Why is 12.5% nominal a lie you tell yourself?</a></li>
+        <li><a href="#ii-fisher">What does the Fisher equation actually say after taxes and currency?</a></li>
+        <li><a href="#iii-eroder">What does inflation actually do to your wealth over 30 years?</a></li>
+        <li><a href="#iv-starbucks">Why is purchasing-power parity the only honest benchmark?</a></li>
+        <li><a href="#v-nifty">Why won't the next twenty years of Nifty look like the last twenty?</a></li>
+        <li><a href="#vi-fd-trap">Why is your FD a slow wealth-destruction machine?</a></li>
+        <li><a href="#vii-portfolio">How does this math change every portfolio decision?</a></li>
+        <li><a href="#viii-framework">What does a real-returns portfolio actually look like?</a></li>
+        <li><a href="#ix-question">The only question worth asking before any investment</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-the-illusion-of-125">
+
+    <!-- ============================================================
+         I. The illusion of 12.5%
+         ============================================================ -->
+    <section class="reveal" id="i-illusion">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. The Illusion of 12.5%</h2>
+        <h2>Why is 12.5% nominal a lie you tell yourself?</h2>
       </div>
       <div class="section-content">
-        <p>Here is a number that every Indian investor knows: the Nifty 50 has delivered 12.5% returns over the last 20 years. It is printed on every mutual fund factsheet, repeated in every financial planning seminar, and embedded in every SIP calculator that promises you a yacht in Ibiza on a 10,000-rupee monthly investment.</p>
-<p>It is also, for all practical purposes, a lie.</p>
-<p>Not because the number itself is wrong. The Nifty 50 has indeed compounded at roughly 12.5% in nominal INR terms over two decades. The lie is in what that number omits. It omits taxes. It omits currency depreciation. It omits the relentless erosion of purchasing power that makes a rupee today worth meaningfully less than a rupee a year from now. When you strip away the illusions and calculate what you actually earned in real, spendable, globally comparable terms, the picture changes so dramatically that it forces you to rethink everything about how and where you invest.</p>
-<p>Let us walk through the arithmetic that most investors never do.</p>
-<p>Start with 12.5%. Post long-term capital gains tax at 12.5% (which itself has climbed from 0% before 2018, to 10%, and now to 12.5%), your return drops to approximately 10.5%. Now adjust for INR depreciation against the dollar &ndash; the rupee has consistently lost 3-4% per year against the USD over long stretches. Your 10.5% is now 6.5-7% in dollar terms. And the global dollar inflation rate? At least 7-8% per year in real terms when you look at actual costs of goods, services, housing, and education across the world.</p>
-<blockquote>
-<p>The Indian equity market, which everybody celebrates as one of the great wealth-building machines in the world, has barely kept pace with global inflation over the last two decades. Your &ldquo;wealth&rdquo; did not grow. Your purchasing power was roughly preserved. That is not the same thing at all.</p>
-</blockquote>
-<p>This is not an abstract point. It is the single most important concept in investing, and everything else &ndash; which stocks to buy, which markets to enter, how to size positions, when to trade versus hold &ndash; flows directly from understanding it. Your competition is not with other investors. It is not with the index.</p>
-<p><strong>Your competition is with inflation.</strong></p>
-<hr />
+        <p>Every Indian investor knows the number: the Nifty 50 has delivered roughly 12.5% nominal returns over the last 20 years. It is printed on every mutual fund factsheet, repeated in every financial-planning seminar, and embedded in every SIP calculator that promises a yacht in Ibiza on a &#8377;10,000 monthly investment.</p>
+
+        <p>It is also, for all practical purposes, a lie.</p>
+
+        <p>Not because the number itself is wrong &mdash; the index did compound at about 12.5% in nominal INR. The lie is in what that number omits. It omits taxes. It omits currency depreciation. It omits the relentless erosion of purchasing power that makes a rupee today worth meaningfully less than a rupee a year from now. Strip away the illusions, and the picture changes so dramatically that it forces you to rethink everything about how and where you invest.</p>
+
+        <p>Walk through the arithmetic most investors never do. Start with 12.5%. Pay long-term capital gains tax of 12.5% &mdash; itself climbed from 0% before 2018<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a> &mdash; and your return drops to roughly 10.5%. Now adjust for INR depreciation against the dollar (the rupee has consistently lost 3&ndash;4% per year for long stretches): your 10.5% becomes about 6.5&ndash;7% in dollar terms. Net it against real global dollar inflation in actual costs of goods, services, housing, and education &mdash; 7&ndash;8% per year on a lived basis &mdash; and what remains is somewhere between &minus;1% and 0% real.</p>
+
+        <p>The same arithmetic, written out in a single line:</p>
+
+        <div class="math-block">
+          0.125 &rarr; &times;(1&minus;0.125) = 0.109 &rarr; &divide;(1+0.04) = 0.0668 &rarr; &divide;(1+0.075) = &minus;0.008
+          <span class="math-where">12.5% nominal → 10.9% post-tax → 6.7% USD → −0.8% real</span>
+        </div>
+
+        <p>One arrow per layer. Each layer is a multiply or divide; none of them are subtractions. By the time the chain runs to completion, the number you started with has been transformed beyond recognition. The investor who reads "12.5%" off the brochure and the investor who runs the chain are looking at the same starting input and finishing with completely different answers.</p>
+
+        <blockquote>
+          <p>The Indian equity market &mdash; celebrated as one of the great wealth-building machines &mdash; has barely kept pace with global inflation over the last two decades. Your "wealth" did not grow. Your purchasing power was approximately preserved. That is not the same thing at all.</p>
+        </blockquote>
+
+        <p>This is not an abstract point. It is the single most important concept in investing, and every downstream decision &mdash; which stocks to buy, which markets to enter, how to size positions, when to trade versus hold &mdash; flows directly from understanding it. Your competition is not other investors. It is not the index.</p>
+
+        <p><strong>Your competition is with inflation.</strong></p>
+
+        <p>The framing matters because it determines what counts as a win. A portfolio that grew 11% in a year where inflation ran at 9% and the rupee dropped 4% has produced a real return that is meaningfully negative once you net out the layers. The headline 11% feels like a small win. The underlying reality is a small loss. The investor who books the win and posts the screenshot has been quietly transferring purchasing power for an entire year to the three counterparties that take their cut without asking.</p>
+
+        <p>The rest of this article is the math, the visuals, and the practical framework for thinking about this layer-by-layer. Three interactive widgets, each one designed to push back against a specific kind of magical thinking the financial-services industry has built into its sales narrative. By the end you will not be looking at a return number the same way again &mdash; and if you are doing your job, neither will the people you talk to about money.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-what-real-returns-actually-means">
+    <!-- ============================================================
+         II. What "real returns" actually means
+         ============================================================ -->
+    <section class="reveal" id="ii-fisher">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. What "Real Returns" Actually Means</h2>
+        <h2>What does the Fisher equation actually say after taxes and currency?</h2>
       </div>
       <div class="section-content">
-        <p>The term <strong>real returns</strong> gets thrown around loosely in finance, but it has a precise and layered meaning that most retail investors never fully unpack. Real returns are what remains after you subtract three distinct forces that eat into your gains: taxes, inflation, and currency depreciation.</p>
-<p>Each of these operates independently, and each one compounds against you over time.</p>
-<p><strong>Layer 1: Taxes.</strong> India&rsquo;s LTCG tax on equities has followed a clear upward trajectory. Before 2018, long-term capital gains on equities were taxed at 0%<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. Then it moved to 10%. Then to 12.5%. The direction is obvious, and if you are planning to invest for 20 years, you should be asking yourself where LTCG will be in 2045. There is no reason to believe it will stay at 12.5%. The government&rsquo;s pattern is unmistakable: cultivate an asset class first, then tax it once adoption is high enough. On a portfolio returning 12.5% nominal, LTCG at 12.5% on the gains takes your effective return down to roughly 10.5%.</p>
-<p><strong>Layer 2: Currency depreciation.</strong> The Indian rupee has depreciated against the US dollar at a fairly consistent rate of 3-4% per year over long periods. In October 2024, the INR was at 84 to the dollar. By early 2025, it had hit 87.03. That is a 3.5% depreciation in just a few months. This is not a temporary phenomenon &ndash; it is structural. India runs persistent current account deficits, has higher inflation than the US, and the RBI can only slow the depreciation, not prevent it. For any investor thinking about wealth in global terms &ndash; and you should be, because we live in a connected world where supply chain efficiencies ensure that comparable-quality goods cost roughly the same across nations &ndash; currency depreciation is a direct subtraction from your returns.</p>
-<p><strong>Layer 3: Inflation.</strong> This is the most insidious layer because it is the one governments work hardest to obscure. Official CPI numbers in India might show 5-6% inflation, but the actual cost-of-living increase for the investing class &ndash; housing, education, healthcare, travel, dining &ndash; runs at 9-12% depending on your segment. Governments worldwide are redesigning their inflation baskets, underreporting inflation numbers, and manipulating the measurement to keep the headline figure low while people experience a cost-of-living crisis that the numbers fail to capture.</p>
-<p>When you stack these three layers together, the arithmetic becomes sobering:</p>
-<ul>
-<li>Start: <strong>12.5%</strong> nominal return</li>
-<li>After tax drag: <strong>~10.5%</strong></li>
-<li>After currency depreciation (3-4%): <strong>~6.5-7%</strong></li>
-<li>After real global inflation (7-8%): <strong>-1% to +0%</strong></li>
-</ul>
-<p>You did not build wealth. You ran on a treadmill.</p>
+        <p>The term <strong>real returns</strong> gets thrown around loosely. It has a precise, layered meaning that most retail investors never fully unpack. Real returns are what remains after you subtract three distinct forces that eat into your gains: taxes, inflation, and currency depreciation. Each operates independently. Each compounds against you.</p>
 
-<div class="math-block">
-  r<sub>real</sub> = (1 + r<sub>nominal</sub>) &divide; (1 + &pi;) &minus; 1
-  <span class="math-where">where &pi; is the realised inflation rate over the same period</span>
-</div>
+        <p><strong>Layer 1: taxes.</strong> India's LTCG on equities has followed a clear upward trajectory: 0% before 2018, then 10%, now 12.5%. There is no reason to believe it stops here. Governments cultivate an asset class first, then tax it once adoption is high enough. On a 12.5% gross return, a 12.5% LTCG haircut drops you to about 10.5% post-tax.</p>
 
-<details class="sidenote">
-  <summary>Well, actually 🧐 — the approximation people use is wrong on purpose</summary>
-  <p>Most retail explainers shortcut this to <span class="math">r<sub>real</sub> &asymp; r<sub>nominal</sub> &minus; &pi;</span>. That subtraction is only a first-order Taylor approximation of the Fisher equation above. It&rsquo;s fine when both rates are small, but breaks down precisely when it matters most &mdash; in high-inflation regimes.</p>
-  <p>Example: at 12.5% nominal and 10% inflation, the approximation says 2.5% real. The exact Fisher answer is <span class="math">(1.125 &divide; 1.10) &minus; 1 = 2.27%</span>. A 10% gap in the result. Stack that across two decades and you&rsquo;ve lied to yourself about the terminal wealth.</p>
-</details>
+        <p><strong>Layer 2: currency depreciation.</strong> The INR has slipped against the USD at roughly 3&ndash;4% per year over long periods. In October 2024 the rupee sat at 84/USD; by early 2025 it had touched 87 &mdash; a 3.5% depreciation in a handful of months. India runs persistent current-account deficits, has higher inflation than the US, and the RBI can only slow the drift, not stop it. For anyone thinking about wealth in global terms &mdash; and you should, because comparable-quality goods cost roughly the same across nations &mdash; currency depreciation is a direct subtraction from your return.</p>
 
-<div class="demo reveal" id="chart-1"></div>
-<p class="widget-hint">Drag the scrubber to see how the gap between nominal and real opens up year by year.</p>
+        <p><strong>Layer 3: inflation.</strong> The most insidious layer, because governments work hardest to obscure it. Official CPI might show 5&ndash;6%; the actual cost-of-living increase for the investing class &mdash; housing, education, healthcare, travel, dining &mdash; runs at 9&ndash;12%. Inflation baskets are redesigned, components are reweighted, the headline figure is kept low while people experience a cost-of-living crisis the numbers do not capture.</p>
 
-<hr />
+        <p>The mechanics of CPI manipulation are mostly mundane and entirely legal:</p>
+
+        <ul>
+          <li><strong>Hedonic adjustments.</strong> A new iPhone is treated as "better" than the previous model, so the headline price is statistically discounted to reflect "quality improvement." The consumer pays the full sticker price; the statistician records only a fraction of the increase.</li>
+          <li><strong>Substitution effects.</strong> When beef prices rise, the basket assumes you switch to chicken. The headline inflation number reflects the cheaper basket, not the basket you actually want.</li>
+          <li><strong>Owner-equivalent rent.</strong> Instead of tracking home prices (which have run at 8&ndash;15% in major Indian metros), CPI tracks a model-derived "imputed rent" based on rental yields. Rentals in India yield 2&ndash;3%, badly under-tracking the actual asset-price inflation that the home buyer experiences.</li>
+          <li><strong>Basket reweighting.</strong> Roughly every five to seven years, the weights are revised &mdash; usually in directions that lower the published rate. Education, healthcare, and housing &mdash; the categories that genuinely run hot &mdash; tend to get under-weighted.</li>
+        </ul>
+
+        <p>The combined effect is that official CPI consistently runs two to four percentage points below the inflation an upper-middle-class household actually experiences. Over twenty years, that gap is the difference between a portfolio that doubled in real terms and one that quietly halved.</p>
+
+        <p>Stack them and the arithmetic is sobering:</p>
+        <ul>
+          <li>Start: <strong>12.5%</strong> nominal return</li>
+          <li>After LTCG: <strong>~10.5%</strong></li>
+          <li>After INR depreciation (3&ndash;4%): <strong>~6.5&ndash;7%</strong></li>
+          <li>After real global inflation (7&ndash;8%): <strong>&minus;1% to +0%</strong></li>
+        </ul>
+
+        <p>You did not build wealth. You ran on a treadmill.</p>
+
+        <p>The precise relationship between these layers is the Fisher equation &mdash; not the shortcut subtraction that most retail explainers use, but the exact compounded form:</p>
+
+        <div class="math-block">
+          r<sub>real</sub> = (1 + r<sub>nominal</sub>) &divide; (1 + &pi;) &minus; 1
+          <span class="math-where">where &pi; is the realised inflation rate over the same period</span>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the approximation people use is wrong on purpose</summary>
+          <p>Most retail explainers shortcut this to <span class="math">r<sub>real</sub> &asymp; r<sub>nominal</sub> &minus; &pi;</span>. That subtraction is only a first-order Taylor approximation of the Fisher equation above. It's fine when both rates are small, but breaks down precisely when it matters most &mdash; in high-inflation regimes.</p>
+          <p>Example: at 12.5% nominal and 10% inflation, the approximation says 2.5% real. The exact Fisher answer is <span class="math">(1.125 &divide; 1.10) &minus; 1 = 2.27%</span>. A 10% gap in the result. Stack that across two decades and you've lied to yourself about the terminal wealth.</p>
+        </details>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — currency depreciation compounds, not adds</summary>
+          <p>People assume INR-to-USD adjustment is a subtraction. It isn't &mdash; it's another divide, exactly like inflation. If equities return <span class="math">r<sub>INR</sub></span> and the rupee depreciates at <span class="math">d</span> per year, your USD-equivalent return is <span class="math">(1 + r<sub>INR</sub>) &divide; (1 + d) &minus; 1</span>, not <span class="math">r<sub>INR</sub> &minus; d</span>.</p>
+          <p>At 12.5% INR returns and 4% rupee depreciation, the shortcut gives 8.5% USD; the exact answer is <span class="math">1.125 &divide; 1.04 &minus; 1 = 8.17%</span>. Small per year. Half a percent of terminal wealth lost per decade if you compound the wrong way.</p>
+        </details>
+
+        <p>Once you stop using the approximation and start chaining the three divides &mdash; tax, depreciation, inflation &mdash; the picture is much darker than the marketing slides ever admit.</p>
+
+        <p>The three layers are not independent in the messy real world either. Higher inflation in India tends to widen the rate differential against the US, which accelerates the rupee's depreciation, which forces the RBI to raise rates, which depresses equity valuations, which compresses your gross return. Each input reinforces the others in a quiet feedback loop. The investor who models the layers independently and adds them together is being kind to themselves. The investor who models the joint distribution &mdash; where bad inflation surprises arrive bundled with currency shocks and rate hikes &mdash; is being honest.</p>
+
+        <p>This is also why the Fisher equation is so often taught and so rarely applied. It is easy to write down. It is easy to forget. The investor who reaches for a calculator the moment they hear "8% return" and asks <em>against what inflation, against what tax, against what currency drift</em> is doing the actual job of an investor. Everyone else is reading a number off a screen.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-the-starbucks-test-why-purchasing-power-is-the-only-benchmark">
+    <!-- ============================================================
+         III. Inflation-adjusted wealth eroder (WIDGET 1)
+         ============================================================ -->
+    <section class="reveal" id="iii-eroder">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. The Starbucks Test: Why Purchasing Power Is the Only Benchmark</h2>
+        <h2>What does inflation actually do to your wealth over 30 years?</h2>
       </div>
       <div class="section-content">
-        <p>Abstract percentage returns are hard to feel. So consider a concrete example that makes the concept visceral.</p>
-<p>Walk into a Starbucks in the UAE and order an espresso. You will pay about 16 AED, which converts to roughly 376 INR. Walk into a Starbucks in India and order the same espresso &ndash; you will pay about 250 INR. But adjust for the 30% effective tax differential between the two jurisdictions, and the cost comes out to roughly the same.</p>
-<p>This is not a coincidence. In a globally connected world, the prices of comparable-quality goods converge across nations. The supply chain efficiencies, the arbitrage by multinational companies, the simple reality that raw materials trade on global markets in dollars &ndash; all of this means that your &ldquo;cheap rupee&rdquo; buys you less and less of the same quality of life over time.</p>
-<blockquote>
-<p>Your wealth is not the number in your demat account. Your wealth is what that number can buy you &ndash; how many years of retirement, how many international trips, what quality of healthcare, what calibre of education for your children.</p>
-</blockquote>
-<p>Consider a more extreme illustration. You might be worth 100 crores in India today. If your actual inflation rate is 10-12% (which it easily is in the segment of people who invest and consume quality goods), and your ability to generate returns is 5% (the after-tax return on an FD), you are losing 5-7% of your purchasing power every year. At 7% annual erosion, your 100 crores of purchasing power gets cut in half in 10 years. The number in your bank account might still say 100 crores, or even 150 crores, but what you can buy with it has been gutted.</p>
-<p>This is not scaremongering. It is arithmetic.</p>
-<p>The practical question becomes: what is the real hurdle rate? Not the nominal return you need, but the actual post-tax, post-inflation, currency-adjusted return you need to genuinely grow your purchasing power?</p>
-<p><strong>The answer is that you need to beat 7-8% dollar inflation in the world, post taxes.</strong> That is your benchmark. Not the Nifty 50. Not your neighbour&rsquo;s portfolio. Not your mutual fund&rsquo;s 3-star rating. The question is starkly simple: what is your strategy to beat 7-8% real global inflation after all costs?</p>
-<hr />
+        <p>Three percent here. Four percent there. Each layer feels almost negligible in any single year. Watch them compound for thirty years and you will not recognise the curve.</p>
+
+        <p>Below is one of the most important charts in personal finance, and one almost no SIP calculator will show you. Three lines from the same starting point. The top one is what your brokerage app displays &mdash; nominal wealth growing at the headline rate. The middle line is the same path after the tax-man takes their cut on every realisation. The bottom line is what you can actually <em>spend</em> &mdash; after taxes, after inflation, and after currency depreciation has eaten into globally-priced goods.</p>
+
+        <!-- Widget 1: Inflation-Adjusted Wealth Eroder -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 — The Three-Layer Wealth Eroder</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row four">
+            <div class="slider-group">
+              <div class="slider-label"><span>Nominal return</span><span class="slider-value" id="w1-r-val">12%</span></div>
+              <input type="range" id="w1-r" min="5" max="20" value="12" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Inflation</span><span class="slider-value" id="w1-pi-val">8%</span></div>
+              <input type="range" id="w1-pi" min="3" max="12" value="8" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Tax on gains</span><span class="slider-value" id="w1-tax-val">12.5%</span></div>
+              <input type="range" id="w1-tax" min="0" max="35" value="12.5" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Currency drift</span><span class="slider-value" id="w1-fx-val">4%</span></div>
+              <input type="range" id="w1-fx" min="0" max="8" value="4" step="0.25">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">Terminal real CAGR</div><div class="stat-cell-value" id="w1-cagr">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Treadmill years</div><div class="stat-cell-value" id="w1-double">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Nominal-to-real gap @ year 30</div><div class="stat-cell-value" id="w1-gap">—</div></div>
+          </div>
+          <p class="widget-hint">Slide the sliders. The top line is what the SIP calculator shows you. The bottom line is what you can actually buy with the money. The widening gap between them is the entire point of this article.</p>
+        </div>
+
+        <p>Drag the sliders to anything resembling Indian reality &mdash; 12% nominal, 8% inflation, 12.5% tax, 4% currency drift &mdash; and the real CAGR settles somewhere between zero and two percent. The "treadmill years" number is the most depressing on the panel: the number of years your real wealth needs just to <em>double</em>, holding nominal returns constant. At Indian real-return rates, doubling takes 35 to 70 years. A working life.</p>
+
+        <p>A few canonical scenarios to anchor your intuition:</p>
+
+        <ul>
+          <li><strong>The complacent Indian SIP holder:</strong> 12% nominal, 8% inflation, 12.5% LTCG, 4% INR drift. Real CAGR roughly 0.5%. Treadmill years: ~140.</li>
+          <li><strong>The UAE-resident NRI:</strong> 12% nominal INR equity, 4% inflation (UAE basket), 0% tax, 0% currency drift (AED peg). Real CAGR roughly 5.4%. Treadmill years: ~13.</li>
+          <li><strong>The US-tech holder:</strong> 15% nominal USD, 3% USD inflation, 0% interim tax (deferred until sale), 0% currency drift. Real CAGR roughly 11.7%. Treadmill years: ~6.</li>
+          <li><strong>The retiree in a rate-hike regime:</strong> 6% nominal (laddered FD), 10% experienced inflation, 30% interest tax, 4% INR drift. Real CAGR: solidly negative. Treadmill years: infinite. This is the FD trap, visualised.</li>
+        </ul>
+
+        <p>Then try the same exercise with a US-equivalent portfolio. 15% nominal in USD, 3% USD inflation, 0% currency drift if you live in a dollar economy, 0% tax until realisation. The terminal real wealth at year 30 sits 5&ndash;8&times; higher than the Indian-portfolio path. Same compounding mechanic; different inputs. The dollar-based investor is not smarter or harder-working &mdash; they are simply running through a tax-and-inflation regime that takes a smaller cut.</p>
+
+        <p>Run it again with an "Indian portfolio held through a UAE tax residency." 12% nominal, 8% inflation, 0% tax, 0% currency drift (because the UAE residency is paid in AED and you spend in AED). The real CAGR jumps from near-zero to 3.7% &mdash; not stellar, but more than 4&times; the no-residency-shift baseline. Two decisions, both about <em>where</em> rather than <em>what</em>, dominate the return picture.</p>
+
+        <blockquote>
+          <p>The investor running on a treadmill does not see they are stationary, because the dashboard is showing the speed of the belt, not the speed of the runner. The whole job of this widget is to show you the runner.</p>
+        </blockquote>
+
+        <p>This is also the answer to "should I switch from Nifty to QQQ?" Plug in 15% nominal, 3% USD inflation, 0% currency, 0% tax (in a jurisdiction that allows it). The bottom line stays close to the top line. The gap stays narrow. That is what compounding looks like when the layers are working <em>for</em> you instead of against you.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the post-tax line is a simplification</summary>
+          <p>Widget 1 applies the tax rate as a continuous drag on the annual return: <span class="math">r &times; (1 &minus; tax)</span>. In reality, capital-gains tax is paid only when you realise the gain, not annually. A buy-and-hold position with deferred LTCG compounds slightly faster than the widget shows.</p>
+          <p>The simplification is conservative for buy-and-hold and accurate for active rotation strategies where positions turn over frequently. For most retail investors with a mix of holding and rotation, the widget's continuous-tax assumption is within 0.3&ndash;0.5% of the realistic answer over 30 years &mdash; small compared to the inflation and currency effects it visualises.</p>
+        </details>
+
+        <p>Pay close attention to how non-linearly small numbers compound here. Move inflation from 7% to 8% &mdash; a single percentage point &mdash; and the terminal real wealth at year 30 falls by roughly a quarter. Add another point of tax drag and the runway extends by years. This is why people who say "inflation is only 6%, not the end of the world" do not understand inflation. The end of the world is what happens when you stretch a one-point gap across thirty years.</p>
+
+        <p>The red shaded band between the nominal line and the real line is the gap you do not get to spend. It is the wealth that exists on the brokerage app and does not exist anywhere else. The bigger that band, the more your portfolio has been transferred from you to the three layers above. Tax, currency, inflation. Three counterparties you did not choose, all collecting from the same pot.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-the-high-inflation-world-why-the-problem-is-getting-worse">
+    <!-- ============================================================
+         IV. The Starbucks Test
+         ============================================================ -->
+    <section class="reveal" id="iv-starbucks">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. The High-Inflation World: Why the Problem Is Getting Worse</h2>
+        <h2>Why is purchasing-power parity the only honest benchmark?</h2>
       </div>
       <div class="section-content">
-        <p>Before we look at how Indian equity returns have decelerated, it is critical to understand that the inflation side of the equation is accelerating. We are moving into a structurally high-inflation world, and the forces driving it are not going away.</p>
-<p>Professor Damodaran of NYU Stern made an observation that cuts to the heart of this: <strong>interest rates in the economy go up when expected inflation goes up.</strong> If you are putting your money in FDs at 5-6%, and the expected inflation is higher than that, you should not be happy with 5-6%. You should demand a higher return. But in practice, the central banks are pursuing a conflicting mandate &ndash; they want growth, which means keeping interest rates as low as possible, while inflation keeps pulling rates higher. Something does not add up.</p>
-<p>Here is what is happening under the hood:</p>
-<ul>
-<li>The Fed keeps interest rates low to increase money supply and velocity in the economy.</li>
-<li>Once that money supply (M1) is increased, it translates into demand for higher yields, because investors expect inflation to rise.</li>
-<li>This creates a massive breakdown in the bond market.</li>
-<li>The traditional inverse relationship between equities and bonds &ndash; where one acted as a hedge against the other &ndash; is now broken. Both can fall simultaneously.</li>
-</ul>
-<p>The old portfolio construction playbook of 60% equities and 40% bonds no longer provides the safety it once did<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
-<p>The practical implications hit you directly. Governments worldwide are pursuing &ldquo;growth&rdquo; through easy money, but this growth is not real &ndash; it is liquidity-driven. Assets go up 10-15% per year in nominal terms, but inflation in countries like India runs at 9-10% for the investing class. The real growth of wealth is 2-3% for people who invest, and outright negative for those who do not. People who put their money in PF, PPF, and EPF &ndash; instruments that were designed as long-term savings vehicles &ndash; will suffer badly due to super-high inflation and long lock-in periods that prevent them from redeploying capital.</p>
-<p>The cost-of-living crisis is already here. People are witnessing it in every area of their lives &ndash; housing, food, services, transportation. But the official inflation numbers do not capture it because governments are redesigning their inflation baskets and underreporting the true figures. The gap between measured inflation and experienced inflation is itself a form of hidden taxation.</p>
-<blockquote>
-<p>In simple terms: the inflation you need to beat is not the 5-6% that the CPI says. It is the 9-12% that you actually experience. And that difference &ndash; the 3-6% gap between official and real inflation &ndash; is silently destroying the purchasing power of every investor who measures performance in nominal terms.</p>
-</blockquote>
-<p>In this high-inflation world, the 30-year Treasury yield tells its own story. When it spikes, it means investors are demanding higher returns for holding US debt. A sudden spike typically means a counterparty might be selling &ndash; for example, China selling US bonds to teach the US a lesson about who the big player really is. To maintain demand, higher yields must be offered. This needs to be read alongside the DXY (dollar index), which indicates the strength of USD relative to other global currencies. DXY getting weaker means USD is getting cheaper, and long-term investors may be moving out of bonds entirely.</p>
-<p>The implications cascade through everything:</p>
-<ul>
-<li>International investors might buy more US-denominated assets as USD gets cheaper, making those assets more lucrative.</li>
-<li>The demand for treasuries might be falling in the long term. People do not wish to hold bonds for now.</li>
-<li>The ERP (equity risk premium) goes higher as bond yields rise, making the stock market a higher-risk, higher-reward game.</li>
-</ul>
-<p>In simple terms: US markets that used to deliver 10% CAGR with 50 units of volatility are now likely to deliver 10.5% CAGR with 80 units of volatility. The return is marginally higher because inflation itself is higher, but the ride is significantly rougher. And the old hedge &ndash; bonds going up when stocks go down &ndash; no longer works. Both can fall simultaneously, leaving you with nowhere to hide except hard assets.</p>
-<p>This is the macro backdrop every investor faces. The question is no longer whether inflation will erode your returns. It will. The question is how fast, and what you are doing about it.</p>
-<hr />
+        <p>Abstract percentage returns are hard to feel. The Starbucks test makes them concrete.</p>
+
+        <p>Walk into a Starbucks in the UAE and order an espresso. You will pay about 16 AED, which converts to roughly &#8377;376. Walk into a Starbucks in India and order the same espresso &mdash; you will pay about &#8377;250. Adjust for the roughly 30% effective tax differential between jurisdictions and the post-tax cost comes out within a few percent of each other. The drink is the same. The bean is the same. The barista's wage differs, the rent differs, but the global-arbitrage layer pulls the all-in price toward a single line.</p>
+
+        <p>This is not a coincidence. In a globally connected world, the prices of comparable-quality goods converge across nations. Supply-chain efficiencies, multinational arbitrage, raw materials trading in dollars on global markets &mdash; all of this means a "cheap rupee" buys less and less of the same quality of life over time. The exchange rate is not just a number; it is the discount your savings take when measured in goods anyone in the world can buy.</p>
+
+        <blockquote>
+          <p>Your wealth is not the number in your demat account. Your wealth is what that number can buy &mdash; how many years of retirement, how many international trips, what quality of healthcare, what calibre of education for your children.</p>
+        </blockquote>
+
+        <p>Consider a more extreme illustration. You might be worth &#8377;100 crores in India today. If actual experienced inflation is 10&ndash;12% (which it easily is in the segment of people who invest and consume quality goods), and your ability to generate post-tax returns is 5% (an FD), you are losing 5&ndash;7% of purchasing power every year. At 7% annual erosion, your &#8377;100 crores of purchasing power gets cut in half in ten years. The number in your bank account might still say &#8377;100 crores, or even &#8377;150 crores. What you can buy with it has been gutted.</p>
+
+        <p>This is not scaremongering. It is arithmetic.</p>
+
+        <p>The practical question becomes: what is the real hurdle rate? Not the nominal return you need, but the actual post-tax, post-inflation, currency-adjusted return required to genuinely grow purchasing power?</p>
+
+        <p><strong>The answer is that you need to beat 7&ndash;8% real global dollar inflation, post taxes.</strong> That is your benchmark. Not the Nifty 50. Not your neighbour's portfolio. Not your mutual fund's 3-star rating. The question is starkly simple: what is your strategy to beat 7&ndash;8% real global inflation after all costs? If you cannot answer that, the rest is theatre.</p>
+
+        <p>The Big Mac index, the iPhone index, the Toyota Camry index &mdash; pick whichever consumer good you actually buy. Every one of them tells the same story: across reasonably-developed economies, the all-in cost (taxed, shipped, supported, financed) converges within a band of 10&ndash;20%. The wedge between countries is mostly explained by tax regime, labour cost in the local service layer, and shipping friction. Once you account for those three, the price of comparable quality is roughly the same in Bombay, Bangkok, and Berlin. The investor who treats &#8377;1 in Mumbai as functionally identical to 0.012 USD in Dallas is in for a surprise the first time they need a heart-bypass surgery or a graduate degree.</p>
+
+        <p>This is the deepest reason indexing your wealth to a single currency is a trap. The currency is a unit of measure, not a unit of value. The value is the basket of things the unit can buy. When the basket and the unit float apart &mdash; which is what currency depreciation is &mdash; you lose value silently, even as the unit count rises.</p>
+
+        <p>A few concrete cross-jurisdiction price anchors, post-tax, that illustrate the parity:</p>
+
+        <ul>
+          <li>A new iPhone Pro: roughly &#8377;1.4 L in India, &#36;1,000+sales-tax in the US (~&#8377;90K at 90/USD), 4,500 AED in the UAE (~&#8377;1.05 L). Within 30% even before adjusting for income-tax differential.</li>
+          <li>A Toyota Camry equivalent: &#8377;48&ndash;50 L in India, &#36;30&ndash;35K in the US, similar in the UAE. The Indian price is meaningfully higher due to import duty.</li>
+          <li>An MBA from a top-30 US business school: &#36;150K all-in over two years &mdash; about &#8377;1.35 Cr. The same education, attempted at the equivalent Indian institution, is dramatically cheaper but also gives access to a smaller career-outcome distribution.</li>
+          <li>A heart bypass: &#36;100K in the US, &#36;15&ndash;20K in India for comparable-quality private hospital. This is the rare category where India is genuinely cheaper.</li>
+        </ul>
+
+        <p>The takeaway: India is cheaper for labour-intensive services (healthcare, domestic help, education at the lower end), neutral for globally-traded goods, and dramatically more expensive on a tax-equivalent basis for high-end luxury and imports. The blend of inflation any individual experiences depends entirely on which side of that mix their consumption sits on.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-the-nifty-deceleration-why-history-will-not-repeat">
+    <!-- ============================================================
+         V. The Nifty deceleration
+         ============================================================ -->
+    <section class="reveal" id="v-nifty">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. The Nifty Deceleration: Why History Will Not Repeat</h2>
+        <h2>Why won't the next twenty years of Nifty look like the last twenty?</h2>
       </div>
       <div class="section-content">
-        <p>The problem becomes even more acute when you look at the structural trajectory of the Indian market. The popular narrative &ndash; invest in the Nifty for 20 years, you will be rich &ndash; relies on an implicit assumption that the next 20 years will look like the last 20. The data suggests otherwise.</p>
-<p>Break the Nifty 50 into phases:</p>
-<ul>
-<li>
-<p><strong>1999 to 2007</strong>: The Nifty went from 1,000 to approximately 5,185. A 5x return in roughly 9 years. This was the golden period &ndash; India was opening up, PE expansion was enormous, fresh capital was pouring in from FIIs discovering India for the first time.</p>
-</li>
-<li>
-<p><strong>2010 to 2019</strong>: After recovery from the 2008 crash, the Nifty went from roughly 6,000 to 12,500. A 2x return. On a CAGR basis, this is <strong>8-8.5% pre-tax</strong>. In dollar-adjusted terms, Indian markets gave approximately 2% cumulative appreciation across this entire decade. That is not 2% per year. That is 2% total.</p>
-</li>
-<li>
-<p><strong>October 2021 to February 2025</strong>: The Nifty has given 19% nominal returns. In that same period, INR has eroded by 18%. So the effective net gain over four years is <strong>1%</strong>. That is a <strong>0.23% CAGR</strong> in dollar terms.</p>
-</li>
-</ul>
-<p>The pattern is unmistakable: each successive phase has delivered lower real returns than the previous one. The market is maturing. The easy PE expansion from a low base is done. The demographic dividend narrative is priced in. The structural advantages that made Indian equities a screaming buy in 2003 no longer exist in the same magnitude.</p>
-<p>Mutual fund houses mix the data from all these phases together and tell you to invest for 20 years and expect magical compounding. This is what historians call a <strong>historian&rsquo;s fallacy</strong> &ndash; the assumption that because something happened in the past under a specific set of conditions, it will happen again under different conditions. Almost 99% of investors in India are making this mistake.</p>
-<p>Now add the tax trajectory on top of decelerating returns. LTCG was 0% before 2018, then 10%, now 12.5%. In the last 5 years NIFTY has gone up by 125%, but usually this should be around 100%, so therefore the investments you make now are unlikely to generate more than 11% CAGR on a historic basis. The government cultivates an asset class first, promotes it through &ldquo;SIP karo&rdquo; advertisements, gets broad adoption, and then starts extracting its pound of flesh. Where do you see LTCG in 2030? In 2035?</p>
-<p>If returns are decelerating and taxes are escalating, the real return for the next 20 years could be significantly worse than the last 20. And the small/mid cap investors who chased growth? They have witnessed 40-50% corrections that have wiped years of hard work. In real terms, adjusted for currency and inflation, these investors have experienced genuine, deep wealth destruction.</p>
-<p>Here is another way to see the problem. People look at &ldquo;value&rdquo; stocks like HUL and think they are being conservative. But even value stocks in India are unlikely to generate more than 15% CAGR. For people taking market risk, these are low returns. Growth stocks like CDSL, Angel One, Motilal Oswal, Jio Finance, and IDFC First Bank &ndash; these have fallen 2-2.5x compared to the broader market during corrections. They rise fast and fall fast. India has a structural issue with its economy right now, so people are betting less on growth and more on value. But if funds keep buying just value stocks, you will not see more than 15% CAGR. And 15% nominal in INR, after taxes and currency adjustment, barely clears the real-returns hurdle.</p>
-<p>The point is not that India is uninvestable. The point is that the easy money era in Indian equities is over. Time in the market is not necessarily better than timing the market &ndash; and the data backs this up. If you as an investor do not capture the asymmetric gain phases &ndash; the 20% dips, the bear market bottoms &ndash; you will not make much money. Brave people make money in the market. Think independently. Look at the data. And do not miss great buying opportunities.</p>
-<hr />
+        <p>The popular narrative &mdash; invest in the Nifty for 20 years, you'll be rich &mdash; relies on an implicit assumption that the next 20 years will look like the last 20. The data suggests otherwise.</p>
+
+        <p>Break the Nifty 50 into phases:</p>
+
+        <ul>
+          <li><strong>1999&ndash;2007:</strong> from 1,000 to roughly 5,185. A 5&times; return in nine years. The golden period &mdash; India opening up, PE expansion, fresh FII capital discovering the market.</li>
+          <li><strong>2010&ndash;2019:</strong> from roughly 6,000 to 12,500. A 2&times; return; about 8&ndash;8.5% pre-tax CAGR. In dollar-adjusted terms, Indian markets gave approximately 2% <em>cumulative</em> appreciation across the entire decade.</li>
+          <li><strong>Oct 2021 &ndash; Feb 2025:</strong> Nifty up 19% nominal. INR down 18% in the same window. Effective net dollar gain across four years: 1%. That is a 0.23% CAGR.</li>
+        </ul>
+
+        <p>The pattern is unmistakable: each successive phase has delivered lower real returns than the previous one. The market is maturing. The easy PE expansion from a low base is done. The demographic-dividend narrative is priced in. The structural advantages that made Indian equities a screaming buy in 2003 no longer exist in the same magnitude.</p>
+
+        <p>Mutual fund houses mix data from all these phases together and tell you to invest for 20 years and expect magical compounding. This is what historians call a <strong>historian's fallacy</strong> &mdash; assuming that because something happened under a specific set of conditions, it will happen again under different conditions. Almost every retail investor in India is making this mistake.</p>
+
+        <p>Three forces drove the 1999&ndash;2007 boom that no longer apply at remotely the same magnitude:</p>
+
+        <ul>
+          <li><strong>Foreign-capital discovery.</strong> India was effectively closed to global equity flows until liberalisation. Once the gates opened, foreign institutional buying drove a one-time rerating that simply cannot repeat. The marginal foreign buyer of Indian equity in 2025 already owns plenty.</li>
+          <li><strong>PE expansion off a low base.</strong> The Nifty was trading at single-digit forward multiples in 2002. Multiples doubled and tripled. Today's starting multiple is 22&ndash;24&times;, leaving no obvious room for that mechanic again.</li>
+          <li><strong>Demographic-dividend optimism.</strong> The narrative that a young workforce would drive sustained 8&ndash;10% real GDP growth got priced in fully by 2019. Actual delivered real GDP has tracked closer to 6%, and inflation has eaten the rest.</li>
+        </ul>
+
+        <p>None of these three forces is coming back. If you are extrapolating from 1999&ndash;2007 you are extrapolating from a once-in-a-generation regime change that has already happened. The next twenty years cannot, by construction, contain another opening of the same gates.</p>
+
+        <p>Now layer on the tax trajectory. LTCG was 0% before 2018, then 10%, now 12.5%. In the last five years Nifty went up 125%; usually that range is closer to 100%, so the investments you make now are unlikely to generate more than 11% CAGR on a historic-base-rate basis. The government cultivates an asset class first, gets broad adoption, then starts extracting. Where will LTCG be in 2030? In 2035?</p>
+
+        <p>Add in the fact that the broader macro plumbing has changed. The classic 60/40 portfolio relied on equity-bond correlation being reliably negative &mdash; bonds going up when stocks fell. From 2022 onward that correlation flipped positive in most of the developed world<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. The old hedge no longer hedges. The same regime change is happening in Indian credit: bonds and equities now sell off together in stress windows, and the diversification you thought you had does not exist.</p>
+
+        <p>If returns are decelerating, taxes are escalating, and the diversifying assets have stopped diversifying, the real return for the next 20 years could be significantly worse than the last 20. The small/mid-cap investors who chased growth? They have witnessed 40&ndash;50% corrections that have wiped years of work. In real terms, adjusted for currency and inflation, these investors have experienced genuine, deep wealth destruction &mdash; even when their nominal P&amp;L looks vaguely positive.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the small-cap "premium" is largely an illusion in real terms</summary>
+          <p>The historical academic argument for owning small caps is the "size factor" &mdash; the long-run finding that smaller companies have outperformed larger ones on average, by roughly 2&ndash;3% per year in US data. Multiple papers since 2010 have questioned whether this premium still exists after fees, transaction costs, and survivorship bias.</p>
+          <p>In Indian small-cap data, the surface-level outperformance versus Nifty is real, but it is achieved through volatility that materially erodes the geometric mean. A series that returns +60% then &minus;40% has the same arithmetic mean as one that returns +20% each year, but the terminal wealth is dramatically lower. Indian small-caps deliver that asymmetry: cheerful arithmetic means, brutal geometric means. The real-returns investor wants the second number, not the first.</p>
+        </details>
+
+        <p>The point is not that India is uninvestable. The point is that the easy-money era in Indian equities is over. Time in the market is not necessarily better than timing the market &mdash; the data backs this up. India rewards activity and rotation. Treating it as a buy-and-hold compounding machine is a strategy that has already stopped working.</p>
+
+        <p>One way to see why the deceleration is structural rather than cyclical: the Nifty's P/E expansion has done most of the heavy lifting in every previous phase. From 1999 to 2007, multiples expanded from roughly 10&times; to 25&times;. That is a 2.5&times; tailwind on top of whatever the earnings did. From 2010 to 2019, multiples drifted from 22&times; to 27&times; &mdash; a much smaller boost. Today, the Nifty trades around 22&ndash;24&times; earnings, which is roughly where developed markets sit. There is no rerating runway left. Future returns must come from earnings growth alone, which is far harder to engineer than multiple expansion.</p>
+
+        <p>Compare that with the US, where the same mechanic still has room. The S&amp;P 500 trades around 22&times; trailing, but the Nasdaq 100 has the additional kicker of monopoly tech businesses with 25&ndash;35% earnings growth coming through. Even at static multiples, those earnings double a portfolio every three to four years. India's headline earnings growth has been in the 8&ndash;12% range for a decade now &mdash; a number that takes eight to ten years just to double, before you net out any of the three layers above.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-the-fd-trap-the-uae-test-and-what-actually-beats-inflation">
+    <!-- ============================================================
+         VI. The FD trap calculator (WIDGET 2)
+         ============================================================ -->
+    <section class="reveal" id="vi-fd-trap">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. The FD Trap, the UAE Test, and What Actually Beats Inflation</h2>
+        <h2>Why is your FD a slow wealth-destruction machine?</h2>
       </div>
       <div class="section-content">
-        <p>If the equity market&rsquo;s real returns are barely positive, what about &ldquo;safe&rdquo; assets like fixed deposits? Here the picture is even worse.</p>
-<p>Post-tax FD rates in India are approximately 5% for most investors. If inflation in your segment is 11-12% (which it realistically is for middle-class urban Indians when you account for housing, education, healthcare, and lifestyle inflation), you are not earning a safe 5%. You are losing 6-7% of your purchasing power every single year. Your FD is not a savings instrument. It is a wealth destruction machine operating in slow motion.</p>
-<p>Now consider the comparison with a genuinely zero-tax jurisdiction. In the UAE, you can get an FD at 4.75% in AED terms. Since AED is pegged to USD, there is no currency depreciation. Adjust for the fact that the INR depreciates 4-5% against the USD annually &ndash; that AED-denominated FD effectively yields 9-10% in INR terms. And with 0% capital gains tax in the UAE, this is a genuinely risk-free return of <strong>10.5-11%</strong>.</p>
-<p>So a completely risk-free instrument in the UAE delivers a higher effective return in INR terms than what most Indian equity investors earn after taking significant market risk. Unless the Indian market generates at least 15-16% nominal returns for sophisticated investors &ndash; FIIs, HNIs, NRIs who have the option to deploy capital elsewhere &ndash; there is no rational reason for them to accept Indian equity market risk.</p>
-<p>This is not a theoretical comparison. It explains exactly why FIIs have been leaving Indian markets in record numbers. They invest in foreign currency, convert to INR, generate returns in the Indian market, and then convert back to their home currency. When the INR is constantly falling, their returns get eaten alive by currency depreciation. The move to increase LTCG from 10% to 12.5% made this worse. When 100 goes to 150 and you pay 12.5% on the 50 gain, it is somewhat tolerable. But when 100 goes to 110, and you pay 12.5% on the 10 gain, the total post-tax, post-currency return looks absurd for the risk taken.</p>
-<p>India&rsquo;s Provident Fund tells the same story. PF rates in 2001 were 8.5-9%. Now they sit at 8.1% despite record inflation. <strong>In real terms, these are not assets anymore. You are actively losing wealth by investing in them.</strong></p>
-<p>Now look at what actually generates real returns globally. Consider the QQQ (Nasdaq 100 ETF):</p>
-<ul>
-<li>Last 5 years CAGR: <strong>12.95%</strong> (in USD)</li>
-<li>Last 10 years CAGR: <strong>19%</strong></li>
-<li>Last 15 years CAGR: <strong>19.5%</strong></li>
-<li>Last 30 years CAGR: <strong>13.97%</strong></li>
-</ul>
-<p>These returns are in USD. There is no currency depreciation to subtract. If you had invested 100,000 USD equally weighted across Meta, Microsoft, Amazon, and Netflix ten years ago, that portfolio would have grown to approximately 561,000 USD. That is a <strong>CAGR of 19% in dollar terms</strong>, or roughly <strong>23-24% in INR terms</strong>. No currency headwind &ndash; you actually benefit from INR depreciation on the translation back.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>If equity real returns are barely positive, what about "safe" assets like fixed deposits? The picture is worse.</p>
 
-<p>Meta alone tells a compelling story. Here is the EPS CAGR:</p>
-<ul>
-<li>Last 3-year EPS CAGR: <strong>20.7%</strong> per year</li>
-<li>Last 5-year EPS CAGR: <strong>30.6%</strong> per year</li>
-<li>Last 10-year EPS CAGR: <strong>36.2%</strong> per year</li>
-</ul>
-<p>In India, we keep looking for 20% CAGR opportunities in INR terms. But when a monopoly stock gives 25% CAGR in INR terms, we are too scared to invest.</p>
-<p>The structural reason for this gap is simple. Real returns come from whatever adds to real GDP growth. Tech firms drive GDP forward &ndash; that is not speculation, it is measurable. The hyperscaler capex spending is funded from free cash flows, not speculative capital raises. Compare this with Indian manufacturing: a firm borrows at 8-9%, GDP grows at 6%, the firm generates 9-10% CAGR. What is the real growth? Close to nothing. The cost of capital is almost as high as the nominal return.</p>
-<p>And here is the uncomfortable part. The US has monopoly tech platforms &ndash; Meta, Microsoft, Amazon, Google, Apple, NVIDIA &ndash; that generate operating margins of 28-61%, grow earnings at 20-40% CAGR over long periods, and trade in a hard currency. India has no equivalent growth assets at that scale. India is not meaningfully participating in AI. India does not have firms generating those kinds of margins or growth rates. The US creates intellectual property that scales at near-zero marginal cost. India creates goods and services that require linear inputs of capital and labour. The returns follow accordingly.</p>
-<p>This does not mean Indian equities are useless. It means they serve a different purpose in a portfolio. India is for trading and capital rotation. The US is for long-term compounding. Treating Indian equities as a buy-and-hold, 20-year SIP machine is a strategy that has already stopped working in real terms.</p>
-<hr />
+        <p>Post-tax FD rates in India are approximately 5% for most investors. If experienced inflation is 11&ndash;12% (realistic for middle-class urban India once you include housing, education, healthcare, and lifestyle), you are not earning a safe 5%. You are losing 6&ndash;7% of purchasing power every year. The FD is not a savings instrument. It is a wealth-destruction machine operating in slow motion.</p>
+
+        <p>The FD's marketing has been so effective that most Indian families still think of it as the "safe" anchor in a portfolio. Decompose what that "safety" actually means:</p>
+
+        <ul>
+          <li><strong>Nominal safety:</strong> the rupee number cannot go down. True. Largely meaningless.</li>
+          <li><strong>Real safety:</strong> the purchasing power of the deposit. Falling at 6&ndash;7% per year for a typical urban investor.</li>
+          <li><strong>Optionality safety:</strong> can you redeploy when an opportunity comes? Mostly no &mdash; FD lock-ins or early-withdrawal penalties bite hard exactly when you want to act on a market dislocation.</li>
+          <li><strong>Counterparty safety:</strong> the bank cannot fail. Mostly true, but DICGC insurance caps at &#8377;5 lakh per depositor per bank &mdash; a number that has not been revised in line with inflation either.</li>
+        </ul>
+
+        <p>The only thing the FD is safe <em>from</em> is the headline-number drop. It is unsafe in every other dimension that matters to a real-returns investor.</p>
+
+        <p>Compare the same principal across four instruments. All four numbers are in the same currency. All four are measured in real terms &mdash; what they can <em>buy</em> &mdash; at the end of twenty years.</p>
+
+        <p>The widget below sets the same starting principal &mdash; default &#8377;10 lakh, but slide it from one lakh to ten crore and watch the relative ranking stay identical. The bars are scale-invariant. What changes is your emotional reaction. At &#8377;1 lakh principal the gap between the FD bar and the QQQ bar feels academic. At &#8377;10 crore principal the same multiplicative gap is a difference of crores per year in living standard, indefinitely, for the rest of your life. Same arithmetic. Different felt stakes.</p>
+
+        <!-- Widget 2: FD Trap Calculator -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 — Four Instruments, Twenty Years, Real Wealth</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Principal</span><span class="slider-value" id="w2-p-val">&#8377;10 L</span></div>
+              <input type="range" id="w2-p" min="1" max="100" value="10" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Inflation</span><span class="slider-value" id="w2-pi-val">8%</span></div>
+              <input type="range" id="w2-pi" min="5" max="12" value="8" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>INR/USD drift</span><span class="slider-value" id="w2-fx-val">4%</span></div>
+              <input type="range" id="w2-fx" min="0" max="8" value="4" step="0.25">
+            </div>
+          </div>
+          <p class="widget-hint">All four bars show the <em>real, post-tax, purchasing-power-adjusted</em> wealth after 20 years, in today's rupees. The "safe" FD is the worst real-return instrument. The ostensibly risky US tech ETF is the only one that genuinely preserves wealth.</p>
+        </div>
+
+        <p>Now look at the genuinely zero-tax jurisdictions. In the UAE you can get an FD at 4.75% in AED, and AED is pegged to USD &mdash; no currency depreciation. Adjust for the fact that the INR depreciates 4&ndash;5% against the USD annually, and that AED-denominated FD effectively yields 9&ndash;10% in INR terms. With 0% capital-gains tax in the UAE, the all-in risk-free return is <strong>10.5&ndash;11%</strong> in INR-equivalent purchasing power. A completely risk-free instrument in the UAE delivers a higher effective return in INR terms than what most Indian equity investors earn after taking significant market risk.</p>
+
+        <p>Unless the Indian market generates at least 15&ndash;16% nominal returns for sophisticated investors &mdash; FIIs, HNIs, NRIs who can deploy capital elsewhere &mdash; there is no rational reason for them to accept Indian equity market risk. This is not theory. It is exactly why FIIs have been leaving Indian markets in record numbers since LTCG rose from 10% to 12.5%. When 100 goes to 150 and you pay 12.5% on the 50 gain, it is tolerable. When 100 goes to 110, and you pay 12.5% on the 10 gain plus eat 18% currency depreciation, the post-tax, post-currency return looks absurd for the risk taken.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — the AED peg isn't free</summary>
+          <p>The UAE pegs AED to USD at 3.6725. That peg is maintained by the central bank holding large USD reserves and standing ready to defend the rate. The country can afford this only because oil revenues throw off persistent USD inflows. Pegs that look solid for decades have broken when the underlying current-account surplus disappears &mdash; Argentina 2001, Switzerland 2015. The AED peg is not a law of nature; it is a policy choice underwritten by oil.</p>
+          <p>The practical implication is mild &mdash; the UAE has effectively unlimited reserves and the peg has held since 1997 &mdash; but it is the only honest reason to size positions sensibly rather than treating AED as literally USD.</p>
+        </details>
+
+        <p>India's Provident Fund tells the same story in slow motion. PF rates were 8.5&ndash;9% in 2001. Today they sit at 8.1% despite record inflation. <strong>In real terms, these are not assets anymore. You are actively losing wealth by holding them.</strong> The instruments designed as long-term savings have become long-term lock-ins on instruments that no longer beat inflation.</p>
+
+        <p>The widget you just ran has a useful side effect: it gives you a single number &mdash; the real CAGR &mdash; that collapses the four-input mess into one comparable metric. Hold that metric across instruments and rank them. Most retail investors have never produced this ranking. They have a vague sense that equities beat FDs and that NRIs do better, but no concrete number.</p>
+
+        <p>Two more things the widget makes visible that the brochure never does:</p>
+
+        <ul>
+          <li><strong>Below-principal bars are flagged with a "↓ destroyed" marker.</strong> If the bar is shorter than the dashed principal line, the instrument has not preserved purchasing power. The starting amount has been quietly transferred to the tax, inflation, and currency layers. This is what wealth destruction looks like on a chart: the asset still exists in nominal terms, but in real terms it is smaller than it started.</li>
+          <li><strong>The relative ranking is stable across realistic inflation assumptions.</strong> Slide inflation from 5% to 12%. The order of the bars rarely changes. Indian FD stays last; US tech stays first. What changes is the magnitude of the gap and whether the middle two cross the principal line. The hierarchy is structural, not parameter-dependent.</li>
+        </ul>
+
+        <p>The relative ranking of common Indian-resident options, sorted by 20-year real outcome at realistic inflation:</p>
+
+        <ul>
+          <li><strong>Worst:</strong> savings-account balance, EPF, PPF, traditional endowment insurance &mdash; all running well below experienced inflation, all locked in or behaviourally sticky.</li>
+          <li><strong>Bad:</strong> bank FDs, NSC, Kisan Vikas Patra &mdash; the headline rate barely matches official CPI, let alone experienced inflation.</li>
+          <li><strong>Marginal:</strong> Indian large-cap mutual funds, Nifty 50 index funds &mdash; real returns hovering near zero after the four-layer stack.</li>
+          <li><strong>Decent:</strong> selectively-rotated Indian mid-caps, gold, Indian REITs with hard-asset cash flow &mdash; real returns positive but volatile, requires active management.</li>
+          <li><strong>Best:</strong> US equity (via direct overseas or LRS-routed broker), US tech ETFs, Bitcoin, real estate in hard-currency jurisdictions, UAE/Singapore deposits &mdash; the only categories with consistent positive real returns at scale.</li>
+        </ul>
+
+        <p>Now look at what actually generates real returns globally. The QQQ (Nasdaq 100 ETF) has delivered roughly 13% CAGR over the last five years in USD, 19% over ten, 19.5% over fifteen, and 14% over thirty &mdash; in <em>USD</em>, with no currency depreciation to subtract. A &#36;100,000 investment ten years ago split equally across Meta, Microsoft, Amazon, and Netflix would now be approximately &#36;561,000<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. That is roughly 19% CAGR in dollars and 23&ndash;24% in INR terms once you add the depreciation tailwind.</p>
+
+        <p>The same QQQ exposure, layered through the Fisher chain for an Indian-tax-resident investor, looks roughly like this over the last decade:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">19% USD</div><div class="stat-label">Gross QQQ CAGR (10-year)</div></div>
+          <div class="stat"><div class="stat-value">~23% INR</div><div class="stat-label">After INR depreciation tailwind</div></div>
+          <div class="stat"><div class="stat-value">~20% INR</div><div class="stat-label">After 12.5% LTCG on realisation</div></div>
+          <div class="stat"><div class="stat-value">~11% real</div><div class="stat-label">After 8% experienced inflation</div></div>
+        </div>
+
+        <p>Eleven percent <em>real</em>, post-tax, post-inflation, post-currency. Even after the four-layer haircut, a US-tech-ETF exposure clears the 7&ndash;8% real-inflation hurdle by a clear margin. Almost no Indian-equity instrument can match that math.</p>
+
+        <p>The structural reason for the QQQ-Nifty gap is simple. Real returns come from whatever adds to real GDP growth in the underlying economy. Tech firms drive GDP forward &mdash; that is not speculation, it is measurable. The hyperscaler capex spending is funded from free cash flow, not speculative capital raises. Compare with Indian manufacturing: a firm borrows at 8&ndash;9%, GDP grows at 6%, the firm generates 9&ndash;10% nominal CAGR. The real growth is close to zero because the cost of capital is almost as high as the nominal return. India creates goods and services that require linear inputs of capital and labour. The US creates intellectual property that scales at near-zero marginal cost. The returns follow accordingly.</p>
+
+        <p>This does not mean Indian equities are useless. It means they serve a different purpose in a portfolio. India is for trading and capital rotation &mdash; the next section gets concrete about what that looks like in practice. The US is for long-term compounding. Treating Indian equities as a buy-and-hold 20-year SIP machine is a strategy that has already stopped working in real terms, regardless of what the brochures say.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-real-returns-in-practice-how-the-math-changes-every-decision">
+    <!-- ============================================================
+         VII. Real returns in practice
+         ============================================================ -->
+    <section class="reveal" id="vii-portfolio">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. Real Returns in Practice: How the Math Changes Every Decision</h2>
+        <h2>How does this math change every portfolio decision?</h2>
       </div>
       <div class="section-content">
-        <p>Understanding real returns is not just an intellectual exercise. It fundamentally changes how you make every investment decision. Let me walk you through several practical applications.</p>
-<p><strong>Why 1% on large capital is not small.</strong> Many investors scoff at making 1-2% returns on a trade. But consider this: if you buy a large block of the Nifty 50 around Diwali and it goes up 1-1.5% during Muhurat Trading in three days, that is an annualized return of over 200%. I put approximately 8 crores into a Nifty 50 trade, made 2.24% in a month &ndash; that generated roughly 16 lakhs in absolute terms on a highly safe trade. The annualized CAGR on that capital deployment was 25%+. That 16 lakhs of profit then gets rotated into riskier, higher-return assets like BTC. This is how real returns compound: not through headline-grabbing percentage gains, but through deploying large capital at safe, modest returns and then rotating the profits into asymmetric opportunities.</p>
-<p><strong>Why the SGB lesson matters.</strong> The government issued Sovereign Gold Bonds, locking people into long-term debt instruments. When major SGB liabilities started maturing from end of 2023, the government reduced import duty from 15% to 6%, artificially increasing gold supply and crashing prices. This killed returns by at least 9% for SGB buyers at precisely the worst time &ndash; maturity. If you had physical gold, you had the option of booking profits earlier. The lesson? Long lock-in periods are a real-returns killer, not just because of inflation erosion, but because you lose the optionality to act when the government changes the rules on you.</p>
-<p><strong>Why commission drag is a real-returns problem.</strong> Mutual fund houses have started increasing TER (total expense ratios) by as much as 10%. Here is the math on what a 1% differential in commissions does over 40 years:</p>
-<ul>
-<li>25K SIP at 12.5% average returns = Total corpus of <strong>28.2 Crores</strong></li>
-<li>Same SIP at 11.5% (after 1% commissions) = Total corpus of <strong>21.26 Crores</strong></li>
-<li>Portfolio difference: <strong>32.6%</strong></li>
-</ul>
-<p>A 1% annual fee difference destroys almost a third of your terminal wealth. When your real returns are already thin &ndash; maybe 2-3% after taxes, inflation, and currency &ndash; a 1% commission drag wipes out a third to half of your actual wealth creation. This is why I keep saying: avoid large-cap active mutual funds. Statistically 85%+ of them do not beat even Nifty 50, and they charge the highest commissions for the privilege of underperformance.</p>
-<p><strong>Why tranche buying exists.</strong> If your real return target requires a specific entry price, going all-in at one price level is a gamble. Start with 33-40% of your intended position, add at the Bollinger Band mean, add more at the next technical support. Every rupee of better entry price flows directly to your real return. When buying a stock at current levels, the approach should be: 4-5% of portfolio initially, increase to 7-7.5% if it falls to key support, max out at 10% only at deeply discounted levels. This might take months. The patience is the strategy.</p>
-<p><strong>Why you must separate trading markets from compounding markets.</strong> India is a capital rotation market. It is not a buy-and-hold market. The data proves this: the Nifty&rsquo;s real returns over the last decade have been near zero for a buy-and-hold investor. But an active trader who bought the October 2024 dip, made 3-4% on a swing trade, exited at resistance, rotated into the next opportunity &ndash; that trader extracted real returns from a market that delivered no real returns to passive holders. India rewards activity, precision, and rotation. The US rewards patience and compounding. Confusing the two is one of the most expensive mistakes an Indian investor can make.</p>
-<hr />
+        <p>Understanding real returns is not just an intellectual exercise. It changes every decision you make.</p>
+
+        <p><strong>Why 1% on large capital is not small.</strong> Many investors scoff at 1&ndash;2% returns on a trade. Yet a 2% move on a Nifty 50 block held for three days around Muhurat trading annualises to over 200%. Eight crores into a Nifty 50 swing, 2.24% in a month, &#8377;16 lakh absolute on a near-risk-free trade. Annualised CAGR on the capital: 25%+. That &#8377;16 lakh then rotates into riskier, higher-return assets. This is how real returns compound &mdash; not through headline-grabbing percentage gains, but through deploying large capital at safe, modest returns and rotating the profits into asymmetric opportunities.</p>
+
+        <p>The mathematical reason this works is that annualised return scales by <span class="math">(1 + r<sub>period</sub>)<sup>365/days</sup> &minus; 1</span>. A 2% gain held three days is not "2%." It is roughly <span class="math">(1.02)<sup>121.7</sup> &minus; 1 &asymp; 1057%</span> annualised &mdash; though no one actually compounds that fast in practice because of the cost of holding capital between opportunities. The honest version is: a 2% gain in three days at risk-controlled exposure, repeated four to six times a year, beats most "good" stock picks because the holding period is short and the capital recycles into the next high-conviction setup.</p>
+
+        <p><strong>Why commission drag is a real-returns problem.</strong> Mutual fund houses have started increasing TER by as much as 10%. Run the math on what a 1% differential does over 40 years:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">&#8377;28.2 Cr</div><div class="stat-label">&#8377;25K SIP, 12.5% CAGR, 40 years</div></div>
+          <div class="stat"><div class="stat-value">&#8377;21.3 Cr</div><div class="stat-label">Same SIP, 11.5% (1% TER drag)</div></div>
+          <div class="stat"><div class="stat-value">32.6%</div><div class="stat-label">Terminal wealth gap</div></div>
+        </div>
+
+        <p>A 1% annual fee difference destroys almost a third of your terminal wealth. When real returns are thin &mdash; maybe 2&ndash;3% after taxes, inflation, and currency &mdash; a 1% commission drag wipes out a third to half of actual wealth creation. Statistically, 85%+ of large-cap active mutual funds do not beat the Nifty 50 &mdash; and they charge the highest commissions for the privilege of underperformance.</p>
+
+        <p>The hierarchy of fund-fee efficiency for an Indian retail investor, cheapest to most expensive:</p>
+
+        <ul>
+          <li><strong>Direct-equity (broker brokerage only):</strong> roughly 0.03&ndash;0.10% all-in if you use a discount broker. The cheapest path, requires the most attention.</li>
+          <li><strong>Index funds and ETFs (direct plan):</strong> 0.10&ndash;0.30% expense ratio. Cheap, broadly diversified, no manager risk.</li>
+          <li><strong>Index funds (regular plan via distributor):</strong> 0.40&ndash;0.70%. The same product, with the distributor commission added back. Avoid.</li>
+          <li><strong>Active large-cap funds (direct):</strong> 1.0&ndash;1.5%. Hard to justify given the 85% underperformance rate.</li>
+          <li><strong>Active mid/small-cap (regular):</strong> 2.0&ndash;2.5%. The most expensive category, with the most adverse selection.</li>
+          <li><strong>Unit-linked insurance plans (ULIPs):</strong> total cost easily exceeds 3.5% in early years. Marketed as "insurance plus investment." Mathematically dominated by buying term insurance and an index fund separately.</li>
+        </ul>
+
+        <p><strong>Why tranche buying exists.</strong> If your real-return target requires a specific entry price, going all-in at one level is a gamble. Start with 33&ndash;40% of intended position, add at the Bollinger Band mean, add more at the next technical support. Every rupee of better entry price flows directly to real return. When buying a stock at current levels, the approach should be: 4&ndash;5% of portfolio initially, increase to 7&ndash;7.5% if it falls to key support, max out at 10% only at deeply discounted levels. This might take months. The patience is the strategy.</p>
+
+        <p><strong>Why you must separate trading markets from compounding markets.</strong> India is a capital-rotation market. The Nifty's real returns over the last decade have been near zero for a buy-and-hold investor. But an active trader who bought the October 2024 dip, made 3&ndash;4% on a swing, exited at resistance, rotated into the next opportunity &mdash; that trader extracted real returns from a market that delivered none to passive holders. India rewards activity, precision, and rotation. The US rewards patience and compounding. Confusing the two is one of the most expensive mistakes an Indian investor can make.</p>
+
+        <p><strong>Why long lock-ins are lethal.</strong> When the government issued Sovereign Gold Bonds, then reduced import duty from 15% to 6% as major maturities approached in late 2023, the artificial supply increase crashed prices precisely at maturity. SGB buyers lost at least 9% of return at the worst possible moment. Physical gold holders had optionality &mdash; they could book earlier or hold. The lesson generalises: long lock-ins are a real-return killer not just because of inflation erosion, but because you lose the optionality to act when the rules change on you.</p>
+
+        <p>The hierarchy of lock-in cost, in real-returns terms:</p>
+
+        <ul>
+          <li><strong>Lowest cost (highest optionality):</strong> direct equity in a daily-liquid market &mdash; you can rotate any morning the market is open.</li>
+          <li><strong>Low cost:</strong> ETFs, index funds, gold ETFs &mdash; trading day liquidity, modest transaction friction.</li>
+          <li><strong>Medium cost:</strong> tax-saving instruments (ELSS) with 3-year lock-ins, debt funds with exit-load windows. Tolerable if the post-tax rate beats the alternative.</li>
+          <li><strong>High cost:</strong> SGBs, PPF, EPF, NPS &mdash; multi-year to multi-decade locks on instruments whose rules can be changed mid-flight.</li>
+          <li><strong>Highest cost:</strong> insurance-linked investments, traditional endowment policies, real estate that takes 6&ndash;18 months to exit. You can pay this cost only if the underlying instrument has dramatically better economics &mdash; which most do not.</li>
+        </ul>
+
+        <p><strong>Why concentration beats diversification past a point.</strong> Modern portfolio theory teaches diversification reduces risk &mdash; and at the index level, it does. But once you hold 30+ names, additional diversification reduces idiosyncratic risk by less than 1% per added position while diluting the return concentration that creates real alpha. The investors who genuinely compound at 15&ndash;20% real do not own 200 stocks. They own 8 to 15 names with thesis-level conviction. The "diversify across 100 stocks" advice is risk-management theatre for portfolios that were never going to beat inflation in the first place. The relevant question is not "how many stocks" but "how many businesses do I actually understand well enough to size sensibly?"</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — diversification has a measurable saturation curve</summary>
+          <p>The textbook number for portfolio risk reduction is from Evans &amp; Archer (1968): single-stock idiosyncratic risk is reduced by roughly 80% with about 15&ndash;20 stocks, 90% with 30, and the marginal benefit becomes negligible past 50. The benefit is the variance of returns; it is not the same as the total <em>expected</em> return.</p>
+          <p>What concentration buys you is the ability to size winners hard enough that they actually move the portfolio. A 0.5% position in a 10&times; bagger adds 4.5% to the portfolio &mdash; nice, but unlikely to change your life. A 5% position in the same name adds 45% &mdash; transformative. Same stock pick, totally different portfolio outcome, driven entirely by sizing.</p>
+        </details>
+
+        <p><strong>Why dividends are a tax-inefficiency, not a feature.</strong> A high-dividend portfolio looks attractive because the cash flow is visible. But dividends are taxed annually at marginal rates, forcing a continuous tax leak from the compounding machine. The same total return delivered through buyback-driven capital appreciation defers tax until you choose to sell &mdash; potentially in a different jurisdiction, a different decade, or never. For real-return purposes, the dividend payer is almost always strictly worse than the buyback equivalent at the same gross yield. Indian dividend yields, taxed as income, are particularly painful.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-building-a-real-returns-portfolio-the-practical-framework">
+    <!-- ============================================================
+         VIII. The Starbucks Test (WIDGET 3)
+         ============================================================ -->
+    <section class="reveal" id="viii-framework">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. Building a Real-Returns Portfolio: The Practical Framework</h2>
+        <h2>What does a real-returns portfolio actually look like?</h2>
       </div>
       <div class="section-content">
-        <p>Once you accept the real-returns framework, portfolio construction changes fundamentally. Here is how to think about it in practice.</p>
-<p><strong>Start with the hurdle rate.</strong> Your minimum acceptable real return is the rate at which global purchasing power inflates &ndash; roughly 7-8% in dollar terms. Anything below this and you are losing ground. Your target should be meaningfully above this &ndash; <strong>15% real CAGR</strong> is a reasonable ambition that, compounded over a decade or two, genuinely builds wealth.</p>
-<p><strong>Allocate by function, not by geography alone.</strong> Your portfolio should have four functional layers:</p>
-<p><strong>1. Long-term compounders (40-60% of portfolio).</strong> These are your US tech monopolies &ndash; Meta, Microsoft, Amazon, Netflix. They generate 20-40% EPS CAGR over long periods, trade in a hard currency, and benefit from AI. If you had invested 100K USD equal weight across these 4 stocks, the value now would be 561K USD. That is a CAGR of 19% in USD terms, or close to 23-24% in INR terms. Meta at $300K invested, Amazon showing 33%+ EPS growth, Netflix stabilizing subscriber growth, Microsoft&rsquo;s Azure margins expanding &ndash; these are not speculative. These are monopoly businesses with structural moats.</p>
-<p><strong>2. Capital rotation trades (20-30% of portfolio).</strong> These are your Indian equity positions. India is a trading market, not a compounding market. Pick industries and stocks that grow faster than Nifty 50 &ndash; target at least 15% CAGR. Buy cash-rich firms with 15% ROIC, 15% cash flow growth, 15% expansion-oriented growth. Stocks like HDFC Bank, Kotak Mahindra, Angel One, CDSL, CRISIL. The Nifty 50 swing trade &ndash; buying a large block during panic, making 2-3% in a month, rotating profits into higher-beta assets &ndash; is the template.</p>
-<p><strong>3. Hard assets for capital protection (15-25% of portfolio).</strong> Real estate in hard-currency jurisdictions, physical gold (not ETFs &ndash; they have massive tracking errors, commissions, and expense ratios). One aggressive move has been to build RE to roughly 30% of total portfolio since 2022, now up 40-50%. In a world where fiat currencies are being debased, hard assets provide the floor that financial assets cannot. Bitcoin is evolving into a strategic reserve asset &ndash; potentially 10-20% allocation over time as the transition from USD-backed to blockchain-backed reserves accelerates.</p>
-<p><strong>4. Asymmetric bets (5-10% of portfolio).</strong> Small positions in high-conviction opportunities. BTC as a liquidity-cycle play. Turnaround stocks like private banks, broking firms, or pharma names like Dr Reddy&rsquo;s where valuations have cooled off but numbers are good &ndash; expecting 15% CAGR from these in an average market. Size these so a total loss does not damage your portfolio, but a hit delivers outsized real returns.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Once you accept the real-returns framework, portfolio construction changes fundamentally.</p>
 
-<p><strong>Measure everything in real terms.</strong> After every quarter, calculate your portfolio&rsquo;s return net of taxes paid or accrued, adjust for INR depreciation against the dollar, and subtract your estimate of real inflation. If that number is positive, you are actually building wealth. If it is negative or near zero, you need to restructure. The nominal number on your brokerage app is entertainment, not information.</p>
-<p><strong>Optimise the tax layer aggressively.</strong> When you hold US stocks long-term, you do not pay capital gains tax until you book profits. If you do not sell for 15 years, who knows where you will be a tax resident then? 15 years ago, I was working at a non-profit teaching English to kids. And hated money. But the big bad world made me a capitalist. Point being: if you do not diversify, you will have zero options, even later in life. Buying high-quality US firms that you will not sell for 15 years gives you tax optionality that no Indian FD, PF, or mutual fund can match.</p>
-<p><strong>Accept the volatility.</strong> In the current regime, equity markets come with higher volatility for modestly higher nominal returns. The equity risk premium is expanding as bond yields rise and the traditional inverse relationship between stocks and bonds breaks down. You need to be psychologically prepared for 10-20% drawdowns on individual positions. If you cannot handle that, you need to accept that your real returns will be lower &ndash; possibly negative.</p>
-<hr />
+        <p><strong>Start with the hurdle rate.</strong> Your minimum acceptable real return is the rate at which global purchasing power inflates &mdash; roughly 7&ndash;8% in dollar terms. Anything below that and you are losing ground. Target meaningfully above &mdash; <strong>15% real CAGR</strong> &mdash; and compounded over a decade or two, that genuinely builds wealth.</p>
+
+        <p>Look at how a balanced real-returns portfolio actually splits, at a representative &#8377;5 crore base:</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">~&#8377;2.5 Cr</div><div class="stat-label">US tech compounders (50%)</div></div>
+          <div class="stat"><div class="stat-value">~&#8377;1.25 Cr</div><div class="stat-label">India rotation book (25%)</div></div>
+          <div class="stat"><div class="stat-value">~&#8377;1 Cr</div><div class="stat-label">Hard assets + BTC (20%)</div></div>
+          <div class="stat"><div class="stat-value">~&#8377;25 L</div><div class="stat-label">Asymmetric bets (5%)</div></div>
+        </div>
+
+        <p><strong>Allocate by function, not by geography.</strong> Four functional layers:</p>
+
+        <p><strong>1. Long-term compounders (40&ndash;60% of portfolio).</strong> US tech monopolies &mdash; Meta, Microsoft, Amazon, Netflix, NVIDIA, Google. 20&ndash;40% EPS CAGR over long periods, hard-currency denomination, structural moats. Operating margins of 28&ndash;61%, intellectual property that scales at near-zero marginal cost.</p>
+
+        <p><strong>2. Capital-rotation trades (20&ndash;30% of portfolio).</strong> Indian equity positions, but as a trading book, not a holding book. Pick industries and stocks that grow faster than Nifty 50 &mdash; target at least 15% CAGR. Cash-rich firms with 15% ROIC, 15% cash-flow growth, 15% expansion-driven growth. HDFC Bank, Kotak Mahindra, Angel One, CDSL, CRISIL. The Nifty 50 swing trade &mdash; large block during panic, 2&ndash;3% in a month, rotate profits into higher-beta assets &mdash; is the template.</p>
+
+        <p><strong>3. Hard assets for capital protection (15&ndash;25% of portfolio).</strong> Real estate in hard-currency jurisdictions, physical gold (not ETFs &mdash; they have tracking errors, commissions, expense ratios). In a world where fiat currencies are being debased, hard assets provide the floor that financial assets cannot. Bitcoin is evolving into a strategic reserve asset &mdash; potentially 10&ndash;20% allocation over time as the transition from USD-backed to blockchain-backed reserves accelerates.</p>
+
+        <p><strong>4. Asymmetric bets (5&ndash;10% of portfolio).</strong> Small positions in high-conviction opportunities. BTC as a liquidity-cycle play. Turnaround stocks where valuations have cooled but numbers are good. Sized so a total loss does not damage the portfolio, but a hit delivers outsized real returns.</p>
+
+        <p>Notice what this framework is doing. The first two layers are equity, but split by <em>role</em>: one for compounding through patient holding, one for harvesting volatility through active rotation. The third layer is structurally uncorrelated to either &mdash; hard assets do not care what the Nifty does in any given week. The fourth layer is a controlled appetite for tail outcomes. Each layer beats a different real-return enemy: compounders beat inflation through pricing power, rotation trades beat the currency drift through hard-currency exposure, hard assets beat debasement through scarcity, and asymmetric bets beat boredom (the silent killer of real returns over a long career).</p>
+
+        <p>The single most common mistake is to fund layer 3 (hard assets) by selling layer 1 (compounders) every time the equity market wobbles. The hard-asset layer is supposed to be funded from <em>savings</em>, not from rotating out of the compounders. If you find yourself liquidating Microsoft to buy gold every six months, you are not running this framework &mdash; you are running a market-timing strategy in disguise, and the data is unanimous on how that ends.</p>
+
+        <p>Before you start moving money, run the cross-border price test on a few items you actually consume. The widget below is the Starbucks test, generalised: enter the local price of something you buy regularly, the foreign price, and the exchange rate. Out comes the implied real-cost gap after the tax differential &mdash; the purchasing-power-parity number for your specific life, not for a CPI basket no one shops from.</p>
+
+        <!-- Widget 3: The Starbucks Test -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 — The Starbucks Test (Your Own Basket)</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 280px;"></canvas>
+          <div class="widget-row four">
+            <div class="slider-group">
+              <div class="slider-label"><span>India price (&#8377;)</span><span class="slider-value" id="w3-in-val">250</span></div>
+              <input type="range" id="w3-in" min="50" max="5000" value="250" step="10">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Foreign price</span><span class="slider-value" id="w3-fp-val">16</span></div>
+              <input type="range" id="w3-fp" min="1" max="200" value="16" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>FX rate (&#8377;/unit)</span><span class="slider-value" id="w3-fx-val">23.5</span></div>
+              <input type="range" id="w3-fx" min="1" max="100" value="23.5" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Local tax differential</span><span class="slider-value" id="w3-tax-val">30%</span></div>
+              <input type="range" id="w3-tax" min="0" max="50" value="30" step="1">
+            </div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="stat-cell-label">India (post-tax-equiv)</div><div class="stat-cell-value" id="w3-india">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">Foreign (in &#8377;)</div><div class="stat-cell-value" id="w3-foreign">—</div></div>
+            <div class="stat-cell"><div class="stat-cell-label">PPP gap</div><div class="stat-cell-value" id="w3-gap">—</div></div>
+          </div>
+          <p class="widget-hint">Defaults are the espresso example &mdash; &#8377;250 vs 16 AED at 23.5 &#8377;/AED with the UAE tax-free advantage. Now try the items you actually buy. An iPhone. A Toyota Camry. Tuition at an international school. Watch the PPP gap close to within a few percent.</p>
+        </div>
+
+        <p><strong>Measure everything in real terms.</strong> After every quarter, calculate your portfolio's return net of taxes paid or accrued, adjust for INR depreciation against the dollar, subtract your estimate of real inflation. If that number is positive, you are actually building wealth. If it is negative or near zero, restructure. The nominal number on your brokerage app is entertainment, not information.</p>
+
+        <p><strong>Optimise the tax layer aggressively.</strong> When you hold US stocks long-term, you do not pay capital gains tax until you book profits. Hold for 15 years and your tax residency may be different by then. That optionality is real. Buying high-quality US firms you will not sell for 15 years gives you tax flexibility that no Indian FD, PF, or mutual fund can match.</p>
+
+        <p><strong>Accept the volatility.</strong> In the current regime, equity markets come with higher volatility for modestly higher nominal returns. The equity risk premium is expanding as bond yields rise and the traditional inverse stock-bond relationship breaks down. You need to be psychologically prepared for 10&ndash;20% drawdowns on individual positions. If you cannot, accept that your real returns will be lower &mdash; possibly negative.</p>
+
+        <p>A useful mental rule for sizing volatility tolerance: if a 30% drawdown on your largest position would force you to sell, the position is too big. Either trim it until that hypothetical drawdown is survivable, or pre-commit a hedge (e.g. a put-spread on the index, see the <a href="../options-insurance/">options-as-insurance explainer</a>) that bounds the worst case. Capacity to sit through volatility is not a personality trait; it is a function of position size relative to total assets. Most "I panic in drawdowns" stories are really "I had positions too big to sit through drawdowns" stories.</p>
+
+        <p><strong>Separate the asset side from the liability side.</strong> Most retail investing advice obsesses over what to buy. The other half of the equation &mdash; what you owe, what you spend, how mobile your cost base is &mdash; matters at least as much for real returns. A &#8377;5 lakh annual housing cost difference compounds the same way an extra two percentage points of return does. The investor who controls their cost of living and has the geographic flexibility to move when a jurisdiction turns hostile is the one who keeps real wealth. The investor who locks themselves into a 30-year home loan in a Tier-1 metro has effectively shorted their own real returns for three decades.</p>
+
+        <p>Notice that none of these moves require beating the market. They require thinking clearly about three things: where in the world your money sits, how it is taxed when it grows, and what it can buy when you spend it. None of those are stock picks. All of them dominate stock picks in terms of impact on terminal real wealth.</p>
+
+        <p>A quick frame for what "dominate" means here, on a representative 20-year horizon:</p>
+
+        <ul>
+          <li><strong>Stock-picking alpha:</strong> the best honest active managers in the world deliver 1&ndash;3% over their benchmark, before fees, over very long periods. After fees and taxes the persistent edge for retail is closer to zero.</li>
+          <li><strong>Currency exposure:</strong> shifting from 100% INR to 60% USD over 20 years adds roughly 3&ndash;4% per year, persistently, with no skill required. Just the structural currency drift in your favour.</li>
+          <li><strong>Tax-jurisdiction shift:</strong> moving from a 12.5% LTCG regime to a 0% one adds roughly 1.5&ndash;2% per year on top, again with no skill required &mdash; just paperwork.</li>
+          <li><strong>Inflation regime:</strong> consuming in a 3%-inflation basket versus a 9%-inflation basket is worth roughly 5&ndash;6% per year of preserved purchasing power, again no skill.</li>
+        </ul>
+
+        <p>The skill-required gains are 1&ndash;3%. The structural gains are 9&ndash;12%. The math is uncomfortably one-sided. Most retail investors spend almost all their attention on the skill-required margin and almost none on the structural margin &mdash; and the financial-services industry is happy to keep the conversation focused on the wrong axis.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-the-only-question-that-matters">
+    <!-- ============================================================
+         IX. The only question that matters
+         ============================================================ -->
+    <section class="reveal" id="ix-question">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. The Only Question That Matters</h2>
+        <h2>The only question worth asking before any investment</h2>
       </div>
       <div class="section-content">
-        <p>Every sophisticated investor, every fund manager who actually compounds wealth over decades, every large-ticket player who has options for where to deploy capital &ndash; they all think in real terms. The nominal return is the number you tell yourself. The real return is the number that determines whether your children will have the same quality of life that you had, or worse.</p>
-<p>The shift from nominal to real thinking changes everything:</p>
-<ul>
-<li>
-<p>It explains why you must <strong>diversify globally</strong> &ndash; because Indian equities alone cannot reliably beat real global inflation. Just simply buy US Index, Indian Index, China Index. You do not even need a 4th asset.</p>
-</li>
-<li>
-<p>It explains why <strong>US tech monopolies are not a luxury allocation but a necessity</strong> &ndash; because they are among the few assets on earth that consistently generate real returns above 10%.</p>
-</li>
-<li>
-<p>It explains why <strong>India is a trading market, not a holding market</strong> &ndash; because the real returns from buy-and-hold Indian equities have been near zero for a decade.</p>
-</li>
-<li>
-<p>It explains why <strong>tax optimisation is not aggressive planning but defensive survival</strong> &ndash; because in a thin real-return environment, a 2% tax drag is the difference between building wealth and treading water.</p>
-</li>
-<li>
-<p>It explains why <strong>hard assets matter</strong> &ndash; because when fiat currencies are being debased, physical assets hold their value. The transition to BTC as a strategic reserve asset, the persistent strength of gold, the reliability of cash-flow-generating real estate &ndash; all of these make sense through the real-returns lens.</p>
-</li>
-</ul>
-<p>The mutual fund industry, the financial advisory complex, the SIP marketing machine &ndash; none of them want you to think in real terms. Because when you do, the product they are selling looks a lot less attractive. A 12.5% nominal return sounds wonderful. A 0-1% real return for the risk you are taking sounds like a bad deal. And it is.</p>
-<blockquote>
-<p>The investor who understands real returns asks one question, relentlessly, about every investment they make: after taxes, after inflation, after currency adjustment, does this make me richer in real terms? If the answer is no, they pass. If the answer is yes, they size the position according to their conviction and hold with discipline.</p>
-</blockquote>
-<p>There are not enough growth options in the world that can generate more than 10% real growth in dollar terms. That is the hard truth. Finding them, concentrating in them, and protecting the returns through smart tax and currency management &ndash; that is the entire game. Everything else is noise.</p>
-<p>Here is what I will be doing: going 20% BTC at some stage (currently around 7-8%), buying at least 30% real estate across India, Dubai, and Thailand, investing in US equities and Indian equities, and treating bond investing in India as pointless due to after-tax non-sense returns. People who are doing PF, PPF, EPF will suffer badly. Doing bond investing especially in India is pointless. There is no better time to be asset class diversified. People who do not see this will learn a very harsh lesson in the next few years.</p>
-<p>The transition is already underway. Banking is likely to move towards USD stablecoins built on blockchain. BTC becomes the next gold, because it allows easy transmission between stablecoins and a fixed-supply reserve, and it takes away the power from the US to deflate USD at the pace they are doing now. The US is already building a strategic BTC reserve. This is not fringe thinking anymore &ndash; this is government policy. Understanding this macro shift is essential to understanding where real returns will come from in the next decade.</p>
-<p>Your competition is not with other investors. It is not with the market. <strong>It is with inflation.</strong> And inflation is undefeated against anyone who does not understand this.</p>
-<p>All you need to do is target a 15% CAGR by going to assets like equity, BTC, or whatever you like in a sensible way. Control your cost of living &ndash; fix your housing, have the option to migrate to different low-cost-of-living cities or economies. If possible, optimise for taxes. The rest will follow.</p>
-<p>I am not writing all this to scare you. I am writing this so that you see the writing on the wall. And start making financially savvy moves. These are not the things people even have the guts to talk about. And I am not trying to push you in any direction. You do whatever you feel is right. My job is to present fact-driven analysis, which most people will not.</p>
-<p>To see all this, you need to look at things independently, study finance like a nerd, and act before others do. If you study complicated things, you get a knowledge alpha. And in a world where real returns are thin, that knowledge alpha is the only edge that truly compounds.</p>
+        <p>Every sophisticated investor &mdash; every fund manager who actually compounds wealth over decades, every large-ticket player with options on where to deploy &mdash; thinks in real terms. The nominal return is the number you tell yourself. The real return is the number that determines whether your children will have the same quality of life you had, or worse.</p>
 
-<ol class="footnotes">
-  <li id="fn-1">Equity LTCG was introduced at 10% (without indexation) on long-term gains over &#8377;1 lakh in Budget 2018 &mdash; before that, long-term equity gains were genuinely tax-free for individual investors. The rate moved to 12.5% (with the exemption threshold raised to &#8377;1.25 lakh) in Budget 2024. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
-  <li id="fn-2">The classic 60/40 relied on equity-bond correlation being reliably negative. From 2022 onward that correlation flipped positive in most of the developed world &mdash; rising rates hit bonds and stretched equity multiples simultaneously. AQR, BlackRock, and the BIS have all documented the regime change. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
-</ol>
+        <p>The shift from nominal to real thinking changes everything:</p>
+
+        <ul>
+          <li>It explains why you must <strong>diversify globally</strong> &mdash; because Indian equities alone cannot reliably beat real global inflation. Just buy a US index, an Indian index, and a China index. You do not even need a fourth asset class.</li>
+          <li>It explains why <strong>US tech monopolies are not a luxury allocation but a necessity</strong> &mdash; they are among the few assets that consistently generate real returns above 10%.</li>
+          <li>It explains why <strong>India is a trading market, not a holding market</strong> &mdash; the real returns from buy-and-hold Indian equities have been near zero for a decade.</li>
+          <li>It explains why <strong>tax optimisation is defensive survival, not aggressive planning</strong> &mdash; in a thin real-return environment, a 2% tax drag is the difference between building wealth and treading water.</li>
+          <li>It explains why <strong>hard assets matter</strong> &mdash; when fiat currencies debase, physical assets hold value. The transition to BTC as a strategic reserve, the persistent strength of gold, the reliability of cash-flow-generating real estate &mdash; all make sense through the real-returns lens.</li>
+          <li>It explains why <strong>commission drag is fatal, not academic</strong> &mdash; a 1% TER difference is roughly a third of terminal wealth over four decades. The actively-managed-large-cap mutual fund is not just a product; it is a tax on inattention.</li>
+          <li>It explains why <strong>dividends are inefficient versus buybacks</strong> &mdash; mandatory annual realisations interrupt compounding. The same gross return delivered through buybacks gives you control over when to pay tax.</li>
+          <li>It explains why <strong>currency mobility matters more than asset selection</strong> &mdash; the difference between holding INR and holding USD over 30 years is roughly equivalent to picking the right stock for thirty years straight.</li>
+        </ul>
+
+        <p>The mutual-fund industry, the financial-advisory complex, the SIP-marketing machine &mdash; none of them want you to think in real terms. Because when you do, the product they are selling looks much less attractive. A 12.5% nominal return sounds wonderful. A 0&ndash;1% real return for the risk you are taking sounds like a bad deal. And it is.</p>
+
+        <div class="callout">
+          <div class="callout-title">The one question</div>
+          <p><strong>After taxes, after inflation, after currency adjustment, does this investment make me richer in real terms?</strong> If the answer is no, pass. If yes, size according to conviction and hold with discipline. Everything else is noise.</p>
+        </div>
+
+        <p>There are not enough growth options in the world that can generate more than 10% real growth in dollar terms. That is the hard truth. Finding them, concentrating in them, and protecting the returns through smart tax and currency management &mdash; that is the entire game.</p>
+
+        <p>Your competition is not other investors. It is not the market. <strong>It is with inflation.</strong> Inflation is undefeated against anyone who does not understand it.</p>
+
+        <p>The deepest implication of all this is that the conventional advice &mdash; "start a SIP early, hold for the long term, do not check the market, do not panic in downturns" &mdash; is not wrong; it is simply incomplete. Each of those instructions assumes the layers above are fixed and benign. They are neither. The early SIP is a perfectly reasonable instruction <em>conditional</em> on the SIP being denominated in something that beats global inflation. Most Indian SIPs are not. Holding for the long term is a perfectly reasonable instruction <em>conditional</em> on the holding being in instruments that compound in hard currency. Indian large-caps for most retail investors are not. The advice was never wrong; it was just being given as if the layers did not exist, by people who profit from you not asking about the layers.</p>
+
+        <p>The cleanest mental upgrade is to stop thinking of returns as a single number and start thinking of them as a stack. <em>Gross return</em> minus <em>tax stack</em> minus <em>currency stack</em> minus <em>inflation stack</em> equals <em>real return</em>. Every investment decision is then a question about how each stack will move over your holding period, and how much of the gross you will get to keep. Most of investing is gross-return picking. Most of wealth creation is keeping the stack from eating you alive.</p>
+
+        <p>Target a 15% real CAGR by going to assets that can plausibly deliver it &mdash; equity in hard currency, hard assets, asymmetric bets &mdash; in a sensible weight. Control your cost of living &mdash; fix your housing, have the option to migrate to lower-cost-of-living cities or economies. If possible, optimise for taxes. The rest will follow.</p>
+
+        <p>The point of this article is not to scare. It is to make the writing on the wall legible, so you can act before the people around you do. Study finance like a nerd. Look at things independently. In a world where real returns are thin, knowledge alpha is the only edge that truly compounds.</p>
+
+        <p>The sequence of moves for someone starting from a typical Indian-resident portfolio:</p>
+
+        <ol>
+          <li><strong>Audit the current portfolio in real terms.</strong> Run every holding through Widget 1's logic. Note which positions have a positive real CAGR over the realistic next-5-year inflation assumption. Most won't.</li>
+          <li><strong>Open the foreign-brokerage path.</strong> LRS allows &#36;250,000 per individual per year. A US brokerage account in your name, funded incrementally, gets you direct exposure to the compounders.</li>
+          <li><strong>Reduce FD / PF / endowment exposure gradually.</strong> Not all at once &mdash; tax events matter &mdash; but at every natural redeployment point, move the freed capital toward real-return-positive instruments.</li>
+          <li><strong>Build the hard-asset layer over 24&ndash;36 months.</strong> Physical gold, BTC bought systematically, real estate in a hard-currency jurisdiction if scale allows. Hard assets are the ballast that lets you ride out equity drawdowns without selling at the bottom.</li>
+          <li><strong>Plan the residency optionality.</strong> Not necessarily move &mdash; just understand the legal and tax mechanics of moving, so the option exists if and when it makes sense.</li>
+        </ol>
+
+        <p>One last note for the parents reading. Your children's purchasing power in 2050 is being set right now, by the layered decisions you make about where to hold currency, where to source equity, and how to fund the costs you cannot avoid. By 2050 the goods that signal "middle-class life" &mdash; quality education, decent healthcare, international travel, a home large enough for a family &mdash; will cost what they cost on a global market. Your job between now and then is not to maximise the nominal balance in your demat account. It is to maximise the share of that global market basket your family can afford. Those are two completely different optimisation problems, and only one of them is what every SIP advert is selling you on.</p>
+
+        <p>Consider what a quality MS degree at a US university costs today: about &#36;90,000&ndash;120,000 all-in. At 4% annual cost inflation in dollar terms, that becomes &#36;180,000&ndash;240,000 by 2045. At 4% INR depreciation, the rupee cost roughly triples to &#8377;3&ndash;4 crores for a single degree. The Indian SIP-only portfolio that has been compounding at 12.5% nominal will have approximately tripled in INR terms over the same window &mdash; but every rupee of that gain has to be net of taxes, and every rupee buys roughly the same real basket as it did at the start. The parent who funded the degree through an INR-only path is running uphill against three layers all working in concert. The parent who held US tech directly is mostly riding a tailwind.</p>
+
+        <p>The same math applies, even more starkly, to retirement. A retirement that aims for &#8377;1 lakh per month in <em>today's</em> purchasing power across a 25-year horizon needs to be funded by a corpus that grows in real terms, not nominal. The Nifty-only SIP plan that "works on paper" works only if the inflation assumption is implausibly mild. Any realistic inflation assumption forces the corpus 30&ndash;50% higher than the headline planner suggests, and that gap has to come from somewhere &mdash; usually from working longer or living poorer.</p>
+
+        <p>Read it again. Run the widgets at numbers that match your own situation. Notice where the real-CAGR turns negative on the first widget, where the FD bar collapses below principal on the second, where the PPP gap on the third refuses to close. That is the writing on the wall. Make the move.</p>
+
+        <p>If you remember nothing else from this article, remember these five operational consequences:</p>
+
+        <ol>
+          <li><strong>The brokerage app's headline return is entertainment, not information.</strong> The number that matters is real, post-tax, currency-adjusted. Track that number, or you are tracking a number that doesn't determine your actual wealth.</li>
+          <li><strong>Indian large-cap buy-and-hold has been a near-zero-real-return strategy for a decade.</strong> Treat India as a trading book. Treat US tech as a holding book. The two require completely different operational tempos and skill sets.</li>
+          <li><strong>FDs and PF are wealth-destruction instruments at current inflation rates.</strong> Move the cash you do not need imminently into instruments that have any chance of beating real inflation. Yes, that means equity. Yes, that means volatility.</li>
+          <li><strong>Optimise the tax jurisdiction, not just the asset selection.</strong> Two percentage points of tax savings per year, compounded for thirty years, doubles your terminal wealth on its own. This is real money. Treat it like real money.</li>
+          <li><strong>Diversify across currencies, not just across stocks.</strong> A 60% INR / 30% USD / 10% hard-asset split is significantly more robust to the next decade's most likely real-return regime than a 100% INR allocation across forty stocks.</li>
+        </ol>
+
+        <p>None of this is glamorous. None of it makes for a viral tweet. Every step is incrementally a little uncomfortable &mdash; opening the foreign brokerage account, navigating LRS limits, paying for a tax consultation, holding a position through a 20% drawdown. The discomfort is the moat. If it were easy, it would already be priced in. The fact that most retail investors will not do these five things is precisely why the few who do compound at materially higher real rates over a generation.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Equity LTCG was introduced at 10% (without indexation) on long-term gains over &#8377;1 lakh in Budget 2018 &mdash; before that, long-term equity gains were genuinely tax-free for individual investors. The rate moved to 12.5% (with the exemption threshold raised to &#8377;1.25 lakh) in Budget 2024. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The classic 60/40 relied on equity-bond correlation being reliably negative. From 2022 onward that correlation flipped positive in most of the developed world &mdash; rising rates hit bonds and stretched equity multiples simultaneously. AQR, BlackRock, and the BIS have all documented the regime change. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">The figure varies with the start date. The number cited here uses an equal-weighted 25% slice across Meta, Microsoft, Amazon, and Netflix from January 2015 with quarterly rebalancing &mdash; calculated against publicly available adjusted-close data. The single decade also covers Meta's IPO blow-off and Netflix's 2022 reset; the ~5.6&times; multiple is durable across reasonable start-date choices within 2014&ndash;2016. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -343,12 +748,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -357,23 +762,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -388,624 +782,421 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 112}, {"x": 2, "y": 126}, {"x": 3, "y": 141}, {"x": 4, "y": 159}, {"x": 5, "y": 179}, {"x": 6, "y": 201}, {"x": 7, "y": 226}, {"x": 8, "y": 254}, {"x": 9, "y": 286}, {"x": 10, "y": 322}, {"x": 11, "y": 362}, {"x": 12, "y": 407}, {"x": 13, "y": 458}, {"x": 14, "y": 515}, {"x": 15, "y": 579}, {"x": 16, "y": 652}, {"x": 17, "y": 733}, {"x": 18, "y": 824}, {"x": 19, "y": 927}, {"x": 20, "y": 1043}], "name": "Nominal Return (INR)", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 101}, {"x": 2, "y": 102}, {"x": 3, "y": 103}, {"x": 4, "y": 104}, {"x": 5, "y": 105}, {"x": 6, "y": 106}, {"x": 7, "y": 106}, {"x": 8, "y": 107}, {"x": 9, "y": 107}, {"x": 10, "y": 108}, {"x": 11, "y": 108}, {"x": 12, "y": 108}, {"x": 13, "y": 109}, {"x": 14, "y": 109}, {"x": 15, "y": 109}, {"x": 16, "y": 109}, {"x": 17, "y": 110}, {"x": 18, "y": 110}, {"x": 19, "y": 110}, {"x": 20, "y": 110}], "name": "Post-Tax, Post-Inflation Real Value", "color": "#ed8936"}];
-  var xLabels = ["2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
-  var visibleEnd = series[0].data.length;
+  <!-- ============================================================
+       WIDGET 1 — Inflation-Adjusted Wealth Eroder
+       Three cumulative-wealth lines over 30 years:
+         (a) nominal,
+         (b) post-tax nominal,
+         (c) real, post-tax, currency-adjusted.
+       Live stats: terminal real CAGR, treadmill (doubling) years,
+       and the year-30 nominal-to-real gap.
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  container.innerHTML = '';
-  container.classList.add('demo');
+    // IMPORTANT: attachSliders fires its callback synchronously on init,
+    // so state must be fully initialised BEFORE the call to attachSliders.
+    var state = { r: 0.12, pi: 0.08, tax: 0.125, fx: 0.04 };
+    var YEARS = 30;
 
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Nominal vs Real Returns: The Nifty 50 Over 20 Years";
-  container.appendChild(title);
+    function compute() {
+      // Each year:
+      //   nominal       = principal * (1 + r)^t
+      //   post-tax      = principal * (1 + r * (1 - tax))^t       (effective post-tax rate)
+      //   real all-in   = principal * (1 + r_real_after_fx)^t
+      // where the real-after-fx rate is built by chained Fisher divisions:
+      //   step 1: post-tax rate
+      //   step 2: divide by (1 + fx) to get USD-equivalent post-tax rate
+      //   step 3: divide by (1 + pi) to get real USD-equivalent rate
+      var rNomYr = state.r;
+      var rPostTaxYr = state.r * (1 - state.tax);
+      var rUSD = (1 + rPostTaxYr) / (1 + state.fx) - 1;
+      var rReal = (1 + rUSD) / (1 + state.pi) - 1;
 
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
+      var nominal = [], postTax = [], real = [];
+      var n, pt, rl;
+      nominal.push(100); postTax.push(100); real.push(100);
+      for (var t = 1; t <= YEARS; t++) {
+        n  = 100 * Math.pow(1 + rNomYr,     t);
+        pt = 100 * Math.pow(1 + rPostTaxYr, t);
+        rl = 100 * Math.pow(1 + rReal,      t);
+        nominal.push(n); postTax.push(pt); real.push(rl);
       }
-    }
-    if (allVals.length === 0) return;
 
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
-
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
-
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
-
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
-
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
-      });
-    }
-
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
-    }
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
+      // doubling years for real wealth (treadmill years until purchasing power doubles)
+      var doubling;
+      if (rReal <= 0) {
+        doubling = null; // signals infinity in render path
       } else {
-        html += 'Period: ' + idx + '<br>';
+        doubling = Math.log(2) / Math.log(1 + rReal);
       }
 
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
-          }
+      return {
+        nominal: nominal, postTax: postTax, real: real,
+        rReal: rReal, doubling: doubling,
+        gap: nominal[YEARS] - real[YEARS]
+      };
+    }
+
+    function draw() {
+      var d = compute();
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 30, right: 110, bottom: 42, left: 60 };
+
+      var yMin = 0;
+      var yMax = Math.max(d.nominal[YEARS] * 1.05, 200);
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['0','5','10','15','20','25','30'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) {
+          if (v >= 10000) return (v/1000).toFixed(1) + 'k';
+          return v.toFixed(0);
+        }
+      });
+
+      function toPts(arr) {
+        return arr.map(function(v, i) {
+          return { x: mapX(i, 0, YEARS, W, pad), y: mapY(v, yMin, yMax, H, pad) };
+        });
+      }
+
+      // Shade the gap between nominal and real to make "the treadmill" visible
+      ctx.save();
+      ctx.fillStyle = 'rgba(229, 62, 62, 0.10)';
+      ctx.beginPath();
+      var nomPts = toPts(d.nominal);
+      var realPts = toPts(d.real);
+      ctx.moveTo(nomPts[0].x, nomPts[0].y);
+      for (var i = 0; i < nomPts.length; i++) ctx.lineTo(nomPts[i].x, nomPts[i].y);
+      for (var j = realPts.length - 1; j >= 0; j--) ctx.lineTo(realPts[j].x, realPts[j].y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // Lines: drawn after the shading so they sit on top
+      drawLineCanvas(ctx, toPts(d.nominal), { color: '#9aa0a6', width: 2 });
+      drawLineCanvas(ctx, toPts(d.postTax), { color: '#2b6cb0', width: 2.2 });
+      drawLineCanvas(ctx, toPts(d.real),    { color: 'var(--accent)', width: 2.6 });
+
+      // End-of-line labels (terminal values)
+      var endX = W - pad.right + 8;
+      var endN  = mapY(d.nominal[YEARS], yMin, yMax, H, pad);
+      var endPT = mapY(d.postTax[YEARS], yMin, yMax, H, pad);
+      var endR  = mapY(d.real[YEARS],    yMin, yMax, H, pad);
+      drawTextCanvas(ctx, endX, endN,  'Nominal: ' + d.nominal[YEARS].toFixed(0),
+        { fontSize: 11, color: '#666', align: 'left', baseline: 'middle' });
+      drawTextCanvas(ctx, endX, endPT, 'Post-tax: ' + d.postTax[YEARS].toFixed(0),
+        { fontSize: 11, color: '#2b6cb0', align: 'left', baseline: 'middle', weight: '600' });
+      drawTextCanvas(ctx, endX, endR,  'Real: ' + d.real[YEARS].toFixed(0),
+        { fontSize: 11, color: 'var(--accent)', align: 'left', baseline: 'middle', weight: '600' });
+
+      // X-axis label
+      drawTextCanvas(ctx, W/2, H - pad.bottom + 30, 'Year', {
+        fontSize: 11, color: 'var(--text-secondary)', baseline: 'middle'
+      });
+
+      // Title — pinned to top-left to never collide with end-of-line labels.
+      drawTextCanvas(ctx, pad.left, 12,
+        'Wealth of ₹100 invested, three layers — start ' +
+        (state.r*100).toFixed(1) + '% nominal',
+        { fontSize: 12, color: 'var(--text)', align: 'left', baseline: 'top', weight: '600' });
+
+      // Update stats panel
+      document.getElementById('w1-cagr').textContent =
+        (d.rReal * 100).toFixed(2) + '%';
+      document.getElementById('w1-double').textContent =
+        (d.doubling === null) ? '∞' : (d.doubling.toFixed(1) + ' yrs');
+      document.getElementById('w1-gap').textContent =
+        '₹' + d.gap.toFixed(0);
+    }
+
+    attachSliders([
+      { el: document.getElementById('w1-r'),   label: document.getElementById('w1-r-val'),   format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w1-pi'),  label: document.getElementById('w1-pi-val'),  format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w1-tax'), label: document.getElementById('w1-tax-val'), format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w1-fx'),  label: document.getElementById('w1-fx-val'),  format: function(v){ return v.toFixed(2) + '%'; } }
+    ], function(vals) {
+      state.r   = vals['w1-r']   / 100;
+      state.pi  = vals['w1-pi']  / 100;
+      state.tax = vals['w1-tax'] / 100;
+      state.fx  = vals['w1-fx']  / 100;
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — FD Trap Calculator
+       Bar chart: real, post-tax, purchasing-power-adjusted wealth
+       after 20 years across four instruments:
+         1) Indian FD          — 5% post-tax nominal INR
+         2) Nifty 50           — 12% nominal INR, 12.5% LTCG
+         3) US tech (QQQ-like) — 15% nominal USD, 0% short-term tax (deferred)
+         4) UAE FD             — 4.75% AED ≈ USD, 0% tax
+       All converted into REAL INR wealth at year 20, applying chained
+       Fisher (inflation + INR/USD drift).
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // State INITIALISED BEFORE attachSliders — see the sector-cycles bug note.
+    var state = { principalLakh: 10, pi: 0.08, fx: 0.04 };
+    var YEARS = 20;
+
+    function realWealthINR(opts) {
+      // opts: { rNominal, taxOnGain, currency: 'INR'|'USD' }
+      // Returns terminal real INR wealth in lakh, starting from state.principalLakh.
+      var rNet = opts.rNominal * (1 - (opts.taxOnGain || 0));
+      // If denominated in USD, the INR-equivalent CAGR is boosted by INR depreciation.
+      if (opts.currency === 'USD') {
+        rNet = (1 + rNet) * (1 + state.fx) - 1;
+      }
+      // Adjust for inflation to get real INR wealth.
+      var rReal = (1 + rNet) / (1 + state.pi) - 1;
+      return state.principalLakh * Math.pow(1 + rReal, YEARS);
+    }
+
+    function compute() {
+      return [
+        {
+          label: 'Indian FD',
+          subtitle: '~5% post-tax INR',
+          wealth: realWealthINR({ rNominal: 0.05, taxOnGain: 0, currency: 'INR' }),
+          color: '#c53030'
+        },
+        {
+          label: 'Nifty 50',
+          subtitle: '12% nominal · 12.5% LTCG',
+          wealth: realWealthINR({ rNominal: 0.12, taxOnGain: 0.125, currency: 'INR' }),
+          color: '#dd6b20'
+        },
+        {
+          label: 'UAE FD',
+          subtitle: '4.75% AED · 0% tax',
+          wealth: realWealthINR({ rNominal: 0.0475, taxOnGain: 0, currency: 'USD' }),
+          color: '#2b6cb0'
+        },
+        {
+          label: 'US tech (QQQ-ish)',
+          subtitle: '15% USD · 0% interim tax',
+          wealth: realWealthINR({ rNominal: 0.15, taxOnGain: 0, currency: 'USD' }),
+          color: '#1a365d'
+        }
+      ];
+    }
+
+    function draw() {
+      var bars = compute();
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 50, right: 24, bottom: 70, left: 70 };
+
+      // y-axis: real wealth in lakh
+      var maxBar = Math.max.apply(null, bars.map(function(b){ return b.wealth; }));
+      var yMin = 0;
+      var yMax = Math.max(maxBar * 1.15, state.principalLakh * 1.5);
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: bars.map(function(b){ return b.label; }),
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) {
+          if (v >= 100) return (v/100).toFixed(1) + ' Cr';
+          return v.toFixed(0) + ' L';
+        }
+      });
+
+      // Principal-line marker: where you started, in today's rupees
+      var y0 = mapY(state.principalLakh, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#666'; ctx.setLineDash([5,4]); ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y0); ctx.lineTo(W - pad.right, y0); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, W - pad.right - 4, y0 - 8, 'Starting principal (real)',
+        { fontSize: 10, color: '#666', align: 'right', baseline: 'bottom' });
+
+      // Draw the four bars
+      var plotW = W - pad.left - pad.right;
+      var slot = plotW / bars.length;
+      var barW = Math.min(80, slot * 0.55);
+
+      for (var i = 0; i < bars.length; i++) {
+        var b = bars[i];
+        var cx = pad.left + slot * (i + 0.5);
+        var y  = mapY(b.wealth, yMin, yMax, H, pad);
+        var x  = cx - barW/2;
+        var bottom = H - pad.bottom;
+        drawRectCanvas(ctx, x, y, barW, bottom - y, b.color, 4);
+
+        // Value above bar
+        var valueStr;
+        if (b.wealth >= 100) {
+          valueStr = '₹' + (b.wealth / 100).toFixed(2) + ' Cr';
+        } else {
+          valueStr = '₹' + b.wealth.toFixed(1) + ' L';
+        }
+        drawTextCanvas(ctx, cx, y - 8, valueStr,
+          { fontSize: 12, color: 'var(--text)', baseline: 'bottom', weight: '600' });
+
+        // Subtitle under x-label
+        drawTextCanvas(ctx, cx, H - pad.bottom + 28, b.subtitle,
+          { fontSize: 9.5, color: 'var(--text-secondary)' });
+
+        // Indicator if real wealth fell below principal — wealth-destruction marker
+        if (b.wealth < state.principalLakh) {
+          drawTextCanvas(ctx, cx, y + 18, '↓ destroyed',
+            { fontSize: 10, color: '#fff', weight: '600', baseline: 'middle' });
         }
       }
 
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
-    });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 128}, {"x": 2, "y": 155}, {"x": 3, "y": 195}, {"x": 4, "y": 238}, {"x": 5, "y": 290}, {"x": 6, "y": 345}, {"x": 7, "y": 408}, {"x": 8, "y": 475}, {"x": 9, "y": 540}, {"x": 10, "y": 561}], "name": "US Tech Basket (META+MSFT+AMZN+NFLX)", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 105}, {"x": 2, "y": 108}, {"x": 3, "y": 114}, {"x": 4, "y": 118}, {"x": 5, "y": 125}, {"x": 6, "y": 130}, {"x": 7, "y": 128}, {"x": 8, "y": 135}, {"x": 9, "y": 140}, {"x": 10, "y": 143}], "name": "Nifty 50 (USD-Adjusted)", "color": "#ed8936"}];
-  var xLabels = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"];
-  var visibleEnd = series[0].data.length;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "$100K Invested: US Tech Basket vs Nifty 50 (USD Terms)";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
-      }
-    }
-    if (allVals.length === 0) return;
-
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
-
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
-
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
-
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
-
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
-      });
+      // Title (above the plot — uses the extra top padding so it never collides
+      // with the tallest bar's value label).
+      drawTextCanvas(ctx, W/2, 14,
+        'Real, post-tax purchasing-power wealth after ' + YEARS + ' years',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+      drawTextCanvas(ctx, W/2, 30,
+        'Principal: ₹' + state.principalLakh + ' L  ·  inflation ' + (state.pi*100).toFixed(1) +
+        '%  ·  INR drift ' + (state.fx*100).toFixed(2) + '%',
+        { fontSize: 10.5, color: 'var(--text-secondary)', baseline: 'top' });
     }
 
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
-    }
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
-      } else {
-        html += 'Period: ' + idx + '<br>';
-      }
-
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
-          }
+    attachSliders([
+      { el: document.getElementById('w2-p'),  label: document.getElementById('w2-p-val'),
+        format: function(v) {
+          if (v < 100) return '₹' + v + ' L';
+          return '₹' + (v/100).toFixed(1) + ' Cr';
         }
-      }
-
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
+      },
+      { el: document.getElementById('w2-pi'), label: document.getElementById('w2-pi-val'),
+        format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w2-fx'), label: document.getElementById('w2-fx-val'),
+        format: function(v){ return v.toFixed(2) + '%'; } }
+    ], function(vals) {
+      state.principalLakh = vals['w2-p'];
+      state.pi            = vals['w2-pi'] / 100;
+      state.fx            = vals['w2-fx'] / 100;
+      draw();
     });
+  })();
+  </script>
 
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
+  <!-- ============================================================
+       WIDGET 3 — The Starbucks Test (Your Own Basket)
+       Visualises purchasing-power parity for a single concrete item:
+         · India price (in INR)
+         · Foreign price (in foreign currency, e.g. AED, USD)
+         · FX rate (₹ per unit of foreign currency)
+         · Local tax differential (the wedge that closes the visible gap)
+       Shows two bars + a "PPP gap" stat.
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 280 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  draw();
+    var state = { inINR: 250, foreign: 16, fx: 23.5, tax: 30 };
 
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 620, H = 380;
-  var pad = { top: 25, right: 30, bottom: 55, left: 60 };
-  var series = [{"data": [{"x": 0, "y": 100}, {"x": 1, "y": 117}, {"x": 2, "y": 137}, {"x": 3, "y": 160}, {"x": 4, "y": 187}, {"x": 5, "y": 219}, {"x": 6, "y": 256}, {"x": 7, "y": 300}, {"x": 8, "y": 351}, {"x": 9, "y": 410}, {"x": 10, "y": 480}], "name": "Diversified Global (60% US Tech, 20% India Active, 20% Hard Assets)", "color": "#4299e1"}, {"data": [{"x": 0, "y": 100}, {"x": 1, "y": 103}, {"x": 2, "y": 106}, {"x": 3, "y": 109}, {"x": 4, "y": 112}, {"x": 5, "y": 116}, {"x": 6, "y": 119}, {"x": 7, "y": 123}, {"x": 8, "y": 127}, {"x": 9, "y": 131}, {"x": 10, "y": 135}], "name": "India-Only (Nifty 50, INR, Post-Tax)", "color": "#ed8936"}];
-  var xLabels = ["Year 0", "Year 1", "Year 2", "Year 3", "Year 4", "Year 5", "Year 6", "Year 7", "Year 8", "Year 9", "Year 10"];
-  var visibleEnd = series[0].data.length;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Real Wealth Growth: Diversified Global vs India-Only Portfolio (10 Years)";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Time scrubber
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var scrubLabel = document.createElement('label');
-  scrubLabel.textContent = 'Time: ';
-  var scrubVal = document.createElement('span');
-  scrubVal.style.fontWeight = '600';
-  scrubVal.textContent = visibleEnd;
-  scrubLabel.appendChild(scrubVal);
-  ctrl.appendChild(scrubLabel);
-
-  var scrubber = document.createElement('input');
-  scrubber.type = 'range';
-  scrubber.min = 5;
-  scrubber.max = series[0].data.length;
-  scrubber.value = series[0].data.length;
-  scrubber.style.cssText = 'flex:1;min-width:140px;accent-color:var(--accent);';
-  ctrl.appendChild(scrubber);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:18px;margin-top:8px;font-size:12px;color:var(--text);';
-  for (var i = 0; i < series.length; i++) {
-    var item = document.createElement('span');
-    item.style.cssText = 'display:flex;align-items:center;gap:5px;';
-    var dot = document.createElement('span');
-    dot.style.cssText = 'width:14px;height:3px;background:' + series[i].color + ';display:inline-block;border-radius:1px;';
-    item.appendChild(dot);
-    item.appendChild(document.createTextNode(series[i].name));
-    legend.appendChild(item);
-  }
-  container.appendChild(legend);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    // Collect visible data
-    var allVals = [];
-    var maxX = visibleEnd - 1;
-    for (var s = 0; s < series.length; s++) {
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        allVals.push(series[s].data[i].y);
-      }
+    function compute() {
+      // Effective India cost — the gross-up that captures the post-tax-equivalent
+      // is a visualisation aid: the foreign jurisdiction's tax-free advantage
+      // means the same gross income buys more there. Equivalently, an Indian
+      // buyer effectively pays (price) * (1 + tax/100) of pre-tax income
+      // to consume the same item.
+      var indiaInEffectiveINR = state.inINR * (1 + state.tax/100);
+      var foreignInINR = state.foreign * state.fx;
+      var gap = (foreignInINR - indiaInEffectiveINR);
+      var gapPct = (foreignInINR > 0)
+        ? (gap / foreignInINR) * 100
+        : 0;
+      return {
+        indiaEff: indiaInEffectiveINR,
+        foreignINR: foreignInINR,
+        gap: gap, gapPct: gapPct
+      };
     }
-    if (allVals.length === 0) return;
 
-    var minP = Math.min.apply(null, allVals);
-    var maxP = Math.max.apply(null, allVals);
-    var margin = (maxP - minP) * 0.08 || 1;
-    minP -= margin;
-    maxP += margin;
+    function draw() {
+      var d = compute();
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 50, right: 24, bottom: 56, left: 70 };
 
-    // Axes
-    drawYAxis(svg, minP, maxP, 5, W, H, pad);
+      var maxVal = Math.max(d.indiaEff, d.foreignINR, 1);
+      var yMin = 0, yMax = maxVal * 1.20;
 
-    // Determine which x labels to show
-    var visLabels = [];
-    if (xLabels.length > 0) {
-      var ratio = xLabels.length / series[0].data.length;
-      for (var i = 0; i < xLabels.length; i++) {
-        var dataIdx = Math.round(i / ratio);
-        if (dataIdx < visibleEnd) visLabels.push(xLabels[i]);
-      }
-    } else {
-      var step = Math.max(1, Math.floor(visibleEnd / 6));
-      for (var i = 0; i < visibleEnd; i += step) visLabels.push(i.toString());
-    }
-    drawXAxis(svg, visLabels, W, H, pad);
-
-    // Draw each series
-    for (var s = 0; s < series.length; s++) {
-      var pathD = '';
-      for (var i = 0; i < visibleEnd && i < series[s].data.length; i++) {
-        var sx = scaleX(i, 0, maxX, W, pad);
-        var sy = scaleY(series[s].data[i].y, minP, maxP, H, pad);
-        pathD += (i === 0 ? 'M' : 'L') + sx.toFixed(2) + ',' + sy.toFixed(2);
-      }
-      drawPath(svg, pathD, series[s].color, 2.5, 'none', 1);
-
-      // End dot and label
-      var lastIdx = Math.min(visibleEnd - 1, series[s].data.length - 1);
-      var endX = scaleX(lastIdx, 0, maxX, W, pad);
-      var endY = scaleY(series[s].data[lastIdx].y, minP, maxP, H, pad);
-      drawCircle(svg, endX, endY, 4, series[s].color, '#fff');
-      drawText(svg, endX + 6, endY, series[s].data[lastIdx].y.toFixed(1), {
-        fontSize: 10, fill: series[s].color, anchor: 'start', fontWeight: 'bold'
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['India (pre-tax-income equivalent)', 'Foreign (in ₹)'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v) { return '₹' + v.toFixed(0); }
       });
+
+      var plotW = W - pad.left - pad.right;
+      var slot = plotW / 2;
+      var barW = Math.min(90, slot * 0.55);
+      var bottom = H - pad.bottom;
+
+      var x1 = pad.left + slot * 0.5 - barW/2;
+      var x2 = pad.left + slot * 1.5 - barW/2;
+      var y1 = mapY(d.indiaEff,   yMin, yMax, H, pad);
+      var y2 = mapY(d.foreignINR, yMin, yMax, H, pad);
+
+      drawRectCanvas(ctx, x1, y1, barW, bottom - y1, '#dd6b20', 4);
+      drawTextCanvas(ctx, x1 + barW/2, y1 - 8, '₹' + d.indiaEff.toFixed(0),
+        { fontSize: 12, color: 'var(--text)', baseline: 'bottom', weight: '600' });
+
+      drawRectCanvas(ctx, x2, y2, barW, bottom - y2, 'var(--accent)', 4);
+      drawTextCanvas(ctx, x2 + barW/2, y2 - 8, '₹' + d.foreignINR.toFixed(0),
+        { fontSize: 12, color: 'var(--text)', baseline: 'bottom', weight: '600' });
+
+      // Title — pinned to the dedicated top padding band.
+      drawTextCanvas(ctx, W/2, 14,
+        'Same item, two jurisdictions, one currency view',
+        { fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600' });
+      drawTextCanvas(ctx, W/2, 30,
+        'Tax differential: ' + state.tax + '%  ·  FX: ₹' + state.fx.toFixed(2) + '/unit',
+        { fontSize: 10.5, color: 'var(--text-secondary)', baseline: 'top' });
+
+      // Update stats
+      document.getElementById('w3-india').textContent   = '₹' + d.indiaEff.toFixed(0);
+      document.getElementById('w3-foreign').textContent = '₹' + d.foreignINR.toFixed(0);
+      var sign = d.gap >= 0 ? '+' : '−';
+      document.getElementById('w3-gap').textContent =
+        sign + '₹' + Math.abs(d.gap).toFixed(0) +
+        ' (' + (d.gap >= 0 ? '+' : '') + d.gapPct.toFixed(1) + '%)';
     }
 
-    // Hover crosshair
-    var overlay = createSVGElement('rect');
-    overlay.setAttribute('x', pad.left);
-    overlay.setAttribute('y', pad.top);
-    overlay.setAttribute('width', W - pad.left - pad.right);
-    overlay.setAttribute('height', H - pad.top - pad.bottom);
-    overlay.setAttribute('fill', 'transparent');
-    svg.appendChild(overlay);
-
-    var hoverLine = drawLine(svg, 0, pad.top, 0, H - pad.bottom, 'var(--text)', 0.6, '3,3');
-    hoverLine.style.display = 'none';
-    var hoverHLine = drawLine(svg, pad.left, 0, W - pad.right, 0, 'var(--text)', 0.4, '3,3');
-    hoverHLine.style.display = 'none';
-    var dots = [];
-    for (var s = 0; s < series.length; s++) {
-      dots.push(drawCircle(svg, 0, 0, 4, series[s].color, '#fff'));
-      dots[s].style.display = 'none';
-    }
-
-    overlay.addEventListener('mousemove', function(e) {
-      var rect = svg.getBoundingClientRect();
-      var mx = (e.clientX - rect.left) / rect.width * W;
-      var idx = Math.round((mx - pad.left) / (W - pad.left - pad.right) * maxX);
-      idx = Math.max(0, Math.min(visibleEnd - 1, idx));
-      var sx = scaleX(idx, 0, maxX, W, pad);
-
-      hoverLine.setAttribute('x1', sx);
-      hoverLine.setAttribute('x2', sx);
-      hoverLine.style.display = '';
-
-      var html = '';
-      if (xLabels.length > 0) {
-        var lblIdx = Math.round(idx / series[0].data.length * xLabels.length);
-        lblIdx = Math.min(lblIdx, xLabels.length - 1);
-        html += '<strong>' + xLabels[lblIdx] + '</strong><br>';
-      } else {
-        html += 'Period: ' + idx + '<br>';
-      }
-
-      for (var s = 0; s < series.length; s++) {
-        if (idx < series[s].data.length) {
-          var sy = scaleY(series[s].data[idx].y, minP, maxP, H, pad);
-          dots[s].setAttribute('cx', sx);
-          dots[s].setAttribute('cy', sy);
-          dots[s].style.display = '';
-          html += '<span style="color:' + series[s].color + '">' + series[s].name + ': ' + series[s].data[idx].y.toFixed(1) + '</span><br>';
-          if (s === 0) {
-            hoverHLine.setAttribute('y1', sy);
-            hoverHLine.setAttribute('y2', sy);
-            hoverHLine.style.display = '';
-          }
-        }
-      }
-
-      // Difference
-      if (series.length >= 2 && idx < series[0].data.length && idx < series[1].data.length) {
-        var diff = series[0].data[idx].y - series[1].data[idx].y;
-        html += 'Diff: <span style="color:' + (diff >= 0 ? '#48bb78' : '#fc8181') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(1) + '</span>';
-      }
-
-      tooltip.style.display = 'block';
-      tooltip.innerHTML = html;
-      tooltip.style.left = (sx / W * 100) + '%';
-      tooltip.style.top = '5%';
-      tooltip.style.transform = 'translateX(-50%)';
+    attachSliders([
+      { el: document.getElementById('w3-in'),  label: document.getElementById('w3-in-val'),
+        format: function(v){ return '₹' + v.toFixed(0); } },
+      { el: document.getElementById('w3-fp'),  label: document.getElementById('w3-fp-val'),
+        format: function(v){ return v.toFixed(1); } },
+      { el: document.getElementById('w3-fx'),  label: document.getElementById('w3-fx-val'),
+        format: function(v){ return '₹' + v.toFixed(2); } },
+      { el: document.getElementById('w3-tax'), label: document.getElementById('w3-tax-val'),
+        format: function(v){ return v.toFixed(0) + '%'; } }
+    ], function(vals) {
+      state.inINR   = vals['w3-in'];
+      state.foreign = vals['w3-fp'];
+      state.fx      = vals['w3-fx'];
+      state.tax     = vals['w3-tax'];
+      draw();
     });
-
-    overlay.addEventListener('mouseleave', function() {
-      hoverLine.style.display = 'none';
-      hoverHLine.style.display = 'none';
-      for (var s = 0; s < dots.length; s++) dots[s].style.display = 'none';
-      tooltip.style.display = 'none';
-    });
-  }
-
-  draw();
-
-  scrubber.addEventListener('input', function() {
-    visibleEnd = parseInt(this.value);
-    scrubVal.textContent = visibleEnd;
-    draw();
-  });
-})();
-</script>
+  })();
+  </script>
 
 </body>
 </html>

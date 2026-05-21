@@ -3,33 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The 20% Cash Rule — Market Explainers</title>
-  <meta name="description" content="Cash is not sitting idle — it is your most powerful hedge">
+  <title>Cash as a Weapon — Market Explainers</title>
+  <meta name="description" content="The 20% cash rule, the optionality of dry powder, and the arithmetic that decides when cash beats being fully invested.">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="The 20% Cash Rule">
-  <meta property="og:description" content="Cash is not sitting idle — it is your most powerful hedge">
+  <meta property="og:title" content="Cash as a Weapon">
+  <meta property="og:description" content="The 20% cash rule, the optionality of dry powder, and the arithmetic that decides when cash beats being fully invested.">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #2d3748;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    /* Widget-specific layout helpers */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .widget-row.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    @media (max-width: 640px) {
+      .widget-row, .widget-row.three, .widget-row.four { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
+      .widget-row, .widget-row.three, .widget-row.four { grid-template-columns: 1fr; }
+    }
+    .toggle-group {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      margin: 8px 0 14px;
+      flex-wrap: wrap;
+    }
+    .toggle-group button {
+      background: none;
+      border: none;
+      padding: 7px 14px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+    }
+    .toggle-group button:last-child { border-right: none; }
+    .toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .stat-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .stat-mini-grid { grid-template-columns: repeat(2, 1fr); } }
+    .stat-mini {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stat-mini-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .stat-mini-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
   </style>
 </head>
 <body>
@@ -46,9 +109,9 @@
   <!-- Hero -->
   <header class="hero">
     <div class="hero__inner">
-      <h1 class="hero__title">The 20% Cash Rule</h1>
-      <p class="hero__subtitle">Cash is not sitting idle — it is your most powerful hedge</p>
-      <p class="hero__meta">26 min read</p>
+      <h1 class="hero__title">Cash as a Weapon</h1>
+      <p class="hero__subtitle">The 20% rule, the optionality of dry powder, and the arithmetic that turns cash into a strategic position.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 26 min read</p>
     </div>
   </header>
 
@@ -57,439 +120,459 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-the-most-expensive-mistake-you-will-ever-make">I. The Most Expensive Mistake You Will Ever Make</a></li>
-        <li><a href="#ii-why-cash-is-an-active-position-not-a-lazy-one">II. Why Cash Is an Active Position, Not a Lazy One</a></li>
-        <li><a href="#iii-the-20-30-cash-rule-how-to-calibrate-your-hedge">III. The 20-30% Cash Rule: How to Calibrate Your Hedge</a></li>
-        <li><a href="#iv-the-anatomy-of-deployment-how-to-spend-your-cash-bucket">IV. The Anatomy of Deployment: How to Spend Your Cash Bucket</a></li>
-        <li><a href="#v-how-the-smart-money-manages-cash-buffett-ppfas-and-quant-mf">V. How the Smart Money Manages Cash: Buffett, PPFAS, and Quant MF</a></li>
-        <li><a href="#vi-cash-across-market-cycles-the-dynamic-hedge">VI. Cash Across Market Cycles: The Dynamic Hedge</a></li>
-        <li><a href="#vii-the-step-down-sip-and-the-cash-bucket-system">VII. The Step-Down SIP and the Cash Bucket System</a></li>
-        <li><a href="#viii-asset-class-diversification-the-broader-cash-strategy">VIII. Asset Class Diversification: The Broader Cash Strategy</a></li>
-        <li><a href="#ix-putting-it-all-together-your-cash-strategy-action-plan">IX. Putting It All Together: Your Cash Strategy Action Plan</a></li>
+        <li><a href="#i-the-mistake">What is the most expensive mistake you'll ever make?</a></li>
+        <li><a href="#ii-cash-active">Why is cash worth more than its yield?</a></li>
+        <li><a href="#iii-twenty-rule">How much cash should you actually hold?</a></li>
+        <li><a href="#iv-deploy">When and how do you actually deploy the bucket?</a></li>
+        <li><a href="#v-smart-money">What do Buffett, PPFAS, and Quant MF do with their cash?</a></li>
+        <li><a href="#vi-cycles">How should the cash ratio shift across market cycles?</a></li>
+        <li><a href="#vii-step-down">What does the Step-Down SIP actually buy you?</a></li>
+        <li><a href="#viii-diversify">Where else can dry powder live?</a></li>
+        <li><a href="#ix-plan">What is the action plan, in six steps?</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-the-most-expensive-mistake-you-will-ever-make">
+
+    <!-- ============================================================
+         I. The mistake
+         ============================================================ -->
+    <section class="reveal" id="i-the-mistake">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. The Most Expensive Mistake You Will Ever Make</h2>
+        <h2>What is the most expensive mistake you'll ever make?</h2>
       </div>
       <div class="section-content">
-        <p>There is one mistake that destroys more retail portfolios than buying bad stocks, more than chasing momentum, more than ignoring valuations. It is running out of money to buy the dip.</p>
-<p>I have seen this play out hundreds of times across our community. The market falls 10-15%. Stocks you have been watching for months are finally at levels that make the risk-reward compelling. Private banks are sitting at multi-year lows. US tech is down 20-30%. The entire small-cap index has gotten hammered. And you are sitting there, fully invested, with zero cash, watching the opportunity of the cycle pass you by.</p>
-<p>This is not a hypothetical. During the 2024-2025 correction in Indian markets, NIFTY fell over 14% from its peak. Trump tariffs, FII outflows of 71,000 crore in a single month, and a genuine structural slowdown combined to create the kind of buying opportunity that comes once every few years. The investors who had maintained a 20-25% cash position were buying Nifty 50 at support levels, picking up HDFC Bank and ICICI Bank at depressed valuations, and entering US tech names like Amazon at meaningful discounts. The investors who had been 100% invested through the bull run? They were either panic-selling into the correction or sitting frozen, watching unrealized gains evaporate with no ammunition to deploy.</p>
-<p>I want to be direct with you: <strong>the difference between these two groups of investors is not intelligence, it is not stock-picking ability, and it is not information access.</strong> It is portfolio construction. Specifically, it is whether or not they had a disciplined cash hedge in place before the correction arrived.</p>
-<p>This article is going to teach you exactly how to build, maintain, and deploy a cash position as a strategic weapon in your portfolio. We will cover the 20% rule, how to calibrate it to market conditions, how mutual funds and billionaires actually manage their cash, and the precise mechanics of deploying that cash when opportunities present themselves.</p>
-<blockquote>
-<p>If you run out of money to buy the dips, it results from poor portfolio planning. A portfolio does not only consist of stocks; it consists of cash flow, emergency assets, and some form of diversification.</p>
-</blockquote>
-<p>That quote is something I wrote to our community during one of the sharpest corrections we have navigated together. And it captures the core idea of this entire article: <strong>cash is not idle money. It is your most powerful hedge.</strong></p>
-<hr />
+        <p>There is one mistake that destroys more retail portfolios than buying bad stocks, more than chasing momentum, more than ignoring valuations. It is <strong>running out of money to buy the dip</strong>.</p>
+
+        <p>I have seen this play out hundreds of times. The market falls 10&ndash;15%. Stocks you have been watching for months are finally at levels that make the risk-reward compelling. Private banks sit at multi-year lows. US tech is down 20&ndash;30%. The whole small-cap index is hammered. And you are fully invested, with zero cash, watching the opportunity of the cycle pass you by.</p>
+
+        <p>This is not a hypothetical. During the 2024&ndash;2025 correction in Indian markets, NIFTY fell over 14% from peak. Trump tariffs, &#8377;71,000 crore of FII outflows in a single month, and a real structural slowdown combined to create the kind of buying window that arrives once every few years. Investors who had held a 20&ndash;25% cash position were buying Nifty 50 at support, picking up HDFC Bank and ICICI Bank at depressed valuations, and entering US tech names at meaningful discounts. The ones who were 100% invested through the bull run? Panic-selling into the fall, or sitting frozen, watching unrealized gains evaporate with no ammunition to deploy.</p>
+
+        <p>The difference between these two groups is not intelligence, not stock-picking ability, not information access. It is portfolio construction. Specifically, whether or not they had a disciplined cash hedge in place <em>before</em> the correction arrived.</p>
+
+        <blockquote>
+          <p>If you run out of money to buy the dips, it results from poor portfolio planning. A portfolio does not only consist of stocks; it consists of cash flow, emergency assets, and some form of diversification.</p>
+        </blockquote>
+
+        <p>That captures the core idea of this article: <strong>cash is not idle money. It is your most powerful hedge.</strong> The next eight sections will quantify that claim &mdash; with sliders you can move and simulations you can rerun &mdash; until "20% cash" stops sounding like timid advice and starts looking like the math problem it actually is.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-why-cash-is-an-active-position-not-a-lazy-one">
+    <!-- ============================================================
+         II. Cash as an active position
+         ============================================================ -->
+    <section class="reveal" id="ii-cash-active">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. Why Cash Is an Active Position, Not a Lazy One</h2>
+        <h2>Why is cash worth more than its yield?</h2>
       </div>
       <div class="section-content">
-        <p>The mutual fund industry has spent decades drilling a single message into Indian retail investors: &ldquo;time in the market beats timing the market.&rdquo; This phrase, repeated endlessly, carries a subtle but dangerous implication. It teaches you that being fully invested at all times is optimal. That holding cash is a sign of indecision, fear, or poor planning. That every rupee not deployed in equities is a rupee underperforming.</p>
-<p>This is marketing strategy disguised as investment advice.</p>
-<p>Think about it from the fund manager&rsquo;s perspective. A mutual fund charges fees on assets under management. Every rupee you keep in cash is a rupee they cannot charge fees on. They have a structural incentive to keep you 100% invested at all times. And they have built an entire narrative around why that is supposedly in your interest.</p>
-<p>Now look at what these same funds actually do with their own portfolios. According to Economic Times data from July 2024:</p>
-<ul>
-<li><strong>SBI MF</strong> was sitting on Rs 25,857 crore in cash</li>
-<li><strong>Quant MF</strong> held Rs 12,269 crore</li>
-<li><strong>ICICI MF</strong> had Rs 33,790 crore in cash</li>
-<li><strong>HDFC MF</strong> held Rs 23,545 crore</li>
-<li><strong>PPFAS MF</strong> maintained Rs 12,367 crore</li>
-</ul>
-<p>Now, the absolute numbers do not mean much on their own. What matters is the percentage. PPFAS, for example, had an overall AUM of roughly 75,000 crore. That 12,367 crore in cash represents about <strong>15% of their entire portfolio</strong> sitting in cash.</p>
-<p>These are not nervous retail investors hoarding money under the mattress. These are professional fund managers running tens of thousands of crores, and they are deliberately holding 10-15% or more in cash even though it drags down their near-term performance numbers. Why? Because they understand something that the &ldquo;always be invested&rdquo; crowd does not: <strong>cash is optionality.</strong></p>
-<p>When Quant MF increased its cash holdings, it was not because they were scared. It was because the risk-reward of deploying capital at that moment was poor, and they wanted ammunition for when it improved. Mutual funds usually keep only 5% cash. When that number climbs to 10% or above, it means one of two things: they expect a major dip, or they are preparing to rotate capital into a new segment. Both signals matter.</p>
-<p>Warren Buffett makes this point even more dramatically. When Buffett sold 50% of his Apple position and sat on a record cash pile, the financial media treated it like news. But for anyone who understands portfolio construction, it was the most natural thing in the world. Buffett was not bearish on Apple or on America. He was saying, with his capital allocation, that the risk-reward at those prices did not justify being fully invested. He wanted dry powder.</p>
-<p>What was our community doing at the same time? Maintaining 20% cash positions. We were aligned with the greatest investor in history not because we were copying him, but because we were following the same logic.</p>
-<blockquote>
-<p>Warren Buffett has sold 50% of his positions on Apple. What is he doing next? He is sitting on cash. What is our community doing? 20% cash positions at least. Have been saying it for months.</p>
-</blockquote>
-<p><strong>Cash is a position.</strong> When you hold 20% cash, you are making an active investment decision: you are saying that the marginal return of deploying that capital today is lower than the expected return of deploying it at better prices in the future. That is not laziness. That is disciplined capital allocation.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>The mutual fund industry has spent decades drilling a single message into Indian retail investors: <em>"time in the market beats timing the market."</em> Repeated endlessly, the phrase carries a subtle implication: being fully invested at all times is optimal. Holding cash is indecision. Every rupee not deployed in equities is a rupee underperforming.</p>
 
-<hr />
+        <p>This is marketing strategy disguised as investment advice. A mutual fund charges fees on assets under management. Every rupee you keep in cash is a rupee they cannot charge fees on. They have a structural incentive to keep you 100% invested. And they have built an entire narrative around why that supposedly serves you.</p>
+
+        <p>Now look at what these same funds actually do with their own books. According to Economic Times data from July 2024, SBI MF was sitting on &#8377;25,857 crore in cash; Quant MF on &#8377;12,269 crore; ICICI MF on &#8377;33,790 crore; HDFC MF on &#8377;23,545 crore; PPFAS MF on &#8377;12,367 crore. PPFAS's cash represents about <strong>15% of their entire AUM</strong><a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>.</p>
+
+        <p>These are not nervous retail investors hoarding money. They are professional managers running tens of thousands of crores, deliberately holding 10&ndash;15%+ in cash even though it drags near-term performance. Why? Because they understand something the "always be invested" crowd does not: <strong>cash is optionality</strong>.</p>
+
+        <p>The yield on a liquid debt fund is roughly 6.5% in India, 5% on a US T-bill. That is the carry. But the <em>real</em> value of cash is what it lets you do when the market hands you a 20%-off sale. Formally, if drawdowns of average depth <em>d</em> arrive with annual probability <em>p</em>, an extra rupee of cash earns its carry <em>plus</em> an expected option payoff. Roughly:</p>
+
+        <div class="math-block">
+          Value of $1 in cash = (1 + r<sub>cash</sub>) + p &middot; d &middot; (1 + r<sub>recovery</sub>) &minus; 1
+          <span class="math-where">where <em>p</em> is the annual probability of a drawdown of depth <em>d</em>, and <em>r</em><sub>recovery</sub> is the post-trough return earned by capital deployed at the bottom. The second term is the option value of dry powder; it grows fastest when <em>d</em> is large and recoveries are sharp.</span>
+        </div>
+
+        <p>Plug in even pessimistic numbers &mdash; <em>p</em> = 0.25, <em>d</em> = 0.15, <em>r</em><sub>recovery</sub> = 0.25 &mdash; and the optionality term contributes ~4.7% per year on top of the 6.5% carry. That is why a professional accepts the cash drag: they are not measuring cash against the bull-market return on equities, they are measuring it against <em>missing the next dip</em>. The widget below quantifies the trade for any regime you pick.</p>
+
+        <!-- Widget 1: Cash drag vs optionality -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Cash Drag vs Optionality, 10 Years</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="widget-row four">
+            <div class="slider-group">
+              <div class="slider-label"><span>Cash %</span><span class="slider-value" id="w1-cash-val">20%</span></div>
+              <input type="range" id="w1-cash" min="0" max="50" value="20" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Market return</span><span class="slider-value" id="w1-ret-val">10%</span></div>
+              <input type="range" id="w1-ret" min="5" max="15" value="10" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Drawdown prob / yr</span><span class="slider-value" id="w1-prob-val">20%</span></div>
+              <input type="range" id="w1-prob" min="5" max="30" value="20" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Drawdown depth</span><span class="slider-value" id="w1-depth-val">25%</span></div>
+              <input type="range" id="w1-depth" min="10" max="50" value="25" step="1">
+            </div>
+          </div>
+          <div class="stat-mini-grid">
+            <div class="stat-mini"><div class="stat-mini-label">Fully-invested</div><div class="stat-mini-value" id="w1-stat-full">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">Cash-cushioned</div><div class="stat-mini-value" id="w1-stat-cush">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">Max DD (cush.)</div><div class="stat-mini-value" id="w1-stat-mdd">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">Sharpe-ish</div><div class="stat-mini-value" id="w1-stat-sharpe">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">The cash-cushioned line earns less in calm years but deploys at every drawdown. Across most realistic regimes (frequent or deep dips), the option value of dry powder more than pays for the carry cost. Push drawdown depth past 30% to see the asymmetry explode.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the model uses a fixed deployment rule</summary>
+          <p>The simulation deploys 60% of the cash bucket whenever a drawdown of at least <em>d</em>/2 occurs, then assumes a symmetric recovery over the following 18 months. Both choices are conservative: real-world investors who deploy more aggressively at deeper drawdowns (Section IV's tranche system) will see <em>better</em> cash-cushioned returns than the curve shows. The point of the widget is to demonstrate the structural advantage exists even with a naive rule; tactical skill widens the gap further.</p>
+          <p>One thing the model can't capture: the behavioural value of cash. An investor who knows they have dry powder is far less likely to panic-sell during a crash. That behavioural edge alone is worth more than the 1&ndash;2% of carry drag for most retail investors.</p>
+        </details>
+
+        <p>What was our community doing while Buffett trimmed Apple and built a record cash pile? Maintaining 20% cash positions. Aligned not by copying him, but by following the same logic. <strong>Cash is a position.</strong> When you hold 20% cash, you are making an active investment decision: the marginal return of deploying that capital today is lower than the expected return of deploying it at better prices later. That is not laziness. That is disciplined capital allocation.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-the-20-30-cash-rule-how-to-calibrate-your-hedge">
+    <!-- ============================================================
+         III. How much cash?
+         ============================================================ -->
+    <section class="reveal" id="iii-twenty-rule">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. The 20-30% Cash Rule: How to Calibrate Your Hedge</h2>
+        <h2>How much cash should you actually hold?</h2>
       </div>
       <div class="section-content">
-        <p>The framework I use for cash allocation is simple. But &ldquo;simple&rdquo; does not mean &ldquo;one-size-fits-all.&rdquo; The exact percentage depends on market conditions, your investment stage, and your personal cash flows. Here is the complete framework.</p>
-<p><strong>The Baseline: The Growth-Cash Split</strong></p>
-<p>At any given time, your portfolio should be split between growth assets (equities, real estate, BTC/gold) and a cash hedge. The ratio shifts based on market valuation:</p>
-<ul>
-<li><strong>Market clearly undervalued</strong>: 100% invested. No cash hedge. Deploy everything.</li>
-<li><strong>Market fairly valued</strong>: 90-10. Hold 10% cash as a baseline hedge.</li>
-<li><strong>Market towards overvalued</strong>: 80-20. This is where most of the cycle is spent.</li>
-<li><strong>Market in euphoria</strong>: 70-30. Become a net seller and build maximum cash reserves.</li>
-</ul>
-<p>This is the framework I personally follow. When I felt the market was moving toward overvaluation, I shifted to 80-20. When the interest rate cut cycle seemed fully priced in and I saw elevated PEs across small-caps and mid-caps, I moved to 70-30. At one point, my cash position relative to my equity portfolio hit 30% &ndash; meaning if my equity portfolio was 10 crore, I was sitting on 3 crore in cash, locked into risk-free assets, ready to deploy when the time came.</p>
-<p><strong>But What About the Opportunity Cost?</strong></p>
-<p>This is the question that stops most people. &ldquo;If I keep 20% in cash and the market runs up 20%, I have missed out on gains.&rdquo;</p>
-<p>Yes. That is technically true. And it is completely irrelevant.</p>
-<p>Here is why. If you are 80% invested and the market goes up 20%, your portfolio gains 16%. You have &ldquo;missed&rdquo; 4% by holding cash. But if the market instead falls 20% and you deploy your cash at the bottom, you buy at prices 20% cheaper. When the market recovers back to where it started, those positions are up 25%. The net effect on your portfolio is dramatically positive.</p>
-<p>The math is asymmetric. <strong>The cost of holding cash in a bull market is linear. The benefit of having cash in a bear market is exponential.</strong> That 20% cash hedge might cost you 2-4% in a rising market, but it can add 10-15% to your portfolio in a falling one. Over a full cycle, cash hedging beats being fully invested for most retail investors, because most retail investors panic-sell in crashes when they have no cash to deploy.</p>
-<p><strong>The Position-Based Framework</strong></p>
-<p>Here is a more specific way to think about it based on where you are:</p>
-<ol>
-<li><strong>If you are underinvested in the markets</strong> (less than 50% of your intended portfolio): Buy now. You need more equity exposure, not more cash.</li>
-<li><strong>If you are fairly invested</strong> (70-80% of your intended portfolio): Wait. Build your cash position with new income.</li>
-<li><strong>If you are 100% invested</strong>: Create cash positions. Trim overvalued holdings to build a 20% cash bucket.</li>
-</ol>
-<p>This gives you a 20% cash hedge that helps you survive any market environment. If the market falls, you have ammunition. If it goes sideways, you deploy incrementally. If it keeps going up, your 80% participates in the upside.</p>
-<p><strong>Where to Park Your Cash Hedge</strong></p>
-<p>The cash in your hedge is not sitting in a savings account earning 3.5%. It should be in instruments that are liquid, safe, and generating a reasonable return:</p>
-<ul>
-<li><strong>Liquid debt mutual funds</strong> (in India)</li>
-<li><strong>Fixed deposits</strong> (short-term, easily breakable)</li>
-<li><strong>International debt funds</strong> (if you want currency diversification)</li>
-</ul>
-<p>The return on this money is secondary. Its primary job is to be <strong>available</strong> when you need it. As I told the community: if someone asks about the low returns on your cash hedge money, the answer is simple. The role of that money is to hedge, not to grow your portfolio.</p>
-<hr />
+        <p>The framework is simple. But "simple" does not mean "one-size-fits-all." The right percentage depends on where the market is, where you are in your investment journey, and your personal cash flows.</p>
+
+        <p>The baseline split is between growth assets (equities, real estate, BTC/gold) and a cash hedge. The ratio shifts with valuation:</p>
+
+        <ul>
+          <li><strong>Market clearly undervalued</strong>: 100% invested. No cash hedge. Deploy everything.</li>
+          <li><strong>Market fairly valued</strong>: 90/10. Hold 10% cash as a baseline hedge.</li>
+          <li><strong>Market towards overvalued</strong>: 80/20. This is where most of the cycle is spent.</li>
+          <li><strong>Market in euphoria</strong>: 70/30. Become a net seller and build maximum cash reserves.</li>
+        </ul>
+
+        <p>This is the framework I personally follow. When the market moved toward overvaluation I shifted to 80/20. When the rate-cut cycle seemed fully priced in and small-caps and mid-caps had elevated PEs, I went to 70/30. At one point my cash relative to equity portfolio hit 30% &mdash; meaning on a &#8377;10 crore equity book, I was sitting on &#8377;3 crore in cash, locked into risk-free assets, ready to deploy.</p>
+
+        <p><strong>"But what about the opportunity cost?"</strong> If you are 80% invested and the market goes up 20%, your portfolio gains 16%. You have "missed" 4% by holding cash. Yes &mdash; and completely irrelevant. If the market instead falls 20% and you deploy your cash at the bottom, you buy at prices 20% cheaper. When the market recovers, those positions are up 25% from the trough. The math is asymmetric. <strong>The cost of holding cash in a bull market is linear. The benefit of having cash in a bear market is exponential.</strong></p>
+
+        <p>The question this leaves open is: <em>which</em> percentage is best? 10? 20? 30? The honest answer is "it depends on the regime," and the next widget lets you see exactly how. Pick a market return assumption and a drawdown depth, and it plots expected 10-year return against cash allocation, with separate curves for different drawdown frequencies.</p>
+
+        <!-- Widget 2: Opportunity cost explorer -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Optimal Cash %, by Drawdown Regime</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Market return</span><span class="slider-value" id="w2-ret-val">10%</span></div>
+              <input type="range" id="w2-ret" min="5" max="15" value="10" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Drawdown depth</span><span class="slider-value" id="w2-depth-val">25%</span></div>
+              <input type="range" id="w2-depth" min="10" max="50" value="25" step="1">
+            </div>
+          </div>
+          <div class="stat-mini-grid">
+            <div class="stat-mini"><div class="stat-mini-label">Optimal (3-yr cycle)</div><div class="stat-mini-value" id="w2-opt-fast">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">Optimal (5-yr cycle)</div><div class="stat-mini-value" id="w2-opt-mid">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">Optimal (10-yr cycle)</div><div class="stat-mini-value" id="w2-opt-slow">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">"20% rule" delta</div><div class="stat-mini-value" id="w2-delta20">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Three curves. Frequent shallow drawdowns reward high cash. Rare drawdowns punish it. The 20% rule is a sensible compromise &mdash; never the global optimum, never the global pessimum. Notice how the "best" cash % migrates left as drawdowns become rarer.</p>
+        </div>
+
+        <p>That is the deeper lesson: <strong>there is no universal optimal cash percentage</strong>. The number depends on a regime that no one can forecast perfectly. The 20% rule is a robust compromise &mdash; close to optimal across most realistic regimes, never catastrophic in any of them. That's exactly the property you want in a portfolio construction rule.</p>
+
+        <p>The cash itself does not sit in a savings account earning 3.5%. It belongs in instruments that are liquid, safe, and generating a reasonable return: <strong>liquid debt mutual funds</strong> (in India), <strong>short-term fixed deposits</strong> (easily breakable), <strong>international debt funds</strong> (if you want currency diversification), or in the US, <strong>money-market funds and short T-bills</strong> currently yielding 5%+. The return is secondary. Its primary job is to be <em>available</em> when you need it.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-the-anatomy-of-deployment-how-to-spend-your-cash-bucket">
+    <!-- ============================================================
+         IV. Deploying the bucket
+         ============================================================ -->
+    <section class="reveal" id="iv-deploy">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. The Anatomy of Deployment: How to Spend Your Cash Bucket</h2>
+        <h2>When and how do you actually deploy the bucket?</h2>
       </div>
       <div class="section-content">
-        <p>Having cash is only half the strategy. The other half &ndash; the part most people get wrong &ndash; is knowing <strong>when and how to deploy it</strong>. This section will give you a concrete, step-by-step framework.</p>
-<p><strong>The Tranche System for Cash Deployment</strong></p>
-<p>When a correction begins, you do not dump all your cash into the market on day one. You deploy it in tranches, calibrated to the depth of the correction.</p>
-<p>Here is the framework I use:</p>
-<ul>
-<li>
-<p><strong>At 5% correction from peak</strong>: Deploy 25% of your cash bucket. This is your first tranche. You are buying quality names at a modest discount, acknowledging that the market may or may not fall further.</p>
-</li>
-<li>
-<p><strong>At 10% correction from peak</strong> (normal scenario): Deploy an additional 35% of your cash bucket. You are now 60% deployed. At this level, history shows that most corrections stabilize. You are getting genuinely good prices.</p>
-</li>
-<li>
-<p><strong>At 15-20% correction</strong> (bear market territory): Deploy another 30% of your cash bucket. This is the stage where fear is at its maximum and the best opportunities appear. You still hold 10% in reserve for extreme scenarios.</p>
-</li>
-<li>
-<p><strong>Beyond 20%</strong> (crisis-level correction): Deploy the remaining 10%. These are COVID-level, 2008-level events. They are rare but they happen.</p>
-</li>
-</ul>
-<p>Let me show you how this played out in real time. When NIFTY broke the 25,000 psychological level and we entered official correction territory, here is what I told the community:</p>
-<blockquote>
-<p>NIFTY 25K psychological level is now broken. This means we are officially in a correction zone. Now, don&rsquo;t rush to buy. Do your 1 bulk 25% thing and sit tight.</p>
-</blockquote>
-<p>That was the first tranche. 25% of the cash bucket, deployed at the first major support. Then we waited. We let the market tell us what it wanted to do. A few weeks later, when the market had settled further:</p>
-<blockquote>
-<p>NIFTY 50 has corrected 5% from its peak. It is a good time to use 25% of the money from your cash bucket that we have been saving for the last several months. And invest in NIFTY 50. In case the market corrects more, we will use rest of the money for downward averaging.</p>
-</blockquote>
-<p>The discipline here is critical. You are not trying to catch the exact bottom. Nobody can do that. You are systematically deploying capital at progressively better prices, ensuring that your average entry point is somewhere in the lower half of the correction range. This is a strategy that works whether the correction is 5% or 25%.</p>
-<p><strong>What to Buy When You Deploy</strong></p>
-<p>When the cash bucket opens, you do not scatter-gun into random stocks. You buy systematically:</p>
-<ol>
-<li>
-<p><strong>Index funds first</strong>: Nifty 50 or Bank Nifty. These are the safest entry point in a broad correction. They give you immediate market exposure without single-stock risk.</p>
-</li>
-<li>
-<p><strong>Undervalued quality</strong>: Private banks that have underperformed the market for years but have solid corporate numbers. Housing finance firms. Companies where the business fundamentals have not changed but the price has fallen with the market.</p>
-</li>
-<li>
-<p><strong>Growth at a discount</strong>: IT stocks, brokerages, AMC stocks &ndash; businesses with structural tailwinds that have been caught in the downdraft. When PPFAS started adding IT stocks aggressively from January 2025, they were doing exactly this.</p>
-</li>
-<li>
-<p><strong>International markets</strong>: If Indian markets are falling but US tech is holding up (or vice versa), your cash gives you the flexibility to deploy where the risk-reward is best. I had a point where I was 35% invested in the US market with 65% cash, because US valuations were elevated and I wanted maximum ammunition for the correction I expected.</p>
-</li>
-</ol>
-<blockquote>
-<p>Do not use more than 30% of your opportunity fund now.</p>
-</blockquote>
-<p>That line &ndash; a real-time instruction during a market fall triggered by proposed LTCG and STCG tax changes &ndash; illustrates the discipline. Even in an acute sell-off, you deploy a portion of your cash, not all of it. You always keep reserves.</p>
-<p><strong>Reading the Signals: When to Hold Your Cash and When to Start Deploying</strong></p>
-<p>The tranche framework tells you how much to deploy at each stage. But how do you recognize when a correction is beginning and when it is nearly over? You need macro signals.</p>
-<p>One powerful signal is the <strong>Insider Sell-to-Buy Ratio (STB)</strong>. This ratio tells you how aggressively insiders &ndash; CEOs, founders, promoters &ndash; are selling their own company stock at an aggregate level. If you backtest this data, it is remarkably accurate. The STB ratio peaked before the 2008 crash, before the 2020 COVID sell-off, and it peaked again before the latest correction cycle. When the people who know the most about their businesses are reducing their exposure, that is information you should act on.</p>
-<p>But here is the nuance: you do not use the STB ratio to predict exact crash dates. Nobody can do that. You use it to calibrate your cash hedge. When the ratio peaks, you tighten your hedge from 20% to 25-30%. When it normalizes, you can be more aggressive with deployment.</p>
-<blockquote>
-<p>My logical bet on this is: a sideways market with large range volatility. People who aggregate good stocks at good price and keep rotating capital will do very well. Build a simple 20-25% cash hedge to take advantage of that sideways movement.</p>
-</blockquote>
-<p>Another critical distinction is between <strong>price correction</strong> and <strong>time correction</strong>. A price correction is when NIFTY drops 10-15% quickly. This is painful but creates obvious buying opportunities. A time correction is different and much trickier: the market does not lose much value but moves sideways for months or even years, oscillating in a 15-20% range. During a time correction, having cash gives you the ability to buy at the lower end of the range and be patient.</p>
-<blockquote>
-<p>A 10% fall happens, we bulk buy, good for us. Or a 10% fall does not happen &ndash; the NIFTY falls 5%, recovers, then falls 6%, recovers another 7%, and keeps going in that range. You need to prepare for both.</p>
-</blockquote>
-<p>For a sharp price correction, your tranche deployment works perfectly. For a time correction, you deploy smaller amounts at the bottom of the range and stay patient. Your cash bucket works as a shock absorber in both scenarios, but the pattern of deployment differs. Recognizing which type of correction you are navigating is essential to using your cash effectively.</p>
-<hr />
+        <p>Having cash is only half the strategy. The half most people get wrong is knowing <strong>when and how to deploy it</strong>. When a correction begins, you do not dump cash on day one. You deploy in tranches, calibrated to the depth of the fall.</p>
+
+        <p>Here is the framework I use:</p>
+
+        <ul>
+          <li><strong>At 5% from peak</strong>: deploy 25% of the cash bucket. Quality names at a modest discount.</li>
+          <li><strong>At 10% from peak</strong> (normal correction): deploy another 35% &mdash; you are now 60% deployed. History says most corrections stabilise around here.</li>
+          <li><strong>At 15&ndash;20% from peak</strong> (bear territory): deploy another 30%. Fear is at its maximum, the best opportunities appear, you still hold 10% in reserve.</li>
+          <li><strong>Beyond 20%</strong> (crisis-level): deploy the remaining 10%. COVID-level, 2008-level events &mdash; rare, but they happen.</li>
+        </ul>
+
+        <p>Let me show how this played out in real time. When NIFTY broke the 25,000 psychological level and we entered official correction territory, what went out to the community was:</p>
+
+        <blockquote>
+          <p>NIFTY 25K psychological level is now broken. This means we are officially in a correction zone. Now, don't rush to buy. Do your 1 bulk 25% thing and sit tight.</p>
+        </blockquote>
+
+        <p>That was the first tranche. 25% of the cash bucket, deployed at the first major support. Then we waited. We let the market tell us what it wanted to do. A few weeks later, when the market had settled further:</p>
+
+        <blockquote>
+          <p>NIFTY 50 has corrected 5% from its peak. It is a good time to use 25% of the money from your cash bucket that we have been saving for the last several months. And invest in NIFTY 50. In case the market corrects more, we will use the rest of the money for downward averaging.</p>
+        </blockquote>
+
+        <p>The discipline is critical. You are not trying to catch the exact bottom. Nobody can. You are systematically deploying capital at progressively better prices, ensuring your average entry sits somewhere in the lower half of the correction range. The strategy works whether the dip is 5% or 25%.</p>
+
+        <p><strong>What to buy when you deploy.</strong> When the bucket opens, you do not scatter-gun. You buy in priority order: (1) <strong>index funds first</strong> &mdash; Nifty 50, S&amp;P 500, broad exposure, no single-stock risk; (2) <strong>undervalued quality</strong> &mdash; private banks that have underperformed but have solid corporate numbers, housing finance firms, businesses whose fundamentals haven't changed while the price has fallen; (3) <strong>growth at a discount</strong> &mdash; IT stocks, brokerages, AMCs, structural-tailwind businesses caught in the downdraft (this is what PPFAS did starting January 2025); (4) <strong>international markets</strong> &mdash; if Indian markets are falling but US tech holds up or vice versa, your cash gives you the flexibility to deploy where risk-reward is best.</p>
+
+        <blockquote>
+          <p>Do not use more than 30% of your opportunity fund now.</p>
+        </blockquote>
+
+        <p>That line &mdash; a real-time instruction during the LTCG/STCG tax-change sell-off &mdash; illustrates the discipline. Even in an acute fall, you deploy a portion, not all of it. You always keep reserves.</p>
+
+        <p>Two macro signals help calibrate. The <strong>Insider Sell-to-Buy Ratio (STB)</strong> &mdash; how aggressively CEOs, founders, and promoters are selling their own company stock in aggregate &mdash; peaked before 2008, before March 2020, and before the latest correction cycle. When the people who know the most are reducing exposure, that's information<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. Use it not to predict exact crash dates (no one can) but to calibrate: when the ratio peaks, tighten the hedge from 20% to 25&ndash;30%; when it normalises, deploy more aggressively.</p>
+
+        <p>The second distinction is between <strong>price correction</strong> and <strong>time correction</strong>. A price correction is when NIFTY drops 10&ndash;15% quickly &mdash; painful but creates obvious buying opportunities. A time correction is different and trickier: the market does not lose much value but moves sideways for months or even years, oscillating in a 15&ndash;20% range. During a time correction, having cash lets you buy at the lower end of the range and stay patient. Your tranche framework works perfectly for sharp falls; for time corrections, deploy smaller amounts at the bottom of the range and wait. The cash bucket absorbs shocks in both.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-how-the-smart-money-manages-cash-buffett-ppfas-and-quant-mf">
+    <!-- ============================================================
+         V. Smart money
+         ============================================================ -->
+    <section class="reveal" id="v-smart-money">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. How the Smart Money Manages Cash: Buffett, PPFAS, and Quant MF</h2>
+        <h2>What do Buffett, PPFAS, and Quant MF do with their cash?</h2>
       </div>
       <div class="section-content">
-        <p>Understanding how institutional investors handle cash will sharpen your own approach. These are not theoretical models &ndash; these are real allocation decisions made by people managing tens of thousands of crores.</p>
-<p><strong>Warren Buffett and Berkshire Hathaway</strong></p>
-<p>Buffett&rsquo;s cash management is a masterclass. When he sold half his Apple position, the popular narrative was that he was &ldquo;turning bearish.&rdquo; The reality is far more nuanced. Buffett recognized that Apple, after its run-up, offered lower forward returns relative to the opportunity cost of holding cash. With short-term US Treasury yields at 5%+, cash was actually generating attractive risk-free returns. And more importantly, he wanted the firepower to make large acquisitions or deployments when the next dislocation came.</p>
-<p>This is the same logic we apply at a smaller scale. When you keep 20% in liquid funds earning 6-7%, you are not leaving money on the table. You are earning a reasonable return while maintaining the ability to deploy at significantly better prices.</p>
-<p><strong>PPFAS Mutual Fund</strong></p>
-<p>PPFAS is one of the most respected funds in India, and their cash management tells an important story. With 12,367 crore in cash against a 75,000 crore AUM &ndash; roughly 15% &ndash; they were signaling something important: even a fund that is supposed to be fully invested was choosing to hold significant dry powder.</p>
-<p>Then, starting January 2025, PPFAS began aggressively adding IT stocks. They had waited, built their cash position, and deployed it when they saw genuine value in a sector that had been beaten down. This is the cash-as-weapon philosophy in action at the institutional level.</p>
-<blockquote>
-<p>PPFAS has increased its allocation for IT stocks. Now on one hand, most retail trusts funds like PPFAS. On the other: they find it hard to take actions that the fund itself is taking.</p>
-</blockquote>
-<p>That observation matters. Retail investors say they trust PPFAS, but when PPFAS sits on 15% cash, those same retail investors are 100% invested. When PPFAS deploys aggressively into IT, retail investors are still hesitating. The lesson is not to copy PPFAS trade-for-trade. The lesson is to adopt their discipline around cash management.</p>
-<p><strong>Quant Mutual Fund</strong></p>
-<p>Quant MF has been even more aggressive with cash positioning. When they increased their cash holdings well above the industry standard of 5%, it sent a clear signal. Mutual funds hate holding cash because it drags down short-term performance numbers, and performance is how they attract new inflows. For a fund to voluntarily accept that drag, the conviction that better opportunities lay ahead must be very strong.</p>
-<blockquote>
-<p>Many Mutual Funds, including Quant, have increased their cash holding recently. MFs usually keep 5% cash. The only reason why MF will increase their cash positions 10% or above is: if they are expecting the markets to crash, or if they are going to rotate money into a new segment.</p>
-</blockquote>
-<p>The point here is that cash hedging is not a retail-investor crutch. It is a professional capital allocation strategy. The best funds in the world do it. The greatest investor in history does it. And you should do it too.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Understanding how institutional investors handle cash sharpens your own approach. These are not theoretical models. These are real allocation decisions made by people running tens of thousands of crores.</p>
 
-<hr />
+        <p><strong>Warren Buffett and Berkshire Hathaway.</strong> Buffett's cash management is a masterclass. When he sold half his Apple position, the popular narrative was "turning bearish." The reality is more nuanced. Buffett recognised that Apple, after its run-up, offered lower forward returns relative to the opportunity cost of holding cash. With short-term US Treasury yields at 5%+, cash was generating attractive risk-free returns. More importantly, he wanted the firepower for the next dislocation. The same logic applies at smaller scale: when you keep 20% in liquid funds earning 6&ndash;7%, you are not leaving money on the table. You are earning a reasonable return while maintaining the ability to deploy at significantly better prices.</p>
+
+        <p><strong>PPFAS Mutual Fund.</strong> One of the most respected funds in India. With &#8377;12,367 crore in cash against &#8377;75,000 crore AUM &mdash; ~15% &mdash; they were signalling something important: even a fund supposed to be fully invested was choosing significant dry powder. Then, starting January 2025, PPFAS began aggressively adding IT stocks. They had waited, built the position, and deployed when they saw genuine value in a sector that had been beaten down. Cash-as-weapon, at the institutional level.</p>
+
+        <blockquote>
+          <p>PPFAS has increased its allocation for IT stocks. Now on one hand, most retail trusts funds like PPFAS. On the other: they find it hard to take actions that the fund itself is taking.</p>
+        </blockquote>
+
+        <p>Retail investors say they trust PPFAS, but when PPFAS sits on 15% cash, those same retail investors are 100% invested. When PPFAS deploys aggressively into IT, retail investors are still hesitating. The lesson is not to copy PPFAS trade-for-trade. The lesson is to adopt their discipline around cash management.</p>
+
+        <p><strong>Quant Mutual Fund</strong> has been even more aggressive. When they pushed cash holdings well above the industry standard of 5%, the signal was clear. Mutual funds <em>hate</em> holding cash &mdash; it drags short-term numbers, and short-term numbers are how they attract inflows. For a fund to accept that drag voluntarily, the conviction that better opportunities lay ahead must be very strong.</p>
+
+        <blockquote>
+          <p>Many Mutual Funds, including Quant, have increased their cash holding recently. MFs usually keep 5% cash. The only reason why MF will increase their cash positions 10% or above is: if they are expecting the markets to crash, or if they are going to rotate money into a new segment.</p>
+        </blockquote>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; cash isn't always a bullish signal</summary>
+          <p>Be careful when reading institutional cash levels. A fund can hold cash because (a) they expect a drawdown and want optionality, (b) they are mid-rotation between sectors, or (c) they've been hit with redemptions and the cash is operational, not strategic. Only (a) and (b) carry signal.</p>
+          <p>The cleanest read is from closed-end vehicles like Berkshire, where Buffett can't be forced to sell, so a rising cash pile reflects a deliberate allocation choice. For open-end mutual funds, cross-check against net flows: if PPFAS is on 15% cash <em>and</em> taking inflows, that's a strong signal. 15% cash on the back of redemptions is a different story.</p>
+        </details>
+
+        <p>The point: cash hedging is not a retail crutch. It is a professional capital allocation strategy. The best funds in the world do it. The greatest investor in history does it. And you should too.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-cash-across-market-cycles-the-dynamic-hedge">
+    <!-- ============================================================
+         VI. Cycles
+         ============================================================ -->
+    <section class="reveal" id="vi-cycles">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. Cash Across Market Cycles: The Dynamic Hedge</h2>
+        <h2>How should the cash ratio shift across market cycles?</h2>
       </div>
       <div class="section-content">
-        <p>The 20% cash rule is not static. It shifts based on where you are in the market cycle. Understanding when to increase your cash, when to decrease it, and when to flip from net buyer to net seller is what separates sophisticated investors from those who just follow a fixed allocation.</p>
-<p><strong>In a Bull Market (Greed Phase)</strong></p>
-<p>When markets are making new all-time highs consistently, here is the playbook:</p>
-<ol>
-<li>Do not over-invest. Maintain your 20-25% cash hedge. This is the time to be disciplined, not excited.</li>
-<li>Do not under-invest either. Whatever new money you are earning, keep investing &ndash; as long as your cash hedge ratio stays intact.</li>
-<li>Buy quality. This is not the market where you take flyers on speculative small-caps. You buy firms with 15% CAGR growth potential and keep risk low.</li>
-</ol>
-<blockquote>
-<p>When the market is at an all time high, it is critical to lower your risk: keeping cash on the side (20%), buying more cash flow assets is useful.</p>
-</blockquote>
-<p>The temptation in a bull market is to go 100% invested because &ldquo;everything is going up.&rdquo; Resist this. Everything goes up until it does not, and when it stops, the speed of the reversal catches most investors completely off guard.</p>
-<p><strong>In a Correction (Fear Phase)</strong></p>
-<p>This is where your cash earns its keep. The framework:</p>
-<ul>
-<li><strong>At the first support level</strong>: Deploy 25% of your cash bucket. Buy index funds, private banks, and high-quality names that have fallen with the market.</li>
-<li><strong>If the market breaks through the first support</strong>: Deploy another 25-35%. You are now getting genuinely discounted prices.</li>
-<li><strong>Wait for consolidation</strong>: Do not chase falling knives. Let the market form a base, a consolidation pattern. Then deploy more.</li>
-</ul>
-<blockquote>
-<p>Don&rsquo;t be in a rush to buy the dip right now. Just wait for clarity on if we are breaking the support or not. You should use your saved cash very wisely right now.</p>
-</blockquote>
-<p><strong>In a Sideways Market (Consolidation Phase)</strong></p>
-<p>This is actually the trickiest phase, and it is where most investors lose patience. The market is not crashing but it is not rallying either. It moves in a wide range &ndash; maybe 15-20% between top and bottom &ndash; but goes nowhere net.</p>
-<p>In this environment:</p>
-<ul>
-<li>Keep your 20% cash hedge intact.</li>
-<li>If your cash bucket starts growing (because you are earning new income), and the market dips to the lower end of the range, deploy the excess cash.</li>
-<li>Do not let your cash position grow beyond 30% in a sideways market. That is too much sitting on the sidelines when there are buying opportunities at the lower end of the range.</li>
-</ul>
-<blockquote>
-<p>If your 20% cash position goes up, you should go ahead and invest at minor falls. For example: if your portfolio size is 1 crore, you have kept 20 lakh on the sidelines. Now you are getting more cash flows: let&rsquo;s say you earned 5 lakh more. Since your cash bucket is already full, you should go ahead and invest that 5 lakh.</p>
-</blockquote>
-<p>This is nuanced but critical. The cash hedge has a target size. New income above that target gets invested. You are not hoarding indefinitely &ndash; you are maintaining a specific reserve ratio and deploying everything above it.</p>
-<p><strong>In Euphoria (Danger Phase)</strong></p>
-<p>When a single Yamaha showroom in NCR files for an SME IPO raising 12 crore and receives bids of 4,700 crore, you are in euphoria. When MamaEarth announces a subsidiary merger and its market cap jumps by 2,000 crore for a move that changes nothing about the business, you are in euphoria.</p>
-<p>In euphoria, the playbook changes:</p>
-<ul>
-<li>Increase your cash hedge to 30% or more.</li>
-<li>Become a net seller. Take profits on overvalued positions.</li>
-<li>Lock gains into risk-free instruments.</li>
-<li>Be extremely selective about any new purchases.</li>
-</ul>
-<blockquote>
-<p>Signs of pure madness is evident in the market. And, it is very easy to lose sight of the fundamentals. Hence your cash positions and cash flows are the king. One round of clear rally is over. Who makes true wealth from the next round depends on how you are crafting your portfolio.</p>
-</blockquote>
-<p>The investor who builds cash during euphoria and deploys it during the subsequent correction is the one who compounds wealth over decades. This is not market timing &ndash; it is risk management through capital allocation.</p>
-<hr />
+        <p>The 20% rule is not static. It shifts with where you are in the cycle. Understanding when to raise cash, when to lower it, and when to flip from net buyer to net seller is what separates sophisticated investors from those who just follow a fixed allocation.</p>
+
+        <p><strong>In a bull market (greed phase).</strong> When markets are making new all-time highs consistently:</p>
+
+        <ol>
+          <li>Don't over-invest. Maintain the 20&ndash;25% cash hedge. This is the time to be disciplined, not excited.</li>
+          <li>Don't under-invest either. Whatever new money you are earning, keep investing &mdash; as long as your cash hedge ratio stays intact.</li>
+          <li>Buy quality. Not the market for speculative small-caps. Firms with 15% CAGR growth potential, low risk.</li>
+        </ol>
+
+        <p>The temptation in a bull market is to go 100% invested because "everything is going up." Resist this. Everything goes up until it does not, and when it stops, the speed of the reversal catches most investors completely off guard.</p>
+
+        <p><strong>In a correction (fear phase).</strong> This is where your cash earns its keep. At the first support level, deploy 25% of the bucket &mdash; index funds, private banks, high-quality names that have fallen with the market. If the first support breaks, deploy another 25&ndash;35%. Then <em>wait for consolidation</em>. Do not chase falling knives. Let the market form a base before deploying more.</p>
+
+        <p><strong>In a sideways market (consolidation phase).</strong> This is actually the trickiest phase &mdash; the market is not crashing but not rallying. It moves in a wide range (15&ndash;20%) but goes nowhere net. Keep the 20% hedge intact. If your cash bucket starts growing (new income), and the market dips to the lower end of the range, deploy the excess. Do not let the cash position grow beyond 30% in a sideways market &mdash; that is too much sitting out when there are real buying opportunities at the lower end.</p>
+
+        <blockquote>
+          <p>If your 20% cash position goes up, you should go ahead and invest at minor falls. For example: if your portfolio size is 1 crore, you have kept 20 lakh on the sidelines. Now you are getting more cash flows: let's say you earned 5 lakh more. Since your cash bucket is already full, you should go ahead and invest that 5 lakh.</p>
+        </blockquote>
+
+        <p>This is nuanced but critical. The cash hedge has a target size. New income above target gets invested. You are not hoarding indefinitely &mdash; you are maintaining a specific reserve ratio and deploying everything above it.</p>
+
+        <p><strong>In euphoria (danger phase).</strong> When a single Yamaha showroom in NCR files for an SME IPO raising 12 crore and receives bids of 4,700 crore, you are in euphoria. When MamaEarth announces a subsidiary merger and its market cap jumps by 2,000 crore for a move that changes nothing about the business, you are in euphoria. In euphoria: raise the cash hedge to 30%+; become a net seller; take profits on overvalued positions; lock gains into risk-free instruments; be extremely selective about any new purchases.</p>
+
+        <!-- Widget 3: 20% rule stress test -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; The 20% Rule Under Stress, 30 Years</div>
+          <div class="toggle-group" id="w3-toggle">
+            <button data-regime="normal" class="active">Normal regime</button>
+            <button data-regime="crash">2008-style stress</button>
+          </div>
+          <canvas id="w3-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Market return</span><span class="slider-value" id="w3-ret-val">10%</span></div>
+              <input type="range" id="w3-ret" min="5" max="15" value="10" step="0.5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Re-run paths</span><span class="slider-value" id="w3-seed-val">#1</span></div>
+              <input type="range" id="w3-seed" min="1" max="20" value="1" step="1">
+            </div>
+          </div>
+          <div class="stat-mini-grid">
+            <div class="stat-mini"><div class="stat-mini-label">0% cash</div><div class="stat-mini-value" id="w3-stat-0">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">20% cash</div><div class="stat-mini-value" id="w3-stat-20">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">40% cash</div><div class="stat-mini-value" id="w3-stat-40">&mdash;</div></div>
+            <div class="stat-mini"><div class="stat-mini-label">Worst DD (20%)</div><div class="stat-mini-value" id="w3-stat-mdd">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Three strategies over a simulated 30-year horizon. In a normal regime the 0%-cash bar wins on terminal value but with the worst max drawdown. Flip to "2008-style stress" and the 20% bar reliably wins on both ends. Slide the seed to re-run with a different path.</p>
+        </div>
+
+        <p>The investor who builds cash during euphoria and deploys it during the subsequent correction is the one who compounds wealth over decades. This is not market timing. It is risk management through capital allocation.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-the-step-down-sip-and-the-cash-bucket-system">
+    <!-- ============================================================
+         VII. Step-Down SIP
+         ============================================================ -->
+    <section class="reveal" id="vii-step-down">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. The Step-Down SIP and the Cash Bucket System</h2>
+        <h2>What does the Step-Down SIP actually buy you?</h2>
       </div>
       <div class="section-content">
-        <p>Most Indian retail investors have been taught that SIPs (Systematic Investment Plans) are the ultimate set-and-forget investment strategy. And for people who cannot be bothered to learn investing, that is fine. But for anyone reading this article, there is a strictly better approach: the <strong>Step-Down SIP with a Cash Bucket</strong>.</p>
-<p>Here is how it works.</p>
-<p><strong>Traditional SIP</strong>: You invest, say, 1 lakh per month into mutual funds or stocks, regardless of market conditions. In a bull market, you are buying at high prices. In a bear market, you are buying at low prices. Over time, you get a blended average. This is fine but not optimal.</p>
-<p><strong>Step-Down SIP with Cash Bucket</strong>: Instead of investing the full 1 lakh every month, you invest 80,000 and put 20,000 into your cash bucket (liquid debt fund or FD). When the market falls 10%+, you empty that cash bucket and deploy it in bulk at distressed prices.</p>
-<blockquote>
-<p>Instead of putting 1 lakh per month, put 80k. Rest 20k, in liquid debt funds or FDs. This is a step-down SIP, very similar to cash hedges.</p>
-</blockquote>
-<p>The mathematics of this approach are powerful. Let us say over 12 months:</p>
-<ul>
-<li><strong>Traditional SIP</strong>: 12 lakh invested at an average price of X.</li>
-<li><strong>Step-Down SIP</strong>: 9.6 lakh invested monthly at average price X, plus 2.4 lakh deployed in bulk at a 15% discount (price of 0.85X).</li>
-</ul>
-<p>The blended average cost of the Step-Down SIP is lower. And if the market does not correct in those 12 months? You still have 2.4 lakh in liquid funds earning 6-7%, which you can deploy later. The downside is minimal; the upside is significant.</p>
-<p><strong>The Cash Bucket System for Direct Stock Investors</strong></p>
-<p>If you invest in direct stocks rather than mutual funds, the cash bucket system is even more important. Here is the framework:</p>
-<ol>
-<li><strong>Determine your total investable portfolio</strong> (say, 10 lakh).</li>
-<li><strong>Allocate 80% to equities</strong> (8 lakh across 15-20 stocks).</li>
-<li><strong>Allocate 20% to your cash bucket</strong> (2 lakh in liquid funds).</li>
-<li><strong>Any new income</strong> first refills the cash bucket to 20%, then goes into equities.</li>
-<li><strong>When the market falls to a major support</strong>: deploy 25% of the cash bucket.</li>
-<li><strong>After deployment</strong>, use new income to refill the cash bucket back to 20%.</li>
-</ol>
-<p>This system is self-correcting. As your portfolio grows, your cash bucket grows proportionally. As you deploy cash in corrections, new income refills it. You always have ammunition, and you are always buying at better prices than someone who deploys everything immediately.</p>
-<p><strong>Practical Example: A 1 Crore Portfolio</strong></p>
-<p>Let us walk through this with real numbers:</p>
-<ul>
-<li>Total portfolio: 1 crore</li>
-<li>Equity allocation: 80 lakh (across stocks and equity MFs)</li>
-<li>Cash bucket: 20 lakh (in liquid debt funds, earning ~6.5% annualized)</li>
-</ul>
-<p>Market falls 10%. You deploy 5 lakh (25% of cash bucket) into Nifty 50 and select private bank stocks.</p>
-<ul>
-<li>Equity allocation: 85 lakh (including 5 lakh at discounted prices)</li>
-<li>Cash bucket: 15 lakh</li>
-<li>Cash ratio has dropped to about 15%. With new monthly income, you work to bring it back to 20%.</li>
-</ul>
-<p>Market falls another 5% (total 15% from peak). You deploy another 7 lakh.</p>
-<ul>
-<li>Equity allocation: 92 lakh (with significant portion bought at 10-15% discounts)</li>
-<li>Cash bucket: 8 lakh</li>
-<li>You are now heavily invested, but your average cost is meaningfully lower than someone who was 100% invested from the start.</li>
-</ul>
-<p>This is the mechanics of turning cash into returns. Not by timing the market, but by having a systematic framework for deployment.</p>
-<hr />
+        <p>Most Indian retail investors have been taught that SIPs are the ultimate set-and-forget investment strategy. For people who cannot be bothered to learn investing, that is fine. For anyone reading this article, there is a strictly better approach: the <strong>Step-Down SIP with a Cash Bucket</strong>.</p>
+
+        <p>The traditional SIP: you invest &#8377;1 lakh per month into mutual funds or stocks, regardless of market conditions. In a bull market you buy high; in a bear market you buy low. Over time, you get a blended average. Fine, but not optimal.</p>
+
+        <p>The Step-Down SIP with Cash Bucket: instead of investing the full &#8377;1 lakh every month, you invest &#8377;80,000 and put &#8377;20,000 into your cash bucket (liquid debt fund or FD). When the market falls 10%+, you empty that bucket and deploy in bulk at distressed prices.</p>
+
+        <blockquote>
+          <p>Instead of putting 1 lakh per month, put 80k. Rest 20k, in liquid debt funds or FDs. This is a step-down SIP, very similar to cash hedges.</p>
+        </blockquote>
+
+        <p>The math is powerful. Over 12 months: a traditional SIP commits &#8377;12 lakh at average price X. A Step-Down SIP commits &#8377;9.6 lakh monthly at price X, plus &#8377;2.4 lakh deployed in bulk at a 15% discount (price 0.85X). The blended average cost is lower. And if no correction happens? You still have &#8377;2.4 lakh in liquid funds earning 6&ndash;7%, ready for later deployment. Downside is minimal; upside is significant.</p>
+
+        <p><strong>The cash-bucket system for direct stock investors</strong> is the same idea, scaled. Determine your total investable portfolio (say &#8377;10 lakh). Allocate 80% to equities (&#8377;8 lakh across 15&ndash;20 stocks). Allocate 20% to your cash bucket (&#8377;2 lakh in liquid funds). Any new income first refills the bucket to 20%, then goes into equities. When the market falls to a major support, deploy 25% of the bucket. After deployment, refill with new income. The system is self-correcting: as your portfolio grows, the bucket grows proportionally; as you deploy in corrections, new income refills.</p>
+
+        <p>Walk through it with real numbers. Total portfolio &#8377;1 crore: &#8377;80 lakh equity, &#8377;20 lakh cash bucket. Market falls 10%. You deploy &#8377;5 lakh (25% of bucket) into Nifty 50 and select private bank stocks. Now: &#8377;85 lakh equity (including the &#8377;5 lakh at discount), &#8377;15 lakh cash. Cash ratio has dropped to ~15%; new monthly income works to bring it back to 20%. Market falls another 5%. You deploy &#8377;7 lakh. Now: &#8377;92 lakh equity (significant portion at 10&ndash;15% discounts), &#8377;8 lakh cash. You are now heavily invested, but your average cost is meaningfully lower than someone who was 100% invested from the start.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-asset-class-diversification-the-broader-cash-strategy">
+    <!-- ============================================================
+         VIII. Asset class diversification
+         ============================================================ -->
+    <section class="reveal" id="viii-diversify">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. Asset Class Diversification: The Broader Cash Strategy</h2>
+        <h2>Where else can dry powder live?</h2>
       </div>
       <div class="section-content">
-        <p>The 20% cash rule exists within a broader portfolio construction framework. Cash is one form of non-equity hedge, but the smartest investors think about hedging across multiple asset classes. Let me explain how this works.</p>
-<p><strong>The Portfolio as a System</strong></p>
-<p>A portfolio does not only consist of stocks. It consists of:
-- <strong>Equities</strong> (Indian stocks, US stocks, China stocks)
-- <strong>Cash and liquid instruments</strong> (your 20% hedge)
-- <strong>Real estate</strong> (cash-flow generating assets)
-- <strong>Gold and BTC</strong> (insurance assets)</p>
-<p>Each of these serves a different function. Equities are your growth engine. Cash is your ammunition. Real estate provides cash flows that fund your equity buying during drawdowns. Gold and BTC are insurance policies against fiat currency debasement and systemic uncertainty.</p>
-<p>Here is how I think about my own allocation:</p>
-<ul>
-<li><strong>Total Portfolio</strong>: 60% Stocks, 30% Real Estate, 10% BTC/Gold</li>
-<li><strong>Within Stocks</strong>: 65% US/China, 35% India</li>
-<li><strong>Within India Stocks</strong>: 80% large caps, 20% mid and small caps</li>
-<li><strong>Cash hedge</strong>: 20-30% of equity portfolio, depending on market conditions</li>
-</ul>
-<p>Since 2022, I have been buying real estate aggressively. Many people questioned this. But what that allowed me to do during the 2024-2025 correction was extraordinary:</p>
-<ol>
-<li><strong>Get cash flows</strong> from rental income, which I could invest on the dip.</li>
-<li><strong>Stay in an asset class that hardly corrects</strong>, so I could liquidate one property and get money to bulk-invest in stocks.</li>
-<li><strong>Have certainty</strong> about making income the next month, regardless of what stocks did.</li>
-</ol>
-<blockquote>
-<p>This is a point that I picked up in 2021: that it is critical to be asset class diversified. At that stage, I used to be almost 100% stocks, 0% anything else. The steps I took in 2022 are helping me now.</p>
-</blockquote>
-<p>For investors who cannot afford real estate, gold and BTC serve a similar function. If you have 5% in gold and the equity market crashes 20%, you can liquidate the gold (which typically rises during equity selloffs) and deploy that capital into stocks at depressed prices. This is cross-asset rebalancing, and it is one of the most powerful wealth-building strategies available to retail investors.</p>
-<p><strong>Gold and BTC as Cash Equivalents</strong></p>
-<p>One could argue there is no intrinsic value in BTC or gold. They are not cash-flow assets. But from an investment perspective, they are insurance.</p>
-<ul>
-<li><strong>BTC performs well in high-liquidity environments.</strong> When central banks are printing money, BTC tends to rise.</li>
-<li><strong>Gold performs well in uncertainty environments.</strong> When geopolitical risk is elevated, gold tends to rise.</li>
-</ul>
-<p>If you buy 5% gold and 5% BTC, they serve as a 10% non-correlated hedge. When fiat-denominated assets go down, these tend to go up. This means in a severe equity drawdown, you have assets you can liquidate to fund your equity buying &ndash; effectively expanding your cash bucket when you need it most.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>The 20% cash rule exists within a broader construction framework. Cash is one form of non-equity hedge, but the smartest investors think about hedging across multiple asset classes. A portfolio does not only consist of stocks. It consists of <strong>equities</strong> (Indian, US, China), <strong>cash and liquid instruments</strong> (the 20% hedge), <strong>real estate</strong> (cash-flow assets), and <strong>gold and BTC</strong> (insurance assets).</p>
 
-<p><strong>Why Companies Hoard Cash Too: The Buyback Lesson</strong></p>
-<p>There is a useful parallel here from the corporate world that reinforces why cash is a weapon. The best-run companies in the world &ndash; Apple, Google, Microsoft &ndash; sit on enormous cash piles. Why? For the same reason you should: optionality.</p>
-<p>One key use is <strong>stock buybacks</strong>. When a company like Apple buys back its own shares from the open market, it is doing exactly what we are discussing: deploying cash at attractive prices. When Apple stock falls, the company uses its cash reserves to buy shares, creating a counter-buyer position that supports the price and rewards long-term shareholders. This is one of the key reasons why mega-cap tech stocks tend to recover faster from drawdowns &ndash; they have an internal cash weapon that smaller companies do not.</p>
-<blockquote>
-<p>Firms like Apple and Google are right now cash-rich firms. One of the key reasons why the stock price of these firms keeps going up is they buy their own stocks from the open market when it falls and bring the stock price back up.</p>
-</blockquote>
-<p>As a retail investor, you are doing the same thing with your portfolio. When the market falls, you deploy your cash to buy more of your best positions at lower prices. Just like Apple buying its own shares, you are creating a counter-buyer for your portfolio. The only difference is scale.</p>
-<p>This also tells you something about which companies to own. <strong>Cash-rich companies that buy back shares are structurally more resilient in downturns.</strong> They have the same weapon you have. In a portfolio where both you and the companies you own are deploying cash strategically during drawdowns, the compounding effect over a decade is extraordinary.</p>
-<p>The point is this: your &ldquo;cash&rdquo; strategy is not just about the 20% in liquid funds. It is about having multiple sources of deployable capital. Your salary is one. Your liquid funds are another. Your gold allocation is a third. Your rental income is a fourth. The more sources of dry powder you have, the more aggressively you can buy during corrections, and the better your long-term returns will be.</p>
-<hr />
+        <p>Each serves a different function. Equities are your growth engine. Cash is your ammunition. Real estate provides cash flows that fund equity buying during drawdowns. Gold and BTC are insurance against fiat debasement and systemic uncertainty.</p>
+
+        <p>Here is how I think about my own allocation: total portfolio &mdash; 60% stocks, 30% real estate, 10% BTC/gold. Within stocks: 65% US/China, 35% India. Within India stocks: 80% large caps, 20% mid and small caps. Cash hedge: 20&ndash;30% of equity portfolio, depending on market conditions.</p>
+
+        <p>Since 2022 I have been buying real estate aggressively. Many questioned it. But during the 2024&ndash;2025 correction the diversification did three things: (1) provided rental income to invest on the dip; (2) kept me in an asset class that hardly corrects, so I could liquidate one property to bulk-invest in stocks; (3) gave certainty about making income next month regardless of what stocks did.</p>
+
+        <blockquote>
+          <p>This is a point that I picked up in 2021: that it is critical to be asset class diversified. At that stage, I used to be almost 100% stocks, 0% anything else. The steps I took in 2022 are helping me now.</p>
+        </blockquote>
+
+        <p>For investors who cannot afford real estate, <strong>gold and BTC serve a similar function</strong>. If you have 5% in gold and the equity market crashes 20%, you can liquidate the gold (which typically rises during equity selloffs) and deploy that capital into stocks at depressed prices. This is cross-asset rebalancing &mdash; one of the most powerful wealth-building strategies available to retail investors. BTC performs well in high-liquidity environments (when central banks print, BTC rises); gold performs well in uncertainty (when geopolitical risk is elevated, gold rises). A 5%/5% split is a 10% non-correlated hedge that expands your effective cash bucket when you need it most<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>.</p>
+
+        <p><strong>Why companies hoard cash too.</strong> There is a useful corporate parallel. The best-run companies in the world &mdash; Apple, Google, Microsoft &mdash; sit on enormous cash piles. Why? Same reason you should: optionality. One key use is stock buybacks. When Apple buys back its own shares from the open market, it is doing exactly what we are discussing: deploying cash at attractive prices. When the stock falls, the company uses cash reserves to buy shares, creating a counter-buyer position that supports the price and rewards long-term shareholders. One of the key reasons mega-cap tech stocks recover faster from drawdowns &mdash; they have an internal cash weapon smaller companies do not.</p>
+
+        <blockquote>
+          <p>Firms like Apple and Google are right now cash-rich firms. One of the key reasons why the stock price of these firms keeps going up is they buy their own stocks from the open market when it falls and bring the stock price back up.</p>
+        </blockquote>
+
+        <p>As a retail investor you are doing the same with your portfolio. When the market falls, you deploy cash to buy more of your best positions at lower prices. Same idea, smaller scale. This also tells you which companies to own. <strong>Cash-rich companies that buy back shares are structurally more resilient in downturns.</strong> They have the same weapon you have. In a portfolio where both you and the companies you own are deploying cash strategically during drawdowns, the compounding effect over a decade is extraordinary.</p>
+
+        <p>The point: your "cash" strategy is not just the 20% in liquid funds. It is having multiple sources of deployable capital. Your salary is one. Your liquid funds are another. Your gold allocation is a third. Your rental income is a fourth. The more sources of dry powder, the more aggressively you can buy during corrections, and the better your long-term returns.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-putting-it-all-together-your-cash-strategy-action-plan">
+    <!-- ============================================================
+         IX. Action plan
+         ============================================================ -->
+    <section class="reveal" id="ix-plan">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. Putting It All Together: Your Cash Strategy Action Plan</h2>
+        <h2>What is the action plan, in six steps?</h2>
       </div>
       <div class="section-content">
-        <p>Let me distill everything we have covered into a concrete action plan you can implement starting today.</p>
-<p><strong>Step 1: Audit Your Current Position</strong></p>
-<p>Look at your portfolio right now. What percentage is in equities? What percentage is in cash or liquid instruments? If you are 100% in equities with zero cash reserve, you are exposed. You need to build a cash buffer, and you need to do it before the next correction, not during it.</p>
-<p>If your equity portfolio is at a level where trimming 10-20% of overvalued positions makes sense, do it. Sell the stocks where you cannot confidently say &ldquo;If this falls 20%, I will buy more.&rdquo; Those positions are the ones to trim. Move the proceeds into your cash bucket.</p>
-<p><strong>Step 2: Set Your Target Cash Ratio</strong></p>
-<p>Based on current market conditions, decide your ratio. Use the framework:</p>
-<ul>
-<li>Market undervalued: 0-10% cash</li>
-<li>Market fairly valued: 10-15% cash</li>
-<li>Market overvalued: 20-25% cash</li>
-<li>Market in euphoria: 25-30%+ cash</li>
-</ul>
-<p>Right now, assess honestly: where is the market? If PEs are elevated despite corrections in small-caps and mid-caps, if earnings growth for most firms is average, if there is bullishness without fundamental backing &ndash; then 20-25% cash is the right number.</p>
-<p><strong>Step 3: Implement the Step-Down SIP</strong></p>
-<p>If you invest monthly, reduce your equity SIP by 20% and redirect that into a liquid debt fund. This builds your cash bucket automatically without requiring you to make any selling decisions.</p>
-<p><strong>Step 4: Define Your Deployment Triggers</strong></p>
-<p>Write this down. Before the market falls. Not during.</p>
-<ul>
-<li>At what NIFTY level (or what percentage decline) will you deploy your first 25%?</li>
-<li>At what level will you deploy the next 35%?</li>
-<li>What specific stocks or indices will you buy?</li>
-</ul>
-<p>Having this written before a correction removes emotion from the equation. When the market is falling and everyone around you is panicking, you pull out your plan and execute mechanically. This is how professionals invest.</p>
-<p><strong>Step 5: Replenish After Deployment</strong></p>
-<p>After you deploy cash into a correction, your cash bucket is depleted. Immediately begin refilling it with new income. The goal is to always maintain your target ratio, because you never know when the next opportunity will come.</p>
-<p><strong>Step 6: Diversify Your Sources of Dry Powder</strong></p>
-<p>Beyond your liquid fund cash bucket, think about other sources of deployable capital:
-- Rental income from real estate
-- Gold or BTC that can be liquidated in extreme scenarios
-- Fixed deposits that can be broken
-- Even borrowing against real estate at low interest rates to deploy into deeply discounted equities (advanced strategy, not for everyone)</p>
-<p><strong>The Stress Test</strong></p>
-<p>Here is the ultimate stress test for your portfolio. Answer these questions honestly:</p>
-<ol>
-<li>If the market falls 20% tomorrow, do you have cash to buy?</li>
-<li>If your best stock falls 30%, can you add to it?</li>
-<li>If a once-in-a-decade buying opportunity appears, do you have enough capital to take a meaningful position?</li>
-</ol>
-<p>If the answer to any of these is &ldquo;no,&rdquo; your portfolio is not properly constructed. Fix it now, while the market is giving you the luxury of time.</p>
-<blockquote>
-<p>A simple stress test: if you hold stock X and it falls by 20%, what are you going to do? If the answer is not &ldquo;I will buy more of it,&rdquo; it is time to get out of that stock.</p>
-</blockquote>
-<p><strong>The Liquidity Context: Why Cash Matters More Now Than Ever</strong></p>
-<p>There is a macro reason why the cash hedge strategy is especially critical in today&rsquo;s market environment. The world is running on liquidity. If you track the Global Liquidity Index (GLI), you will see that global liquidity jacked up dramatically post-COVID. Since then, governments have been trying to keep liquidity in check to prevent inflation from spiraling. But here is the key insight: no government can afford to actually withdraw liquidity from the market. They can slow the growth of liquidity, but net liquidity has to go up over time &ndash; there is no other option.</p>
-<blockquote>
-<p>The world is screwed. We are surviving on fake liquidity, inflation cannot be controlled at least for a decade. We have no option but to do high-risk investing in this time frame. And, deal with the drawdowns.</p>
-</blockquote>
-<p>What this means for your cash strategy: the drawdowns will keep coming, but they will be followed by liquidity-driven recoveries. The investors who have cash to deploy during these drawdowns will capture the recoveries. The investors who are fully invested will ride the drawdown down and the recovery back up &ndash; getting nowhere net &ndash; while the cash-deployers buy the bottom and ride only the recovery.</p>
-<p>When RBI pushed 60,000 crore into the economy through Open Market Operations during the 2025 correction, it was firefighting against 71,000 crore of FII selling. These liquidity injections tend to create bottoms. If you have cash ready when the central bank starts injecting liquidity, you are buying at almost exactly the point of maximum opportunity. Without cash, you are just a spectator watching the liquidity lift stocks you already own back to where they were.</p>
-<p><strong>The Long-Term Perspective</strong></p>
-<p>Indian markets went 6X from 1999 to 2008. They went 2X from 2010 to 2019. Over any decade-long period, equity markets go up. The question is not whether you will make money &ndash; it is how much money you will make. And the investors who make the most are not the ones who picked the best stocks. They are the ones who had cash to deploy when everyone else was running scared.</p>
-<p>I want to leave you with a perspective shift. Think of your portfolio as a business. Every business needs working capital &ndash; money set aside to seize opportunities, weather downturns, and fund growth. A business that deploys 100% of its capital into inventory with zero working capital reserve is one bad quarter away from bankruptcy. Your portfolio is the same. The 20% cash hedge is your working capital. It is what keeps your portfolio alive and growing through every type of market.</p>
-<blockquote>
-<p>If I simply take the profits out now, put it in an FD, do nothing for the next 2 years: I would still beat 90%+ funds out there. I am not saying this to boast. Any retail guy can beat big funds. Why? Because we have massive advantages: we can rotate capital, invest small amounts, sit or not sit on cash. These are all structural flexibilities we have, which many large funds do not have. So take advantage.</p>
-</blockquote>
-<p>That structural flexibility &ndash; the ability to hold cash, deploy it on your own timeline, and not answer to quarterly performance pressure &ndash; is the single biggest edge retail investors have over institutions. Mutual funds cannot sit on 30% cash for six months without their AUM shrinking as panicked investors redeem. You can. Hedge funds cannot explain to their LPs why they are 80-20 for an extended period. You do not have to explain to anyone.</p>
-<p>Cash is not a drag on your portfolio. It is not money earning 6% when it could be earning 15%. It is the most powerful weapon in your arsenal, sitting quietly in the corner, waiting for the moment when it can multiply your wealth. The 20% cash rule is not about being cautious. It is about being ready. It is about having the courage to act when the market gives you a gift, and having the discipline to wait until it does.</p>
-<p>The market rewards patience. But it only rewards patience that is backed by capital. Hold your cash. Guard it. And deploy it when the time is right. That is how real wealth is built.</p>
+        <p>Distil everything into a concrete plan you can implement starting today.</p>
+
+        <p><strong>Step 1: Audit your current position.</strong> Look at your portfolio right now. What percentage is in equities? In cash or liquid instruments? If you are 100% in equities with zero cash reserve, you are exposed. Build the buffer <em>before</em> the next correction, not during. If your equity book has positions where trimming 10&ndash;20% of overvalued holdings makes sense, do it. Sell the stocks where you cannot confidently say "If this falls 20%, I will buy more." Those are the positions to trim.</p>
+
+        <p><strong>Step 2: Set your target cash ratio.</strong> Use the framework: undervalued 0&ndash;10%, fairly valued 10&ndash;15%, overvalued 20&ndash;25%, euphoria 25&ndash;30%+. Assess honestly. Elevated PEs despite small/mid-cap corrections, average earnings growth, bullishness without fundamental backing &rarr; 20&ndash;25% is the right number.</p>
+
+        <p><strong>Step 3: Implement the Step-Down SIP.</strong> If you invest monthly, reduce your equity SIP by 20% and redirect it into a liquid debt fund. This builds the bucket automatically without requiring any selling decisions.</p>
+
+        <p><strong>Step 4: Define your deployment triggers.</strong> Write them down. Before the market falls. Not during.</p>
+
+        <ul>
+          <li>At what NIFTY level (or percentage decline) will you deploy your first 25%?</li>
+          <li>At what level will you deploy the next 35%?</li>
+          <li>What specific stocks or indices will you buy?</li>
+        </ul>
+
+        <p>Having this written before a correction removes emotion from the equation. When the market is falling and everyone around you is panicking, you pull out your plan and execute mechanically.</p>
+
+        <p><strong>Step 5: Replenish after deployment.</strong> After you deploy cash into a correction, the bucket is depleted. Immediately begin refilling with new income. The goal is to always maintain your target ratio, because you never know when the next opportunity will come.</p>
+
+        <p><strong>Step 6: Diversify your sources of dry powder.</strong> Beyond your liquid fund cash bucket: rental income from real estate; gold or BTC that can be liquidated in extreme scenarios; fixed deposits that can be broken; even borrowing against real estate at low interest rates to deploy into deeply discounted equities (advanced, not for everyone).</p>
+
+        <div class="callout">
+          <div class="callout-title">The stress test</div>
+          <p>If the market falls 20% tomorrow, do you have cash to buy? If your best stock falls 30%, can you add to it? If a once-in-a-decade buying opportunity appears, do you have enough capital to take a meaningful position? If the answer to any of these is "no," your portfolio is not properly constructed. Fix it now, while the market is giving you the luxury of time.</p>
+        </div>
+
+        <p><strong>Why this matters more now.</strong> The world is running on liquidity. If you track the Global Liquidity Index, you'll see it jacked up dramatically post-COVID. Since then, governments have tried to keep liquidity in check to prevent inflation from spiraling. But the key insight: no government can afford to actually withdraw liquidity from the market. They can slow the growth of liquidity, but net liquidity has to go up over time &mdash; there is no other option.</p>
+
+        <blockquote>
+          <p>The world is screwed. We are surviving on fake liquidity, inflation cannot be controlled at least for a decade. We have no option but to do high-risk investing in this time frame. And, deal with the drawdowns.</p>
+        </blockquote>
+
+        <p>The drawdowns will keep coming, but they will be followed by liquidity-driven recoveries. Investors with cash to deploy during drawdowns capture the recoveries. Investors who are fully invested ride the drawdown down and the recovery back up &mdash; getting nowhere net &mdash; while the cash-deployers buy the bottom and ride only the recovery. When RBI pushed &#8377;60,000 crore into the economy through Open Market Operations during the 2025 correction &mdash; firefighting against &#8377;71,000 crore of FII selling &mdash; the injection created a bottom. Cash-ready investors bought at almost exactly the point of maximum opportunity. Without cash, you were a spectator watching liquidity lift stocks you already owned back to where they were.</p>
+
+        <p>Indian markets went 6&times; from 1999 to 2008. They went 2&times; from 2010 to 2019. Over any decade-long period, equity markets go up. The question is not <em>whether</em> you make money &mdash; it is <em>how much</em>. And the investors who make the most are not the ones who picked the best stocks. They are the ones who had cash to deploy when everyone else was running scared.</p>
+
+        <p>Think of your portfolio as a business. Every business needs working capital &mdash; money set aside to seize opportunities, weather downturns, fund growth. A business that deploys 100% into inventory with zero working capital is one bad quarter from bankruptcy. Your portfolio is the same. The 20% cash hedge is your working capital. It is what keeps your portfolio alive and growing through every type of market.</p>
+
+        <blockquote>
+          <p>If I simply take the profits out now, put it in an FD, do nothing for the next 2 years: I would still beat 90%+ funds out there. I am not saying this to boast. Any retail guy can beat big funds. Why? Because we have massive advantages: we can rotate capital, invest small amounts, sit or not sit on cash. These are all structural flexibilities we have, which many large funds do not have. So take advantage.</p>
+        </blockquote>
+
+        <p>That structural flexibility &mdash; the ability to hold cash, deploy it on your own timeline, and not answer to quarterly performance pressure &mdash; is the single biggest edge retail investors have over institutions. Mutual funds cannot sit on 30% cash for six months without their AUM shrinking as panicked investors redeem. You can. Hedge funds cannot explain to their LPs why they are 80/20 for an extended period. You do not have to explain to anyone.</p>
+
+        <p>Cash is not a drag on your portfolio. It is not money earning 6% when it could be earning 15%. It is the most powerful weapon in your arsenal, sitting quietly in the corner, waiting for the moment when it can multiply your wealth. The 20% cash rule is not about being cautious. It is about being ready. It is about having the courage to act when the market gives you a gift, and the discipline to wait until it does.</p>
+
+        <p>The market rewards patience. But it only rewards patience that is backed by capital. Hold your cash. Guard it. And deploy it when the time is right. That is how real wealth is built.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Cash holdings figures for SBI MF, Quant MF, ICICI MF, HDFC MF, and PPFAS MF are drawn from Economic Times reporting (July 2024) on AMC cash positions. The interpretation that PPFAS's &#8377;12,367 crore represents ~15% of AUM uses their then-reported flexicap and overall scheme AUMs; the precise ratio shifts month to month with flows. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The Insider Sell-to-Buy ratio (sometimes published as the Vickers or Form 4 ratio in US markets, and aggregated by SEBI disclosures in India) measures the dollar value of insider sells divided by insider buys over a rolling window. It peaked at ~12&times; in late 2007, ~9&times; in February 2020, and pushed into the upper-7&times; range in late 2024 before the recent correction. Useful as a regime signal, useless as a market-timing predictor. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">The "rebalance from gold/BTC into equities at the trough" trade depends critically on the non-correlation actually holding during the crisis. In March 2020 every risk asset including gold initially sold off together as the liquidity squeeze forced cross-asset deleveraging; only after the Fed intervened did the correlation break. Treat gold/BTC as a slow hedge, not an instant one. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -499,37 +582,26 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
-      const revealElements = document.querySelectorAll('.reveal');
-
+      var revealElements = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(function(entries) {
+        var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
               entry.target.classList.add('visible');
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -544,495 +616,487 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 600, H = 200;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var assets = [{"name": "Equity (Stocks + MFs)", "min_weight": 60, "max_weight": 85, "color": "#4299e1"}, {"name": "Cash / Liquid Funds", "min_weight": 15, "max_weight": 30, "color": "#48bb78"}];
-  var risk = 5;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "The 80-20 Cash Hedge Framework";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var riskLabel = document.createElement('label');
-  riskLabel.textContent = 'Risk Tolerance: ';
-  var riskVal = document.createElement('span');
-  riskVal.style.fontWeight = '600';
-  riskVal.textContent = risk + '/10';
-  riskLabel.appendChild(riskVal);
-  ctrl.appendChild(riskLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = 10;
-  slider.value = risk;
-  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(legend);
-
-  function computeWeights(r) {
-    // r from 1-10: interpolate each asset between min_weight and max_weight
-    // Higher risk => more equity-heavy (first assets get closer to max)
-    var t = (r - 1) / 9; // 0..1
-    var raw = [];
-    var total = 0;
-    for (var i = 0; i < assets.length; i++) {
-      var a = assets[i];
-      // First asset (equity) scales up with risk, last (cash) scales down
-      var bias = i === 0 ? t : (i === assets.length - 1 ? 1 - t : 0.5);
-      var w = a.min_weight + (a.max_weight - a.min_weight) * bias;
-      raw.push(w);
-      total += w;
+  <!-- ============================================================
+       Shared simulation helpers (deterministic RNG, drawdown model)
+       ============================================================ -->
+  <script>
+    // Mulberry32 deterministic PRNG so widgets are reproducible per "seed"
+    function mulberry32(a) {
+      return function() {
+        a |= 0; a = a + 0x6D2B79F5 | 0;
+        var t = a;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
     }
-    // Normalize to 100
-    return raw.map(function(w) { return (w / total) * 100; });
-  }
 
-  var rects = [];
-  var labels = [];
+    // Project the wealth path for an equity/cash split with periodic drawdowns.
+    // Returns { equity: [...], cushion: [...], maxDD: number, finalEq, finalCu }.
+    //   opts = { years, cashPct, retAnnual, ddProb, ddDepth, cashYield, rng, recoveryMonths }
+    function simulateWealth(opts) {
+      var months = Math.max(1, opts.years * 12);
+      var monthlyRet = Math.pow(1 + opts.retAnnual, 1/12) - 1;
+      var monthlyCash = Math.pow(1 + (opts.cashYield === undefined ? 0.055 : opts.cashYield), 1/12) - 1;
+      var rng = opts.rng || Math.random;
+      var ddProbMonthly = 1 - Math.pow(1 - opts.ddProb, 1/12);
+      var recoveryMonths = opts.recoveryMonths || 18;
 
-  function draw(animate) {
-    var weights = computeWeights(risk);
-    var barY = pad.top + 10;
-    var barH = H - pad.top - pad.bottom - 20;
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
+      // Pre-pick drawdown months for determinism
+      var ddSchedule = [];
+      for (var m = 6; m < months; m++) {
+        if (rng() < ddProbMonthly) {
+          // mark a drawdown that begins at month m, with magnitude jittered around ddDepth
+          var depth = opts.ddDepth * (0.75 + rng() * 0.5);
+          ddSchedule.push({ start: m, depth: depth });
+          m += 6; // refractory period so drawdowns don't stack
+        }
+      }
 
-    // On first draw, create elements
-    if (rects.length === 0) {
-      for (var i = 0; i < assets.length; i++) {
-        var r = drawRect(svg, x, barY, 0, barH, assets[i].color, 4);
-        r.style.transition = 'x 0.4s ease, width 0.4s ease';
-        rects.push(r);
+      // Fully-invested path
+      var equityFull = [1];
+      // Cash-cushioned path: equity portion + cash bucket portion tracked separately
+      var equityPortion = 1 - opts.cashPct;
+      var cashPortion = opts.cashPct;
+      var wealthCush = [1];
 
-        var lbl = drawText(svg, 0, barY + barH / 2, '', {
-          fontSize: 12, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
+      var maxDD = 0;
+      var peakFull = 1, peakCush = 1;
+
+      for (var i = 1; i <= months; i++) {
+        // Normal monthly drift
+        var driftFull = monthlyRet;
+        var driftCush = monthlyRet;
+        var deployNow = false;
+
+        for (var s = 0; s < ddSchedule.length; s++) {
+          var dd = ddSchedule[s];
+          // First month of drawdown: apply the shock all at once
+          if (dd.start === i) {
+            driftFull = -dd.depth;
+            driftCush = -dd.depth;
+            deployNow = true;
+          }
+          // Recovery phase: linear bounce back over recoveryMonths
+          if (i > dd.start && i <= dd.start + recoveryMonths) {
+            var recoveryStep = dd.depth / recoveryMonths;
+            driftFull = monthlyRet + recoveryStep;
+            driftCush = monthlyRet + recoveryStep;
+          }
+        }
+
+        // Apply to fully-invested
+        var prev = equityFull[i-1];
+        equityFull.push(prev * (1 + driftFull));
+
+        // Apply to cushioned: equity moves with drift, cash earns yield
+        equityPortion = equityPortion * (1 + driftCush);
+        cashPortion   = cashPortion   * (1 + monthlyCash);
+
+        // Deployment: at the first month of a drawdown, move 60% of cash bucket into equity
+        // at the discounted price (i.e., buy at the post-drop equity multiplier)
+        if (deployNow && cashPortion > 0) {
+          var deploy = cashPortion * 0.6;
+          equityPortion += deploy;
+          cashPortion -= deploy;
+        }
+
+        var totalCush = equityPortion + cashPortion;
+        wealthCush.push(totalCush);
+
+        peakFull = Math.max(peakFull, equityFull[i]);
+        peakCush = Math.max(peakCush, totalCush);
+        var ddCush = (peakCush - totalCush) / peakCush;
+        if (ddCush > maxDD) maxDD = ddCush;
+      }
+
+      return {
+        equity: equityFull,
+        cushion: wealthCush,
+        maxDD: maxDD,
+        finalEq: equityFull[equityFull.length - 1],
+        finalCu: wealthCush[wealthCush.length - 1]
+      };
+    }
+  </script>
+
+  <!-- ============================================================
+       WIDGET 1 — Cash drag vs optionality (10-year sim)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 340 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    // Initialise state and cached sim BEFORE attachSliders, because the helper
+    // fires its callback immediately on init.
+    var state = { cashPct: 0.20, ret: 0.10, ddProb: 0.20, ddDepth: 0.25 };
+    var sim = null;
+
+    function recompute() {
+      // Average 24 paths so the curve is smooth as the user drags sliders
+      var nPaths = 24, years = 10;
+      var sumEq = new Array(years*12 + 1).fill(0);
+      var sumCu = new Array(years*12 + 1).fill(0);
+      var sumMDD = 0, sumFinalEq = 0, sumFinalCu = 0;
+      for (var p = 0; p < nPaths; p++) {
+        var rng = mulberry32(1009 + p * 31);
+        var r = simulateWealth({
+          years: years, cashPct: state.cashPct,
+          retAnnual: state.ret, ddProb: state.ddProb, ddDepth: state.ddDepth,
+          cashYield: 0.055, rng: rng, recoveryMonths: 18
         });
-        lbl.style.transition = 'x 0.3s ease';
-        labels.push(lbl);
+        for (var i = 0; i < sumEq.length; i++) {
+          sumEq[i] += r.equity[i];
+          sumCu[i] += r.cushion[i];
+        }
+        sumMDD += r.maxDD;
+        sumFinalEq += r.finalEq;
+        sumFinalCu += r.finalCu;
       }
+      var avgEq = sumEq.map(function(v){ return v / nPaths; });
+      var avgCu = sumCu.map(function(v){ return v / nPaths; });
+      sim = {
+        eq: avgEq, cu: avgCu,
+        maxDD: sumMDD / nPaths,
+        finalEq: sumFinalEq / nPaths,
+        finalCu: sumFinalCu / nPaths,
+        years: years
+      };
     }
 
-    x = pad.left;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      rects[i].setAttribute('x', x);
-      rects[i].setAttribute('width', Math.max(segW, 0));
+    function draw() {
+      if (!sim) recompute();
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 36, right: 22, bottom: 38, left: 60 };
+      var months = sim.eq.length - 1;
+      var allY = sim.eq.concat(sim.cu);
+      var yMax = Math.max.apply(null, allY) * 1.05;
+      var yMin = Math.min.apply(null, allY) * 0.95;
 
-      var pctText = weights[i].toFixed(1) + '%';
-      labels[i].textContent = segW > 40 ? assets[i].name + ' ' + pctText : pctText;
-      labels[i].setAttribute('x', x + segW / 2);
-      labels[i].style.display = segW > 20 ? '' : 'none';
+      var xLabels = ['Yr 0','Yr 2','Yr 4','Yr 6','Yr 8','Yr 10'];
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: xLabels,
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return v.toFixed(2) + 'x'; }
+      });
 
-      x += segW;
+      // Fully-invested line (muted)
+      var ptsEq = sim.eq.map(function(v, i){
+        return { x: mapX(i, 0, months, W, pad), y: mapY(v, yMin, yMax, H, pad) };
+      });
+      drawLineCanvas(ctx, ptsEq, { color: '#a0a0a0', width: 2, dashed: [5,4] });
+
+      // Cash-cushioned line (accent)
+      var ptsCu = sim.cu.map(function(v, i){
+        return { x: mapX(i, 0, months, W, pad), y: mapY(v, yMin, yMax, H, pad) };
+      });
+      drawLineCanvas(ctx, ptsCu, { color: 'var(--accent)', width: 2.5 });
+
+      // Endpoint dots
+      drawPointCanvas(ctx, ptsEq[ptsEq.length-1].x, ptsEq[ptsEq.length-1].y, 5, '#a0a0a0', '#fff');
+      drawPointCanvas(ctx, ptsCu[ptsCu.length-1].x, ptsCu[ptsCu.length-1].y, 6, 'var(--accent)', '#fff');
+
+      // Title + legend
+      drawTextCanvas(ctx, W/2, 10, 'Wealth multiple over 10 years (averaged over 24 paths)', {
+        fontSize: 11, color: 'var(--text-secondary)', baseline: 'top'
+      });
+      // Legend swatches just below title
+      var lgX = pad.left + 8, lgY = pad.top + 4;
+      ctx.fillStyle = '#a0a0a0'; ctx.fillRect(lgX, lgY, 16, 2);
+      drawTextCanvas(ctx, lgX + 22, lgY, 'Fully invested', { fontSize: 11, color: 'var(--text-secondary)', align: 'left', baseline: 'middle' });
+      ctx.fillStyle = resolveCSSColor('var(--accent)'); ctx.fillRect(lgX, lgY + 14, 16, 2.5);
+      drawTextCanvas(ctx, lgX + 22, lgY + 14, 'Cash-cushioned (' + Math.round(state.cashPct*100) + '%)', { fontSize: 11, color: 'var(--text-secondary)', align: 'left', baseline: 'middle' });
+
+      // Stats
+      var finEq = sim.finalEq;
+      var finCu = sim.finalCu;
+      var cagrEq = (Math.pow(finEq, 1/sim.years) - 1) * 100;
+      var cagrCu = (Math.pow(finCu, 1/sim.years) - 1) * 100;
+      document.getElementById('w1-stat-full').textContent  = cagrEq.toFixed(2) + '%';
+      document.getElementById('w1-stat-cush').textContent  = cagrCu.toFixed(2) + '%';
+      document.getElementById('w1-stat-mdd').textContent   = (sim.maxDD * 100).toFixed(1) + '%';
+      // crude Sharpe-ish: (CAGR - cashYield) / max(MDD, 1%)
+      var sharpe = (cagrCu/100 - 0.055) / Math.max(sim.maxDD, 0.01);
+      document.getElementById('w1-stat-sharpe').textContent = sharpe.toFixed(2);
     }
 
-    // Update legend
-    legend.innerHTML = '';
-    for (var i = 0; i < assets.length; i++) {
-      var item = document.createElement('span');
-      item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-      var dot = document.createElement('span');
-      dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + assets[i].color + ';display:inline-block;';
-      item.appendChild(dot);
-      item.appendChild(document.createTextNode(assets[i].name + ': ' + weights[i].toFixed(1) + '%'));
-      legend.appendChild(item);
+    attachSliders([
+      { el: document.getElementById('w1-cash'),  label: document.getElementById('w1-cash-val'),  format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w1-ret'),   label: document.getElementById('w1-ret-val'),   format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w1-prob'),  label: document.getElementById('w1-prob-val'),  format: function(v){ return v.toFixed(0) + '%'; } },
+      { el: document.getElementById('w1-depth'), label: document.getElementById('w1-depth-val'), format: function(v){ return v.toFixed(0) + '%'; } }
+    ], function(vals) {
+      state.cashPct = vals['w1-cash'] / 100;
+      state.ret     = vals['w1-ret']  / 100;
+      state.ddProb  = vals['w1-prob'] / 100;
+      state.ddDepth = vals['w1-depth']/ 100;
+      recompute();
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Opportunity cost explorer (2D plot, multiple curves)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    // Initialise state BEFORE attachSliders
+    var state = { ret: 0.10, depth: 0.25 };
+
+    // Closed-form-ish expected return for a given cash %, drawdown probability, depth.
+    // Used instead of full Monte Carlo so the curves update instantly under slider drag.
+    // Returns annualised expected return as a fraction.
+    function expectedReturn(cashFrac, ddProb, ddDepth, marketRet) {
+      var cashYield = 0.055;
+      var deployFraction = 0.6;            // fraction of cash bucket deployed per drawdown
+      var refillYears = 2;                 // cash bucket refills over this window
+      var recoveryReturn = ddDepth / (1 - ddDepth); // % gain from trough back to peak
+      // Base return (cash drag side)
+      var baseRet = (1 - cashFrac) * marketRet + cashFrac * cashYield;
+      // Optionality bonus: probability * (cash deployed * recovery gain), amortised
+      var deployable = cashFrac * deployFraction;
+      var optionBonus = ddProb * deployable * recoveryReturn / (refillYears * 0.5 + 1);
+      // Carry penalty: holding too much cash through cycles eventually drags
+      var penalty = (cashFrac > 0.35 ? (cashFrac - 0.35) * 0.10 : 0);
+      return baseRet + optionBonus - penalty;
     }
-  }
 
-  // Hover on segments
-  svg.addEventListener('mousemove', function(e) {
-    var rect = svg.getBoundingClientRect();
-    var mx = (e.clientX - rect.left) / rect.width * W;
-    var weights = computeWeights(risk);
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-    var found = false;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      if (mx >= x && mx <= x + segW) {
-        tooltip.style.display = 'block';
-        tooltip.innerHTML = '<strong>' + assets[i].name + '</strong><br>' + weights[i].toFixed(1) + '% of portfolio';
-        tooltip.style.left = ((x + segW / 2) / W * 100) + '%';
-        tooltip.style.top = '10px';
-        tooltip.style.transform = 'translateX(-50%)';
-        found = true;
-        break;
-      }
-      x += segW;
+    var regimes = [
+      { label: 'Every 3 yrs',  ddProb: 1/3,  color: '#c53030' },
+      { label: 'Every 5 yrs',  ddProb: 1/5,  color: '#2d3748' },
+      { label: 'Every 10 yrs', ddProb: 1/10, color: '#718096' }
+    ];
+
+    function compute() {
+      var nPts = 51;
+      var curves = regimes.map(function(reg) {
+        var pts = [];
+        var bestX = 0, bestY = -Infinity;
+        for (var i = 0; i < nPts; i++) {
+          var cashFrac = i / (nPts - 1) * 0.5;
+          var y = expectedReturn(cashFrac, reg.ddProb, state.depth, state.ret);
+          pts.push({ x: cashFrac, y: y });
+          if (y > bestY) { bestY = y; bestX = cashFrac; }
+        }
+        return { reg: reg, pts: pts, bestX: bestX, bestY: bestY };
+      });
+      return curves;
     }
-    if (!found) tooltip.style.display = 'none';
-  });
 
-  svg.addEventListener('mouseleave', function() {
-    tooltip.style.display = 'none';
-  });
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var curves = compute();
+      var pad = { top: 64, right: 22, bottom: 50, left: 64 };
+      // Y range across all curves
+      var allY = [];
+      curves.forEach(function(c){ c.pts.forEach(function(p){ allY.push(p.y); }); });
+      var yMin = Math.min.apply(null, allY) - 0.005;
+      var yMax = Math.max.apply(null, allY) + 0.01;
 
-  draw(false);
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['0%', '10%', '20%', '30%', '40%', '50%'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return (v * 100).toFixed(1) + '%'; }
+      });
 
-  slider.addEventListener('input', function() {
-    risk = parseInt(this.value);
-    riskVal.textContent = risk + '/10';
-    draw(true);
-  });
-})();
+      // X-axis label
+      drawTextCanvas(ctx, (pad.left + W - pad.right) / 2, H - 12, 'Cash allocation', {
+        fontSize: 11, color: 'var(--text-secondary)'
+      });
 
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+      // Highlight the "20% rule" line
+      var x20 = mapX(0.20, 0, 0.5, W, pad);
+      ctx.save();
+      ctx.strokeStyle = '#999'; ctx.setLineDash([3,4]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x20, pad.top); ctx.lineTo(x20, H - pad.bottom); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, x20, H - pad.bottom + 28, '20% rule', { fontSize: 10, color: '#666', baseline: 'middle' });
 
-  var W = 600, H = 200;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var assets = [{"name": "Equity Deployed", "min_weight": 50, "max_weight": 95, "color": "#4299e1"}, {"name": "Cash / Liquid Reserves", "min_weight": 5, "max_weight": 40, "color": "#48bb78"}, {"name": "Gold / BTC Hedge", "min_weight": 0, "max_weight": 10, "color": "#ecc94b"}];
-  var risk = 5;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Institutional Cash Allocation Comparison";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var riskLabel = document.createElement('label');
-  riskLabel.textContent = 'Risk Tolerance: ';
-  var riskVal = document.createElement('span');
-  riskVal.style.fontWeight = '600';
-  riskVal.textContent = risk + '/10';
-  riskLabel.appendChild(riskVal);
-  ctrl.appendChild(riskLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = 10;
-  slider.value = risk;
-  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(legend);
-
-  function computeWeights(r) {
-    // r from 1-10: interpolate each asset between min_weight and max_weight
-    // Higher risk => more equity-heavy (first assets get closer to max)
-    var t = (r - 1) / 9; // 0..1
-    var raw = [];
-    var total = 0;
-    for (var i = 0; i < assets.length; i++) {
-      var a = assets[i];
-      // First asset (equity) scales up with risk, last (cash) scales down
-      var bias = i === 0 ? t : (i === assets.length - 1 ? 1 - t : 0.5);
-      var w = a.min_weight + (a.max_weight - a.min_weight) * bias;
-      raw.push(w);
-      total += w;
-    }
-    // Normalize to 100
-    return raw.map(function(w) { return (w / total) * 100; });
-  }
-
-  var rects = [];
-  var labels = [];
-
-  function draw(animate) {
-    var weights = computeWeights(risk);
-    var barY = pad.top + 10;
-    var barH = H - pad.top - pad.bottom - 20;
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-
-    // On first draw, create elements
-    if (rects.length === 0) {
-      for (var i = 0; i < assets.length; i++) {
-        var r = drawRect(svg, x, barY, 0, barH, assets[i].color, 4);
-        r.style.transition = 'x 0.4s ease, width 0.4s ease';
-        rects.push(r);
-
-        var lbl = drawText(svg, 0, barY + barH / 2, '', {
-          fontSize: 12, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
+      // Draw curves
+      curves.forEach(function(c, idx) {
+        var pts = c.pts.map(function(p){
+          return { x: mapX(p.x, 0, 0.5, W, pad), y: mapY(p.y, yMin, yMax, H, pad) };
         });
-        lbl.style.transition = 'x 0.3s ease';
-        labels.push(lbl);
-      }
-    }
+        drawLineCanvas(ctx, pts, { color: c.reg.color, width: 2.2 });
+        // Mark the optimum
+        var optX = mapX(c.bestX, 0, 0.5, W, pad);
+        var optY = mapY(c.bestY, yMin, yMax, H, pad);
+        drawPointCanvas(ctx, optX, optY, 5, c.reg.color, '#fff');
+      });
 
-    x = pad.left;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      rects[i].setAttribute('x', x);
-      rects[i].setAttribute('width', Math.max(segW, 0));
+      // Title
+      drawTextCanvas(ctx, W/2, 10, 'Expected 10-yr return vs cash allocation, by drawdown frequency', {
+        fontSize: 11, color: 'var(--text-secondary)', baseline: 'top'
+      });
 
-      var pctText = weights[i].toFixed(1) + '%';
-      labels[i].textContent = segW > 40 ? assets[i].name + ' ' + pctText : pctText;
-      labels[i].setAttribute('x', x + segW / 2);
-      labels[i].style.display = segW > 20 ? '' : 'none';
-
-      x += segW;
-    }
-
-    // Update legend
-    legend.innerHTML = '';
-    for (var i = 0; i < assets.length; i++) {
-      var item = document.createElement('span');
-      item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-      var dot = document.createElement('span');
-      dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + assets[i].color + ';display:inline-block;';
-      item.appendChild(dot);
-      item.appendChild(document.createTextNode(assets[i].name + ': ' + weights[i].toFixed(1) + '%'));
-      legend.appendChild(item);
-    }
-  }
-
-  // Hover on segments
-  svg.addEventListener('mousemove', function(e) {
-    var rect = svg.getBoundingClientRect();
-    var mx = (e.clientX - rect.left) / rect.width * W;
-    var weights = computeWeights(risk);
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-    var found = false;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      if (mx >= x && mx <= x + segW) {
-        tooltip.style.display = 'block';
-        tooltip.innerHTML = '<strong>' + assets[i].name + '</strong><br>' + weights[i].toFixed(1) + '% of portfolio';
-        tooltip.style.left = ((x + segW / 2) / W * 100) + '%';
-        tooltip.style.top = '10px';
-        tooltip.style.transform = 'translateX(-50%)';
-        found = true;
-        break;
-      }
-      x += segW;
-    }
-    if (!found) tooltip.style.display = 'none';
-  });
-
-  svg.addEventListener('mouseleave', function() {
-    tooltip.style.display = 'none';
-  });
-
-  draw(false);
-
-  slider.addEventListener('input', function() {
-    risk = parseInt(this.value);
-    riskVal.textContent = risk + '/10';
-    draw(true);
-  });
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 600, H = 200;
-  var pad = { top: 30, right: 20, bottom: 30, left: 20 };
-  var assets = [{"name": "Indian Equities", "min_weight": 20, "max_weight": 50, "color": "#4299e1"}, {"name": "US / International Equities", "min_weight": 15, "max_weight": 45, "color": "#48bb78"}, {"name": "Cash / Liquid Funds", "min_weight": 10, "max_weight": 30, "color": "#ecc94b"}, {"name": "Real Estate", "min_weight": 0, "max_weight": 30, "color": "#a0aec0"}, {"name": "Gold / BTC", "min_weight": 0, "max_weight": 15, "color": "#ed8936"}];
-  var risk = 5;
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Full Portfolio Allocation with Cash Hedge";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  // Controls
-  var ctrl = document.createElement('div');
-  ctrl.style.cssText = 'display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px;color:var(--text);';
-  container.appendChild(ctrl);
-
-  var riskLabel = document.createElement('label');
-  riskLabel.textContent = 'Risk Tolerance: ';
-  var riskVal = document.createElement('span');
-  riskVal.style.fontWeight = '600';
-  riskVal.textContent = risk + '/10';
-  riskLabel.appendChild(riskVal);
-  ctrl.appendChild(riskLabel);
-
-  var slider = document.createElement('input');
-  slider.type = 'range';
-  slider.min = 1;
-  slider.max = 10;
-  slider.value = risk;
-  slider.style.cssText = 'flex:1;min-width:120px;accent-color:var(--accent);';
-  ctrl.appendChild(slider);
-
-  // Legend
-  var legend = document.createElement('div');
-  legend.style.cssText = 'display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--text);';
-  container.appendChild(legend);
-
-  function computeWeights(r) {
-    // r from 1-10: interpolate each asset between min_weight and max_weight
-    // Higher risk => more equity-heavy (first assets get closer to max)
-    var t = (r - 1) / 9; // 0..1
-    var raw = [];
-    var total = 0;
-    for (var i = 0; i < assets.length; i++) {
-      var a = assets[i];
-      // First asset (equity) scales up with risk, last (cash) scales down
-      var bias = i === 0 ? t : (i === assets.length - 1 ? 1 - t : 0.5);
-      var w = a.min_weight + (a.max_weight - a.min_weight) * bias;
-      raw.push(w);
-      total += w;
-    }
-    // Normalize to 100
-    return raw.map(function(w) { return (w / total) * 100; });
-  }
-
-  var rects = [];
-  var labels = [];
-
-  function draw(animate) {
-    var weights = computeWeights(risk);
-    var barY = pad.top + 10;
-    var barH = H - pad.top - pad.bottom - 20;
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-
-    // On first draw, create elements
-    if (rects.length === 0) {
-      for (var i = 0; i < assets.length; i++) {
-        var r = drawRect(svg, x, barY, 0, barH, assets[i].color, 4);
-        r.style.transition = 'x 0.4s ease, width 0.4s ease';
-        rects.push(r);
-
-        var lbl = drawText(svg, 0, barY + barH / 2, '', {
-          fontSize: 12, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
+      // Legend
+      var lgX = pad.left + 6, lgY = 28;
+      curves.forEach(function(c, idx) {
+        var yy = lgY + idx * 12;
+        ctx.fillStyle = c.reg.color;
+        ctx.fillRect(lgX, yy, 16, 2.5);
+        drawTextCanvas(ctx, lgX + 22, yy, c.reg.label + ' (opt: ' + Math.round(c.bestX*100) + '%)', {
+          fontSize: 11, color: 'var(--text-secondary)', align: 'left', baseline: 'middle'
         });
-        lbl.style.transition = 'x 0.3s ease';
-        labels.push(lbl);
+      });
+
+      // Update mini-stats
+      document.getElementById('w2-opt-fast').textContent = Math.round(curves[0].bestX * 100) + '%';
+      document.getElementById('w2-opt-mid').textContent  = Math.round(curves[1].bestX * 100) + '%';
+      document.getElementById('w2-opt-slow').textContent = Math.round(curves[2].bestX * 100) + '%';
+      // 20% delta: how much expected return is given up at 20% vs the optimum (5-yr regime)
+      var mid = curves[1];
+      // Closest point to 20%
+      var pt20 = mid.pts[Math.round(0.20 / 0.5 * (mid.pts.length - 1))];
+      var delta = pt20 ? (mid.bestY - pt20.y) * 100 : 0;
+      document.getElementById('w2-delta20').textContent = '-' + delta.toFixed(2) + '%';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-ret'),   label: document.getElementById('w2-ret-val'),   format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w2-depth'), label: document.getElementById('w2-depth-val'), format: function(v){ return v.toFixed(0) + '%'; } }
+    ], function(vals) {
+      state.ret   = vals['w2-ret']  / 100;
+      state.depth = vals['w2-depth']/ 100;
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — 20% rule stress test (bar chart, 30-yr)
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 340 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    // CRITICAL: initialise state and cached results BEFORE attachSliders fires.
+    var state = { ret: 0.10, seed: 1, regime: 'normal' };
+    var results = null;
+
+    function runScenarios() {
+      var years = 30;
+      var ddProb, ddDepth;
+      if (state.regime === 'normal') {
+        ddProb  = 0.18;
+        ddDepth = 0.18;
+      } else {
+        // 2008-style stress: more frequent, deeper drawdowns
+        ddProb  = 0.32;
+        ddDepth = 0.38;
       }
+      var allocations = [0, 0.20, 0.40];
+      results = allocations.map(function(cashFrac) {
+        // Average over a handful of paths derived from the same seed
+        var nPaths = 8;
+        var sumFinal = 0, sumMDD = 0;
+        for (var p = 0; p < nPaths; p++) {
+          var rng = mulberry32(state.seed * 9973 + p * 71 + Math.round(cashFrac * 1000));
+          var r = simulateWealth({
+            years: years, cashPct: cashFrac,
+            retAnnual: state.ret, ddProb: ddProb, ddDepth: ddDepth,
+            cashYield: 0.055, rng: rng, recoveryMonths: 24
+          });
+          sumFinal += r.finalCu;
+          sumMDD += r.maxDD;
+        }
+        var finalMultiple = sumFinal / nPaths;
+        return {
+          cashFrac: cashFrac,
+          finalMultiple: finalMultiple,
+          cagr: (Math.pow(finalMultiple, 1/years) - 1) * 100,
+          maxDD: (sumMDD / nPaths) * 100
+        };
+      });
     }
 
-    x = pad.left;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      rects[i].setAttribute('x', x);
-      rects[i].setAttribute('width', Math.max(segW, 0));
+    function draw() {
+      if (!results) runScenarios();
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 38, right: 30, bottom: 60, left: 70 };
+      var yMin = 0;
+      var yMax = Math.max.apply(null, results.map(function(r){ return r.finalMultiple; })) * 1.18;
 
-      var pctText = weights[i].toFixed(1) + '%';
-      labels[i].textContent = segW > 40 ? assets[i].name + ' ' + pctText : pctText;
-      labels[i].setAttribute('x', x + segW / 2);
-      labels[i].style.display = segW > 20 ? '' : 'none';
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['0% cash', '20% cash', '40% cash'],
+        yMin: yMin, yMax: yMax, ySteps: 5,
+        yFmt: function(v){ return v.toFixed(1) + 'x'; }
+      });
 
-      x += segW;
+      var nBars = results.length;
+      var plotW = W - pad.left - pad.right;
+      var slotW = plotW / nBars;
+      var barW = slotW * 0.55;
+      var y0 = mapY(0, yMin, yMax, H, pad);
+
+      results.forEach(function(r, i) {
+        var cx = pad.left + slotW * (i + 0.5);
+        var bx = cx - barW / 2;
+        var byTop = mapY(r.finalMultiple, yMin, yMax, H, pad);
+        var color = (i === 1) ? 'var(--accent)' : (state.regime === 'crash' && i === 0 ? '#c53030' : '#718096');
+        drawRectCanvas(ctx, bx, byTop, barW, y0 - byTop, color, 6);
+        // Value label on top of bar
+        drawTextCanvas(ctx, cx, byTop - 10, r.finalMultiple.toFixed(2) + 'x', {
+          fontSize: 13, color: 'var(--text)', weight: '600'
+        });
+        // CAGR & MDD below x-axis
+        drawTextCanvas(ctx, cx, H - pad.bottom + 18, 'CAGR ' + r.cagr.toFixed(2) + '%', {
+          fontSize: 11, color: 'var(--text-secondary)', baseline: 'middle'
+        });
+        drawTextCanvas(ctx, cx, H - pad.bottom + 32, 'MaxDD ' + r.maxDD.toFixed(1) + '%', {
+          fontSize: 11, color: 'var(--text-secondary)', baseline: 'middle'
+        });
+      });
+
+      // Title
+      var regLabel = state.regime === 'normal' ? 'Normal regime' : '2008-style stress regime';
+      drawTextCanvas(ctx, W/2, 14, 'Terminal wealth multiple after 30 years - ' + regLabel, {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      // Update mini-stats grid
+      document.getElementById('w3-stat-0').textContent  = results[0].finalMultiple.toFixed(2) + 'x';
+      document.getElementById('w3-stat-20').textContent = results[1].finalMultiple.toFixed(2) + 'x';
+      document.getElementById('w3-stat-40').textContent = results[2].finalMultiple.toFixed(2) + 'x';
+      document.getElementById('w3-stat-mdd').textContent = results[1].maxDD.toFixed(1) + '%';
     }
 
-    // Update legend
-    legend.innerHTML = '';
-    for (var i = 0; i < assets.length; i++) {
-      var item = document.createElement('span');
-      item.style.cssText = 'display:flex;align-items:center;gap:4px;';
-      var dot = document.createElement('span');
-      dot.style.cssText = 'width:10px;height:10px;border-radius:2px;background:' + assets[i].color + ';display:inline-block;';
-      item.appendChild(dot);
-      item.appendChild(document.createTextNode(assets[i].name + ': ' + weights[i].toFixed(1) + '%'));
-      legend.appendChild(item);
-    }
-  }
+    // Toggle regime
+    document.querySelectorAll('#w3-toggle button').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#w3-toggle button').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        state.regime = btn.dataset.regime;
+        runScenarios();
+        draw();
+      });
+    });
 
-  // Hover on segments
-  svg.addEventListener('mousemove', function(e) {
-    var rect = svg.getBoundingClientRect();
-    var mx = (e.clientX - rect.left) / rect.width * W;
-    var weights = computeWeights(risk);
-    var barW = W - pad.left - pad.right;
-    var x = pad.left;
-    var found = false;
-    for (var i = 0; i < assets.length; i++) {
-      var segW = (weights[i] / 100) * barW;
-      if (mx >= x && mx <= x + segW) {
-        tooltip.style.display = 'block';
-        tooltip.innerHTML = '<strong>' + assets[i].name + '</strong><br>' + weights[i].toFixed(1) + '% of portfolio';
-        tooltip.style.left = ((x + segW / 2) / W * 100) + '%';
-        tooltip.style.top = '10px';
-        tooltip.style.transform = 'translateX(-50%)';
-        found = true;
-        break;
-      }
-      x += segW;
-    }
-    if (!found) tooltip.style.display = 'none';
-  });
-
-  svg.addEventListener('mouseleave', function() {
-    tooltip.style.display = 'none';
-  });
-
-  draw(false);
-
-  slider.addEventListener('input', function() {
-    risk = parseInt(this.value);
-    riskVal.textContent = risk + '/10';
-    draw(true);
-  });
-})();
-</script>
+    attachSliders([
+      { el: document.getElementById('w3-ret'),  label: document.getElementById('w3-ret-val'),  format: function(v){ return v.toFixed(1) + '%'; } },
+      { el: document.getElementById('w3-seed'), label: document.getElementById('w3-seed-val'), format: function(v){ return '#' + v.toFixed(0); } }
+    ], function(vals) {
+      state.ret  = vals['w3-ret'] / 100;
+      state.seed = Math.round(vals['w3-seed']);
+      runScenarios();
+      draw();
+    });
+  })();
+  </script>
 
 </body>
 </html>

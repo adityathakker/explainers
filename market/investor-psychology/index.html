@@ -4,32 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Brain Is the Biggest Risk — Market Explainers</title>
-  <meta name="description" content="Why emotional discipline separates the 60% who profit from the 90% who don't">
+  <meta name="description" content="Loss aversion, herding and the behavioural failure modes that destroy 90% of traders — shown with bespoke simulations">
   <meta name="author" content="Market Explainers">
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Your Brain Is the Biggest Risk">
-  <meta property="og:description" content="Why emotional discipline separates the 60% who profit from the 90% who don't">
+  <meta property="og:description" content="Loss aversion, herding and the behavioural failure modes that destroy 90% of traders — shown, not told.">
   <meta property="og:type" content="article">
 
-  <!-- Favicon -->
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Shared styles -->
   <link rel="stylesheet" href="../explainer.css">
 
-  <!-- Per-page accent color override -->
   <style>
     :root {
       --accent: #7b2d8d;
       --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
     }
 
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .bias-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px 18px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) { .bias-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -47,8 +89,8 @@
   <header class="hero">
     <div class="hero__inner">
       <h1 class="hero__title">Your Brain Is the Biggest Risk</h1>
-      <p class="hero__subtitle">Why emotional discipline separates the 60% who profit from the 90% who don't</p>
-      <p class="hero__meta">22 min read</p>
+      <p class="hero__subtitle">Loss aversion, herding and the behavioural failure modes that destroy 90% of traders — shown, not told.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 22 min read</p>
     </div>
   </header>
 
@@ -57,288 +99,480 @@
     <div class="toc-wrapper reveal">
       <h3>Contents</h3>
       <ol class="toc">
-                <li><a href="#i-the-60-hit-rate-and-why-it-is-enough">I. The 60% Hit Rate and Why It Is Enough</a></li>
-        <li><a href="#ii-panic-selling-the-most-expensive-emotion-in-finance">II. Panic Selling: The Most Expensive Emotion in Finance</a></li>
-        <li><a href="#iii-fomo-the-silent-wealth-destroyer">III. FOMO: The Silent Wealth Destroyer</a></li>
-        <li><a href="#iv-the-daily-tracking-disease">IV. The Daily Tracking Disease</a></li>
-        <li><a href="#v-the-inability-to-sit-still">V. The Inability to Sit Still</a></li>
-        <li><a href="#vi-contrarian-investing-the-emotional-workout">VI. Contrarian Investing: The Emotional Workout</a></li>
-        <li><a href="#vii-the-information-trap-when-more-data-makes-you-worse">VII. The Information Trap: When More Data Makes You Worse</a></li>
-        <li><a href="#viii-asymmetric-gains-why-timing-matters-more-than-you-think">VIII. Asymmetric Gains: Why Timing Matters More Than You Think</a></li>
-        <li><a href="#ix-building-your-behavioral-operating-system">IX. Building Your Behavioral Operating System</a></li>
+        <li><a href="#i-why-90-lose">Why do 90% of traders actually lose money?</a></li>
+        <li><a href="#ii-loss-aversion">What does loss aversion feel like in real P&amp;L?</a></li>
+        <li><a href="#iii-panic">Why do we panic-sell exactly at the bottom?</a></li>
+        <li><a href="#iv-herding">Where does FOMO come from — and why does the crowd usually win at the wrong time?</a></li>
+        <li><a href="#v-daily-tracking">Why does checking your portfolio daily destroy returns?</a></li>
+        <li><a href="#vi-sit-still">How does the inability to sit still cost you the compounding tail?</a></li>
+        <li><a href="#vii-contrarian">What is the contrarian premium and why is it so hard to harvest?</a></li>
+        <li><a href="#viii-bias-quiz">Which biases are blinding you right now?</a></li>
+        <li><a href="#ix-behavioral-os">How do you build a behavioural OS that overrides instinct?</a></li>
       </ol>
     </div>
   </div>
 
   <!-- Article Body -->
   <article class="article">
-        <section class="reveal" id="i-the-60-hit-rate-and-why-it-is-enough">
+
+    <!-- ============================================================
+         I. Why do 90% of traders lose money?
+         ============================================================ -->
+    <section class="reveal" id="i-why-90-lose">
       <div class="section-heading">
         <div class="section-number">I.</div>
-        <h2>I. The 60% Hit Rate and Why It Is Enough</h2>
+        <h2>Why do 90% of traders actually lose money?</h2>
       </div>
       <div class="section-content">
-        <p>Let me be honest with you. My hit rate as an investor is about 60%. That means 4 out of every 10 calls I make do not work. And that is better than most.</p>
-<p>This shocks people. They think that to make serious money in the markets, you need to be right 80% or 90% of the time. You do not. What you need is <strong>emotional discipline</strong> &ndash; the ability to stick with a process, take small losses calmly, and let your winners compound without interference.</p>
-<p>Here is the math that most people never internalize. If your hit rate is 60% and you size your positions correctly (5% max per stock, tranches, proper risk management), the 60% of your picks that work will generate returns that dwarf the losses on the 40% that do not. You do not need every stock to be a winner. You need your portfolio to win.</p>
-<p>But here is the problem. Most people cannot psychologically handle a 60% hit rate. When that 4th stock out of 10 starts falling, they panic. They sell at the bottom. They convince themselves the thesis was wrong. Then the stock recovers 40-50% without them. They were right about the business but wrong about their own emotions.</p>
-<blockquote>
-<p>You don&rsquo;t make money when you sell. You actually make money when you buy right.</p>
-</blockquote>
-<p>This is the central paradox of investing. The analytical part &ndash; studying businesses, reading balance sheets, understanding macroeconomics &ndash; is the easier part. The harder part, the part that separates the investors who build real wealth from the 90% who underperform, is managing the six inches between your ears.</p>
-<p>I have watched this play out across our community for years. The people who have done exceptionally well are not the ones with the best stock-picking skills. They are the ones who bought at good levels, stayed put, and stopped tracking their portfolios every hour. The ones who trusted fundamental analysis over daily price movements. The ones who understood that investing is not a game of perfect prediction &ndash; it is a game of disciplined imperfection.</p>
-<p>This article is about the behavioral failure modes that destroy returns. Panic selling, FOMO buying, daily portfolio tracking, the inability to sit still, chasing momentum, anchoring to past prices, making stocks an ego issue. These are not character flaws. They are hardwired features of how the human brain works. And unless you learn to override them systematically, they will cost you more money than any bad stock pick ever will.</p>
-<p>Let us begin.</p>
+        <p>SEBI's two studies on retail F&amp;O traders, in 2023 and again in 2024, returned the same uncomfortable number: <strong>roughly 90% of individual traders are net losers</strong>, with an average annual loss in the region of &#8377;1.1 lakh<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. The usual response to that number is to ask which technical setup, which broker, which screener the 10% are using. That is the wrong question.</p>
+
+        <p>The 10% are not running better software. They are running better wetware. The thing standing between you and the top decile is not analytical &mdash; it is psychological. My own hit rate as an investor is about 60%. Four out of every ten calls do not work. That is not a bug; that is what a good batting average actually looks like. The reason most people cannot live with a 60% hit rate is that they cannot psychologically sit through the 40% in real time.</p>
+
+        <p>This article is the inside of those six inches between your ears. Loss aversion, panic, FOMO, daily tracking, action bias, anchoring. None of these are character flaws. They are evolutionary defaults &mdash; software your ancestors needed to survive a predator-rich environment, running on hardware that now executes Zerodha orders. The defaults are wrong for markets. Unless you build something on top of them, they will reliably take 80&ndash;90% of the population to the wrong side of every cycle.</p>
+
+        <p>Before the prose, look at the single most-studied result in behavioural finance &mdash; the one Kahneman and Tversky got the Nobel for. Pain from a loss does not equal pleasure from an equivalent gain.</p>
+
+        <!-- Widget 1: Loss Aversion Utility Curve -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 — The Loss Aversion Curve (Kahneman &amp; Tversky)</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Loss aversion &lambda;</span><span class="slider-value" id="w1-lambda-val">2.25</span></div>
+              <input type="range" id="w1-lambda" min="1.0" max="3.0" value="2.25" step="0.05">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Current P&amp;L</span><span class="slider-value" id="w1-pnl-val">-10%</span></div>
+              <input type="range" id="w1-pnl" min="-30" max="30" value="-10" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Utility at current P&amp;L</div><div class="readout-value" id="w1-util">—</div></div>
+            <div class="readout-cell"><div class="readout-label">Gain needed to offset a 10% loss</div><div class="readout-value" id="w1-offset">—</div></div>
+            <div class="readout-cell"><div class="readout-label">Pain-to-pleasure ratio</div><div class="readout-value" id="w1-ratio">—</div></div>
+          </div>
+          <p class="widget-hint">Drag &lambda; to 2.25 (Kahneman's empirical estimate). Drag P&amp;L to &minus;10%. Now read the third cell: a 10% loss hurts as much as a 22.5% <em>gain</em> would please you. That asymmetry is why you cut winners early and white-knuckle losers.</p>
+        </div>
+
+        <p>The curve is concave above zero and convex&mdash;and <em>steeper</em>&mdash;below zero, with a kink at the origin. The kink is the entire bias in one shape. A 1% loss does not produce 1 unit of pain; it produces &lambda; units. For a typical human, &lambda; &asymp; 2.25. Translated into trading behaviour, a paper loss feels roughly 2.25&times; as bad as an equivalent paper gain feels good. That asymmetry is the engine behind almost every failure mode we are about to walk through.</p>
+
+        <p>It is worth pausing to register how counterintuitive this is. A "rational" investor &mdash; the one in undergraduate textbooks &mdash; would have a linear utility curve. A loss of &#8377;1 lakh would feel exactly as bad as a gain of &#8377;1 lakh feels good. That investor has never existed in the wild. Every laboratory experiment, every field study, every prison-dilemma variant since 1979 has produced the same curve, the same kink, the same &lambda; in the 2&ndash;2.5 range. It is one of the most robust findings in all of behavioural science, and it is the reason 90% of retail traders systematically buy high and sell low. Their brains are doing exactly what the curve predicts; the market is just the venue where they pay for it.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ii-panic-selling-the-most-expensive-emotion-in-finance">
+    <!-- ============================================================
+         II. What does loss aversion feel like in P&L?
+         ============================================================ -->
+    <section class="reveal" id="ii-loss-aversion">
       <div class="section-heading">
         <div class="section-number">II.</div>
-        <h2>II. Panic Selling: The Most Expensive Emotion in Finance</h2>
+        <h2>What does loss aversion feel like in real P&amp;L?</h2>
       </div>
       <div class="section-content">
-        <p>Here is an interesting statistic: 85% of Indian stocks have fallen 25% or more in a single correction. Eighty-five percent. That means in a falling market, almost no one is spared. If your portfolio is down less than 20% from its peak during such a correction, you have actually done well relative to the market.</p>
-<p>But most people do not think in relative terms. They see their portfolio down 15% and they panic. They see red on the screen and their brain screams &ldquo;stop the bleeding.&rdquo; They sell.</p>
-<p>This is the most expensive emotion in finance. Not greed, not overconfidence &ndash; <strong>panic</strong>.</p>
-<p>Here is what panic selling actually looks like in practice. Say you bought HDFC Bank when people were making fun of it &ndash; the stock was boring, it was going nowhere, everyone was chasing small-cap momentum plays instead. You bought because the fundamentals were strong and the valuation was reasonable. Then the broad market corrected, and HDFC fell 10-12% along with everything else.</p>
-<p>The panicked investor sells. &ldquo;I was wrong, the stock is falling.&rdquo; But what happened over the following year? HDFC Bank went up 21% while the Nifty returned 0%. That is 21 percentage points of alpha. The panicked investor missed all of it because they could not stomach a temporary 10-12% drawdown.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Set the slider in the widget above to &lambda; = 2.25 and P&amp;L = &minus;10%. The curve tells you something specific and ugly: <strong>to feel emotionally neutral about a 10% loss, you would need a 22.5% gain on a different position</strong>. Not a 10% gain &mdash; not even a 15% gain. A 22.5% gain. Your accounting brain does not care; your limbic brain does.</p>
 
-<p>Look at the data. Every major market correction in the last two decades has been followed by a recovery. Every single one. The 2008 crash took the Nifty down over 50%, and it recovered fully within about two years. The COVID crash of 2020 took the market down 38% in two months, and it recovered within eight months. The 2024-25 FII-driven selloff brought 85% of stocks down 25% or more &ndash; and the market is already showing recovery signs.</p>
-<p>The investor who panicked and sold during any of these events locked in real losses. The investor who stayed put &ndash; or better yet, bought more during the panic &ndash; captured the full recovery and then some.</p>
-<p>This is not a motivational quote. This is the simply reality of investing.</p>
-<h3 id="why-your-brain-forces-you-to-panic">Why Your Brain Forces You to Panic</h3>
-<p>The reason panic selling is so common is that your brain is running on software that was designed for physical survival, not financial optimization. When early humans saw a lion, the ones who ran immediately survived. The ones who paused to &ldquo;analyze the situation&rdquo; got eaten. Your amygdala &ndash; the fear center of your brain &ndash; produces the exact same fight-or-flight response when it sees your portfolio down 20% as it did when your ancestors saw a predator.</p>
-<p>The problem is that in investing, the correct response to fear is almost always the opposite of what your instincts demand. When prices are falling and everyone is scared, that is when things are cheapest. That is when the risk-reward is most favorable. People who make money are the ones who actually buy things when they are discounted.</p>
-<p>But buying when everything is red requires you to override millions of years of evolutionary programming. It requires you to be, in a word, contrarian. And being genuinely contrarian &ndash; not saying you are contrarian on Twitter but actually putting real money behind your contrary view when everyone is calling you crazy &ndash; is one of the hardest things a human being can do.</p>
-<h3 id="the-antidote-to-panic">The Antidote to Panic</h3>
-<p>The antidote is not willpower. Willpower fails under stress. The antidote is <strong>process</strong>.</p>
-<p>You need a system that makes decisions for you before the panic arrives. That system includes:</p>
-<ol>
-<li><strong>Position sizing</strong>: If no single stock is more than 5% of your portfolio, no single stock can hurt you badly enough to trigger panic.</li>
-<li><strong>Tranche buying</strong>: If you still have capital to deploy at lower levels, a falling market becomes an opportunity rather than a threat.</li>
-<li><strong>Fundamental anchoring</strong>: If you know the business is strong &ndash; revenues growing, profits intact, market leadership secure &ndash; then a 20% price decline is a sale, not a crisis.</li>
-<li><strong>Historical perspective</strong>: Reminding yourself that every correction has recovered, and that you get rewarded for patience, not for speed.</li>
-</ol>
-<p>If you are not feeling the urge to do anything in the market during a correction, then you are learning well. That lack of impulse is not laziness &ndash; it is discipline.</p>
+        <div class="math-block">
+          U(x) = &nbsp; x<sup>&alpha;</sup> &nbsp; &nbsp;if x &ge; 0
+          <br>
+          U(x) = &nbsp; &minus;&lambda; &middot; (&minus;x)<sup>&alpha;</sup> &nbsp; &nbsp;if x &lt; 0
+          <span class="math-where">prospect theory utility; &alpha; &asymp; 0.88 for concavity, &lambda; &asymp; 2.25 for loss aversion</span>
+        </div>
+
+        <p>Two practical consequences follow directly from the curve.</p>
+
+        <p><strong>Consequence one: you exit winners too early.</strong> A 12% paper gain feels like a "real" win &mdash; the curve is concave on the right, so the marginal pleasure of going from +12 to +18 is small. Booking the 12% feels rational; in fact you are giving up the right tail to lock in a feeling. The 60-bagger in your portfolio is never the position you held with conviction; it is the one you forgot you owned.</p>
+
+        <p><strong>Consequence two: you hold losers too long.</strong> A 12% paper loss already hurts &lambda;&middot;12 = 27 utility units. Cutting it locks in that pain. Holding offers a small chance of getting back to zero &mdash; a chance the convex left side of the curve over-weights. So you white-knuckle the loser hoping for "break-even", which the loser obliges by going to &minus;40% over the next six months. Every retail F&amp;O blowup has this shape underneath it.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — &lambda; varies by person, by mood, and by P&amp;L size</summary>
+          <p>The 2.25 number is a population average across small, ordinary lab gambles. Real &lambda; for any individual depends on net worth, mood, recent P&amp;L, and (intriguingly) sleep deprivation. After a recent loss, your effective &lambda; can spike to 3+ &mdash; which is exactly when you panic-sell. Conversely, after a winning streak, &lambda; can drop toward 1.5 &mdash; which is exactly when you take oversized risk. Loss aversion is not a constant; it is a feedback loop that destabilises you at the worst times.</p>
+          <p>The size of the stake matters too. People are roughly loss-averse around small gambles but flip to <em>risk-seeking</em> in the loss domain for large stakes &mdash; doubling down to break even. That is the "Hail Mary" trade you've seen friends make at the bottom.</p>
+        </details>
+
+        <p>If you take only one thing from this section: the curve is not a metaphor. It is a measurable shape in your brain that will systematically tax every trading decision you make. The trader who understands it does not become a robot &mdash; they build rules that pre-commit them to ignore it in the moments it is loudest.</p>
+
+        <p>One more useful framing. The curve says you are not maximising expected dollars; you are maximising expected utility &mdash; where utility is bent against you on the loss side. That bend is what professional traders learn to inoculate themselves against, usually by separating the decision (cold, analytical, written down) from the execution (mechanical, indifferent to the screen). The decision is what should change when the facts change. The execution is what should hold steady when the feelings change. Conflating the two is the single biggest tell of an amateur.</p>
+
+        <p>A useful exercise: take a position you closed in the last twelve months, gain or loss. Re-derive what the rational decision was at the close, using only the information you had at the time. Then ask honestly whether you actually executed that decision &mdash; or executed something the curve made you feel. The gap between the two is your &lambda;-tax, measured in your own money.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iii-fomo-the-silent-wealth-destroyer">
+    <!-- ============================================================
+         III. Panic Selling
+         ============================================================ -->
+    <section class="reveal" id="iii-panic">
       <div class="section-heading">
         <div class="section-number">III.</div>
-        <h2>III. FOMO: The Silent Wealth Destroyer</h2>
+        <h2>Why do we panic-sell exactly at the bottom?</h2>
       </div>
       <div class="section-content">
-        <p>If panic selling is the most expensive emotion, <strong>FOMO &ndash; Fear of Missing Out &ndash; is the most seductive</strong>.</p>
-<p>FOMO is what happens when SBI moves 40% in a few months and you did not build positions earlier. Suddenly, you want to buy. The stock has already moved, the easy money has been made, but you cannot stand watching others profit while you sit on the sidelines. So you chase.</p>
-<p>Here is the critical insight that most people miss: <strong>the human brain is NOT wired to think in terms of compounding. We typically think of things linearly.</strong> This is why we are very bad at chasing.</p>
-<p>When a stock has moved 40%, your brain tells you that you missed 40% of gains. But what your brain does not compute is the asymmetric risk. The stock moved 40% because of a fundamental re-rating &ndash; the easy part is over. To get the next 40%, you need continued earnings growth, continued multiple expansion, and no negative surprises. But to lose 40% from the current level, you just need one bad quarter or a market correction.</p>
-<p>The risk-reward profile has shifted dramatically. But FOMO does not care about risk-reward. FOMO just sees a green chart going up and demands that you participate.</p>
-<h3 id="fomo-at-the-macro-level">FOMO at the Macro Level</h3>
-<p>FOMO does not just operate at the individual stock level. It operates at the market level too.</p>
-<p>Consider what happened with Indian small-caps in 2023-2024. The small-cap index was ripping higher, social media was full of screenshots showing 100-200% gains, and every influencer was telling you to buy small-caps. People who had no business investing in volatile, illiquid stocks were putting 50-60% of their portfolios into small-cap names they had never researched.</p>
-<p>Then came the correction. The midcap/small-cap indices corrected by 20%. Some individual stocks fell 40-50%. Record numbers of SIPs were closed. The general mood turned from euphoria to gloom.</p>
-<p>The people who bought at the top because of FOMO were now sitting on 25-30% losses. And many of them panic sold &ndash; compounding one behavioral error (FOMO buying) with another (panic selling). They bought high because everyone was buying. They sold low because everyone was selling. They did the exact opposite of what makes money in markets.</p>
-<blockquote>
-<p>Silver always corrects after a parabolic run. What you do with this info depends on you.</p>
-</blockquote>
-<p>This applies to everything, not just silver. Any asset that has had a parabolic run will correct. Buying during or after a parabolic run because you feel like you are &ldquo;missing out&rdquo; is one of the most reliable ways to lose money in markets.</p>
-<h3 id="the-portfolio-size-trap">The Portfolio Size Trap</h3>
-<p>There is another dimension of FOMO that almost nobody talks about: <strong>portfolio size comparison</strong>.</p>
-<p>I deliberately do not reveal my portfolio size, and I have a specific reason for it. Revealing portfolio size creates unnecessary FOMO. When someone sees that another investor has a 5 Crore or 10 Crore portfolio, they start making irrational decisions to &ldquo;catch up.&rdquo; They take oversized risks, concentrate too heavily in speculative stocks, and trade too frequently &ndash; all in an attempt to grow their portfolio faster than their risk tolerance allows.</p>
-<p>We are all on our individual wealth building journeys. Comparing your Chapter 3 to someone else&rsquo;s Chapter 15 is pointless and destructive. The only comparison that matters is: are you following a sound process? If yes, the portfolio size will take care of itself over time.</p>
-<h3 id="defeating-fomo">Defeating FOMO</h3>
-<p>The cure for FOMO is the same as the cure for panic: <strong>fundamental analysis and position sizing</strong>.</p>
-<p>If you analyze a business fundamentally before buying, you will never chase a stock. You will have a target price, a thesis, and a position sizing plan. If the stock has already moved past your target entry, you wait. There will always be another opportunity.</p>
-<p>The market does not give you one chance. It gives you hundreds of chances every year. Missing one is irrelevant. Chasing one at the wrong price can cost you years of returns.</p>
+        <p>Panic selling is loss aversion at maximum volume. In any decent correction, roughly 85% of names fall 25% or more. If your portfolio is down 15% in such an environment, you are statistically outperforming &mdash; but loss aversion does not measure relative to the market; it measures relative to your high-water mark. Down 15% from the peak triggers the convex left side of the curve hard, and the amygdala (which evolved to escape lions) reaches for the only tool it has: <em>run</em>.</p>
+
+        <p>The cost of running is not abstract. Every named correction in the last two decades has been followed by a full recovery. The investor who sold during the trough locked in real losses and watched the rebound from cash. The investor who held captured the full recovery for free.</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Crisis</th><th>Peak-to-trough</th><th>Time to recover</th><th>Cost of panic-selling at the bottom</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2008 Global Financial Crisis</td><td>&minus;52% (Nifty)</td><td>~24 months</td><td>Locked &minus;52%, missed ~110% rebound</td></tr>
+            <tr><td>2011 Eurozone debt crisis</td><td>&minus;28%</td><td>~14 months</td><td>Missed full V-recovery within a year</td></tr>
+            <tr><td>2015&ndash;16 China &amp; oil scare</td><td>&minus;22%</td><td>~10 months</td><td>Re-entry, if any, was at higher levels</td></tr>
+            <tr><td>March 2020 COVID crash</td><td>&minus;38% in 8 weeks</td><td>~8 months</td><td>Missed the fastest rally in market history</td></tr>
+            <tr><td>2024&ndash;25 FII-driven selloff</td><td>&minus;25% (broad)</td><td>~6 months (in progress)</td><td>Record SIP closures right before recovery</td></tr>
+          </tbody>
+        </table>
+
+        <blockquote>
+          <p>You do not make money when you sell. You make money when you buy right and then survive the sit.</p>
+        </blockquote>
+
+        <p>Why does panic feel so right in the moment? Because your brain mistakes a falling chart for a physical threat. The fight-or-flight machinery is faster than the prefrontal cortex by about 150 milliseconds. By the time the analytical part of you arrives at the screen, the limbic part has already executed the sell button. Willpower will not fix this &mdash; the limbic loop is older and faster than willpower. <strong>Process</strong> fixes it.</p>
+
+        <p>Three rules that take panic out of the decision before it arrives:</p>
+
+        <ol>
+          <li><strong>Position-size to survive a 50% drawdown on any single name.</strong> No single position larger than 5% of portfolio (2.5% for small-caps). If the worst happens, the portfolio is down 2.5%, not 25%. Panic does not trigger at 2.5%.</li>
+          <li><strong>Tranche the entries.</strong> Always have buying capacity at lower levels. A falling market is then an <em>opportunity</em> for the next tranche, not a threat to the existing position. This single shift reframes the entire emotional experience.</li>
+          <li><strong>Pre-commit to inaction during fast moves.</strong> Write down: "If the market is down &gt;5% in a day, I do nothing for 48 hours." Inaction is itself a decision &mdash; one your future self will thank you for.</li>
+        </ol>
+
+        <p>The deeper reason these rules work is that they push the decision out of the moment. By the time the market is crashing, the analytical part of your brain has already lost. You cannot out-think the amygdala in real time; you can only outwit it by leaving instructions for yourself from a calmer past. Every blow-up I have personally watched at close range had the same shape: the trader knew the right answer in theory, but had to invent the rule under emotional load. Inventing rules under load is impossible. Pre-written rules survive load.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — &ldquo;buy the dip&rdquo; only works inside a process</summary>
+          <p>The Twitter version of contrarianism is "buy when others are fearful". The reality is more constrained: buying the dip only works when (a) the underlying business is intact, (b) you have pre-allocated cash for it, and (c) you size the additional buy within your existing portfolio limits. Without those three, "buy the dip" turns into "double down on a thesis-broken position with money you cannot afford to lose" &mdash; which is gambling dressed up in Warren Buffett quotes.</p>
+          <p>The correct sequence is: thesis intact → tranches pre-planned → fresh capital available → size against existing position. Three out of four is not enough. All four, every time, is how you actually harvest the corrections you watched everyone else panic out of.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="iv-the-daily-tracking-disease">
+    <!-- ============================================================
+         IV. Herding & FOMO — the cascade
+         ============================================================ -->
+    <section class="reveal" id="iv-herding">
       <div class="section-heading">
         <div class="section-number">IV.</div>
-        <h2>IV. The Daily Tracking Disease</h2>
+        <h2>Where does FOMO come from — and why does the crowd usually win at the wrong time?</h2>
       </div>
       <div class="section-content">
-        <p>Here is a simple test. How often do you check your portfolio? If the answer is &ldquo;multiple times a day,&rdquo; you have a problem. Not a financial problem &ndash; a behavioral one.</p>
-<p><strong>Daily portfolio tracking is one of the most underrated destroyers of investment returns.</strong> Not because the act of looking at numbers is harmful in itself, but because of what it does to your decision-making.</p>
-<p>When you check your portfolio daily, you are exposing yourself to noise. On any given day, a stock can move 2-3% in either direction for reasons that have absolutely nothing to do with the underlying business. Maybe some fund is rebalancing. Maybe there is a technical pattern triggering algorithmic trades. Maybe someone on TV said something negative about the sector.</p>
-<p>None of this matters to the long-term value of the business. But your brain does not know that. Your brain sees -2% and asks: &ldquo;Should I do something?&rdquo; Your brain sees +3% and asks: &ldquo;Should I book profits?&rdquo; Every check is an invitation to make a decision. And in investing, most decisions are bad decisions.</p>
-<p>Here is a practical example. Say you have a 5-year view on a set of stocks &ndash; card businesses, home loan businesses, EMI-oriented firms, broking companies, AMC firms. You have done the fundamental analysis. You understand why these sectors will grow structurally over the next five years. Your thesis is sound.</p>
-<p>Now you start tracking the market from tomorrow. On Day 1, your card stock is down 1.5%. On Day 2, the home loan stock is flat. On Day 3, everything drops 3% because of some geopolitical noise. By Day 5, you are wondering if your thesis is wrong. By Day 10, you are considering selling something. By Day 30, you have made three trades that were not part of your original plan.</p>
-<p>You had a 5-year vision. But you started tracking daily. And the daily noise eroded your conviction day by day until it collapsed completely.</p>
-<blockquote>
-<p>Have a vision: don&rsquo;t invest for 5 years and then start tracking the market from tomorrow.</p>
-</blockquote>
-<h3 id="what-the-professionals-do">What the Professionals Do</h3>
-<p>I will tell you what the best investors I know do. They check their portfolios weekly at most. Some check fortnightly. They do a thorough review quarterly. In between, they read about businesses, study macroeconomics, and think about long-term trends.</p>
-<p>They do NOT stare at screens watching their stocks tick up and down. That is not investing. That is entertainment masquerading as productivity.</p>
-<p>The less you look at your portfolio, the better your returns will be. This is not just my opinion &ndash; there is extensive research proving this. Daniel Kahneman, who won the Nobel Prize for studying decision-making under uncertainty, demonstrated that the more frequently investors check their portfolios, the more risk-averse they become, and the worse their returns.</p>
-<p>The reason is loss aversion. Humans feel losses roughly twice as strongly as equivalent gains. So on a day when your portfolio is up 1%, you feel a small amount of pleasure. But on a day when it is down 1%, you feel roughly twice as much pain. Over time, the emotional arithmetic of daily checking is overwhelmingly negative &ndash; even when your portfolio is going up on average.</p>
-<p>The solution is simple but not easy: <strong>stop tracking. Set it. Forget it. Review quarterly.</strong></p>
-<p>If you are a genuine long-term investor &ndash; someone who sizes positions at 5%, buys in tranches, holds for years &ndash; then there is literally nothing useful that daily price movements can tell you. They are noise. Treat them as such.</p>
+        <p>FOMO &mdash; fear of missing out &mdash; is the mirror image of panic. Same mechanism, opposite direction. Panic sells the bottom; FOMO buys the top. Both are loss aversion in disguise: panic minimises the pain of further losses, FOMO minimises the pain of seeing others gain while you do not.</p>
+
+        <p>But FOMO has an extra layer that is worth understanding precisely, because it explains how bubbles form even when every individual participant is rational. The mechanism is called an <em>information cascade</em>. Each agent observes a noisy private signal (their own analysis) and the observed actions of their neighbours. They decide using both. If neighbours look very confident, the rational move &mdash; mathematically &mdash; is to put more weight on the crowd than on their own noisy signal<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
+
+        <p>The widget below is a tiny world of 200 agents on a 20&times;10 grid. Each agent has a private signal (BUY or SELL, noisy) and looks at the four neighbours nearest to it. Drag the rationality slider toward "pure signal" and each agent ignores the crowd &mdash; the outcome reflects the underlying truth. Drag it toward "pure herd" and the network locks onto whichever direction got an early lead, regardless of the truth.</p>
+
+        <!-- Widget 2: Herding Cascade Simulator -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 — 200 Agents Deciding Between Buy and Sell</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="btn-group">
+            <button class="btn-primary" id="w2-run">Run one round</button>
+            <button class="btn-secondary" id="w2-reset">Reset</button>
+          </div>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Rationality (signal vs herd)</span><span class="slider-value" id="w2-rat-val">0.50</span></div>
+              <input type="range" id="w2-rat" min="0" max="1" value="0.5" step="0.05">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Signal noise</span><span class="slider-value" id="w2-noise-val">0.30</span></div>
+              <input type="range" id="w2-noise" min="0" max="0.6" value="0.3" step="0.02">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>True direction</span><span class="slider-value" id="w2-dir-val">BUY</span></div>
+              <input type="range" id="w2-dir" min="0" max="1" value="1" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Buyers</div><div class="readout-value" id="w2-buy">—</div></div>
+            <div class="readout-cell"><div class="readout-label">Sellers</div><div class="readout-value" id="w2-sell">—</div></div>
+            <div class="readout-cell"><div class="readout-label">Cascade strength</div><div class="readout-value" id="w2-cascade">—</div></div>
+          </div>
+          <p class="widget-hint">Set rationality below 0.3 and run a few rounds. The grid locks into a sea of one colour even when the noise is large &mdash; that is a cascade. Now raise rationality to 0.8 and re-run; the colour ratio gets closer to the underlying truth.</p>
+        </div>
+
+        <p>Two observations to internalise:</p>
+
+        <p><strong>First, cascades can fire on the wrong direction.</strong> If the first few agents happen to receive the wrong noisy signal, every subsequent agent &mdash; rationally &mdash; over-weights them. The whole network ends up confidently wrong. This is exactly how small-cap manias and crypto cycles begin. Nobody is being stupid in isolation; everyone is using the same crowd as evidence.</p>
+
+        <p><strong>Second, the herd is right on average but wrong at the turning points.</strong> Most of the time, the crowd reflects underlying truth &mdash; that is why the market is informationally efficient day-to-day. But at extremes &mdash; euphoric tops, panicked bottoms &mdash; the herd is loudest and most consistent precisely when it is wrongest. The contrarian premium (Section VII) is paid out to whoever can step off the cascade at those moments.</p>
+
+        <p>Three real-world cascades from the last few years, each visible in the wreckage afterwards:</p>
+
+        <ul>
+          <li><strong>Indian small-caps, 2023&ndash;24.</strong> Social media filled with 100&ndash;200% gain screenshots. Retail allocations of 50&ndash;60% to small-caps from people who could not name the businesses they owned. Mid/small-cap indices then corrected 20%; individual names down 40&ndash;50%. The same retail that piled in at the top sold at the bottom &mdash; one cascade in, one cascade out, both wrong.</li>
+          <li><strong>Crypto, late 2021.</strong> Bitcoin to $69k on consensus that "the institutions are coming". Eighteen months later, FTX collapse, Bitcoin at $16k. The "institutions are coming" thesis was real but the price had already priced in the next decade of adoption. Buying the headline meant paying ten years forward for an asset that then fell 75%.</li>
+          <li><strong>US AI / "Mag 7", 2024.</strong> Concentration at the top of the S&amp;P hit levels last seen in 2000. Every retail flow tracker pointed at the same seven names. The cascade is not necessarily wrong &mdash; the businesses are real &mdash; but the price is being set by herd-following, not independent valuation. When the turn comes, it will come fast.</li>
+        </ul>
+
+        <p>The recurring pattern: the cascade is loudest in the final 10&ndash;20% of the move, exactly when the marginal new buyer is buying because everyone else is. That is the signature you want to recognise in real time &mdash; while it is happening &mdash; rather than in retrospect.</p>
+
+        <p>Two heuristics for real-time cascade detection, neither perfect but both useful:</p>
+
+        <ol>
+          <li><strong>The taxi-driver test.</strong> When non-investors start asking you about a specific asset by name, the cascade has reached the late stage. This was true of US tech in 1999, real estate in 2007, crypto in 2021, and Indian small-caps in 2024. It is not a sell signal by itself, but it is a strong "trim and stop adding" signal.</li>
+          <li><strong>The opinion-to-data ratio.</strong> Count, for the last ten things you read about an asset, how many were independent data (earnings, sectoral macros, on-the-ground evidence) versus how many were opinions about other opinions ("X bought it", "Y is bullish", "everyone is positioned for this"). When the ratio crosses 80% opinion, the price is being set by the cascade, not by fundamentals.</li>
+        </ol>
+
+        <p>Neither test gives you the top. Both tests give you a high-quality warning that the marginal buyer is now the cascade itself &mdash; which is the condition under which the contrarian premium (next section) becomes available to whoever can stop adding and start trimming.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 — herding is not always irrational</summary>
+          <p>If your private signal is genuinely noisier than the aggregated signal of the crowd, following the crowd is the Bayesian-optimal move. The pathology only emerges when (a) everyone underweights their own signal and (b) the crowd's apparent confidence over-states its real information content. Both conditions hold during media-amplified manias &mdash; financial Twitter looks like 10,000 independent opinions but is often 50 sources retweeted by 9,950 amplifiers.</p>
+          <p>The practical defence is to ask: "What independent data &mdash; not opinions &mdash; is in the public consensus?" If the answer is "very little, this is mostly people quoting each other", treat the consensus as a weak signal and lean on your own analysis.</p>
+        </details>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="v-the-inability-to-sit-still">
+    <!-- ============================================================
+         V. Daily tracking
+         ============================================================ -->
+    <section class="reveal" id="v-daily-tracking">
       <div class="section-heading">
         <div class="section-number">V.</div>
-        <h2>V. The Inability to Sit Still</h2>
+        <h2>Why does checking your portfolio daily destroy returns?</h2>
       </div>
       <div class="section-content">
-        <p>There is a famous saying attributed to Blaise Pascal: &ldquo;All of humanity&rsquo;s problems stem from man&rsquo;s inability to sit quietly in a room.&rdquo; Replace &ldquo;humanity&rsquo;s problems&rdquo; with &ldquo;investor&rsquo;s losses&rdquo; and you have the single most important truth about investing.</p>
-<p><strong>Patience is a massive virtue when it comes to investing. And no, this is not a motivational quote. This is the simply reality of investing.</strong></p>
-<p>I will say the same boring things: private sector banks are deeply undervalued. They will give a run-up &ndash; maybe in 1 month, maybe 1 year, maybe 2 years, who knows. But when they DO give a run-up, you will be rewarded for your patience. The key question is: can you wait?</p>
-<p>Most people cannot. They buy a fundamentally sound stock, hold it for three months, see no movement, and sell it to chase whatever is moving that month. Then the stock they sold starts its run-up, and they are left watching from the sidelines.</p>
-<p>This behavior pattern &ndash; the inability to sit still &ndash; is driven by a cognitive bias called <strong>action bias</strong>. When faced with uncertainty, humans feel compelled to &ldquo;do something.&rdquo; Doing nothing feels like failure. Doing something &ndash; even something harmful &ndash; feels like agency. We would rather make a bad trade than make no trade at all.</p>
-<p>In investing, the opposite is true. The most profitable action is usually inaction. Buying right and then doing nothing for years is extraordinarily boring and extraordinarily profitable.</p>
-<h3 id="the-compounding-illusion">The Compounding Illusion</h3>
-<p>The inability to sit still is made worse by the way compounding works. Compounding is back-loaded. The first few years of holding a good business feel underwhelming. A 15% CAGR stock goes from 100 to 115 in Year 1 (a modest 15-point gain), from 115 to 132 in Year 2 (a 17-point gain), and from 132 to 152 in Year 3 (a 20-point gain). The absolute gains accelerate over time, but in the early years, they feel small.</p>
-<p>Most investors quit during this boring early phase. They sell after Year 1 or Year 2 and move to something more exciting. By doing so, they give up Years 5 through 10, which is where the truly massive wealth creation happens. A 15% CAGR turns 100 into 405 over 10 years. But more than half of that 305-point gain comes in the last 4 years.</p>
-<p>If you bought gold in 2010 and held it till 2020, you made roughly 3.8% CAGR. If you bought NVIDIA in 2005 and held it till 2015, you made 0% returns. If you bought Nifty 50 in 2024 and held it till now, you made negative returns.</p>
-<p>The point is: just because you are buying a high quality asset does not mean you will make money. You have to be patient enough to hold through the flat and negative periods to capture the exponential phases. The investors who held NVIDIA from 2005 through 2024 &ndash; not just through 2015 &ndash; made generational wealth. But they had to endure a decade of zero returns first.</p>
-<p>Can you sit still for a decade? If not, investing is going to be very difficult for you.</p>
+        <p>If loss aversion is the disease, daily portfolio checking is the dose that makes it lethal. Kahneman and Tversky's collaborator Richard Thaler called the effect <em>myopic loss aversion</em><a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>: the more frequently you observe a noisy positive-drift process, the more often you encounter losses, the more &lambda;-units of pain you accumulate, and the more risk-averse your future decisions become.</p>
+
+        <p>The arithmetic is brutal. An equity index with 10% annual return and 18% annual volatility has a positive day roughly 55% of the time and a negative day 45% of the time. Check once a year: you see one observation, almost certainly positive, you feel good. Check once a day: you see 252 observations, 113 of them negative, each producing &lambda;&middot;|move| units of pain. The net emotional experience is overwhelmingly negative even though the underlying process is producing money.</p>
+
+        <div class="math-block">
+          E[emotional P&amp;L over N checks] &asymp; N &middot; [p<sub>up</sub> &middot; &micro;<sub>up</sub><sup>&alpha;</sup> &minus; &lambda; &middot; p<sub>dn</sub> &middot; |&micro;<sub>dn</sub>|<sup>&alpha;</sup>]
+          <span class="math-where">positive financially when N is small; can flip negative when N is large and &lambda; &gt; 1</span>
+        </div>
+
+        <p>This is not a metaphor. Behavioural economists have run the experiment: investors who saw their portfolios less frequently took more risk, held longer, and earned higher returns. Investors who saw daily reports took less risk, traded more, and earned less. <strong>The act of looking changes the portfolio.</strong></p>
+
+        <p>The professional fund managers I know check positions weekly at most. Some look only at month-end. They are not lazy &mdash; they are protecting their decision-making process from their own loss-averse brain. The retail trader checking the broker app five times during lunch is not "staying informed"; they are systematically lowering their long-term return by exposing themselves to thousands of micro-decisions that have no good answers.</p>
+
+        <p>A simple, brutal heuristic: <strong>if you checked your portfolio more than once a day this week, your behavioural alpha is already negative.</strong> Take the broker app off your home screen. Set a calendar reminder for Saturday review. Trust the process you wrote down when you bought.</p>
+
+        <p>The most useful framing I have heard for this comes from Thaler himself: imagine your portfolio statement was sealed in an envelope and only opened once a year. That single change &mdash; nothing else &mdash; would lift the average retail investor's net return by an estimated 1&ndash;2% per annum, simply by removing the behavioural drag from frequent observation. The compounded effect of that 1&ndash;2% over an investing career is larger than the result of nearly any individual stock pick. The cheapest alpha in the market is the alpha you stop subtracting.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vi-contrarian-investing-the-emotional-workout">
+    <!-- ============================================================
+         VI. Inability to sit still
+         ============================================================ -->
+    <section class="reveal" id="vi-sit-still">
       <div class="section-heading">
         <div class="section-number">VI.</div>
-        <h2>VI. Contrarian Investing: The Emotional Workout</h2>
+        <h2>How does the inability to sit still cost you the compounding tail?</h2>
       </div>
       <div class="section-content">
-        <p>I have always been a contrarian investor. Most of the time, it works for me. And that is something I genuinely try to teach with 100% honesty.</p>
-<p>But let me be clear about what contrarian investing actually feels like in practice. It feels terrible.</p>
-<p>When you take a contrarian position, you are, by definition, doing the opposite of what everyone else is doing. When you buy, everyone is telling you the stock is going to zero. When you hold, people make fun of you. When the stock keeps falling after you buy, people say &ldquo;I told you so.&rdquo;</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>Blaise Pascal: "All of humanity's problems stem from man's inability to sit quietly in a room." Replace "humanity's problems" with "investor's losses" and you have the most important sentence in this article.</p>
 
-<p>The China market is a perfect recent example. It was not an easy decision to post a public video recommending it, take heat for it, write community posts about it, and take more heat. I explained the macro thesis, the targets, the risks, the rewards &ndash; everything. People still called me crazy. And then the China market started to rebound. The contrarian thesis was right.</p>
-<p>But here is the thing: being right about the thesis does not make the emotional experience any easier. Between the time you take the position and the time it works out, you go through weeks or months of doubt, criticism, and paper losses. The stocks you bought are red. Your friends who are in momentum plays are posting green screenshots. Every financial news channel is saying the opposite of what you believe.</p>
-<p>This is the emotional workout of contrarian investing. And most people cannot handle it. That is precisely why it works. If everyone could handle being contrarian, there would be no contrarian opportunities. The excess returns come from doing what is emotionally difficult.</p>
-<h3 id="the-paradox-of-easy-and-hard">The Paradox of Easy and Hard</h3>
-<p>Here is something I have noticed over years of investing: <strong>the things that feel easy are usually wrong, and the things that feel hard are usually right.</strong></p>
-<p>Right now, it might feel easy to trust commodities. Why? Because the price is running. Gold is up, silver is up, everything looks great. But buying what has already moved is easy &ndash; and easy rarely makes money.</p>
-<p>All these look like a great asset. But if you sit back, study the fundamentals, and take a contrary bet &ndash; and that turns out to be right &ndash; that is where you make real money. And this requires real knowledge and a very strong conviction. Most people do not have this. And therefore, they cannot make money in investing.</p>
-<p>Taking a contrarian position when it is unpopular, holding it when everyone says you are wrong, and waiting patiently for the thesis to play out &ndash; that is the hardest thing in investing. It is also the most profitable.</p>
-<h3 id="how-to-build-contrarian-conviction">How to Build Contrarian Conviction</h3>
-<p>Contrarian investing is not about being stubborn. It is not about blindly doing the opposite of the crowd. It is about having a thesis that is different from consensus and being right about it.</p>
-<p>The process looks like this:</p>
-<ol>
-<li><strong>Pick a thesis</strong> &ndash; a specific view on a market, sector, or stock that differs from what most people believe.</li>
-<li><strong>Study the anti-thesis</strong> &ndash; understand exactly why people disagree with you. If you cannot articulate the bear case better than the bears, your conviction is not earned.</li>
-<li><strong>Evaluate the risk-reward</strong> &ndash; even if you are right, how much can you lose if you are wrong? And how much can you gain if you are right? The payoff must be asymmetric.</li>
-<li><strong>Back it with real money</strong> &ndash; putting your money where your mouth is is the ultimate test. Opinions without capital behind them are entertainment, not investing.</li>
-</ol>
-<p>I put my real money behind my opinions. This is not a small thing. It is easy to be contrarian on Twitter. It is easy to write &ldquo;buy when others are fearful&rdquo; in a motivational Instagram post. It is something entirely different to actually buy when your screen is red, your friends think you are losing money, and the financial media is screaming that the world is ending.</p>
+        <p>Compounding is back-loaded. A 15% CAGR turns &#8377;1 into &#8377;4.05 over ten years &mdash; but more than half of that gain arrives in the last four years. The first three years feel underwhelming because they <em>are</em> underwhelming in absolute terms. The investor whose action bias forces them to "do something" during the boring middle gives up the exponential tail. They sold at &#8377;1.52 to chase whatever moved that quarter, and the &#8377;2.53 of gains that would have arrived in years 7&ndash;10 went to whoever bought their shares.</p>
+
+        <p>NVIDIA from 2005 to 2015 returned approximately 0%. The investor who held those ten years of nothing also held the next decade, which turned every &#8377;1 invested in 2015 into &#8377;100+ by 2024. The investor who quit in 2015 &mdash; "ten years and nothing to show, this is dead money" &mdash; left the entire generational return on the table.</p>
+
+        <p>Action bias is hard-wired. In a famous study of penalty kicks, goalkeepers dive left or right 94% of the time even though staying centred is statistically optimal &mdash; because diving and missing feels better than standing still and missing<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. The same mechanism makes you rebalance, rotate, "take some profits off the table", and otherwise sabotage a perfectly good thesis every time the market does nothing for three months.</p>
+
+        <p>The cure is to internalise that <strong>inaction is itself an active position</strong>. Every day you choose not to sell, you are choosing to own the underlying for one more day. That is a decision, not the absence of one. Make it deliberately. Write it down quarterly: "I am choosing to hold X because the thesis remains intact, not because I forgot it was there."</p>
+
+        <blockquote>
+          <p>The most profitable action in investing is usually inaction. Buying right and then doing nothing for ten years is extraordinarily boring and extraordinarily profitable. The boring is the price you pay for the profitable.</p>
+        </blockquote>
+
+        <p>There is one more layer worth naming. Compounding is not only back-loaded; it is also <em>concentrated</em>. Hendrik Bessembinder's long-run study of US equities found that the entire excess return of the stock market over Treasury bills, since 1926, was attributable to just 4% of listed companies &mdash; the rest, on aggregate, returned Treasury-bill rates or worse. If you sell those 4% during the boring middle, the math of the entire asset class breaks for your portfolio. Patience is not a virtue in investing. It is the mechanism by which the asset class actually delivers its return.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="vii-the-information-trap-when-more-data-makes-you-worse">
+    <!-- ============================================================
+         VII. Contrarian premium
+         ============================================================ -->
+    <section class="reveal" id="vii-contrarian">
       <div class="section-heading">
         <div class="section-number">VII.</div>
-        <h2>VII. The Information Trap: When More Data Makes You Worse</h2>
+        <h2>What is the contrarian premium and why is it so hard to harvest?</h2>
       </div>
       <div class="section-content">
-        <p>We live in an age of infinite financial information. You can check stock prices in real-time, read earnings transcripts within minutes of release, watch twelve different analysts give twelve different opinions on the same stock, and scroll through social media where everyone is an expert.</p>
-<p>You would think that more information leads to better decisions. It does not. In fact, <strong>more information often leads to worse decisions</strong> because it amplifies every behavioral bias we have discussed.</p>
-<p>More information means:
-- More opportunities to panic (every negative headline is a panic trigger)
-- More opportunities to FOMO (every screenshot of gains is a FOMO trigger)
-- More opinions to confuse you (twelve analysts means twelve different price targets)
-- More reasons to act (every new piece of data feels like it demands a response)</p>
-<p>The best investors I know are highly selective about their information diet. They read annual reports, study quarterly results, follow macroeconomic trends, and ignore almost everything else. They do not watch financial news channels during market hours. They do not check social media for stock tips. They do not join WhatsApp groups where people post live trades.</p>
-<p>There is no upside to trading on Budget Day. Wait for the budget to get over. Absorb the points. And then make the next set of investing decisions. This is an example of the principle in action: more information in real-time (watching the budget live and trading on each announcement) produces worse results than less information processed calmly (reading the budget summary the next day and making considered decisions).</p>
-<h3 id="the-analyst-problem">The Analyst Problem</h3>
-<p>There is a specific variant of the information trap that deserves special attention: sell-side analyst reports. Brokerage firms routinely issue buy and sell ratings with dramatic price targets. One firm might issue a sell rating on a stock with a 38% downside target.</p>
-<p>I do not really trust this type of commentary. Most of this is written just to create panic. I can show at least 100 instances when these types of firms issue whatever commentary they like and the stock does the opposite.</p>
-<p>This does not mean analysts are always wrong. It means that analyst reports are one data point among many, and they should never be the basis for emotional decisions. If you sell a fundamentally sound stock because a single analyst issued a sell rating, you are letting someone else&rsquo;s opinion override your own analysis. That is a behavioral failure, not an analytical one.</p>
-<h3 id="building-a-calm-information-process">Building a Calm Information Process</h3>
-<p>Good money is made by thinking calmly. I have been trying to do that for a while, and it has yielded good results for our community.</p>
-<p>The process of calm thinking requires:</p>
-<ol>
-<li><strong>Reducing information inputs</strong> &ndash; follow fewer sources, but follow them deeply.</li>
-<li><strong>Adding a time delay</strong> &ndash; never act on information the same day you receive it. Sleep on it.</li>
-<li><strong>Writing down your thesis</strong> &ndash; before every investment, write down why you are buying, what could go wrong, and at what point you would sell. This creates accountability to your past self.</li>
-<li><strong>Ignoring short-term commentary</strong> &ndash; most market commentary is noise optimized for clicks, not for your portfolio returns.</li>
-</ol>
-<p>I could get up in the morning, blurt something out, and be done. But honestly, that is not a good money move. Being calm, composed, and patient &ndash; taking the time to study a thesis properly before presenting it &ndash; produces better results than rapid-fire commentary ever will.</p>
+        <p>Re-read the herding widget output. When the cascade fires, the network ends up confidently aligned in one direction. Whoever takes the opposite side is, by construction, the only one being paid extra to do so &mdash; because in a market, every excess return has to come from someone else's mistake.</p>
+
+        <p>That extra payout is the contrarian premium. It exists structurally and persistently because most participants cannot psychologically harvest it. To buy what the consensus is calling a zero, you need to:</p>
+
+        <ol>
+          <li>Hold a thesis that differs from the visible crowd.</li>
+          <li>Articulate the bear case better than the bears can &mdash; otherwise your conviction is borrowed.</li>
+          <li>Take real, sized positions &mdash; opinions without capital are entertainment.</li>
+          <li>Endure the period between taking the position and being proven right, during which everyone you respect tells you you are wrong.</li>
+        </ol>
+
+        <p>Step 4 is the killer. Between entry and validation, contrarian positions go down, sometimes by 20&ndash;30%, before they go up. Your &lambda; spikes (Section II's sidenote). Your friends post green screenshots. Financial Twitter calls you a permabear or a "value trap victim". The amygdala loop reaches for the sell button.</p>
+
+        <p>The China-equities call in 2024 is the canonical recent example. The macro thesis was clean: bombed-out valuations, policy stimulus reversal, foreign capital flight had over-shot. The thesis was right within a few months. But the period between the call and validation included multiple weeks of negative tape, public ridicule, and watching consensus assets (US tech, Indian small-caps) keep ripping higher. Most investors who agreed with the thesis intellectually still could not hold the position emotionally. They sold near the bottom, two weeks before the turn.</p>
+
+        <p>The structure repeats. Buy big tobacco in 2018, hold for two years of bad press, exit at a 60% return in 2021. Buy energy in 2020 with oil at negative prices, hold through "stranded asset" panic, exit in 2022 at multiples. Buy uranium miners in 2019 at a decade-long low, hold through years of "nuclear is dead" headlines, exit in 2024 at 4&ndash;6&times;. The thesis was visible to anyone willing to read; the return was reserved for whoever could sit. Same shape every time.</p>
+
+        <p>Operationally, the way professionals harvest the contrarian premium without dying from it is to <em>size for survival</em>. No single contrarian position is more than 4&ndash;5% of the book, and the average is closer to 2&ndash;3%. The idea is that the position can drop 50% and the portfolio takes a 1.5% hit &mdash; survivable, ignorable, not portfolio-ending. Retail traders who get blown up on contrarian positions are not wrong about the thesis; they are wrong about position size. They bet the rent on a six-month thesis and the six months turned into eighteen.</p>
+
+        <p>The contrarian premium is not a free lunch. It is a wage paid in cash for accepting a specific kind of psychological work &mdash; the work of being publicly visibly wrong for an indeterminate period. If you can do that work, the market pays. If you cannot, the market pays someone else.</p>
+
+        <p>One quantitative measure of how much that work pays: the average value-vs-glamour spread across developed markets is roughly 4&ndash;5% per annum over multi-decade samples. That is the empirical "patience tax" the crowd hands to the small minority who can sit on unpopular positions. Not enormous in any given year. Annualised over twenty years, the difference between &#8377;1 crore and &#8377;2.6 crore at retirement.</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">~4-5%</div><div class="stat-label">Annual value-over-glamour spread (HML)</div></div>
+          <div class="stat"><div class="stat-value">2.6&times;</div><div class="stat-label">Compounded over 20 yrs</div></div>
+          <div class="stat"><div class="stat-value">~3&minus;6 mo</div><div class="stat-label">Typical drawdown before a contrarian thesis validates</div></div>
+          <div class="stat"><div class="stat-value">&lt;15%</div><div class="stat-label">Retail investors who hold through that drawdown</div></div>
+        </div>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="viii-asymmetric-gains-why-timing-matters-more-than-you-think">
+    <!-- ============================================================
+         VIII. Bias self-quiz
+         ============================================================ -->
+    <section class="reveal" id="viii-bias-quiz">
       <div class="section-heading">
         <div class="section-number">VIII.</div>
-        <h2>VIII. Asymmetric Gains: Why Timing Matters More Than You Think</h2>
+        <h2>Which biases are blinding you right now?</h2>
       </div>
       <div class="section-content">
-        <p>There is a popular phrase in investing: &ldquo;Time in the market beats timing the market.&rdquo; I have a contrarian view on this. <strong>Time in the market is NOT necessarily better than TIMING the market.</strong></p>
-<p>Now, many people will say I am teaching a wrong thing. So let me present the data.</p>
-<p>NIFTY in 1999 was at 1,000. By 2007, it was at 5,185. That is a 5X growth in roughly 9 years &ndash; a golden period. After the 2008 crash and recovery, NIFTY reached 6,000 by 2010. Over the next 9 years, it went to 12,500 &ndash; a 2X growth. On a CAGR basis, that is 8-8.5% pre-tax.</p>
-<p>Now, mutual funds mix both data points and tell you: invest for 20 years and you will see great gains. But the honest truth is that if you as an investor do not capture the <strong>asymmetric gain phases</strong>, you will not make much money. The 5X phase and the 2X phase look very different. And 8.5% CAGR pre-tax on a 9-year holding period is, frankly, mediocre.</p>
-<div class="demo reveal" id="chart-1"></div>
+        <p>The biases are not abstract; each has a specific behavioural signature you can self-diagnose. The widget below asks you to rate yourself honestly on six common biases (0 = bulletproof, 10 = severe). The radar plots your profile and the readout calls out your largest blind spot &mdash; the one most likely to cost you money in the next cycle.</p>
 
-<p>How do you capture asymmetric gains? By buying 20% dips. That is the simple answer. When the US market dips by 22% &ndash; which is a bear run &ndash; you invest as much as possible. When the market panics, you buy unlisted stocks. When everyone is closing their SIPs, you start new ones. When record numbers of investors are leaving the market, that is precisely when you should be entering.</p>
-<p>Brave people make money in the market. Think independently. Look at the data. And make calls accordingly. And do NOT miss great buying opportunities.</p>
-<p>This brings us back to psychology. The reason most people miss asymmetric gain phases is not that they do not see them. It is that asymmetric opportunities appear precisely when it is most psychologically difficult to act. They appear during crashes, corrections, and bear markets &ndash; when every instinct tells you to stay away.</p>
-<p>If you do not buy right, you will NOT make money. And buying right means buying when it is psychologically painful to do so.</p>
-<h3 id="the-sip-illusion">The SIP Illusion</h3>
-<p>SIPs (Systematic Investment Plans) are marketed as the solution to timing risk. And for most people, they are better than nothing. But there is a nuance that the mutual fund industry will never tell you.</p>
-<p>SIPs work beautifully in secular bull markets. But in sideways or volatile markets, SIPs produce mediocre returns because they keep buying at average prices rather than discounted prices. The investor who has the psychological strength to stop SIPs during euphoric phases (when prices are high) and increase allocation during panic phases (when prices are low) will dramatically outperform the pure SIP investor.</p>
-<p>This is not theoretical. Record number of SIPs closed during the recent correction. The SIPs will start again once the market rebounds. This is exactly backwards. People are stopping SIPs at the bottom (when prices are cheap) and they will restart them at the top (when prices are expensive). This behavioral pattern guarantees mediocre returns.</p>
-<p>The antidote, again, is emotional discipline. Keep investing during downturns. Reduce exposure during euphoria. This is simple to say and extraordinarily difficult to do.</p>
+        <p>This works only if you are honest, which is itself difficult because the same biases that distort your trading distort your self-assessment. Rule of thumb: whichever bias you instinctively rated lowest is probably the one that is hurting you most.</p>
+
+        <!-- Widget 3: Bias Radar -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 — Six-Bias Self-Assessment Radar</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="bias-grid">
+            <div class="slider-group">
+              <div class="slider-label"><span>Anchoring</span><span class="slider-value" id="w3-b1-val">5</span></div>
+              <input type="range" id="w3-b1" min="0" max="10" value="5" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Confirmation bias</span><span class="slider-value" id="w3-b2-val">5</span></div>
+              <input type="range" id="w3-b2" min="0" max="10" value="5" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Recency bias</span><span class="slider-value" id="w3-b3-val">5</span></div>
+              <input type="range" id="w3-b3" min="0" max="10" value="5" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Sunk-cost fallacy</span><span class="slider-value" id="w3-b4-val">5</span></div>
+              <input type="range" id="w3-b4" min="0" max="10" value="5" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Overconfidence</span><span class="slider-value" id="w3-b5-val">5</span></div>
+              <input type="range" id="w3-b5" min="0" max="10" value="5" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>FOMO</span><span class="slider-value" id="w3-b6-val">5</span></div>
+              <input type="range" id="w3-b6" min="0" max="10" value="5" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Biggest blind spot</div><div class="readout-value" id="w3-worst">—</div></div>
+            <div class="readout-cell"><div class="readout-label">Best-defended bias</div><div class="readout-value" id="w3-best">—</div></div>
+            <div class="readout-cell"><div class="readout-label">Composite risk score</div><div class="readout-value" id="w3-score">—</div></div>
+          </div>
+          <p class="widget-hint">Rate yourself by behaviour, not aspiration. "I check the price I paid before deciding to sell" → high anchoring. "I read articles that agree with my thesis more than ones that don't" → high confirmation. The composite is &Sigma; scores / 60.</p>
+        </div>
+
+        <p>The composite risk score is a rough barometer. Anything above 60% says the behavioural drag on your returns is meaningful &mdash; possibly larger than the alpha you are generating from stock-picking. Below 30% is either genuinely well-defended or, more likely, dishonestly low. Most experienced investors who self-rate honestly end up in the 40&ndash;55% band; the work is reducing that number by one or two points a year through process improvements, not by pretending it is already lower.</p>
+
+        <p>Quick definitions, for the cells that lit up:</p>
+
+        <ul>
+          <li><strong>Anchoring</strong> &mdash; you treat the price you paid as a meaningful reference, even though the market has no idea what you paid. Symptom: refusing to sell until "back to break-even".</li>
+          <li><strong>Confirmation bias</strong> &mdash; you read the bull case for stocks you own and the bear case for stocks you don't. Symptom: you can't articulate the anti-thesis.</li>
+          <li><strong>Recency bias</strong> &mdash; whatever happened last quarter feels like it will continue forever. Symptom: chasing whichever sector was the YTD winner.</li>
+          <li><strong>Sunk-cost fallacy</strong> &mdash; you hold a loser because of money already spent, not because of forward expected value. Symptom: "I just need to break even and I'll get out."</li>
+          <li><strong>Overconfidence</strong> &mdash; you underestimate the role of luck in past wins and overestimate the precision of your forecasts. Symptom: position sizes that ignore the bear case.</li>
+          <li><strong>FOMO</strong> &mdash; you buy after the move because the missing-out pain is greater than the buying-late risk. Symptom: entries clustered at recent highs.</li>
+        </ul>
+
+        <p>One useful trick for the worst-lit cell: design a single, specific counter-rule for that bias and stick it on the wall next to your monitor. Anchoring → "the price I paid is not on any chart anyone else sees." Confirmation → "before I buy, I read the most credible bear note I can find." Sunk-cost → "every position is a fresh buy decision every quarter; would I open this position today?" The bias is not eliminated. The counter-rule just intercepts it once per cycle, which is usually enough.</p>
+
+        <hr />
       </div>
     </section>
 
-    <section class="reveal" id="ix-building-your-behavioral-operating-system">
+    <!-- ============================================================
+         IX. Behavioural OS
+         ============================================================ -->
+    <section class="reveal" id="ix-behavioral-os">
       <div class="section-heading">
         <div class="section-number">IX.</div>
-        <h2>IX. Building Your Behavioral Operating System</h2>
+        <h2>How do you build a behavioural OS that overrides instinct?</h2>
       </div>
       <div class="section-content">
-        <p>Let me bring this all together. Your brain is the biggest risk in your portfolio. Not geopolitical events, not earnings misses, not interest rate surprises &ndash; your brain. Specifically, these five behavioral failure modes:</p>
-<ol>
-<li><strong>Panic selling</strong> &ndash; liquidating positions during temporary drawdowns</li>
-<li><strong>FOMO buying</strong> &ndash; chasing assets after they have already moved</li>
-<li><strong>Daily tracking</strong> &ndash; exposing yourself to noise and inviting bad decisions</li>
-<li><strong>Inability to sit still</strong> &ndash; trading for the sake of action rather than conviction</li>
-<li><strong>Information overload</strong> &ndash; letting too many voices dilute your own thesis</li>
-</ol>
-<p>Each of these is a natural human response that served our ancestors well in environments of physical danger but serves us terribly in financial markets. You cannot eliminate these instincts. But you can build a system &ndash; a behavioral operating system &ndash; that overrides them.</p>
-<p>Here is the operating system I recommend, synthesized from years of investing through multiple cycles:</p>
-<h3 id="the-pre-decision-framework">The Pre-Decision Framework</h3>
-<p>Before you make any investment decision, run through these checks:</p>
-<p><strong>Am I acting from analysis or emotion?</strong> If you cannot write down three fundamental reasons for the trade, you are acting from emotion. Stop.</p>
-<p><strong>Am I within my position sizing limits?</strong> If this trade would put more than 5% of your portfolio in a single name (or 2.5% for small-caps), the answer is no regardless of how good the opportunity looks.</p>
-<p><strong>Have I studied the anti-thesis?</strong> For every bull case, you should be able to articulate the bear case just as clearly. If you cannot, your conviction is not earned.</p>
-<p><strong>Am I trying to be right, or trying to be profitable?</strong> These are different things. Being right means every stock goes up. Being profitable means your portfolio grows over time. You can be wrong on 40% of your picks and still be highly profitable if you manage risk correctly.</p>
-<h3 id="the-during-investment-protocol">The During-Investment Protocol</h3>
-<p>Once you own a position, follow these rules:</p>
-<p><strong>Check your portfolio no more than once a week.</strong> Preferably less. If you have done your analysis and sized correctly, there is nothing useful that daily price movements can tell you.</p>
-<p><strong>Do not sell because of price movement alone.</strong> Sell only when the thesis changes &ndash; when the fundamentals of the business deteriorate, when new information invalidates your original analysis, or when the position has reached your target and the risk-reward no longer favors holding.</p>
-<p><strong>Keep cash available.</strong> Always maintain 10-20% cash in your portfolio. This cash is not dead money. It is your ability to buy during corrections without selling existing positions in a panic.</p>
-<p><strong>When the urge to trade is strongest, do nothing.</strong> The strongest urge to trade comes at market extremes &ndash; during crashes (urge to sell) and during euphoria (urge to buy more). Both are precisely the wrong times to act impulsively.</p>
-<h3 id="the-post-decision-review">The Post-Decision Review</h3>
-<p>After every investment decision (buy or sell), write down:</p>
-<ol>
-<li>Why you made the decision</li>
-<li>What the expected outcome is</li>
-<li>What would prove you wrong</li>
-<li>Whether you followed your process</li>
-</ol>
-<p>Review these notes quarterly. You will discover patterns in your own behavior that you cannot see in real-time. Maybe you consistently buy too early, or sell too quickly, or oversize speculative positions. The data will tell you.</p>
-<blockquote>
-<p>If you are not feeling the urge to do anything in the market right now, then you are learning well. Patience is a massive virtue when it comes to investing.</p>
-</blockquote>
-<h3 id="the-long-game">The Long Game</h3>
-<p>Let me end with the most important point. Investing is a decades-long game. The decisions that matter most are not the individual stock picks &ndash; they are the behavioral patterns you establish and maintain over 20, 30, or 40 years of investing.</p>
-<p>A 60% hit rate, compounded over 20 years with proper position sizing, will build significant wealth. A 90% hit rate with emotional, concentrated, impulsive investing will not &ndash; because the 10% failures will come at the worst times and cost you everything.</p>
-<p>My most critical learning in the last four years has been to pick up contrarian investing skills. This means: you invest when others are scared. You invest in assets that others are not picking up. You stick with your analysis. When things change, you update your thesis. All of this is backed by macroeconomic analysis, not by gut feeling.</p>
-<p>Going forward, I am personally investing a lot of time to sharpen these skills. And I would encourage you to do the same. Not by studying more stock charts or reading more analyst reports, but by studying yourself. Understanding your own behavioral patterns, your triggers, your biases, and your weaknesses.</p>
-<p>The market will always give you opportunities. Stocks will always be there to buy. The question is whether you will be psychologically ready to act when the time is right &ndash; and psychologically disciplined enough to do nothing when the time is wrong.</p>
-<p>Your brain is the biggest risk. But it is also, once trained, your greatest asset. Build the behavioral operating system. Follow the process. Trust the math. And give it time.</p>
-<p>That is how the 60% win rate becomes generational wealth.</p>
+        <p>You cannot rewire the amygdala. You can build scaffolding around it. The investors who stay in the top decile across multiple cycles are not less emotional than you &mdash; they have built an operating system that makes most decisions before the emotion arrives, and quarantines the decisions that cannot be pre-made.</p>
+
+        <p>Here is the minimum viable behavioural OS, stitched from the six failure modes above.</p>
+
+        <h3 id="pre-trade-checklist">Pre-trade: a three-question checklist</h3>
+        <p>Before any buy or sell, write down (literally, on paper or in a note):</p>
+        <ol>
+          <li><strong>Three fundamental reasons.</strong> If you cannot articulate three, the trade is emotional. Stop.</li>
+          <li><strong>The exit thesis.</strong> What concrete event would make you sell? Not "if it goes down 20%" &mdash; that is the curve in Section I talking. What deterioration in <em>the business</em> would invalidate the call?</li>
+          <li><strong>Position size.</strong> Max 5% per name (2.5% for small-caps). If the trade requires more, the conviction does not justify the risk.</li>
+        </ol>
+
+        <h3 id="during-trade">During the hold: pre-committed inaction</h3>
+        <ol>
+          <li><strong>Check no more than weekly.</strong> Saturday morning. Set the calendar reminder. Take the broker app off the phone's home screen.</li>
+          <li><strong>Never act on the same day as the news.</strong> 48-hour rule. If a thesis-breaking event happens Wednesday, the decision is made on Friday with a clear head.</li>
+          <li><strong>Maintain 10&ndash;20% cash.</strong> Cash is optionality. It is what lets you buy a crash instead of being trapped by one.</li>
+          <li><strong>When the urge to trade is strongest, do nothing for 24 hours.</strong> The strongest urges align with the worst times (panic at bottoms, FOMO at tops). Inaction is itself a thesis-respecting position.</li>
+        </ol>
+
+        <h3 id="post-trade-review">Post-trade: a feedback loop</h3>
+        <p>After every closed position, regardless of outcome, write four sentences:</p>
+        <ol>
+          <li>Why I bought.</li>
+          <li>Why I sold.</li>
+          <li>What surprised me about the trade.</li>
+          <li>Did I follow my own process, or break it?</li>
+        </ol>
+
+        <p>Quarterly, re-read the log. You will find patterns no real-time observation reveals &mdash; "I consistently exit winners at +15%", "I never honour my own stop-loss on small-caps", "every position I broke the position-size rule on is now a loser". Behaviour is detectable in retrospect even when it is invisible in the moment.</p>
+
+        <h3 id="worked-example">A worked example: one cycle through the OS</h3>
+        <p>Concrete is better than abstract. Take a real cycle from earlier this year &mdash; a private-sector bank trading at a multi-year P/E discount to its own history, while flows were chasing PSU defensives. Here is how the OS handles it from intent to exit, step by step:</p>
+
+        <ol>
+          <li><strong>Pre-trade:</strong> Write the three reasons (sector profitability inflecting, deposit growth normalising, valuation at a 2&sigma; discount). Write the exit thesis (any deterioration in deposit costs or loan-book quality &mdash; not price). Compute size: 4% of portfolio, well within the 5% limit.</li>
+          <li><strong>Entry:</strong> Buy in two tranches, half on the day after the decision, half on any 7%+ pullback within 60 days. The second tranche is pre-committed; no further decision needed.</li>
+          <li><strong>Hold:</strong> Saturday check. Within four weeks, the stock is down 6%, news media is calling private banks "structurally challenged". Your &lambda; spikes. The pre-committed rule fires: tranche two executes at the lower price. You feel nothing &mdash; the decision was made weeks earlier under calm conditions.</li>
+          <li><strong>Mid-cycle review:</strong> Quarter ends, business numbers come in line with thesis. Price has done nothing. Action bias says rotate. Process says do nothing. You do nothing.</li>
+          <li><strong>Exit:</strong> Two quarters later, the sector re-rates 32%. Stock is now 30% above your blended entry. Your thesis target was 25% upside; you are past it. Sell half, leave the rest with a rule: "trail the position until the thesis breaks". You did not catch the top. You did catch the bulk of the move at a sized that mattered.</li>
+          <li><strong>Post-trade log:</strong> Four sentences. Closed with a clear win and an honest line: "I almost broke tranche-two when the news got loud. The pre-commitment held. The win is at least 50% process, 50% thesis." That log is more valuable than the trade P&amp;L &mdash; the trade pays once; the log compounds into every future decision.</li>
+        </ol>
+
+        <p>Nothing in that walkthrough is clever. The thesis was a normal fundamental call any analyst could have made. The edge was that the behavioural OS held while the noise tried to dislodge it. That is the whole game.</p>
+
+        <div class="callout">
+          <div class="callout-title">If you remember one thing</div>
+          <p>Your edge is not analytical. It is behavioural. <strong>Loss aversion, panic, FOMO, daily tracking, action bias, anchoring</strong> &mdash; these six failure modes are the entire reason 90% of traders are on the wrong side of the cycle. You cannot delete them. You can build a system that makes them irrelevant. The system is not exciting. It is not optimisable for content. It is just: write the thesis, size correctly, look rarely, act seldom, review honestly. The 10% are doing nothing more sophisticated than this. They are just doing it consistently.</p>
+        </div>
+
+        <p>The market will keep handing out opportunities. The question is never whether they will appear &mdash; they will. The question is whether you will be psychologically present when they do, and psychologically disciplined when they don't. That is the real game. And it is played, every day, between your ears.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">SEBI's January 2023 study on equity F&amp;O participation found that 89% of individual traders were net losers in FY22, average loss ~&#8377;1.1 lakh. The September 2024 follow-up found essentially identical loss ratios after a year of regulatory tightening; the profitable cohort is dominated by proprietary and algorithmic participants, not discretionary retail. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Bikhchandani, Hirshleifer &amp; Welch (1992), "A Theory of Fads, Fashion, Custom and Cultural Change as Informational Cascades", Journal of Political Economy 100(5). The foundational paper showing that Bayesian-rational agents can lock into wrong consensus when sequential public actions reveal more than private signals. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Benartzi &amp; Thaler (1995), "Myopic Loss Aversion and the Equity Premium Puzzle", Quarterly Journal of Economics 110(1). Shows that the equity risk premium can be reproduced entirely from loss aversion (&lambda; &asymp; 2.25) combined with a one-year evaluation horizon &mdash; i.e., that the premium is partly the wage paid to investors for tolerating frequent paper losses. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">Bar-Eli, Azar, Ritov, Keidar-Levin &amp; Schein (2007), "Action bias among elite soccer goalkeepers", Journal of Economic Psychology 28(5). 286 penalty kicks analysed; staying centred saved more goals than diving, but goalkeepers dove on 94% of kicks. Diving and missing felt better than standing and missing &mdash; the exact mechanism that produces over-trading. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+        </ol>
       </div>
     </section>
   </article>
@@ -348,12 +582,12 @@
     <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
   </footer>
 
-  <!-- Chart Scripts -->
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
   <script>
-    // ===== Scroll Reveal Animation =====
     (function() {
       const revealElements = document.querySelectorAll('.reveal');
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -362,23 +596,12 @@
               observer.unobserve(entry.target);
             }
           });
-        }, {
-          threshold: 0.15,
-          rootMargin: '0px 0px -40px 0px'
-        });
-
-        revealElements.forEach(function(el) {
-          observer.observe(el);
-        });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
       } else {
-        // Fallback: show all elements immediately
-        revealElements.forEach(function(el) {
-          el.classList.add('visible');
-        });
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
       }
     })();
-
-    // ===== Smooth scroll for TOC links =====
     document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         var targetId = this.getAttribute('href').slice(1);
@@ -393,429 +616,429 @@
     });
   </script>
 
-  <!-- Topic-specific chart/widget scripts injected by build -->
-  <script src="../chart-helpers.js"></script>
-<script>
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
+  <script src="../chart-canvas-helpers.js"></script>
 
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "2008 Financial Crisis", "start_value": 10000, "end_value": 4800, "recovery_months": 24}, {"name": "2011 Euro Debt Crisis", "start_value": 10000, "end_value": 7200, "recovery_months": 14}, {"name": "2015-16 China Fears", "start_value": 10000, "end_value": 7800, "recovery_months": 10}, {"name": "2020 COVID Crash", "start_value": 10000, "end_value": 6200, "recovery_months": 8}, {"name": "2024-25 FII Selloff", "start_value": 10000, "end_value": 7500, "recovery_months": 6}];
+  <!-- ============================================================
+       WIDGET 1 — Loss Aversion Utility Curve
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 360 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
+    var state = { lambda: 2.25, pnl: -10 };
+    var alpha = 0.88;
 
-  container.innerHTML = '';
-  container.classList.add('demo');
+    function utility(x, lam) {
+      // x in percent; convert to fractional
+      var f = x / 100;
+      if (f >= 0) return Math.pow(f, alpha);
+      return -lam * Math.pow(-f, alpha);
+    }
 
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "The Real Cost of Panic Selling: Drawdowns That Recovered";
-  container.appendChild(title);
+    // Inverse: gain needed to match the *magnitude* of utility from a given loss.
+    // |U(loss)| = lam * |loss|^a  ==>  gain = (lam * |loss|^a)^(1/a) = lam^(1/a) * |loss|
+    function gainToOffsetLoss(lossPct, lam) {
+      return Math.pow(lam, 1 / alpha) * Math.abs(lossPct);
+    }
 
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 36, right: 24, bottom: 40, left: 60 };
+      var xMin = -30, xMax = 30;
+      // y range: utility is bounded by U(±0.30) = ±lambda * 0.30^alpha
+      var yMaxAbs = state.lambda * Math.pow(0.30, alpha) * 1.1;
+      var yMin = -yMaxAbs, yMax = yMaxAbs;
 
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['-30%','-20%','-10%','0','+10%','+20%','+30%'],
+        yMin: yMin, yMax: yMax, ySteps: 4,
+        yFmt: function(v) { return v.toFixed(2); }
+      });
 
-  var tooltip = createTooltip(container);
+      // Zero vertical line (the kink)
+      var zx = mapX(0, xMin, xMax, W, pad);
+      ctx.save();
+      ctx.strokeStyle = '#bbb'; ctx.setLineDash([3,3]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(zx, pad.top); ctx.lineTo(zx, H - pad.bottom); ctx.stroke();
+      ctx.restore();
+      // Zero horizontal line
+      var zy = mapY(0, yMin, yMax, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, zy); ctx.lineTo(W - pad.right, zy); ctx.stroke();
+      ctx.restore();
 
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
+      // Reference linear utility (if no loss aversion, λ=1, α=1): the y=x line in axis space
+      var linPts = [];
+      for (var lx = xMin; lx <= xMax; lx += 1) {
+        linPts.push({ x: lx, y: utility(lx, 1) });
+      }
+      drawLineCanvas(ctx,
+        linPts.map(p => ({ x: mapX(p.x, xMin, xMax, W, pad), y: mapY(p.y, yMin, yMax, H, pad) })),
+        { color: '#bbb', width: 1.2, dashed: [4,4] });
 
-    var n = corrections.length;
-    if (n === 0) return;
+      // Actual prospect-theory curve
+      var pts = [];
+      for (var x = xMin; x <= xMax; x += 0.25) {
+        pts.push({ x: x, y: utility(x, state.lambda) });
+      }
+      drawLineCanvas(ctx,
+        pts.map(p => ({ x: mapX(p.x, xMin, xMax, W, pad), y: mapY(p.y, yMin, yMax, H, pad) })),
+        { color: 'var(--accent)', width: 2.5 });
 
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
+      // Current-P&L dot
+      var curU = utility(state.pnl, state.lambda);
+      var dx = mapX(state.pnl, xMin, xMax, W, pad);
+      var dy = mapY(curU, yMin, yMax, H, pad);
+      drawPointCanvas(ctx, dx, dy, 7, 'var(--accent)', '#fff');
+
+      // Drop line from dot to x-axis
+      ctx.save();
+      ctx.strokeStyle = 'var(--accent)'; ctx.setLineDash([4,3]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(dx, dy); ctx.lineTo(dx, zy); ctx.stroke();
+      ctx.restore();
+
+      // Labels — kept clear of title (top) and x-axis (bottom)
+      drawTextCanvas(ctx, W/2, 14, 'Prospect-theory utility — gains are concave, losses are convex and steeper', {
+        fontSize: 12, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+      // Region labels just inside the plot
+      drawTextCanvas(ctx, mapX(-20, xMin, xMax, W, pad), pad.top + 14, 'Loss domain (steeper)', {
+        fontSize: 10.5, color: '#c53030', baseline: 'middle'
+      });
+      drawTextCanvas(ctx, mapX(20, xMin, xMax, W, pad), H - pad.bottom - 14, 'Gain domain (concave)', {
+        fontSize: 10.5, color: '#2f855a', baseline: 'middle'
+      });
+      // Linear reference label
+      drawTextCanvas(ctx, mapX(28, xMin, xMax, W, pad) - 4, mapY(utility(28, 1), yMin, yMax, H, pad) - 8,
+        'no loss aversion (λ=1)', { fontSize: 10, color: '#888', align: 'right' });
+
+      // Readouts
+      var offset = gainToOffsetLoss(10, state.lambda);
+      document.getElementById('w1-util').textContent = curU.toFixed(3);
+      document.getElementById('w1-offset').textContent = '+' + offset.toFixed(1) + '%';
+      document.getElementById('w1-ratio').textContent = state.lambda.toFixed(2) + ' : 1';
+    }
+
+    // CRITICAL: state is already populated above. attachSliders fires immediately
+    // with current slider values — draw() must work with the populated state.
+    attachSliders([
+      { el: document.getElementById('w1-lambda'), label: document.getElementById('w1-lambda-val'),
+        format: function(v){ return v.toFixed(2); } },
+      { el: document.getElementById('w1-pnl'),    label: document.getElementById('w1-pnl-val'),
+        format: function(v){ return (v>=0?'+':'') + v.toFixed(0) + '%'; } }
+    ], function(vals) {
+      state.lambda = vals['w1-lambda'];
+      state.pnl = vals['w1-pnl'];
+      draw();
     });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
+  })();
+  </script>
 
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
+  <!-- ============================================================
+       WIDGET 2 — Herding Cascade Simulator
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 340 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
 
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
+    // 20 cols × 10 rows = 200 agents
+    var COLS = 20, ROWS = 10, N = COLS * ROWS;
+    var state = { rationality: 0.5, noise: 0.30, trueDir: 1 };
+    // agents[i] = { signal: -1|+1, decision: -1|+1|0 }
+    var agents = [];
 
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
+    function initAgents() {
+      agents = [];
+      for (var i = 0; i < N; i++) {
+        // Private signal: 70% chance to match true direction by default; noise erodes that.
+        // Effective accuracy = 1 - noise (clamped). At noise=0.30, 70% accurate.
+        var accurate = Math.random() > state.noise;
+        var sig = accurate ? state.trueDir : -state.trueDir;
+        agents.push({ signal: sig, decision: 0 });
+      }
+    }
 
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
+    function neighbours(idx) {
+      var r = Math.floor(idx / COLS), c = idx % COLS;
+      var out = [];
+      // 4 neighbours: up, down, left, right (no wrap)
+      if (r > 0)        out.push((r - 1) * COLS + c);
+      if (r < ROWS - 1) out.push((r + 1) * COLS + c);
+      if (c > 0)        out.push(r * COLS + (c - 1));
+      if (c < COLS - 1) out.push(r * COLS + (c + 1));
+      return out;
+    }
 
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
+    function runRound() {
+      // Sequential update — randomised order to avoid spatial bias
+      var order = [];
+      for (var i = 0; i < N; i++) order.push(i);
+      // Fisher-Yates shuffle
+      for (var i = N - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+      }
 
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
+      for (var k = 0; k < order.length; k++) {
+        var idx = order[k];
+        var a = agents[idx];
+        var nbs = neighbours(idx);
+        var herdSum = 0, herdCount = 0;
+        for (var n = 0; n < nbs.length; n++) {
+          if (agents[nbs[n]].decision !== 0) {
+            herdSum += agents[nbs[n]].decision;
+            herdCount++;
+          }
+        }
+        var herdSignal = herdCount > 0 ? herdSum / herdCount : 0;
+        // Weighted vote: rationality * signal + (1 - rationality) * herdSignal
+        // Plus tiny epsilon to break ties.
+        var combined = state.rationality * a.signal + (1 - state.rationality) * herdSignal;
+        combined += (Math.random() - 0.5) * 0.01;
+        a.decision = combined >= 0 ? 1 : -1;
+      }
+    }
 
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
-        });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
+    function counts() {
+      var b = 0, s = 0;
+      for (var i = 0; i < N; i++) {
+        if (agents[i].decision === 1) b++;
+        else if (agents[i].decision === -1) s++;
+      }
+      return { buy: b, sell: s, none: N - b - s };
+    }
+
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var pad = { top: 36, right: 18, bottom: 22, left: 18 };
+      var gridW = W - pad.left - pad.right;
+      var gridH = H - pad.top - pad.bottom;
+      var cellW = gridW / COLS;
+      var cellH = gridH / ROWS;
+      var r = Math.min(cellW, cellH) * 0.35;
+
+      // Title
+      drawTextCanvas(ctx, W/2, 12, '200 agents · each reads its own noisy signal + the 4 nearest neighbours', {
+        fontSize: 11.5, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      // Grid of agents
+      for (var i = 0; i < N; i++) {
+        var row = Math.floor(i / COLS), col = i % COLS;
+        var cx = pad.left + (col + 0.5) * cellW;
+        var cy = pad.top + (row + 0.5) * cellH;
+        var d = agents[i].decision;
+        var fill;
+        if (d === 1)       fill = '#2f855a';       // green BUY
+        else if (d === -1) fill = '#c53030';       // red SELL
+        else               fill = '#d7d4cc';       // undecided
+        ctx.fillStyle = fill;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Subtle ring if private signal disagrees with current decision — visualises cascade pressure
+        if (d !== 0 && d !== agents[i].signal) {
+          ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.arc(cx, cy, r + 1, 0, Math.PI * 2); ctx.stroke();
+        }
+      }
+
+      // Legend strip at bottom
+      var ly = H - pad.bottom + 8;
+      var lx = pad.left + 6;
+      ctx.fillStyle = '#2f855a';
+      ctx.beginPath(); ctx.arc(lx, ly, 5, 0, Math.PI * 2); ctx.fill();
+      drawTextCanvas(ctx, lx + 10, ly, 'BUY', { fontSize: 10.5, color: 'var(--text-secondary)', align: 'left', baseline: 'middle' });
+      ctx.fillStyle = '#c53030';
+      ctx.beginPath(); ctx.arc(lx + 56, ly, 5, 0, Math.PI * 2); ctx.fill();
+      drawTextCanvas(ctx, lx + 66, ly, 'SELL', { fontSize: 10.5, color: 'var(--text-secondary)', align: 'left', baseline: 'middle' });
+      drawTextCanvas(ctx, W - pad.right - 4, ly,
+        'ring = decision overrides private signal (herd won)',
+        { fontSize: 10, color: 'var(--text-secondary)', align: 'right', baseline: 'middle' });
+
+      // Readouts
+      var c = counts();
+      var buyPct = (c.buy / N * 100);
+      var sellPct = (c.sell / N * 100);
+      var cascade = Math.abs(buyPct - sellPct);   // 0 = perfectly split; 100 = total dominance
+      document.getElementById('w2-buy').textContent  = buyPct.toFixed(0) + '%';
+      document.getElementById('w2-sell').textContent = sellPct.toFixed(0) + '%';
+      document.getElementById('w2-cascade').textContent = cascade.toFixed(0) + '%';
+    }
+
+    function reset() {
+      initAgents();
+      // Render undecided (grey) state immediately
+      draw();
+    }
+
+    // POPULATE DATA BEFORE attachSliders — see sector-cycles lesson.
+    initAgents();
+    runRound();    // give the user a meaningful initial picture rather than all-grey
+    draw();
+
+    attachButton('#w2-run', function() {
+      runRound();
+      draw();
+    });
+    attachButton('#w2-reset', function() {
+      reset();
+    });
+
+    attachSliders([
+      { el: document.getElementById('w2-rat'),   label: document.getElementById('w2-rat-val'),
+        format: function(v){ return v.toFixed(2); } },
+      { el: document.getElementById('w2-noise'), label: document.getElementById('w2-noise-val'),
+        format: function(v){ return v.toFixed(2); } },
+      { el: document.getElementById('w2-dir'),   label: document.getElementById('w2-dir-val'),
+        format: function(v){ return v >= 0.5 ? 'BUY' : 'SELL'; } }
+    ], function(vals) {
+      state.rationality = vals['w2-rat'];
+      state.noise = vals['w2-noise'];
+      state.trueDir = vals['w2-dir'] >= 0.5 ? 1 : -1;
+      // Sliders change the rules — refresh signals and re-run one round so the
+      // user sees the immediate consequence of the parameter change.
+      initAgents();
+      runRound();
+      draw();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Bias self-assessment radar
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    var labels = ['Anchoring','Confirmation','Recency','Sunk-cost','Overconfidence','FOMO'];
+    var ids    = ['w3-b1','w3-b2','w3-b3','w3-b4','w3-b5','w3-b6'];
+    var state = { vals: [5,5,5,5,5,5] };
+
+    function draw() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var cx = W / 2;
+      var cy = H / 2 + 8;
+      var radius = Math.min(W, H) * 0.36;
+
+      // Title
+      drawTextCanvas(ctx, W/2, 14, 'Where are you most exposed? Honest self-rating, 0 = bulletproof, 10 = severe', {
+        fontSize: 11.5, color: 'var(--text)', baseline: 'top', weight: '600'
+      });
+
+      // Concentric grid rings: 2, 4, 6, 8, 10
+      ctx.save();
+      ctx.strokeStyle = '#d7d4cc'; ctx.lineWidth = 1;
+      for (var ring = 1; ring <= 5; ring++) {
+        var rr = radius * (ring / 5);
+        ctx.beginPath();
+        for (var k = 0; k <= 6; k++) {
+          var ang = -Math.PI / 2 + (k / 6) * Math.PI * 2;
+          var px = cx + Math.cos(ang) * rr;
+          var py = cy + Math.sin(ang) * rr;
+          if (k === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // Spokes + axis labels
+      for (var i = 0; i < 6; i++) {
+        var ang = -Math.PI / 2 + (i / 6) * Math.PI * 2;
+        var ex = cx + Math.cos(ang) * radius;
+        var ey = cy + Math.sin(ang) * radius;
+        ctx.save();
+        ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(ex, ey); ctx.stroke();
+        ctx.restore();
+        // Label outside the ring
+        var lx2 = cx + Math.cos(ang) * (radius + 22);
+        var ly2 = cy + Math.sin(ang) * (radius + 14);
+        drawTextCanvas(ctx, lx2, ly2, labels[i], {
+          fontSize: 11, color: 'var(--text)', weight: '600'
         });
       }
 
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-      });
-
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
-
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
-        });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
-    }
-
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
-    });
-
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
-
-  draw();
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "HDFC Bank (Underperformance Phase)", "start_value": 10000, "end_value": 8200, "recovery_months": 6}, {"name": "Small-Cap Index Correction 2024", "start_value": 10000, "end_value": 7500, "recovery_months": 6}, {"name": "Private Bank Sector Rotation", "start_value": 10000, "end_value": 7800, "recovery_months": 8}, {"name": "IT Sector De-rating 2022-23", "start_value": 10000, "end_value": 7000, "recovery_months": 9}, {"name": "China Market Selloff", "start_value": 10000, "end_value": 6500, "recovery_months": 3}];
-
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "Contrarian Buying: How Holding Through Drawdowns Creates Alpha";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var n = corrections.length;
-    if (n === 0) return;
-
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
-    });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
-
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
-
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
-
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
-
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
-
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
-
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
-
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
-        });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
+      // Scale labels along the upward spoke
+      for (var s = 2; s <= 10; s += 2) {
+        var ry = cy - (s / 10) * radius;
+        drawTextCanvas(ctx, cx + 6, ry, String(s), {
+          fontSize: 9, color: 'var(--text-secondary)', align: 'left'
         });
       }
 
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-      });
+      // User polygon
+      var poly = [];
+      for (var i = 0; i < 6; i++) {
+        var v = state.vals[i];
+        var ang2 = -Math.PI / 2 + (i / 6) * Math.PI * 2;
+        var rr2 = radius * (v / 10);
+        poly.push({ x: cx + Math.cos(ang2) * rr2, y: cy + Math.sin(ang2) * rr2 });
+      }
+      // Fill
+      ctx.save();
+      ctx.beginPath();
+      for (var i = 0; i < poly.length; i++) {
+        if (i === 0) ctx.moveTo(poly[i].x, poly[i].y);
+        else ctx.lineTo(poly[i].x, poly[i].y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(123, 45, 141, 0.18)';
+      ctx.fill();
+      ctx.strokeStyle = resolveCSSColor('var(--accent)'); ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.restore();
 
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
-
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
-        });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
-    }
-
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
-    });
-
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
-
-  draw();
-})();
-
-(function() {
-  var container = document.getElementById("chart-1");
-  if (!container) return;
-
-  var W = 640, H = 400;
-  var pad = { top: 30, right: 30, bottom: 80, left: 60 };
-  var corrections = [{"name": "Missed 2003-07 Bull Run (stayed in FDs)", "start_value": 10000, "end_value": 3500, "recovery_months": 6}, {"name": "Panic Sold in March 2020", "start_value": 10000, "end_value": 6200, "recovery_months": 100}, {"name": "Avoided US Stocks 2022-24", "start_value": 10000, "end_value": 7000, "recovery_months": 60}, {"name": "Chased Small-Caps at Peak 2024", "start_value": 10000, "end_value": 7500, "recovery_months": 6}];
-
-  // Sort by severity (largest drawdown first)
-  corrections.sort(function(a, b) {
-    var pctA = (a.end_value - a.start_value) / a.start_value;
-    var pctB = (b.end_value - b.start_value) / b.start_value;
-    return pctA - pctB; // more negative = worse
-  });
-
-  container.innerHTML = '';
-  container.classList.add('demo');
-
-  var title = document.createElement('div');
-  title.style.cssText = 'font-weight:600;margin-bottom:8px;color:var(--text);font-size:15px;';
-  title.textContent = "The Cost of Missing Asymmetric Opportunities";
-  container.appendChild(title);
-
-  var svgWrap = document.createElement('div');
-  svgWrap.style.cssText = 'width:100%;overflow-x:auto;';
-  container.appendChild(svgWrap);
-
-  var svg = createSVGElement('svg');
-  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-  svg.setAttribute('width', '100%');
-  svg.style.maxWidth = W + 'px';
-  svgWrap.appendChild(svg);
-
-  var tooltip = createTooltip(container);
-
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    var n = corrections.length;
-    if (n === 0) return;
-
-    // Compute percentages
-    var pcts = corrections.map(function(c) {
-      return ((c.end_value - c.start_value) / c.start_value) * 100;
-    });
-    var maxAbs = Math.max.apply(null, pcts.map(function(p) { return Math.abs(p); }));
-
-    // Bar layout
-    var plotW = W - pad.left - pad.right;
-    var plotH = H - pad.top - pad.bottom;
-    var barWidth = Math.min(60, (plotW / n) * 0.65);
-    var gap = (plotW - barWidth * n) / (n + 1);
-
-    // Y-axis: 0 at top, -maxAbs at bottom
-    var maxY = 0;
-    var minY = -(maxAbs * 1.15);
-
-    drawYAxis(svg, minY, maxY, 5, W, H, pad);
-
-    // Zero line
-    var zeroY = scaleY(0, minY, maxY, H, pad);
-    drawLine(svg, pad.left, zeroY, W - pad.right, zeroY, 'var(--text)', 1);
-
-    for (var i = 0; i < n; i++) {
-      var c = corrections[i];
-      var pct = pcts[i];
-      var x = pad.left + gap + i * (barWidth + gap);
-      var barTop = zeroY;
-      var barBottom = scaleY(pct, minY, maxY, H, pad);
-      var barH = Math.abs(barBottom - barTop);
-
-      // Drawdown bar (red)
-      var bar = drawRect(svg, x, barTop, barWidth, barH, hexToRGBA('#fc8181', 0.7), 3);
-
-      // Recovery indicator (small green bar above)
-      if (c.recovery_months > 0) {
-        var recH = Math.min(barH * 0.3, 12);
-        drawRect(svg, x, barTop - recH - 2, barWidth, recH, hexToRGBA('#48bb78', 0.5), 3);
-        drawText(svg, x + barWidth / 2, barTop - recH - 6, c.recovery_months + 'mo', {
-          fontSize: 9, fill: '#48bb78', anchor: 'middle'
-        });
-      } else {
-        drawText(svg, x + barWidth / 2, barTop - 6, 'Ongoing', {
-          fontSize: 9, fill: '#ecc94b', anchor: 'middle'
-        });
+      // Dots at each vertex
+      for (var i = 0; i < poly.length; i++) {
+        drawPointCanvas(ctx, poly[i].x, poly[i].y, 4.5, 'var(--accent)', '#fff');
       }
 
-      // Percentage label inside bar
-      drawText(svg, x + barWidth / 2, barTop + barH / 2, pct.toFixed(1) + '%', {
-        fontSize: 11, fill: '#fff', anchor: 'middle', fontWeight: 'bold', dy: '0.35em'
-      });
-
-      // Name label below (rotated)
-      var labelY = H - pad.bottom + 14;
-      var labelX = x + barWidth / 2;
-      drawText(svg, labelX, labelY, c.name, {
-        fontSize: 10, fill: 'var(--text)', anchor: 'end',
-        transform: 'rotate(-35,' + labelX + ',' + labelY + ')'
-      });
-
-      // Hover interaction
-      (function(idx, bx, bw) {
-        bar.style.cursor = 'pointer';
-        bar.addEventListener('mouseenter', function(e) {
-          var cc = corrections[idx];
-          var pp = pcts[idx];
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 1));
-          tooltip.style.display = 'block';
-          tooltip.innerHTML = '<strong>' + cc.name + '</strong><br>'
-            + 'Peak: ' + cc.start_value.toLocaleString() + '<br>'
-            + 'Trough: ' + cc.end_value.toLocaleString() + '<br>'
-            + 'Drawdown: <span style="color:#fc8181">' + pp.toFixed(1) + '%</span><br>'
-            + 'Recovery: ' + (cc.recovery_months > 0 ? cc.recovery_months + ' months' : '<span style="color:#ecc94b">Ongoing</span>');
-          tooltip.style.left = ((bx + bw / 2) / W * 100) + '%';
-          tooltip.style.top = '5px';
-          tooltip.style.transform = 'translateX(-50%)';
-        });
-        bar.addEventListener('mouseleave', function() {
-          bar.setAttribute('fill', hexToRGBA('#fc8181', 0.7));
-          tooltip.style.display = 'none';
-        });
-      })(i, x, barWidth);
+      // Readouts
+      var maxV = -1, maxI = 0, minV = 11, minI = 0, sum = 0;
+      for (var i = 0; i < 6; i++) {
+        if (state.vals[i] > maxV) { maxV = state.vals[i]; maxI = i; }
+        if (state.vals[i] < minV) { minV = state.vals[i]; minI = i; }
+        sum += state.vals[i];
+      }
+      var composite = (sum / 60 * 100);
+      document.getElementById('w3-worst').textContent = labels[maxI] + ' (' + maxV + ')';
+      document.getElementById('w3-best').textContent  = labels[minI] + ' (' + minV + ')';
+      document.getElementById('w3-score').textContent = composite.toFixed(0) + '%';
     }
 
-    // Labels
-    drawText(svg, W / 2, H - 2, 'Sorted by Severity', {
-      fontSize: 11, fill: 'var(--text-secondary, var(--text))'
+    // POPULATE DATA BEFORE attachSliders.
+    // state.vals already initialised above; draw() is safe even before slider snapshot.
+
+    var descriptors = ids.map(function(id, idx) {
+      return {
+        el: document.getElementById(id),
+        label: document.getElementById(id + '-val'),
+        format: function(v){ return v.toFixed(0); }
+      };
     });
 
-    // Legend
-    var lx = W - pad.right - 10;
-    drawRect(svg, lx - 60, pad.top, 10, 10, hexToRGBA('#fc8181', 0.7), 2);
-    drawText(svg, lx - 46, pad.top + 9, 'Drawdown', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-    drawRect(svg, lx - 60, pad.top + 16, 10, 10, hexToRGBA('#48bb78', 0.5), 2);
-    drawText(svg, lx - 46, pad.top + 25, 'Recovery', { fontSize: 10, fill: 'var(--text)', anchor: 'start' });
-  }
-
-  draw();
-})();
-</script>
+    attachSliders(descriptors, function(vals) {
+      for (var i = 0; i < ids.length; i++) {
+        state.vals[i] = vals[ids[i]];
+      }
+      draw();
+    });
+  })();
+  </script>
 
 </body>
 </html>
