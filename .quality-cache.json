@@ -1,0 +1,1066 @@
+{
+  "market/ai-thesis/index.html@c4b8a8d9c7cf": {
+    "path": "market/ai-thesis/index.html",
+    "overall": "This is a confident, high-specificity, strongly voiced prose essay with a clear and defensible claim \u2014 but it is not yet an interactive explainer. The structural failure is the complete absence of widgets: the article references two charts that don't exist in the HTML, and without them the argument rests entirely on prose in a format whose entire mission is proving things through interactivity. The secondary weakness is scope creep \u2014 the 9-section length pulls the article toward investment manifesto territory, which risks diluting the one-thing into a portfolio construction guide. Fix the widg",
+    "seconds": 90.36484885215759,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle states it directly: 'A geopolitical survival race funded by free cash flow, not speculation.' Section I's blockquote reinforces within the first 200 words: 'There is no AI bubble. This is a race for survival. When people and countries get desperate, there is no end to spending.'",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "fail",
+        "evidence": "There are no interactive widgets anywhere in the HTML. The article twice references visuals that don't exist \u2014 'Look at the chart above' (Section II) and 'Look at that chart' (Section VIII) \u2014 but no canvas, SVG, or chart elements appear in the source. The argument is carried entirely by prose.",
+        "suggestion": "At minimum, build two widgets: (1) a side-by-side capex-funding-source comparison (dotcom era: external capital vs. hyperscaler era: FCF) to prove the structural difference in Section II, and (2) a Meta stock price vs. revenue overlay for Section VIII to prove the drawdown-vs-fundamentals disconnect"
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero subtitle lands a genuinely surprising data claim: 'Strip AI out of US GDP and the number turns negative.' This is specific, falsifiable, and counter to the casual 'AI bubble' narrative most readers arrive with.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "warn",
+        "evidence": "No widgets exist to evaluate. The article references two absent charts; if those charts were present, the concern would be whether each is scoped to a single concept. Sections IV and VII each carry 4\u20136 sub-arguments in prose that would each warrant a distinct widget.",
+        "suggestion": "When widgets are added, enforce one concept per widget strictly: the FCF-vs-speculative-funding comparison is one widget; the value chain layer diagram is another; the aggregation buying system is a third. Do not bundle them."
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "Voice is exceptionally strong throughout. 'I have roughly 80% of my entire stock portfolio in AI-related positions. I have close to $300,000 USD riding on Meta alone. I am not writing this from the sidelines offering opinions. I am backing every word with real money.' The 'you' is addressed directly",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section contains concrete specifics: Meta's '$100 billion in AI capital expenditure for 2026,' NVIDIA's operating margin 'above 60%,' Meta's '$10 billion-plus data center in Louisiana (over 4 million square feet),' '$27 billion from Blue Owl Capital,' Last 3-year EPS CAGR figures per company. ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Two well-placed sidenotes: 'Well, actually \ud83e\uddd0 \u2014 what could make this thesis wrong' (Section II, addressing revenue-per-capex compression if model efficiency gains outpace demand), and 'Well, actually \ud83e\uddd0 \u2014 circular financing has historical precedent, and it ended badly' (Section III, the Cisco/Lucent/N",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The core claim is articulable: 'AI isn't a bubble because the spending is funded by real FCF, not speculation, and geopolitical necessity means it can't stop.' But the article spans 9 sections covering a value chain taxonomy, a 7-step portfolio construction system, and a drawdown management playbook",
+        "suggestion": "The final synthesis section (IX) should close with the two-sentence teachable version of the claim explicitly \u2014 not a 7-point action framework. Something like: 'The AI supercycle isn't a bubble because the spending is funded by the largest free cash flow machines in history, not by external capital "
+      }
+    ]
+  },
+  "market/capital-rotation/index.html@549cad405226": {
+    "path": "market/capital-rotation/index.html",
+    "overall": "A strong, opinionated playbook with excellent specificity, genuine first-person voice, and well-placed sidenotes that honestly flag the model's limits \u2014 the quality fundamentals are solid. The main gap is M8: the article teaches the rotation system thoroughly across nine sections but never consolidates the framework dimensions into a single teachable summary, which means a non-expert finishes knowing the core loop but would struggle to name the full playbook structure back. One summary callout box in Section II would close that gap and make the article shippable without other changes.",
+    "seconds": 92.88914799690247,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle states it before any prose: 'Buy beaten-down sectors, hold through recovery, sell at resistance, repeat. The capital-rotation playbook that turns a flat Nifty into a positive return.' The framework name and purpose are unambiguous on the first screen.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 demonstrates regime-driven allocation shifts live (removes the need to describe them in prose). Widget 2 shows the rotator vs buy-and-hold gap opening in real time \u2014 the core argument of the article. Widget 3 maps yield curve quadrants to equity style, a relationship that would take two par",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "'Say India is a trading market, not an investing market and the entire SIP-distribution complex will tell you that you're wrong. They have a financial reason to tell you that.' The opening directly confronts the dominant retail narrative (Mutual Fund Sahi Hai) and frames the framework as a counter-s",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches one thing: how allocation mix shifts with risk regime. Widget 2 teaches one thing: how the rotator's P&L diverges from buy-and-hold. Widget 3 teaches one thing: how yield curve position maps to favoured equity style. No widget tries to do two jobs.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "First-person voice is pervasive and specific: 'My own current split: 70% equities, 25% real estate, 5% crypto'; 'I was structurally bearish on long-term IT margins, but at a 35% discount\u2026'; 'I deployed that reserve.' The 'you' addressed throughout is equally direct ('your capital is hostage', 'you s",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section grounds the argument in specific figures: 'Nifty IT had corrected 35% from peak by mid-2025'; 'PNB\u2026 PE around 18 on a depressed earnings base'; 'Nifty 50, that range was roughly 21,000 to 26,650'; 'US short rate is around 5.25-5.50%, the 10Y near 4.20%'; '40 lakhs into the Nifty IT Ind",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Six 'Well, actually \ud83e\uddd0' sidenotes: the US comparison is overstated (I); rotation vs market timing (II); widget figures are illustrative not backtested (III); when buy-and-hold wins (IV); curve is necessary not sufficient (V); tax implications of frequent rotation (VII). The admissions are substantive",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The core loop is crisply stated in the hero and restated in Section II ('buy what is cheap, hold until fairly valued, sell, move proceeds to the next cheap thing, repeat'). A non-expert can grab that loop. But the full playbook spans nine sections with six portfolio layers, six profit-booking rules,",
+        "suggestion": "Add a single callout box early \u2014 at the end of Section II or after the 4-phase table \u2014 that names the framework's core dimensions in one breath: e.g., 'The playbook has four moves: (1) identify the phase, (2) build in tranches, (3) book at resistance, (4) rotate. The yield curve tells you which sect"
+      }
+    ]
+  },
+  "market/economic-cycles/index.html@7d53fbfadb67": {
+    "path": "market/economic-cycles/index.html",
+    "overall": "A well-constructed Mode B article with strong specificity, genuine voice, and three widgets that each earn their place. The 5-stage framework is introduced early and clearly, and the sidenotes model intellectual honesty. The two risks worth fixing before shipping: the hero subtitle buries its sharpest statistic in a subordinate clause (M3), and the article's scope expansion across nine chapters leaves the final callout summarising wisdom rather than the enumerable framework a non-expert can repeat back (M8).",
+    "seconds": 100.04531216621399,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "Section I opens with 'Every economy on the planet runs through the same five stages. Over and over. Without exception.' and immediately enumerates all five with brief descriptions \u2014 this lands well within the first 200 words of body text, and the hero subtitle plants the seed: 'not from bad picks, b",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 (cycle dial + asset-class bar chart) is the framework's core proof \u2014 deleting it collapses the claim that winners rotate predictably. Widget 2 (three-falls paths) is the only way to make the non-linear recovery claim viscerally obvious; prose alone cannot show 5 months vs. 6 years on the sa",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "warn",
+        "evidence": "The hero subtitle \u2014 'not from bad picks, but from not knowing which of five stages the market is in' \u2014 is a real reframe, but it lands mildly. A financially literate reader already suspects cycles matter; the '0% real return in the last 18 months' statistic is the sharpest hook in the hero but it ap",
+        "suggestion": "Lead the subtitle with the arresting statistic as the main clause: 'The median Indian investor made 0% real return in the last 18 months \u2014 not from bad stock picks, but from ignoring which of five predictable cycle stages they were in.' That reversal hits harder because it names the specific failure"
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches one concept: asset-class rotation by cycle position. Widget 2 teaches one concept: non-linear recovery scaling by drawdown depth. Widget 3 teaches one concept: composite recession-risk scoring from four leading indicators. None of the three conflates multiple lessons.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "Voice is present and sustained: 'Stop. Breathe. Understand what the word actually means.' (Section IV); 'The framework I use is thirds.' (Section VII); 'Accept the daily misery.' (Section VII); 'Nobody tells you that being positioned correctly during consolidation feels awful.' (Section VII). First-",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Specificity is strong across all nine sections: 'US M2 went from $15T to $18.75T \u2014 20% expansion in two years'; 'Yamaha showroom raises SME IPO bids worth 4,700 crores against a 12-crore ask'; 'Meta dropped from $384 to $88 \u2014 an 80% drawdown. February 2022 to October 2022'; 'Nifty fell from 12,400 t",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Three substantive sidenotes are present: Section II admits 'risk-off' is measurable via MOVE/VIX and not just a mood; Section III quantifies the arithmetic asymmetry of percentage recoveries and explains why the mechanical and behavioural effects compound; Section VI honestly flags that each indicat",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The core framework is teachable \u2014 5 stages, each with a winning asset class \u2014 but the article expands into four additional sub-frameworks (3-fall typology, 4-indicator composite, 5-step sideways playbook, 4-layer portfolio). The final callout ('Buy when panic is loudest, sell when celebration is lou",
+        "suggestion": "Add a dedicated closing summary box that states the framework crisply in two sentences: 'Every economy cycles through five stages \u2014 Crash, Liquidity Injection, Consolidation, Euphoria, Crash \u2014 and each stage has a predictable winning asset class. The entire game is identifying which stage you are in"
+      }
+    ]
+  },
+  "market/cash-as-weapon/index.html@ed5dbe3fc831": {
+    "path": "market/cash-as-weapon/index.html",
+    "overall": "A strong Mode B framework article: specific, voiced, and tightly constructed, with three widgets that each carry a distinct argumentative load and two sidenotes that earn trust rather than perform humility. The hero's fund-marketing-versus-fund-behavior contrast is one of the sharper first-screen hooks in the repo. The only meaningful gap is M8 \u2014 the framework has five named dimensions scattered across nine sections and no single 2-sentence crystallization anywhere, which means a non-expert reader is likely to retain the slogan ('cash is a weapon') without retaining the mechanism (the regime t",
+    "seconds": 134.15122938156128,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle reads 'The 20% cash rule, the optionality of dry powder, and the arithmetic that decides when cash beats being fully invested' \u2014 the framework name and purpose appear before the article body begins. The phrase 'disciplined cash hedge in place before the correction arrived' lands at",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 proves the option-value formula Section II asserts ('plug in even pessimistic numbers\u2026 the optionality term contributes ~4.7% per year'); Widget 2 shows the optimal-cash-% curves that underpin the '20% is a robust compromise \u2014 never the global optimum, never the global pessimum' claim in Se",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "Hero subtitle: 'PPFAS holds 15% in cash. So does Quant Mutual Fund. Their own marketing tells you to stay 100% invested. This is the framework they actually use.' The documented contradiction between what funds sell to retail investors and what those same funds do with their own books is a specific,",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches one question (what does cash cost in carry vs. earn in optionality?), Widget 2 teaches one question (how does optimal cash % shift by drawdown regime?), Widget 3 teaches one question (does the 20% rule survive a 2008-style stress horizon?). Each has its own focused slider set and st",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "'I have seen this play out hundreds of times,' 'This is the framework I personally follow,' 'At one point my cash relative to equity portfolio hit 30%,' 'Since 2022 I have been buying real estate aggressively' \u2014 first-person voice is sustained throughout all nine sections, and direct second-person a",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section uses named entities and dated figures: '\u20b971,000 crore of FII outflows in a single month,' 'SBI MF was sitting on \u20b925,857 crore\u2026 Quant MF on \u20b912,269 crore,' 'PPFAS began aggressively adding IT stocks starting January 2025,' 'a Yamaha showroom in NCR files for an SME IPO raising 12 crore",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Two explicit sidenotes land honest caveats: Section II's 'the model uses a fixed deployment rule' admits the simulation understates skill-driven returns and cannot capture behavioural value; Section V's 'cash isn't always a bullish signal' distinguishes strategic cash from redemption-driven cash and",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The framework name ('20% cash rule / cash as a weapon') is clear, but its four distinct dimensions \u2014 the valuation-regime tiers (0/10/20/30%), the four-tranche deployment system (25/35/30/10%), the step-down SIP mechanic (80/20 split), and the multi-asset dry-powder stack \u2014 are never consolidated in",
+        "suggestion": "Add a compact summary callout \u2014 parallel to the existing 'stress test' box in Section IX \u2014 that states the complete framework in two sentences: the regime-tiered ratio rule and the tranche deployment system. Placing it at the top of Section IX before the step-by-step breakdown would give readers the"
+      }
+    ]
+  },
+  "market/evaluating-businesses/index.html@a8b291337f6d": {
+    "path": "market/evaluating-businesses/index.html",
+    "overall": "Strong Mode B article. The framework is named early, the three widgets each carry one concept cleanly, and specificity is exceptional throughout \u2014 the Lenskart and Adani case studies are exactly the kind of named, numbered evidence that makes abstract finance land. The one genuine gap is the missing authorial 'I': the article teaches with the voice of a textbook rather than a practitioner, which is a missed trust signal. Fix that and it ships at full quality.",
+    "seconds": 88.64581298828125,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "By approximately word 150 in Section I: 'The core is two numbers and a six-line checklist. Return on invested capital. Operating margin trend. Six binary questions about the business.' The framework's name and purpose are explicit before word 200.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 proves the quadrant argument (Section III would lose its visual proof without it). Widget 2 proves the counter-intuitive compounding race claim that drives Sections III-IV. Widget 3 is the interactive embodiment of the checklist itself \u2014 its delete would reduce Section VII to a prose list w",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "Hero subtitle delivers a genuine counter-intuitive hook: 'The business growing 25% a year almost always loses to the one growing 5% \u2014 here is the arithmetic.' For a Mode B framework article this is the right kind of surprise: the framework's existence is motivated by a result that violates naive int",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches one thing (the quality quadrant: ROIC \u00d7 growth determines investability class). Widget 2 teaches one thing (per-share value compounds at ROIC \u00d7 reinvestment rate, not headline growth). Widget 3 teaches one thing (the six-point checklist as a binary scoring tool). No widget conflates",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The 'you' voice is consistent and strong throughout ('your candidate stock', 'Your competition is not other investors', 'do not look at the price tomorrow'). However, the authorial 'I' is almost entirely absent \u2014 opinions are expressed in the third-person authoritative register ('the market is corre",
+        "suggestion": "Add one or two explicit 'I' moments at the article's thesis turns \u2014 e.g., 'I run this checklist on every position before sizing' or 'I find the ROIIC variant more revealing than trailing ROIC' \u2014 to give the author a face rather than an oracle voice."
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section is dense with concrete specifics: Adani ROIC 4\u20136% vs WACC 11\u201312%, NVIDIA margins ~30% \u2192 ~63%, Lenskart PE 200 at 1.7% operating margin with the Rs 8,500cr \u2192 Rs 70,000cr three-month valuation arc, Meta $100B+ AI capex, Indian hospitals ROIC 18\u201322%, sizing bands of 8\u201310% / 3\u20135% / 2\u20132.5%.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four 'Well, actually \ud83e\uddd0' sidenotes are present and substantive: Section II on ROIIC vs ROIC (legacy moats masking poor incremental returns), Section III on the formal valuation formula where ROIC < WACC makes more growth destroy value, Section V on contribution margins vs operating margins for SaaS, ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "Section IX provides the explicit 2-sentence teachable summary: 'Two numbers (ROIC, operating margin), one matrix (Widget 1), one formula (per-share value compounding = ROIC \u00d7 reinvestment rate + yield), and one checklist (Widget 3).' A non-expert can rehearse the framework name and its four dimensio",
+        "suggestion": ""
+      }
+    ]
+  },
+  "market/global-portfolio/index.html@a9ae81e1d97f": {
+    "path": "market/global-portfolio/index.html",
+    "overall": "A confident, well-voiced, and empirically specific framework article that delivers on its core currency and compounding argument \u2014 the data is honest, the voice is authentic, and the two sidenotes earn real trust. The main structural gap is that a 24-minute 'explainer' with zero interactive widgets is effectively a long-form essay, and the five-part framework named in the hero gets dissolved across nine sections so a reader cannot easily teach it back. Fix: add one interactive currency drag widget in Section II and a closing two-sentence framework recap in Section IX.",
+    "seconds": 127.51520490646362,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "Hero subtitle explicitly names all five dimensions before the body begins: 'This is the five-part playbook for fixing that \u2014 currency math, US compounders, the 50% rule, tranche sizing, the global-monopoly thesis.' Well within the first 200 words a reader encounters.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "warn",
+        "evidence": "The article contains zero interactive canvas widgets. The only quasi-widget is the math block in Section II (the Return_USD formula), which earns its place. A 24-minute explainer with no interactive elements does not use the format's core capability.",
+        "suggestion": "Add at least one interactive widget \u2014 a currency drag calculator (sliders for INR nominal return and rupee depreciation rate \u2192 live USD CAGR output) would prove the treadmill claim viscerally rather than state it. Section II is the natural home."
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "'Your Indian-only portfolio has matched dollar inflation for a decade' in the hero subtitle reframes a decade of SIP investing as wealth destruction \u2014 a specific, counter-intuitive claim that earns the scroll. The framework's existence ('a playbook for fixing that') is itself novel for the target au",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "The only quasi-widget (the Return_USD math block in Section II) teaches exactly one concept: how INR market returns translate to USD terms after currency erosion. No element conflates multiple ideas.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "First-person voice is strong and consistent throughout: 'I will share something from my own portfolio management,' 'I had deliberately maintained 75% cash and only 25% invested in the US,' 'buying 17 lots of QQQ puts at an exercise price of 545, paying roughly 45K USD in premium.' The 'you' is preci",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section is dense with named figures and dates: QQQ 15-yr CAGR 19.5%, Nifty 19% nominal / ~1% USD CAGR October 2021\u2013February 2025, INR at 84\u219287.03 in a 'few months,' $2.8B Netflix breakup fee, September 2026 put expiry. No section relies on vague generalities.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Two 'Well, actually \ud83e\uddd0' sidenotes: Section II cites Vanguard research showing investors overweight home markets by 50\u201390pp and names the LRS $250k/year fix; Section III explains why currency hedging destroys the global investing thesis by showing that forward premiums pre-price the depreciation advan",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The hero promises a 'five-part playbook' but the article has nine sections; the five named parts (currency math, US compounders, 50% rule, tranche sizing, global-monopoly thesis) are interspersed among framing sections (I, IV, VIII, IX) that dilute the framework's shape. A non-expert finishing the a",
+        "suggestion": "Add a 2-sentence closing recap at the top of Section IX or bottom of Section VIII: 'The five parts are: (1) currency drag silently erodes INR returns 3\u20134%/yr; (2) US compounders grow earnings twice as fast in hard currency; (3) target at least 50% international allocation; (4) build positions in thr"
+      }
+    ]
+  },
+  "market/india-consumption/index.html@f1c0ca9f29b2": {
+    "path": "market/india-consumption/index.html",
+    "overall": "A strong Mode B framework article with an unmistakable voice, excellent numerical specificity in every section, and two honest sidenotes that earn trust by puncturing the very narrative the article builds on. The 4-tier segmentation is a genuinely clarifying lens that makes every sector call legible, and the final playbook lands the framework in teachable, actionable form. The one material gap is the complete absence of interactive widgets: a framework article whose central construct is four discrete consumer tiers with different income bands and spending behaviors is exactly the content that ",
+    "seconds": 123.03847765922546,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "Hero subtitle reads: 'India has exactly one investable theme left. This is the 4-tier customer framework for finding it, and why every other thesis is a value trap.' Framework name and purpose land before any body text. Worth noting: Section I's ~600-word preamble does not reinforce the framework na",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "warn",
+        "evidence": "The article contains zero canvas widgets or interactive elements \u2014 only prose, blockquotes, sidenotes, and a single math block. M2 is vacuously satisfied because there is nothing to delete-test.",
+        "suggestion": "A Mode B framework article about four discrete consumer tiers with different income ranges and spending behaviors is exactly the content that earns a widget \u2014 e.g., a tier-breakdown bar the reader can drag to see how spending shifts across tiers, or a stock-sensitivity matrix by tier. Without any wi"
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "Hero opens: 'India has exactly one investable theme left ... why every other thesis is a value trap.' Dismissing Make in India, defence, and data centres as 'noise' in one sentence is counter-intuitive for the target reader and earns the scroll.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "No widgets exist to evaluate. Each prose section concentrates on one dimension: tier segmentation, middle-class squeeze mechanics, banks, hospitals, quick commerce, FMCG, organized-unorganized shift. No section tries to teach three things at once.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "'Let me be blunt with you,' 'I divide India into four customer buckets,' 'I bought Zomato at 55, made 110-120% returns,' 'I am shifting 50-60% of my total portfolio outside India' \u2014 first-person opinion and direct second-person address are present in every section without exception.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Concrete numbers appear in every section: 0.01% real wage growth (Q2 FY20\u2013Q1 FY25, India Ratings/PLFS), Asian Paints \u201331.63% from peak, DMART \u201336%, Bajaj Finance 22%+ CAGR with 55% consumer-durable-loan share, Zomato \u20b92.3L crore market cap on \u20b9600Cr profit, cancer incidence growing 3\u20133.5% CAGR.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Two 'Well, actually \ud83e\uddd0' sidenotes: Section II debunks the 'rising middle class' narrative (actual discretionary-spending middle class is 30\u201340M, not 300M, with de-rating risk named for HUL, Asian Paints, Trent); Section III flags the demographic dividend as front-loaded because per-capita productivit",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The framework name, four tiers, and their investment implications are crisply named and drillable. A non-expert can teach back: 'India has 4 consumer tiers by spending capacity \u2014 the top 1Cr buy luxury outright, the next 10Cr are EMI-dependent and currently squeezed, the lower tiers are price-sensit",
+        "suggestion": ""
+      }
+    ]
+  },
+  "market/investor-psychology/index.html@aa6865c90896": {
+    "path": "market/investor-psychology/index.html",
+    "overall": "This is a high-craft Mode B article with strong voice, exceptional specificity, and three widgets that mostly earn their place. The primary structural gap is that the framework \u2014 the Behavioural OS \u2014 is not named or previewed until Chapter IX; for nine chapters the reader is learning about failure modes without a promised destination, which undercuts the Mode B payoff. Widget 3 also survives on the reader's goodwill rather than the delete test. Fix M1 (name the OS early), sharpen Widget 3 into an argument rather than a diagnostic tool, and make the framework name stick in M8 \u2014 this is close to",
+    "seconds": 113.5378954410553,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "warn",
+        "evidence": "The six failure modes are listed by name in the third paragraph of Section I ('Loss aversion, panic, FOMO, daily tracking, action bias, anchoring'), well within 200 words. But the framework that countervails them \u2014 the 'Behavioural OS' with its pre-trade / hold / post-trade structure \u2014 is not named ",
+        "suggestion": "Add one sentence to the Section I opening that names the OS and its three-layer structure: e.g. 'This article maps all six, then builds a pre-trade / hold / post-trade operating system that makes them irrelevant.' That preview sets the Mode B frame from the start."
+      },
+      {
+        "rule": "M2",
+        "status": "warn",
+        "evidence": "Widgets 1 (utility curve) and 2 (cascade simulator) pass cleanly \u2014 removing either would hollow out the core argument. Widget 3 (bias radar) is a self-assessment tool: the slider values map to six pre-labelled sliders and a radar shape, but the argument for why each bias costs money is carried entir",
+        "suggestion": "Give Widget 3 a reveal the prose cannot deliver \u2014 e.g. plot each bias against an estimated annual return drag (even a toy model), so the radar shows not just 'you have high anchoring' but 'high anchoring at this score costs ~X% per year'. That makes the widget the proof, not the decoration."
+      },
+      {
+        "rule": "M3",
+        "status": "warn",
+        "evidence": "The hero subtitle ('90% of traders lose money\u2026 because their wetware fires before their software runs') is a good frame, but the 90% statistic is now widely cited after the SEBI studies and the 'it's psychology not skill' thesis is the dominant retail-investing narrative on every financial platform.",
+        "suggestion": "Lead with the specific, quantifiable asymmetry \u2014 '\u20b91 of loss hurts 2.25\u00d7 as much as \u20b91 of gain feels good, which means your brain is pricing risk wrong by a known, measurable factor' \u2014 rather than the population-level 90% stat. The \u03bb number is the genuine surprise; use it as the first screen hook."
+      },
+      {
+        "rule": "M4",
+        "status": "warn",
+        "evidence": "Widgets 1 and 2 each teach exactly one concept. Widget 3 covers six distinct cognitive biases in a single canvas \u2014 anchoring, confirmation bias, recency bias, sunk-cost fallacy, overconfidence, and FOMO \u2014 each with its own slider. The widget teaches none of them deeply; it tallies them.",
+        "suggestion": "Either reduce Widget 3 to the one or two biases that are most consequential and least obvious (overconfidence and anchoring, say), or split it so each bias has its own micro-widget that demonstrates the bias in action rather than asking the reader to self-rate."
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "Voice is consistent and strong throughout: 'My own hit rate as an investor is about 60%'; 'Every blow-up I have personally watched at close range had the same shape'; 'you white-knuckle the loser hoping for break-even'. The 'you' and 'I' are present in every section.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section grounds its claims in specifics: SEBI 2023 and 2024 study figures (89% losers, \u20b91.1 lakh average loss); \u03bb = 2.25 with citation; Indian small-cap corrections of 40\u201350% on named individual names; the Bikhchandani-Hirshleifer-Welch 1992 cascade paper; 286 penalty kicks from Bar-Eli et al.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Three sidenotes with the canonical marker: Section II ('\u03bb varies by person, by mood, and by P&L size'), Section III ('buy the dip only works inside a process'), and Section IV ('herding is not always irrational'). Each genuinely complicates the simple model rather than just hedging.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The closing callout lists all six failure modes and summarises the OS as 'write the thesis, size correctly, look rarely, act seldom, review honestly' \u2014 a reasonable 2-sentence candidate. But the framework name 'Behavioural OS' appears only as a section heading in Chapter IX and is never made sticky.",
+        "suggestion": "Coin a sharper name for the framework \u2014 e.g. 'the Six-Override OS' or 'the Wetware Patch' \u2014 introduce it in Section I alongside the six failure modes, and repeat it at the end of the callout. A friend should be able to say 'it's the [Name]: six biases, one three-step OS' without re-reading."
+      }
+    ]
+  },
+  "market/options-insurance/index.html@2fb86c5cf63d": {
+    "path": "market/options-insurance/index.html",
+    "overall": "This is a strong Mode A article: the claim lands in the hero, the widgets prove it in sequence, the voice is confident and specific, and four model-break sidenotes show intellectual honesty. The one structural weakness is Widget 3, which packs the entire Greeks taxonomy into a single interactive panel and risks derailing a non-expert reader into pricing mechanics just when the insurance framing has built momentum. Splitting or pruning that widget would tighten the proof-of-claim arc considerably.",
+    "seconds": 78.30887269973755,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "Hero subtitle delivers the counter-intuitive claim immediately: 'The investor with a $1M portfolio and no put is taking more risk than the one with \u2014 even though only one of them is doing options.' Section I confirms it within ~150 words: 'options are insurance contracts. That is the entire concept.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "All six widgets survive the delete test. Widget 1 establishes the four payoff shapes that every subsequent argument depends on. Widget 2 is the core proof of the claim in real dollars. Widgets 3-5 earn their place by making pricing inputs and theta/vol tangible rather than abstract. Widget 6 closes ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero subtitle inverts the reader's prior: most people believe options are the risky instrument, so the claim that the option-free investor is the riskier one is genuinely counter-intuitive. The inversion is the surprise, and it lands before the first word of body copy.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "warn",
+        "evidence": "Widget 3 (Black-Scholes pricer) displays eight simultaneous outputs \u2014 price, delta, gamma, vega, theta, rho, intrinsic value, and time value \u2014 while also rendering a spot-vs-price curve. That is not one concept; it is the entire Greeks taxonomy in a single panel.",
+        "suggestion": "Split Widget 3 into two panels: one that shows only price across spot for different expiries (proving time-value visually), and a separate, simpler Greek readout introduced when each Greek is discussed. Or collapse the Greek grid to delta + theta only \u2014 the two Greeks most relevant to the insurance "
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "First-person is present and specific throughout: 'I had a $1 million US portfolio sitting on 35% paper profits'; 'When markets did fall \u2014 tariff anxiety, DeepSeek, rate uncertainty \u2014 the insured investor is not panicking.' The voice is opinionated, not encyclopedic.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Concrete figures appear in every section: QQQ spot 605, strike 545, $45,000 premium, September 2026 expiry; Meta $640 cost basis, $760 strike, $2,850 premium; NVIDIA $180 at 40% vol \u2192 $4.54 one-day sigma; SEBI 2024 study finding 89% of F&O traders net losers at \u20b91.1 lakh average loss.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four 'Well, actually \ud83e\uddd0' sidenotes appear across Sections II-V, flagging basis risk in ETF hedging, Black-Scholes' violated assumptions (constant vol, no jumps, log-normal tails), theta's mathematical acceleration near expiry, and log-normal vs normal distribution asymmetry.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The claim is reducible to two sentences: 'A put option caps your portfolio loss at premium plus the gap to strike \u2014 that is your insurance deductible. Selling covered calls and cash-secured puts generates the income that pays for it.' The article's final line \u2014 'Not gambling. Insurance.' \u2014 confirms ",
+        "suggestion": ""
+      }
+    ]
+  },
+  "market/macro-first/index.html@0e1f944afc43": {
+    "path": "market/macro-first/index.html",
+    "overall": "Strong Mode B article with a well-structured, highly specific, and intellectually honest framework \u2014 the three widgets are genuinely load-bearing, four sidenotes build real credibility, and the macro-first checklist makes the framework cleanly teachable. The one notable gap is voice: the 'you' is strong throughout but the authorial 'I' is almost entirely absent, making the piece read as confident narration rather than a distinctly personal argument. Two or three first-person anchors \u2014 an anecdote, a stated conviction, a moment of personal skin-in-the-game \u2014 would close that gap without changin",
+    "seconds": 130.390855550766,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle explicitly declares 'This is the top-down framework: macro \u2192 geography \u2192 sector \u2192 security.' Section I's third paragraph \u2014 within roughly 170 words of the article body \u2014 states 'This is the single most important lesson in investing: macro drives everything... Individual stock selec",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "All three widgets are load-bearing. Widget 1 proves the rate-sensitivity ordering (bonds > equities > commodities) the surrounding prose argues. Widget 2 lets the reader vary transmission coefficients to see why 2020 QE produced 4x asset-price multipliers while 2010\u201314 QE did not \u2014 the prose referen",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The opening gambit \u2014 'Most investors spend their evenings reading annual reports... Then the Federal Reserve raises rates by 50 basis points and every one of those carefully constructed theses gets demolished in a week' \u2014 directly attacks the stock-first paradigm most readers operate under. The surp",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1: one concept (rate direction determines relative asset-class return magnitude). Widget 2: one concept (liquidity transmission has three leaky stages and the middle stage breaks in stressed cycles). Widget 3: one concept (DXY moves inversely predict EM equity returns with quantifiable confid",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The 'you' being spoken to is consistent and strong throughout ('You need to watch three central banks. Everything else is noise'; 'Non-negotiable. Maintain a 20\u201330% cash position'). But the 'I' doing the talking is almost entirely absent \u2014 the author never says 'I've seen this,' 'my view is,' or 'I'",
+        "suggestion": "Add two or three first-person anchors where the author's own conviction or experience is explicit: e.g., 'I started watching the BOJ after August 2024 moved my portfolio 6% overnight' or 'My highest-conviction move in any new cycle is geographic allocation \u2014 I do that before I look at a single stock"
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Specificity is exceptional throughout: '+525bp Fed rate hikes 2022\u201323,' '$325B+ Berkshire cash pile entering 2025,' 'US M1 from ~$15T to ~$18.75T,' 'August 5, 2024 \u2014 Nikkei fell 12% in a single session, its worst day since Black Monday 1987,' '$600B AI capex planned 2026,' '~$700B RBI foreign reserv",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four explicit sidenotes: 'the Fed Funds rate isn't really the lever investors care about' (Section II), 'the equity risk premium does heavy lifting too' (Section III), 'equity duration is not a textbook number' (Section III), and 'money supply doesn't perfectly map to GDP' (Section VII). Each flags ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The 'macro-first checklist' callout in Section IX names all seven framework steps explicitly, and the 'If you remember one thing' callout distills the core: 'The macro is upstream of everything... all of them sit downstream of central bank policy and global liquidity.' A non-expert reader can teach ",
+        "suggestion": ""
+      }
+    ]
+  },
+  "market/margin-of-safety/index.html@f9cbe674bfa4": {
+    "path": "market/margin-of-safety/index.html",
+    "overall": "A strong Mode B article with genuine first-person voice, excellent section-level specificity, and four widgets that each carry real argumentative weight. The single meaningful weakness is that the framework name introduced in the hero ('entry-discipline system') is never reinforced in the body, leaving M8 fragile \u2014 a reader leaves with the principles but may lack the sticky label needed to teach the framework back. One sentence in Section IX fixes it.",
+    "seconds": 126.20536208152771,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle names the framework explicitly ('This is the entry-discipline system') and Section I states its purpose within the first 200 words: 'the price at which you buy a stock matters more than which stock you buy.'",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "All four widgets survive the delete test: Widget 1 makes DCF terminal-value dominance visceral rather than asserted; Widget 2 quantifies the tradeoff between entry patience and forward returns; Widget 3 proves that most names fail a discount screen at any given moment; Widget 4 backtests the 200 DMA",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The title directly inverts the dominant retail-finance narrative ('90% of airtime telling you what to buy'), and Section I's HDFC example \u2014 right thesis, wrong price, eight months of sideways pain \u2014 lands the counter-intuitive claim concretely before the first scroll.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Each widget isolates a single concept: Widget 1 = terminal value dominates the DCF; Widget 2 = tighter Bollinger threshold yields fewer but higher-expectation signals; Widget 3 = most large-caps don't meet a margin-of-safety screen at any given time; Widget 4 = 200 DMA bounce forward-return distribu",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "First-person voice is consistent and earned: 'I have watched this pattern repeat hundreds of times,' 'It happened to me on HDFC,' 'Here is how I actually used this on Nvidia,' 'I told the community.' The reader is addressed as 'you' from the first sentence.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section anchors to concrete specifics: HDFC Bank / Nvidia with '17% pullback' (I); Gordon growth formula with WACC ranges (II); 'December 19, 2024' death cross on Indian indices (V); '\u20b910 lakh portfolio / 90-10 ratio' (VI); '\u20b98 crore Nifty block returning 2.24% in one month / 16 lakh P&L' (VII",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Three sidenotes carry the 'Well, actually \ud83e\uddd0' flag: terminal-value over-dominance and the g < GDP-growth discipline (Section II); leptokurtic fat-tailed equity returns violating Bollinger's normal assumption (Section III); 200 DMA bounce failing in negative-drift / structural bear regimes, demonstrat",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The 8-step synthesis in Section IX is clear and concrete, but the framework name 'entry-discipline system' appears only once (hero subtitle) and is never repeated in the body. A non-expert finishes with the principles ('buy at support, three tranches, 20% cash reserve') but without a sticky label to",
+        "suggestion": "Reuse the phrase 'entry-discipline system' at least once in Section IX \u2014 e.g., open Step 1 with 'Stack these eight steps and you have the full entry-discipline system' \u2014 so the framework name is retrievable after a single reading without going back to the hero."
+      }
+    ]
+  },
+  "market/position-sizing/index.html@2665018a84d0": {
+    "path": "market/position-sizing/index.html",
+    "overall": "A strong Mode B article with genuine voice, rich specificity, three purpose-built widgets, and three honest sidenotes admitting where the simple model breaks. The one fixable issue is Widget 2 teaching both ruin probability and the volatility-tax mean/median split simultaneously \u2014 the hint names both concepts, which dilutes the 'one concept per widget' rule; the fix is a two-line hint edit. Everything else \u2014 the framework's early establishment, the delete-test pass rate on all three widgets, the 7-rule playbook, and the callout teachback \u2014 is in good shape to ship.",
+    "seconds": 115.9189281463623,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle ('Edge tells you whether to bet. Sizing tells you whether you'll still be there to bet again') and Section I's opening sentence ('The difference between an investor who builds lasting wealth and one who blows up has almost nothing to do with which stocks they picked. It has everyth",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 proves the Kelly formula interactively and shows how both p and b determine the optimal fraction \u2014 removing it leaves the Kelly math as pure assertion. Widget 2 shows ruin probability rising with bet size while holding edge fixed \u2014 the core surprise of Section IV. Widget 3 makes the cliff s",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "Section I opens with a direct inversion of the conventional retail mental model: 'The difference between an investor who builds lasting wealth and one who blows up has almost nothing to do with which stocks they picked.' The hero subtitle lands the same reframe before any body prose begins. Both are",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "warn",
+        "evidence": "Widget 2 explicitly teaches two concepts within the same widget: ruin probability from over-sizing ('Set bet size to 5% with a 5% edge \u2014 ruin is rare\u2026 crank bet size to 40% \u2014 half the universes are wiped out') AND the mean/median divergence ('Notice the mean stays high while the median collapses \u2014 t",
+        "suggestion": "Strip the widget hint down to one concept \u2014 'The edge didn't change. Only the sizing did.' \u2014 and move the mean/median/volatility-tax observation entirely into the sidenote where it already lives, removing the in-hint callout to it."
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "Consistent first-person voice throughout: 'My own hit rate is about 60%', 'When I see a stock giving a breakout and members already sitting on healthy profits, what do I tell new investors?', 'I averaged down to bring the loss to 14%, then deliberately left one more round of money in reserve.' The '",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Named stocks (Bandhan Bank, Natco Pharma), named people (Edward Thorp, John Kelly Jr.), and precise numbers throughout: '19.1% net of fees for 28 years', 'NIFTY 50 total-return data from 2005\u20132024', '20% CAGR over the next three-year period', 'positive return in 92% of windows.' The cap table in Sec",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Three sidenotes, each admitting a real regime break: (1) full Kelly produces unbearable drawdowns in practice, so almost every professional runs fractional Kelly; (2) the mean/median divergence hides how bad over-sizing actually is \u2014 the mean is inflated by lucky outliers; (3) the cliff is asymmetri",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The 'If you remember one thing' callout provides a ready-made two-sentence teachback: 'How much you invest matters more than what you invest in. The Kelly cliff, the 5% ceiling, and the three-tranche rule are all the same idea in three costumes: bet small enough that being wrong is recoverable, and ",
+        "suggestion": ""
+      }
+    ]
+  },
+  "market/real-returns/index.html@38ae38c70993": {
+    "path": "market/real-returns/index.html",
+    "overall": "A strong Mode A explainer that earns its length in Sections I\u2013VI: the claim is stated boldly in the opening paragraph, proved visually by two well-designed widgets, and defended with six honest sidenotes and relentless numerical specificity. The main weakness is structural drift in Sections VII\u2013IX, which shift from proving the claim into a portfolio-construction playbook \u2014 useful material, but it dilutes the article's identity and leaves Widget 3 orphaned from the core argument. Tighten the Starbucks widget's placement or replace it with something that earns its position in the portfolio secti",
+    "seconds": 79.70857238769531,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "Within the first three paragraphs: 'It is also, for all practical purposes, a lie' + the explicit arithmetic chain '0.125 \u2192 \u00d7(1\u22120.125) = 0.109 \u2192 \u00f7(1+0.04) = 0.0668 \u2192 \u00f7(1+0.075) = \u22120.008' appears well inside 200 words. The claim is unambiguous and front-loaded.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "warn",
+        "evidence": "Widget 1 (three-line wealth eroder) and Widget 2 (four-instrument bar chart) both pass cleanly \u2014 removing either would gut the visual proof. Widget 3 (Starbucks Test) is weaker: by the time it appears in Section VIII the PPP point has been made thoroughly in prose with concrete prices (iPhone, Camry",
+        "suggestion": "Either move Widget 3 to Section IV where PPP is first argued, or replace its slot in Section VIII with a widget that directly serves the portfolio-construction claim (e.g., an interactive allocation builder showing real CAGR by layer weight) so it passes the delete test in context."
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero subtitle 'Why nominal returns are a lie' and the second paragraph's blunt 'It is also, for all practical purposes, a lie' land before the reader has scrolled a single screen. Most Indian investors encountering the Nifty 12.5% number treat it as gospel; calling it a lie on arrival is genuine",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches one thing: how three layers (tax, currency, inflation) erode a single nominal line into a real line. Widget 2 teaches one thing: the relative real-return ranking across four instrument types. Widget 3 teaches one thing: whether a specific consumer item reveals a PPP gap. None of the",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "'You did not build wealth. You ran on a treadmill.' / 'Your competition is with inflation.' / 'The FD is not a savings instrument. It is a wealth-destruction machine operating in slow motion.' The article sustains a consistent opinionated first-person-to-second-person register throughout all nine se",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Specifics are dense and accurate: 'October 2024 the rupee sat at 84/USD; by early 2025 it had touched 87,' QQQ '19% CAGR over ten years in USD,' '$100,000 split across Meta/Microsoft/Amazon/Netflix in Jan 2015 \u2192 ~$561,000,' iPhone Pro '\u20b91.4L / $1,000 / 4,500 AED.' Every section anchors abstract clai",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Six distinct 'Well, actually \ud83e\uddd0' sidenotes appear: Fisher approximation error, currency-depreciation compounding vs. subtraction, continuous-tax simplification in Widget 1, small-cap geometric-mean illusion, AED peg fragility, and Evans & Archer diversification saturation. Each admits a genuine limit",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The claim is mechanically repeatable: 'The Nifty's 12.5% nominal return becomes roughly \u22121% to 0% real once you divide out LTCG tax, INR depreciation, and lived inflation \u2014 you're running on a treadmill, not building wealth.' The math-block in Section I gives a non-expert the exact chain to recite. ",
+        "suggestion": ""
+      }
+    ]
+  },
+  "market/sell-discipline/index.html@50887898f8a9": {
+    "path": "market/sell-discipline/index.html",
+    "overall": "A genuinely strong Mode B article with outstanding specificity, three well-placed sidenotes, and widgets that all earn their place. The two meaningful gaps are a muted first-person voice (the author's own trades are consistently depersonalised into 'a community portfolio') and the absence of an upfront framework map \u2014 the three-bucket structure is only named at the very end, which means most readers will finish with a collection of vivid rules but no single teachable skeleton. Fix those two things and this ships cleanly.",
+    "seconds": 98.00727677345276,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle reads: 'This is the 12-rule playbook that fixes both.' Section I's opening pages immediately establish the framework's purpose: 'This article gives you what most don't: a complete, rule-based framework for selling.'",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 proves the non-linear relationship between stop width and outcome that the prose can only assert; Widget 2 shows the regime-dependence of exit strategies by letting the leaderboard flicker across paths; Widget 3 makes the \u20b953,125 tax-cliff number visceral rather than just arithmetic. Removi",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero subtitle opens with a genuinely counter-intuitive data point: 'A 5% trailing stop on a 28-vol stock fires 80% of the time on noise alone.' This directly contradicts the most common retail trading advice ('always use a 5% stop') before the first scroll.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches one concept (stop-width vs. average outcome), Widget 2 teaches one concept (no single exit strategy dominates across regimes), Widget 3 teaches one concept (the STCG/LTCG cliff at 12 months). The three strategies shown simultaneously in Widget 2 are instruments of the single concept",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The 'you' is strong and consistent throughout. But the 'I' is nearly absent \u2014 the author launders first-person experience through distancing constructions: 'a significant position in HDFC AMC', 'a community portfolio booked', 'a complete rotation chain from one real cycle'. The reader never hears 'I",
+        "suggestion": "Own the scorecard in first person: 'I held HDFC AMC through the 60% run and sold 50% at the top' instead of 'a significant position in HDFC AMC ran over 100%'. One or two first-person sentences per section would close the gap without restructuring anything."
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Specificity is exceptional throughout: SEBI's 91% F&O loss rate, named tickers with exact return percentages (Ujjivan 100%-plus, Tarsons 6-7% loss, DMART PE 100-plus), \u20b9 amounts in the tax section (\u20b953,125 difference at 11 vs 13 months), July 2024 Budget as the rate-change anchor.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Three 'Well, actually \ud83e\uddd0' sidenotes are present and substantive: Section II on ATR-scaled stops vs. fixed percentages, Section V on Sortino ratio vs. mean return as the right objective, Section VII on tax-loss harvesting mechanics and the absence of an Indian wash-sale rule.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The framework has 12 rules, but no top-level map of its structure is given to the reader until the very last section \u2014 and even there the three-bucket organisation (when / how / friction) is mentioned in passing, not foregrounded. A non-expert finishing the article can recall vivid examples (50% rul",
+        "suggestion": "Add a 2-sentence framework summary in the hero or at the top of Section I: 'The 12-rule playbook divides into three buckets \u2014 when to sell (rules 1-3), how to execute the sell (rules 4-8), and the friction layer of tax, behaviour, and rotation (rules 9-12). Every rule fits one bucket; together they "
+      }
+    ]
+  },
+  "market/sector-cycles/index.html@be9d422b194c": {
+    "path": "market/sector-cycles/index.html",
+    "overall": "A well-constructed Mode B article that earns its nine sections \u2014 the PSU\u2192IT\u2192Banks\u2192FMCG sequence and five-rule playbook are clearly named, enumerated, and demonstrated by focused widgets that each pass the delete test. The two gaps worth fixing before ship are the first-screen hook (M3), which buries the most surprising insight \u2014 index CAGR decaying by a third per decade \u2014 inside body copy rather than leading with it, and the absent 'I' voice (M5), which leaves strong, opinionated calls feeling authoritative-but-anonymous. Both are sentence-level edits, not structural rewrites.",
+    "seconds": 144.3809404373169,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "Hero subtitle, within the first 50 words of body content: 'Capital rotates through sectors in a predictable sequence: PSU \u2192 IT \u2192 Banks \u2192 FMCG. Five rules tell you when and how to ride it.' Framework name and purpose are stated before any body copy begins.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 makes the phase-leadership heatmap sweepable in a way prose cannot replicate; Widget 2 animates dispersion blowing out at regime-shift quarters across 20 synthetic periods; Widget 3 lets the reader toggle the crisis quarter on/off and watch the correlation matrix darken. Removing any one wo",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "warn",
+        "evidence": "The hero subtitle names the PSU\u2192IT\u2192Banks\u2192FMCG sequence, but 'sector rotation' is already familiar to most equity readers; the first screen never delivers a counter-intuitive fact that makes them sit up. The genuinely surprising insight \u2014 that Nifty 50 CAGR has decayed by a third every decade, meanin",
+        "suggestion": "Pull the index-decay stat (4\u00d7 \u2192 2.5\u00d7 \u2192 2\u00d7 across successive decades) into the hero subtitle or add a one-line callout immediately after the subtitle so the first screen leads with the surprising implication rather than just naming the framework."
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches sector-phase leadership only, Widget 2 teaches dispersion timing only, Widget 3 teaches correlation collapse in crises only. Each is scoped to exactly one concept; none attempts to demonstrate two ideas simultaneously.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The 'you' address is consistent and strong throughout, and clear opinions are stated ('A Swiggy or Zepto trading at growth-stock multiples is mispriced'; 'the consumption story is fragile no matter how many TV anchors say it isn't'). However, explicit first-person singular is entirely absent \u2014 the o",
+        "suggestion": "Rewrite the blockquote to use 'I' rather than 'we', and add at least one explicit 'my read is' or 'I've found' in Section VIII or IX so the strong calls feel owned by a specific person rather than attributed to an anonymous authority."
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section anchors abstractions in specifics: Section I (4\u00d7/2.5\u00d7/2\u00d7, 1999\u20132025), Section III (25\u201340 pt dispersion named to COVID crash, 2022 rate-hike pivot, 2023 disinflation turn), Section V (\u03c1=0.85 in March 2020), Section VI (0.01% real wage growth Q2 FY20\u2013Q1 FY25, \u20b910,000 crore Swiggy raise),",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Five 'Well, actually \ud83e\uddd0' sidenotes appear across Sections II\u2013VII, each admitting a genuine model limit: phases compressed into six weeks in 2020, Widget 2 returns are synthetic, 'defensive' is conditional on the shock type (HUL is defensive in rate hikes but not rural distress), effective-N math expo",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "Section IX enumerates the five rules in plain language: identify the phase (PSU\u2192IT\u2192Banks\u2192FMCG), start building the next sector before you exit the current, rotate on price (25\u201330% run = take half off, destination = sector closest to its 200DMA from below), park in the Nifty index between single-stoc",
+        "suggestion": ""
+      }
+    ]
+  },
+  "market/wealth-staircase/index.html@a6003d2df488": {
+    "path": "market/wealth-staircase/index.html",
+    "overall": "A well-executed Mode B framework article with strong voice, excellent specificity, and three widgets that each survive the delete test. The single meaningful flaw is Widget 1 carrying three distinct lessons (tier compression, visual illusion of compounding, returns-crossover moment) where it should carry one \u2014 splitting or simplifying the post-widget narration would sharpen it considerably. The five well-actually sidenotes and the Section IX playbook table make this one of the more complete and honest articles in the repo.",
+    "seconds": 85.56783175468445,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "The hero subtitle states 'The staircase is the strategy you need at each tier' and Section I opens within the first 200 words: 'This article is that staircase \u2014 the complete progression from a first SIP to a multi-crore, tax-optimised, options-layered portfolio.' Framework name and purpose land imme",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 proves tier-compression (the article's central structural claim) by letting the reader observe years-to-tier collapse as return rises \u2014 assertion without it. Widget 2 makes the ratchet magnitude visceral ('at 6%+ the ratcheted investor never reaches \u20b91Cr'). Widget 3 converts the abstract fa",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero subtitle lands a genuine inversion most retail investors have never heard: 'A 100% return on \u20b91 lakh is \u20b91 lakh. A 15% return on \u20b950 lakh is \u20b97.5 lakh. Capital beats skill.' This is counter-intuitive to anyone who spends their time hunting multi-baggers, which is the article's target reader",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "warn",
+        "evidence": "Widget 1 is asked to teach at least three distinct concepts simultaneously: (1) tier-crossing time compression, (2) the visual illusion of compounding ('your eye lies to you'), and (3) the returns-crossover moment when portfolio earnings overtake contributions. The passage after the widget explicitl",
+        "suggestion": "Split the returns-crossover observation into a separate callout or stat annotation rather than treating it as a second lesson from the same widget. The tier-compression message is strong on its own; the crossover is a bonus that dilutes it."
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "Persistent, opinionated first-person voice: 'I do not run SIPs myself,' 'I personally sit on 20-30% cash relative to portfolio,' 'I have seen this happen to thousands of people,' and the pointed rhetorical strike \u2014 'Will an Indian SIP salesman tell you any of this? No. Because if they did, you would",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Concrete specificity appears in every section: LTCG rate 'moved from 10% to 12.5%'; 'Nifty fall ~38% from peak; full recovery to prior highs took 8 months' vs '2008-09, where Nifty fell ~60% and took 22 months'; stock names HDFC Bank, Kotak, Asian Paints, PVR Inox; '72 \u00f7 12 = 6 years' Rule of 72 wor",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Five distinct well-actually sidenotes across the article, each admitting a genuine model break: the Rule-of-72 clarification on tier compression; why 'crowded' SIP strategies mathematically cannot outperform; why the 200DMA specifically (and what alternatives exist); the asymmetric ratchet (lifestyl",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The Section IX summary table explicitly lists all five tiers with corpus range, focus, strategy, and key metric in one scannable view. A non-expert leaving the article can reasonably say: 'The Wealth Staircase has five levels \u2014 SIPs, active rotation, multi-asset, tax-plus-options, endgame \u2014 and your",
+        "suggestion": ""
+      }
+    ]
+  },
+  "market/sideways-markets/index.html@929347a58807": {
+    "path": "market/sideways-markets/index.html",
+    "overall": "A well-executed Mode B framework article that earns 7 of 8 clean passes. Voice is strong, specificity is excellent, all three widgets demonstrate distinct framework edges, and the sidenotes are genuinely honest about limitations. The one gap is M8 teachability: the four-edge framework is clearly explained but never crystallized into a memorable label, which means a non-expert reader can repeat the idea but may not be able to re-assemble the exact dimensions a week later without the subtitle in front of them.",
+    "seconds": 111.53088736534119,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "Hero subtitle names all four edges before the body text begins: 'Four edges \u2014 range trades, covered calls, vol harvesting, tranche cash \u2014 together extract 15-25% from a market that goes nowhere.' The framework's name and purpose are front-loaded on the first screen.",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 proves the range-trading alpha numerically (buy-hold vs range trader, same market); Widget 2 proves covered-call yield against the dividend baseline; Widget 3 proves the rebalancing premium formula against actual Monte Carlo paths. Each widget is the only place in the article where its spec",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The opening paragraph frames the surprise correctly for a Mode B article: 'Most investors know two emotions: euphoria when markets go up, panic when they go down. There is a third state\u2026 almost nobody is trained for it.' The hero subtitle then immediately names the framework. The existence of a syst",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches one thing: the return gap between passive buy-hold and active range extraction. Widget 2 teaches one thing: how covered-call premium income accumulates over twelve months relative to dividends. Widget 3 teaches one thing: how monthly rebalancing harvests variance. Each widget's slid",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "Voice is explicit and consistent throughout: 'I am betting on a sideways market with 20% rangebound movement for over 1.5 years. And designing my portfolio accordingly.' and 'Here is a rule most retail investors find counterintuitive: in a sideways market, I always keep 20\u201325% of the portfolio in ca",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Specificity is dense throughout: Nifty 50 channel 22,000\u201326,500, US debt repayment 'roughly $1 trillion this year,' Fed rate path 5.5% peak \u2192 4.5% current \u2192 3.5% projected, Black-Scholes approximation '$100 stock at 12% vol \u2192 $1.39, at 25% vol \u2192 $2.89,' Nifty supports at 22,500 and 21,900, rebalanci",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four sidenotes are present, and at least two genuinely admit model breaks: the covered-call sidenote explicitly states 'covered calls are perfect for sideways markets and dangerous in bull markets \u2014 the opportunity cost dwarfs the premium' in a true bull run; the tranche sidenote admits 'markets bre",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "warn",
+        "evidence": "The hero subtitle provides the teachable sentence: 'Four edges \u2014 range trades, covered calls, vol harvesting, tranche cash \u2014 together extract 15-25% from a market that goes nowhere.' A reader can repeat the four labels. However, the framework has no memorable proper-noun name \u2014 it is described as 'f",
+        "suggestion": "Add a two-sentence 'If you remember one thing' anchor at the end of Section I (or in the closing callout) that explicitly names the four edges as a labeled framework \u2014 e.g., 'The Sideways Four: range capture, premium income, rebalancing harvest, cash deployment.' Give it a handle so the reader can r"
+      }
+    ]
+  },
+  "market/what-moves-prices/index.html@46666682b8f5": {
+    "path": "market/what-moves-prices/index.html",
+    "overall": "A clean Mode A explainer that does exactly what it sets out to do: prove that every price move resolves into PE and EPS, with no wiggle room for vague narrative. All three widgets pass the delete test, specificity is unusually strong throughout, and the voice is confident without being preachy. The one structural note worth monitoring is Section IV (earnings surprise) \u2014 it extends the thesis into adjacent territory, and if the article ever needs trimming, that section is the natural first cut without damaging the core claim.",
+    "seconds": 106.14998030662537,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "pass",
+        "evidence": "Hero subtitle states the claim before the first section loads: \"Price = PE \u00d7 EPS. Every rally and every crash decomposes into those two numbers \u2014 and one of them is almost always lying to you.\" Section II reinforces it with an explicit flag: \"If you remember nothing else from this article, remember ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Widget 1 is the core proof \u2014 remove it and Section III's Bata/Lilly examples become unverifiable prose assertions. Widget 3 is the historical proof \u2014 remove it and the decade-regime argument in Section V has no backbone. Widget 2 (surprise simulator) is the weakest link: Section IV makes a separate ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The NVDA opener immediately hits the counter-intuitive reveal: the universal retail narrative is 'AI sent the stock up 10x,' but the decomposition shows earnings did ~6x and sentiment added another 1.58x on top \u2014 plus the actionable implication that 'a third of the log-return was fully reversible.' ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Widget 1 teaches one thing: the decomposition identity and what drives the bar split. Widget 2 teaches one thing: misses are punished harder than equivalent beats are rewarded. Widget 3 teaches one thing: the decade-by-decade regime shift in which driver dominates. None of the widgets blend their co",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "pass",
+        "evidence": "Voice is strong and consistent. 'You' is direct and specific: 'forces you to articulate which lever you're actually betting on, and most retail positions don't have an answer beyond the stock has been going up \u2014 that's not a thesis.' Author opinion is present: 'Stories sell SIPs. Math doesn't.' and ",
+        "suggestion": ""
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Every section is anchored in named specifics: NVDA EPS $0.45\u2192$2.85, PE 31\u219249 (Section I); Apple buybacks by name (Section II); Bata India 1250\u21921250 six-year flat with exact EPS figures, Eli Lilly $130\u2192$800 2020-2024 (Section III); NVIDIA Q3 2024 revenue +94% YoY with the guide 'only' +70% (Section I",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Four sidenotes, all genuine model-breaks: 'buybacks hide inside EPS' (EPS growth can be denominator shrinkage, not profit growth); 'the cross term isn't a rounding error' (the interaction term can be 310 percentage points for NVDA); 'the whisper number' (consensus EPS is not the real threshold the m",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The article trains the reader to a specific two-sentence take: 'Price = PE \u00d7 EPS. Every return is earnings growth plus multiple expansion plus dividends \u2014 the earnings part is yours forever, the multiple part can be taken back overnight.' The explicit 'If you remember nothing else' framing in Sectio",
+        "suggestion": ""
+      }
+    ]
+  },
+  "insurance/actuarial-pricing/index.html@5cf04681f4fd": {
+    "path": "insurance/actuarial-pricing/index.html",
+    "overall": "A strong Mode B explainer with nine tightly coupled widgets that each earn their place \u2014 the delete test passes cleanly across the board. The two fixable weaknesses are M1 (the framework's four-layer structure isn't named in the first 200 words; the opening establishes the pooling axiom instead) and M5 (the 'you' voice is consistent but the authorial 'I' is almost entirely absent, making the piece feel instructional rather than opinionated). Both are small additions, not structural reworks: a 3-sentence framework preview in the hero and one or two first-person observations in the body would pu",
+    "seconds": 129.39462280273438,
+    "error": null,
+    "verdicts": [
+      {
+        "rule": "M1",
+        "status": "warn",
+        "evidence": "The hero subtitle says 'This is about that \u20b92,200 gap \u2014 layer by layer,' hinting at structure but never naming the framework. The first ~200 words (all of Section I) explain the risk-pooling axiom; the premium-stack framework itself (its four layers, its name) doesn't appear until Section VII.",
+        "suggestion": "Add 2\u20133 sentences immediately after the hero that name the stack and its layers: 'By the end, you'll know the four-part actuarial buildup \u2014 pure premium, risk loading, expense loading, profit margin \u2014 and why each layer is non-negotiable.' This gives Mode B readers their orienting framework upfront."
+      },
+      {
+        "rule": "M2",
+        "status": "pass",
+        "evidence": "Each widget maps 1-to-1 to its section's core concept: the pool simulator demonstrates the variance the article subsequently manages; the convergence simulator proves LLN empirically; the waterfall integrates all prior sections as the framework's capstone. Removing any one widget would leave its sec",
+        "suggestion": ""
+      },
+      {
+        "rule": "M3",
+        "status": "pass",
+        "evidence": "The hero opens with specific, surprising numbers: '\u20b92,800 to insure' vs 'the farmer pays \u20b95,000' \u2014 most readers have no intuition for how large the gap between actuarial cost and final price is. The 'layer by layer' framing signals the framework's existence as the explanation. First screen earns its",
+        "suggestion": ""
+      },
+      {
+        "rule": "M4",
+        "status": "pass",
+        "evidence": "Nine of ten widgets are cleanly single-concept: pool simulator \u2192 pooling variance; convergence simulator \u2192 LLN; pure premium calculator \u2192 Freq\u00d7Sev; credibility blending \u2192 Z formula. The Section VII waterfall with eight sliders is the intentional Mode B synthesis widget \u2014 it demonstrates the full fra",
+        "suggestion": ""
+      },
+      {
+        "rule": "M5",
+        "status": "warn",
+        "evidence": "The 'you' is consistent throughout ('Try it yourself,' 'Notice something?,' 'Watch how the pool absorbs individual disasters') but the authorial 'I' is nearly absent. The blockquote 'The art of insurance pricing is not calculating the average\u2026' reads as an attributed aphorism rather than a personal ",
+        "suggestion": "Add 1\u20132 first-person beats: e.g., 'The division-not-addition formula in Section V tripped me up the first time \u2014 it's non-obvious until you see why expenses are a percentage of gross premium, not of pure premium' or a sentence in Section X about what the author finds most underappreciated."
+      },
+      {
+        "rule": "M6",
+        "status": "pass",
+        "evidence": "Specificity is dense throughout: \u20b980,000 cow value, 3.5% cattle mortality, 'GIC Re mandatory 4%', 'IRDAI requires \u20b9100 crore minimum, plus 1.5x solvency', 'Nandi AI, ID-Scan', 'BrainWired, PsiBorg', 'B\u00fchlmann's 1967 paper', 'Ars Conjectandi (posthumously, 1713)', '50+ recognized cattle breeds', Raja",
+        "suggestion": ""
+      },
+      {
+        "rule": "M7",
+        "status": "pass",
+        "evidence": "Two substantive sidenotes: Section II's 'LLN is not the same as the Central Limit Theorem' (explains how CLT governs capital-holding, not just pricing) and Section IX's 'where the 1,082 comes from' (derives B\u00fchlmann k as empirical Bayes posterior mean). Both admit genuine model complexity rather tha",
+        "suggestion": ""
+      },
+      {
+        "rule": "M8",
+        "status": "pass",
+        "evidence": "The article's own closing callout supplies the teach-back verbatim: 'Insurance pricing is a stack: expected losses + uncertainty buffer + expenses + profit.' The four layers are named, their purpose is clear, and the \u20b92,200 gap from the hero is explained by the time the reader reaches it. A non-expe",
+        "suggestion": ""
+      }
+    ]
+  }
+}
