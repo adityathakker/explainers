@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bond Math From Scratch &mdash; Monetary Explainers</title>
+  <meta name="description" content="A 1% yield move on a 30-year bond destroys about 17% of its price &mdash; and over 20% for the low-coupon bonds issued during the QE era. On a 2-year, the same move costs 2%. Duration is the only number that matters at the long end &mdash; here&rsquo;s why, built from first principles.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Bond Math From Scratch">
+  <meta property="og:description" content="A 1% yield move on a 30-year bond wipes ~17% of its price (and 20%+ for the low-coupon bonds issued during QE). Duration is the only number that matters.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #1a365d;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%); }
+
+    /* Two-up readout for the side-by-side bond panel */
+    .bond-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .bond-readout { grid-template-columns: 1fr; }
+    }
+    .bond-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .bond-cell .bc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .bond-cell .bc-price {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 22px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .bond-cell .bc-delta {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .bond-cell .bc-delta.is-loss { color: #9b2c2c; }
+    .bond-cell .bc-delta.is-gain { color: #22543d; }
+
+    .duration-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .duration-readout { grid-template-columns: 1fr 1fr; }
+    }
+    .dur-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .dur-cell .dc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .dur-cell .dc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Bond Math From Scratch</h1>
+      <p class="hero__subtitle">A 1% yield move on a 30-year bond destroys about 17% of its price &mdash; and about 20% for the low-coupon bonds issued during QE. On a 2-year, the same move costs 2%. Duration is the only number that matters at the long end, and once you can compute it on a napkin, the rest of the petrodollar story plays itself.</p>
+      <p class="hero__meta">7 chapters &middot; 3 interactive widgets &middot; 22 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-why-yields">Why does &ldquo;yields up&rdquo; matter so much?</a></li>
+        <li><a href="#ii-what-is-a-bond">What is a bond, really?</a></li>
+        <li><a href="#iii-inverse">Why are price and yield inverse?</a></li>
+        <li><a href="#iv-duration">What is duration, really?</a></li>
+        <li><a href="#v-asymmetry">Why does a 30-year get destroyed when a 2-year barely moves?</a></li>
+        <li><a href="#vi-convexity">When does the duration model break?</a></li>
+        <li><a href="#vii-treasury">What does this cost the US Treasury?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. Why does "yields up" matter so much?
+         ============================================================ -->
+    <section class="reveal" id="i-why-yields">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why does &ldquo;yields up&rdquo; matter so much?</h2>
+      </div>
+      <div class="section-content">
+        <p>Last week the Japanese 30-year government bond yield hit an all-time record &mdash; not since-2010, not since-the-financial-crisis, <em>all-time</em><a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. The 10-year US Treasury is back above 4.4% after a brief dip. The 30-year is at levels last seen in 2007. Every developed-market long-end yield is breaking out at the same time.</p>
+
+        <p>That sounds like a small move. It isn't. A holder of a long-dated bond bought at issuance can lose more on the price than they've earned in coupons across two decades. At scale, the same arithmetic eats the US federal budget: the Treasury is on track to spend about <strong>$1 trillion on interest this year</strong> &mdash; roughly 19% of all federal revenue<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. Every additional 100 basis points the curve reprices higher costs another <strong>$3.2 trillion</strong> over the CBO's ten-year window.</p>
+
+        <p>The entire monetary series is about <em>why</em> long-end yields are breaking everywhere at once &mdash; petrodollar erosion, foreign-CB demand collapsing into leveraged hedge-fund basis trades, term premium repricing, the works. None of it lands if you can't first feel why a 1% move on a long bond is a portfolio-ending event.</p>
+
+        <p>So this article proves one thing: <strong>a 1% yield rise on a 30-year bond destroys about 17% of its price &mdash; and about 20% for the low-coupon bonds issued during QE. On a 2-year bond, the same move costs about 2%.</strong> Duration is the only number that matters at the long end, and the math fits on a napkin.</p>
+
+        <p>Once you have the napkin, every other article in this series is arithmetic you can do in your head.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. What is a bond, really?
+         ============================================================ -->
+    <section class="reveal" id="ii-what-is-a-bond">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What is a bond, really?</h2>
+      </div>
+      <div class="section-content">
+        <p>Strip away the jargon. A bond is a contract to receive a fixed schedule of cash payments on specified dates. That's it.</p>
+
+        <p>A 30-year US Treasury with a 4% coupon and $100 face value commits the US government to send you $2 every six months for thirty years, and then a final $100 at maturity. Sixty $2 coupons plus one $100 principal repayment. Those numbers do not change for the life of the bond, no matter what happens to interest rates, the Fed, the war, the election, or the price the bond trades at on a Tuesday afternoon.</p>
+
+        <p>The bond's <em>price</em> is what someone is willing to pay today for the right to that schedule. And the right answer to "what is it worth today" is: <em>add up all the future cash flows, but discount each one for how far away it is</em>. A $100 payment thirty years from now is not worth $100 today; it is worth less, because between now and then you could have earned interest on something else.</p>
+
+        <div class="math-block">
+          Price = &sum;<sub>t=1..N</sub> &nbsp; CF<sub>t</sub> &divide; (1 + y)<sup>t</sup>
+          <span class="math-where">CF<sub>t</sub> is the cash flow at time t; y is the discount rate per period; N is the number of periods</span>
+        </div>
+
+        <p>That's the entire pricing formula. The cash flows on the left are <strong>contractual</strong>. The discount rate <em>y</em> on the right is <strong>market</strong>. When you read a headline saying "the 30-year yield rose 10 basis points," that's the market changing the <em>y</em> in this formula. The contractual cash flows didn't move a cent. The present value of those cash flows changed because the discount applied to them changed.</p>
+
+        <p>This is the most important sentence in this article: <strong>the yield <em>is</em> the discount rate that makes the present value of the future cash flows equal to the current price.</strong> Price and yield are two ways of writing the same number. Quoting one implies the other.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; "the" yield isn't unique</summary>
+          <p>The "yield to maturity" assumes you reinvest every coupon at the same yield, which never happens in practice. A bond also has a "current yield" (coupon &divide; price), a "yield to call" if it's callable, a "real yield" (after inflation), and a slew of others. When traders say "the yield" without qualification, they mean yield-to-maturity, and they accept the reinvestment-assumption fiction because it gives one clean number per bond.</p>
+          <p>The bigger point is unchanged: <em>any</em> reasonable yield definition is the discount rate that, when applied to the contractual cash flows, reproduces today's price. The maths is the same; only the assumption set differs.</p>
+        </details>
+
+        <p>Two facts: cash flows fixed, discount rate floating. Memorise those and the rest of the article is just looking at consequences.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Why are price and yield inverse?
+         ============================================================ -->
+    <section class="reveal" id="iii-inverse">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>Why are price and yield inverse?</h2>
+      </div>
+      <div class="section-content">
+        <p>If <em>y</em> goes up, every term in the sum <em>CF<sub>t</sub> &divide; (1+y)<sup>t</sup></em> gets smaller. The denominator grew; the fraction shrank. The price &mdash; the sum of those fractions &mdash; falls.</p>
+
+        <p>If <em>y</em> goes down, every denominator shrinks, every fraction grows, and the price rises. There is no decision-making here, no &ldquo;the market thinks&rdquo; involved. It is arithmetic. <strong>Price and yield are mechanically inverse.</strong></p>
+
+        <p>The interesting question is not <em>that</em> they are inverse &mdash; it's <em>by how much</em>. A 1% rise in yield doesn't shave 1% off the price. It can shave 2%. Or 20%. The magnitude depends on the bond's maturity, its coupon, and the level of yields. The widget below picks two bonds with everything identical except maturity, and lets you crash-test both with a single yield slider.</p>
+
+        <!-- Widget 1: Two-bond crash test -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Crash-Test Two Bonds With One Slider</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="bond-readout">
+            <div class="bond-cell">
+              <div class="bc-label">2-Year Bond &mdash; 4% Coupon</div>
+              <div class="bc-price" id="w1-2y-price">$100.00</div>
+              <div class="bc-delta" id="w1-2y-delta">at par</div>
+            </div>
+            <div class="bond-cell">
+              <div class="bc-label">30-Year Bond &mdash; 4% Coupon</div>
+              <div class="bc-price" id="w1-30y-price">$100.00</div>
+              <div class="bc-delta" id="w1-30y-delta">at par</div>
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Market yield</span><span class="slider-value" id="w1-y-val">4.00%</span></div>
+            <input type="range" id="w1-y" min="200" max="800" value="400" step="5">
+          </div>
+          <p class="widget-hint">Drag the yield from 4% to 5%. The 2-year bond barely flinches; the 30-year loses about a sixth of its value. Same coupon, same issuer, same change in yield &mdash; thirty years of leverage on rates. (For long bonds issued at the 2020-2021 lows with sub-2% coupons, the same move costs 20-25% &mdash; even more compounded leverage.)</p>
+        </div>
+
+        <p>The reading at 4% yield is obvious: both bonds trade at par ($100), because the coupon equals the yield and there's nothing to discount away. Push yield to 5% and the picture splits. The 2-year falls to about $98.12; the 30-year crashes to about $84.55.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; real-world 30-years lose more than this widget shows</summary>
+          <p>The widget uses a 4% coupon for both bonds because that puts them at par and makes the visual cleanly interpretable. But most outstanding US 30-year Treasuries were issued during 2020&ndash;2021, when coupons were as low as 1.25%. A 1.25%-coupon 30-year repriced from a 4% yield to a 5% yield falls from about $52 to about $42 &mdash; a <strong>20% loss</strong>, not 15%.</p>
+          <p>Lower coupons mean more of the bond&rsquo;s value is concentrated in the distant principal repayment, which pushes duration up &mdash; closer to 21&ndash;22 years for a 2020-vintage long bond, versus the 17 years our widget shows. That is why the actual mark-to-market on the Fed&rsquo;s and Japanese banks&rsquo; long-duration bond books has been so brutal: a low coupon multiplies the rate sensitivity.</p>
+        </details>
+
+        <p>This is the asymmetry that runs the rest of the article. Now we need a name for it.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. What is duration, really?
+         ============================================================ -->
+    <section class="reveal" id="iv-duration">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>What is duration, really?</h2>
+      </div>
+      <div class="section-content">
+        <p>Duration has two definitions that sound different and turn out to be (almost) the same number.</p>
+
+        <p>The first is <strong>Macaulay duration</strong>: the weighted average time to the bond's cash flows, where each weight is the present value of that cash flow as a share of the total. A 30-year zero-coupon bond has a Macaulay duration of exactly 30 years &mdash; the one and only cash flow lands at year 30. A 30-year coupon bond has a Macaulay duration somewhat less than 30, because some of the cash arrives earlier as coupons.</p>
+
+        <p>The second is <strong>Modified duration</strong>: the percentage change in price for a 1-unit change in yield. This is the one that matters for trading:</p>
+
+        <div class="math-block">
+          dP &divide; P &nbsp;&asymp;&nbsp; &minus; D<sub>mod</sub> &middot; dy
+          <span class="math-where">D<sub>mod</sub> is modified duration in years; dy is the change in yield as a decimal (1% = 0.01)</span>
+        </div>
+
+        <p>Read that formula in English: <em>"a one-percent rise in yield causes roughly a D-percent fall in price."</em> A bond with a modified duration of 17 loses about 17% when yields rise 1%. A bond with a modified duration of 2 loses about 2%. Same formula, vastly different consequences, depending on the duration number.</p>
+
+        <p>The two definitions are linked by: D<sub>mod</sub> = D<sub>Macaulay</sub> &divide; (1 + y). For the yields we care about, the difference is small. When somebody says "duration" without qualification, they mean modified.</p>
+
+        <p>So duration is the bond's price-sensitivity to yield, with units of <em>years</em>, and it doubles as a rough indicator of how far in the future the bond's cash flows sit. A 30-year coupon Treasury at 4% has a modified duration of about <strong>17 years</strong>. A 2-year coupon Treasury at 4% has a modified duration of about <strong>1.9 years</strong>. Multiply by a 1% yield move and you get the price impact: ~17% on the long, ~1.9% on the short. That is the answer to Widget 1.</p>
+
+        <p>Geometrically, duration is the <em>slope of the price-yield curve</em> at the current yield, scaled by price. Move the yield a little; the price moves by that slope, times the yield change. The widget below makes that slope visible: drag yield, watch the price-yield curve's tangent at the dot. The slope <em>is</em> the duration.</p>
+
+        <!-- Widget 2: Duration as tangent slope -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Duration Is The Slope</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="duration-readout">
+            <div class="dur-cell"><div class="dc-label">Price</div><div class="dc-value" id="w2-price">&mdash;</div></div>
+            <div class="dur-cell"><div class="dc-label">Modified duration</div><div class="dc-value" id="w2-dur">&mdash;</div></div>
+            <div class="dur-cell"><div class="dc-label">+1% yield &rArr;</div><div class="dc-value" id="w2-est">&mdash;</div></div>
+          </div>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Maturity</span><span class="slider-value" id="w2-n-val">10 yr</span></div>
+              <input type="range" id="w2-n" min="1" max="30" value="10" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Market yield</span><span class="slider-value" id="w2-y-val">4.00%</span></div>
+              <input type="range" id="w2-y" min="100" max="900" value="400" step="5">
+            </div>
+          </div>
+          <p class="widget-hint">The dashed line is the tangent to the price-yield curve at your current yield. Its slope, divided by price, is modified duration. Stretch the maturity to 30 and watch the slope steepen sharply &mdash; that&rsquo;s the long end&rsquo;s rate sensitivity made visible.</p>
+        </div>
+
+        <p>Two things to notice as you drag. First, at low yields and long maturities the curve is dramatically steeper &mdash; duration is bigger when yields are lower, which is exactly the regime we've been in for fifteen years. Second, "+1% yield &rArr;" shows the duration-implied price after a 100bp rise. For a 30-year at 4%, that's a drop of about 17 dollars on a $100 bond. The petrodollar series is, at root, a series about that 17 dollars.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Why does a 30-year get destroyed when a 2-year barely moves?
+         ============================================================ -->
+    <section class="reveal" id="v-asymmetry">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>Why does a 30-year get destroyed when a 2-year barely moves?</h2>
+      </div>
+      <div class="section-content">
+        <p>The mechanical answer is hiding in the discount formula. Re-examine the present value of a single cash flow:</p>
+
+        <div class="math-block">
+          PV(CF<sub>t</sub>) = CF<sub>t</sub> &divide; (1 + y)<sup>t</sup>
+          <span class="math-where">t is the number of years until the cash flow arrives</span>
+        </div>
+
+        <p>If yield rises by 1 percentage point &mdash; from 4% to 5% &mdash; the denominator for a cash flow at year <em>t</em> grows by a factor of (1.05/1.04)<sup>t</sup>. For <em>t</em> = 1, that's a factor of 1.0096 &mdash; the PV shrinks by less than 1%. For <em>t</em> = 30, the factor is 1.328 &mdash; the PV of that distant cash flow shrinks by about 25%.</p>
+
+        <p>The repricing compounds with time. Every additional year between now and the cash flow gets its own multiplicative discount-rate hit. A 30-year bond has all its principal sitting thirty years out, fully exposed to that compounded hit. A 2-year bond has its principal arriving in 24 months &mdash; the same yield move barely touches it because there's almost nothing to compound over.</p>
+
+        <p>This is why the long end of the curve does the political work in any bond-market crisis. When commentators say &ldquo;the market is forcing a fiscal reckoning,&rdquo; they mean: the 30-year is dropping faster than the Treasury can swap out its short-term bills. Bessent's recent fixation on the 10-year specifically &mdash; he has said publicly he is &ldquo;focused on the 10-year Treasury&rdquo; &mdash; is the political acknowledgment that the long end is the pressure point<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the US Treasury duration is shorter than you think</summary>
+          <p>The <em>average maturity</em> of US federal debt is around 6 years &mdash; much shorter than the 30-year bond's 17-year duration suggests. The Treasury funds itself heavily in bills (under 1 year) and 2-to-7-year notes, partly because they're easier to sell and partly because their duration is shorter so they show less price volatility on the Fed's balance sheet.</p>
+          <p>But this is a double-edged sword. Short funding means low duration risk on each bond, but it means the Treasury is constantly rolling over &mdash; if yields stay high for years, every refinancing happens at the new higher rate. That's how the 1% &rArr; $3.2T figure compounds: not because every existing bond is hit, but because the Treasury keeps issuing into the higher curve.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. When does the duration model break?
+         ============================================================ -->
+    <section class="reveal" id="vi-convexity">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>When does the duration model break?</h2>
+      </div>
+      <div class="section-content">
+        <p>Duration is a <em>linear approximation</em>. It is the first derivative of the price-yield curve at the current yield. Linear approximations are very good in a neighbourhood and progressively worse as you move away from the anchor point. Bond price-yield curves are not lines; they are <em>convex</em> &mdash; they curve upward as yield falls and the price rises, and curve more gently as yield rises and the price falls.</p>
+
+        <p>The practical consequence is that duration <em>overestimates</em> the price loss when yields rise and <em>underestimates</em> the price gain when yields fall. Both errors favour the bondholder. Convexity is a free lunch.</p>
+
+        <!-- Widget 3: Convexity gap -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Where Duration Lies</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 320px;"></canvas>
+          <div class="slider-group">
+            <div class="slider-label"><span>Yield move from 4% anchor</span><span class="slider-value" id="w3-dy-val">+100 bp</span></div>
+            <input type="range" id="w3-dy" min="-300" max="300" value="100" step="10">
+          </div>
+          <div class="duration-readout">
+            <div class="dur-cell"><div class="dc-label">True price</div><div class="dc-value" id="w3-true">&mdash;</div></div>
+            <div class="dur-cell"><div class="dc-label">Duration estimate</div><div class="dc-value" id="w3-lin">&mdash;</div></div>
+            <div class="dur-cell"><div class="dc-label">Convexity gap</div><div class="dc-value" id="w3-gap">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Solid curve is the true 30-year bond price. Dashed line is the duration-only approximation tangent at 4%. Push the yield move past &plusmn;200&nbsp;bp and watch the gap open up &mdash; that gap is convexity, and it&rsquo;s always in the bondholder&rsquo;s favour.</p>
+        </div>
+
+        <p>For ordinary moves of 25&ndash;50 basis points, duration is plenty. For a sustained regime change of 200&ndash;300 basis points &mdash; the kind of move long bonds have actually made since the 2020 lows &mdash; convexity matters enough that traders quote it as a second number alongside duration. The full second-order Taylor expansion is:</p>
+
+        <div class="math-block">
+          dP &divide; P &nbsp;&asymp;&nbsp; &minus; D<sub>mod</sub> &middot; dy &nbsp;+&nbsp; &frac12; &middot; C &middot; (dy)<sup>2</sup>
+          <span class="math-where">C is convexity; the second term is always positive, hence the bondholder&rsquo;s edge</span>
+        </div>
+
+        <p>For the rest of this series &mdash; and most macro discussion in 2026 &mdash; duration alone is the right tool. The price-y arithmetic is dominated by the first-order term. Convexity is the rounding error you only care about at extremes.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. What does this cost the US Treasury?
+         ============================================================ -->
+    <section class="reveal" id="vii-treasury">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>What does this cost the US Treasury?</h2>
+      </div>
+      <div class="section-content">
+        <p>Time to land the napkin.</p>
+
+        <p>The US has about <strong>$39 trillion</strong> in federal debt outstanding, of which roughly <strong>$28 trillion is held by the public</strong> (the rest is intra-government accounting). The CBO publishes a clean sensitivity number: a sustained <strong>100 basis point</strong> rise across the curve raises debt service by <strong>roughly $3.2 trillion</strong> over the ten-year projection window<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. That is not a duration calculation on the existing stock; it is the compounded cost of issuing into a higher curve as the Treasury rolls and adds new debt.</p>
+
+        <p>The current ACM model estimate of the 10-year term premium is roughly <strong>+0.68%</strong> as of April 2026 &mdash; the first sustained positive reading since 2023, and roughly 80 basis points above the deeply negative levels of the QE era<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. That <em>one factor alone</em> &mdash; just the rebuilding of term premium &mdash; has shifted the long end about as far as the CBO's +100 bp sensitivity scenario contemplates. The 10-year cost of that re-rating, on the CBO's arithmetic, is on the order of $2.5 trillion in net present value.</p>
+
+        <p>This is why every Treasury Secretary speech now mentions the long end. It is why Yellen herself raised fiscal dominance at the AEA in January. It is why Bessent's $20 billion swap line to the UAE in April reads as financial-plumbing diplomacy, not foreign policy. The bond-market arithmetic has become the operating constraint on US fiscal policy.</p>
+
+        <p>You came in to understand why a TV chyron about &ldquo;the 30-year hitting 5%&rdquo; matters. You leave with the napkin:</p>
+
+        <blockquote>
+          <p><strong>Yield up by &Delta;y. Price down by roughly D &times; &Delta;y. Multiply by debt outstanding for the dollar cost. Multiply by ten years for the Treasury's roll-and-pay arithmetic.</strong></p>
+        </blockquote>
+
+        <p>That's it. That's the whole napkin. Now we can go look at <em>why</em> the curve is moving &mdash; reserve-currency mechanics, balance-of-payments identities, the 1974 deal, the recycling loop, the basis trade replacing foreign central banks, the term-premium repricing &mdash; and at every step in the next eight articles, you'll be able to translate &ldquo;the 30-year did X&rdquo; into &ldquo;the Treasury owes Y more.&rdquo;</p>
+
+        <p>That translation is the whole game.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Japan's 30-year JGB yield hit a record high in mid-May 2026 amid the synchronised developed-market long-end repricing reported by CNBC, &ldquo;Treasury yields and the global bond rout&rdquo; (18 May 2026). The bond was first issued in 1999 and yielded around 2.5% at issuance; the May 2026 print is the highest since the instrument existed. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">CBO Budget Outlook (FY2026): federal debt held by the public ~$28T, total federal debt ~$39T; net interest expense projected at ~$1T in FY2026 (~19% of federal revenue). The sensitivity figure &mdash; a sustained +100 bp shift in the entire curve adding roughly $3.2T to cumulative debt service over ten years &mdash; appears in the CBO's standard alternative-rate scenario tables. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Treasury Secretary Scott Bessent stated publicly in 2025 and again in early 2026 that policy is &ldquo;focused on the 10-year Treasury,&rdquo; reflecting that the long end &mdash; not the policy rate &mdash; is the binding political constraint. The 10-year is also the benchmark for mortgages and corporate bonds, so it has macro reach beyond the federal balance sheet. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">The Adrian-Crump-Moench (ACM) term premium estimate published by the New York Fed is a model decomposition of Treasury yields into expected short-rate path and term premium. As of April 24, 2026, the 10-year term premium reads ~+0.68% &mdash; the first sustained positive reading since 2023. During 2020&ndash;2021 QE the ACM 10-year term premium was as deeply negative as &minus;80 to &minus;100 bp. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Bond math helpers (shared by widgets 1, 2, 3)
+       ============================================================ -->
+  <script>
+    // bondPrice: price per $100 face for a semi-annual coupon bond.
+    //   couponPct: annual coupon rate in percent (e.g. 4 for 4%)
+    //   yPct:      annual yield in percent
+    //   nYears:    years to maturity
+    // Returns price in dollars per $100 face.
+    function bondPrice(couponPct, yPct, nYears) {
+      var c = couponPct / 100 / 2;      // semi-annual coupon as a fraction of face
+      var y = yPct / 100 / 2;           // semi-annual yield as a fraction
+      var n = Math.round(nYears * 2);   // number of semi-annual periods
+      if (y === 0) return 100 * (1 + couponPct / 100 * nYears);
+      var coupon = 100 * c;
+      var pv = 0;
+      for (var k = 1; k <= n; k++) {
+        pv += coupon / Math.pow(1 + y, k);
+      }
+      pv += 100 / Math.pow(1 + y, n);
+      return pv;
+    }
+
+    // modifiedDuration: numerical derivative of price wrt yield, divided by price.
+    //   Returns duration in years.
+    function modifiedDuration(couponPct, yPct, nYears) {
+      var bump = 0.01;  // 1 bp in percent terms
+      var p0 = bondPrice(couponPct, yPct, nYears);
+      var pUp = bondPrice(couponPct, yPct + bump, nYears);
+      var pDn = bondPrice(couponPct, yPct - bump, nYears);
+      // central difference: dP / dy in units of $ per (yield in percent)
+      var dPdyPct = (pUp - pDn) / (2 * bump);
+      // convert to dP/dy in units of $ per (yield in decimal): multiply by 100
+      var dPdy = dPdyPct * 100;
+      // modified duration = -1/P * dP/dy   (in years)
+      return -dPdy / p0;
+    }
+  </script>
+
+  <!-- ============================================================
+       Widget 1 — Two-bond crash test
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w1-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      var COUPON = 4;
+      var yRange = { min: 2, max: 8 };
+      var pRange = { min: 50, max: 130 };
+
+      function curvePoints(nYears) {
+        var pts = [];
+        for (var yPct = yRange.min; yPct <= yRange.max + 0.001; yPct += 0.05) {
+          pts.push({ y: yPct, p: bondPrice(COUPON, yPct, nYears) });
+        }
+        return pts;
+      }
+
+      function redraw(yPct) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 20, right: 18, bottom: 36, left: 50 },
+          xLabels: ['2%', '3%', '4%', '5%', '6%', '7%', '8%'],
+          yMin: pRange.min, yMax: pRange.max, ySteps: 4,
+          yFmt: function(v) { return '$' + v.toFixed(0); }
+        });
+
+        var toX = function(v) { return mapX(v, yRange.min, yRange.max, w, pad); };
+        var toY = function(v) { return mapY(v, pRange.min, pRange.max, h, pad); };
+
+        // Axis title labels
+        drawTextCanvas(ctx, w / 2, h - 4, 'Market yield', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // 30-year curve (accent)
+        var c30 = curvePoints(30).map(function(pt) { return { x: toX(pt.y), y: toY(pt.p) }; });
+        drawLineCanvas(ctx, c30, { color: 'var(--accent)', width: 2.4 });
+        // 2-year curve (secondary tone)
+        var c2 = curvePoints(2).map(function(pt) { return { x: toX(pt.y), y: toY(pt.p) }; });
+        drawLineCanvas(ctx, c2, { color: '#a0aec0', width: 2.4 });
+
+        // Vertical yield cursor
+        var xCur = toX(yPct);
+        drawLineCanvas(ctx, [{ x: xCur, y: pad.top }, { x: xCur, y: h - pad.bottom }],
+          { color: 'var(--text-secondary)', width: 1, dashed: [4, 4] });
+
+        // Current dots + price labels
+        var p2 = bondPrice(COUPON, yPct, 2);
+        var p30 = bondPrice(COUPON, yPct, 30);
+        var y2y = toY(Math.min(Math.max(p2, pRange.min), pRange.max));
+        var y30y = toY(Math.min(Math.max(p30, pRange.min), pRange.max));
+        drawPointCanvas(ctx, xCur, y2y, 5, '#a0aec0', '#fff');
+        drawPointCanvas(ctx, xCur, y30y, 5, 'var(--accent)', '#fff');
+
+        // Legend (top-right)
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 8,
+          '— 30-year',
+          { fontSize: 11.5, color: 'var(--accent)', align: 'right', weight: '600' });
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 24,
+          '— 2-year',
+          { fontSize: 11.5, color: '#718096', align: 'right', weight: '600' });
+
+        // Update DOM readouts
+        function fmtDelta(p) {
+          var d = p - 100;
+          var pct = d;  // d% off par
+          var sign = d > 0 ? '+' : '';
+          if (Math.abs(d) < 0.05) return 'at par';
+          return sign + d.toFixed(1) + '% from par';
+        }
+        function deltaClass(p) {
+          var d = p - 100;
+          if (Math.abs(d) < 0.05) return '';
+          return d < 0 ? 'is-loss' : 'is-gain';
+        }
+        var el2p = document.getElementById('w1-2y-price');
+        var el2d = document.getElementById('w1-2y-delta');
+        var el30p = document.getElementById('w1-30y-price');
+        var el30d = document.getElementById('w1-30y-delta');
+        el2p.textContent = '$' + p2.toFixed(2);
+        el2d.textContent = fmtDelta(p2);
+        el2d.className = 'bc-delta ' + deltaClass(p2);
+        el30p.textContent = '$' + p30.toFixed(2);
+        el30d.textContent = fmtDelta(p30);
+        el30d.className = 'bc-delta ' + deltaClass(p30);
+      }
+
+      attachSliders([
+        { el: document.getElementById('w1-y'),
+          label: document.getElementById('w1-y-val'),
+          format: function(v) { return (v / 100).toFixed(2) + '%'; } }
+      ], function(values) {
+        var yPct = values['w1-y'] / 100;
+        redraw(yPct);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — Duration as tangent slope
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w2-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      var COUPON = 4;
+      var yRange = { min: 1, max: 9 };
+
+      function priceRangeFor(nYears) {
+        // Dynamic y-axis so the curve is well-framed at any maturity.
+        var lo = bondPrice(COUPON, yRange.max, nYears);
+        var hi = bondPrice(COUPON, yRange.min, nYears);
+        // Pad
+        var span = hi - lo;
+        return { min: Math.max(0, lo - span * 0.08), max: hi + span * 0.08 };
+      }
+
+      function curvePoints(nYears) {
+        var pts = [];
+        for (var yPct = yRange.min; yPct <= yRange.max + 0.001; yPct += 0.05) {
+          pts.push({ y: yPct, p: bondPrice(COUPON, yPct, nYears) });
+        }
+        return pts;
+      }
+
+      function redraw(nYears, yPct) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var prng = priceRangeFor(nYears);
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 20, right: 18, bottom: 36, left: 60 },
+          xLabels: ['1%', '2%', '3%', '4%', '5%', '6%', '7%', '8%', '9%'],
+          yMin: prng.min, yMax: prng.max, ySteps: 4,
+          yFmt: function(v) { return '$' + v.toFixed(0); }
+        });
+
+        var toX = function(v) { return mapX(v, yRange.min, yRange.max, w, pad); };
+        var toY = function(v) { return mapY(v, prng.min, prng.max, h, pad); };
+
+        drawTextCanvas(ctx, w / 2, h - 4, 'Market yield', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // Price-yield curve
+        var pts = curvePoints(nYears).map(function(pt) { return { x: toX(pt.y), y: toY(pt.p) }; });
+        drawLineCanvas(ctx, pts, { color: 'var(--accent)', width: 2.4 });
+
+        // Current point + tangent line
+        var price = bondPrice(COUPON, yPct, nYears);
+        var dur = modifiedDuration(COUPON, yPct, nYears);
+        // slope in price vs yield-in-percent units = dP/d(y in pct) = -duration * price / 100
+        var slopePerPct = -dur * price / 100;
+        // Draw tangent across the visible yield range
+        var dyLeft = yRange.min - yPct;
+        var dyRight = yRange.max - yPct;
+        var pLeft = price + slopePerPct * dyLeft;
+        var pRight = price + slopePerPct * dyRight;
+        // Clamp so the dashed tangent doesn't escape the plot
+        function clampPair(yY, pY) {
+          if (pY < prng.min) {
+            var t = (prng.min - price) / (slopePerPct === 0 ? 1 : slopePerPct);
+            return { y: yPct + t, p: prng.min };
+          }
+          if (pY > prng.max) {
+            var t2 = (prng.max - price) / (slopePerPct === 0 ? 1 : slopePerPct);
+            return { y: yPct + t2, p: prng.max };
+          }
+          return { y: yY, p: pY };
+        }
+        var L = clampPair(yRange.min, pLeft);
+        var R = clampPair(yRange.max, pRight);
+        drawLineCanvas(ctx,
+          [{ x: toX(L.y), y: toY(L.p) }, { x: toX(R.y), y: toY(R.p) }],
+          { color: '#9b2c2c', width: 1.5, dashed: [6, 5] });
+
+        // Dot
+        drawPointCanvas(ctx, toX(yPct), toY(price), 6, 'var(--accent)', '#fff');
+
+        // Legend
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 8,
+          '— price–yield curve', { fontSize: 11.5, color: 'var(--accent)', align: 'right', weight: '600' });
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 24,
+          '— tangent (duration)', { fontSize: 11.5, color: '#9b2c2c', align: 'right', weight: '600' });
+
+        // Update DOM
+        var elP = document.getElementById('w2-price');
+        var elD = document.getElementById('w2-dur');
+        var elE = document.getElementById('w2-est');
+        elP.textContent = '$' + price.toFixed(2);
+        elD.textContent = dur.toFixed(2) + ' yr';
+        var est = price * (1 - dur * 0.01);
+        elE.textContent = '$' + est.toFixed(2);
+      }
+
+      attachSliders([
+        { el: document.getElementById('w2-n'),
+          label: document.getElementById('w2-n-val'),
+          format: function(v) { return v + ' yr'; } },
+        { el: document.getElementById('w2-y'),
+          label: document.getElementById('w2-y-val'),
+          format: function(v) { return (v / 100).toFixed(2) + '%'; } }
+      ], function(values) {
+        var nYears = values['w2-n'];
+        var yPct = values['w2-y'] / 100;
+        redraw(nYears, yPct);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 3 — Convexity gap (30-year bond, anchor at 4%)
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w3-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      var COUPON = 4;
+      var N_YEARS = 30;
+      var ANCHOR_Y = 4.0;
+      var yRange = { min: 1, max: 7 };
+
+      function curvePoints() {
+        var pts = [];
+        for (var yPct = yRange.min; yPct <= yRange.max + 0.001; yPct += 0.05) {
+          pts.push({ y: yPct, p: bondPrice(COUPON, yPct, N_YEARS) });
+        }
+        return pts;
+      }
+
+      var anchorPrice = bondPrice(COUPON, ANCHOR_Y, N_YEARS);
+      var anchorDur = modifiedDuration(COUPON, ANCHOR_Y, N_YEARS);
+      // tangent slope in price-per-percent of yield
+      var slopePerPct = -anchorDur * anchorPrice / 100;
+
+      function redraw(dyBp) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        // Dynamic price range covering the curve
+        var pLo = bondPrice(COUPON, yRange.max, N_YEARS) - 6;
+        var pHi = bondPrice(COUPON, yRange.min, N_YEARS) + 6;
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 20, right: 18, bottom: 36, left: 60 },
+          xLabels: ['1%', '2%', '3%', '4%', '5%', '6%', '7%'],
+          yMin: pLo, yMax: pHi, ySteps: 4,
+          yFmt: function(v) { return '$' + v.toFixed(0); }
+        });
+
+        var toX = function(v) { return mapX(v, yRange.min, yRange.max, w, pad); };
+        var toY = function(v) { return mapY(v, pLo, pHi, h, pad); };
+
+        drawTextCanvas(ctx, w / 2, h - 4, 'Market yield', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // True curve
+        var pts = curvePoints().map(function(pt) { return { x: toX(pt.y), y: toY(pt.p) }; });
+        drawLineCanvas(ctx, pts, { color: 'var(--accent)', width: 2.4 });
+
+        // Linear tangent through anchor
+        var linL = { y: yRange.min, p: anchorPrice + slopePerPct * (yRange.min - ANCHOR_Y) };
+        var linR = { y: yRange.max, p: anchorPrice + slopePerPct * (yRange.max - ANCHOR_Y) };
+        drawLineCanvas(ctx,
+          [{ x: toX(linL.y), y: toY(linL.p) }, { x: toX(linR.y), y: toY(linR.p) }],
+          { color: '#9b2c2c', width: 1.5, dashed: [6, 5] });
+
+        // Anchor dot
+        drawPointCanvas(ctx, toX(ANCHOR_Y), toY(anchorPrice), 4, 'var(--text-secondary)', '#fff');
+
+        // Current yield position
+        var curY = ANCHOR_Y + dyBp / 100;
+        if (curY < yRange.min) curY = yRange.min;
+        if (curY > yRange.max) curY = yRange.max;
+        var truePrice = bondPrice(COUPON, curY, N_YEARS);
+        var linPrice = anchorPrice + slopePerPct * (curY - ANCHOR_Y);
+
+        // Vertical cursor
+        drawLineCanvas(ctx,
+          [{ x: toX(curY), y: pad.top }, { x: toX(curY), y: h - pad.bottom }],
+          { color: 'var(--text-secondary)', width: 1, dashed: [3, 4] });
+
+        // Dots at true price and linear estimate
+        drawPointCanvas(ctx, toX(curY), toY(truePrice), 6, 'var(--accent)', '#fff');
+        drawPointCanvas(ctx, toX(curY), toY(Math.max(pLo, Math.min(pHi, linPrice))), 5, '#9b2c2c', '#fff');
+
+        // Legend
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 8,
+          '— true price', { fontSize: 11.5, color: 'var(--accent)', align: 'right', weight: '600' });
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 24,
+          '— duration only', { fontSize: 11.5, color: '#9b2c2c', align: 'right', weight: '600' });
+
+        // Update DOM
+        var elT = document.getElementById('w3-true');
+        var elL = document.getElementById('w3-lin');
+        var elG = document.getElementById('w3-gap');
+        elT.textContent = '$' + truePrice.toFixed(2);
+        elL.textContent = '$' + linPrice.toFixed(2);
+        var gap = truePrice - linPrice;
+        var gapSign = gap >= 0 ? '+' : '';
+        elG.textContent = gapSign + '$' + gap.toFixed(2);
+      }
+
+      attachSliders([
+        { el: document.getElementById('w3-dy'),
+          label: document.getElementById('w3-dy-val'),
+          format: function(v) { return (v > 0 ? '+' : '') + v + ' bp'; } }
+      ], function(values) {
+        redraw(values['w3-dy']);
+      });
+    })();
+  </script>
+
+</body>
+</html>
