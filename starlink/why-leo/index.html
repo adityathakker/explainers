@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why LEO, Not GEO — Starlink Explainers</title>
+  <meta name="description" content="3 GEO satellites seem to win. Then physics gets a vote — latency, link budget, and launch economics make 4,000+ LEO satellites the only answer.">
+  <meta name="author" content="Starlink Explainers">
+
+  <meta property="og:title" content="Why LEO, Not GEO">
+  <meta property="og:description" content="3 GEO satellites seem to win. Then physics gets a vote.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #1a202c;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%); }
+
+    /* Widget-specific layout */
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    .widget-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 540px) {
+      .widget-row, .widget-row.three { grid-template-columns: 1fr; }
+    }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .readout-sub {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .toggle-group {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      margin: 8px 0 14px;
+      flex-wrap: wrap;
+    }
+    .toggle-group button {
+      background: none;
+      border: none;
+      padding: 7px 14px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+    }
+    .toggle-group button:last-child { border-right: none; }
+    .toggle-group button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Starlink Explainers
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Why LEO, Not GEO</h1>
+      <p class="hero__subtitle">3 satellites at GEO would seem to win. Then physics gets a vote &mdash; latency, link budget, and launch economics make 4,000+ LEO satellites the only answer.</p>
+      <p class="hero__meta">9 chapters &middot; 3 simulations &middot; 25 min read</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-puzzle">Why is "just use GEO" the wrong answer?</a></li>
+        <li><a href="#ii-latency">What does altitude do to latency?</a></li>
+        <li><a href="#iii-footprint">What does altitude do to coverage?</a></li>
+        <li><a href="#iv-count">How many satellites do you need for global coverage?</a></li>
+        <li><a href="#v-launch">What does altitude do to launch energy?</a></li>
+        <li><a href="#vi-link-budget">What does altitude do to the RF link budget?</a></li>
+        <li><a href="#vii-terminal">What does altitude do to the user terminal?</a></li>
+        <li><a href="#viii-history">Why didn't anyone do this in 1998?</a></li>
+        <li><a href="#ix-decision">The actual decision matrix</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <!-- ============================================================
+         I. The puzzle
+         ============================================================ -->
+    <section class="reveal" id="i-puzzle">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why is "just use GEO" the wrong answer?</h2>
+      </div>
+      <div class="section-content">
+        <p>The engineering brief, stripped down: cover the planet with broadband internet from space. The first sensible answer is geostationary orbit. Park three satellites at 35,786 km on the equator, 120&deg; apart. The geometry is famous &mdash; one of Arthur C. Clarke's better-known calculations from 1945. The orbital period matches Earth's rotation, the satellites appear motionless from the ground, dish antennas can be screwed to a roof and never moved. HughesNet and Viasat do exactly this. The infrastructure is well understood and the satellite count is small.</p>
+
+        <p>Starlink does the opposite. As of 2025 there are roughly 7,000 active Starlink satellites in low Earth orbit at altitudes between 540 and 570 km. The constellation is still being built; the licensed final figure is around 12,000, with FCC paperwork for up to 42,000. Each satellite weighs about 800 kg and lasts roughly five years before deorbiting. Compared to the three-satellite GEO solution, this looks insane.</p>
+
+        <p>It isn't. The decision falls out of physics &mdash; specifically the interaction between four variables that GEO loses on, individually and in combination: <strong>latency</strong>, <strong>link budget</strong>, <strong>capacity</strong>, and <strong>per-bit launch cost</strong>. None of these are negotiable. They are properties of the speed of light, the inverse-square law, and the rocket equation. Starlink is not a clever business plan that happens to use LEO; it is the first satellite system whose design accepts what the physics has been saying for thirty years.</p>
+
+        <p>This article walks through each constraint and shows how it forces the answer. There are three widgets along the way. The math is shown. The trade-offs are made explicit. At the end, you should be able to tell a friend exactly why GEO loses, and why 4,000 satellites is not a stretch goal but the floor.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Latency
+         ============================================================ -->
+    <section class="reveal" id="ii-latency">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What does altitude do to latency?</h2>
+      </div>
+      <div class="section-content">
+        <p>The speed of light in vacuum is exactly 299,792,458 m/s. A radio signal cannot travel faster. Every meter of separation between the user and the satellite is one-third of a nanosecond of round-trip time, and you cannot buy your way out of it. This is the first thing GEO loses on.</p>
+
+        <p>One-way latency, ground to satellite to ground (Earth station back to ground via the same satellite), is:</p>
+
+        <div class="math-block">
+          t<sub>1-way</sub> = 2 &times; h / c
+          <span class="math-where">h = orbital altitude above ground; c = speed of light; ignores ground-network hops</span>
+        </div>
+
+        <p>Round-trip time (RTT), which is what a TCP handshake or a voice call actually feels, is twice that. Run the numbers for the canonical orbits:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Orbit</th><th>Altitude</th><th>One-way</th><th>RTT</th><th>Use case</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>LEO (Starlink)</td><td class="num">550 km</td><td class="num">3.7 ms</td><td class="num">7 ms</td><td>Gaming, voice, real-time</td></tr>
+            <tr><td>LEO (deeper)</td><td class="num">1,200 km</td><td class="num">8 ms</td><td class="num">16 ms</td><td>Broadband, marginal for voice</td></tr>
+            <tr><td>MEO (GPS)</td><td class="num">20,200 km</td><td class="num">135 ms</td><td class="num">270 ms</td><td>Navigation; useless for interactive</td></tr>
+            <tr><td>GEO (HughesNet)</td><td class="num">35,786 km</td><td class="num">239 ms</td><td class="num">478 ms</td><td>Streaming; broken for VoIP/gaming</td></tr>
+          </tbody>
+        </table>
+
+        <p>For context: a typical cross-continent fibre link runs around 50&ndash;80 ms RTT. A web page that needs three sequential round-trips (DNS, TLS, HTTP) opens in roughly 250 ms over fibre. The same page over GEO needs three 480-ms round-trips &mdash; one and a half seconds of pure waiting before the first byte even arrives. Voice over IP requires sub-200&nbsp;ms RTT to feel natural; humans start hearing the round-trip as awkward pauses above 300 ms. GEO is over double the limit.</p>
+
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Altitude &rarr; Round-Trip Latency</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Orbital altitude</span><span class="slider-value" id="w1-h-val">550 km</span></div>
+              <input type="range" id="w1-h" min="200" max="40000" value="550" step="50">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Slant range factor</span><span class="slider-value" id="w1-slant-val">1.0&times;</span></div>
+              <input type="range" id="w1-slant" min="1.0" max="2.5" value="1.0" step="0.05">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">One-way</div><div class="readout-value" id="w1-oneway">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">RTT</div><div class="readout-value" id="w1-rtt">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Verdict</div><div class="readout-value" id="w1-verdict" style="font-size:13px;">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Drag altitude from LEO (550 km) all the way to GEO (35,786 km). Notice the verdict flip from "real-time" to "broken for voice" around 1,500 km &mdash; that's the latency wall. Slant-range factor adjusts for satellites not directly overhead (a satellite at the horizon is &radic;2&times; farther than one at zenith).</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the slant range matters more than you'd think</summary>
+          <p>The latency math above assumes the satellite is directly overhead. In practice the user terminal sees the satellite at some elevation angle &epsilon;, and the actual line-of-sight distance (slant range) is longer than the orbital altitude.</p>
+          <p>For a satellite at zenith, slant range = altitude. For a satellite at the horizon (&epsilon; = 0&deg;), slant range can be 1.6&ndash;2&times; the altitude for LEO orbits, because the geometry is now a long chord rather than a straight up-and-down. Starlink's user terminals are designed to refuse satellites below ~25&deg; elevation, partly to keep slant range bounded and partly to avoid blocking by trees and buildings. That elevation-floor decision flows directly from this geometry.</p>
+        </details>
+
+        <p>The latency gap is not just "GEO is slower." For interactive use, GEO is broken. You can stream Netflix over GEO because Netflix is one-way and pre-buffered &mdash; the protocol hides the round-trip. You cannot Zoom over GEO. You cannot play any real-time game. You cannot do TLS in any reasonable time. Any product that needs to be interactive is structurally excluded from the GEO satellite market, no matter how cheap the bandwidth gets.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Coverage / footprint
+         ============================================================ -->
+    <section class="reveal" id="iii-footprint">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>What does altitude do to coverage?</h2>
+      </div>
+      <div class="section-content">
+        <p>If GEO loses on latency, surely it wins on coverage? It does &mdash; for a single satellite. The math is geometric. A satellite at altitude <span class="math">h</span> can serve every point on the Earth's surface from which its elevation angle is above some minimum <span class="math">&epsilon;<sub>min</sub></span> (the user terminal won't talk to satellites near the horizon because of atmospheric absorption, multipath, and obstruction). The satellite's <strong>footprint</strong> is the spherical cap of Earth's surface that satisfies this.</p>
+
+        <p>Walking the geometry: let <span class="math">R</span> = Earth radius (6,378 km), <span class="math">h</span> = altitude, and <span class="math">&epsilon;<sub>min</sub></span> = minimum elevation angle. The angular radius of the footprint (measured from Earth's centre) is:</p>
+
+        <div class="math-block">
+          &theta; = acos[ R &middot; cos(&epsilon;<sub>min</sub>) / (R + h) ] &minus; &epsilon;<sub>min</sub>
+          <span class="math-where">law of sines applied to the ground-station / satellite / Earth-centre triangle</span>
+        </div>
+
+        <p>And the footprint area, as a fraction of Earth's total surface, is:</p>
+
+        <div class="math-block">
+          A<sub>footprint</sub> / A<sub>Earth</sub> = (1 &minus; cos&theta;) / 2
+          <span class="math-where">surface area of a spherical cap formula</span>
+        </div>
+
+        <p>Plug in the canonical orbits with a typical &epsilon;<sub>min</sub> = 25&deg;:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Orbit</th><th>Altitude</th><th>Footprint radius</th><th>Footprint area</th><th>% of Earth</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Starlink LEO</td><td class="num">550 km</td><td class="num">~940 km</td><td class="num">~2.8 M km²</td><td class="num">0.55%</td></tr>
+            <tr><td>Deep LEO</td><td class="num">1,200 km</td><td class="num">~1,700 km</td><td class="num">~8.7 M km²</td><td class="num">1.7%</td></tr>
+            <tr><td>MEO (GPS)</td><td class="num">20,200 km</td><td class="num">~6,800 km</td><td class="num">~110 M km²</td><td class="num">21.5%</td></tr>
+            <tr><td>GEO</td><td class="num">35,786 km</td><td class="num">~7,500 km</td><td class="num">~144 M km²</td><td class="num">28.2%</td></tr>
+          </tbody>
+        </table>
+
+        <p>A GEO satellite is genuinely majestic per-bird: one satellite illuminates over a quarter of the Earth's surface. A LEO satellite illuminates about half a percent. The ratio is roughly 50&times;.</p>
+
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Beam Footprint Geometry</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Altitude</span><span class="slider-value" id="w2-h-val">550 km</span></div>
+              <input type="range" id="w2-h" min="200" max="40000" value="550" step="50">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Min elevation angle</span><span class="slider-value" id="w2-elev-val">25&deg;</span></div>
+              <input type="range" id="w2-elev" min="0" max="60" value="25" step="1">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Footprint radius</div><div class="readout-value" id="w2-radius">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Footprint area</div><div class="readout-value" id="w2-area">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">% of Earth</div><div class="readout-value" id="w2-pct">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">The Earth-and-satellite cross-section. Push altitude up: footprint grows. Push elevation-angle up: footprint shrinks (you're refusing to talk to satellites near the horizon). At 0&deg; elevation, GEO covers 42% of Earth &mdash; but the slant range becomes absurd.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; coverage isn't the same as capacity</summary>
+          <p>One GEO satellite covers 30&times; the area of one LEO satellite. That is a per-satellite coverage advantage, not a per-user capacity advantage. Every user in that gigantic footprint shares the satellite's total downlink &mdash; tens of Gbps split across millions of potential customers, even if only a fraction are online at any moment.</p>
+          <p>This is the real reason GEO broadband providers like HughesNet are capped at 25 Mbps with data caps and high jitter. Their satellites are oversold by physics. Starlink can sell each customer 100&ndash;200 Mbps with no cap because each satellite is shared by far fewer simultaneous users (tens of thousands per satellite, vs millions for a GEO bird). Coverage is necessary but not sufficient; the metric that actually matters is bandwidth-per-user, and on that metric LEO with thousands of satellites trounces GEO with three.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Constellation size
+         ============================================================ -->
+    <section class="reveal" id="iv-count">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>How many satellites do you need for global coverage?</h2>
+      </div>
+      <div class="section-content">
+        <p>If one LEO satellite covers 0.55% of Earth's surface, the naive answer is 1 / 0.0055 &asymp; 182 satellites for full coverage. The actual answer is higher, for three reasons. First, the satellites have to be distributed in <em>orbits</em> &mdash; you can't just place them on a sphere. Second, you need redundancy: any point on Earth should see <em>multiple</em> satellites at acceptable elevation, because (a) handoffs need an overlap window, and (b) one satellite is the bottleneck that determines the local capacity. Third, the polar caps and equatorial regions get hit differently by different inclinations, and a single inclination cannot cover both well.</p>
+
+        <p>The standard tool for laying out a constellation is the <strong>Walker constellation</strong>. A Walker constellation is specified by three numbers: total satellites <em>T</em>, number of orbital planes <em>P</em>, and a phase parameter <em>F</em>. Satellites are distributed evenly across planes; planes are distributed evenly in longitude. The relationship between coverage and satellite count is roughly:</p>
+
+        <div class="math-block">
+          T &asymp; (4&pi; / &theta;<sup>2</sup>) &times; k
+          <span class="math-where">&theta; is the footprint half-angle in radians; k &asymp; 1.5&ndash;2 is the redundancy factor for n-fold coverage</span>
+        </div>
+
+        <p>This is the &ldquo;sphere-packing&rdquo; estimate. Real constellations need to handle the inclination problem (orbits don't go straight up-and-down, so polar coverage requires polar orbits), the equator problem (most users are at low latitudes, so most capacity should be there), and the gap problem (you don't want any 30-minute window where a region has no satellites overhead). Walking through real designs:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>System</th><th>Altitude</th><th>Satellites</th><th>Planes</th><th>Coverage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>GEO broadband (3-bird)</td><td class="num">35,786 km</td><td class="num">3</td><td class="num">1 (equatorial)</td><td>95% (no polar)</td></tr>
+            <tr><td>Iridium (voice)</td><td class="num">780 km</td><td class="num">66</td><td class="num">6 (polar)</td><td>100%, low capacity</td></tr>
+            <tr><td>GPS (MEO)</td><td class="num">20,200 km</td><td class="num">24+</td><td class="num">6</td><td>100%, navigation only</td></tr>
+            <tr><td>Starlink (LEO)</td><td class="num">~550 km</td><td class="num">~7,000 (4,400 v1)</td><td class="num">~72</td><td>100%, broadband</td></tr>
+            <tr><td>OneWeb (LEO)</td><td class="num">1,200 km</td><td class="num">~650</td><td class="num">18</td><td>100%, lower capacity</td></tr>
+          </tbody>
+        </table>
+
+        <p>Notice the OneWeb data point. At 1,200 km, you need roughly 650 satellites to cover the globe with capacity comparable to terrestrial broadband. At 550 km, the math says about 4,400 (Starlink's original v1 design) for the same coverage with higher capacity per area. The altitude trade is real: lower means more satellites but higher capacity-per-unit-area and lower latency.</p>
+
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Satellites Needed for Global Coverage</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="widget-row three">
+            <div class="slider-group">
+              <div class="slider-label"><span>Altitude</span><span class="slider-value" id="w3-h-val">550 km</span></div>
+              <input type="range" id="w3-h" min="200" max="40000" value="550" step="50">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Min elevation</span><span class="slider-value" id="w3-elev-val">25&deg;</span></div>
+              <input type="range" id="w3-elev" min="5" max="40" value="25" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Redundancy</span><span class="slider-value" id="w3-red-val">2&times;</span></div>
+              <input type="range" id="w3-red" min="1" max="5" value="2" step="0.5">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Footprint area</div><div class="readout-value" id="w3-fa">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Satellites needed</div><div class="readout-value" id="w3-count">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">vs GEO 3</div><div class="readout-value" id="w3-ratio">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Slide altitude from 550 km up to GEO. Watch the count crash from ~4,400 to 3 &mdash; that's the headline. Then push elevation angle up: count grows fast because each satellite "sees" a smaller cone. Redundancy multiplier is the n-fold coverage factor (2&times; = every point visible to at least 2 satellites).</p>
+        </div>
+
+        <p>This is the headline number that scares observers. "Starlink needs 4,400 satellites" sounds outlandish when SpaceX announced it. But the math says it. If you want LEO altitudes (which you need for latency and per-area capacity), you need thousands of satellites for global coverage. The number is not a stretch goal &mdash; it is the floor.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Launch energy
+         ============================================================ -->
+    <section class="reveal" id="v-launch">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>What does altitude do to launch energy?</h2>
+      </div>
+      <div class="section-content">
+        <p>Now we get to why the answer until ~2018 was &ldquo;GEO is the only choice that pencils.&rdquo; Putting a satellite at LEO is cheap per-kg, but you need a lot of satellites. Putting a satellite at GEO is expensive per-kg, but you need very few. The crossover depended on how much it cost to actually fly a rocket.</p>
+
+        <p>The delta-V (velocity change) required to reach an orbit is governed by the <strong>rocket equation</strong>:</p>
+
+        <div class="math-block">
+          &Delta;v = v<sub>e</sub> &middot; ln(m<sub>0</sub> / m<sub>f</sub>)
+          <span class="math-where">v<sub>e</sub> = exhaust velocity, m<sub>0</sub> = initial mass, m<sub>f</sub> = final mass after burn. Tsiolkovsky 1903.</span>
+        </div>
+
+        <p>For an Earth-launched rocket using kerosene/LOX (Falcon 9 first stage):</p>
+
+        <ul>
+          <li><strong>Earth surface &rarr; LEO</strong>: &Delta;v &asymp; 9.4 km/s (after gravity losses and drag)</li>
+          <li><strong>Earth surface &rarr; GTO</strong>: &Delta;v &asymp; 11.7 km/s (geostationary transfer orbit)</li>
+          <li><strong>GTO &rarr; GEO circularisation</strong>: another &asymp; 1.5 km/s (often done by the satellite itself)</li>
+        </ul>
+
+        <p>That's a 2.3 km/s extra delta-V for GEO. Plugged into the rocket equation, with a typical specific impulse of 311 s (kerosene/LOX) giving v<sub>e</sub> = 3,050 m/s:</p>
+
+        <div class="math-block">
+          m<sub>0</sub> / m<sub>f</sub> = e<sup>&Delta;v / v<sub>e</sub></sup>
+          <br>
+          LEO: e<sup>9400/3050</sup> = e<sup>3.08</sup> &asymp; 21.8&times; mass ratio
+          <br>
+          GEO: e<sup>11400/3050</sup> = e<sup>3.74</sup> &asymp; 42.0&times; mass ratio
+        </div>
+
+        <p>What does this mean practically? On a Falcon 9, the LEO payload is about 22,800 kg. The GTO payload is 8,300 kg. The GEO payload (after circularisation) is around 4,500 kg, only if the second stage gets restarted multiple times. Same rocket, same propellant, same engineer team &mdash; the GEO payload is about a fifth of the LEO payload. Per kilogram, GEO is roughly 5&times; more expensive to deliver than LEO.</p>
+
+        <p>So the per-satellite launch cost ratio is about <strong>5:1 GEO:LEO</strong>. But the constellation-size ratio is roughly <strong>1:1,500 GEO:LEO</strong>. Total launch cost ratio for the whole constellation: GEO is cheaper by a factor of <span class="math">5/1500 &asymp; 1/300</span>. GEO wins on launch cost by two orders of magnitude.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; reuse is the missing variable</summary>
+          <p>Those launch-cost numbers assume the rocket is thrown away after each flight, which was true for every operational vehicle except Space Shuttle (and Shuttle was its own catastrophe). Until SpaceX flew a recovered Falcon 9 first stage in 2017, "launch cost" meant the per-mission cost of a one-time-use vehicle.</p>
+          <p>The Falcon 9 first stage now flies on average 15&ndash;25 times before retirement. The marginal cost of an additional flight is the refurbishment plus the second stage (which is still expendable). This collapses the per-kg-to-LEO cost from roughly $20,000 (Shuttle era) to roughly $1,500 (Falcon 9 reused, current commercial). On Starship, expected eventual cost is $100&ndash;200/kg. The economics that GEO won on for fifty years assumed nobody could fly cheaply enough to make 4,000-satellite constellations affordable. Starlink is the first proof that assumption is no longer true.</p>
+        </details>
+
+        <p>That was the answer until 2018. Reuse changes the constants but not the structure. We come back to that in Section&nbsp;VIII.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Link budget
+         ============================================================ -->
+    <section class="reveal" id="vi-link-budget">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What does altitude do to the RF link budget?</h2>
+      </div>
+      <div class="section-content">
+        <p>Latency and coverage and launch cost are the headline three. The fourth, and arguably the most underappreciated, is the radio link itself. Radio signals spread out as they propagate. The energy that hits a receiver shrinks with the square of the distance &mdash; the inverse-square law. This loss is called <strong>free-space path loss</strong> (FSPL), and the equation is:</p>
+
+        <div class="math-block">
+          FSPL (dB) = 20 log<sub>10</sub>(d) + 20 log<sub>10</sub>(f) + 20 log<sub>10</sub>(4&pi;/c)
+          <br>
+          &asymp; 20 log<sub>10</sub>(d<sub>km</sub>) + 20 log<sub>10</sub>(f<sub>MHz</sub>) + 32.45
+          <span class="math-where">d = distance, f = frequency, c = speed of light. dB form for the engineering convenience.</span>
+        </div>
+
+        <p>At Starlink's main Ku-band downlink frequency (around 12 GHz), the path loss is:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Orbit</th><th>Distance</th><th>FSPL @ 12 GHz</th><th>Extra vs LEO</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>LEO (Starlink)</td><td class="num">550 km</td><td class="num">169 dB</td><td class="num">baseline</td></tr>
+            <tr><td>Deep LEO</td><td class="num">1,200 km</td><td class="num">176 dB</td><td class="num">+7 dB</td></tr>
+            <tr><td>MEO (GPS)</td><td class="num">20,200 km</td><td class="num">200 dB</td><td class="num">+31 dB</td></tr>
+            <tr><td>GEO</td><td class="num">35,786 km</td><td class="num">205 dB</td><td class="num">+36 dB</td></tr>
+          </tbody>
+        </table>
+
+        <p>36 dB. Decibels are logarithmic. 10 dB is 10&times;, 20 dB is 100&times;, 30 dB is 1,000&times;. <strong>The GEO signal is roughly 4,000&times; weaker than the equivalent LEO signal</strong>, for the same transmit power and frequency. To close that link, you need to either crank up the transmit power 4,000&times; (impossible on a satellite with finite solar panels), or increase antenna gain by 36 dB on the receiver (a much bigger dish), or accept 4,000&times; lower bitrate.</p>
+
+        <p>This is why HughesNet's typical residential dish is 0.74 m across (74 cm), and the bitrate is capped at 25 Mbps. Starlink's user terminal antenna is also small &mdash; about 60 cm &mdash; but the link only has to close to 550 km instead of 35,786 km, and so it can sustain 100&ndash;200 Mbps. The terminal antenna size, transmit power, and bitrate are all <em>downstream of the altitude choice</em>.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; FSPL is not the only loss</summary>
+          <p>Free-space path loss is the dominant term but there are others. Atmospheric absorption matters most at higher frequencies (above 20 GHz, rain attenuation becomes significant; above 50 GHz, oxygen and water vapour bands dominate). Polarization mismatch can cost a few dB. Pointing errors at the user terminal cost more if the antenna pattern is narrow. Multipath fading near the ground (urban, foliage) costs another 2&ndash;5 dB in Rayleigh-distributed deep fades.</p>
+          <p>For Starlink specifically, the Ku-band downlink (12 GHz) sees ~1 dB rain attenuation in moderate rain, and the Ka-band uplink (30 GHz) sees 5&ndash;10 dB in heavy rain. The link budget is designed with margin to absorb these &mdash; typically 6&ndash;10 dB above the minimum threshold &mdash; which is why your Starlink dish keeps working in light rain but degrades in a downpour. The future explainer on the link budget walks through every line item.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. User terminal
+         ============================================================ -->
+    <section class="reveal" id="vii-terminal">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>What does altitude do to the user terminal?</h2>
+      </div>
+      <div class="section-content">
+        <p>The radio-link math above has a hidden corollary: closing a GEO link requires a larger antenna or higher transmit power on the user side. For broadcast TV (DirecTV, Dish Network), this is fine &mdash; a 60-cm fixed dish bolted to the side of a house is cheap and the link is one-way. For broadband at high data rates, the antenna has to be much larger, more expensive, and mechanically steered with high precision.</p>
+
+        <p>Compare the user-terminal economics:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Service</th><th>Antenna size</th><th>Antenna type</th><th>Hardware cost</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>HughesNet (GEO broadband)</td><td class="num">~74 cm</td><td>Fixed parabolic dish, manually aimed</td><td class="num">~$300 + $150 install</td></tr>
+            <tr><td>VSAT (enterprise GEO)</td><td class="num">1.2&ndash;3.8 m</td><td>Larger dish, professionally installed</td><td class="num">$2,000&ndash;$20,000+</td></tr>
+            <tr><td>Iridium (LEO voice)</td><td class="num">handheld</td><td>Omnidirectional whip</td><td class="num">~$1,000 (low data rate)</td></tr>
+            <tr><td>Starlink (LEO broadband)</td><td class="num">~60 cm</td><td>Phased-array, self-tracking</td><td class="num">~$349 (subsidised from ~$3,000 BOM)</td></tr>
+          </tbody>
+        </table>
+
+        <p>The Starlink user terminal is the genuinely novel piece of consumer hardware. It is a flat panel with about a thousand individually controlled antenna elements. The beam steers electronically: there is no motor, no moving parts. The terminal sits on a roof, points itself once at install, and then continuously tracks Starlink satellites as they pass overhead at 27,000 km/h. Each satellite is in view for 4&ndash;7 minutes; the terminal hands off seamlessly. A mechanically steered dish couldn't keep up &mdash; phased arrays are the only way.</p>
+
+        <p>This is why a LEO broadband constellation was impossible until phased-array terminals became cheap. The 1990s LEO attempts &mdash; Teledesic, ICO, Iridium's broadband cousin &mdash; assumed handsets and dishes that didn't exist yet. The economics imploded. Starlink's user terminal is roughly 80% of the consumer cost; SpaceX subsidises it heavily ($349 retail, ~$3,000 BOM in early production, now closer to $1,200) because the marginal revenue from monthly service is what pays for the terminal over time.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIII. History
+         ============================================================ -->
+    <section class="reveal" id="viii-history">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>Why didn't anyone do this in 1998?</h2>
+      </div>
+      <div class="section-content">
+        <p>Two things had to be true simultaneously for a LEO broadband constellation to make business sense: launch had to be cheap enough to put thousands of satellites in orbit, and user terminals had to be cheap enough to put one in every customer's home. Until roughly 2018, neither was true.</p>
+
+        <p>The first attempt was <strong>Teledesic</strong> (1990s, Bill Gates and Craig McCaw). The plan was 840 LEO satellites delivering broadband. The launch cost was the killer &mdash; at $30,000/kg-to-LEO on the Shuttle era, the constellation would have cost over $9 billion just to launch, not counting satellites. Teledesic burned through ~$1 billion and never launched a single operational satellite.</p>
+
+        <p><strong>Iridium</strong> did launch (1998), but for voice not broadband. Its 66 satellites work, but the user handset is the size of a brick and the data rate is 2.4&nbsp;kbps. The bankruptcy in 1999 is famous; the constellation kept operating because the satellites were already up there and the bankruptcy auction sold the system for $25 million, vastly less than the $5 billion construction cost.</p>
+
+        <p><strong>OneWeb</strong> (2014&rarr;) is the most direct contemporary competitor. It targets 1,200 km altitude with ~650 satellites. The deeper altitude means fewer satellites (lower launch cost) but higher latency and per-area capacity than Starlink. OneWeb has had to be rescued from bankruptcy once and is now a fraction of Starlink's size. The 550-km vs 1,200-km altitude trade is a real engineering choice, and the answer depends on what specifically you're optimising; Starlink chose latency + capacity, OneWeb chose constellation size.</p>
+
+        <p>The two variables that flipped:</p>
+
+        <ul>
+          <li><strong>Launch cost</strong>: Falcon 9 reuse drops per-kg-to-LEO from ~$10,000 (mid-2010s expendable) to ~$1,500 (current). Starship aims for $100&ndash;200/kg. Below $5,000/kg, a 4,000-satellite constellation costs roughly $5&ndash;10 billion to launch &mdash; large but feasible. Above $20,000/kg, it costs $100 billion+ &mdash; infeasible.</li>
+          <li><strong>Phased-array terminals</strong>: the silicon to drive a thousand-element antenna at consumer prices did not exist until ~2018. RF front-end chips, beamforming ICs, and the digital signal processing all rode the same Moore's Law curve as smartphones. A 2010 phased array was a $50,000 lab piece; a 2024 phased array is a $349 consumer good. Without that drop, the user-terminal cost would have made the entire system uneconomic.</li>
+        </ul>
+
+        <p>Starlink isn't a new idea. It's an old idea that finally fell within reach.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IX. The decision matrix
+         ============================================================ -->
+    <section class="reveal" id="ix-decision">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>The actual decision matrix</h2>
+      </div>
+      <div class="section-content">
+        <p>Stack the trade-offs side by side. For each metric, write down which orbit wins and by roughly how much:</p>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Metric</th><th>GEO wins by</th><th>LEO wins by</th><th>Why</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Round-trip latency</td><td>&mdash;</td><td class="num">~70&times;</td><td>Speed of light, fundamental</td></tr>
+            <tr><td>Path loss (RF)</td><td>&mdash;</td><td class="num">~4,000&times;</td><td>Inverse-square law, fundamental</td></tr>
+            <tr><td>Per-bird coverage</td><td class="num">~50&times;</td><td>&mdash;</td><td>Geometry of altitude</td></tr>
+            <tr><td>Per-area capacity</td><td>&mdash;</td><td class="num">~50&times;</td><td>Spectrum reuse via spatial diversity</td></tr>
+            <tr><td>Launch cost per satellite</td><td class="num">~5&times;</td><td>&mdash;</td><td>Rocket equation</td></tr>
+            <tr><td>Total launch cost (constellation)</td><td class="num">~300&times;</td><td>&mdash;</td><td>3 satellites vs ~4,400</td></tr>
+            <tr><td>User-terminal size</td><td>&mdash;</td><td class="num">tied</td><td>Both need 60-cm-ish antennas</td></tr>
+            <tr><td>User-terminal cost (broadband)</td><td>&mdash;</td><td class="num">~3&times;</td><td>Phased array vs large dish at high data rates</td></tr>
+          </tbody>
+        </table>
+
+        <p>GEO wins on per-satellite coverage and total launch cost. LEO wins on latency, link budget, per-area capacity, and broadband user-terminal economics. The winners are not symmetric: GEO's advantages are easy to monetise only if your customers don't care about latency or per-user bandwidth. LEO's advantages are exactly what consumer internet needs.</p>
+
+        <div class="callout">
+          <div class="callout-title">What you can now teach</div>
+          <p><strong>The LEO vs GEO decision is forced by physics, not marketing.</strong> Light travels at a finite speed (480-ms RTT to GEO breaks interactive use), radio signals decay with the square of distance (4,000&times; weaker at GEO than LEO), and consumer broadband needs both. The "obvious" 3-satellite GEO solution fails because the only thing GEO is genuinely good at is downstream broadcast to non-interactive customers. Once launch reuse drops the constellation cost below ~$10 billion and phased-array terminals drop below ~$1,000, LEO becomes not just the right answer but the <em>only</em> answer for satellite broadband.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">Speed of light in vacuum is 299,792,458 m/s exactly (the metre is defined from it). In atmosphere, the index of refraction is ~1.00029, slowing light by ~0.03% &mdash; negligible for our purposes. The relevant delay is dominated by free-space transit, not atmospheric refraction. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">FSPL formula derivation: assume an isotropic transmitter radiates power P uniformly over a sphere of radius d. Power density at the receiver is P/(4&pi;d²). The receive antenna captures power P&middot;A<sub>e</sub>/(4&pi;d²) where A<sub>e</sub> is effective aperture. The "free-space" qualifier means no atmospheric absorption, no rain, no obstruction. Real-world links subtract additional dB for those. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Walker constellation design is more nuanced than the spherical-cap approximation given here. Real designs use coverage simulations against ground-track patterns over 24-hour periods, accounting for the precession of the orbital plane (due to J2 gravitational harmonic), variable equatorial vs polar coverage demand, and ground station handoff constraints. The Starlink shells documented in FCC filings reveal Walker parameters like (T=4408, P=72, F=24) for the v1 shell. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts
+       ============================================================ -->
+  <script>
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var t = document.getElementById(this.getAttribute('href').slice(1));
+        if (t) {
+          e.preventDefault();
+          var navH = document.querySelector('.nav').offsetHeight;
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - navH - 20, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- Constants used by widgets -->
+  <script>
+    var C_LIGHT_KMS = 299792.458;     // km/s
+    var EARTH_RADIUS_KM = 6378.0;
+    var deg2rad = function(d) { return d * Math.PI / 180; };
+    var rad2deg = function(r) { return r * 180 / Math.PI; };
+  </script>
+
+  <!-- ============================================================
+       WIDGET 1 — Altitude → RTT
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 340 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { h: 550, slant: 1.0 };
+
+    function compute() {
+      var d = state.h * state.slant; // effective distance (km)
+      var oneway_ms = (2 * d / C_LIGHT_KMS) * 1000; // ms — round-trip through satellite
+      var rtt_ms = 2 * oneway_ms; // user → sat → ground → sat → user
+      var verdict;
+      if (rtt_ms < 30) verdict = 'Real-time';
+      else if (rtt_ms < 100) verdict = 'Great';
+      else if (rtt_ms < 200) verdict = 'OK for web';
+      else if (rtt_ms < 400) verdict = 'Voice broken';
+      else verdict = 'Interactive impossible';
+      return { d: d, oneway: oneway_ms, rtt: rtt_ms, verdict: verdict };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+
+      var pad = { top: 32, right: 18, bottom: 42, left: 56 };
+      // Bar chart: 5 fixed orbits + your slider point
+      var orbits = [
+        { name: 'LEO 550', h: 550, color: 'var(--accent)' },
+        { name: 'LEO 1200', h: 1200, color: 'var(--accent)' },
+        { name: 'MEO 20k', h: 20200, color: '#888' },
+        { name: 'GEO 35.8k', h: 35786, color: '#c53030' }
+      ];
+      var maxRTT = 500;
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: orbits.map(o => o.name).concat(['Your slider']),
+        yMin: 0, yMax: maxRTT, ySteps: 5,
+        yFmt: v => v + ' ms'
+      });
+
+      // Compute reference orbits' RTT
+      var refData = orbits.map(o => ({
+        name: o.name, color: o.color,
+        rtt: 4 * o.h / C_LIGHT_KMS * 1000 // ms RTT (assume slant=1)
+      }));
+      refData.push({ name: 'Your slider', color: '#3182ce', rtt: r.rtt });
+
+      var plotW = W - pad.left - pad.right;
+      var barW = plotW / refData.length * 0.55;
+      refData.forEach(function(d, i) {
+        var cx = pad.left + (i + 0.5) * (plotW / refData.length);
+        var yTop = mapY(d.rtt, 0, maxRTT, H, pad);
+        var yBot = mapY(0, 0, maxRTT, H, pad);
+        drawRectCanvas(ctx, cx - barW/2, yTop, barW, yBot - yTop,
+          d.color, 4);
+        drawTextCanvas(ctx, cx, yTop - 8,
+          (d.rtt > 999 ? d.rtt.toFixed(0) : d.rtt.toFixed(1)) + ' ms',
+          { fontSize: 11, color: 'var(--text)', weight: '600' });
+      });
+
+      // VoIP threshold line at 200 ms
+      var thresholdY = mapY(200, 0, maxRTT, H, pad);
+      ctx.save();
+      ctx.strokeStyle = '#999'; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, thresholdY); ctx.lineTo(W - pad.right, thresholdY); ctx.stroke();
+      ctx.restore();
+      drawTextCanvas(ctx, pad.left + 4, thresholdY - 6, 'VoIP ceiling: 200 ms', {
+        fontSize: 10, color: '#999', align: 'left'
+      });
+
+      drawTextCanvas(ctx, W/2, 12, 'Round-trip time vs orbit altitude', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Update readouts
+      document.getElementById('w1-oneway').textContent = r.oneway.toFixed(1) + ' ms';
+      document.getElementById('w1-rtt').textContent = r.rtt.toFixed(1) + ' ms';
+      document.getElementById('w1-verdict').textContent = r.verdict;
+    }
+
+    attachSliders([
+      { el: document.getElementById('w1-h'),     label: document.getElementById('w1-h-val'),     format: v => v.toFixed(0) + ' km' },
+      { el: document.getElementById('w1-slant'), label: document.getElementById('w1-slant-val'), format: v => v.toFixed(2) + '×' }
+    ], function(vals) {
+      state.h = vals['w1-h']; state.slant = vals['w1-slant'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Footprint geometry visualizer
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 380 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { h: 550, elev: 25 };
+
+    function compute() {
+      var h = state.h, elev = deg2rad(state.elev);
+      var R = EARTH_RADIUS_KM;
+      // Footprint half-angle (from Earth's centre)
+      // theta = acos[ R * cos(elev) / (R+h) ] - elev
+      var inner = R * Math.cos(elev) / (R + h);
+      if (inner > 1) inner = 1;
+      var theta = Math.acos(inner) - elev;
+      if (theta < 0) theta = 0;
+      // Surface arc radius (on Earth's surface)
+      var arcLen = R * theta;
+      // Surface area of spherical cap: A = 2πR²(1 - cosθ)
+      var area = 2 * Math.PI * R * R * (1 - Math.cos(theta));
+      var pct = (area / (4 * Math.PI * R * R)) * 100;
+      return { theta: theta, arc: arcLen, area: area, pct: pct };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+      var pad = { top: 32, right: 20, bottom: 36, left: 20 };
+
+      // Center for Earth
+      var cx = W / 2, cy = H / 2 + 20;
+      // Choose a display scale that fits Earth + satellite altitude into view
+      var maxRange = EARTH_RADIUS_KM + Math.max(state.h * 1.2, 2000);
+      var displayR = Math.min(W, H * 1.6) * 0.32;
+      var scale = displayR / EARTH_RADIUS_KM;
+      // But if altitude is very high (GEO), shrink scale so satellite is in view
+      if ((EARTH_RADIUS_KM + state.h) * scale > Math.min(W, H) * 0.45) {
+        scale = Math.min(W, H) * 0.45 / (EARTH_RADIUS_KM + state.h);
+      }
+
+      // Earth
+      ctx.save();
+      ctx.fillStyle = '#cbd5e0';
+      ctx.beginPath(); ctx.arc(cx, cy, EARTH_RADIUS_KM * scale, 0, Math.PI * 2); ctx.fill();
+      // Footprint cap as an arc on the Earth's surface, centred on top
+      ctx.strokeStyle = 'var(--accent)';
+      ctx.lineWidth = 4;
+      var start = -Math.PI/2 - r.theta;
+      var end = -Math.PI/2 + r.theta;
+      ctx.beginPath(); ctx.arc(cx, cy, EARTH_RADIUS_KM * scale, start, end); ctx.stroke();
+      ctx.restore();
+
+      // Satellite
+      var satX = cx;
+      var satY = cy - (EARTH_RADIUS_KM + state.h) * scale;
+      drawPointCanvas(ctx, satX, satY, 6, resolveCSSColor('var(--accent)'), '#fff');
+      drawTextCanvas(ctx, satX + 10, satY, 'Satellite @ ' + state.h + ' km', {
+        fontSize: 11, color: 'var(--text)', align: 'left', baseline: 'middle'
+      });
+
+      // Lines from satellite to footprint edges
+      var edgeAngleStart = -Math.PI/2 - r.theta;
+      var edgeAngleEnd = -Math.PI/2 + r.theta;
+      var ex1 = cx + Math.cos(edgeAngleStart) * EARTH_RADIUS_KM * scale;
+      var ey1 = cy + Math.sin(edgeAngleStart) * EARTH_RADIUS_KM * scale;
+      var ex2 = cx + Math.cos(edgeAngleEnd) * EARTH_RADIUS_KM * scale;
+      var ey2 = cy + Math.sin(edgeAngleEnd) * EARTH_RADIUS_KM * scale;
+      ctx.save();
+      ctx.strokeStyle = '#999'; ctx.setLineDash([3, 4]); ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(satX, satY); ctx.lineTo(ex1, ey1);
+      ctx.moveTo(satX, satY); ctx.lineTo(ex2, ey2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Reference orbits as ring markers
+      [
+        { name: 'LEO', h: 550, color: 'var(--accent)' },
+        { name: 'MEO', h: 20200, color: '#888' },
+        { name: 'GEO', h: 35786, color: '#c53030' }
+      ].forEach(function(ref) {
+        var ry = (EARTH_RADIUS_KM + ref.h) * scale;
+        if (ry < Math.min(W, H) * 0.49) {
+          ctx.save();
+          ctx.strokeStyle = ref.color;
+          ctx.globalAlpha = 0.3;
+          ctx.setLineDash([2, 3]);
+          ctx.beginPath();
+          ctx.arc(cx, cy, ry, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
+      });
+
+      // Title
+      drawTextCanvas(ctx, W/2, 14, 'Earth + satellite altitude (cross section)', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Update readouts
+      document.getElementById('w2-radius').textContent = r.arc.toFixed(0) + ' km';
+      document.getElementById('w2-area').textContent =
+        r.area >= 1e6 ? (r.area / 1e6).toFixed(2) + ' M km²' : r.area.toFixed(0) + ' km²';
+      document.getElementById('w2-pct').textContent = r.pct.toFixed(2) + '%';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-h'),    label: document.getElementById('w2-h-val'),    format: v => v.toFixed(0) + ' km' },
+      { el: document.getElementById('w2-elev'), label: document.getElementById('w2-elev-val'), format: v => v.toFixed(0) + '°' }
+    ], function(vals) {
+      state.h = vals['w2-h']; state.elev = vals['w2-elev'];
+      render();
+    });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Satellites needed for global coverage
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 340 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { h: 550, elev: 25, red: 2 };
+
+    function compute() {
+      var h = state.h, elev = deg2rad(state.elev), R = EARTH_RADIUS_KM;
+      var theta = Math.acos(R * Math.cos(elev) / (R + h)) - elev;
+      if (!isFinite(theta) || theta < 0) theta = 0;
+      var capArea = 2 * Math.PI * R * R * (1 - Math.cos(theta));
+      var earthArea = 4 * Math.PI * R * R;
+      // Naive satellite count = earth / cap, plus redundancy
+      var nNaive = earthArea / capArea;
+      // Real Walker designs need ~1.5-2x extra due to coverage-pattern inefficiency
+      var packEff = 1.5;
+      var n = Math.ceil(nNaive * packEff * state.red);
+      return { theta: theta, capArea: capArea, n: n };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+      var pad = { top: 32, right: 18, bottom: 42, left: 60 };
+
+      // Log-scale-ish bar chart for satellite count
+      var benchmarks = [
+        { label: 'GEO 35,786', n: 3, color: '#c53030' },
+        { label: 'MEO 20,200', n: 24, color: '#888' },
+        { label: 'LEO 1,200', n: 650, color: 'var(--accent)' },
+        { label: 'LEO 550', n: 4400, color: 'var(--accent)' },
+        { label: 'Your config', n: r.n, color: '#3182ce' }
+      ];
+      var maxN = Math.max.apply(null, benchmarks.map(b => b.n));
+      // Use log scale for visualisation
+      function logVal(v) { return Math.log10(Math.max(1, v)); }
+      var maxLog = logVal(maxN);
+
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: benchmarks.map(b => b.label),
+        yMin: 0, yMax: maxLog, ySteps: 4,
+        yFmt: v => Math.round(Math.pow(10, v)).toString()
+      });
+
+      var plotW = W - pad.left - pad.right;
+      var barW = plotW / benchmarks.length * 0.55;
+      benchmarks.forEach(function(b, i) {
+        var bx = pad.left + (i + 0.5) * (plotW / benchmarks.length);
+        var yT = mapY(logVal(b.n), 0, maxLog, H, pad);
+        var y0 = mapY(0, 0, maxLog, H, pad);
+        drawRectCanvas(ctx, bx - barW/2, yT, barW, y0 - yT, b.color, 4);
+        drawTextCanvas(ctx, bx, yT - 8, b.n.toString(), {
+          fontSize: 11, color: 'var(--text)', weight: '600'
+        });
+      });
+
+      drawTextCanvas(ctx, W/2, 12, 'Satellites needed for global coverage (log scale)', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      // Update readouts
+      var fa = r.capArea;
+      document.getElementById('w3-fa').textContent =
+        fa >= 1e6 ? (fa / 1e6).toFixed(2) + ' M km²' : fa.toFixed(0) + ' km²';
+      document.getElementById('w3-count').textContent = r.n.toLocaleString();
+      var ratio = r.n / 3;
+      document.getElementById('w3-ratio').textContent =
+        ratio > 1000 ? (ratio / 1000).toFixed(1) + 'k×' :
+        ratio > 1 ? ratio.toFixed(0) + '×' : (1/ratio).toFixed(2) + '×';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-h'),    label: document.getElementById('w3-h-val'),    format: v => v.toFixed(0) + ' km' },
+      { el: document.getElementById('w3-elev'), label: document.getElementById('w3-elev-val'), format: v => v.toFixed(0) + '°' },
+      { el: document.getElementById('w3-red'),  label: document.getElementById('w3-red-val'),  format: v => v.toFixed(1) + '×' }
+    ], function(vals) {
+      state.h = vals['w3-h']; state.elev = vals['w3-elev']; state.red = vals['w3-red'];
+      render();
+    });
+  })();
+  </script>
+
+</body>
+</html>

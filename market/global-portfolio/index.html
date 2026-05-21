@@ -113,6 +113,41 @@
 <p>The US Dollar Index (DXY) measures the strength of the dollar against six major currencies &ndash; Euro (57.6%), Japanese Yen (13.6%), Pound Sterling (11.9%), Canadian Dollar (9.1%), Swedish Krona (4.2%), and Swiss Franc (3.6%). While the INR is not directly a part of this basket, there is a strong indirect relationship. When DXY strengthens, the rupee weakens. When DXY consolidates, the INR gets some breathing room. Between 2020 and 2022, DXY grew significantly, and during that period, the rupee depreciation accelerated. Understanding this relationship is critical for timing your dollar-denominated investments.</p>
 <p>The solution is not to stop investing in India. The solution is to own assets denominated in stronger currencies &ndash; primarily the US dollar &ndash; so that part of your portfolio benefits from, rather than suffers from, the structural currency differential.</p>
 
+<!-- Widget 1: Currency-impact simulator -->
+<div class="demo reveal" id="widget-currency">
+  <div class="demo-title">Widget &mdash; The Rupee Treadmill</div>
+  <canvas id="wc-canvas" style="width: 100%; height: 320px;"></canvas>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0 4px;">
+    <div class="slider-group">
+      <div class="slider-label"><span>Nifty CAGR (INR)</span><span class="slider-value" id="wc-cagr-val">12.5%</span></div>
+      <input type="range" id="wc-cagr" min="5" max="20" value="12.5" step="0.5">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>INR depreciation /yr</span><span class="slider-value" id="wc-fx-val">3.5%</span></div>
+      <input type="range" id="wc-fx" min="0" max="8" value="3.5" step="0.1">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>Years</span><span class="slider-value" id="wc-years-val">20</span></div>
+      <input type="range" id="wc-years" min="3" max="30" value="20" step="1">
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px;">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 12px;text-align:center;">
+      <div style="font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-secondary);">Terminal INR</div>
+      <div style="font-family:var(--font-mono);font-size:18px;color:var(--accent);margin-top:2px;" id="wc-inr">&mdash;</div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 12px;text-align:center;">
+      <div style="font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-secondary);">Terminal USD</div>
+      <div style="font-family:var(--font-mono);font-size:18px;color:var(--accent);margin-top:2px;" id="wc-usd">&mdash;</div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 12px;text-align:center;">
+      <div style="font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-secondary);">USD CAGR</div>
+      <div style="font-family:var(--font-mono);font-size:18px;color:var(--accent);margin-top:2px;" id="wc-cagr-out">&mdash;</div>
+    </div>
+  </div>
+  <p class="widget-hint">Drag INR depreciation up to 4%. The "Nifty wealth" line climbs in rupees, but the dollar-equivalent line barely lifts off the ground. That gap is the treadmill the math-block formula encoded.</p>
+</div>
+
 <details class="sidenote">
   <summary>Well, actually 🧐 — home bias is a real, documented behavioural error</summary>
   <p>Indian retail investors hold &gt;95% of their financial wealth in INR-denominated assets, despite India representing &lt;3% of global market cap. Vanguard's research across 20 countries finds the same pattern everywhere: investors overweight their home market by 50&ndash;90 percentage points relative to market-cap-weighted optimal. The explanation isn't ignorance &mdash; it's familiarity bias plus a refusal to pay the operational friction of cross-border investing.</p>
@@ -408,6 +443,80 @@
     });
   </script>
 
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+  <script>
+  (function() {
+    var canvas = document.getElementById('wc-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 320 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var state = { cagr: 0.125, fx: 0.035, years: 20 };
+
+    function compute() {
+      var pts_inr = [], pts_usd = [];
+      var v_inr = 100, v_usd = 100;
+      var usd_factor = 1 / (1 - state.fx); // depreciation: rupee buys 1/(1+fx) USD over a year
+      // Actually: if rupee depreciates by f, then 1 INR today = (1-f) INR worth of USD next year
+      // Equivalent: USD return ≈ (1 + INR return) / (1 + fx) - 1
+      var inr_rate = 1 + state.cagr;
+      var usd_rate = (1 + state.cagr) / (1 + state.fx);
+      for (var y = 0; y <= state.years; y++) {
+        pts_inr.push({ x: y, y: 100 * Math.pow(inr_rate, y) });
+        pts_usd.push({ x: y, y: 100 * Math.pow(usd_rate, y) });
+      }
+      return { pts_inr: pts_inr, pts_usd: pts_usd, usdCagr: (usd_rate - 1) };
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = compute();
+      var pad = { top: 24, right: 90, bottom: 38, left: 56 };
+      var yMax = Math.max.apply(null, r.pts_inr.map(p => p.y)) * 1.08;
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad,
+        xLabels: ['Y0', 'Y' + Math.round(state.years/2), 'Y' + state.years],
+        yMin: 0, yMax: yMax, ySteps: 5,
+        yFmt: v => v.toFixed(0)
+      });
+
+      function mapPts(pts) {
+        return pts.map(p => ({
+          x: mapX(p.x, 0, state.years, W, pad),
+          y: mapY(p.y, 0, yMax, H, pad)
+        }));
+      }
+      drawLineCanvas(ctx, mapPts(r.pts_inr), { color: 'var(--accent)', width: 2.5 });
+      drawLineCanvas(ctx, mapPts(r.pts_usd), { color: '#c53030', width: 2.5, dashed: [5, 4] });
+
+      // End-of-line labels
+      var lastInr = r.pts_inr[r.pts_inr.length - 1];
+      var lastUsd = r.pts_usd[r.pts_usd.length - 1];
+      drawPointCanvas(ctx, mapX(lastInr.x, 0, state.years, W, pad), mapY(lastInr.y, 0, yMax, H, pad), 5, 'var(--accent)', '#fff');
+      drawPointCanvas(ctx, mapX(lastUsd.x, 0, state.years, W, pad), mapY(lastUsd.y, 0, yMax, H, pad), 5, '#c53030', '#fff');
+      drawTextCanvas(ctx, mapX(lastInr.x, 0, state.years, W, pad) + 8, mapY(lastInr.y, 0, yMax, H, pad), 'Nifty (INR)', { fontSize: 11, color: 'var(--accent)', align: 'left' });
+      drawTextCanvas(ctx, mapX(lastUsd.x, 0, state.years, W, pad) + 8, mapY(lastUsd.y, 0, yMax, H, pad), 'Same money in USD', { fontSize: 11, color: '#c53030', align: 'left' });
+
+      drawTextCanvas(ctx, W/2, 10, '₹100 over ' + state.years + ' years: nominal INR wealth vs USD-equivalent', {
+        fontSize: 12, color: 'var(--text-secondary)', baseline: 'top'
+      });
+
+      document.getElementById('wc-inr').textContent = lastInr.y.toFixed(0);
+      document.getElementById('wc-usd').textContent = lastUsd.y.toFixed(0);
+      document.getElementById('wc-cagr-out').textContent = (r.usdCagr * 100).toFixed(2) + '%';
+    }
+
+    attachSliders([
+      { el: document.getElementById('wc-cagr'),  label: document.getElementById('wc-cagr-val'),  format: v => v.toFixed(1) + '%' },
+      { el: document.getElementById('wc-fx'),    label: document.getElementById('wc-fx-val'),    format: v => v.toFixed(1) + '%' },
+      { el: document.getElementById('wc-years'), label: document.getElementById('wc-years-val'), format: v => v.toFixed(0) }
+    ], function(vals) {
+      state.cagr = vals['wc-cagr'] / 100;
+      state.fx = vals['wc-fx'] / 100;
+      state.years = Math.round(vals['wc-years']);
+      render();
+    });
+  })();
+  </script>
 
 </body>
 </html>

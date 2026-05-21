@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starlink Explainers</title>
+  <meta name="description" content="First-principles interactive explainers on SpaceX's Starlink — orbital mechanics, phased arrays, link budgets, laser ISLs.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Starlink Explainers">
+  <meta property="og:description" content="First-principles interactive explainers on SpaceX's Starlink — for engineers and curious minds.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../shared/landing.css">
+</head>
+<body>
+
+  <div class="nav-back">
+    <a href="../index.html"><span>&larr;</span> Explainers</a>
+  </div>
+
+  <div class="container">
+
+    <header class="header">
+      <h1>Starlink Explainers</h1>
+      <p class="intro">
+        First-principles engineering of SpaceX's Starlink. Why LEO with thousands of satellites
+        beats GEO with three. How a phased-array beam steers without moving. Where photons go in a link
+        budget. How lasers carry terabits between satellites at 7&nbsp;km/s relative velocity. Built
+        for engineers and curious minds &mdash; the math is shown, not skipped.
+      </p>
+    </header>
+
+    <section class="section">
+      <h2 class="section-label">First-Principles Engineering</h2>
+      <main class="card-grid">
+        <a href="why-leo/index.html" class="card">
+          <div class="card-hero" style="background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%);">
+            <h2>Why LEO, Not GEO</h2>
+            <span class="card-badge">New</span>
+          </div>
+          <div class="card-body">
+            <p>3 satellites at GEO would seem to win. Then physics gets a vote &mdash; latency, link budget, and launch economics make 4,000+ LEO satellites the only answer.</p>
+            <div class="card-meta">9 chapters &middot; 3 simulations &middot; 25 min read</div>
+          </div>
+        </a>
+      </main>
+    </section>
+
+    <section class="section">
+      <h2 class="section-label">Coming Soon</h2>
+      <main class="card-grid">
+        <a href="#" class="card" style="cursor: default; opacity: 0.55;">
+          <div class="card-hero" style="background: linear-gradient(135deg, #2d3748 0%, #718096 100%);">
+            <h2>More explainers being built</h2>
+          </div>
+          <div class="card-body">
+            <p>How a satellite stays up (orbital mechanics) &middot; Phased-array beam steering &middot; The link budget &middot; Laser inter-satellite links &middot; Why a constellation self-heals &middot; The launch economics &middot; Kessler syndrome risk.</p>
+            <div class="card-meta">In the pipeline</div>
+          </div>
+        </a>
+      </main>
+    </section>
+
+    <footer class="footer">
+      <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a>.</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
