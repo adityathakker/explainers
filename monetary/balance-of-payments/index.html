@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balance of Payments Is an Identity &mdash; Monetary Explainers</title>
+  <meta name="description" content="A trade deficit IS a capital surplus &mdash; by accounting identity. The US doesn&rsquo;t &lsquo;need&rsquo; foreigners to fund its $1T deficit; the deficit and the foreign-funded surplus are the same arrow, two names. Here&rsquo;s why you cannot break the identity, only the exchange rate at which it clears.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Balance of Payments Is an Identity">
+  <meta property="og:description" content="Current account + capital account = 0, mechanically. A trade deficit IS a capital surplus. Try to break the identity in the widget &mdash; you can&rsquo;t.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #319795;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #285e61 0%, #319795 100%); }
+
+    /* Two-cell readout used by the tanks widget */
+    .bop-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .bop-readout { grid-template-columns: 1fr 1fr; }
+    }
+    .bop-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .bop-cell .bc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .bop-cell .bc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .bop-cell .bc-value.is-loss { color: #9b2c2c; }
+    .bop-cell .bc-value.is-gain { color: #22543d; }
+
+    /* Country picker for Widget 2 */
+    .country-picker {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 10px 0 6px;
+    }
+    .country-btn {
+      padding: 6px 12px;
+      background: #fff;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .country-btn:hover { border-color: var(--text-secondary); }
+    .country-btn.is-active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Crisis sim controls */
+    .crisis-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Balance of Payments Is an Identity</h1>
+      <p class="hero__subtitle">A trade deficit IS a capital surplus &mdash; by accounting identity. When the US imports $1 trillion more than it exports, foreigners must be net buyers of $1 trillion of US assets. There is no choice in the matter; only the exchange rate, interest rate, and panic level at which the rebalancing clears.</p>
+      <p class="hero__meta">7 chapters &middot; 3 interactive widgets &middot; 19 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-circular">Why does &ldquo;balance of payments must balance&rdquo; sound circular?</a></li>
+        <li><a href="#ii-current">What is the current account?</a></li>
+        <li><a href="#iii-capital">What is the capital account?</a></li>
+        <li><a href="#iv-identity">Why must the two sum to zero?</a></li>
+        <li><a href="#v-who-funds">Who funds the US&rsquo;s $1T annual trade deficit?</a></li>
+        <li><a href="#vi-crisis">What happens when foreigners refuse to fund?</a></li>
+        <li><a href="#vii-petrodollar">Why the petrodollar IS the capital-account side of oil imports</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. Why does "balance of payments must balance" sound circular?
+         ============================================================ -->
+    <section class="reveal" id="i-circular">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why does &ldquo;balance of payments must balance&rdquo; sound circular?</h2>
+      </div>
+      <div class="section-content">
+        <p>Here is a sentence that gets passed around every cable-news panel and every G7 communiqu&eacute;: <em>&ldquo;The US trade deficit is unsustainable.&rdquo;</em> Right now, in FY2026, that deficit is running at roughly <strong>$1.0 trillion a year</strong> &mdash; about 3.5% of GDP &mdash; and the cumulative tab, the US net international investment position, has hit <strong>negative $24 trillion</strong>. That number gets thrown around like a dripping debt clock.</p>
+
+        <p>I want to convince you the sentence is meaningless, or at least: it doesn&rsquo;t mean what people think it means.</p>
+
+        <p>Here is the one thing this article proves: <strong>the current account and the capital account sum to zero. Mechanically. By accounting identity. A trade deficit IS a capital surplus &mdash; same arrow, two names.</strong> If the US imports more than it exports, foreigners must be net buyers of US assets to the exact same dollar. There is no choice in the matter; only the price &mdash; the exchange rate, the interest rate, the panic level &mdash; at which the rebalancing happens.</p>
+
+        <p>That sounds circular because it <em>is</em> circular, in the way that &ldquo;debits equal credits&rdquo; is circular on every balance sheet ever drawn. It&rsquo;s not a theory. It&rsquo;s double-entry bookkeeping applied to a country instead of a company. And once you internalise it, half the macro commentary you read &mdash; &ldquo;the dollar is strong because foreigners are funding us,&rdquo; &ldquo;China props up Treasuries,&rdquo; &ldquo;the petrodollar recycles surpluses&rdquo; &mdash; collapses into a single sentence, viewed from two sides.</p>
+
+        <p>By the end you&rsquo;ll be able to explain, without notes, why the US &ldquo;trade deficit&rdquo; and &ldquo;foreigners own $9.5T of Treasuries&rdquo;<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a> are the same fact, observed twice. And why &mdash; in the article after this &mdash; the 1974 Saudi oil-for-Treasuries handshake wasn&rsquo;t a clever political coup so much as the inevitable accounting that <em>had</em> to happen once the US started importing oil and Saudi started running surpluses.</p>
+
+        <p>Last article (<a href="../triffin-dilemma/index.html">Triffin&rsquo;s Dilemma</a>) we established that being the world&rsquo;s reserve currency <em>requires</em> running a current account deficit &mdash; the world needs dollars, you have to ship them out somehow. This article proves the other half: the moment you ship them out, you&rsquo;ve also imported the offsetting claim. The two are the same act.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. What is the current account?
+         ============================================================ -->
+    <section class="reveal" id="ii-current">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What is the current account?</h2>
+      </div>
+      <div class="section-content">
+        <p>The current account is the running tally of every <em>real-economy</em> flow in and out of a country in a given year. Four buckets, and you can fit them on a Post-it:</p>
+
+        <div class="math-block">
+          CA = (Exports &minus; Imports) + Net income + Net transfers
+          <span class="math-where">Goods &amp; services trade balance, plus income on foreign assets net of payments to foreigners, plus remittances and aid</span>
+        </div>
+
+        <p>For the US in FY2026, the goods trade balance alone is about <em>negative</em> $1.2 trillion. Services run a small surplus (about +$280B, mostly software, finance, IP licensing, tourism). Net investment income is roughly flat &mdash; surprising given the US is net debtor, and we&rsquo;ll come back to that in a sidenote. Net transfers (remittances out, foreign aid out) sit around &minus;$160B. Add the four and you get the headline: <strong>CA &asymp; &minus;$1.0T</strong>, the famous &ldquo;trade deficit&rdquo; even though strictly speaking it&rsquo;s the broader current account that&rsquo;s in the red.</p>
+
+        <p>Two things to notice. First, this is a <em>flow</em>, not a stock. It&rsquo;s the year&rsquo;s drip into the bathtub, not the level of water in the tub. Second, every line is a real-economy transaction: a Boeing 787 leaving Seattle for Air India is +$300M of exports; a Toyota Camry arriving in Long Beach is &minus;$28K of imports; Apple paying a German engineer is &minus;$200K of services. There are no financial assets in this account. No bonds, no equities, no FX reserves. Just goods, services, wages, dividends, transfers.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the &ldquo;exorbitant privilege&rdquo; explains why US net income is flat despite being a $24T net debtor</summary>
+          <p>Standard accounting says: if you owe foreigners $24T and they have parked it in US Treasuries earning ~4%, you should be sending them ~$1T a year in interest. The US sends roughly nothing on net. Why?</p>
+          <p>Because the assets US investors hold abroad &mdash; direct investment in European factories, equity stakes in Asian tech, FDI in Latin American resources &mdash; <em>earn far more</em> than the bonds foreigners hold here. Average return on US-owned foreign assets has been ~6&ndash;7% over decades; foreigners earn ~3&ndash;4% on US assets. The gap is what Giscard d&rsquo;Estaing called France&rsquo;s &ldquo;<em>privil&egrave;ge exorbitant</em>&rdquo; in 1965.</p>
+          <p>This is a real economic gift &mdash; about <strong>$200&ndash;300B a year</strong> in net income that the standard &ldquo;debtor nation&rdquo; framing completely misses. It also means the US can keep running deficits longer than the arithmetic of a normal debtor would allow. We will come back to this in the reserve-currency article.</p>
+        </details>
+
+        <p>So far, so accounting. Now the other half of the ledger.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. What is the capital (financial) account?
+         ============================================================ -->
+    <section class="reveal" id="iii-capital">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>What is the capital account?</h2>
+      </div>
+      <div class="section-content">
+        <p>The capital account &mdash; technically the IMF now calls it the &ldquo;financial account,&rdquo; with the &ldquo;capital account&rdquo; reserved for a tiny sub-bucket of one-off transfers like debt forgiveness, but every working trader still says &ldquo;capital account&rdquo; and so will I &mdash; is the mirror image. It tracks every <em>financial-asset</em> flow.</p>
+
+        <p>When a Japanese pension fund buys a US Treasury, that&rsquo;s a capital <em>inflow</em> to the US: a foreign claim on a US asset. When BlackRock buys a French bond, that&rsquo;s a capital <em>outflow</em>: a US claim on a foreign asset. Net them across the year and you get the financial account balance, KA.</p>
+
+        <div class="math-block">
+          KA = Foreign purchases of domestic assets &minus; Domestic purchases of foreign assets
+          <span class="math-where">Positive KA = capital flowing in (foreigners are net buyers of your stuff); negative = capital flowing out</span>
+        </div>
+
+        <p>For the US in FY2026, KA is positive: net foreign purchases of US assets ran about <strong>+$1.0 trillion</strong>. Foreigners bought $9.5T of Treasuries (cumulative, current stock), plus equities, plus corporate bonds, plus direct investment in US real estate and factories. US investors bought a lot of foreign assets too &mdash; but they bought less than foreigners bought of us. The <em>net</em> tilted in by about $1T.</p>
+
+        <p>Now look at the two numbers we just produced:</p>
+
+        <blockquote>
+          <p>Current account: <strong>&minus;$1.0T</strong> (we sent the world $1T more in goods/services than they sent us)<br>
+          Capital account: <strong>+$1.0T</strong> (the world sent us $1T more in financial assets than we sent them)</p>
+        </blockquote>
+
+        <p>That equality is not a coincidence. Not a happy accident of 2026. Not a thing that &ldquo;usually happens because foreigners are confident in America.&rdquo; It is a tautology, true every year, in every country, in every regime, for reasons you can derive from the definition of a transaction.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Why must the two sum to zero? (Accounting proof)
+         ============================================================ -->
+    <section class="reveal" id="iv-identity">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>Why must the two sum to zero?</h2>
+      </div>
+      <div class="section-content">
+        <p>Strip the question to one transaction. A US importer wants a $30,000 Toyota. The Toyota gets loaded on a ship in Yokohama and arrives in Long Beach. The US importer hands over $30,000 to Toyota.</p>
+
+        <p>Pause there. <em>Where does Toyota&rsquo;s $30,000 go?</em></p>
+
+        <p>It does not vaporise. It does not return to a hole in Toyota City. There are exactly three things Toyota can do with those dollars:</p>
+
+        <ol>
+          <li><strong>Buy something American.</strong> A Boeing 787, soybeans, a Manhattan apartment, a US Treasury, a share of Microsoft, an oil-rig stake in Texas. Anything denominated in dollars and located in the US.</li>
+          <li><strong>Hold them as US-dollar deposits</strong> (in a US-bank account, or via a JPY-USD swap with a counterparty who ends up holding them). That deposit is itself a claim on the US banking system &mdash; a US asset.</li>
+          <li><strong>Sell them to someone else for yen.</strong> But then <em>that someone</em> now holds the $30,000 and faces the same three choices. Pass the parcel; the parcel doesn&rsquo;t disappear.</li>
+        </ol>
+
+        <p>Every branch ends the same way: the $30,000 ends up held as, or invested in, <em>a US asset</em>. The dollars literally cannot leave the US financial system &mdash; they only change owners inside it. (They&rsquo;re US-bank-system liabilities; they live on the Fed&rsquo;s ledgers and member-bank balance sheets. They have no passport.)</p>
+
+        <p>So the Camry transaction produces, by construction:</p>
+        <ul>
+          <li>One Camry crosses the Pacific eastbound &rArr; current account: &minus;$30K (import).</li>
+          <li>One claim-on-the-US (Treasury, deposit, equity, whatever Toyota chose) crosses the Pacific westbound, on paper &rArr; capital account: +$30K (foreign-owned US asset).</li>
+        </ul>
+
+        <p>Sum: <strong>zero</strong>. Always. Every single transaction. Add up every transaction in the year and the country-level CA + KA = 0.</p>
+
+        <p>If you don&rsquo;t believe me, try to break it. The widget below lets you push goods in and out of an economy and see what happens to capital. You cannot make the identity fail. The system auto-clears, every time.</p>
+
+        <!-- Widget 1: Two-tank simulator -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Try To Break The Identity</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="bop-readout">
+            <div class="bop-cell">
+              <div class="bc-label">Current account</div>
+              <div class="bc-value" id="w1-ca">&mdash;</div>
+            </div>
+            <div class="bop-cell">
+              <div class="bc-label">Capital account</div>
+              <div class="bc-value" id="w1-ka">&mdash;</div>
+            </div>
+            <div class="bop-cell">
+              <div class="bc-label">CA + KA</div>
+              <div class="bc-value" id="w1-sum">$0</div>
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Set the trade balance you want (CA)</span><span class="slider-value" id="w1-ca-val">&minus;$1.0T</span></div>
+            <input type="range" id="w1-ca" min="-2000" max="2000" value="-1000" step="50">
+          </div>
+          <p class="widget-hint">Drag the slider to set any current account you want &mdash; a $2T deficit, a $2T surplus, anything. Watch the capital account snap to the exact negative. The CA + KA cell will not budge from $0. Not because the simulator is rigged &mdash; because reality is. There is no setting of the dials where the identity fails; the FX market auto-clears it in milliseconds.</p>
+        </div>
+
+        <p>In real-world data the two columns don&rsquo;t quite match, because national statistical agencies are not omniscient &mdash; that residual is called the &ldquo;statistical discrepancy&rdquo; and it&rsquo;s a sidenote you should read.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the &ldquo;statistical discrepancy&rdquo; line is usually billions</summary>
+          <p>Look at any country&rsquo;s actual BoP release and you&rsquo;ll see a third line: <strong>&ldquo;net errors and omissions&rdquo;</strong> or &ldquo;statistical discrepancy.&rdquo; In US data it&rsquo;s typically &plusmn;$50&ndash;200B in a year &mdash; not nothing. China&rsquo;s has hit &minus;$300B and triggered serious capital-flight investigations.</p>
+          <p>The identity still holds in <em>theory</em>. The discrepancy exists because customs agents miss containers, tax-avoidance schemes route invoices through third countries, and capital flows through Cayman shell companies are imputed rather than observed. The IMF estimates the global current account should sum to zero (every country&rsquo;s deficit is some other country&rsquo;s surplus) &mdash; it doesn&rsquo;t, by about $400B a year. That&rsquo;s a measurement issue, not an economics issue.</p>
+          <p>The point: the identity is true by construction. The data is approximate. Don&rsquo;t confuse the two.</p>
+        </details>
+
+        <p>So if you can&rsquo;t break the identity, what does &ldquo;the dollar is overvalued&rdquo; or &ldquo;China is propping us up&rdquo; even mean? It means something about the <em>price</em> at which the identity clears &mdash; which we&rsquo;ll see in a minute. First, who actually shows up.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Who funds the US's $1T annual trade deficit?
+         ============================================================ -->
+    <section class="reveal" id="v-who-funds">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>Who funds the US&rsquo;s $1T annual trade deficit?</h2>
+      </div>
+      <div class="section-content">
+        <p>&ldquo;Funds&rdquo; is a slightly loaded word &mdash; it suggests the deficit is a hole that requires filling, when actually it&rsquo;s the same fact as &ldquo;net foreigners bought $1T of US stuff this year.&rdquo; But fine, let&rsquo;s look at who is on the other side of that arrow.</p>
+
+        <p>The pick-a-country widget pulls actual BoP data for five economies. Look at each carefully: in every case, the current account and the capital account sum to within rounding error. The identity isn&rsquo;t something we&rsquo;re abstractly &ldquo;assuming;&rdquo; it&rsquo;s a fact about every observation in the dataset.</p>
+
+        <!-- Widget 2: Country lookup -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Pick A Country. Watch The Identity Hold.</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 320px;"></canvas>
+          <div class="country-picker" id="w2-picker">
+            <button class="country-btn is-active" data-country="us">United States</button>
+            <button class="country-btn" data-country="china">China</button>
+            <button class="country-btn" data-country="saudi">Saudi Arabia</button>
+            <button class="country-btn" data-country="germany">Germany</button>
+            <button class="country-btn" data-country="uk">United Kingdom</button>
+          </div>
+          <div class="bop-readout">
+            <div class="bop-cell">
+              <div class="bc-label">Current account</div>
+              <div class="bc-value" id="w2-ca">&mdash;</div>
+            </div>
+            <div class="bop-cell">
+              <div class="bc-label">Capital account</div>
+              <div class="bc-value" id="w2-ka">&mdash;</div>
+            </div>
+            <div class="bop-cell">
+              <div class="bc-label">Sum (with disc.)</div>
+              <div class="bc-value" id="w2-sum">&mdash;</div>
+            </div>
+          </div>
+          <p class="widget-hint">Five very different economies &mdash; the world&rsquo;s biggest debtor, the world&rsquo;s biggest creditor, a petrostate, an export-heavy industrial economy, and a financial entrep&ocirc;t. The CA and KA columns are wildly different in size and sign across them, but in every single case they sum to roughly zero. Saudi&rsquo;s 2024&ndash;25 numbers are the surprise &mdash; explained below.</p>
+        </div>
+
+        <p>The headline reading: <strong>US runs a ~$1T current-account deficit, matched by ~$1T of net foreign asset purchases.</strong> The biggest single buyers are Japan ($1.24T cumulative UST holdings, +$113B YoY), the UK ($897B, much of it basis-trade hedge funds, not real money), Cayman ($443B reported, likely closer to $2T true), and the Euro Area aggregate ($2.0T). China + Hong Kong is at $962B and has been a net seller for two years running (&minus;$96B YoY).</p>
+
+        <p>Notice the composition shift. The classic 2000s picture was &ldquo;Chinese central bank recycles trade surplus into Treasuries&rdquo; &mdash; an official-sector flow. The 2026 picture is different: NY Fed custody of foreign-CB Treasury holdings has dropped to <strong>$2.70T, the lowest since 2012</strong>, with an $82B drop in just five weeks<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. The official sector is leaving. Private leveraged buyers &mdash; Cayman hedge funds doing the cash-futures basis trade &mdash; are stepping in. The identity still holds; the <em>who</em> behind it has rotated.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Saudi Arabia ran current-account DEFICITS in 2024&ndash;25</summary>
+          <p>The mental model says: oil producer with $80 Brent should be running a fat current-account surplus, recycling petrodollars into Treasuries. The 2024&ndash;25 data says no &mdash; the Kingdom ran <strong>current-account deficits</strong> in both years, partly because Saudi&rsquo;s <em>fiscal breakeven oil price is now over $90/bbl</em>. MBS&rsquo;s domestic Vision 2030 spending &mdash; Neom, the Murabba cube, World Cup infrastructure &mdash; has pushed government spending to a level the oil price doesn&rsquo;t cover.</p>
+          <p>Brad Setser at CFR puts it bluntly: <em>&ldquo;This is fun to believe, but not really based in reality... not when their balance of payments breakeven is over $90 a barrel.&rdquo;</em><a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a> The GCC sovereigns are <em>net dollar-bond issuers</em>, not net UST buyers. Their dollar exposure runs through PIF and ADIA equity stakes, not central-bank Treasury holdings.</p>
+          <p>This matters for the next two articles in this series. The petrodollar-recycling story has a real mechanism; it just isn&rsquo;t the simple &ldquo;Saudi buys UST&rdquo; loop people imagine. The capital flow runs through equity, real estate, and PE &mdash; and it&rsquo;s much smaller than the popular telling.</p>
+        </details>
+
+        <p>Two reminders before we move on. First: the identity is a <em>residual</em>, not a target. Nobody at the BEA computes a deficit then phones Tokyo to ask for matching capital. The matching happens because every individual transaction is double-entry. Second: the identity says nothing about the <em>price</em> at which it clears. That&rsquo;s where the interesting macro lives &mdash; and it&rsquo;s what blows up in a crisis.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. What happens when foreigners refuse to fund?
+         ============================================================ -->
+    <section class="reveal" id="vi-crisis">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What happens when foreigners refuse to fund?</h2>
+      </div>
+      <div class="section-content">
+        <p>This is the question that should make you nervous about US debt &mdash; not the level, but the <em>repricing</em>. The identity holds in every state of the world. But the exchange rate, interest rate, and import volume <em>required</em> to make it hold can move violently.</p>
+
+        <p>Imagine a small open economy &mdash; call it Thailand, July 1997. It&rsquo;s been running a current-account deficit of about 8% of GDP, financed by foreign banks lending in dollars to Thai banks and corporates. The capital account is healthily in surplus. Identity satisfied.</p>
+
+        <p>Then the foreign banks decide they&rsquo;ve had enough. Loans don&rsquo;t roll. Capital tries to leave &mdash; KA flips from +8% to &minus;5% essentially overnight. The identity now <em>requires</em> CA to flip from &minus;8% to +5%. By accounting, the country must run a <em>13 percentage-point swing</em> in its current account, in months.</p>
+
+        <p>It cannot do this by exporting 13% more rice. It does it by collapsing the currency until imports become unaffordable. The Thai baht fell <strong>56% in six months</strong>. Imports cratered. The trade balance ripped to surplus by force. Indonesia and Korea followed the same arithmetic in the same year.</p>
+
+        <p>The widget lets you run this scenario yourself. Pick a starting current-account deficit, then trigger a sudden stop in capital. Watch the currency adjust &mdash; not to a number anyone chose, but to whatever level closes the identity given how price-sensitive imports are.</p>
+
+        <!-- Widget 3: Forced-rebalance crisis simulator -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Forced Rebalancing In Real Time</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="bop-readout">
+            <div class="bop-cell">
+              <div class="bc-label">FX vs baseline</div>
+              <div class="bc-value" id="w3-fx">100</div>
+            </div>
+            <div class="bop-cell">
+              <div class="bc-label">Current account (%GDP)</div>
+              <div class="bc-value" id="w3-ca">&mdash;</div>
+            </div>
+            <div class="bop-cell">
+              <div class="bc-label">Capital account (%GDP)</div>
+              <div class="bc-value" id="w3-ka">&mdash;</div>
+            </div>
+          </div>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Starting CA deficit (%GDP)</span><span class="slider-value" id="w3-deficit-val">8%</span></div>
+              <input type="range" id="w3-deficit" min="2" max="12" value="8" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Capital sudden-stop severity</span><span class="slider-value" id="w3-shock-val">100%</span></div>
+              <input type="range" id="w3-shock" min="0" max="100" value="100" step="5">
+            </div>
+          </div>
+          <div class="crisis-controls">
+            <button class="btn-primary" id="w3-run">Run crisis</button>
+            <button class="btn-secondary" id="w3-reset">Reset</button>
+          </div>
+          <p class="widget-hint">Pick a country running a current-account deficit. Hit &ldquo;Run crisis&rdquo; to simulate foreign creditors yanking the line. Watch the currency collapse on the top chart &mdash; not because anyone decided so, but because that&rsquo;s the only price at which imports fall enough for the CA to swing positive. Thailand 1997 (~&minus;55% FX), Turkey 2018 (~&minus;30%), Argentina 2018 (~&minus;50%), UK 2022 mini-budget (~&minus;8% in days). The y-axis is months, not years.</p>
+        </div>
+
+        <p>This is what people mean when they talk about a &ldquo;currency crisis&rdquo; or a &ldquo;sudden stop.&rdquo; It&rsquo;s the BoP identity asserting itself the only way it can when capital walks: the currency takes the hit until the trade balance moves enough to close the gap.</p>
+
+        <p>And it doesn&rsquo;t only happen to emerging markets. <strong>UK 2022, the Truss mini-budget:</strong> a fiscal package the gilt market hated. Foreign holders of sterling started to leave. The pound dropped 8% against the dollar in a week, gilt yields spiked 150bp at the long end in two days, and the Bank of England had to intervene to stop pension funds from being margin-called into oblivion<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. Same identity, same forced rebalancing &mdash; just on a faster timescale in a G7 economy with an open capital account and a leveraged pension system.</p>
+
+        <p>The point worth burning in: the US runs a 3.5%-of-GDP current account deficit because it is <em>currently</em> a sufficiently attractive destination for foreign capital that the price-clearing dollar-yield combination lets that flow happen. Change &ldquo;currently&rdquo; and the dollar moves, yields move, or import volume moves. It will balance one way or another &mdash; the question is just how much breakage along the way.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Why the petrodollar IS the capital-account side of oil imports
+         ============================================================ -->
+    <section class="reveal" id="vii-petrodollar">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>Why the petrodollar IS the capital-account side of oil imports</h2>
+      </div>
+      <div class="section-content">
+        <p>Now we can land the punch the next article is built on.</p>
+
+        <p>Through most of the 1970s, the US ran a structural current-account deficit driven heavily by oil imports. Oil arrived from the Gulf. Dollars left the US for the Gulf. By the identity we just established, those dollars had nowhere to go <em>except back into US assets</em>. They could not vanish. They could not become yen except by transferring the holding-the-bag problem to whoever bought them. They had to land somewhere in the US financial system.</p>
+
+        <p>The 1974 Kissinger&ndash;Simon arrangement with Saudi Arabia did <em>not</em> create the recycling. The accounting identity created the recycling. What the arrangement did was choose the <em>channel</em>: Saudi would recycle via off-market US Treasury purchases (and accept US military protection in return), rather than via, say, equity in Citibank or real estate in London<a class="footnote-ref" id="fnref-5" href="#fn-5">[5]</a>.</p>
+
+        <p>Same arrow, two names: oil current-account outflow = petrodollar capital-account inflow. The dollar payment for the barrel and the foreign-owned Treasury are literally the same money, observed at two stages of its lifecycle.</p>
+
+        <p>So when people say things like &ldquo;Saudi could stop pricing oil in dollars and crash the Treasury market,&rdquo; they&rsquo;re misreading the identity. As long as the US imports more than it exports &mdash; from Saudi Arabia or anyone else &mdash; the matching capital inflow <em>must</em> exist. The only question is the channel. If Saudi stops buying Treasuries, the dollars they receive for oil still have to be held by someone; they go to Cayman, or to UK basis-trade hedge funds, or to Japanese pension funds via FX swaps, or to PIF&rsquo;s equity book in Manhattan. The aggregate flow doesn&rsquo;t move; the composition does.</p>
+
+        <p>What <em>can</em> happen &mdash; what is happening &mdash; is that the official sector&rsquo;s share of holding US assets is collapsing while the leveraged-private sector&rsquo;s share is rising. NY Fed custody at the lowest since 2012; Cayman at probably $2T and 8&ndash;50x leveraged. Same identity, more fragile holders.</p>
+
+        <p>You came in thinking &ldquo;trade deficit&rdquo; and &ldquo;Treasury holdings&rdquo; were two separate problems. Leave knowing they are <em>the same problem viewed from opposite sides of the same arrow</em>. The next article (<a href="../petrodollar-origin/index.html">The Petrodollar Origin</a>) takes that identity and lays the 1974 deal on top of it &mdash; what was choice, what was bookkeeping, and which is which is the only question that matters.</p>
+
+        <blockquote>
+          <p><strong>CA + KA &equiv; 0. Always. The current account is the goods view; the capital account is the assets view; they describe the same set of transactions, signed opposite. The exchange rate, the interest rate, and the panic level are the three prices at which the identity clears &mdash; never <em>whether</em> it clears.</strong></p>
+        </blockquote>
+
+        <p>That&rsquo;s the napkin. Every macro story you read about &ldquo;foreigners funding America&rdquo; or &ldquo;the dollar weaponised&rdquo; or &ldquo;de-dollarisation&rdquo; is, underneath, a story about <em>which</em> prices move and <em>how violently</em> when the composition of who holds the matching capital changes. Never about whether the matching capital exists. It always exists. The double-entry guarantees it.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Foreign holdings of US Treasury securities were $9.49T as of February 2026 &mdash; about 24.5% of total UST outstanding &mdash; per Treasury International Capital (TIC) data summarised by Wolf Street, April 2026. The foreign share has cycled from 34% (2015) to 22% (Oct 2023) to 24.5% (Feb 2026), with the recent rebound mostly driven by UK-domiciled and Cayman-domiciled basis-trade activity rather than central-bank accumulation. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">New York Fed custody holdings of US Treasuries on behalf of foreign official accounts hit $2.70T in April 2026 &mdash; the lowest since 2012, down $82B in just five weeks. NY Fed custody is the cleanest official-sector slice; it strips out the private leveraged demand that contaminates the TIC headline. Both can be true: TIC up, official-sector custody down. The story is composition. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Brad Setser, &ldquo;Petrodollars: Myths and Reality,&rdquo; Council on Foreign Relations, 2024&ndash;25 commentary, repeated in 2026 interviews around the Saudi current-account-deficit data. Setser&rsquo;s broader point: today&rsquo;s global dollar surplus comes from Asian manufacturing (~$1.5T) rather than Gulf oil (~$200B), and the GCC sovereigns are net dollar-bond issuers, not net UST buyers. Their dollar exposure runs through PIF/ADIA equity stakes, not central-bank Treasury holdings. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">The September 2022 UK &ldquo;mini-budget&rdquo; under Liz Truss and Kwasi Kwarteng triggered a textbook sudden-stop dynamic in a G7 economy: foreign holders began rotating out of sterling and gilts within hours of the announcement, GBP/USD fell ~8% within a week, 30-year gilt yields rose ~150bp in two days, and LDI pension-fund collateral calls cascaded fast enough that the Bank of England launched an emergency gilt-buying facility on 28 September to prevent forced-sale spirals. The episode is the cleanest modern G7 illustration of the identity asserting itself when foreign capital walks. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+          <li id="fn-5">The June 1974 US&ndash;Saudi Joint Commission on Economic Cooperation (Kissinger) established the military and economic framework; the second leg, negotiated separately by Treasury Secretary William Simon in late 1974, set up off-market Saudi purchases of US Treasuries outside normal auction reporting. There was never a single binding &ldquo;petrodollar treaty&rdquo;; the GAO has confirmed no formal oil-pricing clause exists. The norm was sustained by convention, dollar liquidity, and the riyal&ndash;dollar peg &mdash; which is why it can erode at the margin without a single rupture event. We will unpack this fully in the next article. <a class="footnote-back" href="#fnref-5">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Widget 1 — Two-tank simulator (you can't break the identity)
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w1-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      function fmtT(usdBn) {
+        // input in $bn
+        var sign = usdBn < 0 ? '-' : (usdBn > 0 ? '+' : '');
+        var abs = Math.abs(usdBn);
+        var num;
+        if (abs >= 1000) {
+          num = '$' + (abs / 1000).toFixed(1) + 'T';
+        } else {
+          num = '$' + abs.toFixed(0) + 'B';
+        }
+        if (usdBn === 0) return '$0';
+        return sign + num;
+      }
+
+      function redraw(caBn) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var kaBn = -caBn; // identity
+
+        // Layout: two tanks side by side
+        var pad = { left: 40, right: 40, top: 30, bottom: 70 };
+        var tankW = (w - pad.left - pad.right - 60) / 2;
+        var tankH = h - pad.top - pad.bottom;
+        var tank1X = pad.left;
+        var tank2X = pad.left + tankW + 60;
+        var tankY = pad.top;
+
+        // Center line of each tank (for fill direction)
+        var midY = tankY + tankH / 2;
+
+        // Range: cap at +/- $2T = 2000 Bn for visual
+        var capBn = 2000;
+
+        function drawTank(x, label, valueBn, accentColor) {
+          // Outline
+          ctx.save();
+          ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+          ctx.lineWidth = 2;
+          ctx.strokeRect(x, tankY, tankW, tankH);
+          // Center line
+          ctx.strokeStyle = resolveCSSColor('var(--border)');
+          ctx.setLineDash([3, 4]);
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(x, midY);
+          ctx.lineTo(x + tankW, midY);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.restore();
+
+          // Fill above midline if positive, below if negative
+          var frac = Math.max(-1, Math.min(1, valueBn / capBn));
+          var fillH = Math.abs(frac) * (tankH / 2);
+          ctx.save();
+          if (valueBn > 0) {
+            ctx.fillStyle = accentColor;
+            ctx.globalAlpha = 0.72;
+            ctx.fillRect(x + 2, midY - fillH, tankW - 4, fillH);
+          } else if (valueBn < 0) {
+            ctx.fillStyle = '#9b2c2c';
+            ctx.globalAlpha = 0.72;
+            ctx.fillRect(x + 2, midY, tankW - 4, fillH);
+          }
+          ctx.restore();
+
+          // Labels
+          drawTextCanvas(ctx, x + tankW / 2, tankY - 14, label,
+            { fontSize: 12, color: 'var(--text)', weight: '600' });
+          drawTextCanvas(ctx, x + tankW / 2, tankY + tankH + 18, fmtT(valueBn),
+            { fontSize: 16, color: valueBn >= 0 ? accentColor : '#9b2c2c', weight: '600' });
+          // "Surplus" / "Deficit" sub-label
+          var subLabel = valueBn > 5 ? 'surplus' : (valueBn < -5 ? 'deficit' : 'balanced');
+          drawTextCanvas(ctx, x + tankW / 2, tankY + tankH + 36, subLabel,
+            { fontSize: 11, color: 'var(--text-secondary)' });
+          // +/- range markers
+          drawTextCanvas(ctx, x - 8, tankY + 6, '+$2T',
+            { fontSize: 9.5, color: 'var(--text-secondary)', align: 'right' });
+          drawTextCanvas(ctx, x - 8, midY, '0',
+            { fontSize: 9.5, color: 'var(--text-secondary)', align: 'right' });
+          drawTextCanvas(ctx, x - 8, tankY + tankH - 6, '-$2T',
+            { fontSize: 9.5, color: 'var(--text-secondary)', align: 'right' });
+        }
+
+        drawTank(tank1X, 'Current Account (goods/services)', caBn, resolveCSSColor('var(--accent)'));
+        drawTank(tank2X, 'Capital Account (assets)', kaBn, resolveCSSColor('var(--accent)'));
+
+        // Connecting arrow showing the identity
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+        var arrowY = midY;
+        ctx.beginPath();
+        ctx.moveTo(tank1X + tankW + 4, arrowY);
+        ctx.lineTo(tank2X - 4, arrowY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // Arrowheads on both sides
+        function arrow(x, dir) {
+          ctx.beginPath();
+          ctx.moveTo(x, arrowY);
+          ctx.lineTo(x - dir * 6, arrowY - 4);
+          ctx.lineTo(x - dir * 6, arrowY + 4);
+          ctx.closePath();
+          ctx.fillStyle = resolveCSSColor('var(--text-secondary)');
+          ctx.fill();
+        }
+        arrow(tank2X - 4, 1);
+        arrow(tank1X + tankW + 4, -1);
+        ctx.restore();
+
+        // Center label between the tanks
+        drawTextCanvas(ctx, (tank1X + tankW + tank2X) / 2, arrowY - 12,
+          'identity', { fontSize: 10.5, color: 'var(--text-secondary)', weight: '600' });
+        drawTextCanvas(ctx, (tank1X + tankW + tank2X) / 2, arrowY + 14,
+          'CA = -KA', { fontSize: 10.5, color: 'var(--text-secondary)' });
+
+        // Update DOM
+        var caEl = document.getElementById('w1-ca');
+        var kaEl = document.getElementById('w1-ka');
+        var sumEl = document.getElementById('w1-sum');
+        caEl.textContent = fmtT(caBn);
+        caEl.className = 'bc-value ' + (caBn < 0 ? 'is-loss' : (caBn > 0 ? 'is-gain' : ''));
+        kaEl.textContent = fmtT(kaBn);
+        kaEl.className = 'bc-value ' + (kaBn < 0 ? 'is-loss' : (kaBn > 0 ? 'is-gain' : ''));
+        sumEl.textContent = '$0';
+      }
+
+      attachSliders([
+        { el: document.getElementById('w1-ca'),
+          label: document.getElementById('w1-ca-val'),
+          format: function(v) {
+            if (v === 0) return '$0';
+            var sign = v < 0 ? '-' : '+';
+            var abs = Math.abs(v);
+            if (abs >= 1000) return sign + '$' + (abs / 1000).toFixed(1) + 'T';
+            return sign + '$' + abs + 'B';
+          } }
+      ], function(values) {
+        redraw(values['w1-ca']);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — Country lookup (BoP data for 5 economies)
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w2-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Latest-available BoP data, $bn, approximate annual figures.
+      // Sources: BEA, SAFE, SAMA, Bundesbank, ONS. Small statistical-discrepancy line is real.
+      // (FY2025/2026 estimates; rounded for clarity.)
+      var COUNTRIES = {
+        us: {
+          name: 'United States (FY2026)',
+          ca: -1000, ka: 1050, disc: -50,
+          note: '$1T CA deficit funded by $1T net foreign asset purchases. Discrepancy is the BEA error term.'
+        },
+        china: {
+          name: 'China (FY2025)',
+          ca: 400, ka: -380, disc: -20,
+          note: '$400B surplus from manufacturing exports. China is a net exporter of capital — and the discrepancy line has historically signalled hidden outflows.'
+        },
+        saudi: {
+          name: 'Saudi Arabia (FY2025)',
+          ca: -40, ka: 35, disc: 5,
+          note: 'CA DEFICIT despite oil. Fiscal breakeven >$90/bbl; Vision 2030 spending exceeds oil revenue. Setser: not the rich creditor people imagine.'
+        },
+        germany: {
+          name: 'Germany (FY2025)',
+          ca: 290, ka: -280, disc: -10,
+          note: 'Industrial export surplus, ~6% of GDP. The classic Eurozone net creditor — its CA surplus is the rest of the world\'s deficit.'
+        },
+        uk: {
+          name: 'United Kingdom (FY2025)',
+          ca: -110, ka: 95, disc: 15,
+          note: 'Persistent CA deficit funded by capital inflows into the City. UK pension/insurance hold the foreign assets; foreign owners hold UK gilts and FDI.'
+        }
+      };
+
+      var currentKey = 'us';
+
+      function redraw(key) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+        var d = COUNTRIES[key];
+        if (!d) return;
+
+        // Bar chart: CA, KA, Discrepancy
+        var pad = { left: 90, right: 24, top: 28, bottom: 80 };
+        var plotW = w - pad.left - pad.right;
+        var plotH = h - pad.top - pad.bottom;
+
+        // Find absolute max for symmetric scale
+        var maxAbs = Math.max(Math.abs(d.ca), Math.abs(d.ka), Math.abs(d.disc), 50);
+        // Pad up a touch
+        maxAbs = Math.ceil(maxAbs / 100) * 100 + 50;
+
+        // Midline (y = 0 in data units)
+        var midY = pad.top + plotH / 2;
+
+        // Axis & gridlines
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, pad.top + plotH);
+        ctx.lineTo(pad.left + plotW, pad.top + plotH);
+        ctx.stroke();
+
+        // Zero line (bold)
+        ctx.strokeStyle = resolveCSSColor('var(--text)');
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, midY);
+        ctx.lineTo(pad.left + plotW, midY);
+        ctx.stroke();
+
+        // Gridlines + y-labels
+        ctx.setLineDash([3, 4]);
+        ctx.strokeStyle = resolveCSSColor('var(--border)');
+        ctx.lineWidth = 1;
+        var yticks = [-maxAbs, -maxAbs / 2, 0, maxAbs / 2, maxAbs];
+        yticks.forEach(function(v) {
+          var y = midY - (v / maxAbs) * (plotH / 2);
+          if (v !== 0) {
+            ctx.beginPath();
+            ctx.moveTo(pad.left, y);
+            ctx.lineTo(pad.left + plotW, y);
+            ctx.stroke();
+          }
+          var label;
+          if (Math.abs(v) >= 1000) label = (v >= 0 ? '+' : '-') + '$' + (Math.abs(v) / 1000).toFixed(1) + 'T';
+          else if (v === 0) label = '$0';
+          else label = (v > 0 ? '+' : '-') + '$' + Math.abs(v) + 'B';
+          drawTextCanvas(ctx, pad.left - 8, y, label,
+            { fontSize: 10, align: 'right', color: 'var(--text-secondary)' });
+        });
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        // Bars
+        var bars = [
+          { label: 'Current\naccount', value: d.ca, color: 'var(--accent)' },
+          { label: 'Capital\naccount', value: d.ka, color: 'var(--accent)' },
+          { label: 'Statistical\ndiscrepancy', value: d.disc, color: '#a0aec0' }
+        ];
+        var barW = plotW / (bars.length * 1.8);
+        var gap = (plotW - bars.length * barW) / (bars.length + 1);
+
+        bars.forEach(function(b, i) {
+          var x = pad.left + gap + i * (barW + gap);
+          var barH = Math.abs(b.value) / maxAbs * (plotH / 2);
+          var y = b.value >= 0 ? midY - barH : midY;
+          var fill = b.value >= 0 ? resolveCSSColor(b.color) : '#9b2c2c';
+          ctx.save();
+          ctx.fillStyle = fill;
+          ctx.globalAlpha = b.label.indexOf('discrepancy') !== -1 ? 0.5 : 0.85;
+          ctx.fillRect(x, y, barW, barH);
+          ctx.restore();
+
+          // Value labels above/below bar
+          var valStr;
+          if (Math.abs(b.value) >= 1000) valStr = (b.value >= 0 ? '+' : '-') + '$' + (Math.abs(b.value) / 1000).toFixed(2) + 'T';
+          else valStr = (b.value >= 0 ? '+' : '-') + '$' + Math.abs(b.value) + 'B';
+          var valY = b.value >= 0 ? y - 8 : y + barH + 12;
+          drawTextCanvas(ctx, x + barW / 2, valY, valStr,
+            { fontSize: 11, color: 'var(--text)', weight: '600' });
+
+          // x-axis labels (two lines)
+          var lines = b.label.split('\n');
+          lines.forEach(function(ln, j) {
+            drawTextCanvas(ctx, x + barW / 2, pad.top + plotH + 16 + j * 13, ln,
+              { fontSize: 10.5, color: 'var(--text-secondary)' });
+          });
+        });
+
+        // Title with country name
+        drawTextCanvas(ctx, w / 2, 14, d.name,
+          { fontSize: 13, color: 'var(--text)', weight: '600' });
+
+        // Sum annotation (bottom)
+        var sum = d.ca + d.ka + d.disc;
+        drawTextCanvas(ctx, w / 2, h - 18,
+          'CA + KA + discrepancy = $' + sum + 'B (rounding)',
+          { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // Update DOM readouts
+        function fmt(v) {
+          if (v === 0) return '$0';
+          if (Math.abs(v) >= 1000) return (v >= 0 ? '+' : '-') + '$' + (Math.abs(v) / 1000).toFixed(1) + 'T';
+          return (v >= 0 ? '+' : '-') + '$' + Math.abs(v) + 'B';
+        }
+        var caEl = document.getElementById('w2-ca');
+        var kaEl = document.getElementById('w2-ka');
+        var sumEl = document.getElementById('w2-sum');
+        caEl.textContent = fmt(d.ca);
+        caEl.className = 'bc-value ' + (d.ca < 0 ? 'is-loss' : (d.ca > 0 ? 'is-gain' : ''));
+        kaEl.textContent = fmt(d.ka);
+        kaEl.className = 'bc-value ' + (d.ka < 0 ? 'is-loss' : (d.ka > 0 ? 'is-gain' : ''));
+        sumEl.textContent = fmt(d.ca + d.ka + d.disc);
+      }
+
+      var picker = document.getElementById('w2-picker');
+      picker.querySelectorAll('.country-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          picker.querySelectorAll('.country-btn').forEach(function(b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          currentKey = btn.getAttribute('data-country');
+          redraw(currentKey);
+        });
+      });
+
+      redraw(currentKey);
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 3 — Forced rebalancing (currency-collapse simulator)
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w3-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // State
+      var state = {
+        startDeficit: 8,
+        shockPct: 100,
+        running: false,
+        history: [], // [{ month, fx, ca, ka }]
+        anim: null
+      };
+
+      var MONTHS = 18;
+      var BASELINE_FX = 100;
+
+      function resetHistory(startDeficit) {
+        state.history = [];
+        for (var m = -6; m <= 0; m++) {
+          state.history.push({
+            month: m,
+            fx: BASELINE_FX,
+            ca: -startDeficit,
+            ka: startDeficit
+          });
+        }
+      }
+
+      function simulateStep(prevState, shockPct, monthsSinceShock, startDeficit) {
+        // Capital account: collapses from +startDeficit to negative by shockPct percent
+        // Asymptotic recovery is slow; we just hold the post-shock level.
+        var targetKa = startDeficit * (1 - shockPct / 50); // shockPct=100 -> -startDeficit (full flip)
+        // Smooth approach in 2 months
+        var kaT = Math.min(1, monthsSinceShock / 2);
+        var ka = startDeficit + (targetKa - startDeficit) * kaT;
+
+        // Identity: ca = -ka
+        var ca = -ka;
+
+        // FX adjusts to clear the new CA — proportional to the shock,
+        // with a J-curve overshoot at month 1-3 and a partial recovery.
+        // Empirical anchor: Thailand 1997 ~55% drop at 6 months; Argentina 2018 ~50%; UK 2022 ~8%.
+        var depreciationMax;
+        if (shockPct >= 80) depreciationMax = 0.55 * (startDeficit / 8);
+        else if (shockPct >= 40) depreciationMax = 0.30 * (startDeficit / 8);
+        else depreciationMax = 0.08 * (startDeficit / 8);
+        depreciationMax = Math.min(depreciationMax, 0.80);
+
+        var t = monthsSinceShock;
+        var fxLoss;
+        if (t < 0) fxLoss = 0;
+        else if (t < 3) fxLoss = depreciationMax * (t / 3);
+        else if (t < 6) fxLoss = depreciationMax;
+        else fxLoss = depreciationMax * (1 - 0.15 * Math.min(1, (t - 6) / 6));
+
+        var fx = BASELINE_FX * (1 - fxLoss);
+
+        return { ca: ca, ka: ka, fx: fx };
+      }
+
+      function fmtPct(v) {
+        var sign = v > 0 ? '+' : (v < 0 ? '-' : '');
+        return sign + Math.abs(v).toFixed(1) + '%';
+      }
+
+      function redraw() {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+        // Two stacked panels: FX top, CA/KA bottom
+        var pad = { left: 56, right: 18, top: 18, bottom: 36 };
+        var midGap = 14;
+        var plotW = w - pad.left - pad.right;
+        var totalPlotH = h - pad.top - pad.bottom - midGap;
+        var topH = totalPlotH * 0.55;
+        var botH = totalPlotH * 0.45;
+        var topY = pad.top;
+        var botY = topY + topH + midGap;
+
+        // X scale: month -6 to MONTHS
+        function toX(month) {
+          var t = (month + 6) / (MONTHS + 6);
+          return pad.left + t * plotW;
+        }
+
+        // ------- Top panel: FX -------
+        // y scale: 0.30 * baseline to 1.10
+        var fxMin = 30, fxMax = 110;
+        function fxToY(v) {
+          var t = (v - fxMin) / (fxMax - fxMin);
+          return topY + topH - t * topH;
+        }
+
+        // Axis baselines
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, topY);
+        ctx.lineTo(pad.left, topY + topH);
+        ctx.lineTo(pad.left + plotW, topY + topH);
+        ctx.stroke();
+
+        // Y gridlines
+        ctx.setLineDash([3, 4]);
+        ctx.strokeStyle = resolveCSSColor('var(--border)');
+        [40, 60, 80, 100].forEach(function(v) {
+          var y = fxToY(v);
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(pad.left + plotW, y);
+          ctx.stroke();
+          drawTextCanvas(ctx, pad.left - 8, y, v + '',
+            { fontSize: 9.5, align: 'right', color: 'var(--text-secondary)' });
+        });
+        ctx.setLineDash([]);
+
+        // Shock month marker
+        var shockX = toX(0);
+        ctx.strokeStyle = '#9b2c2c';
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(shockX, topY);
+        ctx.lineTo(shockX, topY + topH);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        // FX line
+        if (state.history.length > 1) {
+          var fxPts = state.history.map(function(p) {
+            return { x: toX(p.month), y: fxToY(Math.max(fxMin, Math.min(fxMax, p.fx))) };
+          });
+          drawLineCanvas(ctx, fxPts, { color: 'var(--accent)', width: 2.5 });
+          // Current dot
+          var last = state.history[state.history.length - 1];
+          drawPointCanvas(ctx, toX(last.month), fxToY(Math.max(fxMin, Math.min(fxMax, last.fx))), 5,
+            'var(--accent)', '#fff');
+        }
+
+        // Labels
+        drawTextCanvas(ctx, pad.left, topY - 6, 'FX (baseline = 100)',
+          { fontSize: 11, color: 'var(--text-secondary)', align: 'left', weight: '600' });
+        drawTextCanvas(ctx, shockX, topY + 10, 'sudden stop',
+          { fontSize: 9.5, color: '#9b2c2c', align: 'center', weight: '600' });
+
+        // ------- Bottom panel: CA + KA -------
+        var maxBop = Math.max(12, state.startDeficit + 2);
+        function bopToY(v) {
+          var t = (v + maxBop) / (2 * maxBop);
+          return botY + botH - t * botH;
+        }
+
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, botY);
+        ctx.lineTo(pad.left, botY + botH);
+        ctx.lineTo(pad.left + plotW, botY + botH);
+        ctx.stroke();
+
+        // Zero line
+        var zeroY = bopToY(0);
+        ctx.strokeStyle = resolveCSSColor('var(--text)');
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, zeroY);
+        ctx.lineTo(pad.left + plotW, zeroY);
+        ctx.stroke();
+
+        // Y ticks
+        [-maxBop, -maxBop / 2, 0, maxBop / 2, maxBop].forEach(function(v) {
+          var y = bopToY(v);
+          if (v !== 0) {
+            ctx.setLineDash([3, 4]);
+            ctx.strokeStyle = resolveCSSColor('var(--border)');
+            ctx.beginPath();
+            ctx.moveTo(pad.left, y);
+            ctx.lineTo(pad.left + plotW, y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+          }
+          var label = (v > 0 ? '+' : '') + v.toFixed(0) + '%';
+          drawTextCanvas(ctx, pad.left - 8, y, label,
+            { fontSize: 9.5, align: 'right', color: 'var(--text-secondary)' });
+        });
+
+        // Shock marker
+        ctx.strokeStyle = '#9b2c2c';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(shockX, botY);
+        ctx.lineTo(shockX, botY + botH);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        if (state.history.length > 1) {
+          var caPts = state.history.map(function(p) {
+            return { x: toX(p.month), y: bopToY(p.ca) };
+          });
+          var kaPts = state.history.map(function(p) {
+            return { x: toX(p.month), y: bopToY(p.ka) };
+          });
+          drawLineCanvas(ctx, caPts, { color: 'var(--accent)', width: 2.4 });
+          drawLineCanvas(ctx, kaPts, { color: '#9b2c2c', width: 2.4, dashed: [6, 4] });
+        }
+
+        drawTextCanvas(ctx, pad.left, botY - 6, 'CA & KA as % of GDP',
+          { fontSize: 11, color: 'var(--text-secondary)', align: 'left', weight: '600' });
+
+        // Legends
+        drawTextCanvas(ctx, w - pad.right - 6, botY + 8, '— CA',
+          { fontSize: 10.5, color: 'var(--accent)', align: 'right', weight: '600' });
+        drawTextCanvas(ctx, w - pad.right - 6, botY + 22, '-- KA',
+          { fontSize: 10.5, color: '#9b2c2c', align: 'right', weight: '600' });
+
+        // X-axis month labels (every 3 months)
+        for (var m = -6; m <= MONTHS; m += 3) {
+          var label = m + 'mo';
+          if (m === 0) label = 'shock';
+          drawTextCanvas(ctx, toX(m), h - 14, label,
+            { fontSize: 9.5, color: 'var(--text-secondary)' });
+        }
+
+        // Update DOM
+        var last = state.history[state.history.length - 1] || { fx: BASELINE_FX, ca: 0, ka: 0 };
+        var fxEl = document.getElementById('w3-fx');
+        var caEl = document.getElementById('w3-ca');
+        var kaEl = document.getElementById('w3-ka');
+        fxEl.textContent = last.fx.toFixed(0);
+        var fxLoss = (last.fx - BASELINE_FX) / BASELINE_FX * 100;
+        fxEl.className = 'bc-value ' + (fxLoss < -1 ? 'is-loss' : (fxLoss > 1 ? 'is-gain' : ''));
+        caEl.textContent = fmtPct(last.ca);
+        caEl.className = 'bc-value ' + (last.ca < 0 ? 'is-loss' : (last.ca > 0 ? 'is-gain' : ''));
+        kaEl.textContent = fmtPct(last.ka);
+        kaEl.className = 'bc-value ' + (last.ka < 0 ? 'is-loss' : (last.ka > 0 ? 'is-gain' : ''));
+      }
+
+      function runCrisis() {
+        if (state.anim) state.anim.stop();
+        state.running = true;
+        resetHistory(state.startDeficit);
+        var m = 0;
+        var stepInterval = 70; // ms per simulated month
+        var lastEmit = 0;
+        state.anim = animate(function(elapsed) {
+          if (elapsed - lastEmit < stepInterval) return;
+          lastEmit = elapsed;
+          var stepResult = simulateStep(null, state.shockPct, m, state.startDeficit);
+          state.history.push({ month: m, fx: stepResult.fx, ca: stepResult.ca, ka: stepResult.ka });
+          m += 1;
+          redraw();
+          if (m > MONTHS) {
+            state.anim.stop();
+            state.running = false;
+          }
+        });
+        state.anim.start();
+      }
+
+      function resetSim() {
+        if (state.anim) state.anim.stop();
+        state.running = false;
+        resetHistory(state.startDeficit);
+        redraw();
+      }
+
+      attachSliders([
+        { el: document.getElementById('w3-deficit'),
+          label: document.getElementById('w3-deficit-val'),
+          format: function(v) { return v + '%'; } },
+        { el: document.getElementById('w3-shock'),
+          label: document.getElementById('w3-shock-val'),
+          format: function(v) { return v + '%'; } }
+      ], function(values) {
+        state.startDeficit = values['w3-deficit'];
+        state.shockPct = values['w3-shock'];
+        if (!state.running) {
+          resetHistory(state.startDeficit);
+          redraw();
+        }
+      });
+
+      attachButton('#w3-run', function() { runCrisis(); });
+      attachButton('#w3-reset', function() { resetSim(); });
+
+      // Initial paint
+      resetHistory(state.startDeficit);
+      redraw();
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Triffin&rsquo;s Dilemma &mdash; Monetary Explainers</title>
+  <meta name="description" content="To be the world&rsquo;s reserve currency, you MUST run permanent trade deficits. Surplus means no dollars accumulate abroad, which means no reserve status. Robert Triffin proved this in 1960. The US has obliged in 49 of the last 50 years.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Triffin&rsquo;s Dilemma">
+  <meta property="og:description" content="To be the world&rsquo;s reserve currency you MUST run permanent trade deficits. There is no third door. Triffin proved this in 1960 and the US has run deficits in 49 of the last 50 years.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #c53030;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #742a2a 0%, #c53030 100%); }
+
+    /* Decade-slider stack for W1 */
+    .decade-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 640px) {
+      .decade-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Readouts shared by both widgets */
+    .triffin-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .triffin-readout { grid-template-columns: 1fr 1fr; }
+    }
+    .tr-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .tr-cell .tr-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .tr-cell .tr-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .tr-cell .tr-value.is-bad { color: #9b2c2c; }
+    .tr-cell .tr-value.is-good { color: #22543d; }
+
+    /* W1 verdict banner */
+    .triffin-verdict {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      line-height: 1.45;
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+    .triffin-verdict.is-bad { background: #fff5f5; border-color: #fed7d7; color: #742a2a; }
+    .triffin-verdict.is-good { background: #f0fff4; border-color: #c6f6d5; color: #22543d; }
+
+    /* Quick country-pill row for W2 */
+    .country-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 6px 0 12px;
+    }
+    .country-pill {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 120ms ease;
+    }
+    .country-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .country-pill.is-active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Triffin&rsquo;s Dilemma</h1>
+      <p class="hero__subtitle">To be the world&rsquo;s reserve currency you MUST run permanent trade deficits. Surplus means no dollars accumulate abroad, which means no reserve status. Robert Triffin proved this in 1960 &mdash; and the US has obliged in 49 of the last 50 years.</p>
+      <p class="hero__meta">7 chapters &middot; 2 interactive widgets &middot; 18 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-dilemma">Why is there a dilemma at all?</a></li>
+        <li><a href="#ii-triffin">Who was Robert Triffin?</a></li>
+        <li><a href="#iii-surplus">Why does a surplus mean no dollars abroad?</a></li>
+        <li><a href="#iv-deficit">Why does a deficit mean unsustainable debt?</a></li>
+        <li><a href="#v-data">Has the US actually run deficits the whole time?</a></li>
+        <li><a href="#vi-eurodollar">Does the Eurodollar market soften the constraint?</a></li>
+        <li><a href="#vii-yuan">Why can&rsquo;t the yuan be a reserve currency?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. Why is there a dilemma at all?
+         ============================================================ -->
+    <section class="reveal" id="i-dilemma">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why is there a dilemma at all?</h2>
+      </div>
+      <div class="section-content">
+        <p>In FY2026 the United States is on track to import about <strong>$1 trillion more</strong> than it exports &mdash; roughly 3.5% of GDP and the 49th annual current-account deficit out of the last 50<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. China, meanwhile, will run a current-account <em>surplus</em> of about $300&ndash;400 billion this year, as it has every year since 1994. Beijing has spent two decades very visibly wanting reserve-currency status for the yuan. They will not get it. The structural reason is the subject of this article.</p>
+
+        <p>Here is the claim, plainly: <strong>to be the world&rsquo;s reserve currency you must run permanent trade deficits</strong>. If you run a surplus, no foreigner accumulates your money &mdash; you&rsquo;re net-pulling money out of their pockets, not pushing it into them. No accumulation, no reserves, no reserve-currency status. There is no third door. A surplus-running country cannot be the reserve issuer. A persistent reserve issuer cannot be a surplus country.</p>
+
+        <p>This is Triffin&rsquo;s Dilemma. Belgian economist Robert Triffin wrote it down in October 1959 in his testimony to the Senate Joint Economic Committee, and again in a 1960 book called <em>Gold and the Dollar Crisis</em><a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. He predicted, on the spot, that the Bretton Woods system would eventually self-destruct. It did, in August 1971, when Nixon closed the gold window. Triffin was right inside of twelve years.</p>
+
+        <p>The dilemma is brutal because it&rsquo;s a real dilemma &mdash; both horns hurt. The deficit-horn means the reserve issuer accumulates external debt forever and slowly erodes its own currency&rsquo;s credibility. The surplus-horn means the issuer immediately loses reserve status because there&rsquo;s no monetary fuel for the rest of the world. Pick one. There is no smart-clever third option that gets you out of this.</p>
+
+        <p>What follows is the proof. By the end you&rsquo;ll be able to explain in two sentences why China&rsquo;s yuan-internationalization project hit a wall it cannot blast through without dismantling the export-led growth model that defines the Chinese state.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Who was Robert Triffin?
+         ============================================================ -->
+    <section class="reveal" id="ii-triffin">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>Who was Robert Triffin?</h2>
+      </div>
+      <div class="section-content">
+        <p>Triffin was a Belgian economist working at Yale who had spent the 1950s consulting for European central banks and the IMF. He was, by training, a balance-of-payments accountant: someone who watched how dollars actually moved between countries and who knew the postwar plumbing better than almost anyone alive.</p>
+
+        <p>Bretton Woods, the system designed in 1944, pegged every major currency to the US dollar and pegged the US dollar to gold at $35 per ounce. The dollar was supposed to be &ldquo;as good as gold&rdquo; because the Treasury would always exchange one for the other on demand. As a system for the immediate postwar moment &mdash; when the US held two-thirds of the world&rsquo;s monetary gold and Europe had bombed factories &mdash; it worked.</p>
+
+        <p>But Triffin saw the trap inside the design. As the world economy grew, it needed more dollars in circulation as reserves. The only way for those dollars to get into foreign hands was for the US to run balance-of-payments deficits &mdash; to send more dollars abroad than came back. So the US had to keep deficit-spending to grease the global wheel. But every additional dollar floating abroad was, in theory, another claim on the limited US gold stock at $35/oz. <em>The more successful Bretton Woods was, the more it undermined itself.</em></p>
+
+        <p>Triffin laid this out to a Senate committee in October 1959. From the transcript, his bottom-line warning was that the system was &ldquo;bound to collapse&rdquo; unless reformed &mdash; you would either get a global liquidity squeeze (if the US stopped issuing dollars) or a confidence crisis in the dollar (if it kept issuing them past the point where gold could back them). One or the other, with no escape lane.</p>
+
+        <p>De Gaulle started literally demanding gold for dollars in 1965. The US gold stock dropped from 20,000 tonnes in 1958 to about 8,100 tonnes by 1971. On August 15, 1971 Nixon went on TV and ended dollar-gold convertibility. The Bretton Woods system Triffin had predicted would die, died. He had twelve years of being insufferable about it at faculty dinners.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the dilemma didn&rsquo;t die with the gold peg</summary>
+          <p>A common misreading: &ldquo;Triffin&rsquo;s Dilemma was about gold, and we left gold in 1971, so the dilemma is over.&rdquo; This is wrong, and it&rsquo;s wrong because the dilemma was never fundamentally about gold. The gold peg was just the <em>visible failure mode</em>. The underlying mechanic &mdash; that the reserve issuer has to be a net dollar supplier to the world, which means a balance-of-payments deficit &mdash; is purely an identity. Identities don&rsquo;t care about gold pegs.</p>
+          <p>Post-1971, the &ldquo;collapse&rdquo; outcome shifted from a gold-confidence crisis (because nobody can demand gold anymore) to a slow-motion external-debt accumulation problem. Same dilemma, less dramatic failure mode. The US net international investment position is now about <strong>&minus;$26 trillion</strong> &mdash; the cumulative tab the dilemma has rung up over fifty years.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Why does a surplus mean no dollars abroad?
+         ============================================================ -->
+    <section class="reveal" id="iii-surplus">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>Why does a surplus mean no dollars abroad?</h2>
+      </div>
+      <div class="section-content">
+        <p>This is the part that takes thirty seconds to internalise if you say it once with a diagram and then takes forever to un-see.</p>
+
+        <p>Imagine two economies, the US and Rest-of-World (ROW). The US makes airplanes and chips. ROW makes T-shirts and oil. They trade. If the US sells $100 of airplanes to ROW and buys $120 of T-shirts back, that&rsquo;s a $20 trade <em>deficit</em> for the US. ROW shipped $120 of goods over and received $100 of goods plus <strong>$20 of dollar-denominated claims</strong> &mdash; deposits, Treasury bills, whatever. Those $20 now sit in ROW central banks and corporations as foreign reserves.</p>
+
+        <p>Now flip it. The US sells $120 of airplanes and buys $100 of T-shirts. That&rsquo;s a $20 trade <em>surplus</em>. Now ROW is the one holding the deficit: it sent $100 of T-shirts but received $120 of airplanes. To balance the books, ROW has to ship $20 of <em>its own assets</em> over &mdash; either previously-held US dollars from its reserves, or its own currency, or claims on its companies. ROW is <em>losing</em> dollars to the US in this scenario, not gaining them.</p>
+
+        <p>Run this every year for thirty years and the answer is mechanical. A persistent US trade surplus means foreign holdings of US dollars <em>shrink</em> over time. They can&rsquo;t accumulate; they drain. No accumulation, no reserves, no role as the asset every other central bank wants to hold in case of trouble.</p>
+
+        <p>The identity at the bottom is the balance-of-payments equation, and it&rsquo;s an accounting truth, not a theory:</p>
+
+        <div class="math-block">
+          Current Account &nbsp;+&nbsp; Capital Account &nbsp;=&nbsp; 0
+          <span class="math-where">over any time window, by construction; positive CA must equal negative capital account (net foreign asset accumulation), and vice versa</span>
+        </div>
+
+        <p>So if the US runs a current-account surplus, by identity it must run a capital-account deficit &mdash; meaning Americans are net buyers of foreign assets, not the other way around. <em>Foreigners are net sellers of US assets.</em> Their dollar reserves go down, not up. This is exactly the wrong direction to grow a reserve currency.</p>
+
+        <p>The widget below makes this an experience instead of an argument. You get one slider per decade and you set the US current-account balance. Try to make the US <em>both</em> a surplus country <em>and</em> a reserve issuer with cumulating foreign dollar reserves. You can&rsquo;t. The simulator is the dilemma.</p>
+
+        <!-- Widget 1: Stock-flow simulator -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Try to Be a Reserve Issuer Without Deficits</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="triffin-readout">
+            <div class="tr-cell"><div class="tr-label">30-yr avg CA</div><div class="tr-value" id="w1-avg">&mdash;</div></div>
+            <div class="tr-cell"><div class="tr-label">Foreign USD reserves at year 30</div><div class="tr-value" id="w1-final">&mdash;</div></div>
+            <div class="tr-cell"><div class="tr-label">Years drained</div><div class="tr-value" id="w1-drained">&mdash;</div></div>
+          </div>
+          <div class="decade-grid">
+            <div class="slider-group">
+              <div class="slider-label"><span>Years 1&ndash;10 CA/GDP</span><span class="slider-value" id="w1-d1-val">&minus;3.0%</span></div>
+              <input type="range" id="w1-d1" min="-60" max="60" value="-30" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Years 11&ndash;20 CA/GDP</span><span class="slider-value" id="w1-d2-val">&minus;3.0%</span></div>
+              <input type="range" id="w1-d2" min="-60" max="60" value="-30" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Years 21&ndash;30 CA/GDP</span><span class="slider-value" id="w1-d3-val">&minus;3.0%</span></div>
+              <input type="range" id="w1-d3" min="-60" max="60" value="-30" step="5">
+            </div>
+          </div>
+          <div id="w1-verdict" class="triffin-verdict">Set each decade.</div>
+          <p class="widget-hint">Top panel: annual current-account flow (red = deficit, green = surplus). Bottom panel: cumulative foreign USD reserves. Now push all three decades positive (surplus) and watch reserves drain to zero. There is no third door &mdash; that&rsquo;s Triffin in one slider.</p>
+        </div>
+
+        <p>The pattern you just lived through is the central piece of arithmetic in the article. Reserve-currency status is a stock of foreign claims on you. Stocks are built by flows. The only flow that builds the stock is a current-account deficit. Period.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Why does a deficit mean unsustainable debt?
+         ============================================================ -->
+    <section class="reveal" id="iv-deficit">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>Why does a deficit mean unsustainable debt?</h2>
+      </div>
+      <div class="section-content">
+        <p>So why is this called a <em>dilemma</em> instead of a free lunch? Because the other horn is sharp too.</p>
+
+        <p>Every dollar of US current-account deficit is a dollar of foreign claim on the US. That claim is, in net terms, an IOU. Over fifty years of running deficits, those IOUs accumulate into something called the Net International Investment Position &mdash; the difference between US-owned foreign assets and foreign-owned US assets. As of late 2025 the US NIIP is roughly <strong>&minus;$26 trillion</strong>. That is the cumulative scoreboard of the deficit horn of Triffin.</p>
+
+        <p>Foreigners hold about <strong>$9.5 trillion</strong> of US Treasuries directly &mdash; about 24.5% of total Treasuries outstanding<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. They hold trillions more in US equities, corporate bonds, real estate, and bank deposits. The day they decide they don&rsquo;t want those claims at the current dollar price, the dollar moves &mdash; sharply. This is the modern, post-gold version of Triffin&rsquo;s confidence-crisis horn. There&rsquo;s no gold window to close, but there&rsquo;s an exit door from US assets, and it&rsquo;s only as wide as the bid for those assets at any given moment.</p>
+
+        <p>Triffin&rsquo;s original 1959 testimony predicted this would manifest as a gold-confidence crisis. The 2026 version: it manifests as a <em>term-premium repricing</em>. The ten-year Treasury term premium has gone from roughly &minus;80&nbsp;bp during the 2020&ndash;21 QE era to about <strong>+68&nbsp;bp as of April 2026</strong> &mdash; an 150-bp swing<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. That swing is, in part, Triffin&rsquo;s second horn collecting its bill: foreigners want more compensation per year to hold the cumulative pile of dollar claims that fifty years of US deficits have stuck them with.</p>
+
+        <p>For the napkin math, see the companion piece on <a href="../bond-math/index.html"><em>bond math</em></a>. A 100&nbsp;bp shift in the curve costs the Treasury roughly $3.2&nbsp;trillion in extra debt service over ten years. The deficit horn doesn&rsquo;t bite as a sudden collapse; it bites as a steady, decade-long tax on the federal budget.</p>
+
+        <p>Both horns of the dilemma cost real money. The whole point is that there&rsquo;s no painless option. That&rsquo;s why it&rsquo;s a dilemma, not a puzzle.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Has the US actually run deficits the whole time?
+         ============================================================ -->
+    <section class="reveal" id="v-data">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>Has the US actually run deficits the whole time?</h2>
+      </div>
+      <div class="section-content">
+        <p>Yes. Almost exactly the whole time.</p>
+
+        <p>The US has run a current-account deficit in <strong>49 of the last 50 years</strong>. The one exception was <strong>1991</strong>, and the reason for the exception is a particularly funny piece of accounting: the Gulf War. Allied nations &mdash; Saudi Arabia, Kuwait, the UAE, Japan, Germany &mdash; transferred roughly $42&nbsp;billion to the United States to defray the cost of Operation Desert Storm. Those transfers count, in the balance-of-payments accounts, as a credit on the US current account. They were big enough to flip the US into a small surplus of about $2.9&nbsp;billion that year. Take out the foreign Desert Storm reimbursements and the US would have run a deficit in 1991 like every other year.</p>
+
+        <p>That is how persistent the deficit horn has been: in fifty years the only escape was getting foreign governments to <em>pay the US</em> for running their war for them, and even that just barely flipped the sign.</p>
+
+        <p>The average annual US current-account balance since 1976 has been about <strong>&minus;2.5% of GDP</strong>. The cumulative tab, summed up, lands you near the &minus;$26 trillion NIIP figure above. The dilemma isn&rsquo;t a theoretical worry &mdash; it&rsquo;s been the lived structure of the world economy for two generations.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the 1991 surplus was tiny and the accounting is suspect</summary>
+          <p>The 1991 figure deserves an asterisk. The Gulf War transfers were partly cash, partly &ldquo;in-kind&rdquo; (Japan and Germany covering specific bills directly). Different BEA vintages have put the 1991 surplus anywhere from $2.9&nbsp;billion to about $5&nbsp;billion. Without those one-off transfers the underlying current-account balance would have been a deficit of roughly $40&nbsp;billion, fully consistent with the rest of the run.</p>
+          <p>The takeaway isn&rsquo;t that 1991 broke Triffin. The takeaway is that the only year in fifty that <em>looked</em> like an exception required a once-in-a-lifetime geopolitical event to manufacture, and even then the sign barely flipped.</p>
+        </details>
+
+        <p>The fact that the US has run deficits this consistently is not a policy choice anyone is making in a room somewhere. It is what the world economy demands of its reserve issuer. Every year the global pool of dollar reserves needs to grow to match world GDP growth and world trade growth. The US supplies that growth by running a deficit. If it stopped, dollar liquidity would crater and a deflationary global squeeze would follow within months. The reserve role and the deficit role are the same role.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Does the Eurodollar market soften the constraint?
+         ============================================================ -->
+    <section class="reveal" id="vi-eurodollar">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>Does the Eurodollar market soften the constraint?</h2>
+      </div>
+      <div class="section-content">
+        <p>Somewhat. Not enough to break the dilemma.</p>
+
+        <p>The Eurodollar market is the offshore market in dollar-denominated deposits and loans &mdash; dollar balances created on the books of non-US banks that the Federal Reserve does not directly control. BIS estimates put non-US-bank dollar liabilities at roughly <strong>$13 trillion</strong> as of late 2025<a class="footnote-ref" id="fnref-5" href="#fn-5">[5]</a>. That is a vast offshore dollar plumbing system. A Japanese bank can make a dollar loan to a Brazilian importer without any new dollars leaving US shores, because the Japanese bank just credits the Brazilian&rsquo;s dollar account on its own balance sheet. The dollars are created at the moment of the loan, just as a domestic bank creates money when it lends.</p>
+
+        <p>So in theory, offshore dollar creation could substitute for US deficit-running. Triffin&rsquo;s identity says: <em>foreign accumulation of dollars requires US dollar issuance</em>. The Eurodollar market lets foreigners issue dollars themselves. Doesn&rsquo;t that solve the dilemma?</p>
+
+        <p>It softens it, but it doesn&rsquo;t kill it, for two reasons.</p>
+
+        <p>First, every Eurodollar loan is a dollar liability that must <em>eventually settle in actual dollars</em>. The Japanese bank&rsquo;s books say the Brazilian importer owes dollars, but if the Brazilian needs to pay an oil bill to a Saudi exporter who banks in New York, the chain ends with a Fedwire transfer in real, central-bank dollars. The Eurodollar system economises on US-base-money use but it cannot escape it entirely &mdash; just like commercial bank lending in the domestic economy economises on but cannot replace central-bank reserves.</p>
+
+        <p>Second, in any crisis the offshore system reaches for the Fed. The 2008 crisis, the March 2020 crisis, and every dollar squeeze in between has ended with the Fed opening or extending <strong>central-bank liquidity swap lines</strong> to the ECB, BoJ, BoE, and a rotating cast of others &mdash; effectively converting the offshore dollar system back into onshore dollars at par. When the music stops, the Fed <em>is</em> the source. The offshore system runs on the implicit guarantee that it can always come home. That guarantee is what the Eurodollar market actually rents from the US, and the price the US pays for offering it is &mdash; you guessed it &mdash; a permanent current-account deficit so the world has a stock of dollars at all in the first place.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the "soft Triffin" view, and why it doesn&rsquo;t change the punchline</summary>
+          <p>Some economists (Pozsar, McCauley, others) argue Triffin needs an update for the Eurodollar era. The strong form &mdash; &ldquo;US deficits are the <em>only</em> way to grow global dollar reserves&rdquo; &mdash; isn&rsquo;t literally true once you account for offshore dollar creation. A more accurate statement is: <em>the global dollar system requires a backstop, and the only credible backstop is the Fed</em>.</p>
+          <p>The Fed&rsquo;s ability to be the backstop, in turn, requires the US to be deeply integrated into global trade as the residual buyer-of-last-resort &mdash; i.e. the deficit country. So even in the soft-Triffin view, the punchline lands in the same place: the reserve issuer cannot be a surplus country. The Eurodollar layer changes the route, not the destination.</p>
+        </details>
+
+        <p>The IMF&rsquo;s COFER series puts the dollar at about <strong>59% of global allocated reserves</strong> in 2026, down from a peak of 71% in 2000 but stable since 2020. The Eurodollar market explains why this share is sticky &mdash; the offshore plumbing is too vast and too useful to walk away from &mdash; but it cannot explain how the original dollars got abroad in the first place. That work is done, year after year, by the US current-account deficit.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Why can't the yuan be a reserve currency?
+         ============================================================ -->
+    <section class="reveal" id="vii-yuan">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>Why can&rsquo;t the yuan be a reserve currency?</h2>
+      </div>
+      <div class="section-content">
+        <p>This is where Triffin earns his keep.</p>
+
+        <p>Beijing has been very explicit, for fifteen years now, that yuan internationalization is a strategic priority. The 2009 Renminbi internationalization plan, the founding of the AIIB in 2016, the cross-border interbank payment system (CIPS), the digital yuan pilot, bilateral swap lines with two dozen central banks &mdash; all designed to move the yuan from where it sits today (<strong>~1.8% of global payments via SWIFT, ~2.3% of allocated reserves</strong>) toward something resembling reserve-currency relevance. China has the world&rsquo;s second-largest economy and largest manufacturing base. On paper, this should be possible.</p>
+
+        <p>It is not possible without dismantling the Chinese growth model. Here is why, in one paragraph:</p>
+
+        <p>For the yuan to be a global reserve currency, foreign central banks and corporations need to <em>accumulate yuan</em>. The only way they accumulate yuan is if China runs a current-account <em>deficit</em> &mdash; importing more than it exports, sending more yuan abroad than it pulls back. But China&rsquo;s entire post-1978 growth model is built on the opposite: an export-led, investment-driven economy with a structural current-account <em>surplus</em>, currently around <strong>2&ndash;3% of GDP</strong> per year. Beijing protects this surplus aggressively because it underwrites manufacturing employment, dollar reserve accumulation, and the political legitimacy of the Communist Party.</p>
+
+        <p>So the yuan-internationalization project hit Triffin&rsquo;s door and could not get through. You can run swap lines and digital pilots all you want; if the underlying flow is reversed, nobody outside China ever accumulates a meaningful stock of yuan. The widget below lets you compare China to the US directly on this dimension &mdash; the same flow that builds dollar reserves abroad is the flow China is structurally committed <em>not</em> to run.</p>
+
+        <!-- Widget 2: Two-economy ledger -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Two-Economy Ledger</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="country-pills">
+            <span class="country-pill is-active" data-preset="us">US (&minus;3.5% CA)</span>
+            <span class="country-pill" data-preset="china">China (+2.5% CA)</span>
+            <span class="country-pill" data-preset="germany">Germany (+7.0% CA)</span>
+            <span class="country-pill" data-preset="balanced">Hypothetical balanced (0.0%)</span>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Current account / GDP (issuer&rsquo;s perspective)</span><span class="slider-value" id="w2-ca-val">&minus;3.5%</span></div>
+            <input type="range" id="w2-ca" min="-80" max="80" value="-35" step="5">
+          </div>
+          <div class="triffin-readout">
+            <div class="tr-cell"><div class="tr-label">Currency outflow to ROW</div><div class="tr-value" id="w2-out">&mdash;</div></div>
+            <div class="tr-cell"><div class="tr-label">Capital inflow to issuer</div><div class="tr-value" id="w2-in">&mdash;</div></div>
+            <div class="tr-cell"><div class="tr-label">Reserve-currency viable?</div><div class="tr-value" id="w2-verdict">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Drag the slider negative (deficit) to see issuer-currency flowing out to ROW &mdash; the flow that fills foreign reserves. Click any country pill to jump to its actual 2025 number. China&rsquo;s preset puts the arrow exactly the wrong way for reserve-currency status.</p>
+        </div>
+
+        <p>Notice what the China preset shows: the arrow of currency flow is <em>into</em> China, not out. ROW is shedding yuan to China, not accumulating it. Every year China runs that surplus, the global yuan stock outside China <em>shrinks</em> in net terms, not grows. The Germany preset is the same story at twice the magnitude &mdash; which is why the euro&rsquo;s share of global reserves has been roughly flat at 20% for fifteen years despite a unified currency for 350 million people.</p>
+
+        <p>The implication runs the other way too. If China <em>did</em> decide to flip into structural current-account deficit to fund yuan reserve accumulation, it would have to: <em>(a)</em> let the yuan rise sharply to make Chinese exports uncompetitive; <em>(b)</em> accept double-digit declines in manufacturing employment; <em>(c)</em> open the capital account so foreigners can actually hold yuan-denominated assets at scale; and <em>(d)</em> accept a US-style external debt position over time. Each of these threatens the political and economic foundations of the post-Deng model. None will happen on the relevant horizon.</p>
+
+        <p>So the yuan is stuck. Not because of Western containment, sanctions, or a CIPS technology gap &mdash; but because of Triffin&rsquo;s identity. Beijing is trying to be both an exporter and a reserve issuer, and the math doesn&rsquo;t allow both at the same time.</p>
+
+        <p>The same dilemma binds Japan (post-2000 current-account surplus averaging 3% of GDP, yen reserve share stuck at 5%), Germany (surplus averaging 6% of GDP, euro share roughly flat), and every other prospective challenger. The countries that <em>could</em> credibly issue a reserve currency are the ones that, on Triffin&rsquo;s identity, structurally <em>can&rsquo;t</em>. The US gets to keep the role almost by default &mdash; not because it wants to, exactly, but because nobody else is willing to pay the price of admission.</p>
+
+        <blockquote>
+          <p><strong>The reserve issuer has to run permanent trade deficits. Anyone else who tries gets blocked by their own surplus before they get within sight of the role. That&rsquo;s Triffin in two sentences. The next twenty years of global monetary politics happens entirely inside this constraint.</strong></p>
+        </blockquote>
+
+        <p>Next in this series: <a href="#"><em>balance of payments</em></a> &mdash; the accounting identity behind every claim in this article, written out carefully enough that you can do the arithmetic for any country in your head. Once you have that and Triffin, the rest of the petrodollar story is bookkeeping.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">US Bureau of Economic Analysis, &ldquo;US International Transactions&rdquo; (preliminary FY2026 figures); CBO Budget Outlook (FY2026). The 49-of-50-years figure runs from 1976 through 2025; the lone surplus year is 1991. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Robert Triffin, testimony before the US Congress Joint Economic Committee, &ldquo;Employment, Growth, and Price Levels,&rdquo; October 28, 1959; expanded into <em>Gold and the Dollar Crisis: The Future of Convertibility</em> (Yale University Press, 1960). Triffin explicitly predicted the gold-dollar peg would collapse; Nixon closed the gold window on August 15, 1971, twelve years later. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">US Treasury TIC data, February 2026; Wolf Street aggregation. Total foreign holdings of US Treasuries: $9.49 trillion, or 24.5% of total Treasuries outstanding. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">Adrian-Crump-Moench (ACM) 10-year term premium, NY Fed research database. April 24, 2026 reading: +0.68%, vs &minus;0.80 to &minus;1.00% during 2020&ndash;2021 QE. For the bond-math arithmetic of what that costs the Treasury, see the companion piece on <a href="../bond-math/index.html">bond math</a>. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+          <li id="fn-5">Bank for International Settlements Quarterly Review (Q4 2025), &ldquo;Global Liquidity Indicators.&rdquo; Non-bank dollar credit outside the US is approximately $13 trillion as of late 2025; this is the standard proxy for the Eurodollar market size. <a class="footnote-back" href="#fnref-5">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Widget 1 — Stock-flow simulator (Triffin in one slider)
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w1-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      var YEARS = 30;
+      // Assume a constant world-GDP base of $25T for the issuer ("US-like") for
+      // intuitive dollar-billions readouts. CA% of GDP is converted to $B/yr.
+      var GDP_B = 25000;  // $25T base GDP, in billions
+
+      // Starting foreign USD reserve stock at year 0, in $B.
+      // Roughly the 1995 foreign-held UST stock so the starting point is realistic.
+      var STARTING_RESERVES = 1000;
+
+      function flowsFromSliders(d1, d2, d3) {
+        // d1, d2, d3 are CA/GDP in percent (signed: negative = deficit).
+        var flows = [];
+        for (var t = 0; t < YEARS; t++) {
+          var pct;
+          if (t < 10) pct = d1;
+          else if (t < 20) pct = d2;
+          else pct = d3;
+          // Cash flow for the ROW: a US deficit (pct < 0) means ROW GAINS dollars.
+          // Convention: rowGain = -pct/100 * GDP, so a -3% CA = +750 to ROW.
+          var rowGain = -(pct / 100) * GDP_B;
+          flows.push({ caPct: pct, rowGain: rowGain });
+        }
+        return flows;
+      }
+
+      function cumulative(flows) {
+        var stock = STARTING_RESERVES;
+        var path = [{ year: 0, stock: stock }];
+        var firstDrainedYear = -1;
+        for (var t = 0; t < flows.length; t++) {
+          stock = stock + flows[t].rowGain;
+          if (stock < 0) stock = 0;
+          if (stock === 0 && firstDrainedYear === -1) firstDrainedYear = t + 1;
+          path.push({ year: t + 1, stock: stock });
+        }
+        return { path: path, firstDrainedYear: firstDrainedYear };
+      }
+
+      function redraw(d1, d2, d3) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var flows = flowsFromSliders(d1, d2, d3);
+        var cum = cumulative(flows);
+
+        // Split canvas into two stacked panels
+        var splitY = Math.round(h * 0.42);
+        var topPanel = { x: 0, y: 0, w: w, h: splitY };
+        var botPanel = { x: 0, y: splitY, w: w, h: h - splitY };
+
+        // ===== TOP PANEL: annual current-account flows (bars) =====
+        var topPad = { top: 14, right: 14, bottom: 22, left: 60 };
+        var maxAbsCA = Math.max(8, Math.abs(d1), Math.abs(d2), Math.abs(d3));
+        var caMin = -maxAbsCA, caMax = maxAbsCA;
+        // Re-draw axes by adjusting padding inside the top panel
+        // We'll use drawAxesCanvas but we want axes in a sub-rect; easiest is
+        // to translate the context, draw with full pad relative to that rect.
+        ctx.save();
+        ctx.translate(topPanel.x, topPanel.y);
+        var padT = drawAxesCanvas(ctx, topPanel.w, topPanel.h, {
+          padding: topPad,
+          xLabels: ['yr 0', '', '', '', '', 'yr 30'],
+          yMin: caMin, yMax: caMax, ySteps: 4,
+          yFmt: function(v) {
+            var s = v > 0 ? '+' : '';
+            return s + v.toFixed(0) + '%';
+          }
+        });
+        // Title
+        drawTextCanvas(ctx, padT.left, 8, 'Annual current account (% GDP)',
+          { fontSize: 11, weight: '600', color: 'var(--text-secondary)', align: 'left', baseline: 'top' });
+
+        // Zero line
+        var zeroY = mapY(0, caMin, caMax, topPanel.h, padT);
+        drawLineCanvas(ctx,
+          [{ x: padT.left, y: zeroY }, { x: topPanel.w - padT.right, y: zeroY }],
+          { color: 'var(--text-secondary)', width: 1 });
+
+        // Bars
+        var plotW = topPanel.w - padT.left - padT.right;
+        var barW = Math.max(1, plotW / YEARS - 1.5);
+        for (var i = 0; i < YEARS; i++) {
+          var x = padT.left + (i / YEARS) * plotW + 1;
+          var yTop = mapY(Math.max(0, flows[i].caPct), caMin, caMax, topPanel.h, padT);
+          var yBot = mapY(Math.min(0, flows[i].caPct), caMin, caMax, topPanel.h, padT);
+          var color = flows[i].caPct < 0 ? '#c53030' : '#22543d';
+          ctx.fillStyle = color;
+          ctx.fillRect(x, Math.min(yTop, yBot), barW, Math.abs(yBot - yTop));
+        }
+        ctx.restore();
+
+        // ===== BOTTOM PANEL: cumulative foreign USD reserves =====
+        var botPad = { top: 24, right: 14, bottom: 26, left: 60 };
+        var stockMax = Math.max(2000, STARTING_RESERVES + Math.abs(
+          flows.reduce(function(acc, f) { return acc + Math.max(0, f.rowGain); }, 0)
+        ));
+        var stockMin = 0;
+
+        ctx.save();
+        ctx.translate(botPanel.x, botPanel.y);
+        var padB = drawAxesCanvas(ctx, botPanel.w, botPanel.h, {
+          padding: botPad,
+          xLabels: ['yr 0', 'yr 5', 'yr 10', 'yr 15', 'yr 20', 'yr 25', 'yr 30'],
+          yMin: stockMin, yMax: stockMax, ySteps: 4,
+          yFmt: function(v) {
+            if (v >= 1000) return '$' + (v / 1000).toFixed(1) + 'T';
+            return '$' + v.toFixed(0) + 'B';
+          }
+        });
+        drawTextCanvas(ctx, padB.left, 8, 'Cumulative foreign USD reserves',
+          { fontSize: 11, weight: '600', color: 'var(--text-secondary)', align: 'left', baseline: 'top' });
+        drawTextCanvas(ctx, botPanel.w / 2, botPanel.h - 4, 'Years',
+          { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // Fill area under the cumulative curve for visual weight
+        var toX = function(yr) { return mapX(yr, 0, YEARS, botPanel.w, padB); };
+        var toY = function(s) { return mapY(s, stockMin, stockMax, botPanel.h, padB); };
+
+        var fillPts = cum.path.map(function(pt) {
+          return { x: toX(pt.year), y: toY(pt.stock) };
+        });
+        if (fillPts.length > 1) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(fillPts[0].x, toY(0));
+          for (var k = 0; k < fillPts.length; k++) ctx.lineTo(fillPts[k].x, fillPts[k].y);
+          ctx.lineTo(fillPts[fillPts.length - 1].x, toY(0));
+          ctx.closePath();
+          ctx.fillStyle = 'rgba(197, 48, 48, 0.10)';
+          ctx.fill();
+          ctx.restore();
+        }
+        drawLineCanvas(ctx, fillPts, { color: 'var(--accent)', width: 2.4 });
+
+        // End marker dot
+        var last = cum.path[cum.path.length - 1];
+        drawPointCanvas(ctx, toX(last.year), toY(last.stock), 5, 'var(--accent)', '#fff');
+
+        ctx.restore();
+
+        // ===== Readouts =====
+        var avgCA = (d1 + d2 + d3) / 3;
+        var avgEl = document.getElementById('w1-avg');
+        avgEl.textContent = (avgCA > 0 ? '+' : '') + avgCA.toFixed(1) + '%';
+        avgEl.className = 'tr-value ' + (avgCA > 0 ? 'is-good' : 'is-bad');
+
+        var finalReserves = last.stock;
+        var finalEl = document.getElementById('w1-final');
+        if (finalReserves >= 1000) finalEl.textContent = '$' + (finalReserves / 1000).toFixed(2) + 'T';
+        else finalEl.textContent = '$' + finalReserves.toFixed(0) + 'B';
+
+        var drainedEl = document.getElementById('w1-drained');
+        if (cum.firstDrainedYear === -1) {
+          drainedEl.textContent = 'none';
+          drainedEl.className = 'tr-value';
+        } else {
+          drainedEl.textContent = 'yr ' + cum.firstDrainedYear;
+          drainedEl.className = 'tr-value is-bad';
+        }
+
+        // ===== Verdict banner =====
+        var verdict = document.getElementById('w1-verdict');
+        var allSurplus = d1 >= 0 && d2 >= 0 && d3 >= 0 && avgCA > 0;
+        var anySurplus = (d1 > 0 || d2 > 0 || d3 > 0);
+        if (allSurplus) {
+          verdict.className = 'triffin-verdict is-bad';
+          verdict.innerHTML = '<strong>Reserve currency: impossible.</strong> Foreign USD reserves drained by year ' +
+            (cum.firstDrainedYear === -1 ? 'the end' : cum.firstDrainedYear) +
+            '. You ran surpluses every decade &mdash; no dollars left the US, so foreign central banks couldn&rsquo;t accumulate any. This is China&rsquo;s position.';
+        } else if (avgCA < 0 && finalReserves > 2000) {
+          verdict.className = 'triffin-verdict is-good';
+          verdict.innerHTML = '<strong>Reserve currency: viable.</strong> Foreign reserves grew to $' +
+            (finalReserves / 1000).toFixed(1) + 'T. You ran the deficits required to seed the world with dollars &mdash; this is the US since 1976.';
+        } else if (anySurplus) {
+          verdict.className = 'triffin-verdict is-bad';
+          verdict.innerHTML = '<strong>Reserve currency: hobbled.</strong> Mixed pattern. Every surplus decade actively withdraws dollars from the world. Reserves end at $' +
+            (finalReserves >= 1000 ? (finalReserves / 1000).toFixed(2) + 'T' : finalReserves.toFixed(0) + 'B') + '.';
+        } else {
+          verdict.className = 'triffin-verdict';
+          verdict.innerHTML = '<strong>Reserve currency: marginal.</strong> Small deficits trickle reserves out but the global pool grows slowly. Reserves end at $' +
+            (finalReserves >= 1000 ? (finalReserves / 1000).toFixed(2) + 'T' : finalReserves.toFixed(0) + 'B') +
+            ' &mdash; below the trajectory needed to keep up with world GDP growth.';
+        }
+      }
+
+      attachSliders([
+        { el: document.getElementById('w1-d1'),
+          label: document.getElementById('w1-d1-val'),
+          format: function(v) {
+            var p = v / 10;
+            var s = p > 0 ? '+' : (p < 0 ? '−' : '');
+            return s + Math.abs(p).toFixed(1) + '%';
+          } },
+        { el: document.getElementById('w1-d2'),
+          label: document.getElementById('w1-d2-val'),
+          format: function(v) {
+            var p = v / 10;
+            var s = p > 0 ? '+' : (p < 0 ? '−' : '');
+            return s + Math.abs(p).toFixed(1) + '%';
+          } },
+        { el: document.getElementById('w1-d3'),
+          label: document.getElementById('w1-d3-val'),
+          format: function(v) {
+            var p = v / 10;
+            var s = p > 0 ? '+' : (p < 0 ? '−' : '');
+            return s + Math.abs(p).toFixed(1) + '%';
+          } }
+      ], function(values) {
+        var d1 = values['w1-d1'] / 10;
+        var d2 = values['w1-d2'] / 10;
+        var d3 = values['w1-d3'] / 10;
+        redraw(d1, d2, d3);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — Two-economy ledger
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w2-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      var GDP_B = 25000;  // $25T base
+
+      var PRESETS = {
+        us:       { ca: -35, label: 'US (FY2026)' },
+        china:    { ca:  25, label: 'China (2025)' },
+        germany:  { ca:  70, label: 'Germany (2024)' },
+        balanced: { ca:   0, label: 'Hypothetical balanced' }
+      };
+
+      function redraw(caTenths) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var caPct = caTenths / 10;
+        var flowUSD = -(caPct / 100) * GDP_B;  // ROW gain in $B/yr
+
+        // Layout: two big boxes (Issuer left, ROW right) with two arrow channels.
+        var pad = 24;
+        var boxW = (w - pad * 3) / 2;
+        var boxY = 40;
+        var boxH = h - boxY - 70;
+
+        var issuerBox = { x: pad, y: boxY, w: boxW, h: boxH };
+        var rowBox = { x: pad * 2 + boxW, y: boxY, w: boxW, h: boxH };
+
+        function drawBox(box, title, sub, accent) {
+          // Background
+          ctx.save();
+          ctx.fillStyle = '#fff';
+          ctx.strokeStyle = accent;
+          ctx.lineWidth = 2;
+          if (ctx.roundRect) {
+            ctx.beginPath();
+            ctx.roundRect(box.x, box.y, box.w, box.h, 10);
+            ctx.fill();
+            ctx.stroke();
+          } else {
+            ctx.fillRect(box.x, box.y, box.w, box.h);
+            ctx.strokeRect(box.x, box.y, box.w, box.h);
+          }
+          ctx.restore();
+          drawTextCanvas(ctx, box.x + box.w / 2, box.y + 24, title,
+            { fontSize: 15, weight: '600', color: accent });
+          drawTextCanvas(ctx, box.x + box.w / 2, box.y + 44, sub,
+            { fontSize: 11, color: 'var(--text-secondary)' });
+        }
+
+        // Title bar
+        drawTextCanvas(ctx, w / 2, 20, 'Balance of Payments Identity: CA + Capital = 0',
+          { fontSize: 12, weight: '600', color: 'var(--text-secondary)' });
+
+        drawBox(issuerBox, 'Issuer Country', 'GDP $25T', 'var(--accent)');
+        drawBox(rowBox, 'Rest of World (ROW)', 'GDP $75T (illustrative)', '#4a5568');
+
+        // Arrow channels
+        var ch1Y = issuerBox.y + 90;
+        var ch2Y = issuerBox.y + boxH - 60;
+
+        function drawArrow(x1, x2, y, color, label, value, isOutflow) {
+          var dir = x2 > x1 ? 1 : -1;
+          var minThick = 2, maxThick = 22;
+          var thickness = Math.min(maxThick, minThick + Math.abs(value) / 60);
+          if (Math.abs(value) < 1) thickness = 1;
+
+          ctx.save();
+          ctx.strokeStyle = color;
+          ctx.fillStyle = color;
+          ctx.lineWidth = thickness;
+          ctx.lineCap = 'round';
+          // Shaft (leave headroom for arrowhead)
+          var head = 14;
+          var xEnd = x2 - dir * head;
+          ctx.beginPath();
+          ctx.moveTo(x1, y);
+          ctx.lineTo(xEnd, y);
+          ctx.stroke();
+          // Arrowhead
+          ctx.beginPath();
+          ctx.moveTo(x2, y);
+          ctx.lineTo(xEnd, y - 8);
+          ctx.lineTo(xEnd, y + 8);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+
+          // Label above
+          drawTextCanvas(ctx, (x1 + x2) / 2, y - thickness / 2 - 14, label,
+            { fontSize: 12, weight: '600', color: color });
+          // Value below
+          var valStr;
+          if (Math.abs(value) < 1) valStr = '~ $0';
+          else if (Math.abs(value) >= 1000) valStr = '$' + (Math.abs(value) / 1000).toFixed(2) + 'T/yr';
+          else valStr = '$' + Math.abs(value).toFixed(0) + 'B/yr';
+          drawTextCanvas(ctx, (x1 + x2) / 2, y + thickness / 2 + 14, valStr,
+            { fontSize: 11, color: 'var(--text-secondary)' });
+        }
+
+        // Channel 1: goods/services flow
+        // If issuer runs deficit (caPct < 0): goods flow ROW -> Issuer (issuer imports more)
+        // If issuer runs surplus (caPct > 0): goods flow Issuer -> ROW
+        var goodsValue = Math.abs(caPct / 100) * GDP_B;
+        if (caPct < 0) {
+          drawArrow(rowBox.x, issuerBox.x + issuerBox.w, ch1Y, '#4a5568',
+            'Net goods & services', goodsValue, false);
+        } else if (caPct > 0) {
+          drawArrow(issuerBox.x + issuerBox.w, rowBox.x, ch1Y, '#4a5568',
+            'Net goods & services', goodsValue, true);
+        } else {
+          // balanced - draw both directions thin or a flat line
+          drawTextCanvas(ctx, (issuerBox.x + issuerBox.w + rowBox.x) / 2, ch1Y,
+            'Net goods & services: balanced',
+            { fontSize: 12, weight: '600', color: '#4a5568' });
+        }
+
+        // Channel 2: financial / currency flow (equal and opposite by identity)
+        if (caPct < 0) {
+          // Issuer-currency flows OUT to ROW (ROW receives USD claims)
+          drawArrow(issuerBox.x + issuerBox.w, rowBox.x, ch2Y, 'var(--accent)',
+            'Issuer currency flow', flowUSD, true);
+        } else if (caPct > 0) {
+          // ROW currency / USD claims flow IN to Issuer (ROW sheds USD to pay for goods)
+          drawArrow(rowBox.x, issuerBox.x + issuerBox.w, ch2Y, 'var(--accent)',
+            'Issuer currency flow', Math.abs(flowUSD), false);
+        } else {
+          drawTextCanvas(ctx, (issuerBox.x + issuerBox.w + rowBox.x) / 2, ch2Y,
+            'Currency flow: balanced',
+            { fontSize: 12, weight: '600', color: 'var(--accent)' });
+        }
+
+        // Footer hint
+        var footerMsg;
+        if (caPct < -0.5) {
+          footerMsg = 'Issuer is a net dollar SUPPLIER. Foreign reserves of issuer currency grow. ✓ Reserve role viable.';
+        } else if (caPct > 0.5) {
+          footerMsg = 'Issuer is a net dollar SINK. Foreign reserves of issuer currency shrink. ✗ Reserve role blocked.';
+        } else {
+          footerMsg = 'Balanced — reserves neither grow nor shrink. Not enough flow to seed a global pool.';
+        }
+        drawTextCanvas(ctx, w / 2, h - 18, footerMsg,
+          { fontSize: 11.5, color: 'var(--text-secondary)' });
+
+        // Readouts
+        var outEl = document.getElementById('w2-out');
+        var inEl = document.getElementById('w2-in');
+        var verEl = document.getElementById('w2-verdict');
+
+        function fmt(v) {
+          if (Math.abs(v) < 1) return '$0';
+          if (Math.abs(v) >= 1000) return '$' + (Math.abs(v) / 1000).toFixed(2) + 'T';
+          return '$' + Math.abs(v).toFixed(0) + 'B';
+        }
+        if (caPct < 0) {
+          outEl.textContent = fmt(flowUSD) + ' / yr';
+          outEl.className = 'tr-value is-good';
+          inEl.textContent = fmt(flowUSD) + ' / yr';
+          inEl.className = 'tr-value';
+        } else if (caPct > 0) {
+          outEl.textContent = '−' + fmt(flowUSD) + ' / yr';
+          outEl.className = 'tr-value is-bad';
+          inEl.textContent = '−' + fmt(flowUSD) + ' / yr';
+          inEl.className = 'tr-value is-bad';
+        } else {
+          outEl.textContent = '$0';
+          outEl.className = 'tr-value';
+          inEl.textContent = '$0';
+          inEl.className = 'tr-value';
+        }
+
+        if (caPct < -0.5) {
+          verEl.textContent = 'YES';
+          verEl.className = 'tr-value is-good';
+        } else {
+          verEl.textContent = 'NO';
+          verEl.className = 'tr-value is-bad';
+        }
+      }
+
+      var slider = document.getElementById('w2-ca');
+      var label = document.getElementById('w2-ca-val');
+
+      attachSliders([
+        { el: slider,
+          label: label,
+          format: function(v) {
+            var p = v / 10;
+            var s = p > 0 ? '+' : (p < 0 ? '−' : '');
+            return s + Math.abs(p).toFixed(1) + '%';
+          } }
+      ], function(values) {
+        redraw(values['w2-ca']);
+      });
+
+      // Wire country pills
+      var pills = document.querySelectorAll('#widget-2 .country-pill');
+      pills.forEach(function(pill) {
+        pill.addEventListener('click', function() {
+          pills.forEach(function(p) { p.classList.remove('is-active'); });
+          pill.classList.add('is-active');
+          var preset = PRESETS[pill.getAttribute('data-preset')];
+          if (!preset) return;
+          slider.value = preset.ca;
+          slider.dispatchEvent(new Event('input'));
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

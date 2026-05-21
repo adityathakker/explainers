@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiscal Dominance &mdash; Monetary Explainers</title>
+  <meta name="description" content="When interest expense outgrows tax-revenue growth, the Fed becomes hostage to the deficit. Every hike worsens the fiscal problem the hike is trying to fight. The US is approaching that threshold &mdash; $1T/yr interest, 19% of revenue, $3.2T per 100bps &mdash; and Yellen named the trap at the AEA in January 2026.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Fiscal Dominance">
+  <meta property="og:description" content="Every Fed hike now compounds the deficit. The US Treasury spends ~$1T/yr on interest. A 100bp rise costs $3.2T over a decade. Yellen named it. The Fed's independence ends at a specific, computable threshold.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #9b2c2c;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #63171b 0%, #9b2c2c 100%); }
+
+    /* Readout grid for widget metrics */
+    .fd-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .fd-readout { grid-template-columns: 1fr 1fr; }
+    }
+    .fd-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .fd-cell .fdc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .fd-cell .fdc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .fd-cell .fdc-value.is-crisis { color: #9b2c2c; }
+    .fd-cell .fdc-value.is-safe { color: #22543d; }
+
+    /* What-to-read-next list */
+    .series-next {
+      list-style: none;
+      padding: 0;
+      margin: 18px 0 0;
+    }
+    .series-next li {
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      background: var(--demo-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+    }
+    .series-next li .sn-title {
+      font-weight: 600;
+      color: var(--accent);
+      margin-right: 6px;
+    }
+    .series-next li .sn-desc {
+      color: var(--text);
+    }
+    .series-next li .sn-stub {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Fiscal Dominance</h1>
+      <p class="hero__subtitle">The Fed is supposed to be independent: hike to fight inflation, regardless of fiscal consequences. That mandate becomes incoherent when interest expense is the budget&rsquo;s fastest-growing line item. The US is now spending ~$1 trillion per year on debt interest &mdash; 19% of all federal revenue. A 100bp rise costs the Treasury $3.2 trillion over ten years. At some point &mdash; and we are approaching it &mdash; every hike makes the fiscal problem catastrophically worse. That is fiscal dominance. Yellen named it explicitly in January 2026.</p>
+      <p class="hero__meta">7 chapters &middot; 3 interactive widgets &middot; 24 min read &middot; series capstone</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-independence">What does Fed &ldquo;independence&rdquo; actually mean?</a></li>
+        <li><a href="#ii-arithmetic">Why is the arithmetic a trap, not a slope?</a></li>
+        <li><a href="#iii-threshold">When does debt service become fiscally binding?</a></li>
+        <li><a href="#iv-cbo">What does the CBO&rsquo;s +100bp scenario mean in plain English?</a></li>
+        <li><a href="#v-history">Has this happened before &mdash; and how did it end?</a></li>
+        <li><a href="#vi-practice">What does fiscal dominance actually look like in practice?</a></li>
+        <li><a href="#vii-arc">Where are we now &mdash; and where does this series leave you?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. What does Fed "independence" actually mean?
+         ============================================================ -->
+    <section class="reveal" id="i-independence">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>What does Fed &ldquo;independence&rdquo; actually mean?</h2>
+      </div>
+      <div class="section-content">
+        <p>This is the last article in the series, so let me close the arc.</p>
+
+        <p>Eight articles ago I started with bond math &mdash; a 1% yield move on a 30-year bond destroys about 17% of its price. Then we walked the full chain: reserve currency, Triffin&rsquo;s dilemma, balance-of-payments identity, the 1974 deal, the recycling loop, who&rsquo;s actually left buying Treasuries, and term premium. Every chapter answered a different &ldquo;why is the long end repricing?&rdquo; question. This one answers the last and biggest: <em>so what?</em></p>
+
+        <p>The answer is that the entire post-Volcker monetary order assumes a Fed that can do its job without checking the Treasury&rsquo;s payroll first. That assumption has an expiry date, and I&rsquo;m going to argue it&rsquo;s closer than you think.</p>
+
+        <p>Here&rsquo;s the claim I want to land in two sentences: <strong>when interest expense grows faster than tax revenue, every Fed hike makes the deficit worse than the inflation it&rsquo;s fighting. At that crossover, the Fed stops being independent &mdash; not by statute, but by arithmetic.</strong> The fancy academic name for it is <em>fiscal dominance</em>. Janet Yellen, the previous Treasury Secretary and the closest thing the US has to an establishment voice on this, raised it explicitly at the American Economic Association annual meeting in January 2026<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. When the AEA crowd starts saying it, you can take the fringe-concern label off.</p>
+
+        <p>So what is &ldquo;Fed independence,&rdquo; really? Strip out the civics-textbook framing and it&rsquo;s a very specific operational claim: the Federal Open Market Committee sets the policy rate to hit a 2% inflation target, and the consequences for the federal budget are <em>not its problem</em>. If the deficit blows out because rates went up &mdash; tough. If banks fail because the curve inverted &mdash; backstop them with a different tool. If the Treasury&rsquo;s interest bill triples &mdash; not the Fed&rsquo;s mandate.</p>
+
+        <p>That separation is what makes the inflation target credible. The moment a central bank starts trimming hikes to protect the Treasury&rsquo;s balance sheet, the bond market knows it &mdash; and prices in higher inflation forever after.</p>
+
+        <p>The problem is that the separation only works while the consequence is bearable. When &ldquo;tough&rdquo; means a 100bp hike adds $3.2 trillion of debt service over a decade &mdash; <em>and</em> the Treasury is already spending one trillion a year on interest alone &mdash; the Fed cannot credibly claim that the fiscal consequence isn&rsquo;t its problem. It is everyone&rsquo;s problem. The Fed becomes the Treasury&rsquo;s involuntary partner. That is the trap.</p>
+
+        <p>Independence isn&rsquo;t lost in a press conference; it&rsquo;s lost in a spreadsheet. The rest of this article shows you the spreadsheet.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Why is the arithmetic a trap, not a slope?
+         ============================================================ -->
+    <section class="reveal" id="ii-arithmetic">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>Why is the arithmetic a trap, not a slope?</h2>
+      </div>
+      <div class="section-content">
+        <p>Three numbers, then I&rsquo;ll explain why their relationship is the entire game.</p>
+
+        <ul>
+          <li><strong>Federal debt held by the public:</strong> roughly $28 trillion (total federal debt ~$39T includes intragovernmental).</li>
+          <li><strong>Weighted-average coupon on outstanding debt:</strong> roughly 3.3% as of FY2026 &mdash; and rising as old low-coupon paper rolls off.</li>
+          <li><strong>Federal tax revenue:</strong> roughly $5.2 trillion, growing about 4% a year nominal (real growth ~2%, with inflation).</li>
+        </ul>
+
+        <p>Multiply debt by coupon and you get the interest bill: about $1 trillion a year. That number is real, current, and rounds to <strong>19% of all federal revenue</strong><a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. Roughly $88 billion a month. About $3 billion a day. The Treasury writes a Manhattan-Project-sized cheque to bondholders every fortnight.</p>
+
+        <p>So far this sounds like a slope problem: rates went up, the interest bill got bigger, life continues. The reason it isn&rsquo;t a slope &mdash; the reason it&rsquo;s a trap &mdash; is the compounding mechanic.</p>
+
+        <p>Interest expense grows with two things: the debt stock (which grows whenever the deficit isn&rsquo;t zero, and the deficit is currently ~6% of GDP) and the effective interest rate (which grows mechanically as low-coupon paper from 2020 rolls off and gets re-issued at today&rsquo;s 4%+ yields). Tax revenue grows with nominal GDP, call it 3&ndash;4% real plus inflation. If the effective interest rate is below revenue growth, the system is stable. If it&rsquo;s above, debt service grows faster than the means to pay it. <em>Forever</em>, until something gives.</p>
+
+        <p>That &ldquo;forever&rdquo; is the trap. The Treasury doesn&rsquo;t face a one-time hit when rates rise; it faces an ever-widening gap between what it owes and what it earns, because every year it has to issue <em>more</em> debt to refinance the deficit <em>plus</em> the new interest, all at the higher rate. Each turn of the cycle locks in a slightly higher effective coupon.</p>
+
+        <p>The widget below makes the trap visible. Two lines, one slider: drag the policy rate and watch the year revenue and interest cross.</p>
+
+        <!-- Widget 1: Two-line projection (KEYSTONE) -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; The Crossover Year</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="fd-readout">
+            <div class="fd-cell">
+              <div class="fdc-label">Crossover year</div>
+              <div class="fdc-value" id="w1-cross">&mdash;</div>
+            </div>
+            <div class="fd-cell">
+              <div class="fdc-label">Interest in year 20</div>
+              <div class="fdc-value" id="w1-int20">&mdash;</div>
+            </div>
+            <div class="fd-cell">
+              <div class="fdc-label">Interest &divide; revenue, yr 20</div>
+              <div class="fdc-value" id="w1-share20">&mdash;</div>
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Effective interest rate on the debt</span><span class="slider-value" id="w1-r-val">5.00%</span></div>
+            <input type="range" id="w1-r" min="100" max="700" value="500" step="10">
+          </div>
+          <p class="widget-hint">The blue line is federal tax revenue, growing at a steady 4% nominal. The red line is interest expense, compounding on the entire debt stock at whatever rate you pick. Drag the rate. At anything north of about 4.5%, interest crosses revenue inside this generation &mdash; and after the crossover, every additional dollar borrowed at that rate makes the gap wider, not smaller. That&rsquo;s the trap. The Fed can&rsquo;t hike its way out, because the hike is the thing causing it.</p>
+        </div>
+
+        <p>Anchor your intuition with three drags. At 3%, the lines stay parallel forever &mdash; the system is fine, and this whole article is academic. At 5% (roughly where the 10-year sits today), the lines cross around <strong>year 13&ndash;14</strong>, well within most readers&rsquo; working lives. At 6%, the crossover is around year 9 &mdash; and by year 20, interest is roughly <em>double</em> all tax revenue. That is not a deficit; that is sovereign collapse.</p>
+
+        <p>One nuance worth stating out loud: the &ldquo;effective interest rate&rdquo; in the widget is what the Treasury pays on average, not the day&rsquo;s yield on a single bond. It rises slowly as old debt rolls off &mdash; the average coupon was 1.7% in 2021 and is 3.3% now &mdash; so today&rsquo;s curve doesn&rsquo;t immediately become the effective rate. But that&rsquo;s the slow-burn nature of the trap: the spreadsheet rebalances in real time, even if the headlines don&rsquo;t.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Yellen explicitly raised this at AEA Jan 2026</summary>
+          <p>At the American Economic Association annual meeting in January 2026, former Treasury Secretary (and former Fed Chair) Janet Yellen walked through exactly this arithmetic and used the term &ldquo;fiscal dominance&rdquo; in a prepared speech &mdash; the first time anyone of her stature has done so publicly while still inside the institutional tent<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. Her argument was the QE-restart problem: if a supply-side oil shock pushes inflation up <em>and</em> the Treasury is already paying ~19% of revenue in interest, restarting QE to suppress yields would re-ignite inflation and prove the Fed isn&rsquo;t independent anyway. She didn&rsquo;t propose a solution; she just named the trap.</p>
+          <p>When the previous chair of the central bank publicly says the central bank is losing its independence, the &ldquo;fringe goldbug concern&rdquo; framing is finished. The argument has moved inside the building.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. When does debt service become fiscally binding?
+         ============================================================ -->
+    <section class="reveal" id="iii-threshold">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>When does debt service become fiscally binding?</h2>
+      </div>
+      <div class="section-content">
+        <p>There is no clean threshold &mdash; markets don&rsquo;t ring a bell &mdash; but there are three rough tripwires economists watch, and the US has tripped two of them already.</p>
+
+        <p><strong>Tripwire 1: interest exceeds defence spending.</strong> The US crossed this in late 2024. Interest on the debt is now larger than the entire Department of Defense budget. This is the most cited figure in Washington for a reason: it&rsquo;s the moment when the average voter starts to <em>feel</em> the bill, because defence is the line they understand.</p>
+
+        <p><strong>Tripwire 2: interest exceeds 15&ndash;20% of revenue.</strong> The IMF treats this as the warning zone for emerging-market sovereigns; once you&rsquo;re past it, an external shock (oil, FX, war) can flip you from solvent to insolvent without much else changing. The US is currently at <strong>~19%</strong> and rising<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. The Treasury is now well inside that zone &mdash; on the IMF&rsquo;s own scoring rubric, the US debt is no longer obviously safe by emerging-market standards.</p>
+
+        <p><strong>Tripwire 3: real GDP growth falls below the real interest rate.</strong> This is the Domar condition. If the economy grows faster than the cost of money in real terms, the debt-to-GDP ratio shrinks on its own &mdash; you can run a primary deficit and still be fine. If growth falls below the real rate, debt-to-GDP grows even at a balanced primary budget. The US has bounced across this line several times since 2022 and is sitting on it right now: 10-year TIPS yields around 1.8%, real GDP growth running about 2%. A bad quarter pushes you to the wrong side.</p>
+
+        <p>None of these tripwires is dispositive. Each is a smoke alarm. Two of three are going off; the third is flickering. So this is the right moment to ask the more useful question &mdash; not <em>are we in fiscal dominance</em>, but <em>which line of the budget is actually being eaten?</em></p>
+
+        <p>Pie chart time. Federal spending in FY2026 looks like this:</p>
+
+        <!-- Widget 2: Budget stacked bar with rate slider -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Watch The Interest Slice Swell</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="fd-readout">
+            <div class="fd-cell">
+              <div class="fdc-label">Interest expense</div>
+              <div class="fdc-value" id="w2-int">&mdash;</div>
+            </div>
+            <div class="fd-cell">
+              <div class="fdc-label">Share of revenue</div>
+              <div class="fdc-value" id="w2-share">&mdash;</div>
+            </div>
+            <div class="fd-cell">
+              <div class="fdc-label">vs. defence spending</div>
+              <div class="fdc-value" id="w2-vs-def">&mdash;</div>
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Rate-rise scenario (basis points above today)</span><span class="slider-value" id="w2-dy-val">+0 bp</span></div>
+            <input type="range" id="w2-dy" min="0" max="400" value="0" step="10">
+          </div>
+          <p class="widget-hint">The stacked bar is federal spending by line item. Interest is the red slice. Push the rate-rise slider and watch interest swell &mdash; it crowds out the discretionary lines (defence, education, infrastructure) first because those are the ones Congress can actually cut. Mandatory spending (Social Security, Medicare) is politically untouchable; interest is contractually untouchable. Discretionary is where the squeeze lands.</p>
+        </div>
+
+        <p>The widget makes one thing inescapable: in the +200bp scenario, interest expense exceeds <em>all discretionary spending combined</em>. There is no version of federal budgeting where you can fix that with line-item vetoes. You have to fix the rate, the debt, or both. That&rsquo;s why &ldquo;fiscal dominance&rdquo; isn&rsquo;t hyperbole &mdash; the choice set genuinely narrows to politically inadmissible options.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. What does the CBO's +100bp scenario mean in plain English?
+         ============================================================ -->
+    <section class="reveal" id="iv-cbo">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>What does the CBO&rsquo;s +100bp scenario mean in plain English?</h2>
+      </div>
+      <div class="section-content">
+        <p>The Congressional Budget Office publishes one of the most useful sensitivity numbers in macro: a sustained 100 basis-point rise in interest rates across the curve adds roughly <strong>$3.2 trillion to cumulative debt service over the ten-year projection window</strong><a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
+
+        <p>That single number is the lever that turns abstract &ldquo;rates went up&rdquo; news into concrete sovereign-balance-sheet damage. Let me unpack it.</p>
+
+        <p>The $3.2T isn&rsquo;t a duration calculation on the existing stock of bonds &mdash; that&rsquo;s an <a href="../bond-math/index.html">already-incurred mark-to-market loss</a> that anybody holding a long bond has felt. The $3.2T is the <em>forward</em> cost: the cumulative additional interest the Treasury will pay over a decade as it refinances expiring debt and issues new debt to fund deficits, with the entire curve sitting 100bp higher than the baseline assumption.</p>
+
+        <p>Why is that figure so big? Because the Treasury rolls a huge amount of debt every year. About $7 trillion of bills and notes mature in any given 12-month window. Plus the ~$2 trillion of new issuance to fund the deficit. Plus the deficit-from-interest-itself, which compounds. Each of those tranches has to be sold into whatever the market yield is on the day of the auction. If the curve is 100bp higher than it would have been, the Treasury pays 100bp more on every one of those trillions, every year, for ten years.</p>
+
+        <p>Stack those years up and you get to $3.2T. The CBO works the arithmetic in a footnote of a 200-page document; it deserves a billboard.</p>
+
+        <p>Now connect it to a real number that&rsquo;s already happened. The Adrian-Crump-Moench (ACM) model decomposes Treasury yields into &ldquo;expected short-rate path&rdquo; and &ldquo;term premium.&rdquo; The 10-year term premium reading is currently around <strong>+68 basis points</strong> as of April 2026<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a> &mdash; the first sustained positive reading since 2023, and roughly 80 basis points above the deeply negative levels of the QE era. That term-premium rebuild is on the same order as the CBO&rsquo;s +100bp shock. Apply the CBO sensitivity and the bill is roughly <strong>$2.5 trillion in net present value, already on the books</strong>, just from term premium rebuilding to a normal level. We didn&rsquo;t need a Fed hike to get there. We got it from foreigners not wanting to buy any more 30-years at 2%.</p>
+
+        <p>This is the part that puts the &ldquo;dominance&rdquo; in fiscal dominance. The Treasury&rsquo;s budget has already absorbed a CBO-style +100bp shock <em>without the Fed having anything to do with it</em>. Now imagine the Fed sees inflation and adds another 100bp deliberately. The arithmetic compounds: another $3.2T over a decade, plus the rolling refinancing, plus the deficit response. By the time the inflation data justifies the hike, the fiscal feedback has made the hike self-defeating.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the CBO baseline already assumes rates stay roughly where they are</summary>
+          <p>The $3.2T figure is on top of a baseline that already includes today&rsquo;s elevated yields. The CBO&rsquo;s 10-year projection has the public debt-to-GDP ratio rising from ~100% today to ~120% by 2036 even <em>without</em> additional rate shocks. If you want the absolute number rather than the shock-on-top number, the cumulative interest bill over 2026&ndash;2035 is on track to total roughly $13&ndash;14 trillion. The +100bp shock takes that to ~$16T. Either way, the United States will spend more on interest in the next decade than on any other single budget line, including Medicare.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Has this happened before — and how did it end?
+         ============================================================ -->
+    <section class="reveal" id="v-history">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>Has this happened before &mdash; and how did it end?</h2>
+      </div>
+      <div class="section-content">
+        <p>Yes. Three times in the last century, in three different ways, all of which are instructive.</p>
+
+        <p><strong>Post-war UK (1945&ndash;1970).</strong> Britain emerged from World War II with debt-to-GDP near 250%. There was no realistic path to repay that in cash terms. What actually happened is that the Bank of England held nominal yields well below inflation for roughly 25 years &mdash; a deliberate, sustained policy of <em>negative real interest rates</em>. Savers earned, say, 4% nominal in a 7% inflation environment. They lost 3% a year in real terms, every year, for a generation. The debt-to-GDP ratio fell from 250% to under 50% by 1970 without a single default, without a haircut, without a restructuring. It was paid back in dollars that had been quietly debased by half.</p>
+
+        <p>That is <em>financial repression</em>. It&rsquo;s the political resolution democracies use when they can&rsquo;t default and can&rsquo;t austerity their way out either. Argentina defaults; the UK inflated.</p>
+
+        <p><strong>1970s US.</strong> The US ran something similar from 1965 to about 1980 &mdash; sustained negative real rates, debt-to-GDP fell from ~40% to ~25%, inflation peaked at 14%. The Treasury came out the other side with a manageable balance sheet, and Volcker then crushed inflation in 1981&ndash;82 with 20% short rates. The price was a brutal recession, double-digit unemployment, and a Latin American debt crisis as a side effect. But the federal balance sheet got reset.</p>
+
+        <p><strong>Japan, 1995&ndash;present.</strong> The clearest current case. The Bank of Japan has been in <em>de facto</em> fiscal dominance for 25+ years. Debt-to-GDP is north of 260%. The BOJ owns more than 50% of all Japanese government bonds. Until 2024 the BOJ ran explicit yield-curve control &mdash; capping the 10-year yield at 0% or 0.25% and buying unlimited quantities to enforce the cap. That is the textbook fiscal-dominance regime: the central bank exists to keep the Treasury&rsquo;s funding cost manageable, and inflation targeting is whatever falls out the other end<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>.</p>
+
+        <p>Three different countries, three different decades, three different cover stories, one consistent pattern: <strong>real yields turn negative, savers fund the cleanup, default is avoided, and central-bank independence is quietly suspended for as long as the cleanup takes.</strong> Twenty-five years was the UK&rsquo;s number. Japan is at thirty and counting.</p>
+
+        <p>The widget below shows the historical real-yields chart so you can see the pattern in one frame.</p>
+
+        <!-- Widget 3: Historical real yields -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Real Yields, Three Regimes</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 360px;"></canvas>
+          <p class="widget-hint">Real yields (nominal 10-year minus realised CPI inflation) for the US since 1945. The two shaded zones are the financial-repression regimes: 1945&ndash;1955 (post-WWII Treasury-Fed Accord era, real yields averaged around &minus;3%) and 1970&ndash;1980 (the Volcker-precursor decade, real yields around &minus;1% to &minus;4%). The light shading on the right is today, sitting at around +1.5% real &mdash; the safest zone for savers in 80 years, and exactly why the debt is starting to bite. To get back to historical norms during a deleveraging, real yields would have to fall by 4&ndash;5 percentage points. That&rsquo;s the implicit policy ask.</p>
+        </div>
+
+        <p>Two takeaways. First: when real yields are positive, the debt grows on the bondholder&rsquo;s side. When real yields are negative, the debt shrinks on the bondholder&rsquo;s side. <em>Which side absorbs the loss is a policy choice.</em> Right now the US has chosen, by inaction, to have the Treasury absorb it &mdash; that&rsquo;s the $1T/yr interest bill. Eventually, the choice gets re-made.</p>
+
+        <p>Second: the historical menu does not include &ldquo;default.&rdquo; The US has never defaulted on Treasury debt, and nothing in the historical pattern suggests it will. The political resolution available to a reserve-currency issuer is inflation, not repudiation. You pay back every dollar; the dollar is just worth less.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Japan&rsquo;s YCC was the textbook fiscal-dominance regime, named or not</summary>
+          <p>The BOJ never used the words &ldquo;fiscal dominance,&rdquo; and Kuroda&rsquo;s framing was always about deflation and the 2% inflation target. But the operational reality from 2016 to 2024 was: yields are pegged regardless of inflation prints, the BOJ buys unlimited bonds at the cap, and the policy rate is a derivative of the Treasury&rsquo;s funding need rather than the inflation gap. That is fiscal dominance with a different sticker on it.</p>
+          <p>When Japan finally exited YCC in March 2024 and the BOJ raised rates in mid-2024, JGB yields surged &mdash; the 30-year hit a record high in May 2026 (<a href="../bond-math/index.html">we discussed this in the bond-math chapter</a>). The Japanese experience is the cleanest data point we have for what happens when a country tries to exit fiscal dominance: the bond market reprices violently as the implicit cap is lifted. Watch the 30-year JGB for what the US 30-year does after the Fed tries to normalise.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. What does fiscal dominance actually look like in practice?
+         ============================================================ -->
+    <section class="reveal" id="vi-practice">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What does fiscal dominance actually look like in practice?</h2>
+      </div>
+      <div class="section-content">
+        <p>People hear &ldquo;fiscal dominance&rdquo; and imagine some dramatic event &mdash; a failed Treasury auction, a credit-rating downgrade, dollar collapse on the front of the FT. That isn&rsquo;t how it shows up. Fiscal dominance is boring. It looks like a sequence of small policy choices that, together, push real yields lower than they would otherwise be. Each individual choice is defensible. The pattern is what matters.</p>
+
+        <p>Here are the actual signals to watch &mdash; what I&rsquo;d call the <em>institutional fingerprints</em> of the regime:</p>
+
+        <p><strong>1. Treasury Secretary speaks about the 10-year, not the policy rate.</strong> Scott Bessent has been on the record several times saying he is &ldquo;focused on the 10-year Treasury&rdquo;<a class="footnote-ref" id="fnref-5" href="#fn-5">[5]</a>. That sentence is unprecedented. The Treasury Secretary&rsquo;s job has historically been to manage debt issuance and let the Fed worry about rates. When the Secretary starts targeting a yield, the wall between fiscal and monetary policy is already cracking.</p>
+
+        <p><strong>2. Swap-line diplomacy to keep allies funding the Treasury.</strong> The $20 billion swap line Bessent extended to the UAE in April 2026 is a small number but a giant signal &mdash; the US is using financial plumbing to lock in foreign demand for Treasuries that the market wouldn&rsquo;t otherwise generate at acceptable yields. That&rsquo;s &ldquo;<a href="../treasury-buyers/index.html">find the marginal buyer</a>&rdquo; logic dressed in foreign-policy clothing. It works for a while.</p>
+
+        <p><strong>3. Regulatory capture of bank balance sheets.</strong> Treasury bonds are zero-risk-weight for bank capital. Money-market reform pushes funds into Treasuries. Defined-benefit pension regulation requires long-duration Treasury holdings. None of these rules say &ldquo;buy Treasuries to bail out the deficit,&rdquo; but their cumulative effect is to create a captive domestic bid. This is the bank-loan-officer version of financial repression: you don&rsquo;t need negative real rates if the regulator is forcing the depositor to lend at low rates anyway.</p>
+
+        <p><strong>4. Above-target inflation, tolerated for &ldquo;cyclical&rdquo; reasons.</strong> The Fed&rsquo;s 2% target becomes a soft ceiling, then a midpoint, then an average, then a memory. Each redefinition has a credible technical justification (&ldquo;average inflation targeting&rdquo;). The cumulative effect is that the Treasury gets to inflate down its real debt without anybody having to vote for it.</p>
+
+        <p><strong>5. Coordinated dollar-recycling deals with non-traditional partners.</strong> Once Saudi and Chinese demand fades (which it has &mdash; see the <a href="../recycling-loop/index.html">recycling loop article</a>), you start cutting deals with whoever&rsquo;s left. Gulf SWFs, UAE specifically, post-Hormuz. India and Vietnam for tariff-trade financing. The deals don&rsquo;t look like the 1974 deal because they don&rsquo;t need to &mdash; they just need to generate a few hundred billion in marginal demand at each auction.</p>
+
+        <p>None of these signals is dramatic. All of them are happening. That&rsquo;s the regime.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; democracies inflate, they don&rsquo;t default</summary>
+          <p>If you read this article and your conclusion is &ldquo;buy CDS on US Treasuries,&rdquo; you have misread the history. Reserve-currency issuers with deep, liquid bond markets and the ability to print the currency the debt is denominated in <em>do not default</em>. Argentina defaults because its debt is in dollars. Greece defaulted because its debt was in euros and Athens doesn&rsquo;t print euros. The US debt is in dollars; Washington prints dollars; there is no operational way for the US to fail to pay a Treasury coupon.</p>
+          <p>The political resolution available to the US, and to the UK before it, and to Japan today, is to pay every coupon in nominal terms while the currency loses real purchasing power on a roughly predictable schedule. The trade is therefore not &ldquo;short the bond&rdquo; (the bond pays you exactly what it promises). The trade is &ldquo;long anything that&rsquo;s not the dollar bond&rdquo; &mdash; real assets, foreign currency, equities of companies with pricing power. Different trade. Different mental model.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Where are we now — and where does this series leave you?
+         ============================================================ -->
+    <section class="reveal" id="vii-arc">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>Where are we now &mdash; and where does this series leave you?</h2>
+      </div>
+      <div class="section-content">
+        <p>Pull the threads together.</p>
+
+        <p>The 10-year term premium has rebuilt by ~80bp from the QE-era lows &mdash; that&rsquo;s the bond market repricing for a world where the marginal Treasury buyer is no longer a foreign central bank with infinite price-insensitivity but a leveraged Cayman-domiciled basis-trade fund that wants every basis point of compensation it can get<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. The CBO sensitivity says that ~80bp of term-premium rebuild has cost the Treasury roughly $2.5T in NPV already.</p>
+
+        <p>The Yellen AEA speech in January 2026 marked the moment the establishment started saying the quiet part out loud. Bessent&rsquo;s &ldquo;focused on the 10-year&rdquo; comments and the UAE swap line are the operational response &mdash; if the market won&rsquo;t fund the Treasury at acceptable yields, the Treasury Secretary will find someone who will.</p>
+
+        <p>Inside the building, the Fed is now in the trap. Every dot-plot adjustment is also a fiscal calculation. Every &ldquo;data-dependent&rdquo; speech is also a coded message to the Treasury about how much room there is to issue. The independence is still on the org chart; it is being eroded in the spreadsheet.</p>
+
+        <p>And the historical playbook says we know how this ends. Real yields go negative for a stretch &mdash; not in a dramatic crisis but in a slow drift, with the Fed&rsquo;s tolerance band widening one redefinition at a time. Inflation runs hotter than target for a decade or two. The debt-to-GDP ratio quietly works its way down. Savers underwrite the cleanup. There is no front-page event; there is just an entire generation that wakes up with less purchasing power than they expected.</p>
+
+        <p>So what should the reader take away after nine articles?</p>
+
+        <blockquote>
+          <p><strong>The yields on the long end are not a market anomaly to be smoothed over. They are the bond market pricing in the fiscal-dominance trap and the policy response to it. Every macro event for the rest of the decade will rhyme with this arithmetic.</strong></p>
+        </blockquote>
+
+        <p>When the Fed cuts to protect the Treasury&rsquo;s funding cost &mdash; you&rsquo;ll see it coming. When the dollar quietly weakens against gold and the yuan &mdash; you&rsquo;ll know why. When the next Treasury Secretary cuts a deal with a Gulf SWF that doesn&rsquo;t quite make foreign-policy sense &mdash; you&rsquo;ll have the frame. When CPI prints come in &ldquo;sticky&rdquo; for three years in a row and the dot plot keeps drifting up &mdash; you&rsquo;ll recognise the pattern.</p>
+
+        <p>The series ends here. The arc started with a single 17%-on-a-30-year napkin and finishes with the entire post-Volcker monetary order standing on the wrong side of the Domar condition. Same math, scaled up nine times. That&rsquo;s the whole story.</p>
+
+        <h3>The full arc &mdash; what to read (or re-read) next</h3>
+
+        <ol class="series-next">
+          <li><span class="sn-title"><a href="../bond-math/index.html">1. Bond Math From Scratch</a>.</span> <span class="sn-desc">A 1% yield rise on a 30-year wipes 17% of price &mdash; 20%+ for low-coupon QE-era bonds. The napkin that makes the rest of the series arithmetic.</span></li>
+          <li><span class="sn-title"><a href="../reserve-currency/index.html">2. Why Everyone Uses Dollars</a>.</span> <span class="sn-desc">~80% of global trade is dollar-invoiced because everyone else is also using dollars. Reserve-currency status is a network effect, not a decree. <span class="sn-stub">(stub)</span></span></li>
+          <li><span class="sn-title"><a href="../triffin-dilemma/index.html">3. Triffin&rsquo;s Dilemma</a>.</span> <span class="sn-desc">The reserve-currency issuer must run permanent trade deficits to supply the world with its currency. There is no third door. <span class="sn-stub">(stub)</span></span></li>
+          <li><span class="sn-title"><a href="../balance-of-payments/index.html">4. Balance of Payments Is an Identity</a>.</span> <span class="sn-desc">Current account + capital account = 0. Mechanically. If the US runs a trade deficit, foreigners <em>must</em> accumulate US assets &mdash; that&rsquo;s where Treasury demand has always come from. <span class="sn-stub">(stub)</span></span></li>
+          <li><span class="sn-title"><a href="../petrodollar-origin/index.html">5. The 1974 Deal</a>.</span> <span class="sn-desc">Kissinger, Saudi oil priced in dollars, F-15s as collateral. The origin story &mdash; and why &ldquo;the petrodollar treaty expired in June 2024&rdquo; is largely a myth. <span class="sn-stub">(stub)</span></span></li>
+          <li><span class="sn-title"><a href="../recycling-loop/index.html">6. The Recycling Loop</a>.</span> <span class="sn-desc">Oil dollars to Treasuries to cheap US funding to a security umbrella to cheap oil to dollar demand. Four valves, one closed loop &mdash; and you can watch it fray. <span class="sn-stub">(stub)</span></span></li>
+          <li><span class="sn-title"><a href="../treasury-buyers/index.html">7. Who&rsquo;s Left Buying Treasuries?</a></span> <span class="sn-desc">Foreign-CB demand has plateaued at 24.5% of UST outstanding; the marginal buyer is now a leveraged basis-trade hedge fund in Cayman. Structurally more fragile, not less. <span class="sn-stub">(stub)</span></span></li>
+          <li><span class="sn-title"><a href="../term-premium/index.html">8. Term Premium Is Back</a>.</span> <span class="sn-desc">Decompose any 10-year yield into expected short-rate path plus the price of duration risk. Term premium was negative for a decade; it&rsquo;s now +68bp and climbing. <span class="sn-stub">(stub)</span></span></li>
+          <li><span class="sn-title">9. Fiscal Dominance.</span> <span class="sn-desc">You are here. The capstone &mdash; the threshold where Fed independence is lost to arithmetic, and the historical playbook that follows.</span></li>
+        </ol>
+
+        <p>Thanks for reading the whole thing. If you internalise one paragraph from any of it, make it the napkin from chapter one: <em>price moves by minus duration times yield change.</em> Every other chapter, including this one, is that single relationship scaled to a sovereign balance sheet.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Janet Yellen, then a Distinguished Fellow at Brookings and former US Treasury Secretary, raised &ldquo;fiscal dominance&rdquo; as a near-term policy risk during a session at the American Economic Association annual meeting in January 2026. Yellen&rsquo;s framing was specifically about the constraint a supply-side inflation shock would place on the FOMC given the current debt-service trajectory &mdash; not a prediction that dominance had arrived, but a public acknowledgment that the threshold was now in range. Coverage in <em>Reuters</em> and the <em>Financial Times</em> the following week treated the speech as the moment the term &ldquo;fiscal dominance&rdquo; moved from the academic-paper register into the policy debate. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">CBO Budget Outlook (FY2026): federal debt held by the public ~$28T, total federal debt ~$39T, net interest expense projected at ~$1T in FY2026 (~19% of federal revenue, ~$88B per month, ~$3B per day). The sensitivity figure &mdash; a sustained +100 bp shift across the curve adding roughly $3.2T to cumulative debt service over the ten-year window &mdash; appears in the CBO&rsquo;s standard alternative-rate scenario tables and is the single most-cited fiscal-sensitivity number in Washington. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">The Adrian-Crump-Moench (ACM) term premium estimate published by the New York Fed is a model decomposition of Treasury yields into expected short-rate path and term premium. As of April 24, 2026, the 10-year term premium reads ~+0.68% &mdash; the first sustained positive reading since 2023. During 2020&ndash;2021 QE the ACM 10-year term premium was as deeply negative as &minus;80 to &minus;100 bp. The roughly 150bp move from the 2021 lows to today represents the bond market re-pricing the absence of price-insensitive foreign-CB demand. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">The Bank of Japan ran formal yield-curve control from 2016 to March 2024, capping the 10-year JGB yield first at 0%, later widening to 0.25%, 0.5%, and 1.0%. The BOJ&rsquo;s balance sheet swelled to over 130% of Japanese GDP &mdash; the largest of any major central bank. After exiting YCC in 2024, JGB yields rose sharply, with the 30-year JGB hitting an all-time high in May 2026 &mdash; the cleanest empirical case study of what happens to a sovereign bond market when an implicit yield cap is removed. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+          <li id="fn-5">Treasury Secretary Scott Bessent stated publicly in 2025 and again in early 2026 that policy is &ldquo;focused on the 10-year Treasury,&rdquo; reflecting that the long end &mdash; not the FOMC policy rate &mdash; is the binding political constraint. The 10-year is also the benchmark for mortgage rates and corporate bond pricing, giving it macro reach beyond the federal balance sheet. The April 2026 $20 billion swap line extended to the UAE is the same logic translated into bilateral diplomacy. <a class="footnote-back" href="#fnref-5">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Widget 1 — Two-line projection (revenue vs interest)
+       Keystone widget: drag the effective rate and watch the lines cross.
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w1-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Starting points (FY2026, $ trillions):
+      //   Revenue ~ $5.2T, growing 4% nominal per year
+      //   Debt held by public ~ $28T at start
+      //   Effective interest rate: slider input (1%..7%)
+      //   Primary deficit (non-interest): ~3% of GDP, ~$0.9T, growing with revenue
+      // Each year:
+      //   interest_t = debt_{t-1} * effective_rate
+      //   deficit_t  = primary_deficit_t + interest_t
+      //   debt_t     = debt_{t-1} + deficit_t
+      //   revenue_t  = revenue_{t-1} * 1.04
+      //   primary_deficit_t = primary_deficit_{t-1} * 1.04
+
+      var N_YEARS = 20;
+      var START_YEAR = 2026;
+
+      function project(ratePct) {
+        var rate = ratePct / 100;
+        var revenue = 5.2;
+        var debt = 28.0;
+        var primaryDef = 0.9;
+        var revGrowth = 1.04;
+        var rows = [];
+        // Year 0 = current state
+        var interest0 = debt * rate;
+        rows.push({ year: START_YEAR, revenue: revenue, interest: interest0, debt: debt });
+        for (var t = 1; t <= N_YEARS; t++) {
+          var interest = debt * rate;
+          var deficit = primaryDef + interest;
+          debt = debt + deficit;
+          revenue = revenue * revGrowth;
+          primaryDef = primaryDef * revGrowth;
+          rows.push({ year: START_YEAR + t, revenue: revenue, interest: interest, debt: debt });
+        }
+        return rows;
+      }
+
+      function findCrossover(rows) {
+        for (var i = 1; i < rows.length; i++) {
+          var prev = rows[i - 1], cur = rows[i];
+          if (prev.interest < prev.revenue && cur.interest >= cur.revenue) {
+            // linear interp
+            var gapPrev = prev.revenue - prev.interest;
+            var gapCur = cur.interest - cur.revenue;
+            var t = gapPrev / (gapPrev + gapCur);
+            return prev.year + t;
+          }
+        }
+        return null;
+      }
+
+      function redraw(ratePct) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var rows = project(ratePct);
+        // Y-axis: figure out the max
+        var maxVal = 0;
+        rows.forEach(function(r) {
+          if (r.revenue > maxVal) maxVal = r.revenue;
+          if (r.interest > maxVal) maxVal = r.interest;
+        });
+        // Cap the y-axis so the chart stays legible at extreme rates
+        var yMax = Math.min(Math.ceil(maxVal / 5) * 5, 40);
+        var yMin = 0;
+
+        var xLabels = [];
+        for (var k = 0; k < rows.length; k += 4) xLabels.push(rows[k].year.toString());
+
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 20, right: 22, bottom: 38, left: 56 },
+          xLabels: xLabels,
+          yMin: yMin, yMax: yMax, ySteps: 5,
+          yFmt: function(v) { return '$' + v.toFixed(0) + 'T'; }
+        });
+
+        var toX = function(t) {
+          // t is years from start (0..N_YEARS)
+          return mapX(t, 0, N_YEARS, w, pad);
+        };
+        var toY = function(v) {
+          return mapY(Math.min(v, yMax), yMin, yMax, h, pad);
+        };
+
+        drawTextCanvas(ctx, w / 2, h - 4, 'Year', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // Revenue line (cool blue, secondary)
+        var revPts = rows.map(function(r, i) { return { x: toX(i), y: toY(r.revenue) }; });
+        drawLineCanvas(ctx, revPts, { color: '#2b6cb0', width: 2.4 });
+
+        // Interest line (accent red)
+        var intPts = rows.map(function(r, i) { return { x: toX(i), y: toY(r.interest) }; });
+        drawLineCanvas(ctx, intPts, { color: 'var(--accent)', width: 2.6 });
+
+        // Crossover marker
+        var crossYear = findCrossover(rows);
+        var crossText = '—';
+        if (crossYear !== null) {
+          var crossT = crossYear - START_YEAR;
+          var crossX = toX(crossT);
+          // crossover value (lin interp)
+          var iLo = Math.floor(crossT);
+          var iHi = Math.min(rows.length - 1, iLo + 1);
+          var frac = crossT - iLo;
+          var crossVal = rows[iLo].interest + (rows[iHi].interest - rows[iLo].interest) * frac;
+          var crossY = toY(crossVal);
+          drawLineCanvas(ctx,
+            [{ x: crossX, y: pad.top }, { x: crossX, y: h - pad.bottom }],
+            { color: '#9b2c2c', width: 1, dashed: [4, 4] });
+          drawPointCanvas(ctx, crossX, crossY, 6, '#9b2c2c', '#fff');
+          drawTextCanvas(ctx, crossX, pad.top + 12,
+            'Crossover ' + Math.round(crossYear),
+            { fontSize: 11, color: '#9b2c2c', weight: '600', align: 'center' });
+          crossText = Math.round(crossYear).toString();
+        } else {
+          // Stable case — annotate
+          drawTextCanvas(ctx, w - pad.right - 8, pad.top + 12,
+            'Stable: rate < revenue growth',
+            { fontSize: 11, color: '#22543d', weight: '600', align: 'right' });
+          crossText = 'never';
+        }
+
+        // Legend
+        drawTextCanvas(ctx, pad.left + 6, pad.top + 8,
+          '— tax revenue (4% growth)',
+          { fontSize: 11.5, color: '#2b6cb0', weight: '600', align: 'left' });
+        drawTextCanvas(ctx, pad.left + 6, pad.top + 24,
+          '— interest expense (compounding)',
+          { fontSize: 11.5, color: 'var(--accent)', weight: '600', align: 'left' });
+
+        // Readouts
+        var int20 = rows[rows.length - 1].interest;
+        var rev20 = rows[rows.length - 1].revenue;
+        var share20 = int20 / rev20;
+        var crossEl = document.getElementById('w1-cross');
+        var int20El = document.getElementById('w1-int20');
+        var share20El = document.getElementById('w1-share20');
+        crossEl.textContent = crossText;
+        crossEl.className = 'fdc-value ' + (crossText === 'never' ? 'is-safe' : 'is-crisis');
+        int20El.textContent = '$' + int20.toFixed(1) + 'T';
+        share20El.textContent = (share20 * 100).toFixed(0) + '%';
+        share20El.className = 'fdc-value ' + (share20 < 0.3 ? 'is-safe' : 'is-crisis');
+      }
+
+      attachSliders([
+        { el: document.getElementById('w1-r'),
+          label: document.getElementById('w1-r-val'),
+          format: function(v) { return (v / 100).toFixed(2) + '%'; } }
+      ], function(values) {
+        redraw(values['w1-r'] / 100);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — Federal budget stacked bar, watch interest swell.
+       FY2026 baseline ($ billions):
+         Social Security 1450, Medicare 980, Medicaid 620,
+         Defense 880, Other discretionary 920, Other mandatory 600,
+         Interest ~1000.
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w2-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Base $B values
+      var BASE = [
+        { name: 'Social Security', val: 1450, color: '#2b6cb0' },
+        { name: 'Medicare',        val:  980, color: '#3182ce' },
+        { name: 'Medicaid',        val:  620, color: '#63b3ed' },
+        { name: 'Defense',         val:  880, color: '#744210' },
+        { name: 'Other discretionary', val: 920, color: '#a0aec0' },
+        { name: 'Other mandatory', val:  600, color: '#cbd5e0' },
+        { name: 'Interest',        val: 1000, color: '#9b2c2c' }
+      ];
+      var DEBT_T = 28;       // public debt in $T
+      var REVENUE_B = 5200;  // federal revenue $B
+      var DEFENSE_B = 880;
+
+      function interestForDy(dyBp) {
+        // dyBp is additional rate shock applied to ENTIRE debt stock (simplification
+        // for didactic purposes — true rolling effect would be partial each year).
+        // Take baseline effective rate ~3.6% (1000 / 28000) and add dy.
+        var baseRate = 1000 / (DEBT_T * 1000);  // ~ 0.0357
+        var newRate = baseRate + dyBp / 10000;  // dyBp is bp
+        return DEBT_T * 1000 * newRate;          // in $B
+      }
+
+      function redraw(dyBp) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        // Build current spending stack
+        var spending = BASE.slice();
+        spending[6] = { name: 'Interest', val: interestForDy(dyBp), color: '#9b2c2c' };
+
+        var total = 0;
+        spending.forEach(function(s) { total += s.val; });
+
+        // Layout
+        var leftPad = 60, rightPad = 220, topPad = 28, bottomPad = 50;
+        var plotW = w - leftPad - rightPad;
+        var plotH = h - topPad - bottomPad;
+        var barX = leftPad;
+        var barY = topPad;
+        var barH = plotH;
+        // Bar width: a single horizontal stacked bar (vertical bar visually wider)
+        var barW = plotW * 0.55;
+
+        // Title above bar
+        drawTextCanvas(ctx, barX + barW / 2, topPad - 12,
+          'Federal spending stack ($B, FY2026)',
+          { fontSize: 12, color: 'var(--text-secondary)', weight: '600', align: 'center' });
+
+        // Stacked vertical bar
+        var yCursor = barY + barH;
+        spending.forEach(function(s, i) {
+          var segH = (s.val / total) * barH;
+          var segY = yCursor - segH;
+          drawRectCanvas(ctx, barX, segY, barW, segH, s.color, 0,
+            i === 6 ? '#742a2a' : null);
+          // In-bar label if segment is tall enough
+          if (segH > 22) {
+            drawTextCanvas(ctx, barX + barW / 2, segY + segH / 2,
+              s.name + '  $' + Math.round(s.val) + 'B',
+              { fontSize: 10.5, color: '#fff', weight: '600', align: 'center' });
+          }
+          yCursor -= segH;
+        });
+
+        // Revenue marker line — horizontal line at the revenue level
+        var revHeight = (REVENUE_B / total) * barH;
+        var revY = barY + barH - revHeight;
+        drawLineCanvas(ctx,
+          [{ x: barX - 6, y: revY }, { x: barX + barW + 6, y: revY }],
+          { color: '#22543d', width: 1.5, dashed: [5, 4] });
+        drawTextCanvas(ctx, barX + barW + 10, revY,
+          'Revenue  $' + REVENUE_B + 'B',
+          { fontSize: 10.5, color: '#22543d', weight: '600', align: 'left' });
+
+        // Legend / readout to the right
+        var legendX = barX + barW + 110;
+        var legendY = barY + 8;
+        drawTextCanvas(ctx, legendX, legendY,
+          'Spending breakdown',
+          { fontSize: 11.5, color: 'var(--text)', weight: '600', align: 'left' });
+        spending.forEach(function(s, i) {
+          var ly = legendY + 18 + i * 18;
+          drawRectCanvas(ctx, legendX, ly - 6, 10, 10, s.color, 2);
+          drawTextCanvas(ctx, legendX + 16, ly,
+            s.name,
+            { fontSize: 10.5, color: 'var(--text)', align: 'left' });
+        });
+
+        // X-axis label
+        drawTextCanvas(ctx, barX + barW / 2, h - 12,
+          'Drag the slider to add a rate shock to the entire stock',
+          { fontSize: 10.5, color: 'var(--text-secondary)', align: 'center' });
+
+        // Update DOM readouts
+        var intB = spending[6].val;
+        var shareRev = intB / REVENUE_B;
+        var vsDef = intB / DEFENSE_B;
+        var elI = document.getElementById('w2-int');
+        var elS = document.getElementById('w2-share');
+        var elV = document.getElementById('w2-vs-def');
+        elI.textContent = '$' + (intB / 1000).toFixed(2) + 'T';
+        elS.textContent = (shareRev * 100).toFixed(0) + '% of revenue';
+        elS.className = 'fdc-value ' + (shareRev < 0.2 ? 'is-safe' : 'is-crisis');
+        elV.textContent = vsDef.toFixed(2) + 'x';
+        elV.className = 'fdc-value ' + (vsDef < 1 ? 'is-safe' : 'is-crisis');
+      }
+
+      attachSliders([
+        { el: document.getElementById('w2-dy'),
+          label: document.getElementById('w2-dy-val'),
+          format: function(v) { return (v > 0 ? '+' : '') + v + ' bp'; } }
+      ], function(values) {
+        redraw(values['w2-dy']);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 3 — Historical real yields, 1945-present.
+       Static chart: stylised but representative annual averages.
+       Highlights the two financial-repression regimes vs today.
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w3-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Stylised US 10Y real yield series, annual, 1945-2026.
+      // Sources: NBER, FRED (DGS10 minus CPI YoY), Reinhart & Sbrancia (2011).
+      // Values are representative annual averages chosen to capture regime shape,
+      // not month-by-month precision.
+      var REAL_YIELDS = [
+        // 1945-1955: post-WWII financial repression, real yields ~-3% to -1%
+        { y: 1945, r: -1.5 }, { y: 1946, r: -8.5 }, { y: 1947, r: -10.0 },
+        { y: 1948, r: -5.5 }, { y: 1949, r:  1.0 }, { y: 1950, r: -3.0 },
+        { y: 1951, r: -4.5 }, { y: 1952, r: -0.5 }, { y: 1953, r:  2.0 },
+        { y: 1954, r:  2.3 }, { y: 1955, r:  2.1 },
+        // 1956-1969: moderate positive real yields
+        { y: 1956, r:  1.8 }, { y: 1957, r:  0.9 }, { y: 1958, r:  1.5 },
+        { y: 1959, r:  2.5 }, { y: 1960, r:  2.7 }, { y: 1961, r:  2.9 },
+        { y: 1962, r:  2.7 }, { y: 1963, r:  2.6 }, { y: 1964, r:  3.0 },
+        { y: 1965, r:  2.4 }, { y: 1966, r:  1.6 }, { y: 1967, r:  1.9 },
+        { y: 1968, r:  1.5 }, { y: 1969, r:  1.0 },
+        // 1970-1980: second financial-repression episode, real yields negative
+        { y: 1970, r: -0.5 }, { y: 1971, r:  1.6 }, { y: 1972, r:  2.7 },
+        { y: 1973, r: -2.0 }, { y: 1974, r: -4.5 }, { y: 1975, r: -1.5 },
+        { y: 1976, r:  2.0 }, { y: 1977, r:  0.5 }, { y: 1978, r: -0.5 },
+        { y: 1979, r: -1.5 }, { y: 1980, r: -3.5 },
+        // 1981-1990: Volcker era, real yields very positive
+        { y: 1981, r:  5.0 }, { y: 1982, r:  7.0 }, { y: 1983, r:  6.5 },
+        { y: 1984, r:  8.5 }, { y: 1985, r:  6.5 }, { y: 1986, r:  5.5 },
+        { y: 1987, r:  4.5 }, { y: 1988, r:  4.5 }, { y: 1989, r:  4.0 },
+        { y: 1990, r:  3.0 },
+        // 1991-2007: Great Moderation, mostly +2-4%
+        { y: 1991, r:  4.0 }, { y: 1992, r:  3.8 }, { y: 1993, r:  3.0 },
+        { y: 1994, r:  4.5 }, { y: 1995, r:  4.0 }, { y: 1996, r:  3.5 },
+        { y: 1997, r:  4.4 }, { y: 1998, r:  4.0 }, { y: 1999, r:  3.5 },
+        { y: 2000, r:  2.7 }, { y: 2001, r:  2.2 }, { y: 2002, r:  2.5 },
+        { y: 2003, r:  2.2 }, { y: 2004, r:  1.5 }, { y: 2005, r:  1.0 },
+        { y: 2006, r:  1.5 }, { y: 2007, r:  1.0 },
+        // 2008-2021: GFC + QE era, low or negative real yields
+        { y: 2008, r:  0.5 }, { y: 2009, r:  3.0 }, { y: 2010, r:  1.5 },
+        { y: 2011, r: -0.5 }, { y: 2012, r: -0.5 }, { y: 2013, r:  1.5 },
+        { y: 2014, r:  0.8 }, { y: 2015, r:  2.0 }, { y: 2016, r:  0.8 },
+        { y: 2017, r:  0.4 }, { y: 2018, r:  0.6 }, { y: 2019, r:  0.5 },
+        { y: 2020, r: -0.5 }, { y: 2021, r: -5.0 },
+        // 2022-2026: rates rise, real yields turn positive
+        { y: 2022, r: -3.0 }, { y: 2023, r:  0.5 }, { y: 2024, r:  1.4 },
+        { y: 2025, r:  1.6 }, { y: 2026, r:  1.8 }
+      ];
+
+      function redraw() {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var yMin = -11, yMax = 9;
+        var xMin = 1945, xMax = 2026;
+
+        // Years to label on x axis
+        var xLabels = [];
+        for (var yr = 1950; yr <= 2026; yr += 10) xLabels.push(yr.toString());
+        xLabels.push('2026');
+
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 24, right: 18, bottom: 38, left: 50 },
+          xLabels: xLabels,
+          yMin: yMin, yMax: yMax, ySteps: 5,
+          yFmt: function(v) { return v.toFixed(0) + '%'; }
+        });
+
+        var toX = function(yr) { return mapX(yr, xMin, xMax, w, pad); };
+        var toY = function(v) { return mapY(v, yMin, yMax, h, pad); };
+
+        // Shade financial-repression regimes
+        ctx.save();
+        ctx.fillStyle = 'rgba(155, 44, 44, 0.10)';
+        // Regime 1: 1945-1955
+        ctx.fillRect(toX(1945), pad.top,
+          toX(1955) - toX(1945), h - pad.top - pad.bottom);
+        // Regime 2: 1970-1980
+        ctx.fillRect(toX(1970), pad.top,
+          toX(1980) - toX(1970), h - pad.top - pad.bottom);
+        ctx.restore();
+
+        // Labels for the shaded zones
+        drawTextCanvas(ctx, (toX(1945) + toX(1955)) / 2, pad.top + 14,
+          'Post-WWII repression',
+          { fontSize: 10.5, color: '#9b2c2c', weight: '600', align: 'center' });
+        drawTextCanvas(ctx, (toX(1970) + toX(1980)) / 2, pad.top + 14,
+          'Inflation repression',
+          { fontSize: 10.5, color: '#9b2c2c', weight: '600', align: 'center' });
+
+        // Zero line
+        drawLineCanvas(ctx,
+          [{ x: pad.left, y: toY(0) }, { x: w - pad.right, y: toY(0) }],
+          { color: '#718096', width: 1, dashed: [3, 4] });
+        drawTextCanvas(ctx, pad.left + 4, toY(0) - 8,
+          '0% real',
+          { fontSize: 10, color: '#718096', align: 'left' });
+
+        // Data line — colored by sign
+        // We draw segments; positive segments green-ish, negative red-ish.
+        var pts = REAL_YIELDS.map(function(d) {
+          return { x: toX(d.y), y: toY(d.r), r: d.r };
+        });
+        // Continuous line in neutral grey
+        drawLineCanvas(ctx, pts.map(function(p) { return { x: p.x, y: p.y }; }),
+          { color: '#4a5568', width: 1.8 });
+
+        // Dots colored by sign
+        pts.forEach(function(p) {
+          var col = p.r >= 0 ? '#22543d' : '#9b2c2c';
+          drawPointCanvas(ctx, p.x, p.y, 2.5, col);
+        });
+
+        // Today marker
+        var today = pts[pts.length - 1];
+        drawPointCanvas(ctx, today.x, today.y, 5, '#22543d', '#fff');
+        drawTextCanvas(ctx, today.x - 8, today.y - 10,
+          'Today: +1.8%',
+          { fontSize: 10.5, color: '#22543d', weight: '600', align: 'right' });
+
+        // Axis title
+        drawTextCanvas(ctx, w / 2, h - 4, 'Year', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // Y axis title
+        ctx.save();
+        ctx.translate(14, h / 2);
+        ctx.rotate(-Math.PI / 2);
+        drawTextCanvas(ctx, 0, 0, 'US 10Y real yield', { fontSize: 11, color: 'var(--text-secondary)' });
+        ctx.restore();
+      }
+
+      redraw();
+    })();
+  </script>
+
+</body>
+</html>

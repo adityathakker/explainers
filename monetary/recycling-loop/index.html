@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Recycling Loop &mdash; Monetary Explainers</title>
+  <meta name="description" content="The petrodollar &lsquo;recycling loop&rsquo; is a 4-valve closed system: oil dollars to Treasuries to cheap US funding to security to cheap oil. Close any one valve and all four collapse. But GCC Treasury holdings are about $300B; Japan alone holds $1.24T. The real recycling loop today is Asian manufacturing surpluses, not Gulf oil.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="The Recycling Loop">
+  <meta property="og:description" content="The petrodollar loop is a 4-valve closed system &mdash; and it&rsquo;s much smaller than the headlines suggest. Japan alone holds 4x what the whole GCC holds in Treasuries.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #38a169;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #22543d 0%, #38a169 100%); }
+
+    /* Valve readout grid for Widget 1 */
+    .valve-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .valve-readout { grid-template-columns: 1fr; }
+    }
+    .valve-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .valve-cell .vc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .valve-cell .vc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 18px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .valve-cell .vc-note {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .valve-cell .vc-note.is-stressed { color: #9b2c2c; font-weight: 600; }
+    .valve-cell .vc-note.is-ok { color: #22543d; }
+
+    /* Slider stack for the 4 valves */
+    .valve-stack {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 18px;
+      margin-top: 8px;
+    }
+    @media (max-width: 540px) {
+      .valve-stack { grid-template-columns: 1fr; }
+    }
+
+    /* Holdings readout for Widget 2 */
+    .holdings-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .holdings-readout { grid-template-columns: 1fr 1fr; }
+    }
+    .hr-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .hr-cell .hr-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .hr-cell .hr-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">The Recycling Loop</h1>
+      <p class="hero__subtitle">Saudi sells oil for dollars, buys Treasuries, the US guarantees security &mdash; that&rsquo;s the recycling loop. It&rsquo;s a 4-valve closed system, and close any one valve and the other three collapse. But here&rsquo;s what most of the petrodollar discourse misses: GCC holdings of US Treasuries are about $300&nbsp;billion. Japan alone holds $1.24&nbsp;trillion. The &ldquo;real&rdquo; recycling loop today is Asian manufacturing surpluses, not Gulf oil. The petrodollar is the small story you&rsquo;ve been told.</p>
+      <p class="hero__meta">7 chapters &middot; 3 interactive widgets &middot; 18 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-recycling">What is &ldquo;recycling&rdquo;, exactly?</a></li>
+        <li><a href="#ii-four-valves">What are the four valves of the loop?</a></li>
+        <li><a href="#iii-how-big">How big is the GCC contribution, really?</a></li>
+        <li><a href="#iv-asia">Where do the dollars actually come from?</a></li>
+        <li><a href="#v-why-collapsing">Why is the Asian loop also collapsing now?</a></li>
+        <li><a href="#vi-downstream">What breaks downstream when the loop closes?</a></li>
+        <li><a href="#vii-marginal">Where will the marginal Treasury dollar come from in 2026?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. What is "recycling", exactly?
+         ============================================================ -->
+    <section class="reveal" id="i-recycling">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>What is &ldquo;recycling&rdquo;, exactly?</h2>
+      </div>
+      <div class="section-content">
+        <p>Here is a number I had to triple-check the first time I saw it: <strong>the entire Gulf Cooperation Council &mdash; Saudi Arabia, the UAE, Kuwait, all of it &mdash; holds about $300&nbsp;billion in US Treasuries. Japan holds $1.24&nbsp;trillion. By itself.</strong> Four times the entire petrodollar bloc<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. China plus Hong Kong holds $962&nbsp;billion. The Euro Area aggregate is $2&nbsp;trillion. The UK alone holds $897&nbsp;billion.</p>
+
+        <p>If you have been reading the financial press for the last two years, this is not the picture you have been sold. The petrodollar &mdash; the story of Saudi oil dollars being recycled into US debt &mdash; is treated as the load-bearing wall of the post-1971 monetary system. Aaron Brown at Bloomberg called the loop &ldquo;virtuous&rdquo; and pronounced it &ldquo;broken&rdquo; in April<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. Politicians wave it around as both warning and lever. CNBC chyrons treat any Saudi UST sale as a regime event.</p>
+
+        <p>So this article does two things, and the order matters. <strong>First, I build the framework: the recycling loop is a four-valve closed system &mdash; oil dollars in, Treasuries out, cheap funding out, security umbrella out, cheap oil back. Close any one valve and all four collapse downstream.</strong> The valves are real. The framework is right. <strong>Second, I size it honestly &mdash; and once you see the size, you realise the petrodollar loop is the small recycling story. The big one is Asian manufacturing surpluses, and that one is breaking too, just for different reasons.</strong></p>
+
+        <p>That&rsquo;s the framework: <em>four valves; size them honestly; locate the actual marginal break.</em> You leave able to name the four valves, name the bigger Asian sibling loop, and explain why the GCC story makes the headlines while the Asian story moves the markets.</p>
+
+        <p>First, the word itself. &ldquo;Recycling&rdquo; in this context is a 1970s coinage. When OPEC quadrupled oil prices in 1973&ndash;74, oil importers had to send fresh dollars to oil exporters in vast quantities, and those exporters &mdash; mostly desert kingdoms with limited absorptive capacity &mdash; had nowhere to put them. They couldn&rsquo;t spend the money domestically fast enough. So they parked it in dollar-denominated assets, mostly US Treasuries, mostly off-market via the Treasury&rsquo;s &ldquo;add-on&rdquo; window<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. The dollars went out for oil and came back as Treasury purchases. That round-trip is &ldquo;recycling.&rdquo;</p>
+
+        <p>It works because the exporter has a current-account surplus they don&rsquo;t want to spend, and the importer (the US, or more precisely the US Treasury) has a fiscal deficit it needs to finance. One country&rsquo;s excess savings funds the other country&rsquo;s excess spending. That&rsquo;s not a petrodollar phenomenon &mdash; it&rsquo;s a balance-of-payments identity. Any country with persistent excess savings will end up recycling into <em>someone&rsquo;s</em> debt. The political question is whose.</p>
+
+        <p>That distinction &mdash; mechanism vs identity &mdash; is what most petrodollar discourse fumbles. The loop is real, the mechanism is real, but the <em>petrodollar share</em> of global recycling is small and shrinking. The framework I&rsquo;m about to draw applies generally; the GCC is just one operator of it.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. What are the four valves of the loop?
+         ============================================================ -->
+    <section class="reveal" id="ii-four-valves">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What are the four valves of the loop?</h2>
+      </div>
+      <div class="section-content">
+        <p>The recycling loop has four directional flows. I draw them as four valves around a square because that&rsquo;s the shape that makes the dependency visible. Each valve gates the next. Close one and pressure builds at the next valve down the line.</p>
+
+        <p>Here are the four, in order:</p>
+
+        <div class="math-block">
+          A: Oil $ &rarr; UST &nbsp;&nbsp; B: UST &rarr; cheap US funding &nbsp;&nbsp; C: US funding &rarr; security &nbsp;&nbsp; D: security &rarr; cheap $-priced oil
+          <span class="math-where">A is the recycling step; B is the price-impact step; C is the political step; D is the original quid pro quo</span>
+        </div>
+
+        <p><strong>Valve A &mdash; oil dollars recycle into Treasuries.</strong> The Gulf producer sells oil, receives dollars, and buys US Treasuries with the surplus. Roughly 30&ndash;40% of GCC surplus has historically ended up in UST; the rest goes to PIF, ADIA, and equity stakes<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. This is the valve you read about.</p>
+
+        <p><strong>Valve B &mdash; Treasury demand keeps US funding cheap.</strong> A buyer who shows up at every auction with $50&nbsp;billion regardless of price is a buyer who suppresses yields. The marginal demand from GCC + Asian official sectors has historically held the 10-year yield 50&ndash;100&nbsp;basis points below where it &ldquo;should&rdquo; have cleared on US savings alone. This is the term premium story I cover in <a href="../term-premium/index.html">term-premium</a>.</p>
+
+        <p><strong>Valve C &mdash; cheap US funding underwrites the security umbrella.</strong> Cheap funding is what lets the US run the Fifth Fleet in Bahrain, CENTCOM in Qatar, and a continuous carrier-strike-group presence in the Gulf. The actual military spend on Gulf security runs $80&ndash;100&nbsp;billion a year; financing it requires the deficit-funding capacity that valve B provides. Make funding expensive and the security commitment becomes politically uneconomic.</p>
+
+        <p><strong>Valve D &mdash; security buys cheap oil priced in dollars.</strong> The original 1974 quid pro quo. Saudi Arabia agreed (informally &mdash; there was never a binding treaty) to price oil exclusively in dollars and to keep production high enough that the dollar price stayed manageable, in exchange for regime protection. The dollar pricing is what creates the global &ldquo;need&rdquo; for dollars among oil importers, which closes the loop back to valve A.</p>
+
+        <p>That&rsquo;s the framework. Four valves; close one and the others lose their reason to exist. The widget below lets you do exactly that &mdash; pinch any valve down to zero and watch downstream pressure build.</p>
+
+        <!-- Widget 1: 4-valve loop simulator -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; The Four-Valve Loop Simulator</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="valve-readout">
+            <div class="valve-cell">
+              <div class="vc-label">Valve A &mdash; Oil $ &rarr; UST</div>
+              <div class="vc-value" id="w1-a-val">100%</div>
+              <div class="vc-note" id="w1-a-note">GCC recycling rate</div>
+            </div>
+            <div class="valve-cell">
+              <div class="vc-label">Valve B &mdash; UST &rarr; cheap funding</div>
+              <div class="vc-value" id="w1-b-val">100%</div>
+              <div class="vc-note" id="w1-b-note">10-yr yield stable</div>
+            </div>
+            <div class="valve-cell">
+              <div class="vc-label">Valve C &mdash; funding &rarr; security</div>
+              <div class="vc-value" id="w1-c-val">100%</div>
+              <div class="vc-note" id="w1-c-note">Fifth Fleet sustained</div>
+            </div>
+            <div class="valve-cell">
+              <div class="vc-label">Valve D &mdash; security &rarr; $-priced oil</div>
+              <div class="vc-value" id="w1-d-val">100%</div>
+              <div class="vc-note" id="w1-d-note">Saudi prices in USD</div>
+            </div>
+          </div>
+          <div class="valve-stack">
+            <div class="slider-group">
+              <div class="slider-label"><span>Valve A &mdash; recycling rate</span><span class="slider-value" id="w1-a-slider-val">100%</span></div>
+              <input type="range" id="w1-a" min="0" max="100" value="100" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Valve D &mdash; dollar pricing</span><span class="slider-value" id="w1-d-slider-val">100%</span></div>
+              <input type="range" id="w1-d" min="0" max="100" value="100" step="5">
+            </div>
+          </div>
+          <p class="widget-hint">Drag valve A down to 0%: the GCC stops recycling. Watch valve B&rsquo;s yields rise, valve C&rsquo;s security spending become uneconomic, and valve D&rsquo;s dollar-pricing commitment weaken. Then try closing valve D instead &mdash; same downstream cascade, different starting point. The loop only closes if every valve is open; close one and the system runs down.</p>
+        </div>
+
+        <p>What the widget is dramatising is the <em>conditional</em> nature of the loop. None of these valves are causal in isolation. The loop is a system. The GCC doesn&rsquo;t recycle because they love Treasuries; they recycle because the security guarantee makes the deal worth maintaining, and the security guarantee is sustainable because the recycling keeps US funding cheap. Each step rests on the others.</p>
+
+        <p>The implication is uncomfortable for the &ldquo;petrodollar is forever&rdquo; crowd. The loop has no single load-bearing valve, which sounds like resilience but is actually fragility: any one valve closing closes all four. <strong>The loop&rsquo;s strength is also its single point of failure.</strong></p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. How big is the GCC contribution, really?
+         ============================================================ -->
+    <section class="reveal" id="iii-how-big">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>How big is the GCC contribution, really?</h2>
+      </div>
+      <div class="section-content">
+        <p>Now the size check. I&rsquo;ve drawn a beautiful four-valve diagram, but a valve that gates $300&nbsp;billion in a $9.5&nbsp;trillion foreign-holdings market is gating about 3%. That&rsquo;s the GCC&rsquo;s share of total foreign Treasury holdings<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. Three. Percent.</p>
+
+        <p>Stack the actual numbers and the petrodollar shrinks visibly:</p>
+
+        <!-- Widget 2: GCC vs Asia/Europe size comparison -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Who Actually Holds the Treasuries?</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 420px;"></canvas>
+          <div class="holdings-readout">
+            <div class="hr-cell"><div class="hr-label">GCC total</div><div class="hr-value">$0.30T</div></div>
+            <div class="hr-cell"><div class="hr-label">Japan alone</div><div class="hr-value">$1.24T</div></div>
+            <div class="hr-cell"><div class="hr-label">Foreign total</div><div class="hr-value">$9.49T</div></div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Highlight bloc</span><span class="slider-value" id="w2-mode-val">GCC (petrodollar)</span></div>
+            <input type="range" id="w2-mode" min="0" max="3" value="0" step="1">
+          </div>
+          <p class="widget-hint">Drag the slider through GCC &rarr; Asian-manufacturer bloc &rarr; European bloc &rarr; basis-trade jurisdictions. Each highlight is what the &ldquo;recycling&rdquo; narrative is actually pointing at when it uses that label. The GCC bar is the smallest. The Asian-manufacturer bar is more than seven times bigger.</p>
+        </div>
+
+        <p>What you should be seeing: the GCC stripe is dwarfed by every other category. Japan alone, with no oil to sell, holds four times what every Gulf state combined holds. China plus Hong Kong holds about three times. The Cayman Islands &mdash; mostly hedge funds running leveraged basis trades, not sovereign buyers &mdash; <em>reportedly</em> hold $443&nbsp;billion, but the true number is closer to $2&nbsp;trillion once you net out the offshore-domiciled US funds<a class="footnote-ref" id="fnref-5" href="#fn-5">[5]</a>. The Cayman number alone may exceed the GCC by 6&ndash;7x.</p>
+
+        <p>This is where Brad Setser&rsquo;s steelman becomes hard to dismiss. The CFR economist has been a one-man counter-current against petrodollar discourse for years, and his core point is unfashionably correct: <em>the petrodollar&rsquo;s importance is vastly overstated; today&rsquo;s global dollar surplus comes from Asian manufacturing, not Gulf oil</em><a class="footnote-ref" id="fnref-6" href="#fn-6">[6]</a>.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the GCC&rsquo;s dollar exposure runs much wider than Treasuries</summary>
+          <p>The $300&nbsp;billion in Treasuries is what the GCC holds in the most visible bucket. Their <em>total</em> US-dollar exposure is multiples of that &mdash; PIF (Saudi&rsquo;s sovereign wealth fund) and ADIA (Abu Dhabi&rsquo;s) together hold over <strong>$2&nbsp;trillion in US assets</strong>, mostly equities and PE stakes, with another <strong>$800&nbsp;billion in FX reserves backing the AED, SAR, KWD pegs to the dollar</strong><a class="footnote-ref" id="fnref-7" href="#fn-7">[7]</a>. So when Setser says the petrodollar loop is overstated <em>as a Treasury story</em>, he&rsquo;s right; but the GCC&rsquo;s wider dollar exposure &mdash; equities, pegs, sovereign bonds issued in dollars &mdash; remains enormous. The valve-A flow into Treasuries is the small part. The big part runs through valve A&prime;, which is &ldquo;oil dollars &rarr; PIF &rarr; US equities,&rdquo; and that valve is structurally tighter than the UST one because PIF positions are unwound at the cost of regime credibility.</p>
+          <p>The framework still holds. The geography of the &ldquo;recycling&rdquo; just shifts: from Treasury to S&amp;P, but the directional flow is intact.</p>
+        </details>
+
+        <p>One more nuance the petrodollar narrative gets backwards. <strong>The GCC isn&rsquo;t even a net buyer of Treasuries right now &mdash; the Gulf sovereigns are issuing dollar bonds, not buying them.</strong> When Brent traded at $70&ndash;80 in 2024&ndash;25, Saudi Arabia&rsquo;s fiscal breakeven was over $90/bbl, so the kingdom ran a current-account <em>deficit</em> and tapped global investors for dollar debt to plug the gap<a class="footnote-ref" id="fnref-6" href="#fn-6">[6]</a>. The cartoon image of cash-flush sheikhs ladling dollars into Treasuries is fifteen years out of date. The real GCC is short the dollar relative to its commitments, not long.</p>
+
+        <p>So valve A is gated by 3% of foreign holdings, the operators of that valve are currently net sellers not net buyers, and the political weight is sustained by sovereign-fund equity stakes that don&rsquo;t even show up in Treasury holdings. The loop is real; its centre of gravity is not where the headlines say.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Where do the dollars actually come from?
+         ============================================================ -->
+    <section class="reveal" id="iv-asia">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>Where do the dollars actually come from?</h2>
+      </div>
+      <div class="section-content">
+        <p>If the GCC isn&rsquo;t the marginal Treasury buyer, who is?</p>
+
+        <p>The answer for the last twenty-five years has been the same one. Asian manufacturers. Japan, China, Korea, Taiwan, and Vietnam run persistent current-account surpluses with the US &mdash; they sell more goods to America than they buy from it. Those surpluses settle in dollars. The dollars accumulate at the central banks (or at quasi-private agents acting on official orders), and those institutions buy Treasuries because that&rsquo;s where you park dollars without taking credit risk.</p>
+
+        <p>That is the <em>same</em> four-valve framework, just with different valves. <strong>Asian-manufacturer recycling loop:</strong></p>
+
+        <div class="math-block">
+          A&prime;: trade $ &rarr; UST &nbsp;&nbsp; B&prime;: UST &rarr; cheap US funding &nbsp;&nbsp; C&prime;: US funding &rarr; consumer demand &nbsp;&nbsp; D&prime;: consumer demand &rarr; export market
+          <span class="math-where">Same closed system, but the &ldquo;security&rdquo; valve becomes &ldquo;consumer purchasing power&rdquo;</span>
+        </div>
+
+        <p>Valve C&prime; is the only one that changes shape: instead of military security, the Asian loop trades on <em>American consumer demand</em>. Cheap US funding keeps American household consumption high; high consumption keeps Asian export factories full; export earnings cycle back into Treasuries; Treasury demand keeps funding cheap. It&rsquo;s the same closed cycle as the petrodollar loop, scaled up by an order of magnitude.</p>
+
+        <p>The scale comparison: GCC surplus recycling has been roughly $200&ndash;300&nbsp;billion a year; Asian-manufacturer surplus recycling has been roughly $1.5&nbsp;trillion a year through the 2010s peak<a class="footnote-ref" id="fnref-6" href="#fn-6">[6]</a>. Five-to-seven-times bigger. <strong>If you removed the petrodollar loop entirely, the Asian loop alone could plausibly keep US funding cheap. Remove the Asian loop and the petrodollar can&rsquo;t plug the hole.</strong></p>
+
+        <p>This is the heart of Setser&rsquo;s point and it&rsquo;s why I keep returning to it. The journalistic frame around &ldquo;petrodollar collapse&rdquo; is pointing at the small valve. The big valve is Japanese life insurers, Chinese state banks, Taiwanese chip exporters, Korean shipbuilders. The petrodollar can break and the Treasury market survives. The Asian recycling loop can&rsquo;t break without rewriting the dollar&rsquo;s role from first principles.</p>
+
+        <p>The bad news for everyone holding US bonds: the Asian recycling loop is also breaking.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Why is the Asian loop also collapsing now?
+         ============================================================ -->
+    <section class="reveal" id="v-why-collapsing">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>Why is the Asian loop also collapsing now?</h2>
+      </div>
+      <div class="section-content">
+        <p>For different reasons, the same picture. The Asian-manufacturer loop is unwinding through three channels at once, none of them dramatic enough on its own to make a headline, all of them pulling the same direction.</p>
+
+        <p><strong>China actively shrinking its UST book.</strong> China plus Hong Kong now holds about $962&nbsp;billion, down $96&nbsp;billion year-over-year as of February 2026<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. The shrinkage isn&rsquo;t reserve liquidation &mdash; it&rsquo;s an active diversification into gold (PBOC has been the biggest single sovereign gold buyer for nine straight quarters) and into euro/yen assets. China is the deliberate decoupler. Their valve A&prime; is being shut by policy, not by economics.</p>
+
+        <p><strong>Japan running out of fiscal space to recycle.</strong> Japan added $113&nbsp;billion year-over-year, so they are still net-buying. But the 30-year JGB yield hit an <em>all-time record high</em> in May 2026<a class="footnote-ref" id="fnref-8" href="#fn-8">[8]</a> &mdash; not since-2010, not since-1999, all-time, as in &ldquo;since the bond existed.&rdquo; That means Japanese life insurers, who used to swap yen liabilities into Treasury assets at attractive cross-currency basis, now find the basis trade marginal. The structural Japanese bid is weakening even though the headline number is still positive.</p>
+
+        <p><strong>The basis trade ate the void.</strong> The category that <em>has</em> been buying enthusiastically since 2020 is &ldquo;Cayman Islands,&rdquo; which in TIC nomenclature mostly means leveraged hedge funds running the cash-futures basis trade. The reported $443&nbsp;billion is an undercount; the true Cayman+UK+Lux figure is closer to $2&nbsp;trillion once you net out US-domiciled-but-offshore-registered funds<a class="footnote-ref" id="fnref-5" href="#fn-5">[5]</a>. This demand is real, but it&rsquo;s 8&ndash;50x leveraged, dealer-balance-sheet-constrained, and capable of a March-2020-style unwind on a week&rsquo;s notice. It is the opposite of sticky.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the official UST data tells two contradictory stories at once</summary>
+          <p>TIC (Treasury International Capital) data says foreign-CB Treasury demand <em>rose</em> in 2026 &mdash; Japan up $113B year-over-year, net foreign holdings hitting a new high of $9.49&nbsp;trillion. NY Fed custody (which holds Treasuries on behalf of foreign central banks) says official-account demand <em>fell</em> by $82&nbsp;billion in five weeks in spring 2026 &mdash; the lowest custody balance since 2012<a class="footnote-ref" id="fnref-9" href="#fn-9">[9]</a>.</p>
+          <p>Both are true. TIC mixes private and official holdings. NY Fed custody is the cleaner official-only slice. The reconciliation: <strong>official-sector demand is falling; private leveraged demand is rising to fill the gap.</strong> That&rsquo;s a structurally more fragile market, not a stronger one &mdash; you&rsquo;ve replaced sticky reserve managers with hot-money basis traders. The TIC headline is reassuring; the NY Fed custody number is the one that should worry you.</p>
+        </details>
+
+        <p>Both recycling loops &mdash; petrodollar and Asian &mdash; are leaking simultaneously, for different reasons, and the demand void is being filled by leveraged private money rather than by sovereign reserve managers. That is the headline you should be reading, not &ldquo;Saudi ends 50-year petrodollar deal.&rdquo;</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. What breaks downstream when the loop closes?
+         ============================================================ -->
+    <section class="reveal" id="vi-downstream">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What breaks downstream when the loop closes?</h2>
+      </div>
+      <div class="section-content">
+        <p>Run the cascade from valve A all the way through. This is the part you can teach a friend at dinner.</p>
+
+        <p>Suppose GCC + Asian official recycling drops by, say, $400&nbsp;billion a year &mdash; roughly the trajectory you can fit to the current data. The auction at the long end still has to clear: the Treasury has to sell ~$1&nbsp;trillion net of new issuance a year regardless of who shows up. So the yield has to rise enough to attract the marginal buyer. The marginal buyer is now a leveraged hedge fund, which prices in higher carry, higher capital cost, and higher tail risk. Yields climb. <em>Valve B closes.</em></p>
+
+        <p>Once yields climb, US debt-service expense climbs with it. The CBO publishes a clean number: a sustained 100&nbsp;basis-point shift in the curve costs the Treasury <strong>about $3.2&nbsp;trillion over ten years</strong><a class="footnote-ref" id="fnref-10" href="#fn-10">[10]</a>. As of April 2026 the ACM term premium has already risen ~150&nbsp;basis points from its QE-era trough; that&rsquo;s ~$4&nbsp;trillion of incremental ten-year debt service already locked in. Federal interest expense is already running at $1&nbsp;trillion a year &mdash; ~19% of all federal revenue. <em>Valve C is now binding.</em></p>
+
+        <p>Once interest expense crowds out discretionary spending, the security commitment in the Gulf becomes politically uneconomic. This is when you start seeing announcements like the April 2026 Bessent $20&nbsp;billion swap line to the UAE &mdash; financial plumbing offered in lieu of carrier strike groups, because carrier strike groups aren&rsquo;t free and the budget no longer flexes. <em>Valve C closes.</em></p>
+
+        <p>Once the security commitment weakens, the GCC&rsquo;s incentive to price oil in dollars and to keep the AED/SAR pegs to USD weakens. The UAE leaving OPEC in April 2026 was a signal; the dollar-pricing convention isn&rsquo;t a treaty, it&rsquo;s a habit, and habits change<a class="footnote-ref" id="fnref-11" href="#fn-11">[11]</a>. <em>Valve D closes.</em></p>
+
+        <p>And once valve D closes, the global demand for dollars to buy oil &mdash; the artificial demand that the petrodollar system manufactured &mdash; weakens too. Which loops back to valve A: even the residual GCC recycling becomes less mechanically necessary. <em>The loop runs down to a new, lower-pressure equilibrium.</em></p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the US is now a net oil exporter, which severs the original premise</summary>
+          <p>The 1974 deal was &ldquo;we guarantee your security, you sell us oil cheaply in dollars.&rdquo; That premise assumed the US needed Saudi oil. It hasn&rsquo;t since around 2019. The US is now a <strong>net exporter of crude and refined products</strong> &mdash; the shale revolution flipped the trade balance in petroleum. So valve D&rsquo;s original rationale (cheap oil for America) is already gone.</p>
+          <p>What persists is the <em>monetary</em> rationale &mdash; dollar pricing of OPEC oil generates global dollar demand &mdash; not the <em>physical</em> rationale. That makes valve D structurally weaker than it looks, because the US no longer materially benefits from cheap GCC oil. The loop&rsquo;s political incentive to maintain valve D is now mostly about reserve-currency status, not energy supply. Reserve-currency arguments are more abstract; abstract arguments lose political fights to concrete budget arithmetic. Which means valve D is on borrowed time.</p>
+        </details>
+
+        <p>The cascade isn&rsquo;t a forecast. It&rsquo;s an arithmetic check. Each valve&rsquo;s closing is independently observable and the linkage between them is identity-not-causation. The system goes where the system goes.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Where will the marginal Treasury dollar come from in 2026?
+         ============================================================ -->
+    <section class="reveal" id="vii-marginal">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>Where will the marginal Treasury dollar come from in 2026?</h2>
+      </div>
+      <div class="section-content">
+        <p>The last piece. Once you accept that GCC and Asian official recycling are both leaking, the question is mechanical: somebody has to clear the Treasury auctions. Who?</p>
+
+        <p>The candidate list is short and unflattering.</p>
+
+        <p><strong>US households and pensions.</strong> The natural domestic bid, except household savings rates are at multi-decade lows and pension funds are already at their target Treasury allocations. There is no slack in the US private sector to absorb $400&nbsp;billion a year of additional Treasury supply at current yields. Higher yields could unlock incremental demand, but only at the cost of cratering equity-market multiples &mdash; which compresses pension funding ratios and limits how much they can rotate into bonds. The system doesn&rsquo;t have a clean answer here.</p>
+
+        <p><strong>Leveraged hedge funds (the basis trade).</strong> This is who has actually filled the gap since 2020 &mdash; the Cayman/UK/Lux complex running cash-futures basis. The trade works because it harvests a small spread on huge leverage, and the Treasury market has provided enough volume to absorb the trade at scale. But the trade requires dealer balance sheet to clear and benefits from low realised volatility. Both can disappear in a week. <strong>This is the load-bearing buyer right now, and it&rsquo;s the most fragile possible substitute.</strong></p>
+
+        <p><strong>The Fed.</strong> Restart QE. This is the always-available answer, and Janet Yellen herself raised the fiscal-dominance question at the AEA in January 2026 &mdash; the highest-credibility establishment voice acknowledging that the Fed may end up monetising the deficit. The problem: QE during a supply-side oil shock or persistent CPI prints above target would re-ignite inflation and make the dominance explicit. Which is why the option exists but isn&rsquo;t being exercised.</p>
+
+        <p>That&rsquo;s the full menu. Domestic savings (insufficient), leveraged basis (fragile), Fed (inflationary). Pick one. You can&rsquo;t pick &ldquo;none&rdquo; because the auction has to clear.</p>
+
+        <p>This is what the bond market is pricing right now. The 10-year above 4.4%, the 30-year above 5%, the ACM term premium back into positive territory for the first time since 2023, the synchronised global long-end repricing &mdash; all of it is the market trying to find the yield level at which the marginal Treasury dollar can be sourced from a fragile combination of the three options above. The petrodollar story is part of that; the Asian story is the bigger part; the &ldquo;who replaces them&rdquo; question is the part that will dominate the next decade.</p>
+
+        <blockquote>
+          <p><strong>The recycling loop &mdash; petrodollar or Asian &mdash; is the framework. Four valves, closed system, every valve gates the next. Today the petrodollar version of the loop holds 3% of the action and is leaking through valve A. The Asian version holds 30%+ and is leaking through valves A&prime; and B&prime;. The basis trade is the load-bearing substitute, and the substitute is fragile. That&rsquo;s the whole story.</strong></p>
+        </blockquote>
+
+        <p>The next article in this series, <a href="../treasury-buyers/index.html">treasury-buyers</a>, walks through every category of buyer in the 2026 TIC table and works out who is left when both recycling loops finish unwinding. If the recycling-loop framework is the diagnosis, the buyer-composition shift is the prognosis.</p>
+
+        <p>For now, you have the framework, the size check, and the cascade. Carry the framework into the next dinner-table conversation about petrodollar collapse. The answer is yes, the loop is breaking &mdash; <em>and the part of the loop that&rsquo;s breaking fastest isn&rsquo;t the part anyone is talking about.</em></p>
+
+        <p>Previously in this series: <a href="../petrodollar-origin/index.html">petrodollar-origin</a> &mdash; how the 1974 Simon-Kissinger deal actually worked, why there was never a treaty, and why &ldquo;June 9, 2024&rdquo; was the wrong date to fixate on.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Wolf Richter, &ldquo;The Largest Foreign Holders of US Treasury Securities and the Basis Trade, April 2026 Update&rdquo; (Wolf Street, 15 Apr 2026), based on US Treasury International Capital (TIC) data through February 2026. Headline totals: foreign holdings $9.49T (~24.5% of total UST outstanding); Japan $1.24T; China + Hong Kong $962B; UK $897B; Euro Area aggregate $2.00T. GCC (Saudi+UAE+Kuwait) ~$300B as of January 2026. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Aaron Brown, &ldquo;The Petrodollar Loop Supporting the Treasury Market Is Broken&rdquo; (Bloomberg Opinion, 6 Apr 2026). Brown&rsquo;s framing &mdash; &ldquo;the virtuous loop that has seen America underwrite stability in the Middle East in exchange for Gulf states recycling their dollar revenues into US Treasuries has been broken&rdquo; &mdash; captures the conventional narrative. This article&rsquo;s argument is that Brown&rsquo;s loop is real but smaller than the framing implies. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">The Simon-Kissinger arrangement (negotiated 1974, never published as a treaty) allowed Saudi Arabia to buy US Treasuries through a non-competitive &ldquo;add-on&rdquo; window so their purchases didn&rsquo;t move auction prices or appear in standard TIC reporting until decades later. See LegalClarity, &ldquo;The Kissinger Petrodollar System,&rdquo; and the GAO&rsquo;s 2024 review of the (now-expired) US&ndash;Saudi Joint Commission on Economic Cooperation, which confirmed no formal oil-pricing clause ever existed in the bilateral. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">Author&rsquo;s reconciliation from CFR / Setser flow-of-funds work and Saudi central bank data. Of typical GCC current-account surpluses during the 2010&ndash;2014 oil boom (~$300B/yr), roughly 30&ndash;40% landed in US Treasuries; the bulk of the rest went into sovereign-fund equity, PE, and infrastructure stakes (PIF, ADIA, KIA, Mubadala). The Treasury share has fallen since 2015 as GCC sovereigns reweighted toward equity allocations. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+          <li id="fn-5">Wolf Richter (Wolf Street, 15 Apr 2026) and TIC reconciliation: the reported Cayman Islands figure of $443B understates true holdings, because US-domiciled mutual funds and hedge funds registered offshore for tax purposes count in the Cayman bucket. The estimated true figure is closer to $2T. The same logic applies to a lesser extent for UK ($897B) and Luxembourg, both of which are partial proxies for leveraged basis-trade positions. <a class="footnote-back" href="#fnref-5">&#8617;</a></li>
+          <li id="fn-6">Brad Setser, &ldquo;Petrodollars: Myths and Reality&rdquo; (Council on Foreign Relations). Setser&rsquo;s position, restated periodically since 2019: today&rsquo;s global dollar surplus is roughly $1.5T from Asian manufacturing (Japan, China, Korea, Taiwan, Vietnam current accounts) vs ~$200B from Gulf oil. Saudi Arabia&rsquo;s fiscal breakeven oil price has run above $90/bbl since 2022, meaning the kingdom has run current-account deficits at most realised oil prices and has issued dollar bonds to fund them rather than buying USTs. His quote on the petrodollar narrative: &ldquo;This is fun to believe, but not really based in reality.&rdquo; <a class="footnote-back" href="#fnref-6">&#8617;</a></li>
+          <li id="fn-7">Fortune, &ldquo;UAE leaves OPEC, Bessent swap line&rdquo; (28 Apr 2026), citing PIF and ADIA disclosures: combined US asset holdings exceed $2T, the bulk in public equities and PE stakes. Separately, GCC central bank FX reserves backing the dollar pegs (AED, SAR, KWD, BHD, QAR, OMR) total ~$800B as of early 2026. These pegs make the GCC&rsquo;s dollar exposure structurally far larger than the Treasury holdings alone suggest. <a class="footnote-back" href="#fnref-7">&#8617;</a></li>
+          <li id="fn-8">CNBC, &ldquo;Treasury yields and the global bond rout&rdquo; (18 May 2026). Japan&rsquo;s 30-year JGB yield hit an all-time record high in mid-May 2026, breaking the prior high set in 1999 when the bond was first issued. This is the cleanest single data point for &ldquo;structural Japanese bid weakening,&rdquo; because Japanese life insurers are the largest natural buyer of long-duration foreign sovereigns when yen-hedged cross-currency basis is attractive. <a class="footnote-back" href="#fnref-8">&#8617;</a></li>
+          <li id="fn-9">Federal Reserve Bank of New York, custody balance for foreign official accounts: $2.70T as of early April 2026, down $82B in the prior five weeks &mdash; the lowest custody balance since 2012. ZeroHedge first flagged the divergence between this number and the headline TIC figures in &ldquo;Petrodollar Breakdown Is Real&rdquo; (8 Apr 2026). The custody series is the cleaner official-only slice; TIC mixes official and private. <a class="footnote-back" href="#fnref-9">&#8617;</a></li>
+          <li id="fn-10">Congressional Budget Office, FY2026 Budget Outlook: a sustained +100bp shift across the Treasury curve adds approximately $3.2T to cumulative ten-year debt service. ACM term premium estimate (NY Fed) as of April 24, 2026 reads ~+0.68%, up roughly 150bps from QE-era troughs of &minus;80 to &minus;100bp. The implied incremental ten-year cost of the term-premium rebuild alone is on the order of $4T NPV. <a class="footnote-back" href="#fnref-10">&#8617;</a></li>
+          <li id="fn-11">The UAE&rsquo;s departure from OPEC in April 2026, paired with Treasury Secretary Scott Bessent&rsquo;s $20B currency swap line to the UAE central bank in the same window, marks the clearest institutional break in the GCC&rsquo;s alignment with the petrodollar architecture. The swap line in particular reads as financial-plumbing diplomacy: a substitute for the security guarantees the US no longer wants to underwrite at scale. Reporting via Fortune (28 Apr 2026). <a class="footnote-back" href="#fnref-11">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Widget 1 — Four-valve loop simulator
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w1-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // State: valves A and D are user-controlled. B and C are computed.
+      // Cascade model: each downstream valve's openness equals the minimum
+      // openness of itself and the previous valve, with a slight smoothing.
+      function cascade(a, d) {
+        // a, d in [0,1]. Compute b = downstream of a; c = downstream of b.
+        // Loop is round-trip: a -> b -> c -> d -> a, so d -> a is the close.
+        // We compute B and C from A; the effective system openness is the
+        // min along the chain, since any closed valve chokes the loop.
+        var b = a;                          // B follows A (less recycling -> less yield suppression)
+        var c = Math.min(a, b);             // C follows whatever upstream is weakest
+        // D is user-set; the loop's effective throughput is min(a, b, c, d)
+        return { a: a, b: b, c: c, d: d, sys: Math.min(a, b, c, d) };
+      }
+
+      function nodeBox(ctx, cx, cy, label, sub) {
+        var width = 130, height = 54;
+        var x = cx - width / 2, y = cy - height / 2;
+        drawRectCanvas(ctx, x, y, width, height, '#fff', 8, 'var(--accent)');
+        drawTextCanvas(ctx, cx, cy - 8, label, { fontSize: 12.5, weight: '600', color: 'var(--accent)' });
+        drawTextCanvas(ctx, cx, cy + 10, sub, { fontSize: 10.5, color: 'var(--text-secondary)' });
+      }
+
+      // Draw an arrow with thickness proportional to openness (0..1)
+      function valveArrow(ctx, x1, y1, x2, y2, openness, label) {
+        var lw = 1.5 + 6 * openness;       // 1.5 .. 7.5 px
+        var alpha = 0.25 + 0.75 * openness;
+        var col = openness > 0.55 ? 'rgba(56, 161, 105, ' + alpha.toFixed(2) + ')'
+                : openness > 0.25 ? 'rgba(214, 158, 46, ' + alpha.toFixed(2) + ')'
+                                  : 'rgba(155, 44, 44, '  + alpha.toFixed(2) + ')';
+        ctx.save();
+        ctx.strokeStyle = col;
+        ctx.fillStyle = col;
+        ctx.lineWidth = lw;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+        // arrowhead
+        var ang = Math.atan2(y2 - y1, x2 - x1);
+        var ah = 10 + 2 * openness;
+        ctx.beginPath();
+        ctx.moveTo(x2, y2);
+        ctx.lineTo(x2 - ah * Math.cos(ang - 0.4), y2 - ah * Math.sin(ang - 0.4));
+        ctx.lineTo(x2 - ah * Math.cos(ang + 0.4), y2 - ah * Math.sin(ang + 0.4));
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+        // Label
+        var mx = (x1 + x2) / 2;
+        var my = (y1 + y2) / 2;
+        drawTextCanvas(ctx, mx, my, label, {
+          fontSize: 11, weight: '600',
+          color: openness > 0.55 ? '#22543d' : openness > 0.25 ? '#975a16' : '#9b2c2c'
+        });
+      }
+
+      function redraw(aPct, dPct) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+        var s = cascade(aPct / 100, dPct / 100);
+
+        // Layout: four nodes at the corners of a square
+        var cx = w / 2;
+        var cy = h / 2;
+        var hw = Math.min(w, h) * 0.34;  // half-width of square
+        var TL = { x: cx - hw, y: cy - hw + 10 };  // Oil Producers (top-left)
+        var TR = { x: cx + hw, y: cy - hw + 10 };  // US Treasury (top-right)
+        var BR = { x: cx + hw, y: cy + hw - 10 };  // US Military / Security (bottom-right)
+        var BL = { x: cx - hw, y: cy + hw - 10 };  // Oil Consumers / Dollar System (bottom-left)
+
+        // Draw arrows first (so node boxes overlap them visually)
+        // Valve A: TL -> TR  (oil $ -> UST)
+        // Inset endpoints so they touch the box edges, not centres
+        function inset(p, q, pad) {
+          var dx = q.x - p.x, dy = q.y - p.y;
+          var d = Math.sqrt(dx * dx + dy * dy);
+          return { x1: p.x + dx / d * pad, y1: p.y + dy / d * pad,
+                   x2: q.x - dx / d * pad, y2: q.y - dy / d * pad };
+        }
+        var pad = 72;
+        var aL = inset(TL, TR, pad);
+        valveArrow(ctx, aL.x1, aL.y1 - 18, aL.x2, aL.y2 - 18, s.a, 'A: oil $ → UST');
+        var bL = inset(TR, BR, pad);
+        valveArrow(ctx, bL.x1 + 22, bL.y1, bL.x2 + 22, bL.y2, s.b, 'B: cheap funding');
+        var cL = inset(BR, BL, pad);
+        valveArrow(ctx, cL.x1, cL.y1 + 18, cL.x2, cL.y2 + 18, s.c, 'C: security $');
+        var dL = inset(BL, TL, pad);
+        valveArrow(ctx, dL.x1 - 22, dL.y1, dL.x2 - 22, dL.y2, s.d, 'D: $-priced oil');
+
+        // Nodes
+        nodeBox(ctx, TL.x, TL.y, 'Oil Producers', 'GCC sovereign $');
+        nodeBox(ctx, TR.x, TR.y, 'US Treasury', 'auction demand');
+        nodeBox(ctx, BR.x, BR.y, 'US Military', 'security umbrella');
+        nodeBox(ctx, BL.x, BL.y, 'Dollar System', 'global oil demand');
+
+        // System health pill (top centre)
+        var sysColor = s.sys > 0.55 ? '#22543d' : s.sys > 0.25 ? '#975a16' : '#9b2c2c';
+        var sysLabel = s.sys > 0.55 ? 'Loop intact'
+                      : s.sys > 0.25 ? 'Loop stressed' : 'Loop collapsed';
+        drawRectCanvas(ctx, cx - 80, 8, 160, 22, '#fff', 11, sysColor);
+        drawTextCanvas(ctx, cx, 19, sysLabel + ' — ' + Math.round(s.sys * 100) + '%',
+          { fontSize: 11.5, weight: '600', color: sysColor });
+
+        // Update DOM readouts
+        function fmtPct(v) { return Math.round(v * 100) + '%'; }
+        function fmtNote(v, openTxt, closeTxt) {
+          if (v > 0.55) return openTxt;
+          if (v > 0.25) return 'stressed';
+          return closeTxt;
+        }
+        function noteClass(v) {
+          if (v > 0.55) return 'vc-note is-ok';
+          if (v > 0.25) return 'vc-note';
+          return 'vc-note is-stressed';
+        }
+        document.getElementById('w1-a-val').textContent = fmtPct(s.a);
+        document.getElementById('w1-a-note').textContent = fmtNote(s.a, 'GCC recycling on', 'GCC stops recycling');
+        document.getElementById('w1-a-note').className = noteClass(s.a);
+        document.getElementById('w1-b-val').textContent = fmtPct(s.b);
+        document.getElementById('w1-b-note').textContent = fmtNote(s.b, '10-yr yield stable', 'yields blow out');
+        document.getElementById('w1-b-note').className = noteClass(s.b);
+        document.getElementById('w1-c-val').textContent = fmtPct(s.c);
+        document.getElementById('w1-c-note').textContent = fmtNote(s.c, 'Fifth Fleet sustained', 'security uneconomic');
+        document.getElementById('w1-c-note').className = noteClass(s.c);
+        document.getElementById('w1-d-val').textContent = fmtPct(s.d);
+        document.getElementById('w1-d-note').textContent = fmtNote(s.d, 'Saudi prices in USD', 'dollar pricing breaks');
+        document.getElementById('w1-d-note').className = noteClass(s.d);
+      }
+
+      attachSliders([
+        { el: document.getElementById('w1-a'),
+          label: document.getElementById('w1-a-slider-val'),
+          format: function(v) { return v + '%'; } },
+        { el: document.getElementById('w1-d'),
+          label: document.getElementById('w1-d-slider-val'),
+          format: function(v) { return v + '%'; } }
+      ], function(values) {
+        redraw(values['w1-a'], values['w1-d']);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — Who actually holds the Treasuries?
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w2-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Holdings in $ trillions, with a "bloc" tag for the highlight mode.
+      // Values from TIC Feb 2026 (Wolf Street, 15 Apr 2026 update).
+      var HOLDINGS = [
+        { name: 'GCC (Saudi+UAE+Kuwait)', t: 0.30, bloc: 'GCC' },
+        { name: 'Cayman (reported)',      t: 0.44, bloc: 'BASIS' },
+        { name: 'Cayman (true est.)',     t: 1.55, bloc: 'BASIS', extra: true },
+        { name: 'UK',                     t: 0.90, bloc: 'BASIS' },
+        { name: 'Luxembourg',             t: 0.45, bloc: 'BASIS' },
+        { name: 'Japan',                  t: 1.24, bloc: 'ASIA' },
+        { name: 'China + Hong Kong',      t: 0.96, bloc: 'ASIA' },
+        { name: 'Taiwan + Korea',         t: 0.50, bloc: 'ASIA' },
+        { name: 'Euro Area (non-Lux)',    t: 1.55, bloc: 'EURO' },
+        { name: 'Switzerland',            t: 0.30, bloc: 'EURO' }
+      ];
+
+      var MODES = ['GCC', 'ASIA', 'EURO', 'BASIS'];
+      var MODE_NAMES = {
+        'GCC':   'GCC (petrodollar)',
+        'ASIA':  'Asian-manufacturer bloc',
+        'EURO':  'European bloc',
+        'BASIS': 'Basis-trade jurisdictions'
+      };
+      var MODE_BLURB = {
+        'GCC':   '$0.30T — 3% of foreign holdings. The petrodollar bloc.',
+        'ASIA':  '$2.70T — 28%. The trade-surplus recyclers.',
+        'EURO':  '$1.85T — 19%. Reserve diversification + custody.',
+        'BASIS': '$3.34T (true est.) — 35%. Leveraged hedge-fund basis.'
+      };
+
+      function redraw(modeIdx) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+        var mode = MODES[modeIdx];
+
+        // Sort holdings by size desc for the bar chart
+        var rows = HOLDINGS.slice().sort(function(a, b) { return b.t - a.t; });
+        var maxT = 1.7; // y-axis ceiling in $T
+
+        var pad = { top: 50, right: 18, bottom: 80, left: 60 };
+        // Custom axes (we use horizontal bars conceptually but render vertical)
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top);
+        ctx.lineTo(pad.left, h - pad.bottom);
+        ctx.lineTo(w - pad.right, h - pad.bottom);
+        ctx.stroke();
+        // y gridlines
+        for (var i = 0; i <= 4; i++) {
+          var yv = (maxT * i) / 4;
+          var yPos = h - pad.bottom - (i / 4) * (h - pad.top - pad.bottom);
+          ctx.strokeStyle = resolveCSSColor('var(--border)');
+          ctx.setLineDash([3, 4]);
+          ctx.beginPath();
+          ctx.moveTo(pad.left, yPos);
+          ctx.lineTo(w - pad.right, yPos);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          drawTextCanvas(ctx, pad.left - 8, yPos,
+            '$' + yv.toFixed(2) + 'T',
+            { fontSize: 10, align: 'right', color: 'var(--text-secondary)' });
+        }
+        ctx.restore();
+
+        // Bars
+        var plotW = w - pad.left - pad.right;
+        var plotH = h - pad.top - pad.bottom;
+        var n = rows.length;
+        var gap = 8;
+        var barW = (plotW - gap * (n - 1)) / n;
+
+        rows.forEach(function(row, idx) {
+          var x = pad.left + idx * (barW + gap);
+          var hBar = (row.t / maxT) * plotH;
+          var y = h - pad.bottom - hBar;
+          var isHighlight = row.bloc === mode;
+          var fill = isHighlight ? 'var(--accent)' : '#cbd5e0';
+          // Dim "extra" rows (true estimate of Cayman) so they read as supplementary
+          if (row.extra) fill = isHighlight ? '#68d391' : '#e2e8f0';
+          drawRectCanvas(ctx, x, y, barW, hBar, fill, 4);
+
+          // Value label above bar
+          drawTextCanvas(ctx, x + barW / 2, y - 9,
+            '$' + row.t.toFixed(2) + 'T',
+            { fontSize: 10.5, weight: '600',
+              color: isHighlight ? 'var(--accent)' : 'var(--text-secondary)' });
+
+          // Rotated category label below bar
+          ctx.save();
+          ctx.translate(x + barW / 2, h - pad.bottom + 8);
+          ctx.rotate(-Math.PI / 4);
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = resolveCSSColor(isHighlight ? 'var(--accent)' : 'var(--text-secondary)');
+          ctx.font = (isHighlight ? '600' : '400') + ' 10.5px Figtree, system-ui, sans-serif';
+          ctx.fillText(row.name, 0, 0);
+          ctx.restore();
+        });
+
+        // Title pill at top
+        drawRectCanvas(ctx, pad.left, 12, plotW, 28, 'var(--accent-light)', 8);
+        drawTextCanvas(ctx, pad.left + 12, 26, 'Highlight: ' + MODE_NAMES[mode],
+          { fontSize: 12.5, weight: '600', color: 'var(--accent)', align: 'left' });
+        drawTextCanvas(ctx, w - pad.right - 12, 26, MODE_BLURB[mode],
+          { fontSize: 11.5, color: 'var(--text-secondary)', align: 'right' });
+
+        // Update slider readout
+        document.getElementById('w2-mode-val').textContent = MODE_NAMES[mode];
+      }
+
+      attachSliders([
+        { el: document.getElementById('w2-mode'),
+          label: document.getElementById('w2-mode-val'),
+          format: function(v) { return MODE_NAMES[MODES[v]]; } }
+      ], function(values) {
+        redraw(values['w2-mode']);
+      });
+    })();
+  </script>
+
+</body>
+</html>

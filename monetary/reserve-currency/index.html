@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Everyone Uses Dollars &mdash; Monetary Explainers</title>
+  <meta name="description" content="The dollar is 75% of global payments, the euro is 7%, the yuan is under 2% &mdash; and a decade of de-dollarization headlines has barely moved the share. Reserve-currency status is a network effect: nobody can unilaterally exit a coordination game. Here&rsquo;s why, with simulators.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Why Everyone Uses Dollars">
+  <meta property="og:description" content="The dollar&rsquo;s 75% SWIFT share is a sticky equilibrium nobody can unilaterally exit. A decade of de-dollarization noise has barely moved the number. The math of why.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #d69e2e;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #744210 0%, #d69e2e 100%); }
+
+    /* Mix readout grid for the network sim */
+    .mix-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .mix-readout { grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    }
+    .mix-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .mix-cell .mc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .mix-cell .mc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 18px;
+      margin-top: 2px;
+    }
+    .mix-cell.is-usd .mc-value { color: #2f855a; }
+    .mix-cell.is-eur .mc-value { color: #2b6cb0; }
+    .mix-cell.is-cny .mc-value { color: #9b2c2c; }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0 4px;
+    }
+    .button-row button {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .button-row button:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+    .button-row button.is-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .button-row button.is-primary:hover {
+      background: #b7791f;
+      border-color: #b7791f;
+    }
+
+    .cost-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .cost-readout { grid-template-columns: 1fr; }
+    }
+    .cost-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .cost-cell .cc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .cost-cell .cc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 20px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .cost-cell .cc-note {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .cost-cell.is-cheaper .cc-value { color: #22543d; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Why Everyone Uses Dollars</h1>
+      <p class="hero__subtitle">The dollar is 75% of global payments. The euro is 7%. The yuan, after fifteen years of state-sponsored push, is 1.8%. A decade of de-dollarization headlines has barely moved the number &mdash; because reserve-currency status is a coordination game, and no single actor can rationally move first.</p>
+      <p class="hero__meta">7 chapters &middot; 2 interactive widgets &middot; 18 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-oil-currency">Why does anyone care what currency oil is priced in?</a></li>
+        <li><a href="#ii-what-is-reserve">What is a &ldquo;reserve currency&rdquo;, really?</a></li>
+        <li><a href="#iii-network-effects">Why are network effects in money so sticky?</a></li>
+        <li><a href="#iv-numbers">What do the actual numbers say?</a></li>
+        <li><a href="#v-euro-tipping">Why did the euro almost tip &mdash; and what stopped it?</a></li>
+        <li><a href="#vi-yuan-stuck">Why hasn&rsquo;t the yuan moved despite 15 years of trying?</a></li>
+        <li><a href="#vii-what-would-it-take">What would it actually take to dislodge the dollar?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. Why does anyone care what currency oil is priced in?
+         ============================================================ -->
+    <section class="reveal" id="i-oil-currency">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why does anyone care what currency oil is priced in?</h2>
+      </div>
+      <div class="section-content">
+        <p>In April 2026, with Iranian missiles still landing in the Persian Gulf and Brent printing $126, the share of global cross-border payments settled in US dollars was <strong>75.23%</strong>. The euro &mdash; the only other currency anyone seriously talks about as a rival &mdash; was at 6.90%. The Chinese yuan, despite fifteen years of state-sponsored internationalisation, oil-for-yuan deals with Russia, and a sovereign bond program in Shanghai, sat at <strong>1.80%</strong><a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>.</p>
+
+        <p>Those three numbers are the entire de-dollarization debate, and they have barely moved in a decade. The IMF&rsquo;s own September 2025 working paper looked across the data through 2023 and concluded there is <em>&ldquo;no robust evidence of effective policy initiatives to reduce dollar reliance&rdquo;</em><a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. The very institution that would benefit most from a multipolar reserve system can&rsquo;t find one in the data.</p>
+
+        <p>Here&rsquo;s the claim this article proves: <strong>the dollar&rsquo;s 75% share is a network effect &mdash; a sticky equilibrium nobody can unilaterally exit. Every other currency would have to coordinate the switch simultaneously, and there is no mechanism on Earth that lets Saudi Arabia, Brazil, India and Russia agree on a Tuesday to all start invoicing in yuan on Wednesday.</strong></p>
+
+        <p>I am not saying the dollar is permanent. I am saying that the question &ldquo;will the dollar lose reserve status?&rdquo; is the wrong question. The right question is: &ldquo;what is the equilibrium-shifting event that gets every major exporter to switch invoicing currencies on the same date?&rdquo; If you can&rsquo;t name that event, the network effect holds. And if you build the toy simulator yourself &mdash; which you&rsquo;re about to &mdash; you&rsquo;ll see why even an obviously inferior incumbent currency can sit at 75% forever.</p>
+
+        <p>The previous article in this series, <a href="../bond-math/index.html">Bond Math From Scratch</a>, built the napkin for what a 1% yield move costs the Treasury. This one builds the napkin for why nothing about that calculation changes even when half the world says it wants to leave the dollar.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. What is a "reserve currency", really?
+         ============================================================ -->
+    <section class="reveal" id="ii-what-is-reserve">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What is a &ldquo;reserve currency&rdquo;, really?</h2>
+      </div>
+      <div class="section-content">
+        <p>The phrase &ldquo;reserve currency&rdquo; gets used to mean four genuinely different things, and the de-dollarization debate routinely conflates them. Pull them apart and the story sharpens.</p>
+
+        <p><strong>One:</strong> the currency central banks hold as foreign-exchange reserves. The IMF tracks this in its COFER dataset. As of late 2025, the dollar is roughly <strong>58&ndash;59%</strong> of allocated global reserves, down from about 72% in 2000<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. This is the number that has actually moved.</p>
+
+        <p><strong>Two:</strong> the currency private firms invoice trade in. Extra-EU oil imports are invoiced <strong>~85% in dollars</strong> per the European Central Bank&rsquo;s most recent breakdown &mdash; even when neither buyer nor seller is American<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. This number has barely moved in twenty years.</p>
+
+        <p><strong>Three:</strong> the currency that settles cross-border payments. SWIFT publishes monthly. April 2026: 75.23% dollar. This number has actually <em>risen</em> over the last five years, despite every headline you read.</p>
+
+        <p><strong>Four:</strong> the currency in which financial assets are denominated. The vast majority of the world&rsquo;s safe-asset stock &mdash; Treasuries, Treasury repo, dollar-denominated investment-grade credit &mdash; sits on this side.</p>
+
+        <p>All four are interconnected, but they don&rsquo;t move together. Reserves move first &mdash; central banks can rebalance at their own pace, in the dark, without coordinating with anyone. Invoicing moves last, because every firm&rsquo;s invoicing choice depends on every other firm&rsquo;s invoicing choice. That asymmetry &mdash; the &ldquo;why does invoicing not move when reserves do?&rdquo; question &mdash; is the entire heart of the network-effect argument.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually &#129488; &mdash; the dollar&rsquo;s SWIFT share <em>rose</em> during the recent crisis</summary>
+          <p>You&rsquo;d expect a Middle East war that shuts in 9 mb/d of Gulf oil to crater the dollar&rsquo;s reserve status. Instead, the SWIFT share moved <em>up</em> from roughly 73% in late 2024 to 75.23% in April 2026. The mechanism is counter-intuitive but clean: when the world panics, everyone needs dollars to settle obligations, hedge oil exposure, post collateral. A dollar shortage <em>raises</em> dollar demand, even in a regime where everyone publicly wants to leave the dollar.</p>
+          <p>So &ldquo;de-dollarization narrative&rdquo; and &ldquo;crisis-period dollar-share rise&rdquo; are not contradictions; they live on different time scales. The narrative is a 20-year drift. The crisis spike is a quarter. The 20-year drift will continue, but it&rsquo;s a drift, not a tipping. The whole point of this article is that the drift can&rsquo;t become a tip without coordination &mdash; and crises are the moment when coordination is hardest.</p>
+        </details>
+
+        <p>For the rest of this article I&rsquo;m focused on definitions 2 and 3 &mdash; invoicing and payments &mdash; because those are the ones gated by network effects. Reserves can move with a phone call. Invoicing requires every firm in the world to flip a switch in the same week.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Why are network effects in money so sticky?
+         ============================================================ -->
+    <section class="reveal" id="iii-network-effects">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>Why are network effects in money so sticky?</h2>
+      </div>
+      <div class="section-content">
+        <p>A network effect exists whenever the value of a thing to you depends on how many other people use it. Phones are the canonical example: one phone in the world is useless; a billion phones is civilisation-altering. Languages are another &mdash; English isn&rsquo;t spoken by 1.5 billion people because it&rsquo;s elegant. It&rsquo;s spoken because the next person you meet might speak it.</p>
+
+        <p>Money is the same shape of thing, only sharper. A currency&rsquo;s usefulness to <em>you</em> as an exporter is almost entirely a function of how many of your counterparties accept it without complaint. If 95% of your buyers price contracts in dollars, you&rsquo;d be insane to invoice in yuan &mdash; you&rsquo;d either lose the business or eat the FX-conversion cost yourself. So you invoice in dollars. So does everyone else. And the equilibrium reinforces itself: every new firm joining the global trade network finds dollars already entrenched, picks dollars to minimise friction, and adds one more unit of stickiness to the pile.</p>
+
+        <p>Here&rsquo;s the part economists call &ldquo;multiple equilibria&rdquo;: in a pure network-effect game, <em>any</em> currency could in principle be the dominant one. The starting point determines the destination. If we ran the tape from 1900 with a different geopolitical accident &mdash; a different war, a different Bretton Woods conference, a different reserve-asset choice &mdash; we could be sitting in a sterling-dominated or franc-dominated world today, and the math would still hold. The dollar is not chosen because it is best. It is chosen because <em>it was already chosen</em>.</p>
+
+        <p>Below is the simplest possible toy that demonstrates this. Thirty firms, each connected to several counterparties, each preferring whichever currency the majority of their neighbours use. Hit &ldquo;Step&rdquo; and watch the system settle. Try to flip individual firms by clicking on them. Then change the starting mix and reset.</p>
+
+        <!-- Widget 1: Network-effect invoicing simulator -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; The Invoicing Coordination Game</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 380px;"></canvas>
+          <div class="mix-readout">
+            <div class="mix-cell is-usd">
+              <div class="mc-label">USD share</div>
+              <div class="mc-value" id="w1-usd">&mdash;</div>
+            </div>
+            <div class="mix-cell is-eur">
+              <div class="mc-label">EUR share</div>
+              <div class="mc-value" id="w1-eur">&mdash;</div>
+            </div>
+            <div class="mix-cell is-cny">
+              <div class="mc-label">CNY share</div>
+              <div class="mc-value" id="w1-cny">&mdash;</div>
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Starting USD share</span><span class="slider-value" id="w1-start-val">42%</span></div>
+            <input type="range" id="w1-start" min="20" max="70" value="42" step="1">
+          </div>
+          <div class="button-row">
+            <button id="w1-reset">Reset</button>
+            <button id="w1-step">Step once</button>
+            <button id="w1-run" class="is-primary">Run to equilibrium</button>
+          </div>
+          <p class="widget-hint">Click any firm to manually flip its currency &mdash; you&rsquo;ll see the change usually reverts on the next step. Adjust the starting USD share and reset: whichever currency starts above &asymp;40% usually wins, regardless of the starting allocation of the others. Same network, different starting points, different destinations. That&rsquo;s the entire problem with de-dollarization &mdash; coordinated movement requires a coordinator, and there isn&rsquo;t one.</p>
+        </div>
+
+        <p>Two things you&rsquo;ll notice. First, when you flip a single firm by hand, the change almost always reverses within one step &mdash; the firm&rsquo;s neighbours pull it back to the majority currency. <strong>Individual defection is punished by the network.</strong> Second, if you set the starting USD share to 30% and reset, the system usually <em>doesn&rsquo;t</em> end up at 30% USD &mdash; it tips towards whichever currency starts as the local majority among a firm&rsquo;s neighbours, and the global winner depends on which currency happens to have the densest cluster early on. The equilibrium is path-dependent, but once reached, it&rsquo;s sticky.</p>
+
+        <p>This is what economists mean when they say the dollar is a &ldquo;Schelling point.&rdquo; In a game with multiple possible equilibria, you and your counterparties converge on whichever option is most obvious &mdash; the one each of you expects the others to pick. Once that focal point is established, nobody can unilaterally afford to leave. The simulator above is the deeply simplified version. The real world has six billion economic actors, all running the same calculation.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. What do the actual numbers say?
+         ============================================================ -->
+    <section class="reveal" id="iv-numbers">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>What do the actual numbers say?</h2>
+      </div>
+      <div class="section-content">
+        <p>Let me lay out the data without commentary first.</p>
+
+        <p><strong>SWIFT global payments share (April 2026):</strong> USD 75.23%, EUR 6.90%, GBP 4.37%, JPY 2.81%, CNY 1.80%. The dollar is more than ten times the size of every other currency combined except the euro<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>.</p>
+
+        <p><strong>IMF COFER allocated reserves (late 2025):</strong> USD ~58.5%, EUR ~20%, JPY ~5.5%, GBP ~5%, CNY ~2.3%, CAD ~2.5%, AUD ~2%, other ~4%. The dollar has lost about 13 percentage points of reserve share in 25 years &mdash; <em>but most of that loss has gone to a basket of small currencies, not to a single challenger</em>. The euro&rsquo;s reserve share peaked near 28% in 2009 and has fallen since.</p>
+
+        <p><strong>Extra-EU oil-import invoicing (most recent ECB data):</strong> ~85% USD, with the next-largest single currency in low single digits. Even the European Union &mdash; which has its own central bank, its own currency, and an explicit strategic interest in &ldquo;euro internationalisation&rdquo; &mdash; can&rsquo;t get its own oil imports invoiced in euros.</p>
+
+        <p><strong>Time series:</strong> the dollar&rsquo;s SWIFT share has moved within a narrow band of 38&ndash;45% for SWIFT-traditional MT messages over fifteen years, and the broader 75%-ish number reflects an ongoing reweighting toward USD as more trade gets settled through US-correspondent banks. The yuan&rsquo;s share has actually <em>fallen</em> in 2025&ndash;2026 from a 2024 peak near 4%, despite every press release out of Beijing.</p>
+
+        <p>The pattern is unmistakable: reserve allocation drifts, but payments and invoicing don&rsquo;t. <strong>The piece of dollar dominance gated by network effects has barely budged.</strong> The piece gated only by a central-bank balance sheet has moved &mdash; and only at the margin.</p>
+
+        <p>Why is invoicing so much stickier than reserves? Because reserves are a private choice and invoicing is a public coordination. The People&rsquo;s Bank of China can decide overnight to sell $50bn of Treasuries and buy euros; nobody else has to agree. But a Chinese oil refinery that wants to start invoicing its Saudi imports in yuan needs Saudi Aramco to agree, which needs Aramco&rsquo;s entire treasury operation to agree, which needs Saudi Arabia&rsquo;s commercial banks to be able to clear yuan deeply and cheaply, which they currently can&rsquo;t.</p>
+
+        <p>Here&rsquo;s the second widget. It shows the cost &mdash; in basis points &mdash; of converting $1 million of trade through different currency pairs, depending on how liquid the direct pair is. Then it shows what happens when you triangulate through the dollar.</p>
+
+        <!-- Widget 2: Cost of paying in a non-USD pair -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Why It&rsquo;s Cheaper To Route Through Dollars</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="cost-readout">
+            <div class="cost-cell">
+              <div class="cc-label">Direct conversion (e.g. BRL &rarr; CNY)</div>
+              <div class="cc-value" id="w2-direct">&mdash;</div>
+              <div class="cc-note" id="w2-direct-note">round-trip spread on $1M</div>
+            </div>
+            <div class="cost-cell is-cheaper">
+              <div class="cc-label">Triangulated through USD</div>
+              <div class="cc-value" id="w2-tri">&mdash;</div>
+              <div class="cc-note" id="w2-tri-note">two deep-pair hops</div>
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Direct-pair liquidity</span><span class="slider-value" id="w2-liq-val">very shallow</span></div>
+            <input type="range" id="w2-liq" min="1" max="100" value="15" step="1">
+          </div>
+          <p class="widget-hint">Drag the slider rightward to make the direct pair more liquid. For deep pairs like USD/EUR (top of the slider), direct conversion is roughly 1 bp; for shallow pairs like BRL/CNY (left), it&rsquo;s 50&ndash;100 bp. The triangulated cost is always two ~1bp hops through USD, totalling about 2 bp. <strong>The dollar is the cheap router because everyone already uses it</strong> &mdash; and as long as that&rsquo;s true, the cheapest path to invoice anywhere in the world stays denominated in dollars.</p>
+        </div>
+
+        <p>This is the network effect made concrete. The direct BRL/CNY market exists, but it&rsquo;s thin &mdash; spreads of 50&ndash;100 basis points are common, occasionally worse on bad days. The dollar pair for each currency is deep &mdash; spreads near 1 basis point. So two dollar hops cost about 2 basis points total, and the direct hop costs 50+. <strong>Triangulating through the dollar is 25&times; cheaper than the direct pair</strong>, despite involving twice as many transactions.</p>
+
+        <p>Multiply this across every trade in the world. Every time a Brazilian exporter and a Chinese importer prefer to route through dollars rather than invoice directly, the dollar pair gets one more unit of volume and the direct pair stays thin. The cost gap widens. The next pair of trading partners makes the same choice. The system locks in.</p>
+
+        <p>This is also why proposals like the BRICS common-currency idea consistently die in implementation. Even if Brazil, Russia, India, China and South Africa all agreed to use a shared unit tomorrow, it would still be thinner than the USD/EUR pair on day one &mdash; and rational firms would still triangulate through dollars to save the spread. You&rsquo;d need an authority capable of <em>mandating</em> the inferior choice. Nobody has that authority over global private capital.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Why did the euro almost tip — and what stopped it?
+         ============================================================ -->
+    <section class="reveal" id="v-euro-tipping">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>Why did the euro almost tip &mdash; and what stopped it?</h2>
+      </div>
+      <div class="section-content">
+        <p>If you go back to 2008&ndash;2010, there&rsquo;s exactly one moment in the post-Bretton Woods era when the dollar&rsquo;s reserve dominance looked genuinely fragile. Emerging-market central banks were diversifying into euros at an unprecedented pace. The euro&rsquo;s COFER share rose from about 18% in 2000 to a peak of <strong>~28% by 2009</strong>. Russia, China, India and the Gulf states were openly talking about a multi-polar reserve system. Robert Zoellick, then World Bank president, gave a speech in 2010 about &ldquo;a new global currency arrangement.&rdquo; The dollar&rsquo;s share in COFER had fallen below 62%.</p>
+
+        <p>And then the eurozone sovereign-debt crisis happened. Greece, Ireland, Portugal, Spain, Italy &mdash; one after another &mdash; raised the question of whether the euro could be redenominated. If you held Greek bonds and there was a non-zero probability of redenomination back to drachma, the euro&rsquo;s &ldquo;safe asset&rdquo; status was discredited. Reserve managers, who care about <em>predictability</em> before anything else, pulled back hard.</p>
+
+        <p>By 2015 the euro&rsquo;s reserve share had fallen back to about 20%. It hasn&rsquo;t recovered since. The 2010-vintage tipping moment didn&rsquo;t reverse because the dollar improved. It reversed because the challenger failed a survival test. The dollar won the reserve-asset competition by being the only currency whose redenomination risk was zero, even when its fiscal risk was real.</p>
+
+        <p>The lesson, which compounds throughout this series: <strong>the dollar&rsquo;s competition isn&rsquo;t about quality &mdash; it&rsquo;s about consistency.</strong> A currency that might cease to exist on its current terms cannot win the network-effect game, no matter how attractive its yields. The euro could have tipped. It didn&rsquo;t. The window has stayed shut for fifteen years now, and the structural fragility of monetary union has only become more visible.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually &#129488; &mdash; reserves moved more than payments</summary>
+          <p>If you compare COFER (~58% USD) to SWIFT (~75% USD), there&rsquo;s a 17-percentage-point gap. That&rsquo;s not a contradiction &mdash; it&rsquo;s the central observation of this article. Reserves <em>are</em> diversifying, because central banks can choose unilaterally. Payments are not, because payment choices are gated by counterparty acceptance.</p>
+          <p>The euro&rsquo;s 2008&ndash;2010 moment shows up in COFER (it got to ~28%) but barely shows in SWIFT. Reserve managers can rebalance in a week. The Brazilian exporter still gets paid in dollars because that&rsquo;s what the Chinese importer can clear cheapest. So &ldquo;the dollar lost reserve share&rdquo; and &ldquo;the dollar gained payment share&rdquo; can both be true at the same time. They&rsquo;re measuring different things gated by different mechanisms.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. Why hasn't the yuan moved despite 15 years of trying?
+         ============================================================ -->
+    <section class="reveal" id="vi-yuan-stuck">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>Why hasn&rsquo;t the yuan moved despite 15 years of trying?</h2>
+      </div>
+      <div class="section-content">
+        <p>The case for the yuan as a reserve currency should be overwhelming on paper. China is the world&rsquo;s largest goods exporter, the largest trading partner for over 120 countries, the second-largest economy by GDP. It has run a top-down internationalisation program since 2009, launched oil futures denominated in yuan in 2018, signed yuan-settlement deals with Russia, Iran, Saudi Arabia, Brazil, and pushed CIPS (its alternative to SWIFT) hard since 2015.</p>
+
+        <p>After all of that, the yuan is <strong>1.80%</strong> of global payments. It is smaller in SWIFT than the Canadian dollar. Its reserve share is roughly 2.3%, and that has actually fallen from a 2022 peak. Whatever Beijing is doing, it isn&rsquo;t working.</p>
+
+        <p>The reasons are not mysterious. They are structural and they are unsolvable without surrendering policy goals China explicitly values:</p>
+
+        <p><strong>One: capital controls.</strong> The People&rsquo;s Bank of China runs a managed exchange rate and tight controls on outbound capital. Reserve managers want a currency they can buy in size, sell in size, and exit in size on a bad day. The yuan fails all three tests. China cannot relax controls without exposing its banking system to the same hot-money cycles that ate Thailand in 1997 and Argentina five times since.</p>
+
+        <p><strong>Two: a shallow safe-asset stock.</strong> The total stock of investment-grade renminbi government debt available to foreign investors is on the order of a few trillion dollars, against a Treasury market of ~$28 trillion held by the public<a class="footnote-ref" id="fnref-5" href="#fn-5">[5]</a>. There is nowhere to park yuan reserves at scale. Any central bank trying to allocate 5% of its reserves to yuan would <em>be</em> the market.</p>
+
+        <p><strong>Three: rule-of-law risk.</strong> The 2022 freezing of Russian central-bank reserves &mdash; the most consequential financial event of the decade &mdash; theoretically should have driven non-aligned reserve managers <em>into</em> the yuan. It didn&rsquo;t. The freezing demonstrated that the issuer of a reserve currency has the unilateral power to confiscate; but the alternative wasn&rsquo;t obviously better, because Beijing has shown similar willingness with foreign firms operating inside China. Reserve managers ended up moving to gold, not yuan. Gold&rsquo;s share of global reserves rose to 23% by mid-2025, the highest since the 1970s.</p>
+
+        <p>Stack these together and the yuan&rsquo;s 1.8% share starts to make sense. It is the optimal share for a currency whose issuer is unwilling to provide the institutions that reserve status requires: free convertibility, deep liquid sovereign debt, predictable courts. Until China is willing to trade away domestic financial control for international monetary leadership, this number cannot meaningfully rise.</p>
+
+        <p>This is also the cleanest test of the network-effect thesis. Build the trading partnerships first, then internationalise &mdash; that was the plan, and it&rsquo;s a perfectly reasonable plan. It hasn&rsquo;t worked, because the network effect doesn&rsquo;t care whether you trade with China. It cares whether your <em>counterparty&rsquo;s counterparty&rsquo;s bank</em> can clear the currency cheaply. The yuan fails that test, and no amount of bilateral effort moves it.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. What would it actually take to dislodge the dollar?
+         ============================================================ -->
+    <section class="reveal" id="vii-what-would-it-take">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>What would it actually take to dislodge the dollar?</h2>
+      </div>
+      <div class="section-content">
+        <p>Pull the threads together and the answer falls out: dislodging the dollar requires a simultaneous coordinated switch by enough of the global trade network that the new currency&rsquo;s liquidity advantage outweighs the dollar&rsquo;s incumbency. That, in turn, requires three things to happen at the same time:</p>
+
+        <p><strong>One:</strong> a credible alternative that is <em>deeper, cheaper, and more legally robust</em> than the dollar. Not slightly better &mdash; meaningfully better, by enough to overcome decades of switching costs and counterparty-network friction. Nothing on offer today meets this bar. The euro is structurally fragile. The yuan is structurally restricted. The pound is too small. Gold isn&rsquo;t a unit of account. A BRICS basket would be thinner than its components.</p>
+
+        <p><strong>Two:</strong> a coordination mechanism strong enough to move the global trade network together. This requires either an institution everyone trusts (there isn&rsquo;t one) or an external shock so severe it makes the dollar genuinely unusable for a critical mass of actors at the same time. The 2022 reserve-freezing of Russia was as close as the world has come, and it didn&rsquo;t move the needle.</p>
+
+        <p><strong>Three:</strong> the United States actively breaking its own institutions in a way that makes dollar assets unreliable. This is the scenario reserve managers privately discuss most often. It looks like: weaponising Treasury settlement against major economies, capital controls on inbound flows, undermining Fed independence, defaulting on a debt-ceiling vote. The interesting thing &mdash; and the dangerous thing &mdash; is that this is the only one of the three that the US itself controls.</p>
+
+        <p>None of this is guaranteed not to happen. The dollar&rsquo;s share has fallen in reserves and could fall further. The structural drivers of de-dollarization &mdash; sanctions creating reserve-asset diversification pressure, the rise of non-aligned middle powers, the eurodollar system creating dollars outside US oversight &mdash; are real. But they operate on a 20-year drift timescale, not a tipping-point timescale. And as the simulator in section III demonstrated, drifts don&rsquo;t flip equilibria. Tipping requires coordination, and coordination is precisely what no one in the global trade network can provide.</p>
+
+        <p>So I&rsquo;ll close with the napkin:</p>
+
+        <blockquote>
+          <p><strong>Reserve currencies are won by accident and lost by coordination failure. The dollar won by being the only safe asset standing after WWII. It is held in place not by quality but by the simple fact that nobody can rationally move first. Until someone solves the coordination problem &mdash; which requires an institution that doesn&rsquo;t exist, or a shock that hasn&rsquo;t happened, or a US self-inflicted wound that hasn&rsquo;t landed &mdash; the 75% number is the equilibrium.</strong></p>
+        </blockquote>
+
+        <p>The rest of this series picks up where this leaves off. The next article, <a href="../triffin-dilemma/index.html">The Triffin Dilemma</a>, explores why being the reserve currency forces the US into a permanent current-account deficit &mdash; and why that &ldquo;privilege&rdquo; is actually a constraint that may be approaching breaking point. Article #7, on <a href="../treasury-buyers/index.html">Who Buys Treasuries Now</a>, picks up the corollary: even if the dollar&rsquo;s reserve status is sticky, the <em>composition</em> of who holds Treasuries is shifting from sovereign central banks to leveraged private hedge funds, which is a separate &mdash; and faster &mdash; kind of fragility.</p>
+
+        <p>The 75% number is sticky. The 24.5% foreign-holder share of Treasuries inside that number is not.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">SWIFT Global Currency Tracker, April 2026 monthly report. USD 75.23%, EUR 6.90%, GBP 4.37%, JPY 2.81%, CNY 1.80%. SWIFT publishes the breakdown monthly across customer and institutional payments (categories MT and MX). The series has shown a narrow trading range over the past five years, with the dollar&rsquo;s share trending slightly upward through 2025&ndash;2026. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">IMF Working Paper WP/25/178 (September 2025), &ldquo;De-dollarization: A Cross-Country Analysis.&rdquo; The paper&rsquo;s headline finding through 2023 data is direct: &ldquo;there is no robust evidence of effective policy initiatives to reduce dollar reliance.&rdquo; The authors examine bilateral currency-swap agreements, alternative-currency invoicing programs, and oil-pricing experiments and find statistically insignificant impacts on aggregate dollar share in payments and reserves. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">IMF COFER (Currency Composition of Official Foreign Exchange Reserves) database, Q4 2025. The dollar&rsquo;s share of allocated reserves was 58.4% as of the most recent release, down from 71.5% in 2000. The largest gains have accrued to a basket of small currencies (CAD, AUD, KRW, SEK, CHF) rather than to a single challenger; the euro has lost share since its 2009 peak and the yuan has gained only about 1.5 percentage points since first being added to the basket in 2016. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">European Central Bank, &ldquo;The International Role of the Euro&rdquo; (most recent annual edition). The ECB&rsquo;s focus box on commodity invoicing reports that ~85% of extra-EU oil imports are invoiced in US dollars, with the euro share in low single digits despite explicit policy efforts since 2018 to promote euro-denominated energy contracts. The figure is corroborated by IMF Working Paper 25/178. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+          <li id="fn-5">CBO Budget Outlook FY2026: total federal debt approximately $39 trillion, of which roughly $28 trillion is held by the public; foreign holdings of US Treasuries stood at $9.49T as of February 2026 per Treasury International Capital (TIC) data. The full Chinese central-government bond market available to foreign investors is on the order of a few trillion USD-equivalent, and a meaningful share of that is not held by reserve managers but by private foreign institutions. <a class="footnote-back" href="#fnref-5">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Widget 1 — Network-effect invoicing simulator
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w1-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      var N_FIRMS = 30;
+      var MIN_DEG = 4;
+      var MAX_DEG = 6;
+      var CURRENCIES = ['USD', 'EUR', 'CNY'];
+      var COLORS = { USD: '#2f855a', EUR: '#2b6cb0', CNY: '#9b2c2c' };
+
+      var firms = [];          // { x, y, cur }
+      var neighbours = [];     // array of arrays of indices
+      var hoverIdx = -1;
+
+      // Seeded RNG so layouts are stable per session
+      var _seed = 1729;
+      function rand() {
+        _seed = (_seed * 9301 + 49297) % 233280;
+        return _seed / 233280;
+      }
+
+      function buildLayout() {
+        firms = [];
+        neighbours = [];
+        // Place firms on a jittered grid
+        var cols = 6;
+        var rows = 5;
+        var pad = 50;
+        var cellW = (w - pad * 2) / (cols - 1);
+        var cellH = (h - pad * 2) / (rows - 1);
+        for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+            var jx = (rand() - 0.5) * cellW * 0.45;
+            var jy = (rand() - 0.5) * cellH * 0.45;
+            firms.push({
+              x: pad + c * cellW + jx,
+              y: pad + r * cellH + jy,
+              cur: 'USD'
+            });
+          }
+        }
+        // Build neighbour graph: each firm connects to its 4-6 closest others
+        for (var i = 0; i < firms.length; i++) {
+          var dists = [];
+          for (var j = 0; j < firms.length; j++) {
+            if (i === j) continue;
+            var dx = firms[i].x - firms[j].x;
+            var dy = firms[i].y - firms[j].y;
+            dists.push({ j: j, d: dx * dx + dy * dy });
+          }
+          dists.sort(function(a, b) { return a.d - b.d; });
+          var deg = MIN_DEG + Math.floor(rand() * (MAX_DEG - MIN_DEG + 1));
+          neighbours.push(dists.slice(0, deg).map(function(x) { return x.j; }));
+        }
+      }
+
+      function seedCurrencies(usdShare) {
+        // Set currencies according to starting share of USD, with remainder
+        // split roughly equally between EUR and CNY.
+        var nUsd = Math.round(firms.length * usdShare);
+        var rem = firms.length - nUsd;
+        var nEur = Math.round(rem / 2);
+        var nCny = rem - nEur;
+        var bag = [];
+        for (var i = 0; i < nUsd; i++) bag.push('USD');
+        for (var k = 0; k < nEur; k++) bag.push('EUR');
+        for (var m = 0; m < nCny; m++) bag.push('CNY');
+        // Shuffle
+        for (var s = bag.length - 1; s > 0; s--) {
+          var t = Math.floor(rand() * (s + 1));
+          var tmp = bag[s]; bag[s] = bag[t]; bag[t] = tmp;
+        }
+        for (var f = 0; f < firms.length; f++) firms[f].cur = bag[f];
+      }
+
+      function stepOnce() {
+        // Each firm updates to the majority currency of its neighbours,
+        // with ties broken by keeping its current currency.
+        var next = firms.map(function(f) { return f.cur; });
+        for (var i = 0; i < firms.length; i++) {
+          var counts = { USD: 0, EUR: 0, CNY: 0 };
+          var nbrs = neighbours[i];
+          for (var k = 0; k < nbrs.length; k++) counts[firms[nbrs[k]].cur]++;
+          var maxCur = firms[i].cur;
+          var maxCount = counts[maxCur];
+          CURRENCIES.forEach(function(c) {
+            if (counts[c] > maxCount) { maxCount = counts[c]; maxCur = c; }
+          });
+          next[i] = maxCur;
+        }
+        var changed = 0;
+        for (var j = 0; j < firms.length; j++) {
+          if (firms[j].cur !== next[j]) changed++;
+          firms[j].cur = next[j];
+        }
+        return changed;
+      }
+
+      function shares() {
+        var c = { USD: 0, EUR: 0, CNY: 0 };
+        firms.forEach(function(f) { c[f.cur]++; });
+        return {
+          USD: c.USD / firms.length,
+          EUR: c.EUR / firms.length,
+          CNY: c.CNY / firms.length
+        };
+      }
+
+      function redraw() {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        // Edges
+        ctx.save();
+        ctx.strokeStyle = 'rgba(120,120,120,0.18)';
+        ctx.lineWidth = 1;
+        for (var i = 0; i < firms.length; i++) {
+          for (var k = 0; k < neighbours[i].length; k++) {
+            var j = neighbours[i][k];
+            if (j <= i) continue;
+            ctx.beginPath();
+            ctx.moveTo(firms[i].x, firms[i].y);
+            ctx.lineTo(firms[j].x, firms[j].y);
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
+
+        // Nodes
+        for (var n = 0; n < firms.length; n++) {
+          var f = firms[n];
+          var col = COLORS[f.cur];
+          var r = (n === hoverIdx) ? 11 : 9;
+          drawPointCanvas(ctx, f.x, f.y, r, col, '#fff');
+        }
+
+        // Legend top-right
+        var lx = w - 18;
+        drawTextCanvas(ctx, lx, 18, '● USD', { fontSize: 11.5, color: COLORS.USD, align: 'right', weight: '600' });
+        drawTextCanvas(ctx, lx, 34, '● EUR', { fontSize: 11.5, color: COLORS.EUR, align: 'right', weight: '600' });
+        drawTextCanvas(ctx, lx, 50, '● CNY', { fontSize: 11.5, color: COLORS.CNY, align: 'right', weight: '600' });
+
+        // Shares readout
+        var s = shares();
+        var pct = function(x) { return (x * 100).toFixed(0) + '%'; };
+        document.getElementById('w1-usd').textContent = pct(s.USD);
+        document.getElementById('w1-eur').textContent = pct(s.EUR);
+        document.getElementById('w1-cny').textContent = pct(s.CNY);
+      }
+
+      function pickFirm(mx, my) {
+        var best = -1;
+        var bestD = 18 * 18;
+        for (var i = 0; i < firms.length; i++) {
+          var dx = firms[i].x - mx;
+          var dy = firms[i].y - my;
+          var d = dx * dx + dy * dy;
+          if (d < bestD) { bestD = d; best = i; }
+        }
+        return best;
+      }
+
+      // Mouse handlers
+      canvas.addEventListener('mousemove', function(e) {
+        var rect = canvas.getBoundingClientRect();
+        var mx = e.clientX - rect.left;
+        var my = e.clientY - rect.top;
+        var idx = pickFirm(mx, my);
+        if (idx !== hoverIdx) {
+          hoverIdx = idx;
+          canvas.style.cursor = (idx >= 0) ? 'pointer' : 'default';
+          redraw();
+        }
+      });
+      canvas.addEventListener('mouseleave', function() {
+        hoverIdx = -1;
+        canvas.style.cursor = 'default';
+        redraw();
+      });
+      canvas.addEventListener('click', function(e) {
+        var rect = canvas.getBoundingClientRect();
+        var mx = e.clientX - rect.left;
+        var my = e.clientY - rect.top;
+        var idx = pickFirm(mx, my);
+        if (idx < 0) return;
+        var cur = firms[idx].cur;
+        var i = CURRENCIES.indexOf(cur);
+        firms[idx].cur = CURRENCIES[(i + 1) % CURRENCIES.length];
+        redraw();
+      });
+
+      // Initial layout (stable across resets)
+      buildLayout();
+      var startShare = 0.42;
+      seedCurrencies(startShare);
+      redraw();
+
+      // Slider
+      var startSlider = document.getElementById('w1-start');
+      var startLabel = document.getElementById('w1-start-val');
+      startSlider.addEventListener('input', function() {
+        startLabel.textContent = startSlider.value + '%';
+        startShare = parseFloat(startSlider.value) / 100;
+        _seed = 1729;  // reset rng so reseed is deterministic
+        seedCurrencies(startShare);
+        redraw();
+      });
+
+      // Buttons
+      document.getElementById('w1-reset').addEventListener('click', function() {
+        _seed = 1729;
+        seedCurrencies(startShare);
+        redraw();
+      });
+      document.getElementById('w1-step').addEventListener('click', function() {
+        stepOnce();
+        redraw();
+      });
+      document.getElementById('w1-run').addEventListener('click', function() {
+        // Run up to 30 iterations or until stable.
+        var iters = 0;
+        var interval = setInterval(function() {
+          var changed = stepOnce();
+          redraw();
+          iters++;
+          if (changed === 0 || iters >= 30) clearInterval(interval);
+        }, 180);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — Cost of paying in a non-USD pair
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w2-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Direct-pair spread (bps) as a function of liquidity score (1..100).
+      // Shallow pairs (low score) ~ 80 bps; deep pairs (high score) ~ 1 bp.
+      function directSpread(liq) {
+        var t = (liq - 1) / 99;            // 0..1
+        // Exponential-ish decay so the curve has the right shape
+        return 1 + 99 * Math.pow(1 - t, 2.2);
+      }
+      // Triangulated cost = 2 * USD-pair spread, which is ~ 1.0 bp at the deep end
+      // and grows only slightly if the destination currency itself is illiquid.
+      function triSpread(liq) {
+        var t = (liq - 1) / 99;
+        var usdHop = 1 + 3 * Math.pow(1 - t, 1.5);  // 1..4 bps each hop
+        return 2 * usdHop;
+      }
+
+      function redraw(liq) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        // Axes
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 26, right: 18, bottom: 40, left: 60 },
+          xLabels: ['shallow', '', '', '', '', 'deep'],
+          yMin: 0, yMax: 100, ySteps: 5,
+          yFmt: function(v) { return v.toFixed(0) + ' bp'; }
+        });
+
+        var toX = function(v) { return mapX(v, 1, 100, w, pad); };
+        var toY = function(v) { return mapY(v, 0, 100, h, pad); };
+
+        drawTextCanvas(ctx, w / 2, h - 4, 'Direct-pair liquidity', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // Direct-cost curve (accent / amber)
+        var direct = [];
+        for (var L = 1; L <= 100; L += 1) {
+          direct.push({ x: toX(L), y: toY(directSpread(L)) });
+        }
+        drawLineCanvas(ctx, direct, { color: 'var(--accent)', width: 2.4 });
+
+        // Triangulated cost curve (green)
+        var tri = [];
+        for (var M = 1; M <= 100; M += 1) {
+          tri.push({ x: toX(M), y: toY(triSpread(M)) });
+        }
+        drawLineCanvas(ctx, tri, { color: '#22543d', width: 2.4, dashed: [6, 5] });
+
+        // Cursor at current liquidity
+        var dY = directSpread(liq);
+        var tY = triSpread(liq);
+        var xC = toX(liq);
+        drawLineCanvas(ctx,
+          [{ x: xC, y: pad.top }, { x: xC, y: h - pad.bottom }],
+          { color: 'var(--text-secondary)', width: 1, dashed: [3, 4] });
+
+        // Direct point (clamp to plot area)
+        var dYclamp = Math.min(100, Math.max(0, dY));
+        drawPointCanvas(ctx, xC, toY(dYclamp), 6, 'var(--accent)', '#fff');
+        drawPointCanvas(ctx, xC, toY(Math.min(100, Math.max(0, tY))), 6, '#22543d', '#fff');
+
+        // Legend
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 4,
+          '— direct conversion', { fontSize: 11.5, color: 'var(--accent)', align: 'right', weight: '600' });
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 22,
+          '— routed via USD', { fontSize: 11.5, color: '#22543d', align: 'right', weight: '600' });
+
+        // Readouts
+        var directDollarCost = dY * 100;  // 1bp on $1M = $100
+        var triDollarCost = tY * 100;
+        document.getElementById('w2-direct').textContent = dY.toFixed(1) + ' bp';
+        document.getElementById('w2-direct-note').textContent =
+          'about $' + Math.round(directDollarCost).toLocaleString() + ' on $1M trade';
+        document.getElementById('w2-tri').textContent = tY.toFixed(1) + ' bp';
+        document.getElementById('w2-tri-note').textContent =
+          'about $' + Math.round(triDollarCost).toLocaleString() + ' on $1M trade';
+
+        // Liquidity label
+        var lbl = 'very shallow';
+        if (liq > 80) lbl = 'deep (USD/EUR-grade)';
+        else if (liq > 55) lbl = 'reasonably deep';
+        else if (liq > 30) lbl = 'thin';
+        else if (liq > 12) lbl = 'shallow';
+        document.getElementById('w2-liq-val').textContent = lbl;
+      }
+
+      attachSliders([
+        { el: document.getElementById('w2-liq'),
+          label: null,
+          format: null }
+      ], function(values) {
+        redraw(values['w2-liq']);
+      });
+    })();
+  </script>
+
+</body>
+</html>

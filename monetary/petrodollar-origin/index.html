@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 1974 Deal That Wasn&rsquo;t &mdash; Monetary Explainers</title>
+  <meta name="description" content="Open any history of the petrodollar and you&rsquo;ll find a 1974 treaty pricing oil in dollars for fifty years. Read the actual agreement and there&rsquo;s no oil-pricing clause. The petrodollar was always a convention, not a contract &mdash; which is exactly why it can erode without rupture.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="The 1974 Deal That Wasn&rsquo;t">
+  <meta property="og:description" content="There was never a binding petrodollar treaty. The GAO confirms no oil-pricing clause exists. So what actually held the system up &mdash; and what just lapsed in June 2024?">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #4a5568;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #1a202c 0%, #4a5568 100%); }
+
+    /* ===== Widget 1: Myth vs reality, two-column document explorer ===== */
+    .myth-toggle {
+      display: flex;
+      gap: 8px;
+      margin: 4px 0 14px;
+      flex-wrap: wrap;
+    }
+    .myth-toggle button {
+      flex: 1 1 auto;
+      padding: 9px 14px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .myth-toggle button.is-active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .myth-toggle button:hover:not(.is-active) {
+      border-color: var(--text-secondary);
+    }
+    .doc-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 10px 0 4px;
+    }
+    @media (max-width: 640px) {
+      .doc-pair { grid-template-columns: 1fr; }
+    }
+    .doc-col {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      min-height: 280px;
+    }
+    .doc-col.is-myth { border-top: 3px solid #9b2c2c; }
+    .doc-col.is-fact { border-top: 3px solid #22543d; }
+    .doc-col h4 {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin: 0 0 10px;
+    }
+    .doc-col.is-myth h4 { color: #9b2c2c; }
+    .doc-col.is-fact h4 { color: #22543d; }
+    .doc-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .doc-col li {
+      font-family: var(--font-serif);
+      font-size: 14.5px;
+      line-height: 1.55;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+      color: var(--text);
+    }
+    .doc-col li:last-child { border-bottom: none; }
+    .doc-col li.is-hidden { display: none; }
+    .doc-col li strong { color: var(--accent); font-weight: 600; }
+
+    /* ===== Widget 2: Timeline ===== */
+    .timeline-readout {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 12px 0 4px;
+      min-height: 92px;
+    }
+    .timeline-readout .tl-date {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 12px;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+    }
+    .timeline-readout .tl-title {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 2px 0 6px;
+    }
+    .timeline-readout .tl-body {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    /* ===== Widget 3: Counterfactual table ===== */
+    .cf-toggle {
+      display: flex;
+      gap: 8px;
+      margin: 4px 0 14px;
+      flex-wrap: wrap;
+    }
+    .cf-toggle button {
+      flex: 1 1 auto;
+      padding: 9px 14px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .cf-toggle button.is-active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .cf-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 640px) {
+      .cf-grid { grid-template-columns: 1fr; }
+    }
+    .cf-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .cf-cell .cf-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    .cf-cell .cf-val {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .cf-cell.is-head {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+    .cf-cell.is-head .cf-val {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">The 1974 Deal That Wasn&rsquo;t</h1>
+      <p class="hero__subtitle">Open any popular history of the petrodollar and you&rsquo;ll find a 1974 treaty pricing oil in dollars for fifty years. Read the actual agreement and there&rsquo;s no oil-pricing clause. The petrodollar was always a convention, not a contract &mdash; which is exactly why it can erode without a single rupture event.</p>
+      <p class="hero__meta">7 chapters &middot; 3 interactive widgets &middot; 18 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-myth">What&rsquo;s the popular story?</a></li>
+        <li><a href="#ii-june-1974">What was actually signed in June 1974?</a></li>
+        <li><a href="#iii-simon">What was the second leg, late 1974?</a></li>
+        <li><a href="#iv-why-saudi">Why did the Saudis agree at all?</a></li>
+        <li><a href="#v-2024">What &ldquo;expired&rdquo; in June 2024?</a></li>
+        <li><a href="#vi-sustains">What actually sustains the system, if not a treaty?</a></li>
+        <li><a href="#vii-series">Why does this reframe matter for the rest of the series?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. What's the popular story?
+         ============================================================ -->
+    <section class="reveal" id="i-myth">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>What&rsquo;s the popular story?</h2>
+      </div>
+      <div class="section-content">
+        <p>On the morning of June 9, 2024, a story tore through crypto Twitter, gold-bug newsletters, and macro Substacks: <em>&ldquo;The 50-year US&ndash;Saudi petrodollar agreement has expired. Saudi Arabia is now free to price oil in any currency. The dollar&rsquo;s reign is over.&rdquo;</em> Threads racked up tens of millions of views. The framing migrated, by lunchtime, into mainstream-adjacent outlets. By dinner it had become received wisdom.</p>
+
+        <p>There was just one problem with the story. <strong>The 1974 petrodollar treaty does not exist.</strong> Not in the State Department&rsquo;s archives. Not in the National Archives. Not anywhere. The US Government Accountability Office &mdash; the literal agency Congress instructs to track such things &mdash; confirms no formal agreement requiring Saudi Arabia to price oil in US dollars has ever been signed<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. What lapsed on June 9, 2024 was the US&ndash;Saudi Joint Commission on Economic Cooperation, a 1974 Kissinger-era framework for military and economic exchange that contains no oil-pricing clause whatsoever.</p>
+
+        <p>This article exists to make that single correction stick: <strong>there was never a binding &ldquo;petrodollar treaty.&rdquo; The system was sustained by convention, by the riyal-dollar peg, and by deep dollar liquidity &mdash; not by a contract. That&rsquo;s why it can erode at the margin without a single rupture event, and why the June 2024 &ldquo;expiry&rdquo; was mythology dressed as news.</strong></p>
+
+        <p>The reframe matters because the rest of this monetary series &mdash; how Treasuries get bought, why term premium reappeared, what UAE leaving OPEC in April 2026 actually signals &mdash; only makes sense once you accept that the petrodollar was always a series of <em>conventions</em>, not a single load-bearing document. Convention erosion looks nothing like contract expiry. If you&rsquo;re looking for the rupture event, you&rsquo;ll keep missing the actual story, which is slower, structural, and already well underway.</p>
+
+        <p>Let me show you what was actually signed.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. What was actually signed in June 1974?
+         ============================================================ -->
+    <section class="reveal" id="ii-june-1974">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>What was actually signed in June 1974?</h2>
+      </div>
+      <div class="section-content">
+        <p>On June 8, 1974, Treasury Secretary William Simon and Saudi Foreign Minister Saud al-Faisal &mdash; with Henry Kissinger orchestrating from the Secretary of State&rsquo;s chair &mdash; signed the <em>United States&ndash;Saudi Arabian Joint Commission on Economic Cooperation</em><a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. The agreement created a bilateral working group across two tracks: a military assistance leg (F-4 and F-5 jets, later F-15s, security guarantees, plus the architecture for what would become the Saudi Arabian National Guard modernisation program) and an economic cooperation leg (US technical assistance, infrastructure financing, joint ventures).</p>
+
+        <p>That&rsquo;s what&rsquo;s in the document. What&rsquo;s <em>not</em> in the document is any clause &mdash; explicit or implicit &mdash; requiring Saudi Arabia to price oil in US dollars. There is no oil-pricing clause. There is no Treasury-purchase clause. There is no fifty-year clock. The agreement is a framework for cooperation, signed in the immediate aftermath of the October 1973 OPEC embargo, written in the language of mutual security and capital-formation assistance. That&rsquo;s the entire scope of the &ldquo;petrodollar deal.&rdquo;</p>
+
+        <p>NPR&rsquo;s May 2026 deep-dive on the petrodollar regime walks through the actual archival record and arrives at the same conclusion: the &ldquo;1974 petrodollar treaty&rdquo; is a retroactive narrative gloss over a sequence of looser arrangements, of which the Joint Commission was the most formal and the least about oil pricing<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. The widget below lets you toggle between what people believe is in the deal and what&rsquo;s actually documented.</p>
+
+        <!-- Widget 1: Myth vs reality -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Myth vs Reality: What Was Actually Signed</div>
+          <div class="myth-toggle">
+            <button id="w1-btn-myth" class="is-active" data-mode="myth">What people believe</button>
+            <button id="w1-btn-fact" data-mode="fact">What&rsquo;s actually documented</button>
+            <button id="w1-btn-both" data-mode="both">Side-by-side</button>
+          </div>
+          <div class="doc-pair" id="w1-pair">
+            <div class="doc-col is-myth" id="w1-col-myth">
+              <h4>The popular story</h4>
+              <ul>
+                <li>Saudi Arabia <strong>agreed to price all oil exports in US dollars</strong> and only in dollars.</li>
+                <li>The deal <strong>locked in a 50-year term</strong> running June 1974 to June 2024.</li>
+                <li>Saudi Arabia <strong>committed to recycle oil surpluses into US Treasuries</strong> as a contractual obligation.</li>
+                <li>The agreement made the dollar the <strong>world reserve currency by treaty</strong>, replacing Bretton Woods.</li>
+                <li>When the deal expired on <strong>June 9, 2024</strong>, Saudi Arabia became free to invoice oil in yuan, euro, or gold.</li>
+                <li>The expiry is <strong>the end of US dollar hegemony</strong> and the start of a multi-currency oil market.</li>
+              </ul>
+            </div>
+            <div class="doc-col is-fact" id="w1-col-fact">
+              <h4>What&rsquo;s actually in the record</h4>
+              <ul>
+                <li>The June 1974 document is the <strong>US&ndash;Saudi Joint Commission on Economic Cooperation</strong>, not a &ldquo;petrodollar treaty.&rdquo;</li>
+                <li>The agreement covers <strong>military assistance and economic-development cooperation</strong>. There is no oil-pricing clause.</li>
+                <li>The GAO confirms <strong>no formal agreement requiring oil to be priced in dollars has ever been signed</strong> between the US and Saudi Arabia.</li>
+                <li>Pricing oil in USD was a <strong>convention</strong> &mdash; reinforced by the riyal&ndash;dollar peg (formal since 1986) and by dollar market depth, not by contract.</li>
+                <li>What lapsed in June 2024 was the <strong>Joint Commission framework</strong>, not any oil-pricing obligation. The Saudis were already free to invoice in any currency.</li>
+                <li>The dollar&rsquo;s reserve status rests on <strong>SWIFT share (~75%), oil-invoicing convention (~85%), and Treasury market depth</strong> &mdash; none of which a 1974 document could create or expire.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="widget-hint">Toggle between the two columns. The thing to notice is what the left column claims and the right column lacks: <em>oil pricing</em>. The popular story makes the deal load-bearing on a clause that doesn&rsquo;t exist in the agreement.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Saudi <em>was</em> technically allowed to invoice in other currencies all along</summary>
+          <p>The &ldquo;exclusivity&rdquo; of dollar invoicing was never written down anywhere as binding. Saudi Aramco did sign small euro-denominated supply contracts to European refiners in the mid-2000s, and the Saudis briefly toyed with a Gulf-basket-pegged invoicing experiment around 2007 before quietly abandoning it. None of these violated any agreement &mdash; because there was no agreement to violate.</p>
+          <p>What kept oil invoicing in dollars wasn&rsquo;t a clause. It was that buyers had dollars, sellers wanted dollars (the riyal is pegged to the dollar, so dollar revenue maps 1:1 to local fiscal needs), and the world&rsquo;s deepest commodity-hedging market was dollar-denominated. Path dependence, not contract.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. What was the second leg, late 1974?
+         ============================================================ -->
+    <section class="reveal" id="iii-simon">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>What was the second leg, late 1974?</h2>
+      </div>
+      <div class="section-content">
+        <p>The second leg is a real thing, and it&rsquo;s usually where the &ldquo;treaty&rdquo; myth picks up its texture. In the autumn of 1974, Treasury Secretary William Simon flew to Jeddah and negotiated a <em>verbal</em> arrangement &mdash; not a treaty, not even a signed memorandum &mdash; under which the Saudis would purchase US Treasury securities <strong>off-market</strong>, outside the normal auction process and outside the Treasury&rsquo;s monthly TIC reporting<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>.</p>
+
+        <p>That arrangement was kept quiet for decades. Bloomberg eventually got the National Archives to declassify the underlying cables in 2016, and the picture they revealed is much smaller than the legend. Simon&rsquo;s deal was about <em>reporting</em>: Saudi Treasury holdings would be aggregated into &ldquo;oil-exporting countries&rdquo; in TIC data rather than broken out by country. The carve-out gave the Saudis discretion. It did not commit them to any particular volume.</p>
+
+        <p>And the volume, by modern standards, was small. Even today, total Saudi holdings of US Treasuries are around $130 billion &mdash; less than 0.5% of the federal debt held by the public, and a rounding error against the $9.5 trillion in foreign-held Treasuries<a class="footnote-ref" id="fnref-5" href="#fn-5">[5]</a>. The Asian manufacturing surplus, by contrast, parks roughly $1.5 trillion in dollar assets at any given time. The petrodollar recycle, as a quantitative fact, is dwarfed by the Asian-trade-surplus recycle by something like 7-to-1 in the late-2020s.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the Simon &ldquo;secret deal&rdquo; was about reporting, not volume</summary>
+          <p>It&rsquo;s tempting to read &ldquo;off-market secret Treasury purchases&rdquo; as describing some shadow flow of trillions. It doesn&rsquo;t. The Simon arrangement granted the Saudis the privilege of having their holdings <em>aggregated</em> in TIC data rather than itemised. That was a diplomatic accommodation &mdash; the Saudis wanted to obscure exactly how much they were lending to the US, partly for OPEC-cohesion reasons. It bought silence, not size.</p>
+          <p>The volume was a function of what the Saudis wanted to do with their surplus, not what they were obligated to do. In years when Saudi oil revenue was high, more flowed in. In years with current-account deficits (most of 2014&ndash;2017, and again in 2024&ndash;2025 when fiscal breakeven jumped above $90/bbl), they were <em>net sellers</em>. There is no contractual commitment that survives that pattern.</p>
+        </details>
+
+        <p>So when you stack the two legs &mdash; Kissinger&rsquo;s June 1974 Joint Commission and Simon&rsquo;s late-1974 informal Treasury-purchase arrangement &mdash; what you have is a security pact plus a reporting accommodation. No oil clause. No volume commitment. No fifty-year clock. The myth has to invent a third document to do the work that the actual record refuses to do.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Why did the Saudis agree at all?
+         ============================================================ -->
+    <section class="reveal" id="iv-why-saudi">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>Why did the Saudis agree at all?</h2>
+      </div>
+      <div class="section-content">
+        <p>If there&rsquo;s no contractual obligation, why did King Faisal &mdash; and his oil minister Sheikh Ahmed Zaki Yamani &mdash; consistently invoice oil in dollars and consistently recycle the surplus into Treasuries for the next four decades?</p>
+
+        <p>The answer is plumbing. Three reasons, all structural, none requiring a treaty.</p>
+
+        <p><strong>One: there was nothing else to invoice in.</strong> In 1974 the Deutsche Mark was the obvious alternative currency &mdash; the Bundesbank was respectable, the West German economy was the strongest in Europe, and the DM was demonstrably stable. But the West German economy in 1974 had a GDP of about $510 billion. The Saudis were running a current-account surplus of roughly $25 billion that year. Forcing the Bundesbank to absorb that flow would have meant either a sharp DM revaluation (which Germany emphatically did not want, because it would have killed German exporters) or capital controls. The Bundesbank would not have allowed it. The ECB didn&rsquo;t exist. Sterling was in the middle of its 1970s crisis. The yen was still capital-controlled. There was no other currency that could absorb petro-flows of that size without either revaluing or refusing.</p>
+
+        <p><strong>Two: the riyal needed a peg.</strong> An oil exporter&rsquo;s domestic fiscal needs are denominated in <em>local</em> currency &mdash; salaries, infrastructure, subsidies, the royal family&rsquo;s domestic spending. If you sell oil for, say, euros, but the riyal floats against the euro, your fiscal revenue jumps around by 10&ndash;20% a year on FX moves alone. That&rsquo;s an impossible way to run a budget. The Saudis solved it by pegging the riyal to the dollar (formalised in 1986 at SAR 3.75 = USD 1, still in place today) and invoicing oil in dollars. Revenue, when converted, was deterministic. Switching invoicing currencies would require breaking the peg, and breaking the peg would require building a domestic monetary policy from scratch &mdash; which Saudi Arabia, for political-economy reasons, has never wanted to do.</p>
+
+        <p><strong>Three: security.</strong> The Joint Commission delivered F-15s, AWACS, and an explicit US security guarantee. The Saudi monarchy in 1974 was four years out from the death of King Faisal&rsquo;s predecessor Saud (deposed), eight years out from the 1979 Iranian Revolution which would terrify every Gulf monarchy, and surrounded by Nasserist republics that had toppled their own kings. The royal family had concrete reasons to want US military backing, and they were willing to underwrite US Treasury issuance as the unspoken quid pro quo, even without a contract obligating them to do so.</p>
+
+        <p>The widget below lets you toggle through counterfactuals: what would have happened if the Saudis had insisted on invoicing in Deutsche Marks, Sterling, or Yen in 1974? In each case, the alternative currency lacked the depth, the absorptive capacity, or the geopolitical alignment to make the trade work. The choice wasn&rsquo;t free &mdash; it was structurally determined.</p>
+
+        <!-- Widget 3: Counterfactual currencies -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; What If The Saudis Had Picked A Different Currency?</div>
+          <div class="cf-toggle">
+            <button id="cf-btn-dm" class="is-active" data-mode="dm">Deutsche Mark</button>
+            <button id="cf-btn-gbp" data-mode="gbp">Sterling</button>
+            <button id="cf-btn-jpy" data-mode="jpy">Yen</button>
+            <button id="cf-btn-gold" data-mode="gold">Gold</button>
+          </div>
+          <canvas id="cf-canvas" style="width: 100%; height: 240px;"></canvas>
+          <div class="cf-grid" id="cf-grid"></div>
+          <p class="widget-hint">Click each alternative to see what would have broken. The point isn&rsquo;t that the Saudis &ldquo;chose&rdquo; the dollar &mdash; it&rsquo;s that no other currency could absorb $25 billion in annual petro-flows in 1974 without breaking. The dollar wasn&rsquo;t chosen so much as it was structurally inevitable.</p>
+        </div>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. What "expired" in June 2024?
+         ============================================================ -->
+    <section class="reveal" id="v-2024">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>What &ldquo;expired&rdquo; in June 2024?</h2>
+      </div>
+      <div class="section-content">
+        <p>The thing that lapsed on June 9, 2024 was the Joint Commission framework from 1974. The framework had been technically renewable on a periodic basis since its inception. The Biden administration declined to renew it that summer, in part because the bilateral relationship had moved on (the relevant cooperation now happens under different bilateral and multilateral structures) and in part because the political optics of renewing it during an election year were judged unhelpful.</p>
+
+        <p>That&rsquo;s the entire event. A bureaucratic framework was allowed to sunset. Saudi Arabia did not announce anything about oil pricing. The Saudi central bank (SAMA) made no statements. Aramco continued to invoice in dollars, as it had been all along by convention rather than by contract. The riyal stayed pegged to the dollar at SAR 3.75. The $130 billion of Saudi-held US Treasuries did not move. Nothing changed in the actual financial plumbing.</p>
+
+        <p>What changed was the narrative. Radio Free Asia&rsquo;s factcheck desk traced the &ldquo;50-year petrodollar deal expired&rdquo; story back to a single tweet on June 11, 2024 from a crypto-adjacent account with no journalism background, which framed the Joint Commission lapse as the end of oil-dollar invoicing<a class="footnote-ref" id="fnref-6" href="#fn-6">[6]</a>. The tweet was wrong on every factual point. It was viewed roughly 27 million times in the first 72 hours. By the end of June, the framing had been launder-cited through enough YouTube channels, gold newsletters, and crypto Substacks that it had become &ldquo;widely reported.&rdquo; The Birches Group consulting brief from August 2024 (read by central bankers, of all people) had to walk staff through a paragraph-by-paragraph refutation, because clients kept asking about it<a class="footnote-ref" id="fnref-7" href="#fn-7">[7]</a>.</p>
+
+        <p>I want to be specific about why this matters, because it&rsquo;s tempting to dismiss the episode as just another piece of internet noise. <strong>The myth substituted a rupture event for a convention drift.</strong> If you believe the petrodollar was a treaty that just expired, you expect a sharp, datable, observable break &mdash; oil priced in yuan tomorrow, Saudi Treasury holdings dumped next week, dollar SWIFT share collapsing by Q4. None of which happened, or will happen, because none of which is how convention-based systems erode.</p>
+
+        <p>The actual petrodollar story &mdash; the one this whole monetary series is about &mdash; is slow, structural, and visible in different signals: foreign central-bank custody at the NY Fed falling to multi-year lows, term premium reappearing on the long end of the curve, GCC sovereigns becoming net dollar-bond <em>issuers</em> rather than net Treasury <em>buyers</em>, leveraged hedge-fund basis trades replacing official foreign demand. Those are the signals that matter. If you&rsquo;re looking for a date on which the treaty &ldquo;expired,&rdquo; you&rsquo;ll miss every single one of them.</p>
+
+        <p>The widget below is the timeline. Click each event to see what actually happened &mdash; and notice that the system was sustained by a <em>sequence of conventions</em>, not by any single load-bearing document.</p>
+
+        <!-- Widget 2: Timeline -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; Fifty-Five Years Of Convention</div>
+          <canvas id="tl-canvas" style="width: 100%; height: 260px;"></canvas>
+          <div class="timeline-readout" id="tl-readout">
+            <div class="tl-date">Click a marker on the timeline</div>
+            <div class="tl-title">The petrodollar in seven events</div>
+            <div class="tl-body">Each dot is a moment the system was extended, reinforced, or quietly amended &mdash; none of them a treaty signing.</div>
+          </div>
+          <p class="widget-hint">Click each marker. The pattern: a security pact (1974), a reporting accommodation (1974), a currency peg (1986), a framework lapse (2024), a peg backstop (2026). Five conventions stitched together &mdash; no &ldquo;petrodollar treaty&rdquo; among them.</p>
+        </div>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. What actually sustains the system?
+         ============================================================ -->
+    <section class="reveal" id="vi-sustains">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What actually sustains the system, if not a treaty?</h2>
+      </div>
+      <div class="section-content">
+        <p>Three pillars, each of which is real, each of which is measurable, none of which is contractual.</p>
+
+        <p><strong>The riyal-dollar peg.</strong> Formalised in 1986 at SAR 3.75 = USD 1, and still active today. This is the actual durable mechanism. As long as the Saudi central bank is defending a dollar peg, it needs to hold dollar reserves, and the most liquid dollar reserve asset is US Treasuries. The same applies to the UAE dirham (AED 3.67 = USD 1), the Bahraini dinar, the Omani rial, and the Qatari riyal &mdash; all GCC pegs to the dollar. The April 2026 announcement that Scott Bessent extended a <strong>$20 billion swap line to the UAE</strong> to backstop the dirham peg after the UAE exited OPEC was, at root, the US providing dollar liquidity to support a foreign central bank&rsquo;s dollar peg<a class="footnote-ref" id="fnref-8" href="#fn-8">[8]</a>. That&rsquo;s petrodollar plumbing in real time &mdash; not a treaty being honoured, but a peg being defended.</p>
+
+        <p><strong>Dollar invoicing convention.</strong> Roughly 85% of extra-EU oil imports are invoiced in dollars today, even when neither the buyer nor the seller is American<a class="footnote-ref" id="fnref-9" href="#fn-9">[9]</a>. India buys Russian crude in dollars (or dirhams as a USD proxy). China imports from Saudi Arabia in dollars. The dollar&rsquo;s SWIFT share for oil-related payments is around 75%, with the euro at roughly 7% and the yuan at 1.8%. None of this is mandated. It&rsquo;s sustained because dollar markets are the deepest, dollar derivatives are the most liquid for hedging, and switching imposes coordination costs no individual buyer or seller wants to bear unilaterally.</p>
+
+        <p><strong>Treasury market depth.</strong> If you&rsquo;re a foreign central bank with $50 billion to park, your options are limited. The German bund market is too small to absorb you without moving the price. The JGB market is too domestically held and yields too little. The gilt market is too small. The US Treasury market is roughly $28 trillion of publicly held debt, traded continuously, accepted as collateral everywhere &mdash; the only market deep enough to absorb the world&rsquo;s reserves without distortion. That depth is itself sustained by the convention of foreign central banks parking reserves there. It&rsquo;s self-reinforcing, until it isn&rsquo;t.</p>
+
+        <p>None of these three is a treaty. All three are eroding at the margin in 2026. The riyal-dollar peg has needed defending (witness the UAE swap line). Dollar invoicing share has slipped by about 1.8 percentage points over the last two years. Treasury market depth is being held up by leveraged hedge-fund basis trades after foreign-CB demand plateaued in 2023. Each of these erosions is observable in real data &mdash; and none of them looks anything like a treaty expiring.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the $20B UAE swap line is the real story, not the &ldquo;treaty expiry&rdquo;</summary>
+          <p>In April 2026, the UAE announced it was leaving OPEC. The Treasury responded within 72 hours with a $20 billion FX swap line to the UAE Central Bank &mdash; the kind of facility usually extended to allies whose currency pegs the US wants to keep intact. National Economic Council director Kevin Hassett called the UAE &ldquo;an incredibly valuable ally.&rdquo;</p>
+          <p>The reason that swap line was necessary is exactly the reason this article matters. The petrodollar system is a peg-defence system, not a treaty system. When a peg comes under pressure (because oil revenue is volatile, because the country is rotating its FX reserves out of dollars, because a regional war makes capital flight a risk), the response is a liquidity backstop &mdash; not a renegotiation of a 1974 document. The US extended dollar liquidity to keep the AED peg credible, because if the AED peg breaks, the entire GCC peg structure looks fragile, and the petrodollar plumbing &mdash; the actual plumbing, not the imagined treaty &mdash; loses a leg.</p>
+          <p>Aaron Brown wrote in Bloomberg on April 6, 2026: <em>&ldquo;The virtuous loop that has seen America underwrite stability in the Middle East in exchange for Gulf states recycling their dollar revenues into US Treasuries has been broken.&rdquo;</em> That&rsquo;s the right framing. The loop is breaking. There was never a contract; there was a loop, and the loop is what frays.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Why does this reframe matter for the rest of the series?
+         ============================================================ -->
+    <section class="reveal" id="vii-series">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>Why does this reframe matter for the rest of the series?</h2>
+      </div>
+      <div class="section-content">
+        <p>Because every remaining article in this series is about a different piece of the convention-erosion story, and none of them lands if you&rsquo;re still expecting a rupture event.</p>
+
+        <p>The <a href="../recycling-loop/index.html">recycling loop article</a> (#6) walks through how Saudi (and now Asian-surplus) oil dollars actually get into US Treasuries &mdash; the mechanical accounting of current-account surpluses, capital-account flows, and central-bank reserve accumulation. That mechanism is convention-based: it happens because each step is in each actor&rsquo;s narrow self-interest at the time, not because a treaty mandates it. When the narrow self-interest changes, the recycling weakens, even though no contract has changed.</p>
+
+        <p>The <a href="../treasury-buyers/index.html">Treasury buyers article</a> (#7) maps who actually holds US debt today. Spoiler: it&rsquo;s not Gulf central banks. It&rsquo;s Japan, the UK, the Cayman Islands (i.e. leveraged hedge funds running the basis trade), and a long tail of dollar reserve managers. The petrodollar &mdash; in its narrow Gulf-recycle sense &mdash; was always a smaller slice than the legend implied. What replaced foreign-CB demand on the marginal Treasury issuance over the last three years is leveraged-fund demand, which is much less sticky.</p>
+
+        <p>The <a href="../term-premium/index.html">term premium article</a> (#8) shows what happens when sticky buyers leave and unsticky buyers replace them. The 10-year term premium has gone from minus 80 basis points during QE to plus 68 basis points as of April 2026 &mdash; the first sustained positive reading since 2023. That repricing alone, on the CBO&rsquo;s rate sensitivity, costs the US Treasury roughly $2.5 trillion in net present value over a decade. It is the price of the petrodollar convention weakening, charged as a fiscal cost.</p>
+
+        <p>The <a href="../fiscal-dominance/index.html">fiscal dominance article</a> (#9) closes the loop &mdash; what happens to monetary policy when the Treasury can&rsquo;t afford rates the Fed needs to set. Yellen herself raised the spectre at the AEA in January 2026. Bessent now publicly states he is &ldquo;focused on the 10-year Treasury,&rdquo; which is bureaucrat for &ldquo;the long end is the political pressure point.&rdquo; All of this descends from the same convention erosion. None of it is triggered by the lapse of a non-existent treaty.</p>
+
+        <p>Earlier in the series, the <a href="../bond-math/index.html">bond math article</a> (#1) gave you the napkin: yield up 1%, long-end price down roughly 17%, Treasury cost up roughly $3.2 trillion over a decade. The <a href="../reserve-currency/index.html">reserve currency article</a> (#2) introduced what &ldquo;reserve currency&rdquo; actually means and why it&rsquo;s self-reinforcing-until-it-isn&rsquo;t. The <a href="../triffin-dilemma/index.html">Triffin dilemma article</a> (#3) walked through the structural contradiction: providing the world&rsquo;s reserve currency requires running persistent deficits, which over time erodes the trust in that currency. The <a href="../balance-of-payments/index.html">balance-of-payments article</a> (#4) showed the accounting identity that links every external surplus to a foreign asset accumulation. This article &mdash; #5 &mdash; says: now stop expecting the petrodollar to have been a treaty, and you&rsquo;re ready to see the rest of the system clearly.</p>
+
+        <p>If you want a single sentence to take away:</p>
+
+        <blockquote>
+          <p><strong>The petrodollar was a sequence of conventions, not a contract. Conventions don&rsquo;t expire on a date. They fray as the underlying interests of the parties drift. That fraying is what we&rsquo;re watching now &mdash; in custody data, in term premium, in swap lines &mdash; not on a fifty-year clock that struck midnight in June 2024.</strong></p>
+        </blockquote>
+
+        <p>Once you have that frame, the next four articles are just instrument-readouts on a system you already understand. Next up: how the dollars actually got from Riyadh to Washington in the first place &mdash; the <a href="../recycling-loop/index.html">recycling loop</a>.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">US Government Accountability Office, in response to media inquiries during summer 2024, confirmed that no formal agreement between the United States and Saudi Arabia requires oil to be priced in US dollars. The widely-cited &ldquo;petrodollar treaty&rdquo; is not on file in any GAO-accessible archive. Radio Free Asia&rsquo;s factcheck of the 2024 viral story (8 July 2024) walks through the documentary record. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The US&ndash;Saudi Joint Commission on Economic Cooperation was established by an exchange of letters between Secretary of State Henry Kissinger and Saudi Foreign Minister Prince Saud al-Faisal in June 1974, following Treasury Secretary William Simon&rsquo;s visit to Jeddah. The Commission operated as a bilateral working group across military assistance and economic-development tracks. Its full text is available through the State Department&rsquo;s Foreign Relations of the United States (FRUS) series. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">NPR, &ldquo;How the petrodollar regime came to be &mdash; and what losing it would mean for the US&rdquo; (6 May 2026). The piece reconstructs the 1974 negotiations from State Department cables and concludes that the &ldquo;petrodollar treaty&rdquo; is a retroactive shorthand for a sequence of looser arrangements, none of which contained an oil-pricing clause. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">Bloomberg, citing declassified Treasury cables released to the National Archives in 2016, reported the details of William Simon&rsquo;s late-1974 trip to Jeddah and the verbal arrangement under which Saudi Treasury purchases would be aggregated in TIC data rather than itemised by country. The arrangement was about reporting opacity, not about commitment to any particular volume. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+          <li id="fn-5">Total foreign holdings of US Treasuries: $9.49 trillion (~24.5% of total UST outstanding), Feb 2026 TIC data via Wolf Street. Saudi-specific holdings have averaged $120&ndash;140 billion in recent years and have not trended meaningfully in either direction since 2020. <a class="footnote-back" href="#fnref-5">&#8617;</a></li>
+          <li id="fn-6">Radio Free Asia, &ldquo;Did the US&ndash;Saudi oil deal expire in June 2024?&rdquo; (8 July 2024), traces the viral framing back to a single misreading of the Joint Commission lapse and walks through why every claim in the original tweet was factually wrong. <a class="footnote-back" href="#fnref-6">&#8617;</a></li>
+          <li id="fn-7">Birches Group, &ldquo;Petrodollar panic: separating fact from fiction&rdquo; (29 August 2024). Written for an audience of central bankers and sovereign-wealth-fund staff, the brief had to address client questions about the &ldquo;treaty expiry&rdquo; story directly, reflecting how widely the misframing had penetrated even institutional audiences. <a class="footnote-back" href="#fnref-7">&#8617;</a></li>
+          <li id="fn-8">Fortune, &ldquo;UAE leaves OPEC; Bessent extends $20B swap line&rdquo; (28 April 2026). The swap facility was framed publicly as supporting the AED peg under post-Hormuz pressure; NEC director Kevin Hassett called the UAE &ldquo;an incredibly valuable ally.&rdquo; The episode is the cleanest recent illustration that the petrodollar system is a peg-defence system, not a treaty system. <a class="footnote-back" href="#fnref-8">&#8617;</a></li>
+          <li id="fn-9">European Central Bank, IRE Box 201906_03 (Focus on oil-import invoicing currency shares), and IMF Working Paper 25/178 (Sep 2025). Extra-EU oil imports were invoiced ~85% in USD as of 2023&ndash;24. USD SWIFT share for cross-border payments stood at 75.23% in April 2026, with EUR at 6.90%, GBP at 4.37%, JPY at 2.81%, and CNY at 1.80%. <a class="footnote-back" href="#fnref-9">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Widget 1 — Myth vs Reality document toggle
+       ============================================================ -->
+  <script>
+    (function() {
+      var btnMyth = document.getElementById('w1-btn-myth');
+      var btnFact = document.getElementById('w1-btn-fact');
+      var btnBoth = document.getElementById('w1-btn-both');
+      var colMyth = document.getElementById('w1-col-myth');
+      var colFact = document.getElementById('w1-col-fact');
+      if (!btnMyth || !colMyth || !colFact) return;
+
+      function setMode(mode) {
+        [btnMyth, btnFact, btnBoth].forEach(function(b) { b.classList.remove('is-active'); });
+        if (mode === 'myth') {
+          btnMyth.classList.add('is-active');
+          colMyth.style.display = '';
+          colFact.style.display = 'none';
+        } else if (mode === 'fact') {
+          btnFact.classList.add('is-active');
+          colMyth.style.display = 'none';
+          colFact.style.display = '';
+        } else {
+          btnBoth.classList.add('is-active');
+          colMyth.style.display = '';
+          colFact.style.display = '';
+        }
+      }
+
+      btnMyth.addEventListener('click', function() { setMode('myth'); });
+      btnFact.addEventListener('click', function() { setMode('fact'); });
+      btnBoth.addEventListener('click', function() { setMode('both'); });
+
+      // Start with the myth column shown (the popular story is the hook)
+      setMode('myth');
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — Timeline: fifty-five years of convention
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('tl-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Events: year (decimal), label, dotColor, date, title, body
+      var EVENTS = [
+        { t: 1971.6, label: 'Nixon ends gold',
+          date: 'August 15, 1971',
+          title: 'Nixon closes the gold window',
+          body: 'Bretton Woods dies. The dollar is no longer convertible to gold at $35/oz. Every major currency now floats, and every oil exporter has to figure out which currency to invoice in.' },
+        { t: 1973.8, label: 'OPEC embargo',
+          date: 'October 17, 1973',
+          title: 'OPEC oil embargo',
+          body: 'Arab OPEC members halt exports to the US following the Yom Kippur War. Oil prices quadruple. Saudi Arabia ends 1974 with an unprecedented $25B current-account surplus and no obvious place to park it.' },
+        { t: 1974.45, label: 'Joint Commission',
+          date: 'June 8, 1974',
+          title: 'US&ndash;Saudi Joint Commission on Economic Cooperation',
+          body: 'Kissinger and al-Faisal sign the framework agreement. Military assistance + economic cooperation. No oil-pricing clause. No Treasury-purchase clause. No fifty-year clock. This is the document the &ldquo;petrodollar treaty&rdquo; myth retroactively glosses.' },
+        { t: 1974.95, label: 'Simon arrangement',
+          date: 'Late 1974',
+          title: 'William Simon&rsquo;s verbal Treasury arrangement',
+          body: 'Treasury Secretary Simon negotiates an unwritten arrangement: Saudi Treasury holdings will be aggregated into &ldquo;oil-exporting countries&rdquo; in TIC data, not itemised by country. A reporting accommodation, not a volume commitment.' },
+        { t: 1986.5, label: 'Riyal peg',
+          date: 'June 1986',
+          title: 'Saudi riyal pegged to USD at 3.75',
+          body: 'The actual durable mechanism. Once SAR is pegged to USD, Saudi fiscal revenue from oil is deterministic in local-currency terms only if oil is invoiced in dollars. The peg locks in the invoicing convention without anyone signing anything new.' },
+        { t: 2024.44, label: 'Joint Commission lapses',
+          date: 'June 9, 2024',
+          title: 'Joint Commission framework lapses',
+          body: 'The Biden administration declines to renew the 1974 framework. Saudi Arabia issues no statement. Aramco continues to invoice in dollars. The riyal stays pegged. Nothing in the financial plumbing changes &mdash; but crypto Twitter declares the &ldquo;50-year petrodollar treaty&rdquo; over.' },
+        { t: 2026.32, label: 'UAE leaves OPEC',
+          date: 'April 28, 2026',
+          title: 'UAE exits OPEC; Bessent extends $20B swap line',
+          body: 'Treasury Secretary Bessent extends a $20B FX swap facility to the UAE central bank within 72 hours of the OPEC exit, to backstop the AED-USD peg. This is petrodollar plumbing in real time &mdash; a peg being defended, not a treaty being honoured.' },
+      ];
+
+      var T_MIN = 1971;
+      var T_MAX = 2027;
+      var pad = { top: 70, right: 30, bottom: 70, left: 30 };
+      var trackY = h / 2;
+
+      function evtX(t) {
+        return pad.left + ((t - T_MIN) / (T_MAX - T_MIN)) * (w - pad.left - pad.right);
+      }
+
+      var activeIdx = 2; // Default-highlight the June 1974 signing
+
+      function redraw() {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        // Horizontal track
+        drawLineCanvas(ctx,
+          [{ x: pad.left, y: trackY }, { x: w - pad.right, y: trackY }],
+          { color: '#cbd5e0', width: 2 });
+
+        // Year ticks every 5 years
+        for (var y = 1975; y <= 2025; y += 5) {
+          var x = evtX(y);
+          drawLineCanvas(ctx,
+            [{ x: x, y: trackY - 4 }, { x: x, y: trackY + 4 }],
+            { color: '#a0aec0', width: 1 });
+          drawTextCanvas(ctx, x, trackY + 18, String(y),
+            { fontSize: 10, color: 'var(--text-secondary)' });
+        }
+
+        // Event dots + labels
+        EVENTS.forEach(function(e, i) {
+          var x = evtX(e.t);
+          var isActive = (i === activeIdx);
+          // Stagger labels above/below alternately to reduce overlap
+          var above = (i % 2 === 0);
+          var labelY = above ? trackY - 24 : trackY + 36;
+          var connY = above ? trackY - 8 : trackY + 8;
+
+          // Connector tick
+          drawLineCanvas(ctx,
+            [{ x: x, y: trackY }, { x: x, y: connY }],
+            { color: isActive ? 'var(--accent)' : '#a0aec0', width: 1 });
+
+          // Dot
+          drawPointCanvas(ctx, x, trackY,
+            isActive ? 8 : 6,
+            isActive ? 'var(--accent)' : '#718096', '#fff');
+
+          // Label
+          drawTextCanvas(ctx, x, labelY, e.label, {
+            fontSize: 10.5,
+            weight: isActive ? '600' : '500',
+            color: isActive ? 'var(--accent)' : 'var(--text-secondary)',
+            baseline: above ? 'bottom' : 'top'
+          });
+        });
+
+        // Title hint above
+        drawTextCanvas(ctx, w / 2, 18,
+          'Click any marker to see what happened',
+          { fontSize: 11, color: 'var(--text-secondary)', weight: '500' });
+      }
+
+      function updateReadout() {
+        var e = EVENTS[activeIdx];
+        var readout = document.getElementById('tl-readout');
+        if (!readout) return;
+        readout.innerHTML =
+          '<div class="tl-date">' + e.date + '</div>' +
+          '<div class="tl-title">' + e.title + '</div>' +
+          '<div class="tl-body">' + e.body + '</div>';
+      }
+
+      // Click handler: find nearest event by x-pixel distance
+      canvas.addEventListener('click', function(ev) {
+        var rect = canvas.getBoundingClientRect();
+        var cx = ev.clientX - rect.left;
+        var best = -1, bestD = 1e9;
+        EVENTS.forEach(function(e, i) {
+          var d = Math.abs(evtX(e.t) - cx);
+          if (d < bestD) { bestD = d; best = i; }
+        });
+        if (best >= 0 && bestD < 50) {
+          activeIdx = best;
+          redraw();
+          updateReadout();
+        }
+      });
+
+      // Touch fallback
+      canvas.style.cursor = 'pointer';
+
+      redraw();
+      updateReadout();
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 3 — Counterfactual: alternative currencies in 1974
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('cf-canvas');
+      var grid = document.getElementById('cf-grid');
+      if (!canvas || !grid) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Reference economy/market sizes (1974, USD billions, approximate)
+      //   The point is the order-of-magnitude gap, not perfect precision.
+      var ECONOMIES = {
+        usd: { name: 'United States',  gdp: 1545, bond: 360, label: 'USD' },
+        dm:  { name: 'West Germany',   gdp:  510, bond:  35, label: 'DM' },
+        gbp: { name: 'United Kingdom', gdp:  205, bond:  60, label: 'GBP' },
+        jpy: { name: 'Japan',          gdp:  490, bond:  18, label: 'JPY' },
+        gold:{ name: 'Gold market',    gdp:   80, bond:   0, label: 'Au' }
+      };
+      var SAUDI_SURPLUS_1974 = 25; // $25B current-account surplus
+
+      var SCENARIOS = {
+        dm: {
+          headline: 'Deutsche Mark',
+          problem: 'Bundesbank would have refused',
+          rows: [
+            ['Available bond market', '~$35B (1974)', 'Saudi surplus = $25B/yr &mdash; would swallow ~70% of available DM bonds in one year.'],
+            ['Currency consequence', 'Sharp DM revaluation', 'Bundesbank knew this would crush German exporters. They explicitly refused petrodollar recycling pressure.'],
+            ['Political ask', 'Joint German&ndash;Saudi facility', 'Floated in 1974. Bonn rejected it. Without an issuer, the trade couldn&rsquo;t happen at scale.']
+          ]
+        },
+        gbp: {
+          headline: 'Sterling',
+          problem: 'Mid-crisis, IMF rescue coming',
+          rows: [
+            ['Available bond market', '~$60B (1974)', 'Sterling gilts existed at scale but the currency was in active crisis.'],
+            ['Currency consequence', 'Sterling devalued 25% 1972&ndash;76', 'The UK went to the IMF for a bailout in 1976. Saudi reserves invoiced in GBP would have been crushed.'],
+            ['Political ask', 'UK guarantees Saudi assets', 'Heath/Wilson governments had no fiscal room. Unworkable.']
+          ]
+        },
+        jpy: {
+          headline: 'Japanese Yen',
+          problem: 'Capital controls + Asian-only depth',
+          rows: [
+            ['Available bond market', '~$18B (1974)', 'Smallest serious bond market of the G7 by 1974.'],
+            ['Currency consequence', 'Hard capital controls', 'Foreign-CB JPY purchases were tightly regulated through the late 1970s. Yen wasn&rsquo;t freely investible at scale.'],
+            ['Political ask', 'Japan opens capital account', 'MOF wouldn&rsquo;t consider it &mdash; Japan needed the controls to manage its own current-account dynamics.']
+          ]
+        },
+        gold: {
+          headline: 'Gold',
+          problem: 'No income, no fiscal use',
+          rows: [
+            ['Available market depth', '~$80B (1974 mkt cap)', 'Above-ground gold valued at one-twentieth of US Treasury market.'],
+            ['Currency consequence', 'Zero yield, storage cost', 'Saudi state spending (salaries, infrastructure) needs an income-bearing reserve, not a hoard. Gold offers neither yield nor liquidity for paying contractors.'],
+            ['Political ask', 'Reverse Nixon shock', 'Going back on gold convertibility would require the entire international monetary system to do the same. Not a unilateral move.']
+          ]
+        }
+      };
+
+      var activeMode = 'dm';
+
+      function redraw() {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var entries = [ECONOMIES.usd, ECONOMIES[activeMode]];
+        // For "gold" alt show market cap instead of bond-market
+        var labels = ['USD bond market', activeMode === 'gold' ? 'Gold market cap' : (entries[1].label + ' bond market')];
+        var values = [entries[0].bond, activeMode === 'gold' ? entries[1].gdp : entries[1].bond];
+        var maxV = Math.max(values[0], values[1], SAUDI_SURPLUS_1974) * 1.15;
+
+        var pad = { top: 36, right: 30, bottom: 50, left: 70 };
+        var plotW = w - pad.left - pad.right;
+        var plotH = h - pad.top - pad.bottom;
+
+        // Axis lines
+        drawLineCanvas(ctx,
+          [{ x: pad.left, y: pad.top }, { x: pad.left, y: pad.top + plotH },
+           { x: pad.left + plotW, y: pad.top + plotH }],
+          { color: 'var(--text-secondary)', width: 1 });
+
+        // Y-axis: labelled in $B
+        var ySteps = 4;
+        for (var i = 0; i <= ySteps; i++) {
+          var val = (maxV * i / ySteps);
+          var y = pad.top + plotH - (i / ySteps) * plotH;
+          drawTextCanvas(ctx, pad.left - 6, y, '$' + Math.round(val) + 'B',
+            { fontSize: 10, align: 'right', color: 'var(--text-secondary)' });
+          if (i > 0) {
+            ctx.save();
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.setLineDash([3, 4]);
+            ctx.beginPath();
+            ctx.moveTo(pad.left, y);
+            ctx.lineTo(pad.left + plotW, y);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+
+        // Bars
+        var barCount = 2;
+        var barSlot = plotW / barCount;
+        var barW = Math.min(80, barSlot * 0.55);
+        for (var b = 0; b < barCount; b++) {
+          var cx = pad.left + barSlot * (b + 0.5);
+          var bh = (values[b] / maxV) * plotH;
+          var by = pad.top + plotH - bh;
+          var color = (b === 0) ? '#a0aec0' : 'var(--accent)';
+          drawRectCanvas(ctx, cx - barW / 2, by, barW, bh, color, 4);
+          drawTextCanvas(ctx, cx, by - 8, '$' + values[b] + 'B',
+            { fontSize: 11.5, weight: '600', color: color });
+          drawTextCanvas(ctx, cx, pad.top + plotH + 16, labels[b],
+            { fontSize: 11, color: 'var(--text-secondary)' });
+        }
+
+        // Saudi surplus line (overlay)
+        var surplusY = pad.top + plotH - (SAUDI_SURPLUS_1974 / maxV) * plotH;
+        drawLineCanvas(ctx,
+          [{ x: pad.left, y: surplusY }, { x: pad.left + plotW, y: surplusY }],
+          { color: '#9b2c2c', width: 1.5, dashed: [5, 4] });
+        drawTextCanvas(ctx, pad.left + plotW - 4, surplusY - 8,
+          '— Saudi 1974 surplus = $25B/yr',
+          { fontSize: 11, align: 'right', color: '#9b2c2c', weight: '600' });
+
+        // Title
+        drawTextCanvas(ctx, w / 2, 14,
+          'Bond market depth in 1974, vs the annual Saudi flow that needed somewhere to go',
+          { fontSize: 11.5, color: 'var(--text)', weight: '500' });
+      }
+
+      function renderGrid() {
+        var s = SCENARIOS[activeMode];
+        var html = '';
+        html += '<div class="cf-cell is-head"><div class="cf-label">Counterfactual</div>' +
+                '<div class="cf-val">' + s.headline + '</div></div>';
+        html += '<div class="cf-cell is-head" style="grid-column: span 2;"><div class="cf-label">Why it would have failed</div>' +
+                '<div class="cf-val">' + s.problem + '</div></div>';
+        s.rows.forEach(function(r) {
+          html += '<div class="cf-cell"><div class="cf-label">' + r[0] + '</div>' +
+                  '<div class="cf-val"><strong>' + r[1] + '</strong></div></div>';
+          html += '<div class="cf-cell" style="grid-column: span 2;"><div class="cf-label">Detail</div>' +
+                  '<div class="cf-val">' + r[2] + '</div></div>';
+        });
+        grid.innerHTML = html;
+      }
+
+      var buttons = {
+        dm:   document.getElementById('cf-btn-dm'),
+        gbp:  document.getElementById('cf-btn-gbp'),
+        jpy:  document.getElementById('cf-btn-jpy'),
+        gold: document.getElementById('cf-btn-gold')
+      };
+
+      function setMode(mode) {
+        activeMode = mode;
+        Object.keys(buttons).forEach(function(k) {
+          buttons[k].classList.toggle('is-active', k === mode);
+        });
+        redraw();
+        renderGrid();
+      }
+
+      Object.keys(buttons).forEach(function(k) {
+        if (!buttons[k]) return;
+        buttons[k].addEventListener('click', function() { setMode(k); });
+      });
+
+      setMode('dm');
+    })();
+  </script>
+
+</body>
+</html>

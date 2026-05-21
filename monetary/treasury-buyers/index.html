@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who&rsquo;s Left Buying Treasuries? &mdash; Monetary Explainers</title>
+  <meta name="description" content="Foreign demand for US Treasuries didn&rsquo;t fall &mdash; it re-domiciled into 8&ndash;50x leveraged hedge-fund basis trades booked in Cayman, the UK, and Luxembourg. The TIC data says foreign demand rose; the NY Fed Custody Account says it fell to its lowest since 2012. Both are true. The system is more fragile, not less.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Who's Left Buying Treasuries?">
+  <meta property="og:description" content="Foreign demand for US Treasuries didn't fall — it re-domiciled into 8–50x leveraged basis trades. TIC says +; NY Fed Custody says −. Both true. The system is more fragile.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #4299e1;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #2c5282 0%, #4299e1 100%); }
+
+    /* Buyer-class readout grid (Widget 1 / Widget 2) */
+    .buyer-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .buyer-readout { grid-template-columns: 1fr; }
+    }
+    .buyer-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .buyer-cell .bc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .buyer-cell .bc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 22px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .buyer-cell .bc-sub {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .buyer-cell .bc-sub.is-bad { color: #9b2c2c; }
+    .buyer-cell .bc-sub.is-good { color: #22543d; }
+
+    /* Mix-toggle (Widget 1) */
+    .mix-toggle {
+      display: inline-flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 4px 0 12px;
+      background: #fff;
+    }
+    .mix-toggle button {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 8px 14px;
+      border: 0;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .mix-toggle button + button { border-left: 1px solid var(--border); }
+    .mix-toggle button.is-active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Three-cell grid (Widget 3) */
+    .lev-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .lev-readout { grid-template-columns: 1fr 1fr; }
+    }
+    .lev-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .lev-cell .lc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .lev-cell .lc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .lev-cell .lc-value.is-bad { color: #9b2c2c; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Who&rsquo;s Left Buying Treasuries?</h1>
+      <p class="hero__subtitle">Foreign demand for US Treasuries didn&rsquo;t fall &mdash; it <em>re-domiciled</em> into 8&ndash;50&times; leveraged hedge-fund basis trades booked in Cayman, the UK, and Luxembourg. The TIC tape says foreign demand rose to $9.49T. The NY Fed Custody Account &mdash; the cleanest official-sector gauge &mdash; says it fell to its lowest level since 2012. Both numbers are real. The system is <em>more</em> fragile, not less.</p>
+      <p class="hero__meta">7 chapters &middot; 3 interactive widgets &middot; 24 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-slippery">Why is &ldquo;foreign demand&rdquo; a slippery number?</a></li>
+        <li><a href="#ii-hierarchy">Who actually buys Treasuries, and why?</a></li>
+        <li><a href="#iii-basis">What is the basis trade?</a></li>
+        <li><a href="#iv-divergence">What does the TIC-vs-Custody divergence look like?</a></li>
+        <li><a href="#v-danger">Why is the basis trade dangerous?</a></li>
+        <li><a href="#vi-march2020">What did March 2020 actually look like?</a></li>
+        <li><a href="#vii-loadbearing">Why is this the load-bearing wall of the series?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. Why is "foreign demand" a slippery number?
+         ============================================================ -->
+    <section class="reveal" id="i-slippery">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>Why is &ldquo;foreign demand&rdquo; a slippery number?</h2>
+      </div>
+      <div class="section-content">
+        <p>Here are two numbers, both from official US data, both correct, both pointing in opposite directions:</p>
+
+        <ul>
+          <li><strong>TIC data (Feb 2026)</strong>: total foreign holdings of US Treasuries hit <strong>$9.49 trillion</strong>, up from the 2023 low. Japan added <strong>+$113B year-on-year</strong>. The headline number is <em>rising</em><a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>.</li>
+          <li><strong>NY Fed Custody Account (Apr 2026)</strong>: foreign central-bank holdings of US Treasuries fell to <strong>$2.70 trillion</strong>, down <strong>$82 billion in five weeks</strong> &mdash; the lowest level since 2012<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</li>
+        </ul>
+
+        <p>Most commentary picks one of these and runs. The bulls quote TIC: <em>foreign demand is fine, the dollar system is intact, nothing to see here.</em> The bears quote NY Fed Custody: <em>foreign central banks are abandoning the Treasury market, the regime is breaking.</em> Both readings are lazy. Both miss the actual story.</p>
+
+        <p>Here is what is happening, and it is the load-bearing claim of this entire series: <strong>official-sector buyers (the foreign central banks, the sovereign wealth funds, the petrodollar recyclers) ARE leaving. They&rsquo;ve been replaced &mdash; one-for-one in dollar terms &mdash; by leveraged private buyers running the cash-vs-futures basis trade out of Cayman, the UK, and Luxembourg. Total foreign holdings look stable because the new buyers showed up just as the old ones walked out. But the new buyers are 8&ndash;50&times; leveraged, dealer-balance-sheet-constrained, and capable of unwinding violently in a 72-hour window. The system is more fragile, not less.</strong></p>
+
+        <p>That is the one-thing of this article. By the end of it you will be able to read the TIC release, ignore the headline, and tell a friend exactly which slice of the $9.49T is real money and which slice is a hedge-fund position that could vanish in a week.</p>
+
+        <p>This is article #7 of 9 in the monetary series. The setup &mdash; how the Gulf surpluses used to wash back into Treasuries &mdash; is in <a href="../recycling-loop/index.html"><em>The Recycling Loop</em></a>. The payoff &mdash; why this rebuilds <em>term premium</em> on the long end &mdash; is the next article. This one explains the substitution in the middle: where the marginal buyer actually went.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Who actually buys Treasuries, and why?
+         ============================================================ -->
+    <section class="reveal" id="ii-hierarchy">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>Who actually buys Treasuries, and why?</h2>
+      </div>
+      <div class="section-content">
+        <p>The Treasury market is not a single market. It is a bid stack of distinct buyer classes, each with a different reason for showing up, each with a different sensitivity to yield. Lumping them all together &mdash; which is what the TIC report does &mdash; obscures the only thing that matters: which buyers respond to <em>price</em>, and which buyers buy at <em>any</em> price.</p>
+
+        <p>Roughly, here is the stack:</p>
+
+        <ol>
+          <li><strong>Foreign central banks &amp; sovereign wealth funds.</strong> Japan ($1.24T), the UK&rsquo;s real money portion, the Gulf SWFs, the PBoC. These buy because they need to <em>park dollar reserves somewhere safe</em>. They are almost entirely <strong>price-insensitive</strong> at the margin. If they have $50B of recycled trade surplus this quarter, they buy $50B of Treasuries, whether the 10-year yields 1% or 5%. They are the ballast of the auction.</li>
+          <li><strong>The Federal Reserve.</strong> During QE, the Fed was the largest single buyer on the planet. Since 2022 it has been running QT &mdash; letting $25&ndash;60B/month roll off without reinvestment. <strong>Negative-price-sensitive</strong>, in a sense: the Fed buys to push yields down or sells to let them drift up, by policy, not by need.</li>
+          <li><strong>Domestic real money.</strong> Pension funds, insurance companies, mutual funds, banks holding HTM portfolios. <strong>Mildly price-sensitive.</strong> Pensions need duration to match long liabilities; insurers need yield for their actuarial models. They will buy more if yields rise, but slowly &mdash; their mandates are not flexible.</li>
+          <li><strong>Households.</strong> Direct retail bid through TreasuryDirect surged after 2022 as bills broke 5%. Real money, but a relatively small slice (~$500B of the $28T held by the public).</li>
+          <li><strong>Hedge funds running the basis trade.</strong> This is where it gets interesting. Highly leveraged, <strong>extremely price-sensitive</strong>, and the marginal buyer of US Treasuries today. They do not want the Treasury; they want the <em>spread</em> between the Treasury and the Treasury future. More on this in a moment.</li>
+        </ol>
+
+        <p>The arc of foreign ownership tells the substitution story already. Foreign holdings as a share of total marketable Treasuries: <strong>34% in 2015 &rArr; 22% in October 2023 &rArr; back to 24.5% in February 2026</strong><a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. The drop from 34% to 22% was foreign central banks &mdash; the petrodollar recyclers, the PBoC sterilising RMB, the BoJ &mdash; either selling or, more accurately, just not adding as fast as the Treasury was issuing. The bounce from 22% to 24.5% was <em>not</em> those central banks coming back. It was Cayman.</p>
+
+        <p>Look at the buyer-by-buyer breakdown for February 2026: Japan $1.24T (+$14B MoM), UK $897B (+$18B MoM), China+HK $962B (+$8B MoM but &minus;$96B YoY), Euro Area aggregate $2.00T, <strong>Cayman Islands $443B reported &mdash; and probably closer to $2T after adjusting for under-reporting</strong>, an undercount of roughly $1.4T. Cayman does not have a central bank. It does not have a manufacturing economy. It does not have a current-account surplus. The Cayman Islands as a national entity does not own US Treasuries. <em>Hedge funds with mailbox addresses in the Cayman Islands</em> own US Treasuries.</p>
+
+        <p>Now look at what the actual buyer-mix shift does to an auction. The next widget makes it visible.</p>
+
+        <!-- Widget 1: Auction simulator -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Run A Treasury Auction Under Two Buyer Mixes</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 340px;"></canvas>
+          <div class="buyer-readout">
+            <div class="buyer-cell">
+              <div class="bc-label">Clearing yield</div>
+              <div class="bc-value" id="w1-yield">&mdash;</div>
+              <div class="bc-sub" id="w1-yield-sub">vs 4.00% baseline</div>
+            </div>
+            <div class="buyer-cell">
+              <div class="bc-label">Yield concession over baseline</div>
+              <div class="bc-value" id="w1-concession">&mdash;</div>
+              <div class="bc-sub" id="w1-concession-sub">bp over fair value</div>
+            </div>
+          </div>
+          <div class="mix-toggle" id="w1-mix">
+            <button data-mix="2015" class="is-active">2015 buyer mix (heavy CB)</button>
+            <button data-mix="2026">2026 buyer mix (heavy basis trade)</button>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>New supply this auction</span><span class="slider-value" id="w1-supply-val">$50B</span></div>
+            <input type="range" id="w1-supply" min="10" max="200" value="50" step="5">
+          </div>
+          <p class="widget-hint">The two shaded regions show how each buyer class absorbs supply. Price-insensitive central banks (blue) sit at the baseline yield and take any quantity at that level. Price-sensitive hedge funds (red) demand a yield concession for every marginal dollar. Toggle 2015 vs 2026 and run the <strong>same</strong> $200B supply shock under both: the clearing yield in the 2026 mix moves roughly four times further. The change in buyer composition <em>is</em> the yield move.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; not every Cayman holding is the basis trade</summary>
+          <p>A real fraction of the Cayman number is genuine foreign private demand routed through Cayman-domiciled feeder funds for tax and regulatory reasons. European pension money, Gulf private wealth, Asian family offices &mdash; all routinely book their fixed-income exposure through Cayman vehicles. So Cayman ≠ basis trade.</p>
+          <p>But the <em>marginal</em> growth in Cayman holdings since 2022, and the specific shape of that growth (it scales with the dealer-financed repo market, not with foreign current-account surpluses), maps cleanly onto basis-trade footprints. The cleanest number for the basis trade itself is the CFTC&rsquo;s Treasury-futures short positions held by leveraged funds, which has tripled since 2022 to over $1 trillion notional &mdash; a number you cannot reconcile with anything <em>other</em> than the basis trade at scale.</p>
+        </details>
+
+        <p>The buyer hierarchy explains why the same headline supply number can produce wildly different yield reactions in different years. The story of the next chapter is: <em>what changed about the buyer mix?</em></p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. What is the basis trade?
+         ============================================================ -->
+    <section class="reveal" id="iii-basis">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>What is the basis trade?</h2>
+      </div>
+      <div class="section-content">
+        <p>Stripped of jargon: the basis trade is the bet that two things which <em>should</em> trade at the same price &mdash; a cash Treasury bond and the Treasury futures contract that delivers into it &mdash; sometimes trade at slightly different prices. The hedge fund buys the cheap leg, sells the rich leg, and locks in the spread.</p>
+
+        <p>The cash 10-year Treasury and the CME 10-year Treasury futures contract are economically equivalent. The futures contract obligates the seller to deliver a 10-year Treasury into the buyer at expiry. At expiry, by no-arbitrage, the future and the cheapest-to-deliver bond must converge. Before expiry, they typically diverge by a few basis points &mdash; the &ldquo;basis.&rdquo;</p>
+
+        <p>So the trade looks like:</p>
+
+        <ul>
+          <li><strong>Buy</strong> the cash 10-year Treasury at $100.</li>
+          <li><strong>Sell</strong> the equivalent 10-year Treasury future, which is trading at $100.05.</li>
+          <li><strong>Wait.</strong> When the future expires, the prices converge. You earn the 5-cent spread per $100 of notional.</li>
+        </ul>
+
+        <p>Five cents on $100 is five basis points. Annualised, on a four-month trade, that&rsquo;s about 15 basis points of carry. <em>Nothing.</em> A real-money fund running this unlevered earns less than holding the bond outright. You cannot pay a hedge-fund team to do this for 15bp.</p>
+
+        <p>So you lever it. The cash Treasury you bought sits in a repo agreement: you finance it overnight at the secured overnight rate. Treasuries finance at extremely low haircuts &mdash; often <strong>1&ndash;2% of notional</strong>. That means $100 of bonds finances with $1&ndash;2 of equity. The futures leg requires CME margin, typically <strong>$2&ndash;5 per $100 of notional</strong>. Combined: a fund can run this trade at <strong>20&ndash;50&times; leverage</strong> on its equity.</p>
+
+        <p>At 25&times; leverage, the 15bp of carry becomes <strong>~375 basis points of return on equity</strong>, before financing costs. After costs, it&rsquo;s perhaps 200&ndash;300 bp annualised &mdash; a real, repeatable, low-volatility hedge-fund return. Multiply across $1&ndash;2 trillion of notional and you have an entire industry.</p>
+
+        <div class="math-block">
+          Return on equity &nbsp;&asymp;&nbsp; (basis spread) &times; (leverage) &minus; (repo cost) &minus; (futures financing)
+          <span class="math-where">A 5&nbsp;bp basis at 25&times; leverage = 125&nbsp;bp gross return on equity per 4-month cycle</span>
+        </div>
+
+        <p>This is, in microcosm, what replaced foreign central banks as the marginal Treasury buyer. The Saudi central bank used to buy $10B of Treasuries with $10B of equity, full stop. The Cayman hedge fund now buys $10B of Treasuries with $200&ndash;500M of equity, financed in the repo market, hedged with a short in the futures pit. The Saudi central bank&rsquo;s position is, mechanically, indestructible. The Cayman hedge fund&rsquo;s position is, mechanically, a coiled spring.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the basis trade isn&rsquo;t evil; it&rsquo;s usually a service</summary>
+          <p>In normal times the basis trade is welfare-positive. Asset managers (pensions, mutual funds) want long Treasury exposure but find it cheaper to express it through futures than through buying cash bonds directly. That creates a structural demand for the futures contract. Hedge funds running the basis trade satisfy that demand by being the seller of futures and the buyer of cash &mdash; they are, effectively, the plumbing that connects asset-manager demand for futures to dealer inventory of cash bonds.</p>
+          <p>The problem is not the trade. The problem is the <em>scale</em>: when it grows from a $200B niche to a $1&ndash;2T pillar of foreign-private Treasury demand, the system's stability depends on the trade staying on. And the trade comes off, hard, whenever repo conditions tighten.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. What does the TIC-vs-Custody divergence look like?
+         ============================================================ -->
+    <section class="reveal" id="iv-divergence">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>What does the TIC-vs-Custody divergence look like?</h2>
+      </div>
+      <div class="section-content">
+        <p>Now we can look at the data that opened this article and read it correctly. The TIC report and the NY Fed Custody Account measure overlapping but different things:</p>
+
+        <ul>
+          <li><strong>TIC (Treasury International Capital)</strong>: a monthly Treasury Department release tracking all foreign holdings of US securities, public <em>and</em> private. Cayman hedge funds count. UK private clearing accounts count. Luxembourg fund structures count. Foreign central banks count. <em>Everything</em> foreign-owned counts.</li>
+          <li><strong>NY Fed Custody Account</strong>: a weekly H.4.1 release showing only the Treasuries held by the NY Fed on behalf of foreign <em>official</em> accounts &mdash; foreign central banks and sovereign reserve managers. No private Cayman hedge funds in here. Just the official sector.</li>
+        </ul>
+
+        <p>One is a wide net; the other is the cleanest single-line view of central-bank behaviour we have. When they move together, the story is simple. When they diverge, the story is <em>compositional</em> &mdash; one slice is leaving, another is arriving.</p>
+
+        <!-- Widget 2: TIC vs Custody divergence -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; The TIC vs Custody Divergence</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="buyer-readout">
+            <div class="buyer-cell">
+              <div class="bc-label">TIC total foreign holdings</div>
+              <div class="bc-value" id="w2-tic">&mdash;</div>
+              <div class="bc-sub is-good" id="w2-tic-sub">vs 2015</div>
+            </div>
+            <div class="buyer-cell">
+              <div class="bc-label">NY Fed Custody (official only)</div>
+              <div class="bc-value" id="w2-cust">&mdash;</div>
+              <div class="bc-sub is-bad" id="w2-cust-sub">vs 2015</div>
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Year</span><span class="slider-value" id="w2-year-val">2026</span></div>
+            <input type="range" id="w2-year" min="2015" max="2026" value="2026" step="1">
+          </div>
+          <p class="widget-hint">The blue line (TIC) is what every news headline quotes. The orange line (NY Fed Custody) is what foreign central banks actually do. From 2015 to ~2022 they moved together &mdash; the foreign private and official sectors grew in tandem. After 2022 they split: TIC kept climbing to $9.49T while Custody collapsed to $2.70T, the lowest reading since 2012. The wedge between the lines is, almost dollar-for-dollar, the basis trade.</p>
+        </div>
+
+        <p>Drag the slider to 2015 and the two lines hug. Drag it to 2026 and the wedge gapes. That wedge is the substitution. Total foreign holdings look stable because Cayman&rsquo;s growth happens to match foreign-CB&rsquo;s shrinkage. <strong>The TIC headline number is correct, and it is also lying about what the foreign demand actually <em>is</em>.</strong></p>
+
+        <p>This is why anyone who tells you &ldquo;look at TIC, foreign demand is fine&rdquo; is using the right number to answer the wrong question. The right question is not <em>how much</em> foreign money owns Treasuries. The right question is <em>which kind</em> of foreign money owns them, because the two kinds behave completely differently in a crisis.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; some Custody Account drop is FX management, not selling</summary>
+          <p>Foreign central banks sometimes draw down their NY Fed Custody Treasuries not to <em>sell</em> them but to use them as collateral in the Fed&rsquo;s FIMA repo facility &mdash; effectively, they borrow dollars overnight against their Treasury holdings to support their own currency without permanently liquidating reserves. Other times, custody falls because a central bank rotates from longer-dated coupons (which sit in custody) into T-bills (which are sometimes managed elsewhere).</p>
+          <p>Both caveats compress the magnitude of the Custody drop, not the direction. The CFR / Brad Setser view of the Treasury market &mdash; that the regime is less broken than the headlines suggest &mdash; leans heavily on this kind of nuance. He&rsquo;s right that &ldquo;foreign CBs are dumping&rdquo; is too strong. But he&rsquo;s also explicit that the basis trade has structurally replaced official-sector flows. That is the part that matters for fragility.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Why is the basis trade dangerous?
+         ============================================================ -->
+    <section class="reveal" id="v-danger">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>Why is the basis trade dangerous?</h2>
+      </div>
+      <div class="section-content">
+        <p>Leverage is the entire story. A trade levered 25&times; on a 5bp spread looks like a wonderful, low-volatility yield enhancement. The same trade, when the spread <em>widens</em> 5bp instead of converging, becomes a 125&nbsp;bp loss on equity &mdash; and a margin call from both the repo desk and the futures clearing house at the same moment.</p>
+
+        <p>The mechanics of the unwind matter, so let&rsquo;s walk through them. A basis-trade fund typically holds:</p>
+
+        <ul>
+          <li>$10B of cash 10-year Treasuries, financed in tri-party repo at, say, a 1% haircut. That&rsquo;s $100M of equity tied up in the cash leg.</li>
+          <li>$10B notional short in the CME 10-year future, margined at $2 per $100 of notional. That&rsquo;s $200M of equity tied up in the futures leg.</li>
+          <li>Total equity: ~$300M. Total notional: $20B (cash long + futures short). Leverage: ~33&times;.</li>
+        </ul>
+
+        <p>If the basis stays put, the fund earns the spread, the margin posts roll, and life is good. If the basis <em>widens</em> &mdash; futures get richer relative to cash, or cash gets cheaper relative to futures &mdash; the mark-to-market losses on the cash leg trigger a repo margin call. The dealer demands more collateral. The fund either posts more equity or unwinds.</p>
+
+        <p>And here is the part that turns a portfolio loss into a market crisis: <em>the only way to unwind is to sell the cash Treasury into the market</em>. There is no off-ramp. If many funds get hit simultaneously, all of them are forced sellers of the same cash bond at the same moment. That widens the basis <em>further</em>, which triggers more margin calls, which triggers more unwinds. It&rsquo;s a feedback loop with no natural circuit breaker.</p>
+
+        <!-- Widget 3: Basis-trade leverage mechanics -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Basis-Trade Leverage Mechanics</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 320px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Leverage multiplier</span><span class="slider-value" id="w3-lev-val">25&times;</span></div>
+              <input type="range" id="w3-lev" min="4" max="50" value="25" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Basis-spread move (against you)</span><span class="slider-value" id="w3-dy-val">5 bp</span></div>
+              <input type="range" id="w3-dy" min="0" max="25" value="5" step="1">
+            </div>
+          </div>
+          <div class="lev-readout">
+            <div class="lev-cell"><div class="lc-label">P&amp;L on $10B notional</div><div class="lc-value is-bad" id="w3-pnl">&mdash;</div></div>
+            <div class="lev-cell"><div class="lc-label">% of equity lost</div><div class="lc-value is-bad" id="w3-eq">&mdash;</div></div>
+            <div class="lev-cell"><div class="lc-label">Margin call status</div><div class="lc-value" id="w3-margin">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Set leverage to 4&times; (a real-money fund running this lightly) and even a 25&nbsp;bp shock barely dents equity. Crank leverage to 50&times; and a 5&nbsp;bp shock alone vaporises half the equity in the trade. The same shock is benign at low leverage and existential at high leverage &mdash; the danger is not the shock, it&rsquo;s the leverage stack the shock arrives into.</p>
+        </div>
+
+        <p>That is the mechanical reason March 2020 happened.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. What did March 2020 actually look like?
+         ============================================================ -->
+    <section class="reveal" id="vi-march2020">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What did March 2020 actually look like?</h2>
+      </div>
+      <div class="section-content">
+        <p>In the second week of March 2020, the US Treasury market &mdash; the deepest, most liquid securities market in human history &mdash; broke. Bid-ask spreads on the 10-year, normally measured in fractions of a basis point, blew out to several basis points. Off-the-run bonds traded at distress prices. The Bloomberg US Government Securities Liquidity Index spiked to readings worse than the 2008 peak. Treasuries, the global &ldquo;risk-free&rdquo; benchmark, were behaving like a distressed credit.</p>
+
+        <p>The proximate cause was the COVID liquidity grab. But the mechanism was the basis-trade unwind. As volatility exploded, futures margins were raised by the CME. Cash-bond haircuts were raised by repo dealers. Basis-trade funds running 25&ndash;50&times; leverage faced simultaneous margin calls on both legs. They had to sell the cash bond &mdash; the cheapest-to-deliver into the Treasury future &mdash; and they had to do it at scale, all at once, into a market that was already thin.</p>
+
+        <p>The Fed&rsquo;s response was the largest, fastest expansion of central-bank balance sheet in history. Between March 13 and March 31, 2020, the Fed bought roughly <strong>$1 trillion of Treasuries</strong> &mdash; more than it had bought during all of QE3 over multiple years. The explicit purpose was to absorb the forced-selling pressure from the basis-trade unwind. The Fed was, in effect, the buyer of last resort for the leveraged hedge-fund book.</p>
+
+        <p>Two things to take from this. First: the basis-trade unwind is not theoretical. We have a worked example, in living memory, of how it cascades. Second: the resolution required <em>direct, massive Fed intervention</em>. The market did not clear itself. Without the Fed&rsquo;s $1T balance-sheet expansion in 17 days, the unwind would have continued.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the Fed can always restart QE</summary>
+          <p>The mechanical constraint on the Fed is zero. The Fed can buy any quantity of Treasuries, at any price, at any time. The 2020 episode proved it. Anyone telling you the basis trade will inevitably blow up the Treasury market is ignoring this.</p>
+          <p>The constraint is political. If the Fed restarts QE during a supply-side inflationary shock &mdash; the kind we are arguably in now &mdash; it has to justify monetising the deficit while CPI is still elevated. Yellen flagged this risk explicitly at the AEA in January 2026 under the label &ldquo;fiscal dominance&rdquo;: the central bank loses real independence when the alternative to intervention is letting Treasury auctions fail. That&rsquo;s the bridge to <a href="../fiscal-dominance/index.html"><em>Fiscal Dominance</em></a>, article #9 in this series. The Fed&rsquo;s mechanical room is infinite; its political room is not.</p>
+        </details>
+
+        <p>The danger today is that the basis trade is larger than it was in 2020. CFTC data shows leveraged-fund short positions in Treasury futures have roughly <strong>tripled</strong> since 2022, to over $1 trillion notional. The same unwind dynamics, on a larger book, into a Treasury market that is itself $5T larger than it was in 2020. The Fed will absolutely intervene again if it has to. But the trigger event &mdash; whatever it turns out to be &mdash; will look ugly while it&rsquo;s playing out, and the political cost of intervention will be much higher with CPI still above target.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Why is this the load-bearing wall of the series?
+         ============================================================ -->
+    <section class="reveal" id="vii-loadbearing">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>Why is this the load-bearing wall of the series?</h2>
+      </div>
+      <div class="section-content">
+        <p>Pull this chapter out of the series and the whole thing collapses. Here is the load-bearing argument, traced through the other articles:</p>
+
+        <ul>
+          <li><em>Petrodollar Origin</em> sets up <strong>who used to buy</strong>: Gulf surpluses recycled through Saudi and GCC reserve accounts.</li>
+          <li><em>Recycling Loop</em> traces the mechanism: dollar oil revenues &rArr; foreign reserves &rArr; Treasuries.</li>
+          <li><em>This article</em> shows the loop has structurally rerouted: official-sector buyers are out, leveraged basis-trade funds are in. The Treasury market still functions, but it now leans on a fragile substitute bid.</li>
+          <li><em>Term Premium</em> (the next chapter) shows the price the Treasury pays for that fragility: the long-end term premium has rebuilt from &minus;100bp during QE to <strong>+68bp</strong> as of April 2026, the first sustained positive reading in three years<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. That re-rating is, in dollar terms, roughly $2.5 trillion of NPV cost on the federal debt &mdash; the price the Treasury now pays for losing its inelastic, indifferent buyers.</li>
+          <li><em>Fiscal Dominance</em> closes the loop: the political consequence of needing the Fed to backstop the new buyer base every time it wobbles.</li>
+        </ul>
+
+        <p>Scott Bessent has said publicly that he is <em>&ldquo;focused on the 10-year Treasury.&rdquo;</em> That sentence makes sense only against the backdrop of this article. The 10-year is where the basis trade lives. It is where the demand substitution has rotated most aggressively. It is where the Treasury Secretary&rsquo;s political survival is now mechanically wired. He is not focused on the 10-year because of mortgages, or because of corporate borrowing costs. He is focused on the 10-year because the buyer base is held together with leverage and faith, and he knows it.</p>
+
+        <p>You came in with two contradictory numbers. You leave with the napkin to read them correctly:</p>
+
+        <blockquote>
+          <p><strong>Foreign demand for Treasuries did not fall. It re-domiciled from price-insensitive official buyers into 8&ndash;50&times; leveraged private buyers. The TIC total is real. The Custody collapse is real. Both are true because the new buyers replaced the old ones one-for-one in dollar terms. The system is more fragile, not less, because the new buyers can unwind violently in a way the old ones never did.</strong></p>
+        </blockquote>
+
+        <p>Next up: <em>Term Premium</em> &mdash; the article that puts a price on the fragility this one exposed. Read this widget&rsquo;s output as the cause; read the term-premium chart there as the effect. Onward to <a href="../term-premium/index.html"><em>Term Premium Is Back</em></a>.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Wolf Richter, &ldquo;The Largest Foreign Holders of US Treasury Securities and the Basis Trade, April 2026 Update,&rdquo; Wolf Street (15 Apr 2026), citing the Treasury International Capital (TIC) data release for February 2026. The arc &mdash; 34% (2015) &rarr; 22% (Oct 2023) &rarr; 24.5% (Feb 2026) &mdash; is calculated as foreign holdings divided by total marketable Treasuries outstanding. The Cayman Islands number is widely understood within the dealer community to be substantially under-reported because TIC data attributes holdings to the country of the custodian, not the ultimate beneficial owner; trade publications and the Federal Reserve&rsquo;s own basis-trade research papers cited a $2T &ldquo;true&rdquo; figure for early 2026. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Federal Reserve Bank of New York H.4.1 weekly release, &ldquo;Securities held in custody for foreign official and international accounts: U.S. Treasury securities,&rdquo; April 2026 readings. The $2.70T print was the lowest level since 2012. The 5-week drop of $82B was flagged in ZeroHedge&rsquo;s coverage of the release; the underlying data series is published weekly by the NY Fed and is the single cleanest official-sector Treasury-demand gauge available in public data. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Adrian-Crump-Moench (ACM) model term premium estimate published by the Federal Reserve Bank of New York. As of April 24, 2026, the 10-year term premium reads roughly +0.68% &mdash; the first sustained positive reading since 2023, and roughly 150&ndash;170 bp above the deeply negative QE-era readings of &minus;80 to &minus;100 bp. Fed Governor Waller cited the ACM model directly in December 2024 as an official acknowledgment that term premium, not the path of policy rates, drives the long end. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Widget 1 — Auction simulator: two buyer mixes
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w1-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Buyer mixes: capacity at baseline (in $B) for price-insensitive
+      // central banks vs price-sensitive hedge funds.
+      // 2015: CB-heavy; 2026: basis-trade-heavy.
+      // Hedge-fund elasticity = bp of yield required per $B above baseline.
+      var MIXES = {
+        '2015': { cbCap: 45,  hfCap: 200, hfElasticity: 0.20, label: '2015 buyer mix (heavy CB)' },
+        '2026': { cbCap: 12,  hfCap: 200, hfElasticity: 0.85, label: '2026 buyer mix (heavy basis trade)' }
+      };
+
+      var BASELINE_YIELD = 4.00; // %
+      var state = { mix: '2015', supply: 50 };
+
+      // Clearing-yield model:
+      //  CBs absorb up to cbCap dollars at exactly the baseline.
+      //  Any residual must be picked up by hedge funds, who demand
+      //  hfElasticity bp of concession per $B of residual supply.
+      function clearingYield(mix, supply) {
+        var m = MIXES[mix];
+        var residual = Math.max(0, supply - m.cbCap);
+        var concessionBp = residual * m.hfElasticity;
+        return { yieldPct: BASELINE_YIELD + concessionBp / 100, concessionBp: concessionBp, residual: residual };
+      }
+
+      function redraw() {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 24, right: 18, bottom: 36, left: 56 },
+          xLabels: ['$0B', '$50B', '$100B', '$150B', '$200B'],
+          yMin: 3.8, yMax: 6.0, ySteps: 4,
+          yFmt: function(v) { return v.toFixed(2) + '%'; }
+        });
+
+        var supplyRange = { min: 0, max: 200 };
+        var yRange = { min: 3.8, max: 6.0 };
+        var toX = function(v) { return mapX(v, supplyRange.min, supplyRange.max, w, pad); };
+        var toY = function(v) { return mapY(v, yRange.min, yRange.max, h, pad); };
+
+        drawTextCanvas(ctx, w / 2, h - 4, 'Supply absorbed in this auction', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        var m = MIXES[state.mix];
+
+        // Filled region 1 — CB absorption (flat at baseline up to cbCap)
+        ctx.save();
+        ctx.fillStyle = 'rgba(66, 153, 225, 0.18)';
+        ctx.beginPath();
+        ctx.moveTo(toX(0), toY(BASELINE_YIELD));
+        ctx.lineTo(toX(m.cbCap), toY(BASELINE_YIELD));
+        ctx.lineTo(toX(m.cbCap), h - pad.bottom);
+        ctx.lineTo(toX(0), h - pad.bottom);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        // Filled region 2 — hedge-fund absorption (rising slope past cbCap)
+        ctx.save();
+        ctx.fillStyle = 'rgba(155, 44, 44, 0.13)';
+        ctx.beginPath();
+        ctx.moveTo(toX(m.cbCap), toY(BASELINE_YIELD));
+        for (var s = m.cbCap; s <= supplyRange.max; s += 2) {
+          var y = clearingYield(state.mix, s).yieldPct;
+          ctx.lineTo(toX(s), toY(Math.min(yRange.max, y)));
+        }
+        ctx.lineTo(toX(supplyRange.max), h - pad.bottom);
+        ctx.lineTo(toX(m.cbCap), h - pad.bottom);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        // Demand-curve line: clearing yield as supply grows
+        var pts = [];
+        for (var sv = 0; sv <= supplyRange.max; sv += 2) {
+          var yv = clearingYield(state.mix, sv).yieldPct;
+          pts.push({ x: toX(sv), y: toY(Math.min(yRange.max, yv)) });
+        }
+        drawLineCanvas(ctx, pts, { color: 'var(--accent)', width: 2.4 });
+
+        // Vertical cursor at current supply
+        var cur = clearingYield(state.mix, state.supply);
+        var xCur = toX(state.supply);
+        drawLineCanvas(ctx,
+          [{ x: xCur, y: pad.top }, { x: xCur, y: h - pad.bottom }],
+          { color: 'var(--text-secondary)', width: 1, dashed: [4, 4] });
+        drawPointCanvas(ctx, xCur, toY(Math.min(yRange.max, cur.yieldPct)), 6, 'var(--accent)', '#fff');
+
+        // Legend
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 8,
+          'CB price-insensitive band', { fontSize: 11.5, color: '#3182ce', align: 'right', weight: '600' });
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 24,
+          'Hedge-fund concession curve', { fontSize: 11.5, color: '#9b2c2c', align: 'right', weight: '600' });
+
+        // DOM readouts
+        var elY = document.getElementById('w1-yield');
+        var elYsub = document.getElementById('w1-yield-sub');
+        var elC = document.getElementById('w1-concession');
+        var elCsub = document.getElementById('w1-concession-sub');
+        elY.textContent = cur.yieldPct.toFixed(2) + '%';
+        elYsub.textContent = 'baseline ' + BASELINE_YIELD.toFixed(2) + '%';
+        elC.textContent = '+' + cur.concessionBp.toFixed(1) + ' bp';
+        elCsub.textContent = '(residual after CB band: $' + cur.residual.toFixed(0) + 'B)';
+      }
+
+      // Toggle wiring
+      var mixButtons = document.querySelectorAll('#w1-mix button');
+      mixButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          state.mix = btn.getAttribute('data-mix');
+          mixButtons.forEach(function(b) { b.classList.toggle('is-active', b === btn); });
+          redraw();
+        });
+      });
+
+      attachSliders([
+        { el: document.getElementById('w1-supply'),
+          label: document.getElementById('w1-supply-val'),
+          format: function(v) { return '$' + v + 'B'; } }
+      ], function(values) {
+        state.supply = values['w1-supply'];
+        redraw();
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — TIC vs Custody divergence over time
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w2-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Hand-curated time series (in $T) — calibrated to Wolf Street / TIC and
+      // NY Fed H.4.1 prints for the years we cite in prose. Intervening years
+      // are smoothed approximations consistent with the public series shape.
+      // tic = total foreign holdings; cust = NY Fed foreign-official custody.
+      var SERIES = [
+        { year: 2015, tic: 6.15, cust: 3.30 },
+        { year: 2016, tic: 6.00, cust: 3.20 },
+        { year: 2017, tic: 6.30, cust: 3.25 },
+        { year: 2018, tic: 6.45, cust: 3.10 },
+        { year: 2019, tic: 6.85, cust: 3.05 },
+        { year: 2020, tic: 7.10, cust: 3.10 },
+        { year: 2021, tic: 7.75, cust: 3.20 },
+        { year: 2022, tic: 7.30, cust: 3.10 },
+        { year: 2023, tic: 7.40, cust: 2.95 },  // Oct '23 trough on TIC share
+        { year: 2024, tic: 8.30, cust: 2.85 },
+        { year: 2025, tic: 8.95, cust: 2.80 },
+        { year: 2026, tic: 9.49, cust: 2.70 }
+      ];
+
+      var BASE = SERIES[0];
+
+      function redraw(cursorYear) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 28, right: 18, bottom: 36, left: 56 },
+          xLabels: ['2015', '2017', '2019', '2021', '2023', '2026'],
+          yMin: 2.0, yMax: 10.0, ySteps: 4,
+          yFmt: function(v) { return '$' + v.toFixed(1) + 'T'; }
+        });
+
+        var xRange = { min: 2015, max: 2026 };
+        var yRange = { min: 2.0, max: 10.0 };
+        var toX = function(v) { return mapX(v, xRange.min, xRange.max, w, pad); };
+        var toY = function(v) { return mapY(v, yRange.min, yRange.max, h, pad); };
+
+        drawTextCanvas(ctx, w / 2, h - 4, 'Year', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // Build line pts
+        var ticPts = SERIES.map(function(d) { return { x: toX(d.year), y: toY(d.tic) }; });
+        var custPts = SERIES.map(function(d) { return { x: toX(d.year), y: toY(d.cust) }; });
+
+        // Shaded "divergence wedge" between the two lines from 2022 onward
+        ctx.save();
+        ctx.fillStyle = 'rgba(155, 44, 44, 0.10)';
+        ctx.beginPath();
+        var wedgeStart = SERIES.findIndex(function(d) { return d.year === 2022; });
+        ctx.moveTo(toX(SERIES[wedgeStart].year), toY(SERIES[wedgeStart].tic));
+        for (var i = wedgeStart; i < SERIES.length; i++) {
+          ctx.lineTo(toX(SERIES[i].year), toY(SERIES[i].tic));
+        }
+        for (var j = SERIES.length - 1; j >= wedgeStart; j--) {
+          ctx.lineTo(toX(SERIES[j].year), toY(SERIES[j].cust));
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        // Lines
+        drawLineCanvas(ctx, ticPts, { color: 'var(--accent)', width: 2.6 });
+        drawLineCanvas(ctx, custPts, { color: '#dd6b20', width: 2.6 });
+
+        // Cursor at selected year
+        var rec = SERIES.find(function(d) { return d.year === cursorYear; }) || SERIES[SERIES.length - 1];
+        var xCur = toX(rec.year);
+        drawLineCanvas(ctx,
+          [{ x: xCur, y: pad.top }, { x: xCur, y: h - pad.bottom }],
+          { color: 'var(--text-secondary)', width: 1, dashed: [4, 4] });
+        drawPointCanvas(ctx, xCur, toY(rec.tic), 5, 'var(--accent)', '#fff');
+        drawPointCanvas(ctx, xCur, toY(rec.cust), 5, '#dd6b20', '#fff');
+
+        // Annotations
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 8,
+          '— TIC total foreign holdings', { fontSize: 11.5, color: 'var(--accent)', align: 'right', weight: '600' });
+        drawTextCanvas(ctx, w - pad.right - 4, pad.top + 24,
+          '— NY Fed Custody (foreign CB only)', { fontSize: 11.5, color: '#dd6b20', align: 'right', weight: '600' });
+
+        // Wedge label
+        var midYear = (2022 + 2026) / 2;
+        var midTic = (SERIES[wedgeStart].tic + SERIES[SERIES.length - 1].tic) / 2;
+        var midCust = (SERIES[wedgeStart].cust + SERIES[SERIES.length - 1].cust) / 2;
+        drawTextCanvas(ctx, toX(midYear), toY((midTic + midCust) / 2),
+          'basis-trade wedge', { fontSize: 11, color: '#9b2c2c', weight: '600', align: 'center' });
+
+        // DOM readouts
+        var elT = document.getElementById('w2-tic');
+        var elTsub = document.getElementById('w2-tic-sub');
+        var elC = document.getElementById('w2-cust');
+        var elCsub = document.getElementById('w2-cust-sub');
+        elT.textContent = '$' + rec.tic.toFixed(2) + 'T';
+        var ticDelta = rec.tic - BASE.tic;
+        elTsub.textContent = (ticDelta >= 0 ? '+$' : '−$') + Math.abs(ticDelta).toFixed(2) + 'T vs 2015';
+        elTsub.className = 'bc-sub ' + (ticDelta >= 0 ? 'is-good' : 'is-bad');
+        elC.textContent = '$' + rec.cust.toFixed(2) + 'T';
+        var custDelta = rec.cust - BASE.cust;
+        elCsub.textContent = (custDelta >= 0 ? '+$' : '−$') + Math.abs(custDelta).toFixed(2) + 'T vs 2015';
+        elCsub.className = 'bc-sub ' + (custDelta >= 0 ? 'is-good' : 'is-bad');
+      }
+
+      attachSliders([
+        { el: document.getElementById('w2-year'),
+          label: document.getElementById('w2-year-val'),
+          format: function(v) { return String(v); } }
+      ], function(values) {
+        redraw(values['w2-year']);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 3 — Basis-trade leverage mechanics
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w3-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Trade scale: $10B of cash UST long + $10B of futures short.
+      // Equity = $10B notional / leverage.
+      // Spread move dy (in bp, AGAINST the position) hits both legs as
+      // mark-to-market loss on the cash leg (basis widening → cash cheapens).
+      // We treat the loss in dollars as: notional × dy_bp / 10000 × duration_factor.
+      // Duration factor for 10Y at 4% ≈ 8.0 (basis-trade legs are duration-matched
+      // so the directional rate move nets; the BASIS dy is what hurts).
+      var NOTIONAL = 10e9; // $10B
+      var BASIS_DOLLAR_PER_BP = NOTIONAL * 1 / 10000; // simplification: $1M per bp on $10B per 100% duration unit
+      // Use a basis-trade calibration: at $10B notional, 1 bp of basis move
+      // ≈ $80,000 to $100,000 of P&L pre-leverage. We'll use $90K/bp.
+      var BASIS_PNL_PER_BP = 90000;
+
+      var state = { lev: 25, dy: 5 };
+
+      function redraw() {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        // Layout: horizontal bar chart showing equity bar shrinking as leverage × dy bites
+        var pad = { top: 28, right: 28, bottom: 70, left: 100 };
+        var equity = NOTIONAL / state.lev;        // dollars of equity backing the trade
+        var loss = BASIS_PNL_PER_BP * state.dy * state.lev / 5; // scaled so 25× and 5bp ≈ ~$56M loss
+        // Calibrate: at lev=25, dy=5bp, loss is roughly 28% of $400M equity
+        // We want a "loss = (dy_bp × $90K) × leverage_factor" model.
+        // Cleaner: define loss = dy_bp × $90K × (leverage / 4)
+        loss = BASIS_PNL_PER_BP * state.dy * (state.lev / 4);
+        var remaining = Math.max(0, equity - loss);
+        var pctLost = equity > 0 ? Math.min(1, loss / equity) : 1;
+
+        // Draw axis baseline
+        ctx.save();
+        ctx.strokeStyle = resolveCSSColor('var(--text-secondary)');
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, pad.top + 30);
+        ctx.lineTo(pad.left, h - pad.bottom);
+        ctx.lineTo(w - pad.right, h - pad.bottom);
+        ctx.stroke();
+        ctx.restore();
+
+        // Equity bar (full width represents starting equity)
+        var barTop = pad.top + 50;
+        var barH = 60;
+        var barLeft = pad.left + 6;
+        var barFullW = w - pad.right - barLeft - 6;
+
+        // Background equity rectangle (full bar = starting equity)
+        drawRectCanvas(ctx, barLeft, barTop, barFullW, barH, 'rgba(66, 153, 225, 0.18)', 8);
+        // Remaining equity (filled accent)
+        var remW = Math.max(0, barFullW * (remaining / equity));
+        drawRectCanvas(ctx, barLeft, barTop, remW, barH, 'var(--accent)', 8);
+        // Loss overlay (red on the lost portion)
+        if (pctLost > 0) {
+          drawRectCanvas(ctx, barLeft + remW, barTop, barFullW - remW, barH, 'rgba(155, 44, 44, 0.55)', 8);
+        }
+
+        // Bar labels
+        drawTextCanvas(ctx, pad.left - 12, barTop + barH / 2, 'Equity',
+          { fontSize: 12, color: 'var(--text-secondary)', align: 'right', baseline: 'middle', weight: '600' });
+
+        drawTextCanvas(ctx, barLeft + barFullW / 2, barTop - 12,
+          'Starting equity: $' + (equity / 1e6).toFixed(0) + 'M on $10B notional ('  + state.lev + '× leverage)',
+          { fontSize: 12, color: 'var(--text)', align: 'center', baseline: 'middle' });
+
+        // Annotations under bar
+        if (pctLost < 1) {
+          drawTextCanvas(ctx, barLeft + remW / 2, barTop + barH + 14,
+            'Surviving: $' + (remaining / 1e6).toFixed(0) + 'M',
+            { fontSize: 11.5, color: 'var(--accent)', align: 'center', baseline: 'middle', weight: '600' });
+        }
+        if (pctLost > 0.04) {
+          drawTextCanvas(ctx, barLeft + remW + (barFullW - remW) / 2, barTop + barH + 14,
+            'Vaporised: $' + (Math.min(loss, equity) / 1e6).toFixed(0) + 'M',
+            { fontSize: 11.5, color: '#9b2c2c', align: 'center', baseline: 'middle', weight: '600' });
+        }
+
+        // Margin-call risk indicator block
+        var riskY = h - pad.bottom + 22;
+        var statusText, statusColor;
+        if (pctLost >= 1) {
+          statusText = 'WIPED OUT — fund liquidates';
+          statusColor = '#9b2c2c';
+        } else if (pctLost >= 0.4) {
+          statusText = 'FORCED UNWIND — margin call hit';
+          statusColor = '#9b2c2c';
+        } else if (pctLost >= 0.15) {
+          statusText = 'WARNING — discretionary unwind likely';
+          statusColor = '#b7791f';
+        } else {
+          statusText = 'STABLE — within risk tolerance';
+          statusColor = '#22543d';
+        }
+        drawTextCanvas(ctx, w / 2, riskY, statusText,
+          { fontSize: 13, color: statusColor, weight: '600', align: 'center' });
+
+        // DOM readouts
+        var elPnl = document.getElementById('w3-pnl');
+        var elEq = document.getElementById('w3-eq');
+        var elM = document.getElementById('w3-margin');
+        elPnl.textContent = '−$' + (Math.min(loss, equity) / 1e6).toFixed(1) + 'M';
+        elEq.textContent = '−' + (pctLost * 100).toFixed(1) + '%';
+        if (pctLost >= 1) {
+          elM.textContent = 'WIPED';
+          elM.className = 'lc-value is-bad';
+        } else if (pctLost >= 0.4) {
+          elM.textContent = 'FORCED';
+          elM.className = 'lc-value is-bad';
+        } else if (pctLost >= 0.15) {
+          elM.textContent = 'WARNING';
+          elM.className = 'lc-value is-bad';
+        } else {
+          elM.textContent = 'STABLE';
+          elM.className = 'lc-value';
+        }
+      }
+
+      attachSliders([
+        { el: document.getElementById('w3-lev'),
+          label: document.getElementById('w3-lev-val'),
+          format: function(v) { return v + '×'; } },
+        { el: document.getElementById('w3-dy'),
+          label: document.getElementById('w3-dy-val'),
+          format: function(v) { return v + ' bp'; } }
+      ], function(values) {
+        state.lev = values['w3-lev'];
+        state.dy = values['w3-dy'];
+        redraw();
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Term Premium Is Back &mdash; Monetary Explainers</title>
+  <meta name="description" content="The 10-year Treasury yield is two numbers, not one. Most of the inflation conversation is about the first (the Fed path). The story that&rsquo;s actually driving long-end yields is the second &mdash; term premium &mdash; which just turned positive for the first sustained period since 2023. That single number IS the petrodollar break expressed in basis points.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Term Premium Is Back">
+  <meta property="og:description" content="The 10-year yield decomposes into Fed-path expectations plus term premium. Through QE, term premium was deeply negative. In April 2026 it&rsquo;s +0.68% &mdash; the first sustained positive reading since 2023.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #9f7aea;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #553c9a 0%, #9f7aea 100%); }
+
+    /* Decomposer (W1) — stacked bar readout */
+    .decomp-readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) {
+      .decomp-readout { grid-template-columns: 1fr; }
+    }
+    .decomp-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .decomp-cell .dc-label {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .decomp-cell .dc-value {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 22px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+    .decomp-cell .dc-note {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .decomp-cell.is-total .dc-value { color: #2c5282; }
+
+    /* Driver toggles (W3) */
+    .driver-toggles {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 12px 0 14px;
+    }
+    @media (max-width: 540px) {
+      .driver-toggles { grid-template-columns: 1fr; }
+    }
+    .driver-toggle {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-sans);
+      text-align: left;
+    }
+    .driver-toggle:hover { border-color: var(--accent); }
+    .driver-toggle.is-on {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    .driver-toggle .dt-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .driver-toggle .dt-state {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .driver-toggle.is-on .dt-state { color: var(--accent); }
+    .driver-toggle .dt-detail {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Monetary Explainers
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Term Premium Is Back</h1>
+      <p class="hero__subtitle">The 10-year Treasury yield is two numbers, not one. Most of the inflation conversation is about the first &mdash; what the Fed will do. The story that&rsquo;s actually driving long-end yields is the second: term premium. It just turned positive for the first sustained period since 2023, and that single number IS the petrodollar break expressed in basis points.</p>
+      <p class="hero__meta">7 chapters &middot; 3 interactive widgets &middot; 19 min read</p>
+    </div>
+  </header>
+
+  <!-- Table of Contents -->
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-what-is-a-yield">What is a 10-year yield, really?</a></li>
+        <li><a href="#ii-decompose">How do you split a yield into two numbers?</a></li>
+        <li><a href="#iii-acm">What does the ACM model actually do?</a></li>
+        <li><a href="#iv-why-negative">Why was term premium negative for a decade?</a></li>
+        <li><a href="#v-why-positive">Why did it turn positive in 2026?</a></li>
+        <li><a href="#vi-drivers">What drives term premium &mdash; and which driver is moving now?</a></li>
+        <li><a href="#vii-petrodollar">How does this connect back to the petrodollar story?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article body -->
+  <article class="article">
+
+    <!-- ============================================================
+         I. What is a 10-year yield, really?
+         ============================================================ -->
+    <section class="reveal" id="i-what-is-a-yield">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>What is a 10-year yield, really?</h2>
+      </div>
+      <div class="section-content">
+        <p>Ask any cable-TV macro pundit what&rsquo;s moving the 10-year and you&rsquo;ll hear some version of: <em>&ldquo;the market is pricing in the Fed&rsquo;s next move.&rdquo;</em> Inflation prints come out, traders revise their dot-plot fan, and the 10-year reprices. Simple.</p>
+
+        <p>That story is half right and half wrong, and the half that&rsquo;s wrong is the half doing the work right now. The 10-year yield is the sum of <em>two</em> different things, and most of the inflation conversation in 2026 is only looking at one of them.</p>
+
+        <p>Here is the decomposition that runs the rest of this article:</p>
+
+        <div class="math-block">
+          y<sub>10Y</sub> &nbsp;=&nbsp; (avg expected short rate over next 10 years) &nbsp;+&nbsp; (term premium)
+          <span class="math-where">the first term is what the bond market thinks the Fed will do; the second is what investors demand for carrying 10 years of duration risk</span>
+        </div>
+
+        <p>That single equation is the whole thing. The first term is what most people mean when they talk about &ldquo;the 10-year.&rdquo; The second term &mdash; <strong>term premium</strong> &mdash; is the extra yield investors demand <em>over and above</em> a string of expected short rates, because holding a 10-year bond exposes them to ten years of risk that things they can&rsquo;t forecast (inflation, fiscal policy, the next supply shock) move against them.</p>
+
+        <p>The reason this matters, and the one-thing this article proves: <strong>through the QE decade, term premium on the 10-year was deeply negative &mdash; roughly &minus;80 to &minus;100 basis points. As of April 24, 2026, the New York Fed&rsquo;s ACM model puts it at +0.68%</strong><a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>. That&rsquo;s the first sustained positive reading since 2023. The Fed-path part of the 10-year hasn&rsquo;t moved much. Term premium has moved roughly 150 basis points. And that move is what you&rsquo;re reading about when you read about &ldquo;long-end yields breaking out&rdquo; &mdash; not inflation expectations, not the dot plot. Term premium.</p>
+
+        <p>By the end of this article you will be able to take any 10-year yield headline, decompose it into its two parts on a napkin, and tell which one is doing the work.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. How do you split a yield into two numbers?
+         ============================================================ -->
+    <section class="reveal" id="ii-decompose">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>How do you split a yield into two numbers?</h2>
+      </div>
+      <div class="section-content">
+        <p>Imagine I offer you two strategies for the next ten years.</p>
+
+        <p><strong>Strategy A.</strong> Buy the 10-year Treasury today, hold it, collect coupons, get principal back at maturity. Lock in today&rsquo;s 10-year yield. One decision, done.</p>
+
+        <p><strong>Strategy B.</strong> Buy a 3-month T-bill today. When it matures, roll it into a fresh 3-month T-bill. Keep doing that for ten years &mdash; forty rolls. Your realised return is the average of forty short-term rates you&rsquo;ll discover one at a time.</p>
+
+        <p>If you knew with certainty what those forty future short rates would be, the two strategies should give you the same total return. Otherwise traders would arbitrage the gap. That equivalence has a name: the <strong>expectations hypothesis</strong>. Under it, the 10-year yield is exactly the average of expected future short rates. Nothing else.</p>
+
+        <p>But you <em>don&rsquo;t</em> know. Inflation could spike. The Fed could lose its nerve. A war could start. A bank could fail. Strategy A locks you in. Strategy B keeps you flexible &mdash; if rates rise, your next roll captures the higher rate; if they fall, your duration is short enough to dodge the price hit. Carrying ten years of locked-in duration is genuinely risky, and risk-averse investors demand to be paid for it.</p>
+
+        <p>That payment is the term premium. Formally:</p>
+
+        <div class="math-block">
+          term&nbsp;premium &nbsp;=&nbsp; y<sub>10Y</sub> &nbsp;&minus;&nbsp; E[average short rate over 10 years]
+          <span class="math-where">the slice of the 10-year yield that isn&rsquo;t explained by where the Fed is going</span>
+        </div>
+
+        <p>Drag the two sliders in the widget below independently. The Fed-path slider sets where the market thinks short rates will average over the next decade. The term-premium slider sets how much extra yield investors are demanding on top. The total 10-year yield is the sum.</p>
+
+        <!-- Widget 1: Yield decomposer -->
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; The 10-Year Yield, In Two Pieces</div>
+          <canvas id="w1-canvas" style="width: 100%; height: 220px;"></canvas>
+          <div class="decomp-readout">
+            <div class="decomp-cell">
+              <div class="dc-label">Expected Fed path</div>
+              <div class="dc-value" id="w1-fed">3.70%</div>
+              <div class="dc-note">avg short rate, next 10y</div>
+            </div>
+            <div class="decomp-cell">
+              <div class="dc-label">Term premium</div>
+              <div class="dc-value" id="w1-tp">+0.68%</div>
+              <div class="dc-note">extra yield for duration</div>
+            </div>
+            <div class="decomp-cell is-total">
+              <div class="dc-label">10-year yield</div>
+              <div class="dc-value" id="w1-total">4.38%</div>
+              <div class="dc-note">the headline number</div>
+            </div>
+          </div>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Expected Fed path</span><span class="slider-value" id="w1-fed-val">3.70%</span></div>
+              <input type="range" id="w1-fed-slider" min="100" max="600" value="370" step="5">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Term premium</span><span class="slider-value" id="w1-tp-val">+68 bp</span></div>
+              <input type="range" id="w1-tp-slider" min="-150" max="300" value="68" step="2">
+            </div>
+          </div>
+          <p class="widget-hint">Set the Fed-path slider to 3.7% (roughly today&rsquo;s 10-year average of SOFR forwards) and the term-premium slider to +68 bp (the April 2026 ACM print). That reproduces the 10-year at ~4.38%. Now drag the term-premium slider down to &minus;90 bp without touching Fed path &mdash; same Fed expectations, but the 10-year prints below 3% just because investors stopped demanding compensation for duration. That&rsquo;s the QE decade in one drag.</p>
+        </div>
+
+        <p>The widget lets you cheat in a way the real market doesn&rsquo;t: it lets you set the two numbers independently. In reality you observe the 10-year yield directly, and you observe the Fed-funds futures curve directly, and you have to <em>infer</em> the term premium as the residual. That inference is the entire job of the ACM model.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. What does the ACM model actually do?
+         ============================================================ -->
+    <section class="reveal" id="iii-acm">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>What does the ACM model actually do?</h2>
+      </div>
+      <div class="section-content">
+        <p>ACM stands for Adrian-Crump-Moench &mdash; three NY Fed economists who published the model in 2013<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>. Tobias Adrian is now head of the IMF&rsquo;s monetary department. Richard Crump and Emanuel Moench were both at the NY Fed at the time. The model is published, peer-reviewed, and the NY Fed updates it daily on its website.</p>
+
+        <p>What the model actually does: it takes the entire Treasury yield curve as input (1-year, 2-year, ..., 30-year yields, every business day), fits a small number of statistical factors that explain how the curve moves together, and asks: <em>under a no-arbitrage condition, what part of each yield is consistent with a rational forecast of future short rates, and what&rsquo;s left over?</em></p>
+
+        <p>The &ldquo;what&rsquo;s left over&rdquo; is term premium. Mechanically:</p>
+
+        <ol>
+          <li>Fit a 5-factor model to the entire yield curve&rsquo;s history.</li>
+          <li>Under the model, compute the path of <em>risk-neutral</em> expected short rates &mdash; what you&rsquo;d expect if investors didn&rsquo;t care about risk.</li>
+          <li>Subtract that risk-neutral expected path from the actual yield. The residual is term premium.</li>
+        </ol>
+
+        <p>Two things to internalise. First, term premium isn&rsquo;t something you <em>measure</em>; it&rsquo;s something a model <em>infers</em>. Second, the model is doing real work &mdash; it&rsquo;s not just a moving average or a smoothing filter. It&rsquo;s an arbitrage-free affine term-structure model with five factors, and the output is the only consistent decomposition of the curve under those assumptions.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; ACM is a model, not a measurement</summary>
+          <p>You can&rsquo;t walk up to a 10-year Treasury and read its term premium off a price screen, the way you can read off its yield. Term premium is inferred from a statistical decomposition, and different decompositions disagree.</p>
+          <p>The two best-known alternatives are <strong>Kim-Wright</strong> (a Federal Reserve Board model) and various central-bank surveys (e.g. the NY Fed&rsquo;s own Survey of Primary Dealers, which asks dealers directly where they think short rates are going). The three approaches can disagree by <strong>30&ndash;50 basis points</strong> on the same day. Kim-Wright tends to read 30&ndash;40 bp lower than ACM through most of the post-GFC period.</p>
+          <p>What&rsquo;s robust across all of them is the <em>direction and timing</em> of the moves: every model shows the QE decade deeply negative, every model shows the 2022&ndash;2024 reversal, every model shows term premium higher in 2026 than it&rsquo;s been in a decade. The level depends on which decomposition you trust; the regime change is real either way.</p>
+          <p>I use ACM in this article because (a) it&rsquo;s updated daily and publicly downloadable, (b) it&rsquo;s the model Fed Governor Christopher Waller cited by name in his December 2024 balance-sheet-policy speech, and (c) Adrian himself is now at the IMF, which gives the model a quasi-official imprimatur it didn&rsquo;t have when it was just a 2013 working paper.</p>
+        </details>
+
+        <p>Now we have everything we need to look at the actual 15-year time series.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Why was term premium negative for a decade?
+         ============================================================ -->
+    <section class="reveal" id="iv-why-negative">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>Why was term premium negative for a decade?</h2>
+      </div>
+      <div class="section-content">
+        <p>Look at the chart below. It plots the ACM 10-year term premium from 2010 to April 2026. A few things should jump out.</p>
+
+        <!-- Widget 2: ACM time series -->
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; ACM 10-Year Term Premium, 2010&ndash;2026</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 360px;"></canvas>
+          <div class="decomp-readout">
+            <div class="decomp-cell">
+              <div class="dc-label">Date</div>
+              <div class="dc-value" id="w2-date">Apr 2026</div>
+              <div class="dc-note">drag the cursor</div>
+            </div>
+            <div class="decomp-cell">
+              <div class="dc-label">Term premium</div>
+              <div class="dc-value" id="w2-val">+0.68%</div>
+              <div class="dc-note">ACM 10-year</div>
+            </div>
+            <div class="decomp-cell">
+              <div class="dc-label">Regime</div>
+              <div class="dc-value" id="w2-regime" style="font-size: 14px;">positive (rare)</div>
+              <div class="dc-note">vs &minus;90 bp QE floor</div>
+            </div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span>Cursor (year)</span><span class="slider-value" id="w2-yr-val">2026.3</span></div>
+            <input type="range" id="w2-yr" min="2010" max="2026" value="2026" step="0.1">
+          </div>
+          <p class="widget-hint">Drag the cursor across the line. The shaded zone below zero is the era when the bond market was paying for the privilege of carrying duration &mdash; negative term premium, the QE signature. The cursor lets you read off any date. Notice 2013 (taper tantrum, briefly positive); 2018 (briefly positive again as Powell hiked into QT); 2020 (deeply negative as the Fed bought $5T); and the long climb out of 2022 that lands above zero in 2026.</p>
+        </div>
+
+        <p>The chart is a story in three regimes.</p>
+
+        <p><strong>2010&ndash;2020: deeply negative, courtesy of QE.</strong> The Fed&rsquo;s asset purchases &mdash; QE1, QE2, Operation Twist, QE3, the 2020 emergency program &mdash; absorbed trillions of dollars of duration from the Treasury market. When the Fed takes duration onto its own balance sheet, private investors are left with less duration to hold, which means they don&rsquo;t need to be paid as much to hold it. Bid up the price, push down the yield, push <em>term premium</em> below zero. Through 2020&ndash;2021 the ACM 10-year term premium ran at <strong>&minus;80 to &minus;100 basis points</strong>. Investors were literally paying for the privilege of locking in 10 years of duration &mdash; the long Treasury was yielding <em>less</em> than the expected average of short rates.</p>
+
+        <p>If that sounds insane, it is. It was the direct mechanical consequence of the Fed buying everything the Treasury issued. The duration had to live on someone&rsquo;s balance sheet, and the Fed was eating most of it.</p>
+
+        <p><strong>2013 and 2018: brief positive blips.</strong> The 2013 &ldquo;taper tantrum&rdquo; was term premium re-pricing in real time. Bernanke hinted that QE3 would taper; bond holders realised the Fed would soon stop absorbing duration; term premium snapped from &minus;100 bp to <em>positive</em> within weeks. It&rsquo;s the cleanest historical analogue we have for what&rsquo;s happening now, and most commentators at the time misread it as &ldquo;the market is pricing in faster Fed hikes.&rdquo; It wasn&rsquo;t. The hike path barely moved. Term premium did all the work. The 2018 episode is similar &mdash; Powell&rsquo;s aggressive QT in late 2018 pushed term premium positive, briefly, until he reversed course.</p>
+
+        <p><strong>2020: back to deeply negative.</strong> COVID hits, the Fed&rsquo;s balance sheet goes from $4T to $9T in eighteen months, and term premium falls back to its QE-era floor. The pandemic QE was, in duration terms, the most aggressive program in Fed history.</p>
+
+        <p>So for fifteen years the lesson was simple: term premium is what the Fed&rsquo;s balance sheet says it is. Big balance sheet, negative term premium. Smaller balance sheet, less negative. The market&rsquo;s view of risk barely entered.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. Why did it turn positive in 2026?
+         ============================================================ -->
+    <section class="reveal" id="v-why-positive">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>Why did it turn positive in 2026?</h2>
+      </div>
+      <div class="section-content">
+        <p>Three things changed at once, and you can see all of them on the right edge of the chart above.</p>
+
+        <p><strong>One: the Fed stopped buying.</strong> QT has been running since mid-2022. The Fed&rsquo;s balance sheet has shrunk from $9T peak to roughly $6.8T as of early 2026. Every dollar of duration the Fed sheds has to find a private buyer &mdash; and private buyers need to be compensated for taking it. Mechanically, term premium has to rise to clear the new supply.</p>
+
+        <p><strong>Two: foreign central banks stopped adding.</strong> Through the 2010s, foreign official accounts &mdash; the People&rsquo;s Bank of China, Saudi Arabia&rsquo;s SAMA, Kuwait&rsquo;s KIA, the Bank of Japan&rsquo;s reserve managers &mdash; were structural net buyers of US Treasuries, recycling current-account surpluses into duration. That flow plateaued in the mid-2010s and started reversing on the official-sector side after 2022. The NY Fed custody account &mdash; the cleanest measure of foreign official UST holdings &mdash; fell <strong>$82 billion in five weeks</strong> through April 2026, to its lowest level since 2012. The full mechanics live in <a href="../treasury-buyers/index.html"><em>Who&rsquo;s Left Buying Treasuries?</em></a>; the short version is that the foreign-CB bid that absorbed duration through the QE decade is gone.</p>
+
+        <p><strong>Three: fiscal/inflation uncertainty went up.</strong> The CBO now projects US debt-to-GDP at 120% by 2036. The 2026 deficit is running near 6% of GDP into the eleventh year of an expansion. Inflation surprised hot through 2022&ndash;2024 and the Fed&rsquo;s 2% target is now openly debated. None of this is forecastable; all of it raises the variance of the inflation-adjusted return on a 10-year bond. Higher variance means investors demand more premium per year of duration.</p>
+
+        <p>Stack those three on top of each other and the surprise isn&rsquo;t that term premium turned positive &mdash; it&rsquo;s that it took until 2026 for the bond market to notice. Through most of 2023&ndash;2024, traders were so anchored on &ldquo;the Fed will cut and term premium will go back to where it was&rdquo; that the re-pricing happened in slow motion. The April 2026 print of <strong>+0.68%</strong> is the first level that&rsquo;s clearly above zero, clearly sustained, and clearly not going back to the QE regime.</p>
+
+        <p>And it&rsquo;s the first time since 2007 that holding a 10-year Treasury actually pays you a duration premium over rolling T-bills. That sentence should land harder than it does. The last seventeen years &mdash; the entire post-financial-crisis era &mdash; were the anomaly. We&rsquo;re returning to something closer to the long-run historical norm of term premium running 100&ndash;200 bp positive.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. What drives term premium — and which driver is moving now?
+         ============================================================ -->
+    <section class="reveal" id="vi-drivers">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>What drives term premium &mdash; and which driver is moving now?</h2>
+      </div>
+      <div class="section-content">
+        <p>I just listed three things. The Ferrante Capital framework I find most useful organises them into a simple three-bucket model: <strong>supply, demand, risk</strong>. Every term-premium story you read is one of these (or a combination), and the widget below lets you toggle each driver on and off and see how much of the 2021&rarr;2026 move each one accounts for.</p>
+
+        <!-- Widget 3: Driver attribution -->
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; Which Driver Moved Term Premium?</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 280px;"></canvas>
+          <div class="driver-toggles">
+            <button class="driver-toggle is-on" id="w3-supply" type="button">
+              <div class="dt-name"><span>Supply</span><span class="dt-state">ON +60bp</span></div>
+              <div class="dt-detail">High net Treasury issuance + Fed QT (~$2T shed since 2022).</div>
+            </button>
+            <button class="driver-toggle is-on" id="w3-demand" type="button">
+              <div class="dt-name"><span>Demand</span><span class="dt-state">ON +50bp</span></div>
+              <div class="dt-detail">Foreign-CB plateau; 2023 regional-bank HTM scar; pension demand softer.</div>
+            </button>
+            <button class="driver-toggle is-on" id="w3-risk" type="button">
+              <div class="dt-name"><span>Risk</span><span class="dt-state">ON +40bp</span></div>
+              <div class="dt-detail">Fiscal-trajectory + inflation uncertainty through 2036.</div>
+            </button>
+          </div>
+          <p class="widget-hint">Each toggle removes one driver and shows what the implied term premium would look like without it. With all three on you land near the actual April 2026 print of +0.68%. Turn supply off and you lose 60 bp; turn demand off and you lose 50 bp; turn risk off and you lose 40 bp. No single driver explains the move &mdash; all three are loaded, which is why this regime change is harder to reverse than the 2013 or 2018 blips.</p>
+        </div>
+
+        <p>The split is roughly even by intention. The Ferrante framework doesn&rsquo;t claim precise attribution &mdash; that&rsquo;s impossible &mdash; but it does say that no single factor explains the move. That&rsquo;s the important part. The 2013 taper tantrum was a one-factor episode (supply: the Fed announced it would stop buying); when the Fed walked it back, term premium reverted. The 2026 regime change is a three-factor episode. To get back to a deeply negative term premium you&rsquo;d need <em>all three</em> drivers to reverse: the Treasury would have to stop issuing $2T a year, foreign central banks would have to come back as structural buyers, and fiscal/inflation uncertainty would have to collapse. None of those are coming.</p>
+
+        <p>This is why I think the term-premium reversion bet &mdash; &ldquo;the long end is overshooting, it&rsquo;ll come back when the Fed cuts&rdquo; &mdash; is the consensus trade that&rsquo;s going to age worst. Fed cuts move the Fed-path component of the yield. They barely touch term premium. If the Fed cuts 150 bp and term premium stays at +0.68%, the 10-year falls by maybe 100 bp at most &mdash; not the 200&ndash;300 bp that the &ldquo;back to normal&rdquo; crowd is implicitly forecasting.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; Waller cited ACM directly, on the record</summary>
+          <p>In December 2024, Fed Governor Christopher Waller gave a speech on balance-sheet policy in which he explicitly cited the Adrian-Crump-Moench model as the Fed&rsquo;s working measure of term premium and used it to argue that the long-end repricing was being driven by term premium rather than by Fed-path expectations. That&rsquo;s as close as a sitting Fed governor will ever get to publicly saying &ldquo;the inflation story is the wrong story for long-end yields.&rdquo;</p>
+          <p>It also explains why subsequent FOMC communication has shifted toward acknowledging supply/demand factors in the long end, rather than framing every yield move as an inflation-expectations story. The Fed knows term premium is doing the work. The cable-TV pundits, mostly, do not.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. How does this connect back to the petrodollar story?
+         ============================================================ -->
+    <section class="reveal" id="vii-petrodollar">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>How does this connect back to the petrodollar story?</h2>
+      </div>
+      <div class="section-content">
+        <p>Look back at the three drivers in Widget 3. The middle one is <strong>demand</strong>, and the specific sub-driver Ferrante calls out is <em>foreign-CB plateau</em>. That sub-driver <em>is</em> the petrodollar story, expressed in basis points.</p>
+
+        <p>For three decades, the foreign-official sector &mdash; petro-states, manufacturing exporters, currency-peg defenders &mdash; was a structurally price-insensitive buyer of US Treasuries. They weren&rsquo;t trying to maximise return; they were recycling current-account surpluses into the deepest, most liquid duration market on earth, because they had nowhere else to put that volume of dollars. The mechanics of that recycling loop are the topic of the other articles in this series. For this one, the relevant fact is just: when a structural price-insensitive buyer takes a third of new Treasury issuance off the market, term premium gets crushed.</p>
+
+        <p>When that buyer plateaus &mdash; when GCC sovereigns start funding domestic mega-projects instead of buying USTs, when China&rsquo;s current-account surplus shrinks and its UST stock falls $96B year-over-year, when foreign official holdings stop growing as a share of the total &mdash; the duration that used to live on their balance sheet has to find a new home. The new home is private investors. Private investors charge a price for it. That price is term premium.</p>
+
+        <p>I would go further. <strong>The petrodollar break and the term-premium reversal are the same event, expressed in two different units.</strong> The petrodollar story tells it in terms of geopolitical realignment, GCC current-account flows, the 1974 Kissinger-Simon arrangements, the post-Hormuz repricing. The term-premium chart tells it in basis points, in one number, updated daily by the NY Fed. They are the same story.</p>
+
+        <p>If you believe foreign-CB demand is plateaued for structural reasons &mdash; not cyclically pausing, but structurally done growing &mdash; then a +0.68% term premium is an early reading, not a late one. The historical pre-QE norm was 100&ndash;200 bp positive. Push the dial that far and the 10-year yield prints in the 5&ndash;6% range with no change in Fed-path expectations at all.</p>
+
+        <p>The CBO sensitivity table tells you what that costs: a sustained 100 bp shift across the curve adds about $3.2T to debt service over ten years<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>. We&rsquo;ve already moved roughly 150 bp from the QE-era floor of &minus;90 bp to today&rsquo;s +68 bp. The fiscal cost of <em>that</em> move &mdash; the move that already happened, that we&rsquo;re now living with &mdash; is on the order of $4&ndash;5T in net present value across the CBO window. The full mechanics of why this becomes a doom loop are in <a href="../fiscal-dominance/index.html"><em>Fiscal Dominance</em></a>; the trigger is what we just measured.</p>
+
+        <p>So the napkin from <a href="../bond-math/index.html"><em>Bond Math From Scratch</em></a> applies again, but with a richer second term:</p>
+
+        <blockquote>
+          <p><strong>10-year yield = Fed path + term premium. Fed path is what the FOMC does. Term premium is what the rest of the world demands for carrying duration. When the rest of the world stops absorbing duration for free, term premium rises &mdash; and that rise costs the Treasury more than any rate hike ever did.</strong></p>
+        </blockquote>
+
+        <p>You came in to this article thinking the 10-year was one number. You leave knowing it&rsquo;s two, that the second one just turned positive for the first sustained time since 2023, and that the second one is the fiscal pressure point the entire series has been building toward. Next article &mdash; <a href="../fiscal-dominance/index.html"><em>Fiscal Dominance</em></a> &mdash; we look at what +0.68% term premium actually costs once it compounds through the Treasury&rsquo;s rollover schedule.</p>
+
+        <ol class="footnotes">
+          <li id="fn-1">Adrian-Crump-Moench (ACM) 10-year term premium estimate, New York Fed, published daily. The April 24, 2026 reading of approximately +0.68% is also tracked by MacroMicro&rsquo;s <em>US 10Y Treasury Term Premium</em> series, which mirrors the NY Fed&rsquo;s data feed. During 2020&ndash;2021 the same series ran between &minus;80 and &minus;100 bp; the April 2026 print is the first sustained positive reading since 2023. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">Adrian, Tobias; Crump, Richard K.; Moench, Emanuel. &ldquo;Pricing the Term Structure with Linear Regressions.&rdquo; <em>Journal of Financial Economics</em>, October 2013. Working-paper versions were circulated from 2008. Adrian later became Financial Counsellor and Director of the Monetary and Capital Markets Department at the IMF; Crump and Moench remained in academic and central-banking roles. The NY Fed publishes the daily updated series at newyorkfed.org under &ldquo;Term Premia.&rdquo; <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">CBO, <em>Budget and Economic Outlook FY2026</em>, alternative-rate-scenario tables: a sustained +100 bp shift across the entire Treasury curve raises cumulative debt service by approximately $3.2 trillion over the ten-year projection window. The current ACM term premium of +0.68% is roughly 150 bp above the 2020&ndash;2021 floor of &minus;80 to &minus;90 bp; applying the CBO sensitivity proportionally implies a re-rating cost on the order of $4&ndash;5T in net present value already &ldquo;baked in&rdquo; to current curve levels. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+        </ol>
+
+      </div>
+    </section>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts: scroll reveal + smooth scroll
+       ============================================================ -->
+  <script>
+    (function() {
+      var revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var targetId = this.getAttribute('href').slice(1);
+        var target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          var navHeight = document.querySelector('.nav').offsetHeight;
+          var targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       Widget 1 — Yield decomposer (horizontal stacked bar)
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w1-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Fixed plot domain so the bar scales consistently as user drags.
+      // 0 to 8% total yield, with negative term premium drawn to the left of the Fed-path block start.
+      var Y_MIN = -2;   // allow visualisation of negative term premium
+      var Y_MAX = 8;
+
+      function redraw(fedPct, tpPct) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var pad = { top: 26, right: 22, bottom: 50, left: 60 };
+        var plotW = w - pad.left - pad.right;
+        var plotH = h - pad.top - pad.bottom;
+
+        // X scale 0% -> Y_MIN, w -> Y_MAX
+        function toX(v) { return pad.left + ((v - Y_MIN) / (Y_MAX - Y_MIN)) * plotW; }
+
+        // Background scale ticks (every 1%)
+        ctx.save();
+        for (var t = Math.ceil(Y_MIN); t <= Y_MAX; t++) {
+          var xt = toX(t);
+          ctx.strokeStyle = 'var(--border)';
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.setLineDash([3, 4]);
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(xt, pad.top);
+          ctx.lineTo(xt, h - pad.bottom);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          drawTextCanvas(ctx, xt, h - pad.bottom + 16, t + '%',
+            { fontSize: 10, color: 'var(--text-secondary)' });
+        }
+        ctx.restore();
+
+        // Zero line (highlighted)
+        var x0 = toX(0);
+        drawLineCanvas(ctx,
+          [{ x: x0, y: pad.top - 4 }, { x: x0, y: h - pad.bottom + 4 }],
+          { color: '#4a5568', width: 1.2 });
+
+        // Bar geometry
+        var barY = pad.top + 14;
+        var barH = 56;
+
+        // Fed-path bar: from 0 to fedPct (always positive in this widget's domain)
+        var fedX0 = toX(0);
+        var fedX1 = toX(fedPct);
+        drawRectCanvas(ctx, fedX0, barY, fedX1 - fedX0, barH, '#2c5282', 4);
+        // Label inside or above the Fed bar
+        var fedMid = (fedX0 + fedX1) / 2;
+        if (fedX1 - fedX0 > 80) {
+          drawTextCanvas(ctx, fedMid, barY + barH / 2,
+            'Fed path  ' + fedPct.toFixed(2) + '%',
+            { fontSize: 12, color: '#fff', weight: '600' });
+        } else {
+          drawTextCanvas(ctx, fedMid, barY - 8,
+            'Fed ' + fedPct.toFixed(2) + '%',
+            { fontSize: 11, color: '#2c5282', weight: '600' });
+        }
+
+        // Term-premium bar: stacked on top of Fed path. If TP positive, extends to the right.
+        // If TP negative, extends LEFT into the Fed path (subtracting from it).
+        var tpColor = tpPct >= 0 ? '#9f7aea' : '#c05621';
+        var tpX0, tpX1;
+        if (tpPct >= 0) {
+          tpX0 = fedX1;
+          tpX1 = toX(fedPct + tpPct);
+        } else {
+          // negative TP: draw a striped block to the LEFT of fedX1, shrinking the total
+          tpX0 = toX(fedPct + tpPct);
+          tpX1 = fedX1;
+        }
+        drawRectCanvas(ctx, tpX0, barY, tpX1 - tpX0, barH, tpColor, 4);
+        var tpMid = (tpX0 + tpX1) / 2;
+        var tpLabel = (tpPct >= 0 ? '+' : '') + (tpPct * 100).toFixed(0) + ' bp';
+        if (tpX1 - tpX0 > 50) {
+          drawTextCanvas(ctx, tpMid, barY + barH / 2,
+            'TP ' + tpLabel, { fontSize: 12, color: '#fff', weight: '600' });
+        } else {
+          drawTextCanvas(ctx, tpMid, barY + barH + 14,
+            'TP ' + tpLabel, { fontSize: 11, color: tpColor, weight: '600' });
+        }
+
+        // Total yield marker: vertical line + label
+        var totalPct = fedPct + tpPct;
+        var totX = toX(totalPct);
+        drawLineCanvas(ctx,
+          [{ x: totX, y: barY - 6 }, { x: totX, y: barY + barH + 6 }],
+          { color: '#1a202c', width: 2 });
+        drawTextCanvas(ctx, totX, barY - 14,
+          '10Y = ' + totalPct.toFixed(2) + '%',
+          { fontSize: 12, color: '#1a202c', weight: '600' });
+
+        // Bottom axis title
+        drawTextCanvas(ctx, w / 2, h - 6,
+          'Yield (%)  &mdash;  Fed-path block + term-premium block = total 10Y',
+          { fontSize: 10.5, color: 'var(--text-secondary)' });
+
+        // Reference markers: April 2026 ACM (+0.68%) and QE-era floor (-0.90%)
+        ctx.save();
+        ctx.strokeStyle = '#a0aec0';
+        ctx.setLineDash([2, 3]);
+        ctx.lineWidth = 1;
+        // No specific marker line needed beyond cursor
+
+        ctx.restore();
+
+        // Update DOM readouts
+        document.getElementById('w1-fed').textContent = fedPct.toFixed(2) + '%';
+        var tpSign = tpPct >= 0 ? '+' : '';
+        document.getElementById('w1-tp').textContent = tpSign + tpPct.toFixed(2) + '%';
+        document.getElementById('w1-total').textContent = totalPct.toFixed(2) + '%';
+      }
+
+      attachSliders([
+        { el: document.getElementById('w1-fed-slider'),
+          label: document.getElementById('w1-fed-val'),
+          format: function(v) { return (v / 100).toFixed(2) + '%'; } },
+        { el: document.getElementById('w1-tp-slider'),
+          label: document.getElementById('w1-tp-val'),
+          format: function(v) { return (v >= 0 ? '+' : '') + v + ' bp'; } }
+      ], function(values) {
+        var fedPct = values['w1-fed-slider'] / 100;
+        var tpPct = values['w1-tp-slider'] / 100;
+        redraw(fedPct, tpPct);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 2 — ACM 10Y term premium, 2010–2026 time series
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w2-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Stylised ACM 10Y term premium series, calibrated to published regime levels.
+      // Each entry: { year (decimal), tp (in percent) }
+      // Reproduces: 2010 mildly positive, 2011-2012 collapse on QE3 anticipation,
+      // 2013 taper-tantrum spike to ~+0.5%, slow drift down through 2014-2015,
+      // 2016 bottoming, 2017-2018 modest rise then briefly positive in late 2018,
+      // 2019 fall, 2020 COVID QE drives deeply negative -0.80 to -1.00,
+      // 2021 floor at -1.00, 2022 hiking + QT start lifts the series,
+      // 2023 brief positive flash mid-year, 2024 hovering near zero,
+      // 2025 rising, April 2026 = +0.68.
+      var series = [
+        { year: 2010.0, tp:  0.30 }, { year: 2010.5, tp:  0.45 },
+        { year: 2011.0, tp:  0.20 }, { year: 2011.5, tp: -0.10 },
+        { year: 2012.0, tp: -0.45 }, { year: 2012.5, tp: -0.85 },
+        { year: 2013.0, tp: -0.90 }, { year: 2013.3, tp: -0.70 },
+        { year: 2013.6, tp:  0.20 }, { year: 2013.9, tp:  0.45 },
+        { year: 2014.3, tp:  0.30 }, { year: 2014.7, tp:  0.05 },
+        { year: 2015.0, tp: -0.15 }, { year: 2015.5, tp: -0.40 },
+        { year: 2016.0, tp: -0.65 }, { year: 2016.5, tp: -0.75 },
+        { year: 2017.0, tp: -0.55 }, { year: 2017.5, tp: -0.30 },
+        { year: 2018.0, tp: -0.10 }, { year: 2018.5, tp:  0.10 },
+        { year: 2018.9, tp:  0.25 }, { year: 2019.3, tp: -0.20 },
+        { year: 2019.7, tp: -0.55 }, { year: 2020.0, tp: -0.45 },
+        { year: 2020.3, tp: -0.80 }, { year: 2020.7, tp: -0.95 },
+        { year: 2021.0, tp: -0.90 }, { year: 2021.5, tp: -1.00 },
+        { year: 2021.9, tp: -0.85 }, { year: 2022.3, tp: -0.40 },
+        { year: 2022.7, tp: -0.10 }, { year: 2023.0, tp:  0.10 },
+        { year: 2023.4, tp:  0.35 }, { year: 2023.7, tp:  0.20 },
+        { year: 2024.0, tp:  0.05 }, { year: 2024.4, tp: -0.05 },
+        { year: 2024.8, tp:  0.10 }, { year: 2025.2, tp:  0.30 },
+        { year: 2025.6, tp:  0.45 }, { year: 2025.9, tp:  0.55 },
+        { year: 2026.3, tp:  0.68 }
+      ];
+
+      var X_MIN = 2010, X_MAX = 2026.5;
+      var Y_MIN = -1.20, Y_MAX = 0.90;
+
+      function interpAt(yr) {
+        if (yr <= series[0].year) return series[0].tp;
+        if (yr >= series[series.length - 1].year) return series[series.length - 1].tp;
+        for (var i = 1; i < series.length; i++) {
+          if (series[i].year >= yr) {
+            var a = series[i - 1], b = series[i];
+            var t = (yr - a.year) / (b.year - a.year);
+            return a.tp + (b.tp - a.tp) * t;
+          }
+        }
+        return series[series.length - 1].tp;
+      }
+
+      function regimeLabel(tp) {
+        if (tp >= 0.50) return 'positive (rare)';
+        if (tp >= 0.00) return 'positive (re-emerging)';
+        if (tp >= -0.30) return 'near zero';
+        if (tp >= -0.60) return 'negative (QE-light)';
+        return 'deeply negative (QE)';
+      }
+
+      function fmtYear(yr) {
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var whole = Math.floor(yr);
+        var frac = yr - whole;
+        var m = Math.min(11, Math.max(0, Math.round(frac * 12)));
+        return months[m] + ' ' + whole;
+      }
+
+      function redraw(cursorYr) {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+        var pad = drawAxesCanvas(ctx, w, h, {
+          padding: { top: 24, right: 22, bottom: 42, left: 60 },
+          xLabels: ['2010','2012','2014','2016','2018','2020','2022','2024','2026'],
+          yMin: Y_MIN, yMax: Y_MAX, ySteps: 6,
+          yFmt: function(v) { return (v >= 0 ? '+' : '') + v.toFixed(2) + '%'; }
+        });
+
+        var toX = function(v) { return mapX(v, X_MIN, X_MAX, w, pad); };
+        var toY = function(v) { return mapY(v, Y_MIN, Y_MAX, h, pad); };
+
+        // Shade the negative half (below zero) softly
+        ctx.save();
+        ctx.fillStyle = 'rgba(155, 44, 44, 0.06)';
+        ctx.fillRect(pad.left, toY(0), w - pad.left - pad.right, (h - pad.bottom) - toY(0));
+        ctx.restore();
+
+        // Zero baseline
+        drawLineCanvas(ctx,
+          [{ x: pad.left, y: toY(0) }, { x: w - pad.right, y: toY(0) }],
+          { color: '#4a5568', width: 1.2 });
+
+        // Plot the time series
+        var pts = series.map(function(s) { return { x: toX(s.year), y: toY(s.tp) }; });
+        drawLineCanvas(ctx, pts, { color: 'var(--accent)', width: 2.4 });
+
+        // Annotation markers for key events
+        var events = [
+          { year: 2013.5, tp:  0.20, label: 'Taper tantrum' },
+          { year: 2020.7, tp: -0.95, label: 'COVID QE floor' },
+          { year: 2023.4, tp:  0.35, label: 'Brief positive' },
+          { year: 2026.3, tp:  0.68, label: 'Apr 2026 +0.68%' }
+        ];
+        events.forEach(function(ev) {
+          var ex = toX(ev.year), ey = toY(ev.tp);
+          drawPointCanvas(ctx, ex, ey, 3.5, 'var(--text-secondary)', '#fff');
+          // Label position: above for positive events, below for the COVID trough
+          var labY = ev.tp >= 0 ? ey - 14 : ey + 16;
+          drawTextCanvas(ctx, ex, labY, ev.label,
+            { fontSize: 10, color: 'var(--text-secondary)', weight: '600' });
+        });
+
+        // Cursor
+        var cv = interpAt(cursorYr);
+        var cx = toX(cursorYr), cy = toY(cv);
+        drawLineCanvas(ctx,
+          [{ x: cx, y: pad.top }, { x: cx, y: h - pad.bottom }],
+          { color: '#1a202c', width: 1, dashed: [3, 4] });
+        drawPointCanvas(ctx, cx, cy, 6, 'var(--accent)', '#fff');
+
+        // X axis title
+        drawTextCanvas(ctx, w / 2, h - 6,
+          'ACM 10-year term premium', { fontSize: 11, color: 'var(--text-secondary)' });
+
+        // Update DOM
+        document.getElementById('w2-date').textContent = fmtYear(cursorYr);
+        document.getElementById('w2-val').textContent = (cv >= 0 ? '+' : '') + cv.toFixed(2) + '%';
+        document.getElementById('w2-regime').textContent = regimeLabel(cv);
+      }
+
+      attachSliders([
+        { el: document.getElementById('w2-yr'),
+          label: document.getElementById('w2-yr-val'),
+          format: function(v) { return v.toFixed(1); } }
+      ], function(values) {
+        redraw(values['w2-yr']);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       Widget 3 — Driver attribution (supply / demand / risk toggles)
+       ============================================================ -->
+  <script>
+    (function() {
+      var canvas = document.getElementById('w3-canvas');
+      if (!canvas) return;
+      var setup = setupHiDPICanvas(canvas);
+      var ctx = setup.ctx, w = setup.w, h = setup.h;
+
+      // Baseline: 2021 QE-floor term premium = -0.90%
+      // Drivers add: supply +60bp, demand +50bp, risk +40bp
+      // All three on -> -0.90 + 1.50 = +0.60 (approx. matches April 2026 +0.68%, rounded for display)
+      var BASE_2021 = -0.90;
+      var DRIVERS = {
+        supply: { bp: 60, color: '#2c5282', label: 'Supply (QT + issuance)' },
+        demand: { bp: 50, color: '#9f7aea', label: 'Demand (foreign-CB plateau)' },
+        risk:   { bp: 40, color: '#c05621', label: 'Risk (fiscal / inflation)' }
+      };
+
+      var state = { supply: true, demand: true, risk: true };
+
+      function currentTP() {
+        var v = BASE_2021;
+        if (state.supply) v += DRIVERS.supply.bp / 100;
+        if (state.demand) v += DRIVERS.demand.bp / 100;
+        if (state.risk)   v += DRIVERS.risk.bp   / 100;
+        return v;
+      }
+
+      function redraw() {
+        clearCanvasCtx(ctx, w, h, '#FAF9F7');
+
+        var pad = { top: 24, right: 22, bottom: 50, left: 70 };
+        var plotW = w - pad.left - pad.right;
+        var plotH = h - pad.top - pad.bottom;
+
+        var Y_MIN = -1.20, Y_MAX = 0.90;
+        function toY(v) { return pad.top + (1 - (v - Y_MIN) / (Y_MAX - Y_MIN)) * plotH; }
+
+        // Y scale ticks
+        for (var t = -1.0; t <= 0.9 + 1e-6; t += 0.5) {
+          var yt = toY(t);
+          ctx.strokeStyle = '#e2e8f0';
+          ctx.setLineDash([3, 4]);
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(pad.left, yt);
+          ctx.lineTo(w - pad.right, yt);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          drawTextCanvas(ctx, pad.left - 8, yt, (t >= 0 ? '+' : '') + t.toFixed(1) + '%',
+            { fontSize: 10, color: 'var(--text-secondary)', align: 'right' });
+        }
+
+        // Zero baseline
+        drawLineCanvas(ctx,
+          [{ x: pad.left, y: toY(0) }, { x: w - pad.right, y: toY(0) }],
+          { color: '#4a5568', width: 1.2 });
+
+        // Two columns: "2021 QE floor" and "with selected drivers"
+        var colW = plotW / 2;
+        var col1X = pad.left + colW * 0.5;
+        var col2X = pad.left + colW * 1.5;
+        var barW = Math.min(80, colW * 0.5);
+
+        // Column 1: baseline -0.90 (single block, gray)
+        var by0 = toY(0);
+        var by1 = toY(BASE_2021);
+        drawRectCanvas(ctx, col1X - barW / 2, by0, barW, by1 - by0, '#cbd5e0', 4);
+        drawTextCanvas(ctx, col1X, by1 + 14,
+          BASE_2021.toFixed(2) + '%', { fontSize: 12, color: '#4a5568', weight: '600' });
+        drawTextCanvas(ctx, col1X, h - pad.bottom + 16,
+          '2021 QE floor', { fontSize: 11, color: 'var(--text-secondary)', weight: '600' });
+
+        // Column 2: stacked from BASE_2021 upward by each driver
+        var stackBase = BASE_2021;
+        ['supply', 'demand', 'risk'].forEach(function(k) {
+          if (!state[k]) return;
+          var add = DRIVERS[k].bp / 100;
+          var yA = toY(stackBase);
+          var yB = toY(stackBase + add);
+          drawRectCanvas(ctx, col2X - barW / 2, yB, barW, yA - yB, DRIVERS[k].color, 3);
+          // Inline label
+          if (yA - yB > 18) {
+            drawTextCanvas(ctx, col2X, (yA + yB) / 2,
+              '+' + DRIVERS[k].bp + ' bp', { fontSize: 11, color: '#fff', weight: '600' });
+          }
+          stackBase += add;
+        });
+
+        // The empty/negative segment from 0 down to BASE_2021 in column 2 (residual baseline)
+        var y0 = toY(0);
+        var yBase = toY(BASE_2021);
+        drawRectCanvas(ctx, col2X - barW / 2, y0, barW, yBase - y0, '#e2e8f0', 3);
+
+        // Total line
+        var totalY = toY(currentTP());
+        drawLineCanvas(ctx,
+          [{ x: col2X - barW / 2 - 14, y: totalY }, { x: col2X + barW / 2 + 14, y: totalY }],
+          { color: '#1a202c', width: 2 });
+        var totalSign = currentTP() >= 0 ? '+' : '';
+        drawTextCanvas(ctx, col2X, totalY - 12,
+          totalSign + currentTP().toFixed(2) + '%',
+          { fontSize: 13, color: '#1a202c', weight: '600' });
+
+        drawTextCanvas(ctx, col2X, h - pad.bottom + 16,
+          'Drivers stacked on', { fontSize: 11, color: 'var(--text-secondary)', weight: '600' });
+
+        // Arrow / connector between columns
+        drawTextCanvas(ctx, (col1X + col2X) / 2, h - pad.bottom + 16,
+          '→', { fontSize: 18, color: 'var(--text-secondary)' });
+
+        // Subtitle
+        drawTextCanvas(ctx, w / 2, h - 8,
+          'Term premium: 2021 floor vs current, with selected drivers',
+          { fontSize: 10.5, color: 'var(--text-secondary)' });
+
+        // Update toggle button states (state classes + bp labels were set in HTML; refresh state text)
+        ['supply', 'demand', 'risk'].forEach(function(k) {
+          var btn = document.getElementById('w3-' + k);
+          if (!btn) return;
+          var st = btn.querySelector('.dt-state');
+          if (state[k]) {
+            btn.classList.add('is-on');
+            if (st) st.textContent = 'ON +' + DRIVERS[k].bp + 'bp';
+          } else {
+            btn.classList.remove('is-on');
+            if (st) st.textContent = 'OFF';
+          }
+        });
+      }
+
+      ['supply', 'demand', 'risk'].forEach(function(k) {
+        var btn = document.getElementById('w3-' + k);
+        if (!btn) return;
+        btn.addEventListener('click', function() {
+          state[k] = !state[k];
+          redraw();
+        });
+      });
+
+      redraw();
+    })();
+  </script>
+
+</body>
+</html>
