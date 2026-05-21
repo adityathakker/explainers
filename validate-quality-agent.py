@@ -55,16 +55,24 @@ PROMPT_TEMPLATE = """You are evaluating an interactive explainer article against
 {article_html}
 </article>
 
-For each rule M1 through M8, return a verdict object:
+STEP 1 — Identify the article's MODE first. Per QUALITY.md, articles come in two flavors:
+  - Mode A (single-claim explainer): proves one surprising claim
+  - Mode B (framework / playbook): teaches a structured method or framework
+
+State the mode and the article's one-thing (the claim OR the framework name) in a "mode" field. Then apply M1, M3, M8 with the right rubric per the QUALITY.md table.
+
+STEP 2 — For each rule M1 through M8, return a verdict object:
   - "status": "pass" | "warn" | "fail"
   - "evidence": a SHORT (1-2 sentence) quote, paraphrase, or specific reference to what supports the verdict
   - "suggestion": a SHORT (1-2 sentence) concrete change to fix it (omit this field if status is "pass")
 
 Then add an "overall" field with a 2-3 sentence summary of the article's quality.
 
-Return ONLY valid JSON, with NO surrounding prose or code fences, in exactly this shape:
+Return ONLY valid JSON, with NO surrounding prose or code fences. Use double quotes only and escape any internal quotes properly. Use this exact shape:
 
 {{
+  "mode": "A | B",
+  "one_thing": "the claim (Mode A) or framework name + purpose (Mode B)",
   "M1": {{"status": "...", "evidence": "...", "suggestion": "..."}},
   "M2": {{"status": "...", "evidence": "...", "suggestion": "..."}},
   "M3": {{"status": "...", "evidence": "...", "suggestion": "..."}},
@@ -76,7 +84,7 @@ Return ONLY valid JSON, with NO surrounding prose or code fences, in exactly thi
   "overall": "..."
 }}
 
-Be strict but specific. Honest is more useful than kind. Quote actual phrases from the article when you can — vague evidence is a failure of the review, not the article."""
+Be strict but specific. Honest is more useful than kind. Quote actual phrases from the article when you can — vague evidence is a failure of the review, not the article. For a Mode B article, do NOT fault M8 just because the article teaches multiple steps/dimensions of a framework; that's the framework's whole point."""
 
 
 @dataclass
@@ -92,6 +100,8 @@ class Report:
     path: str
     verdicts: List[Verdict] = field(default_factory=list)
     overall: str = ""
+    mode: str = ""
+    one_thing: str = ""
     error: Optional[str] = None
     seconds: float = 0.0
 
@@ -166,6 +176,8 @@ def evaluate(article_path: Path, quality_md: str, model: str = DEFAULT_MODEL,
             return rep
 
         data = extract_json(result.stdout)
+        rep.mode = str(data.get("mode", ""))[:8]
+        rep.one_thing = str(data.get("one_thing", ""))[:300]
         for rule in M_RULES:
             v = data.get(rule, {})
             rep.verdicts.append(Verdict(
@@ -226,7 +238,10 @@ def print_text(reports: List[Report]) -> int:
         n_warn = statuses.count("warn")
         n_pass = statuses.count("pass")
         icon = "✗" if n_fail else ("!" if n_warn else "✓")
-        print(f"\n{icon} {r.path}  ({n_pass} pass, {n_warn} warn, {n_fail} fail · {r.seconds:.1f}s)")
+        mode_tag = f" mode={r.mode}" if r.mode else ""
+        print(f"\n{icon} {r.path}  ({n_pass} pass, {n_warn} warn, {n_fail} fail · {r.seconds:.1f}s{mode_tag})")
+        if r.one_thing:
+            print(f"  ◆ one-thing: {r.one_thing}")
         for v in r.verdicts:
             if v.status == "pass":
                 print(f"  ✓ [{v.rule}]  {v.evidence}")

@@ -8,6 +8,34 @@ Every article exists to prove **one specific thing the reader cannot prove by re
 
 If a static blog post can convey the idea, an interactive explainer is the wrong format. Pick topics where *the transformation is the point* — what happens when you change a parameter, how a system evolves, what a distribution looks like under different assumptions.
 
+## Two valid modes
+
+Articles in this repo come in two flavors. Both are legitimate; the quality bar applies differently to each.
+
+### Mode A — Single-claim explainer
+
+Proves one specific, surprising claim. Example: *"Your 12.5% Nifty return is near-zero in real terms"* (`real-returns`); *"Every return decomposes into PE × EPS, and one of those numbers is usually lying"* (`what-moves-prices`); *"Options are insurance, not gambling"* (`options-insurance`).
+
+The one-thing is **a claim**. The widgets prove it. A non-expert leaves repeating the claim.
+
+### Mode B — Framework / playbook
+
+Teaches a structured method or decision framework rather than a single claim. Example: *the 4-tier consumer framework* (`india-consumption`); *the 6-point business investability scorer* (`evaluating-businesses`); *the position-sizing rules with Kelly + ruin + cliff* (`position-sizing`); *the sell-discipline 5-rule playbook* (`sell-discipline`).
+
+The one-thing is **the framework itself**. The widgets demonstrate each dimension. A non-expert leaves able to name the framework and its dimensions.
+
+Mode is determined by the article, not declared. The validator and reviewer should infer it from the structure and apply the right rubric.
+
+How M1, M3, M8 differ by mode:
+
+| Rule | Mode A (single claim) | Mode B (framework) |
+|---|---|---|
+| **M1** — stated in first 200 words | The surprising claim must appear early | The framework's name and purpose must appear early |
+| **M3** — first screen surprises | The headline claim should be counter-intuitive | The framework's existence or novelty should be the hook |
+| **M8** — teachable in 2 sentences | "A puts cap your loss at premium + (S₀−K). That's the entire thing." | "The 4-tier framework segments by discretionary spend capacity: ₹>15L (luxury), ₹5-15L (middle), ₹<5L (lower), survival. That's the entire thing." |
+
+M2, M4, M5, M6, M7 apply identically in both modes.
+
 ## Before writing a word
 
 The author writes two sentences in a notebook:
@@ -98,13 +126,13 @@ python3 validate-explainers.py
 
 | # | Rule |
 |---|---|
-| M1 | The *one-thing* the article proves is stated within the first 200 words |
+| M1 | The *one-thing* (Mode A: the claim; Mode B: the framework's name + purpose) is stated within the first 200 words |
 | M2 | Every widget passes the *delete test* (removing it would weaken the argument) |
-| M3 | The first screen surprises the reader — they don't already know the headline claim |
+| M3 | The first screen surprises the reader — they don't already know the headline (Mode A: claim; Mode B: framework existence/novelty) |
 | M4 | Each widget teaches **one** concept, not three |
 | M5 | Voice is present — there's a "you" being spoken to and an "I" doing the talking |
 | M6 | Specificity over generality — concrete names, numbers, dates appear in every section |
 | M7 | At least one *"well, actually 🧐"* sidenote admits where the simple model breaks |
-| M8 | A non-expert friend can teach the one-thing back to you in two sentences |
+| M8 | A non-expert friend can teach the one-thing back (Mode A: claim in 2 sentences; Mode B: framework name + dimensions in 2 sentences) |
 
 When you ship an article, run the validator and visually confirm the manual-review items pass. Both are required for a green ship.
