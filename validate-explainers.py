@@ -22,9 +22,9 @@ from pathlib import Path
 from typing import List
 
 REPO_ROOT = Path(__file__).resolve().parent
-VERTICALS = ["market", "insurance", "starlink", "monetary"]
+VERTICALS = ["market", "insurance", "starlink", "monetary", "fusion"]
 # Files we skip (verticals' own landing pages, not articles)
-SKIP_RELATIVE = {"market/index.html", "insurance/index.html", "starlink/index.html", "monetary/index.html"}
+SKIP_RELATIVE = {"market/index.html", "insurance/index.html", "starlink/index.html", "monetary/index.html", "fusion/index.html"}
 
 # ---------------------------------------------------------------------------
 # Result types
