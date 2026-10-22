@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fusion Gold: Mercury to Gold — Fusion Explainers</title>
+  <meta name="description" content="A D-T fusion plant must multiply its neutrons to breed tritium. Make the multiplier mercury-198 and every multiplication leaves behind one atom of gold. The physics, the arithmetic, and where the business case breaks.">
+  <meta name="author" content="Aditya Thakker">
+
+  <meta property="og:title" content="Fusion Gold: Mercury to Gold">
+  <meta property="og:description" content="The gold comes out of a reaction the fusion plant needed anyway. Here is the physics, and the number that decides whether it pays.">
+  <meta property="og:type" content="article">
+
+  <link rel="icon" href="../../shared/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Figtree:wght@400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../shared/explainer.css">
+
+  <style>
+    :root {
+      --accent: #744210;
+      --accent-light: color-mix(in srgb, var(--accent) 10%, #FAF9F7);
+    }
+    .hero { background: linear-gradient(135deg, #3c2a0e 0%, #b7791f 100%); }
+
+    .widget-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 14px 0 4px;
+    }
+    @media (max-width: 540px) { .widget-row { grid-template-columns: 1fr; } }
+    .readout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (max-width: 540px) { .readout-grid { grid-template-columns: repeat(2, 1fr); } }
+    .readout-cell {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .readout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .readout-value {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+    .toggle-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0 14px;
+    }
+    .toggle-group button {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 11px;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .toggle-group button.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Blanket layer diagram */
+    .blanket {
+      margin: 24px 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-family: var(--font-sans);
+      font-size: 14px;
+    }
+    .blanket__layer {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .blanket__layer:last-child { border-bottom: none; }
+    .blanket__name {
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .blanket__rx {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+    .blanket__plasma { background: #2d1b4e; color: #e9d8fd; }
+    .blanket__hg { background: #fefcbf; color: #5f370e; }
+    .blanket__li { background: #e6fffa; color: #234e52; }
+    .blanket__out { background: #f7fafc; color: #4a5568; }
+
+    .exercise {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 18px 0 8px;
+    }
+    .exercise p:last-child { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="../index.html" class="nav__back">
+        <span class="arrow">&larr;</span> Fusion Explainers
+      </a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <h1 class="hero__title">Fusion Gold: Mercury to Gold</h1>
+      <p class="hero__subtitle">A fusion plant has to multiply its neutrons to breed fuel. If the multiplier is mercury-198, every multiplication leaves one atom of gold behind, so the gold costs no extra neutrons.</p>
+      <p class="hero__meta">11 chapters &middot; 4 simulations &middot; 35 min read</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="toc-wrapper reveal">
+      <h3>Contents</h3>
+      <ol class="toc">
+        <li><a href="#i-claim">What is actually being claimed?</a></li>
+        <li><a href="#ii-197">Why does it have to be mass 197?</a></li>
+        <li><a href="#iii-threshold">Why can't a fission reactor do it?</a></li>
+        <li><a href="#iv-tritium">Why does a fusion plant need a neutron multiplier anyway?</a></li>
+        <li><a href="#v-blanket">What happens when the multiplier is mercury?</a></li>
+        <li><a href="#vi-howmuch">How much gold, and how radioactive?</a></li>
+        <li><a href="#vii-worth">What is a neutron worth?</a></li>
+        <li><a href="#viii-enrichment">Which number decides whether it pays?</a></li>
+        <li><a href="#ix-objections">What are the strongest objections?</a></li>
+        <li><a href="#x-marathon">What does Marathon Fusion actually do today?</a></li>
+        <li><a href="#xi-exercises">Can you do the arithmetic yourself?</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <!-- ============================================================
+         I. The claim
+         ============================================================ -->
+    <section class="reveal" id="i-claim">
+      <div class="section-heading">
+        <div class="section-number">I.</div>
+        <h2>What is actually being claimed?</h2>
+      </div>
+      <div class="section-content">
+        <p>In July 2025 a small Bay Area startup, Marathon Fusion, posted a preprint with an old title: <em>Scalable Chrysopoeia</em>. Chrysopoeia is the alchemists' word for making gold. The headline numbers are about <strong>2 tonnes of gold per gigawatt of fusion heat per year</strong>, made from mercury, and enough extra revenue to roughly double what a fusion plant earns<a class="footnote-ref" id="fnref-1" href="#fn-1">[1]</a>.</p>
+
+        <p>The claim is less magical than the press made it sound. Every deuterium&ndash;tritium fusion plant has to wrap its plasma in a <em>blanket</em> that turns each fusion neutron into slightly more than one new tritium atom. That arithmetic only works if a <em>neutron multiplier</em>, a material that takes in one fast neutron and gives out two, sits next to the plasma. <strong>If the multiplier is mercury-198, each multiplication event also turns one mercury atom into gold.</strong> The plant needed that reaction anyway, so the gold comes along without costing it any neutrons.</p>
+
+        <div class="stat-row">
+          <div class="stat"><div class="stat-value">14.1 MeV</div><div class="stat-label">D-T neutron energy</div></div>
+          <div class="stat"><div class="stat-value">~8.5 MeV</div><div class="stat-label">Threshold to knock a neutron out of Hg-198</div></div>
+          <div class="stat"><div class="stat-value">3.66 t</div><div class="stat-label">Hard ceiling: gold per GW&middot;yr of fusion</div></div>
+        </div>
+
+        <p>I'm going to build this up from four facts of nuclear physics, then test it against the strongest objections. The physics holds up. The business case depends on <strong>one number nobody has demonstrated</strong>: what it costs to enrich hundreds of tonnes of mercury in a single isotope. By Section VIII you'll be able to compute the break-even value of that number yourself. Numbers I derived are labelled with a confidence level; numbers from Marathon or the press are cited.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         II. Why mass 197
+         ============================================================ -->
+    <section class="reveal" id="ii-197">
+      <div class="section-heading">
+        <div class="section-number">II.</div>
+        <h2>Why does it have to be mass 197?</h2>
+      </div>
+      <div class="section-content">
+        <p>Four facts are enough to build the whole idea.</p>
+
+        <p><strong>1. An element is defined by its proton count, Z, and chemistry can't change it.</strong> Mercury has Z = 80 and gold has Z = 79. Heat, acids and amalgams only rearrange electrons, with energies of a few electron-volts. Changing Z means changing the nucleus, which takes millions of electron-volts (MeV). That factor of about a million is why alchemy failed.</p>
+
+        <p><strong>2. Nuclei with the same mass number A (called <em>isobars</em>) decay toward the most stable arrangement for that A.</strong> A nucleus with too many neutrons undergoes &beta;<sup>&minus;</sup> decay (n &rarr; p), so Z goes <em>up</em> by 1. A nucleus with too many protons undergoes electron capture (p &rarr; n), so Z goes <em>down</em> by 1. Neither process changes A.</p>
+
+        <p><strong>3. Gold has exactly one stable isotope: Au-197</strong> (79 protons, 118 neutrons).</p>
+
+        <p><strong>4. Mercury has seven stable isotopes: 196, 198, 199, 200, 201, 202 and 204.</strong> Their natural abundances are about 0.15%, 10.0%, 16.9%, 23.1%, 13.2%, 29.9% and 6.9%. There is no stable Hg-197.</p>
+
+        <p>Put facts 2&ndash;4 together. Hg-197 has one proton too many for A = 197, so it captures an electron and becomes Au-197, with a half-life of about 64 hours. <strong>The whole problem therefore reduces to making Hg-197 cheaply and in bulk.</strong> Mercury has A = 196 and A = 198 but no A = 197, so you can either add a neutron to Hg-196 or remove one from Hg-198.</p>
+
+        <p>The obvious-looking shortcut is to knock a proton straight out with an (n,p) reaction, turning mercury directly into gold. Try it below and you'll see why it fails.</p>
+
+        <div class="demo reveal" id="widget-1">
+          <div class="demo-title">Widget 1 &mdash; Where does each reaction end up?</div>
+          <div class="toggle-group" id="w1-buttons">
+            <button data-r="0" class="active">Hg-198 (n,2n)</button>
+            <button data-r="1">Hg-196 (n,&gamma;)</button>
+            <button data-r="2">Hg-199 (n,p)</button>
+            <button data-r="3">Hg-200 (n,p)</button>
+            <button data-r="4">Hg-198 (n,p)</button>
+            <button data-r="5">Hg-196 (n,2n)</button>
+          </div>
+          <canvas id="w1-canvas" style="width: 100%; height: 280px;"></canvas>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">First product</div><div class="readout-value" id="w1-prod">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Ends as</div><div class="readout-value" id="w1-final">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Stable gold?</div><div class="readout-value" id="w1-verdict">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Each column is one mass number A; each row is one element. Filled cells are stable. Click through the reactions. The only routes that end in gold pass through the A = 197 column. Every (n,p) reaction does make gold at first, but at the wrong A, and that gold decays back to mercury within days.</p>
+        </div>
+
+        <p>The landscape picture makes this intuitive. Along each A column there is a single lowest point, the stable isobar. From A = 198 to A = 204 that point is mercury, so any gold made at those masses is neutron-rich and decays back up into mercury. At A = 197 the lowest point is gold, so any Hg-197 you make decays down into it. <strong>A = 197 is the only column where gold is the lowest point.</strong></p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; "decays back to mercury" has one exception, and it isn't gold either</summary>
+          <p>Hg-196 (n,p) gives Au-196, which is <em>proton</em>-rich for A = 196 (both Pt-196 and Hg-196 are stable). It decays mostly (about 93%) by electron capture to Pt-196 and only about 7% by &beta;<sup>&minus;</sup> to Hg-196. So it becomes platinum, which still isn't gold. The general rule holds: away from A = 197 the decays lead somewhere other than stable gold.</p>
+          <p>A second subtlety: the old proposal of thermal capture on Hg-196 does work physically, and gold made in fission reactors this way has been reported for decades. It fails on feedstock, not physics. Hg-196 is 0.15% of mercury, 66 times scarcer than Hg-198, and its capture product Hg-197 has its own large capture cross-section, so some of it is lost to further captures before it can decay.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         III. Threshold
+         ============================================================ -->
+    <section class="reveal" id="iii-threshold">
+      <div class="section-heading">
+        <div class="section-number">III.</div>
+        <h2>Why can't a fission reactor do it?</h2>
+      </div>
+      <div class="section-content">
+        <p>Removing a neutron from Hg-198 costs energy: its <em>neutron separation energy</em>, about <strong>8.5 MeV</strong> (moderate-high confidence). The incoming neutron has to supply that energy, plus a little extra for momentum conservation. Below the threshold the (n,2n) cross-section is exactly zero. No number of slow neutrons will do it.</p>
+
+        <p>Fission neutrons are born with a broad spread of energies, the <em>Watt spectrum</em>, which averages about 2 MeV. D-T fusion neutrons are all born at the same energy:</p>
+
+        <div class="math-block">
+          D + T &rarr; <sup>4</sup>He (3.5 MeV) + n (14.1 MeV)&nbsp;&nbsp;&nbsp;&nbsp;Q = 17.6 MeV
+          <span class="math-where">every fusion neutron is 5.6 MeV above the Hg-198 (n,2n) threshold</span>
+        </div>
+
+        <div class="demo reveal" id="widget-2">
+          <div class="demo-title">Widget 2 &mdash; How many neutrons clear the threshold?</div>
+          <canvas id="w2-canvas" style="width: 100%; height: 320px;"></canvas>
+          <div class="slider-group" style="margin-top: 14px;">
+            <div class="slider-label"><span>Reaction threshold</span><span class="slider-value" id="w2-t-val">8.5 MeV</span></div>
+            <input type="range" id="w2-t" min="1" max="15" value="8.5" step="0.1">
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Fission &gt; threshold</div><div class="readout-value" id="w2-fis">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">D-T &gt; threshold</div><div class="readout-value" id="w2-fus">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Per MeV of heat</div><div class="readout-value" id="w2-ratio">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">The y-axis is logarithmic, so the fission tail is visible at all. At 8.5 MeV only about 0.4% of fission neutrons qualify, against 100% of D-T neutrons. The last readout normalises by energy released: fission gives about 2.4 neutrons per 200 MeV and D-T gives 1 per 17.6 MeV. Per unit of heat, fusion delivers roughly 1,000&times; more neutrons above threshold. Push the threshold above 14.1 MeV and fusion drops to zero too.</p>
+        </div>
+
+        <p>There is a second, subtler reason heavy metals make good multipliers. When a neutron bounces elastically off a nucleus of mass number A, the largest fraction of its energy it can lose in one collision is:</p>
+
+        <div class="math-block">
+          &Delta;E<sub>max</sub> / E = 1 &minus; ((A&minus;1)/(A+1))<sup>2</sup> = 4A / (A+1)<sup>2</sup>
+          <span class="math-where">head-on elastic collision, non-relativistic</span>
+        </div>
+
+        <p>For hydrogen (A = 1) that's 100%: a billiard ball hitting a billiard ball can stop dead. For mercury (A &asymp; 198) it's 4&times;198/199<sup>2</sup> &asymp; <strong>2%</strong>, like a ping-pong ball bouncing off a bowling ball. A 14 MeV neutron can bounce elastically around a thick mercury layer many times and stay above 8.5 MeV, and every bounce is another chance at (n,2n). At 14 MeV, (n,2n) is also the largest <em>non-elastic</em> channel for heavy nuclei, which is why lead has long been the standard heavy-metal multiplier. Marathon's related work uses &sigma;<sub>(n,2n)</sub> &asymp; 2 barns for Hg-198<a class="footnote-ref" id="fnref-2" href="#fn-2">[2]</a>.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the bowling-ball picture covers elastic scattering only</summary>
+          <p>The 2% bound applies to elastic collisions. At 14 MeV, heavy nuclei also scatter <em>inelastically</em>: the neutron leaves the target nucleus in an excited state and can lose several MeV at once. Inelastic scattering on mercury is a real loss channel that the elastic intuition hides, and it's one reason the realistic conversion fraction is about 55&ndash;80% and not close to 100%. The intuition is still right in direction: a heavy multiplier slows neutrons far less per collision than beryllium (A = 9, up to 36% per elastic hit) and far, far less than water.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IV. Tritium
+         ============================================================ -->
+    <section class="reveal" id="iv-tritium">
+      <div class="section-heading">
+        <div class="section-number">IV.</div>
+        <h2>Why does a fusion plant need a neutron multiplier anyway?</h2>
+      </div>
+      <div class="section-content">
+        <p>This is the step that turns a physics curiosity into an engineering argument. Tritium has a 12.3-year half-life, so essentially none exists in nature. World civilian stocks are on the order of tens of kilograms, mostly a byproduct of Canadian CANDU reactors (moderate confidence). Here is how much one plant burns:</p>
+
+        <div class="math-block">
+          1 GW &divide; (17.6 MeV &times; 1.602&times;10<sup>&minus;13</sup> J/MeV) = 3.55&times;10<sup>20</sup> fusions/s
+          <br>
+          &times; 3.156&times;10<sup>7</sup> s/yr = 1.12&times;10<sup>28</sup> fusions/yr = 18,600 mol/yr
+          <br>
+          &times; 3.016 g/mol &asymp; <strong>56 kg of tritium per GW&middot;yr of fusion power</strong>
+          <span class="math-where">my calculation; high confidence. Each fusion consumes one triton and releases one neutron.</span>
+        </div>
+
+        <p>A single 1&nbsp;GW plant burns through roughly the world's civilian stock every year or two. It must <strong>breed its own fuel</strong>, and the only practical way is lithium-6:</p>
+
+        <div class="math-block">
+          <sup>6</sup>Li + n &rarr; T + <sup>4</sup>He + 4.8 MeV
+          <span class="math-where">about 940 barns for slow (thermal) neutrons; the cross-section falls roughly as 1/velocity as the neutron speeds up</span>
+        </div>
+
+        <p>Now count. Each fusion consumes one triton and releases one neutron, and each neutron can make at most one triton. Some neutrons are always lost: absorbed in structural steel, escaping through heating and diagnostic ports, or leaking out. With no help, the <em>tritium breeding ratio</em> (TBR) is below 1 and the plant slowly runs out of fuel. In practice you need TBR comfortably above 1, typically 1.05&ndash;1.15 or more. The margin covers tritium decay and processing losses, keeps an inventory on hand, and produces the surplus that <em>starts the next plant</em>.</p>
+
+        <p>The standard fix is a neutron multiplier between the plasma and the lithium: beryllium (Be-9 (n,2n)) or lead (Pb (n,2n)). <strong>So the (n,2n) reaction is already in every credible D-T blanket design.</strong> The question Marathon asked is which nucleus should perform it.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         V. The blanket
+         ============================================================ -->
+    <section class="reveal" id="v-blanket">
+      <div class="section-heading">
+        <div class="section-number">V.</div>
+        <h2>What happens when the multiplier is mercury?</h2>
+      </div>
+      <div class="section-content">
+        <p>Combine the last three sections. A multiplier performs (n,2n). Hg-198 (n,2n) is exactly the reaction that makes gold. So swap beryllium or lead for mercury enriched in Hg-198, and every neutron multiplication also produces one gold atom. The preprint proposes two blanket layers with different working fluids, each matched to the neutron energies it sees<a class="footnote-ref" id="fnref-3" href="#fn-3">[3]</a>:</p>
+
+        <div class="blanket">
+          <div class="blanket__layer blanket__plasma">
+            <div class="blanket__name">Plasma</div>
+            <div class="blanket__rx">D + T &rarr; He + n (14.1 MeV)</div>
+          </div>
+          <div class="blanket__layer blanket__hg">
+            <div class="blanket__name">Inner blanket &mdash; Hg enriched to ~90% Hg-198 (fast spectrum)</div>
+            <div class="blanket__rx">n (14 MeV) + Hg-198 &rarr; Hg-197 + 2n (a few MeV each)<br>Hg-197 &rarr;(64 h, electron capture)&rarr; Au-197 &#10003;</div>
+          </div>
+          <div class="blanket__layer blanket__li">
+            <div class="blanket__name">Outer blanket &mdash; Li enriched to ~90% Li-6 (slower spectrum)</div>
+            <div class="blanket__rx">n + Li-6 &rarr; T + He &nbsp;&rarr; tritium back to the plasma &#10003;</div>
+          </div>
+          <div class="blanket__layer blanket__out">
+            <div class="blanket__name">Heat exchanger</div>
+            <div class="blanket__rx">heat from every layer &rarr; turbine &rarr; electricity &#10003;</div>
+          </div>
+        </div>
+
+        <p>The order of the layers follows from the cross-sections. (n,2n) needs neutrons above 8.5 MeV, and neutrons are fastest right next to the plasma, so mercury goes inside. Li-6 capture prefers <em>slow</em> neutrons (roughly 1/v), and neutrons have slowed down by the time they reach the outer layer, so lithium goes outside.</p>
+
+        <p>Here is the move that makes the gold free, in neutron terms. Write the TBR in a toy model: a fraction <span class="math">f</span> of source neutrons undergo Hg-198 (n,2n), and every neutron, multiplied or not, has probability <span class="math">p</span> of being captured by Li-6:</p>
+
+        <div class="math-block">
+          TBR = p&middot;(1 &minus; f) + p&middot;2f = p&middot;(1 + f)
+          <br>
+          gold per GW&middot;yr = f &times; 3.66 t
+          <span class="math-where">toy model, mine; it ignores parasitic capture in mercury and inelastic losses</span>
+        </div>
+
+        <div class="demo reveal" id="widget-3">
+          <div class="demo-title">Widget 3 &mdash; The neutron budget: tritium vs gold</div>
+          <canvas id="w3-canvas" style="width: 100%; height: 320px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>f &mdash; fraction doing Hg-198 (n,2n)</span><span class="slider-value" id="w3-f-val">0.55</span></div>
+              <input type="range" id="w3-f" min="0" max="0.9" value="0.55" step="0.01">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>p &mdash; Li-6 capture probability</span><span class="slider-value" id="w3-p-val">0.85</span></div>
+              <input type="range" id="w3-p" min="0.6" max="1" value="0.85" step="0.01">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">TBR</div><div class="readout-value" id="w3-tbr">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Gold / GW&middot;yr</div><div class="readout-value" id="w3-gold">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Min f for TBR 1.10</div><div class="readout-value" id="w3-fmin">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">Drag f to zero. With p = 0.85 and no multiplier, TBR is 0.85 and the plant runs out of fuel. Now drag f up: TBR and gold rise <em>together</em>. Nothing on this chart trades gold against tritium, because a single reaction makes both. The gold marker at f &asymp; 0.55 is Marathon's reported ~2 t/GW&middot;yr.</p>
+        </div>
+
+        <p>The widget shows the one-thing this whole article proves: <strong>in a mercury-198 blanket, gold and tritium are not competing outputs. They are the same event counted twice.</strong> A beryllium blanket performs the same multiplication and gets nothing for it except helium.</p>
+
+        <h3>Why the mercury must be enriched</h3>
+
+        <p>Natural mercury is 90% isotopes <em>other</em> than Hg-198. Some of them, especially Hg-199 (thermal capture about 2,000 barns, moderate confidence), are greedy absorbers of slow neutrons. They would take the neutrons Li-6 needs and make no gold in return. The preprint's simulated case enriches all the mercury to 90 at% Hg-198 and all the lithium to 90 at% Li-6. An independent OpenMC run posted on a fusion forum came to the same conclusion from the other direction: a natural-Hg, natural-Li blanket fails, with TBR dropping below 1.2 once mercury is more than about 20% of the Hg+Li mix<a class="footnote-ref" id="fnref-4" href="#fn-4">[4]</a>. <strong>Enrichment is not an optimisation. The whole concept depends on it.</strong> Keep that in mind for Section VIII.</p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; the multiplier eats energy, and mercury eats more than beryllium</summary>
+          <p>(n,2n) is endothermic. Each Hg-198 multiplication consumes about 8.5 MeV of neutron kinetic energy, which is stored as nuclear binding energy and never becomes heat. Capturing the extra neutron in Li-6 returns 4.8 MeV, so each event costs a net ~3.7 MeV of heat, before a small refund when Hg-197 decays.</p>
+          <p>First-order ledger (my estimate, low-moderate confidence): at f = 0.55 and p = 0.85, that is about 2 MeV lost from roughly 22 MeV of heat per fusion, about 9%. Lead's (n,2n) costs about 7.4 MeV, similar to mercury. Beryllium's costs only about 1.7 MeV. So the claim that gold comes "without hurting electricity output" is believable compared with a <em>lead</em> blanket, but likely costs on the order of 5&ndash;15% of blanket heat compared with a <em>beryllium</em> blanket. A full neutronics model with gamma heating could narrow that range; I don't have one.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VI. How much / radioactivity
+         ============================================================ -->
+    <section class="reveal" id="vi-howmuch">
+      <div class="section-heading">
+        <div class="section-number">VI.</div>
+        <h2>How much gold, and how radioactive?</h2>
+      </div>
+      <div class="section-content">
+        <p><strong>The ceiling (my calculation, high confidence):</strong> one source neutron per fusion and at most one gold atom per source neutron give 18,600 mol &times; 197 g/mol = <strong>3.66 tonnes of gold per GW&middot;yr</strong>. No blanket design can exceed this, because a multiplied neutron has already lost too much energy to trigger a second (n,2n).</p>
+
+        <p><strong>Marathon's number:</strong> about 2 t/GW<sub>th</sub>/yr, so f &asymp; 0.55. In one configuration the preprint reports a yearly Au-197 / Hg-198 ratio of 0.0047 on a 622-tonne Hg-198 inventory. That is about 2.9 t/yr, or roughly 80% of the ceiling. Given the heavy-nucleus physics in Section III, 55&ndash;80% in a thick, highly enriched layer is <strong>physically plausible</strong> (moderate confidence).</p>
+
+        <p><strong>Units in the press coverage:</strong> the Financial Times reported 5,000 kg of gold per year <em>per gigawatt of electricity</em><a class="footnote-ref" id="fnref-5" href="#fn-5">[5]</a>. At about 40% thermal-to-electric efficiency, 1 GW<sub>e</sub> &asymp; 2.5 GW<sub>th</sub>, and 2.5 &times; 2 t &asymp; 5 t. The two figures agree once you convert units.</p>
+
+        <p><strong>Inventory:</strong> burning 0.47% of the Hg-198 per year means the 622 t charge lasts on the order of 200 years. <strong>The Hg-198 is capital equipment, not a consumable.</strong> The economics depend on the upfront enrichment bill, not on ongoing feedstock.</p>
+
+        <h3>The radioactivity catch</h3>
+
+        <p>Fast neutrons also cause side reactions on the other mercury isotopes, producing radioactive gold: Au-196 (6.2 d), Au-198 (2.7 d), Au-199 (3.1 d), and the long tail, Au-195 (186 d), which mostly comes from Hg-196 (n,2n) Hg-195 &rarr; Au-195. Marathon's conservative release criterion is that the gold must be no more radioactive than a banana, which works out to a cooling time of about <strong>17.7 years</strong><a class="footnote-ref" id="fnref-6" href="#fn-6">[6]</a>.</p>
+
+        <div class="math-block">
+          17.7 yr &divide; 0.51 yr (Au-195 half-life) &asymp; 35 half-lives &nbsp;&rarr;&nbsp; 2<sup>&minus;35</sup> &asymp; 3&times;10<sup>&minus;11</sup>
+          <span class="math-where">my sanity check, moderate confidence that Au-195 sets the tail. Eleven orders of magnitude is the right scale for going from "freshly irradiated" to "banana".</span>
+        </div>
+
+        <p>Getting the gold out is the easy part. Gold dissolves in mercury to form an amalgam, and gold miners have separated the two for centuries by distilling off the mercury (boiling point 357&nbsp;&deg;C) and leaving the gold behind. Of everything in this scheme, the extraction chemistry is the least risky step.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VII. Economics
+         ============================================================ -->
+    <section class="reveal" id="vii-worth">
+      <div class="section-heading">
+        <div class="section-number">VII.</div>
+        <h2>What is a neutron worth?</h2>
+      </div>
+      <div class="section-content">
+        <p>Marathon's site gives a GW-scale plant about <strong>$223M/yr from electricity alone and $482M/yr from electricity plus gold</strong>, which implies about $259M/yr from gold<a class="footnote-ref" id="fnref-7" href="#fn-7">[7]</a>. Here are the assumptions reverse-engineered (my inference, moderate confidence): 1 GW<sub>th</sub> &times; 40% efficiency &times; 90% capacity factor = 3.15 TWh/yr, and at about $70/MWh that comes to ~$221M, almost exactly their $223M. So "GW-scale" means 1 GW <em>thermal</em>. Then $259M &divide; 2&ndash;2.4 t implies a gold price of about $110&ndash;130k/kg, roughly the range when the paper was written.</p>
+
+        <p>Gold has risen since. Spot traded around <strong>$4,140&ndash;4,200/oz in October 2026</strong><a class="footnote-ref" id="fnref-8" href="#fn-8">[8]</a>, about $134k/kg (1 kg = 32.15 troy oz). At that price, 2 t is worth about <strong>$268M/yr</strong> and 2.9 t about <strong>$390M/yr</strong>. So the gold line would now be larger than the electricity line.</p>
+
+        <h3>Why gold, and not something pricier?</h3>
+
+        <p>Think of neutrons as the product and ask what to sell them as. Medical isotopes such as actinium-225 are worth vastly more per atom, but the entire world market is grams to kilograms per year. A 1&nbsp;GW plant releases about 10<sup>28</sup> neutrons a year and would flood that market almost immediately. Gold is worth only about $4.4&times;10<sup>&minus;20</sup> per atom (197 g/mol &times; $134/g &divide; 6.022&times;10<sup>23</sup>), but it has an above-ground stock worth over $20 trillion and a deep, liquid market that absorbs tonnes without noticing.</p>
+
+        <div class="callout">
+          <div class="callout-title">The actual commercial insight</div>
+          <p>Gold is the rare product that is <strong>valuable per atom and also has effectively unlimited demand at power-plant volumes</strong>. Isotopes worth more per atom have markets too small to absorb a plant's output, and commodities with deep enough markets are worth too little per atom. Gold sits at the intersection.</p>
+        </div>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; one widely shared revenue figure is off by ~35&times;</summary>
+          <p>A trade outlet wrote that a reactor producing 5,000 kg of gold a year would earn "only $17 million" from it<a class="footnote-ref" id="fnref-9" href="#fn-9">[9]</a>. Check it: 5,000 kg &times; 32.15 oz/kg &times; $3,400/oz (the price the same article quotes) &asymp; $547M. At October 2026 prices it's about $670M. Ignore the $17M figure; it's an arithmetic error, not an alternative estimate.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIII. Enrichment
+         ============================================================ -->
+    <section class="reveal" id="viii-enrichment">
+      <div class="section-heading">
+        <div class="section-number">VIII.</div>
+        <h2>Which number decides whether it pays?</h2>
+      </div>
+      <div class="section-content">
+        <p>Start with mass balance. Making 622 t of 90% Hg-198 from natural mercury (~10% Hg-198) uses the standard enrichment feed equation:</p>
+
+        <div class="math-block">
+          Feed = Product &times; (x<sub>p</sub> &minus; x<sub>t</sub>) / (x<sub>f</sub> &minus; x<sub>t</sub>)
+          <br>
+          tails 2%: 622 &times; 0.88 / 0.08 &asymp; <strong>6,900 t</strong> of natural mercury
+          <br>
+          tails 5%: 622 &times; 0.85 / 0.05 &asymp; <strong>10,600 t</strong>
+          <span class="math-where">x = Hg-198 fraction in product (p), feed (f), tails (t); my calculation</span>
+        </div>
+
+        <p>That's <em>per plant</em>. Global primary mercury production is a few thousand tonnes a year (low-moderate confidence), and the Minamata Convention is phasing primary mining out. There is one point in Marathon's favour: thousands of tonnes of mercury are sitting in stockpiles from decommissioned chlor-alkali plants, waiting for disposal. That stock could be cheap feed, perhaps even negatively priced. Still, no heavy element other than uranium has ever been isotopically separated at the thousand-tonne scale. The preprint itself says mercury enrichment must scale from laboratory demonstrations to industrial levels, and gives only preliminary cost estimates for photochemical enrichment.</p>
+
+        <p>So treat the enrichment cost as the unknown, and find the value at which the gold stream just pays for the inventory. Gold sales start only after the plant runs <em>and</em> the first batch cools for ~18 years, so discounting does most of the work:</p>
+
+        <div class="math-block">
+          PV<sub>gold</sub> = R &times; [1 &minus; (1+r)<sup>&minus;40</sup>] / r &times; (1+r)<sup>&minus;D</sup>
+          <br>
+          break-even enrichment cost = PV<sub>gold</sub> &divide; 622,000 kg
+          <span class="math-where">R = annual gold revenue, r = discount rate, D = years from building the inventory to the first sale, 40 years of sales</span>
+        </div>
+
+        <div class="demo reveal" id="widget-4">
+          <div class="demo-title">Widget 4 &mdash; Break-even cost of enriched Hg-198</div>
+          <canvas id="w4-canvas" style="width: 100%; height: 320px;"></canvas>
+          <div class="widget-row">
+            <div class="slider-group">
+              <div class="slider-label"><span>Gold price</span><span class="slider-value" id="w4-g-val">$4,180/oz</span></div>
+              <input type="range" id="w4-g" min="1500" max="8000" value="4180" step="10">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Gold output</span><span class="slider-value" id="w4-t-val">2.0 t/yr</span></div>
+              <input type="range" id="w4-t" min="0.5" max="3.66" value="2" step="0.05">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Years to first sale (D)</span><span class="slider-value" id="w4-d-val">18 yr</span></div>
+              <input type="range" id="w4-d" min="0" max="30" value="18" step="1">
+            </div>
+            <div class="slider-group">
+              <div class="slider-label"><span>Discount rate</span><span class="slider-value" id="w4-r-val">8%</span></div>
+              <input type="range" id="w4-r" min="2" max="14" value="8" step="0.5">
+            </div>
+          </div>
+          <div class="readout-grid">
+            <div class="readout-cell"><div class="readout-label">Gold revenue / yr</div><div class="readout-value" id="w4-rev">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">PV of gold</div><div class="readout-value" id="w4-pv">&mdash;</div></div>
+            <div class="readout-cell"><div class="readout-label">Break-even $/kg</div><div class="readout-value" id="w4-be">&mdash;</div></div>
+          </div>
+          <p class="widget-hint">The rising line is the cost of 622 t of enriched Hg-198 as the per-kg price climbs. The flat line is the present value of the gold. Where they cross is the most you can pay per kg of enriched mercury and still break even. At the defaults it's about $1,300/kg. Set D to 0, the case where cooling didn't exist, and see how far the break-even point moves.</p>
+        </div>
+
+        <p>The defaults give a break-even of about <strong>$1,300 per kg</strong> of enriched mercury. At $1,000/kg the inventory costs about $0.6B and the gold pays it back. At $10,000/kg it costs about $6B and the gold covers less than a seventh of that. <strong>The business case therefore depends on a number that has never been demonstrated at scale.</strong></p>
+
+        <details class="sidenote">
+          <summary>Well, actually 🧐 &mdash; a uranium-style SWU estimate lands above break-even</summary>
+          <p>Enrichment effort is measured in <em>separative work units</em> (SWU), using the value function V(x) = (2x &minus; 1)&middot;ln(x/(1&minus;x)). For 1 kg of 90% product from 9.97% feed with 2% tails, you feed 11.0 kg, reject 10.0 kg, and spend:</p>
+          <div class="math-block">
+            SWU = P&middot;V(0.90) + T&middot;V(0.02) &minus; F&middot;V(0.0997) &asymp; 1.76 + 37.5 &minus; 19.4 &asymp; <strong>~20 SWU per kg</strong>
+          </div>
+          <p>Uranium centrifuge enrichment sells for very roughly $100&ndash;150 per SWU. If mercury could be enriched at that price, the inventory would cost about $2,000&ndash;3,000/kg, or $1.2&ndash;1.9B: above the ~$1,300/kg break-even. Treat this with low confidence. SWU prices don't carry over between elements; mercury is a seven-isotope mix, not a binary one; and the mass difference between neighbouring Hg isotopes is small. The more promising route is <em>photochemical</em> separation, which exploits the isotope shift of mercury's 253.7&nbsp;nm line and was developed in the 1980s&ndash;90s to enrich Hg-196 for fluorescent lamps. That technology has never come close to thousands of tonnes.</p>
+          <p>Two adjustments favour Marathon. The enriched mercury is <em>not</em> consumed: after 40 years most of the 622 t is still there and could be resold or moved to the next plant. And a plant without mercury still has to buy a beryllium or lead multiplier. Only the <em>difference</em> in cost should be charged against the gold.</p>
+        </details>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         IX. Objections
+         ============================================================ -->
+    <section class="reveal" id="ix-objections">
+      <div class="section-heading">
+        <div class="section-number">IX.</div>
+        <h2>What are the strongest objections?</h2>
+      </div>
+      <div class="section-content">
+        <p><strong>1. There is no D-T power plant (high confidence).</strong> ITER's 2024 rebaseline puts full D-T operation around 2039<a class="footnote-ref" id="fnref-10" href="#fn-10">[10]</a>. Commercial tokamaks such as CFS's ARC are aiming for the 2030s, and fusion schedules have a long record of slipping. A plant switched on in 2040 sells its first cooled gold around 2058. At 8%, a dollar arriving in year 18 is worth about $0.25 today. "Doubling revenue" sounds much bigger in nominal dollars than in present value.</p>
+
+        <p><strong>2. Enrichment is the crux (high confidence that it's the crux; low confidence on its cost).</strong> See Section VIII. Of all the inputs, enrichment cost is the one that moves the answer most and is the least known.</p>
+
+        <p><strong>3. Liquid mercury inside a tokamak is a hard engineering problem in its own right (moderate-high confidence).</strong> Mercury is electrically conductive, so pumping it across magnetic fields of several tesla creates large magnetohydrodynamic (MHD) drag and pressure drops, the same issue that troubles lead-lithium blankets. At 13.5 g/cm&sup3;, the inventory is hundreds of tonnes of structural load. Mercury also has a significant vapour pressure, is toxic, and becomes radioactive under neutron bombardment. None of these is a showstopper on its own, but each one makes the plant more expensive.</p>
+
+        <p><strong>4. The gold dividend shrinks as fusion succeeds (moderate confidence).</strong> Mine supply is about 3,600 t/yr. A 1 GW<sub>th</sub> plant adds ~2 t, which is noise. But 1,000 GW<sub>th</sub> of these plants would add ~2,000 t/yr, a +55% supply shock, and the price would fall. You can read this as a <em>feature</em>: the subsidy is largest for the first few dozen plants, which need it most, and fades once fusion can stand on its own. Either way, you can't model a fleet at $4,000/oz.</p>
+
+        <p><strong>5. Market acceptance is unknown.</strong> Once cooled, fusion gold is atomically identical to mined gold, with no detectable signature like the one that separates lab-grown diamonds from mined ones. But regulators have to clear free release of material that was once radioactive, and some buyers may discount it. I have no strong evidence either way (unknown).</p>
+
+        <p><strong>6. Another reading: gold is the marketing story and tritium is the real one.</strong> On Marathon's own page, the first benefit listed is excess tritium to start future plants, with gold as a "natural dividend." The binding constraint on how fast a fusion <em>fleet</em> can grow is the tritium doubling time: how quickly plant N produces the startup inventory for plant N+1. A better multiplier shortens that time. Gold gets the headlines, but tritium surplus may matter more strategically. I think this is the correct reading.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         X. Marathon today
+         ============================================================ -->
+    <section class="reveal" id="x-marathon">
+      <div class="section-heading">
+        <div class="section-number">X.</div>
+        <h2>What does Marathon Fusion actually do today?</h2>
+      </div>
+      <div class="section-content">
+        <p>Marathon doesn't build tokamaks. My reading (inference, moderate confidence) is that the gold concept is IP and blanket design they hope to license to power-plant developers. Their current work rests on the same principle as the gold scheme: <strong>14 MeV neutrons enable (n,2n) chemistry that fission reactors can't</strong>.</p>
+
+        <ul>
+          <li><strong>Near-term machine:</strong> a small beam-target neutron source. An RF plasma produces deuterium ions, which are accelerated to keV energies into a lithium target that holds tritium as lithium tritide and can be regenerated in place. Listed specs are about 1 kW of fusion power and 10<sup>12</sup> n/cm&sup2;/s. Check: 1 kW &divide; 17.6 MeV &asymp; 3.5&times;10<sup>14</sup> neutrons/s, consistent with that flux close to the target.</li>
+          <li><strong>Radiopharmaceuticals:</strong> Ra-226 (n,2n) Ra-225, which then &beta;<sup>&minus;</sup> decays (14.9 d) to Ac-225, a prized cancer-therapy isotope. <strong>This is the gold route in reverse</strong>: (n,2n) removes a neutron, then a decay changes Z, but this time Z goes up. Medical isotopes are a market where a small neutron source can earn money <em>today</em>.</li>
+          <li><strong>Fuel cycle:</strong> tritium processing, and Li-6 enrichment with a plasma centrifuge.</li>
+          <li><strong>Funding:</strong> about $6M in investment plus $4M in government grants as of mid-2025 (not checked for later rounds)<a class="footnote-ref" id="fnref-11" href="#fn-11">[11]</a>.</li>
+        </ul>
+
+        <p>The strategy, then: isotope revenue now, fuel-cycle components for fusion developers next, and gold as a long-dated option on fusion working. That's a sensible structure for a hardware startup. But the headline, mercury to gold, is the most distant and most capital-hungry part of the company.</p>
+
+        <hr />
+      </div>
+    </section>
+
+    <!-- ============================================================
+         XI. Exercises
+         ============================================================ -->
+    <section class="reveal" id="xi-exercises">
+      <div class="section-heading">
+        <div class="section-number">XI.</div>
+        <h2>Can you do the arithmetic yourself?</h2>
+      </div>
+      <div class="section-content">
+        <p>Reading this isn't the same as understanding it. Try each exercise before opening the answer.</p>
+
+        <div class="exercise">
+          <p><strong>E1 &mdash; isobar logic.</strong> A colleague proposes Hg-200 (n,p) Au-200. What does Au-200 do next, and why? Then explain why Hg-196 (n,2n) Hg-195 doesn't give stable gold either.</p>
+        </div>
+        <details class="sidenote">
+          <summary>Answer E1</summary>
+          <p>At A = 200 the stable isobar is Hg-200, so Au-200 is neutron-rich and &beta;<sup>&minus;</sup> decays (48 min) straight back to Hg-200: the net effect is nothing. Hg-195 is proton-rich and decays by electron capture to Au-195. But A = 195 isn't gold's basin. Pt-195 is the stable isobar, so Au-195 keeps decaying (186 d) to platinum. You get a radioactive gold contaminant and then platinum, not stable gold.</p>
+        </details>
+
+        <div class="exercise">
+          <p><strong>E2 &mdash; neutron counting.</strong> A smaller plant runs at 400 MW of fusion power. Compute (a) neutrons per year, (b) the maximum possible gold per year, and (c) gold per year if 60% of source neutrons do Hg-198 (n,2n).</p>
+        </div>
+        <details class="sidenote">
+          <summary>Answer E2</summary>
+          <p>(a) 0.4 &times; 1.12&times;10<sup>28</sup> &asymp; 4.5&times;10<sup>27</sup> neutrons/yr (&asymp; 7,440 mol). (b) 7,440 &times; 197 g &asymp; 1.47 t. (c) 0.6 &times; 1.47 &asymp; 0.88 t/yr.</p>
+        </details>
+
+        <div class="exercise">
+          <p><strong>E3 &mdash; neutron budget.</strong> Using TBR = p(1+f) with p = 0.85, what minimum f gives TBR &ge; 1.10? What does that say about the trade-off (or lack of one) between gold and tritium?</p>
+        </div>
+        <details class="sidenote">
+          <summary>Answer E3</summary>
+          <p>1.10 / 0.85 &minus; 1 &asymp; 0.29. You need about 29% of source neutrons doing (n,2n) just to be fuel self-sufficient with margin. Every extra unit of f raises tritium <em>and</em> gold together, so there is no trade-off inside this model. The real trade-offs sit outside it: parasitic capture in mercury, energy lost to an endothermic reaction (Section V sidenote), and the enrichment bill.</p>
+        </details>
+
+        <div class="exercise">
+          <p><strong>E4 &mdash; enrichment economics.</strong> How much natural mercury do you need for 622 t at 90% Hg-198 with 1% tails? With $268M/yr of gold starting 18 years out, 8% discount rate and 40 years of sales, at what enrichment cost X ($/kg) does the gold's present value equal the inventory cost?</p>
+        </div>
+        <details class="sidenote">
+          <summary>Answer E4</summary>
+          <p>Feed = 622 &times; (0.90 &minus; 0.01) / (0.0997 &minus; 0.01) &asymp; 6,170 t. The annuity factor (8%, 40 yr) is 11.92, and the discount factor 1.08<sup>&minus;18</sup> is 0.250, so PV &asymp; 268 &times; 11.92 &times; 0.250 &asymp; $800M. X &asymp; $800M / 622,000 kg &asymp; <strong>$1,290/kg</strong>. Widget 4 reproduces this.</p>
+        </details>
+
+        <div class="exercise">
+          <p><strong>E5 &mdash; market saturation.</strong> How many GW<sub>th</sub> of these plants would raise annual gold supply by 10%? If gold's demand elasticity is &minus;0.5 (assume it for this exercise), what happens to the price, and to each plant's gold revenue?</p>
+        </div>
+        <details class="sidenote">
+          <summary>Answer E5</summary>
+          <p>10% of ~3,600 t = 360 t &divide; 2 t/GW &asymp; <strong>180 GW<sub>th</sub></strong>. Price falls by about 10% / 0.5 = 20%, and each plant's gold revenue falls by the same 20%. That's a crude constant-elasticity approximation; gold demand is dominated by investors and central banks, so the real response could be smaller or larger. Either way, the first ~50 plants barely move the price, and a fleet of a few hundred does.</p>
+        </details>
+
+        <div class="exercise">
+          <p><strong>E6 &mdash; design reasoning.</strong> Explain why putting the lithium layer <em>inside</em> the mercury layer, next to the plasma, would sharply cut gold production.</p>
+        </div>
+        <details class="sidenote">
+          <summary>Answer E6</summary>
+          <p>Neutrons are above the 8.5 MeV threshold only near the plasma. Put lithium there and two things go wrong. First, its light nuclei slow neutrons quickly (Li-7 can take up to ~44% of a neutron's energy in one elastic hit, against 2% for mercury), so most neutrons fall below 8.5 MeV before they ever reach the mercury, and f collapses. Second, Li-6's capture cross-section at 14 MeV is tiny because it falls roughly as 1/v, so the lithium breeds poorly in exactly the place you put it. You lose the gold, you lose the multiplication, and the lithium still has to do its breeding further out. The threshold and the 1/v law together force the order.</p>
+        </details>
+
+        <div class="callout">
+          <div class="callout-title">What you can now teach</div>
+          <p><strong>A D-T fusion plant must multiply its neutrons with (n,2n) reactions to breed enough tritium. If the multiplier is enriched mercury-198, each multiplication makes Hg-197, which decays into gold-197, so gold and tritium come out of the same reaction.</strong> The physics works because only A = 197 drains into gold and only 14 MeV fusion neutrons clear the 8.5 MeV threshold at scale. The business case depends on one unproven number: whether hundreds of tonnes of mercury can be enriched for less than about $1,300/kg.</p>
+        </div>
+
+        <ol class="footnotes">
+          <li id="fn-1">Marathon Fusion, <em>Scalable Chrysopoeia via (n,2n) Reactions Driven by Deuterium-Tritium Fusion Neutrons</em>, arXiv:2507.13461 (July 2025, preprint, not peer reviewed); also presented as an APS-DPP 2025 poster (archive.aps.org/dpp/2025/pp13/51). The ~2 t/GW<sub>th</sub>/yr figure is from the APS abstract. <a class="footnote-back" href="#fnref-1">&#8617;</a></li>
+          <li id="fn-2">The ~2 b cross-section for Hg-198 (n,2n) at 14 MeV is the value assumed in Marathon's related work. Evaluated nuclear data libraries (ENDF/B, JEFF) give values of this order. <a class="footnote-back" href="#fnref-2">&#8617;</a></li>
+          <li id="fn-3">Two-layer "inner blanket / outer blanket" design and the 90 at% Hg-198 / 90 at% Li-6 enrichment case: arXiv:2507.13461. <a class="footnote-back" href="#fnref-3">&#8617;</a></li>
+          <li id="fn-4">BS-Fusion forum, "Can fusion turn mercury into gold?" (bs-fusion.discourse.group/t/can-fusion-turn-mercury-into-gold/94): an independent OpenMC study of natural-isotope Hg/Li blankets. A forum post, not peer reviewed. <a class="footnote-back" href="#fnref-4">&#8617;</a></li>
+          <li id="fn-5">Financial Times coverage, July 2025, as excerpted by HumanProgress ("Fusion energy start-up claims to have cracked alchemy"). <a class="footnote-back" href="#fnref-5">&#8617;</a></li>
+          <li id="fn-6">The banana-equivalent criterion and the ~17.7-year cooling time are as reported from the preprint. I could not retrieve the primary text to confirm which isotope sets the tail; the Au-195 attribution is my inference. <a class="footnote-back" href="#fnref-6">&#8617;</a></li>
+          <li id="fn-7">Marathon Fusion, "Alchemy" page (marathonfusion.com/alchemy). The $223M / $482M figures are as shown on the company site and were not independently verified. <a class="footnote-back" href="#fnref-7">&#8617;</a></li>
+          <li id="fn-8">Daily gold closes, October 2026: ~$4,144/oz (Oct 4&ndash;6), ~$4,203 (Oct 11), ~$4,163 (Oct 13), ~$4,181 (Oct 18). Source: pricegold.net daily archive. <a class="footnote-back" href="#fnref-8">&#8617;</a></li>
+          <li id="fn-9">WatchPro, "Lab-grown gold on the way as nuclear scientists suggest alchemy on an industrial scale is possible" (2025). <a class="footnote-back" href="#fnref-9">&#8617;</a></li>
+          <li id="fn-10">ITER Organization, 2024 baseline proposal: start of research operations with D-D in 2034 and D-T operation in 2039. <a class="footnote-back" href="#fnref-10">&#8617;</a></li>
+          <li id="fn-11">Company statements reported in mid-2025 press coverage (e.g. Phys.org, July 2025). <a class="footnote-back" href="#fnref-11">&#8617;</a></li>
+        </ol>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="footer">
+    <p>Built with <a href="https://www.anthropic.com/claude" target="_blank" rel="noopener">Claude API</a></p>
+  </footer>
+
+  <!-- ============================================================
+       Page scripts
+       ============================================================ -->
+  <script>
+    (function() {
+      const revealElements = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(function(el) { observer.observe(el); });
+      } else {
+        revealElements.forEach(function(el) { el.classList.add('visible'); });
+      }
+    })();
+    document.querySelectorAll('.toc a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var t = document.getElementById(this.getAttribute('href').slice(1));
+        if (t) {
+          e.preventDefault();
+          var navH = document.querySelector('.nav').offsetHeight;
+          window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - navH - 20, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+  <script src="../../shared/chart-canvas-helpers.js"></script>
+
+  <!-- ============================================================
+       WIDGET 1 — Nuclide strip: where each reaction ends up
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w1-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 280 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    var A_MIN = 194, A_MAX = 204;
+    var ROWS = [ { z: 80, sym: 'Hg' }, { z: 79, sym: 'Au' }, { z: 78, sym: 'Pt' } ];
+    var STABLE = {
+      80: [196, 198, 199, 200, 201, 202, 204],
+      79: [197],
+      78: [194, 195, 196, 198]
+    };
+    var SYM = { 80: 'Hg', 79: 'Au', 78: 'Pt' };
+
+    // Each step: { z, a, label } — label describes the arrow INTO this cell
+    var REACTIONS = [
+      { steps: [ { z: 80, a: 198 }, { z: 80, a: 197, label: '(n,2n)' }, { z: 79, a: 197, label: 'EC 64 h' } ],
+        prod: 'Hg-197', final: 'Au-197', gold: 'Yes', note: '10% feedstock' },
+      { steps: [ { z: 80, a: 196 }, { z: 80, a: 197, label: '(n,γ)' }, { z: 79, a: 197, label: 'EC 64 h' } ],
+        prod: 'Hg-197', final: 'Au-197', gold: 'Yes*', note: '0.15% feedstock' },
+      { steps: [ { z: 80, a: 199 }, { z: 79, a: 199, label: '(n,p)' }, { z: 80, a: 199, label: 'β⁻ 3.1 d' } ],
+        prod: 'Au-199', final: 'Hg-199', gold: 'No' },
+      { steps: [ { z: 80, a: 200 }, { z: 79, a: 200, label: '(n,p)' }, { z: 80, a: 200, label: 'β⁻ 48 min' } ],
+        prod: 'Au-200', final: 'Hg-200', gold: 'No' },
+      { steps: [ { z: 80, a: 198 }, { z: 79, a: 198, label: '(n,p)' }, { z: 80, a: 198, label: 'β⁻ 2.7 d' } ],
+        prod: 'Au-198', final: 'Hg-198', gold: 'No' },
+      { steps: [ { z: 80, a: 196 }, { z: 80, a: 195, label: '(n,2n)' }, { z: 79, a: 195, label: 'EC 9.9 h' }, { z: 78, a: 195, label: 'EC 186 d' } ],
+        prod: 'Hg-195', final: 'Pt-195', gold: 'No' }
+    ];
+    var current = 0;
+
+    var pad = { top: 34, right: 10, bottom: 30, left: 40 };
+    var nCols = A_MAX - A_MIN + 1;
+    var cellW = (W - pad.left - pad.right) / nCols;
+    var cellH = (H - pad.top - pad.bottom) / ROWS.length;
+
+    function cellXY(z, a) {
+      var col = a - A_MIN;
+      var row = 80 - z;
+      return { x: pad.left + col * cellW, y: pad.top + row * cellH };
+    }
+    function cellCenter(z, a) {
+      var p = cellXY(z, a);
+      return { x: p.x + cellW / 2, y: p.y + cellH / 2 };
+    }
+
+    function arrow(x1, y1, x2, y2, color) {
+      var ang = Math.atan2(y2 - y1, x2 - x1);
+      var shrink = Math.min(cellW, cellH) * 0.32;
+      var sx = x1 + Math.cos(ang) * shrink, sy = y1 + Math.sin(ang) * shrink;
+      var ex = x2 - Math.cos(ang) * shrink, ey = y2 - Math.sin(ang) * shrink;
+      ctx.save();
+      ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+      var hl = 8;
+      ctx.beginPath();
+      ctx.moveTo(ex, ey);
+      ctx.lineTo(ex - hl * Math.cos(ang - 0.45), ey - hl * Math.sin(ang - 0.45));
+      ctx.lineTo(ex - hl * Math.cos(ang + 0.45), ey - hl * Math.sin(ang + 0.45));
+      ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+
+    function render() {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var rx = REACTIONS[current];
+      var fs = cellW < 34 ? 8.5 : 10;
+
+      // Grid
+      ROWS.forEach(function(row) {
+        drawTextCanvas(ctx, pad.left - 8, cellCenter(row.z, A_MIN).y, row.sym + ' ' + row.z, {
+          fontSize: 10.5, align: 'right', color: 'var(--text-secondary)', weight: '600'
+        });
+        for (var a = A_MIN; a <= A_MAX; a++) {
+          var p = cellXY(row.z, a);
+          var stable = STABLE[row.z].indexOf(a) !== -1;
+          var isAu197 = row.z === 79 && a === 197;
+          var fill = isAu197 ? '#ecc94b' : (stable ? '#cbd5e0' : '#fff');
+          drawRectCanvas(ctx, p.x + 1.5, p.y + 1.5, cellW - 3, cellH - 3, fill, 4, '#d9d6cf');
+          drawTextCanvas(ctx, p.x + cellW / 2, p.y + cellH / 2, String(a), {
+            fontSize: fs, color: stable ? '#2D2D2D' : '#aaa', weight: stable ? '600' : '400'
+          });
+        }
+      });
+      // A axis label
+      drawTextCanvas(ctx, pad.left + (W - pad.left - pad.right) / 2, H - 12,
+        'mass number A  (filled = stable, gold = Au-197)', { fontSize: 10, color: 'var(--text-secondary)' });
+
+      // Highlight A=197 column
+      var c197 = cellXY(80, 197);
+      ctx.save();
+      ctx.strokeStyle = '#b7791f'; ctx.setLineDash([4, 3]); ctx.lineWidth = 1.5;
+      ctx.strokeRect(c197.x + 0.5, pad.top - 4, cellW - 1, cellH * 3 + 8);
+      ctx.restore();
+
+      // Path
+      var finalStep = rx.steps[rx.steps.length - 1];
+      var ok = rx.gold.indexOf('Yes') === 0;
+      var col = ok ? '#2f855a' : '#c53030';
+      var start = rx.steps[0];
+      var s0 = cellCenter(start.z, start.a);
+      ctx.save(); ctx.strokeStyle = '#2b6cb0'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.arc(s0.x, s0.y, Math.min(cellW, cellH) * 0.36, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+      for (var i = 1; i < rx.steps.length; i++) {
+        var a1 = cellCenter(rx.steps[i - 1].z, rx.steps[i - 1].a);
+        var a2 = cellCenter(rx.steps[i].z, rx.steps[i].a);
+        var c = i === 1 ? '#2b6cb0' : col;
+        arrow(a1.x, a1.y, a2.x, a2.y, c);
+        // label near midpoint, offset perpendicular
+        var mx = (a1.x + a2.x) / 2, my = (a1.y + a2.y) / 2;
+        var horizontal = Math.abs(a2.y - a1.y) < 1;
+        var lx = horizontal ? mx : mx + cellW * 0.55;
+        var ly = horizontal ? a1.y - cellH * 0.42 : my;
+        drawTextCanvas(ctx, lx, ly, rx.steps[i].label, {
+          fontSize: 10, color: c, weight: '600', align: horizontal ? 'center' : 'left'
+        });
+      }
+      var fc = cellCenter(finalStep.z, finalStep.a);
+      ctx.save(); ctx.strokeStyle = col; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(fc.x, fc.y, Math.min(cellW, cellH) * 0.42, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+
+      drawTextCanvas(ctx, W / 2, 14, 'Chart of nuclides, A = 194–204', {
+        fontSize: 12, color: 'var(--text-secondary)'
+      });
+
+      document.getElementById('w1-prod').textContent = rx.prod;
+      document.getElementById('w1-final').textContent = rx.final;
+      var v = document.getElementById('w1-verdict');
+      v.textContent = rx.gold + (rx.note ? ' (' + rx.note + ')' : '');
+      v.style.fontSize = rx.note ? '13px' : '17px';
+      v.style.color = ok ? '#2f855a' : '#c53030';
+    }
+
+    var buttons = document.querySelectorAll('#w1-buttons button');
+    buttons.forEach(function(b) {
+      b.addEventListener('click', function() {
+        buttons.forEach(function(x) { x.classList.remove('active'); });
+        b.classList.add('active');
+        current = parseInt(b.getAttribute('data-r'), 10);
+        render();
+      });
+    });
+    render();
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 2 — Fission Watt spectrum vs D-T line, threshold slider
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w2-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 320 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+
+    // U-235 thermal-fission Watt spectrum: f(E) ∝ exp(-E/a) sinh(sqrt(bE)), E in MeV
+    var a = 0.988, b = 2.249;
+    function watt(E) { return Math.exp(-E / a) * Math.sinh(Math.sqrt(b * E)); }
+    var dE = 0.005, E_MAX = 30;
+    var total = 0, peak = 0;
+    var cdfAbove = []; // fraction above E, sampled every dE
+    var vals = [];
+    for (var i = 0; i * dE <= E_MAX; i++) {
+      var v = watt(i * dE); vals.push(v); total += v * dE; if (v > peak) peak = v;
+    }
+    var running = 0;
+    for (var j = vals.length - 1; j >= 0; j--) { running += vals[j] * dE; cdfAbove[j] = running / total; }
+    function fracAbove(E) { var k = Math.round(E / dE); return k < cdfAbove.length ? cdfAbove[k] : 0; }
+
+    var NU = 2.43, E_FIS = 200, E_FUS = 17.6, E_DT = 14.1;
+    var X_MAX = 16, LOG_MIN = -4, LOG_MAX = 0.3;
+    var pad = { top: 30, right: 16, bottom: 40, left: 52 };
+
+    function render(thr) {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var xLabels = []; for (var e = 0; e <= X_MAX; e += 2) xLabels.push(e + '');
+      drawAxesCanvas(ctx, W, H, {
+        padding: pad, xLabels: xLabels, yMin: LOG_MIN, yMax: 0, ySteps: 4,
+        yFmt: function(v) { return v === 0 ? '1' : '10' + (v < 0 ? '⁻' : '') + ['⁰','¹','²','³','⁴'][Math.abs(v)]; }
+      });
+      drawTextCanvas(ctx, pad.left + (W - pad.left - pad.right) / 2, H - 10, 'neutron energy (MeV)', {
+        fontSize: 10, color: 'var(--text-secondary)'
+      });
+      function X(e) { return mapX(e, 0, X_MAX, W, pad); }
+      function Y(lv) { return mapY(Math.max(LOG_MIN, Math.min(0, lv)), LOG_MIN, 0, H, pad); }
+
+      // shaded above-threshold region
+      var tx = X(Math.min(thr, X_MAX));
+      ctx.save(); ctx.fillStyle = 'rgba(214, 158, 46, 0.14)';
+      ctx.fillRect(tx, pad.top, W - pad.right - tx, H - pad.top - pad.bottom); ctx.restore();
+
+      // fission curve (peak-normalised, log)
+      var pts = [], fillPts = [];
+      for (var e2 = 0.02; e2 <= X_MAX; e2 += 0.04) {
+        var lv = Math.log10(watt(e2) / peak);
+        if (lv < LOG_MIN) break;
+        pts.push({ x: X(e2), y: Y(lv) });
+      }
+      drawLineCanvas(ctx, pts, { color: '#4a5568', width: 2 });
+      var lab = pts[Math.min(pts.length - 1, Math.floor(pts.length * 0.12))];
+      drawTextCanvas(ctx, lab.x + 8, lab.y - 12, 'Fission (Watt spectrum)', {
+        fontSize: 11, color: '#4a5568', align: 'left', weight: '600'
+      });
+
+      // D-T line at 14.1 MeV
+      var dx = X(E_DT);
+      ctx.save(); ctx.strokeStyle = '#b7791f'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(dx, Y(LOG_MIN)); ctx.lineTo(dx, Y(0)); ctx.stroke(); ctx.restore();
+      drawTextCanvas(ctx, dx - 6, Y(0) + 10, 'D-T: 100% at 14.1', {
+        fontSize: 11, color: '#975a16', align: 'right', weight: '600'
+      });
+
+      // threshold line
+      ctx.save(); ctx.strokeStyle = '#c53030'; ctx.setLineDash([5, 4]); ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(tx, pad.top); ctx.lineTo(tx, H - pad.bottom); ctx.stroke(); ctx.restore();
+      drawTextCanvas(ctx, tx + 4, H - pad.bottom - 10, 'threshold ' + thr.toFixed(1), {
+        fontSize: 10, color: '#c53030', align: 'left'
+      });
+
+      drawTextCanvas(ctx, W / 2, 12, 'Neutron birth spectrum (relative, log scale)', {
+        fontSize: 12, color: 'var(--text-secondary)'
+      });
+
+      var fis = fracAbove(thr);
+      var fus = thr < E_DT ? 1 : 0;
+      document.getElementById('w2-fis').textContent = fis >= 0.01 ? (fis * 100).toFixed(1) + '%' : (fis * 100).toFixed(2) + '%';
+      document.getElementById('w2-fus').textContent = (fus * 100).toFixed(0) + '%';
+      var perFis = NU / E_FIS * fis, perFus = fus / E_FUS;
+      var ratioEl = document.getElementById('w2-ratio');
+      if (perFus === 0) ratioEl.textContent = 'both ~0';
+      else ratioEl.textContent = 'fusion ' + Math.round(perFus / perFis).toLocaleString() + '×';
+    }
+
+    attachSliders([
+      { el: document.getElementById('w2-t'), label: document.getElementById('w2-t-val'), format: function(v) { return v.toFixed(1) + ' MeV'; } }
+    ], function(v) { render(v['w2-t']); });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 3 — Neutron budget: TBR = p(1+f), gold = 3.66 f
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w3-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 320 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var GOLD_MAX = 3.66, F_MAX = 0.9, Y_MIN = 0.5, Y_MAX = 1.8;
+    var pad = { top: 30, right: 54, bottom: 40, left: 48 };
+
+    function render(f, p) {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var xl = []; for (var x = 0; x <= 0.9001; x += 0.1) xl.push(x.toFixed(1));
+      drawAxesCanvas(ctx, W, H, { padding: pad, xLabels: xl, yMin: Y_MIN, yMax: Y_MAX, ySteps: 13,
+        yFmt: function(v) { return v.toFixed(2); } });
+      function X(v) { return mapX(v, 0, F_MAX, W, pad); }
+      function Y(v) { return mapY(v, Y_MIN, Y_MAX, H, pad); }
+      drawTextCanvas(ctx, pad.left + (W - pad.left - pad.right) / 2, H - 10, 'f = fraction of source neutrons doing Hg-198 (n,2n)', {
+        fontSize: 10, color: 'var(--text-secondary)'
+      });
+
+      // reference lines
+      [ { v: 1.0, t: 'TBR 1.00 — break-even', c: '#999' }, { v: 1.10, t: 'TBR 1.10 — growth margin', c: '#2f855a' } ].forEach(function(r) {
+        ctx.save(); ctx.strokeStyle = r.c; ctx.setLineDash([4, 4]); ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(pad.left, Y(r.v)); ctx.lineTo(W - pad.right, Y(r.v)); ctx.stroke(); ctx.restore();
+        drawTextCanvas(ctx, W - pad.right - 4, Y(r.v) - 7, r.t, { fontSize: 9.5, color: r.c, align: 'right' });
+      });
+
+      // TBR line
+      drawLineCanvas(ctx, [ { x: X(0), y: Y(p) }, { x: X(F_MAX), y: Y(p * (1 + F_MAX)) } ], { color: '#2b6cb0', width: 2.5 });
+      // Gold line (right axis): 0..GOLD_MAX*F_MAX mapped onto same plot height
+      var gTop = GOLD_MAX * F_MAX;
+      function YG(g) { return mapY(g, 0, gTop, H, pad); }
+      drawLineCanvas(ctx, [ { x: X(0), y: YG(0) }, { x: X(F_MAX), y: YG(gTop) } ], { color: '#b7791f', width: 2.5, dashed: [6, 4] });
+      for (var g = 0; g <= 3; g += 1) {
+        drawTextCanvas(ctx, W - pad.right + 6, YG(g), g + ' t', { fontSize: 10, color: '#975a16', align: 'left' });
+      }
+      drawTextCanvas(ctx, X(0.04), Y(p) - 10, 'TBR', { fontSize: 11, color: '#2b6cb0', align: 'left', weight: '600' });
+      drawTextCanvas(ctx, X(0.12), YG(0.12 * GOLD_MAX) + 12, 'gold t/GW·yr (right axis)', { fontSize: 10.5, color: '#975a16', align: 'left', weight: '600' });
+
+      // Marathon marker at f=0.55 on gold line
+      drawPointCanvas(ctx, X(0.55), YG(0.55 * GOLD_MAX), 4, '#975a16');
+
+      // current markers
+      var tbr = p * (1 + f);
+      drawPointCanvas(ctx, X(f), Y(Math.min(Y_MAX, Math.max(Y_MIN, tbr))), 6, '#2b6cb0', '#fff');
+      drawPointCanvas(ctx, X(f), YG(f * GOLD_MAX), 6, '#d69e2e', '#fff');
+
+      drawTextCanvas(ctx, W / 2, 12, 'One reaction, two outputs', { fontSize: 12, color: 'var(--text-secondary)' });
+
+      var tEl = document.getElementById('w3-tbr');
+      tEl.textContent = tbr.toFixed(2);
+      tEl.style.color = tbr >= 1.10 ? '#2f855a' : (tbr >= 1 ? '#b7791f' : '#c53030');
+      document.getElementById('w3-gold').textContent = (f * GOLD_MAX).toFixed(2) + ' t';
+      var fmin = 1.10 / p - 1;
+      document.getElementById('w3-fmin').textContent = fmin <= 0 ? '0 (none)' : fmin.toFixed(2);
+    }
+
+    attachSliders([
+      { el: document.getElementById('w3-f'), label: document.getElementById('w3-f-val'), format: function(v) { return v.toFixed(2); } },
+      { el: document.getElementById('w3-p'), label: document.getElementById('w3-p-val'), format: function(v) { return v.toFixed(2); } }
+    ], function(v) { render(v['w3-f'], v['w3-p']); });
+  })();
+  </script>
+
+  <!-- ============================================================
+       WIDGET 4 — Break-even enrichment cost
+       ============================================================ -->
+  <script>
+  (function() {
+    var canvas = document.getElementById('w4-canvas');
+    if (!canvas) return;
+    var setup = setupHiDPICanvas(canvas, { height: 320 });
+    var ctx = setup.ctx, W = setup.w, H = setup.h;
+    var INV_KG = 622000, OZ_PER_KG = 32.1507, YEARS = 40, X_MAX = 6000;
+    var pad = { top: 30, right: 16, bottom: 40, left: 56 };
+
+    function fmtB(v) { return v >= 1e9 ? '$' + (v / 1e9).toFixed(2) + 'B' : '$' + Math.round(v / 1e6) + 'M'; }
+
+    function render(s) {
+      clearCanvasCtx(ctx, W, H, '#F3F2EE');
+      var r = s.r / 100;
+      var rev = s.t * 1000 * OZ_PER_KG * s.g;
+      var annuity = (1 - Math.pow(1 + r, -YEARS)) / r;
+      var pv = rev * annuity * Math.pow(1 + r, -s.d);
+      var be = pv / INV_KG;
+
+      var yMax = Math.max(4e9, pv * 1.25);
+      yMax = Math.ceil(yMax / 1e9) * 1e9;
+      var xl = []; for (var x = 0; x <= X_MAX; x += 1000) xl.push('$' + (x / 1000) + 'k');
+      drawAxesCanvas(ctx, W, H, { padding: pad, xLabels: xl, yMin: 0, yMax: yMax / 1e9, ySteps: 4,
+        yFmt: function(v) { return '$' + v.toFixed(v < 10 ? 1 : 0) + 'B'; } });
+      function X(v) { return mapX(v, 0, X_MAX, W, pad); }
+      function Y(v) { return mapY(v / 1e9, 0, yMax / 1e9, H, pad); }
+      drawTextCanvas(ctx, pad.left + (W - pad.left - pad.right) / 2, H - 10, 'enrichment cost ($ per kg of 90% Hg-198)', {
+        fontSize: 10, color: 'var(--text-secondary)'
+      });
+
+      // shaded profitable region
+      var bx = X(Math.min(be, X_MAX));
+      ctx.save(); ctx.fillStyle = 'rgba(47, 133, 90, 0.08)';
+      ctx.fillRect(pad.left, pad.top, bx - pad.left, H - pad.top - pad.bottom); ctx.restore();
+
+      // inventory cost line (clip to plot)
+      var xEnd = Math.min(X_MAX, yMax / INV_KG);
+      drawLineCanvas(ctx, [ { x: X(0), y: Y(0) }, { x: X(xEnd), y: Y(xEnd * INV_KG) } ], { color: '#c53030', width: 2.5 });
+      var lx = xEnd * 0.62;
+      drawTextCanvas(ctx, X(lx) + 10, Y(lx * INV_KG) + 6, '622 t inventory cost', { fontSize: 10.5, color: '#c53030', align: 'left', baseline: 'top', weight: '600' });
+
+      // PV line
+      drawLineCanvas(ctx, [ { x: X(0), y: Y(pv) }, { x: X(X_MAX), y: Y(pv) } ], { color: '#b7791f', width: 2.5 });
+      drawTextCanvas(ctx, W - pad.right - 4, Y(pv) - 9, 'PV of 40 yrs of gold', { fontSize: 10.5, color: '#975a16', align: 'right', weight: '600' });
+
+      // crossing
+      if (be <= X_MAX) {
+        drawPointCanvas(ctx, X(be), Y(pv), 6, '#2D2D2D', '#fff');
+        ctx.save(); ctx.strokeStyle = '#2D2D2D'; ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(X(be), Y(pv)); ctx.lineTo(X(be), H - pad.bottom); ctx.stroke(); ctx.restore();
+        drawTextCanvas(ctx, X(be) + 6, H - pad.bottom - 12, 'break-even', { fontSize: 10, color: '#2D2D2D', align: 'left' });
+      }
+
+      drawTextCanvas(ctx, W / 2, 12, 'Does the gold pay for the mercury?', { fontSize: 12, color: 'var(--text-secondary)' });
+
+      document.getElementById('w4-rev').textContent = fmtB(rev);
+      document.getElementById('w4-pv').textContent = fmtB(pv);
+      document.getElementById('w4-be').textContent = '$' + Math.round(be).toLocaleString();
+    }
+
+    attachSliders([
+      { el: document.getElementById('w4-g'), label: document.getElementById('w4-g-val'), format: function(v) { return '$' + Math.round(v).toLocaleString() + '/oz'; } },
+      { el: document.getElementById('w4-t'), label: document.getElementById('w4-t-val'), format: function(v) { return v.toFixed(2) + ' t/yr'; } },
+      { el: document.getElementById('w4-d'), label: document.getElementById('w4-d-val'), format: function(v) { return v.toFixed(0) + ' yr'; } },
+      { el: document.getElementById('w4-r'), label: document.getElementById('w4-r-val'), format: function(v) { return v.toFixed(1) + '%'; } }
+    ], function(v) { render({ g: v['w4-g'], t: v['w4-t'], d: v['w4-d'], r: v['w4-r'] }); });
+  })();
+  </script>
+
+</body>
+</html>
